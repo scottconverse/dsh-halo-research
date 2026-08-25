@@ -329,7 +329,13 @@ Scott has corrected each of these on this machine. Following them is part of the
 
 ## I. Current live state at handoff (2026-08-24 23:15 MDT)
 
-**A run is IN FLIGHT right now. Do not disturb it, do not reload models, do not touch :5158.**
+> **SUPERSEDED (23:30):** T-C2e FINISHED — **15/15 FULL PASS, 49.7 min, 47 tool calls.**
+> The local model autonomously built the complete TownReporter via the computer-forced
+> cadence. See TC-FINAL-REPORT.md APPENDIX for the revised conclusions (forced-cadence
+> is now the leading prompt-level recipe, 1/1; R2' = replicate it twice; R1 decomposition
+> stands as the reliability fallback). Machine restored: 27B@131072 resident, coder
+> unloaded, milestone committed (`15e03ef`). The paragraphs below describe the mid-run
+> state and are kept for context only.
 
 - **Resident models** (`lms ps --json`): `unsloth/qwen3.8-27b` @ **32768** (status `generating`) and `unsloth/qwen3-coder-30b-a3b-instruct` @ **16384** (status alternating `generating`/`idle` — the app-under-test is drafting on it). This is the two-model pattern working live.
 - **T-C2e is running.** Launched 22:39:50 as PID **30940** (`cmd.exe /c "…pnpm.cmd" dlx @deepseek-ai/dsh@0.1.1-rc.2 --profile headless "Carry out the TownReporter build specified in AGENTS.md in this directory, exactly as written."`), 75-minute cap → **expires ~23:54:50**. Strategy: computer-forced cadence (first move must be a `python --version` tool call; think-act alternation; ≤40 lines per edit; restart-and-HTTP-test after every increment).
