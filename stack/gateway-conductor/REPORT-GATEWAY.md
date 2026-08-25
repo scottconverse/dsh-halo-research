@@ -10,3 +10,19 @@ without cd into their per-run workspace - launcher-trap class). Trusted column
 only: reasoning tokens (off=0, low/med/xhigh 12-16K). Medium stands as cockpit
 default on prior evidence. No rerun - building instead.
 
+[08-25 10:29:12] === batch A start: 4 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 10:52:23] unit A-scaffold: GREEN in 3 round(s), 23.2 min - committed
+[08-25 11:59:09] unit B1-config-logging: RED after 3 round(s), 66.8 min - left uncommitted for triage
+[08-25 11:59:09] unit B1-config-logging is foundational - stopping batch
+[08-25 11:59:09] === batch A end: 1 green, 1 red ===
+[08-25 12:00:41] === batch A2 start: 3 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 12:33:22] unit B1-retry: GREEN in 2 round(s), 32.7 min - committed
+[08-25 13:37:29] unit B2-cache: RED after 3 round(s), 64.1 min - left uncommitted for triage
+[08-25 14:27:24] unit B5-reddit-parser: RED after 3 round(s), 49.9 min - left uncommitted for triage
+[08-25 14:27:24] === batch A2 end: 1 green, 2 red ===
+[08-25 14:29:33] === batch A3 start: 3 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 15:08:25] unit B2-retry: RED after 3 round(s), 38.9 min - left uncommitted for triage
+[08-25 16:20:41] unit B5-retry: RED after 3 round(s), 72.3 min - left uncommitted for triage
+[08-25 17:12:16] unit B3-security: RED after 3 round(s), 51.6 min - left uncommitted for triage
+[08-25 17:12:16] === batch A3 end: 0 green, 3 red ===
+[08-25 17:14:27] === batch A4 start: 3 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===

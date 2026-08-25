@@ -1,1 +1,9 @@
 batch,unit,coder,verdict,rounds,minutes,brief_by,fable_code_lines
+A,A-scaffold,worker-coder30b,GREEN,3,23.2,fable-brief,0
+A,B1-config-logging,worker-coder30b,RED,3,66.8,fable-brief,0
+A2,B1-retry,worker-coder30b,GREEN,2,32.7,fable-brief,0
+A2,B2-cache,worker-coder30b,RED,3,64.1,fable-brief,0
+A2,B5-reddit-parser,worker-coder30b,RED,3,49.9,fable-brief,0
+A3,B2-retry,worker-coder30b,RED,3,38.9,fable-brief,0
+A3,B5-retry,worker-coder30b,RED,3,72.3,fable-brief,0
+A3,B3-security,worker-coder30b,RED,3,51.6,fable-brief,0
