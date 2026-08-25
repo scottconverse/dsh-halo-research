@@ -18,26 +18,40 @@ $env:LMSTUDIO_API_KEY='x'; $env:DSH_PERMISSION_MODE='danger-full-access'
 pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" web
 ```
 
-**Worker (headless, coder, Code Mode) — one-line task, no `<` or `>`:**
+**Build (THE worker path — there is no other):**
 
 ```powershell
-$env:LMSTUDIO_API_KEY='x'; $env:DSH_PERMISSION_MODE='danger-full-access'; $env:DSH_TOOLS_MODE='code'
-$env:DSH_HOME='C:\Users\scott\Desktop\Code\dsh-halo-research\stack\dsh-home-worker'
-pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" --profile headless "Carry out the build specified in AGENTS.md in this directory, exactly as written."
-```
-
-Worker session logs land under `stack\dsh-home-worker\sessions\` (not `~\.dsh`).
-
-**Gated build (the standard path for real work):**
-
-```powershell
-.\Gate-Build.ps1 -Workspace <dir> -TestScript <verifier outside the workspace> -Task "<one line>"
+.\Gate-Build.ps1 -Workspace <dir> -TestScript <verifier outside the workspace> -Task "<one line, no < >>"
 ```
 
 The verifier is any script/exe taking the workspace path and exiting 0 only on
 pass (repo tests + acceptance checks the worker cannot rewrite). The gate
 refuses a verifier that lives inside the workspace, feeds exact failures back
 via `GATE-FEEDBACK.md`, re-runs the worker up to `-MaxRounds`, and fails closed.
+Worker session logs land under `stack\dsh-home-worker\sessions\` (not `~\.dsh`).
+
+**The records rule — no gate-log, no done.** A build is complete only when its
+workspace holds a `gate-log.txt` whose final verdict is PASS. Check it
+mechanically:
+
+```powershell
+.\Check-Done.ps1 -Workspace <dir>
+```
+
+No gate-log means not done — whoever ran it, whatever any model or person
+claims. This is §21.15 applied to the process, and it is the enforcement
+layer: launches can be bypassed on an all-access box; the definition of
+"complete" cannot.
+
+**Diagnostics (UNGATED — never a build):**
+
+```powershell
+.\Probe-Worker.ps1 -Task "<one line>"
+```
+
+Same lane (worker home, Code Mode, coder), no verifier, no repair loop. Every
+probe workspace is stamped `UNGATED PROBE - NOT EVIDENCE` and by the records
+rule can never count as complete. Use for debugging and config checks only.
 
 ## Rules baked in (why)
 
