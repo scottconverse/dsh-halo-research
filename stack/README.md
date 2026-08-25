@@ -11,7 +11,16 @@ Two models resident on LM Studio `:1234`, one harness, one external gate.
 
 ## Launch
 
-**Cockpit (interactive web UI, 27B, Standard):**
+**The operator surface is point-and-click — the "Halo Cockpit" desktop
+shortcut.** Double-click it: it ensures both models are resident at 32 K,
+starts `dsh web` hidden if port 3080 isn't already serving (reaping only a
+dead DSH orphan first, ownership-checked), and opens the browser at the
+cockpit. If it can't come up in 150 s it says so in a dialog. Scripts:
+`Launch-Halo.ps1` (the launcher) and `Install-Shortcut.ps1` (recreates the
+shortcut if it's ever deleted). **The operator never needs a terminal;
+CLI/headless below is for agent lanes only.**
+
+**Cockpit by hand (agents / diagnostics — same thing the shortcut does):**
 
 ```powershell
 $env:LMSTUDIO_API_KEY='x'; $env:DSH_PERMISSION_MODE='danger-full-access'
