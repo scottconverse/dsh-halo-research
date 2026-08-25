@@ -1,0 +1,22 @@
+{
+  "session": "session-dea7cc15-d01a-4128-8518-38a4ade663e7",
+  "records": 4990,
+  "steps": 48,
+  "tool_calls": 47,
+  "tool_names": {
+    "pwsh": 25,
+    "edit": 15,
+    "read": 1,
+    "job_kill": 4,
+    "job_output": 1,
+    "grep": 1
+  },
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 35668,
+  "text_chars": 2188,
+  "action_ratio_by_chars": 0.058,
+  "peak_context_tokens": 32671,
+  "total_output_tokens": 19123,
+  "session_wall_seconds": 2953.4
+}

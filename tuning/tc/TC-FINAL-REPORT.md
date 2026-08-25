@@ -78,3 +78,31 @@ The app drafting on the coder MoE while the agent held the 27B: **no contention 
 **R2 — Low-temp incremental replicate** (75 m): *prediction: ignition becomes reliable (≥2/3).* 
 **R3 — T-28 compaction verification** (30 m): with `contextWindow` declared, drive a session past 0.8× and observe a compaction event.
 Then: spec **v2.4** merge (sweep + T-C + the §18.1 amendment + T-list updates) and the Phase 2 Lucebox gate per the standing plan.
+
+---
+
+## APPENDIX — T-C2e result (appended per §5, battery now closed)
+
+| Cell | Window | Strategy | Wall | Tool calls | Graded | Outcome |
+|---|---|---|---|---|---|---|
+| **T-C2e** | 32K | **computer-forced cadence** (first move = tool call; think-act alternation; <=40-line edits; test after every increment) | **49.7 m** | **47** (pwsh 25, edit 15, job_kill 4) | **15/15 PASS** | **COMPLETE BUILD** — the full TownReporter, all routes, live LLM drafting (12.3 s), gate, search, corrections |
+
+**This changes conclusion 2-3 of the main report, honestly stated:** one prompt-level
+lever DID produce a full pass — the operator's "hand it the computer / force the
+first action" cadence. n=1, so reliability is unproven (the incremental lever went
+1-for-2), but the ignition table is now: one-shot 0/2, incremental 1/3 (one partial),
+**forced-cadence 1/1 (full)**. "Structure over phrasing" stands as the *reliability*
+recipe; forced-cadence is now the leading *prompt-level* candidate and must be
+replicated (R2' below).
+
+**The window wall remains real even in victory:** the agent finished at peakCtx
+**32,671/32,768** — 97 tokens of headroom — then died (exit 1) before writing its
+TEST-RESULTS.md self-report. The artifact was complete and graded 15/15 anyway.
+Compaction again never fired (T-28 unverified at run time). A 48K window or the
+verified compaction fix gives the same run margin.
+
+**Revised next runs:** R1 (decomposed build) stands. **R2' replaces R2: replicate
+T-C2e twice** — if forced-cadence goes 3/3, it becomes the standing big-task recipe
+and decomposition becomes the fallback; if it regresses, decomposition leads. R3/T-28
+unchanged. **Phase 1's core demonstration — the local model autonomously building the
+test product — is ACHIEVED (n=1).**

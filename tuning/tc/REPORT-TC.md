@@ -117,3 +117,6 @@ tests the §12.7 computer-in-the-loop leverage on a real build.
 [22:39:49] tc2e : resident = unsloth/qwen3-coder-30b-a3b-instruct@16384 + unsloth/qwen3.8-27b@32768
 [22:39:50] tc2e : workspace ready (C:\Users\scott\Desktop\Code\dsh-halo-research\tuning\tc\ws-tc2e), port 5158, cap 75m, writeOnly=False
 [22:39:50] tc2e : agent launched (pid 30940)
+[23:29:33] tc2e : agent exited after 49.7 min (code 1)
+[23:29:34] tc2e : grading...
+[23:29:49] tc2e RESULT: pass=True | wall=49.7m | timedOut=False | RESULT: 15/15 checks passed | peakCtx=32671 tools=47 compactions=0 actionRatio=0.058

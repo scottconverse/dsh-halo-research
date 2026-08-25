@@ -1,0 +1,17 @@
+  [PASS] app.py exists
+  [PASS] server starts on :5158
+  [PASS] POST /ingest drafts and redirects to /review/<id>
+        (draft took 12.3s)
+  [PASS] review page shows a draft with the disclaimer
+  [PASS] gate blocks publish when source and verification are missing
+  [PASS] gate passes and the article publishes
+  [PASS] approver is recorded and shown
+  [PASS] article shows the source link
+  [PASS] article shows the full transcript
+  [PASS] article shows the disclaimer
+  [PASS] search finds the article
+  [PASS] board filter includes the right board
+  [PASS] board filter excludes the wrong board
+  [PASS] correction request appears in the inbox
+  [PASS] accepted correction shows a public note
+RESULT: 15/15 checks passed
