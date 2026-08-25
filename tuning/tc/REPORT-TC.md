@@ -113,3 +113,7 @@ tests the §12.7 computer-in-the-loop leverage on a real build.
 - §17.3 criterion 6 (network disconnect) untested, as noted at design time.
 - Machine restored: 27B@131K resident, coder unloaded, no leftover processes,
   no config changes outside ~/.dsh settings written earlier.
+[22:39:25] tc2e : reloading 27B at ctx=32768 (coder stays resident)
+[22:39:49] tc2e : resident = unsloth/qwen3-coder-30b-a3b-instruct@16384 + unsloth/qwen3.8-27b@32768
+[22:39:50] tc2e : workspace ready (C:\Users\scott\Desktop\Code\dsh-halo-research\tuning\tc\ws-tc2e), port 5158, cap 75m, writeOnly=False
+[22:39:50] tc2e : agent launched (pid 30940)
