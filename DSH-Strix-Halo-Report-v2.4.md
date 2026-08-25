@@ -234,6 +234,17 @@ Nine changes:
 9. **§22 — standing-config rows added and the 131 K row reconciled; §29 (new) —
    a records map** of every ground-truth artifact and its drive path.
 
+
+**Post-audit pass, same day.** A full end-to-end read-through of this revision
+found and fixed in place: the T-28 row detached from the §20 table; a missing
+blank line before §29; four remaining 131 K summary lines with no pointer to
+the standing 32 K decision (§12.3 Q22, §25 Q20/Q22/Q38); three stale Code-Mode
+lines (§17.2's "never exercised", §17.3 criterion 11, §23 step 13a); quote
+exactness in §17.4 verdict 4; missing self-exit marks in §12.10's table;
+over-broad §21.11 phrasing in §12.11; 128 K-tier precision in §12.9; the stale
+model id in §18.5.2's example; §1's findings count (five → six); and §25 Q25's
+pre-ablation framing. Tagged \[v2.4\] or \[Revised v2.4\] where they occur.
+
 # 1. Executive summary
 
 **The best DeepSeek Harness workstation that can actually be built on
@@ -264,7 +275,8 @@ v
 128 GB LPDDR5X-8000 unified memory, currently split 64 GB VGM / 64 GB
 system
 
-The five findings that decide the architecture:
+The six findings that decide the architecture (the sixth was added by
+v2.1 and sits out of numeric order, where that revision inserted it):
 
 **1. DSH already speaks to local OpenAI-compatible servers, out of the
 box, with no middleware.** The stock web profile mounts
@@ -1789,6 +1801,12 @@ memory cost is affordable; §10 shows the *time* cost of prefill is the
 real limit — a 45 K-token prompt already takes minutes. Raising the
 window does not make long prompts affordable, it just permits them.
 
+**\[v2.4\]** For the *agent* role this answer is superseded by measurement:
+the standing agent load is **32,768** (§19.1) — every big-build success
+occurred there, 64 K measured worse, and larger windows slow small tasks
+(§12.9–§12.10). 131 K remains right for long-context *content* work;
+redeclare `contextWindow` to match on every reload (§18.1).
+
 **Q23 — KV cache at 32 K / 64 K / 128 K / 256 K?** Measured total at 131
 K is ~5.6 GB of KV + compute buffers, preallocated at load. Because 48
 of 64 layers are constant-state, the growth is roughly linear in the 16
@@ -2126,8 +2144,9 @@ Three facts this settles. **First**, the agent's own baseline context is
 ~8.5 K, so an 8 K window is below the floor and unusable. **Second**, every
 window from 16 K to 128 K completes a small task — six passes in six usable
 tiers — so window size is **eliminated** as the primary driver of the original
-7-hour interactive failure: the same 131 K-class configuration that died then
-completes the canary headless in 9.9 minutes. **Third**, wall-clock *grows*
+7-hour interactive failure: the class of configuration that died then
+(131 K; the sweep's nearest tier is 128 K) completes the canary headless
+in 9.9 minutes. **Third**, wall-clock *grows*
 with slack (12.4 m at 96 K against 4.2 m at 32 K) — reasoning preambles grow
 with the window, which §12.10 meets again at task scale. Evidence:
 `tuning/runs/`, session logs under `~\.dsh\sessions\`, metrics via
@@ -2146,8 +2165,8 @@ against a known-correct reference implementation.
 |---|---|---|---|---|---|---|
 | Sweep (ref) | 16–128 K | small task, one-shot | 4.2–12.4 m | 1–2 | 7/7 each | 6/6 PASS |
 | T-C1 | 32 K | big, write-only | 45 m (cap) | **0** | 0/1 | stall — 55 K chars pure reasoning |
-| T-C2 | 32 K | big, + self-test loop | 67.8 m | **0** | 0/1 | stall — 23,168 output tokens, all reasoning |
-| T-C2b | 32 K | big, incremental ≤80 lines/call | 61.3 m | 24 | 5/15 | real build loop; died at the window (peak 32,709/32,768), 0 compactions |
+| T-C2 | 32 K | big, + self-test loop | 67.8 m (self-exit) | **0** | 0/1 | stall — 23,168 output tokens, all reasoning |
+| T-C2b | 32 K | big, incremental ≤80 lines/call | 61.3 m (self-exit) | 24 | 5/15 | real build loop; died at the window (peak 32,709/32,768), 0 compactions |
 | T-C2c | 64 K | big, incremental | 75 m (cap) | 5 | 0/1 | acted but glacial; nothing written |
 | T-C2d | 32 K | big, incremental + 2-file + lean | 75 m (cap) | **0** | 0/1 | stall — 87 K chars reasoning |
 | **T-C2e** | 32 K | **computer-forced cadence** | **49.7 m** | **47** | **15/15 PASS** | **complete autonomous build** — all routes, live LLM drafting, gate, search, corrections |
@@ -2188,8 +2207,9 @@ actively working agent, zero contention events, both models inside the 64 GB
 carve-out with room. The earlier single-slot experience — a **414 s** draft
 that blocked the agent into retries — is eliminated as a class. **Standing
 pattern: anything an agent builds or runs that itself calls an LLM points at
-the worker model, never at the agent's slot.** This closes §21.11's question
-for the two-resident case; parallel-slot behaviour (T-11) stays open.
+the worker model, never at the agent's slot.** This removes the
+app-under-test share of §21.11's contention; §21.11's own question —
+parallel-slot behaviour under subagents (T-11) — stays open.
 
 # 13. Model portfolio
 
@@ -2519,7 +2539,9 @@ oversized tool output; recovery after a tool error.
 **\[Addendum\]** Add one task run twice — once in native tool mode and
 once in Code Mode (code-runtime-worker-thread is mounted by default and
 was never exercised) — scored on completion and tool-call reliability
-(T-12).
+(T-12). **\[v2.4\]** "Never exercised" is corrected by the recovered
+record: Code Mode ran and **lost** on the rc.7 deployment, 2026-08-17
+(§17.4); the task is retained as an optional re-check on 0.1.1-rc.2.
 
 ### Tier 3 — reliability
 
@@ -2567,7 +2589,9 @@ answers "hello". Acceptance requires all of:
     tool-call failures and no UNKNOWN_MODEL error.
 
 11. **\[Addendum\]** One Tier-2 task completes in Code Mode as well as
-    in native tool mode.
+    in native tool mode. **\[v2.4\]** Conditional: applies only if Code
+    Mode is ever enabled — the standing config keeps it off by
+    measurement (§17.4, §19.1).
 
 12. **\[Addendum\]** Every executable invoked from inside the sandbox is
     a native Win32 binary (rg.exe, fd.exe, git.exe, pwsh.exe), and
@@ -2617,8 +2641,8 @@ Its locked verdicts, restored with their date and standing:
    batch operations only. **This is the record behind T-12's correction in
    §20**: Code Mode on this machine is *measured-and-lost (rc.7, n = 1),
    unreplicated on 0.1.1-rc.2* — not "untested".
-4. Its residency verdict ("worker on demand, 2 h TTL — 19 GB free with both
-   resident is workable but not generous") is **superseded** by §12.11: under
+4. Its residency verdict — on-demand with a 2 h TTL, "19 GB free with both
+   resident is workable but not generous" — is **superseded** by §12.11: under
    the current VGM 64/64 split both models are resident together with room.
 
 **Why this section exists:** v2.3 fenced these numbers correctly but recorded
@@ -2901,7 +2925,7 @@ tool whose name matches the job:
         toolName: subagent_local
         agentOptions:
           provider: lmstudio
-          model: qwen/qwen3.8-27b
+          model: unsloth/qwen3.8-27b  # [v2.4] id must match lms ps --json (§18.1)
 
     # Deep reasoning / architecture — a frontier cloud model, used sparingly.
     - id: tool-subagent-deep
@@ -3192,7 +3216,6 @@ as impossible by construction.
 | **T-24** | **\[v2.2\]** Repeat `bench/Test-SandboxEffect.ps1` on a **general-purpose** task mix — reasoning, drafting, code review, instruction-following — rather than the arithmetic-and-aggregation set of §12.7 | §12.7's **+72.2 pp** is measured on tasks deliberately favourable to a sandbox. This estimates the gain on representative work, which is the number the build should be sized on |
 | **T-26** | **\[v2.2\]** Evaluate the **bartowski Q5_K_M** build (downloaded, verified byte-exact) against the incumbent Unsloth **Q5_K_XL** on the §17.2 Tier-3 tasks and the §10 ladder | Whether the incumbent quantisation is the right one; the two vendors differ in imatrix calibration and tensor-type selection at nominally equal bit-depth (§13.2). **Quality battery done — dead heat, 15/15 vs 15/15, incumbent kept (§13.2, Q21). Still open for the §17.2 Tier-3 code tasks, which discriminate where the intuition traps do not.** |
 | **T-27** | **\[v2.2\]** Convert §12.8's planted-bug anecdote into a scripted battery: a mix of no-bug and planted-bug repos, graded on false-positive rate, true-positive rate, and constraint-adherence | Turns the strongest agentic-reliability observation in the report from n = 1 interactive into a measured pass rate (§12.8) |
-
 | **T-28** | **\[v2.4\]** Compaction verification post-fix: with `contextWindow` declared equal to the loaded context, drive a session past 0.8× the real window and observe an actual compaction event; watch the swallowed-error path (empty stderr) seen during isolation | Whether the §18.1 amendment actually arms compaction — until an event is observed, the §12.10 root cause is source-isolated, not runtime-proven, and no long headless run should be fully trusted |
 
 **\[v2.4\]** Two successor experiments sit above this table rather than in it,
@@ -3459,7 +3482,7 @@ anything.
 | 11 | Select the local model in the DSH UI | re-select any other model |
 | 12 | Run the §17.3 acceptance criteria **including criterion 6 (network disconnected)** | — |
 | 13 | Run Tier-2 agent tasks; record tool-call reliability | — |
-| 13a | **\[Addendum\]** Run T-11 (parallel 2 / 4 with subagents), T-12 (Code Mode), T-16 (the \#758 sandbox modes) | — |
+| 13a | **\[Addendum\]** Run T-11 (parallel 2 / 4 with subagents), T-12 (Code Mode — **\[v2.4\]** optional now: measured-and-lost, §17.4), T-16 (the \#758 sandbox modes) | — |
 | 14 | Add the MoE worker model; re-run T-1 | lms unload |
 | 14a | **\[Addendum\]** Contender and capacity experiments: T-13 Qwen3-Coder-Next; T-2b DeepSeek-V4-Flash-0731 at VGM 96; T-15 FastFlowLM | lms unload; VGM back to 64 GB |
 | 15 | Freeze: record every version, commit the evidence directory | — |
@@ -3702,12 +3725,12 @@ device,"* not *"installation was attempted and failed."*
 | 17 | What VGM setting should this 128 GB machine use? | **Keep 64 GB.** The resident model uses 26.73 GB with **zero** shared-memory spill; nothing measured is limited by the carve-out, and 96 GB would leave Windows only ~32 GB. §8.3. |
 | 18 | How much memory should remain available to Windows and DSH? | Currently 63.79 GB visible, **25.51 GB free under load**. Treat **32 GB visible as the floor** — which is exactly what the aggressive 96 GB setting would leave. §8.3. |
 | 19 | Which Qwen3.8 variants exist today? | **Qwen3.8-27B** (2026-08-14, dense 27.78 B, Apache 2.0), **Qwen3.8-2.4T-A95B** (2026-08-12, MoE), **Qwen3.8-Max** (GA 2026-08-03, hosted). Only the 27B is relevant here. §12.1. |
-| 20 | Which Qwen3.8 configuration is best for DSH? | **Qwen3.8-27B, UD-Q5_K_XL, 131,072 context, parallel: 1** — the configuration already resident. §12.3. |
+| 20 | Which Qwen3.8 configuration is best for DSH? | **\[Revised v2.4\]** **Qwen3.8-27B, UD-Q5_K_XL, parallel: 1**, at the **standing agent load of 32,768** (§19.1) — every big-build success occurred there. 131 K remains measured and available for long-context work; redeclare `contextWindow` on every reload (§18.1). §12.3. |
 | 21 | Which quantization is the best quality/performance compromise? | **Q5_K_XL.** 21.15 GB, above the Q4 range where code-generation quality degrades, without paying Q6/Q8 bandwidth on a bandwidth-bound part. §12.3; confirm with T-4. |
-| 22 | What context length is actually useful? | **131,072**, against a 262,144 maximum. The limit is prefill **time**, not memory — 45 K tokens already costs minutes to first token. §10, §12.3. |
+| 22 | What context length is actually useful? | **\[Revised v2.4\]** Two answers. Content capacity: **131,072** against a 262,144 maximum — the limit is prefill **time**, not memory (45 K tokens already costs minutes; §10, §12.3). Agent role: **32,768 is the standing load** (§19.1), measured best for autonomous builds (§12.9–§12.10). |
 | 23 | How much memory does the KV cache require at 32 K / 64 K / 128 K / 256 K? | **~5.58 GB total at 131,072, preallocated at load and confirmed not to grow during a 45 K-token prefill** (§8.4). A per-window table was **not** derived — **UNKNOWN**, T-3. |
 | 24 | Does Flash Attention materially improve this workload? | **Partially answered.** Community evidence attributes ROCm's long-context behaviour to rocWMMA Flash Attention **\[community\]**; §10 measures the end-to-end consequence but does not isolate FA as a variable — and notably, the flat-long-context claim was *not* reproduced here. |
-| 25 | Does MTP/speculative decoding materially improve this workload? | **Yes — measured.** Draft acceptance 5/5 observed, and decode of **14.8–16.4 tok/s** exceeds the ~12 tok/s naive bandwidth ceiling for a 21.15 GB model on ~256 GB/s. §12.4. |
+| 25 | Does MTP/speculative decoding materially improve this workload? | **\[Revised v2.4\]** **Yes — measured by ablation**: decode **10.4 → 16.05 tok/s (+54 %)** with MTP on, prefill unchanged, draft acceptance 83–86 % (§12.4). Roughly **half the published discrete-GPU uplift** — do not size this machine from those figures. |
 | 26 | Are ROCmFPX or similar AMD-specialized runtimes ready for normal use? | **\[Revised v2.2\] Partially answered — no, not on the selected stack.** ROCmFPX is a real, active project: a community build validated on this exact silicon (gfx1151 / Ryzen AI Max+ 395) publishes perplexity-ratio, KLD, and top-token-agreement figures against BF16. But it requires a patched llama.cpp (CIRU ROCmFPX v2.3 + a runtime patch), and `lms runtime` exposes no verb to register a custom engine, so the accelerated path is unreachable here. All gains are vendor self-reported, n = 1, and measured against the author's own prior build rather than §12.3's runtime. **WATCH; re-evaluate with T-10 and T-25.** §9.5. |
 | 27 | What other local models should be installed? | An **A3B MoE worker** (qwen3.6-35b-a3b or qwen3-coder-30b-a3b), the existing **nomic embedding** model, and — experimentally — gpt-oss-120b. A **reranker is a gap**. §13.2. **\[Addendum\]** Plus two verified candidates from the other reports: Qwen3-Coder-Next (80B-A3B, primary-agent contender, T-13) and DeepSeek-V4-Flash-0731 (capacity experiment, T-2b). §13.2. |
 | 28 | What is the largest model this machine can technically run? | gpt-oss-120b at **63.39 GB** is the largest present; the addressable ceiling is ~99.8 GiB with a **54.40 GiB single-allocation** hazard. §13.2. **\[Addendum\]** Largest present is not largest possible: a lowest-bit DeepSeek-V4-Flash-0731 GGUF (≈90 GB+) is the real capacity test (T-2b). |
@@ -3720,7 +3743,7 @@ device,"* not *"installation was attempted and failed."*
 | 35 | Does the XDNA 2 NPU provide a useful role? | **Not today.** No NPU runtime is offered by lms runtime on this box; the only four extensions available are CPU, Vulkan, ROCm and harmony. **WATCH.** §14. **\[Addendum\]** A runtime now exists outside LM Studio — FastFlowLM — so the NPU moves from WATCH to EXPERIMENTAL for embeddings / reranking / a small helper (T-15). Still not the primary engine. §14. |
 | 36 | Are recent Windows builds materially improving Strix Halo local AI? | The material fact is **alignment**: build 26200 / 25H2 is exactly the version AMD certifies for gfx1151 ROCm support. §15. |
 | 37 | Are any Insider features compelling enough to justify testing? | **No.** Nothing identified changes GPU memory allocation, ROCm availability or throughput. **REJECT FOR NOW.** §15. |
-| 38 | What is the best daily-driver configuration? | The §19.1 stack: stock DSH web profile → LM Studio :1234 → llama.cpp 2.29.1 on **Vulkan** → Qwen3.8-27B Q5_K_XL @ 131 K, VGM 64 GB, sandbox workspace-write, shell seam left unpatched (tool-pwsh active, tool-bash win32-gated off). |
+| 38 | What is the best daily-driver configuration? | **\[Revised v2.4\]** The §19.1 stack: stock DSH web profile → LM Studio :1234 → llama.cpp 2.29.1 on **Vulkan** → Qwen3.8-27B Q5_K_XL at the **32 K standing agent load** + Coder-30B @ 16 K resident worker (§19.1; 131 K stays available for long-context work), VGM 64 GB, sandbox workspace-write, shell seam left unpatched (tool-pwsh active, tool-bash win32-gated off). |
 | 39 | What should be installed only experimentally? | A **ROCm profile at 32 K context** (T-10), a MoE worker model, gpt-oss-120b, mcp-client/lsp/subagent-codex, and llama-bench. §22. **\[Addendum\]** Also: a parallel 2–4 server profile (T-11), Code Mode (T-12), Qwen3-Coder-Next (T-13), DeepSeek-V4-Flash-0731 local (T-2b), FastFlowLM (T-15). |
 | 40 | What should we wait for? | An **NPU runtime in lms runtime get -l**; **PyTorch/vLLM on native Windows for gfx1151**; rocWMMA/Flash-Attention improvements for RDNA 3.5; and DSH reaching a non-prerelease. §26. **\[Addendum\]** The first item is partly answered — FastFlowLM exists today outside lms (§14); what remains open is whether it earns its place (T-15). |
 
@@ -4001,6 +4024,7 @@ names, the Windows pre-flight items and the sandbox/native-binary claim
 (flagged unverified) were taken from it. Everything imported is tagged
 \[Addendum\] in the body and was independently verified unless stated
 otherwise.
+
 # 29. Records map — where the ground truth lives \[v2.4\]
 
 Added after a session in which a real result had to be recovered from an
