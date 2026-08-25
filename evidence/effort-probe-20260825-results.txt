@@ -1,0 +1,29 @@
+{'effort': None, 'reasoning': 107, 'completion': 111, 'correct': True, 'content': '5', 'secs': 27.6}
+{'effort': None, 'reasoning': 99, 'completion': 103, 'correct': True, 'content': '5', 'secs': 15.6}
+{'effort': None, 'reasoning': 126, 'completion': 130, 'correct': True, 'content': '5', 'secs': 17.4}
+{'effort': None, 'reasoning': 90, 'completion': 94, 'correct': True, 'content': '5', 'secs': 14.9}
+{'effort': 'none', 'reasoning': 0, 'completion': 2, 'correct': True, 'content': '5', 'secs': 6.9}
+{'effort': 'none', 'reasoning': 0, 'completion': 2, 'correct': True, 'content': '5', 'secs': 3.6}
+{'effort': 'none', 'reasoning': 0, 'completion': 2, 'correct': True, 'content': '5', 'secs': 3.5}
+{'effort': 'none', 'reasoning': 0, 'completion': 2, 'correct': True, 'content': '5', 'secs': 3.4}
+{'effort': 'low', 'reasoning': 82, 'completion': 86, 'correct': True, 'content': '5', 'secs': 13.2}
+{'effort': 'low', 'reasoning': 102, 'completion': 106, 'correct': True, 'content': '5', 'secs': 15.7}
+{'effort': 'low', 'reasoning': 92, 'completion': 96, 'correct': True, 'content': '5', 'secs': 14.5}
+{'effort': 'low', 'reasoning': 71, 'completion': 75, 'correct': True, 'content': '5', 'secs': 13.7}
+{'effort': 'medium', 'reasoning': 91, 'completion': 95, 'correct': True, 'content': '5', 'secs': 12.1}
+{'effort': 'medium', 'reasoning': 95, 'completion': 99, 'correct': True, 'content': '5', 'secs': 14.9}
+{'effort': 'medium', 'reasoning': 88, 'completion': 92, 'correct': True, 'content': '5', 'secs': 14.3}
+{'effort': 'medium', 'reasoning': 95, 'completion': 99, 'correct': True, 'content': '5', 'secs': 13.9}
+{'effort': 'xhigh', 'reasoning': 90, 'completion': 94, 'correct': True, 'content': '5', 'secs': 14.0}
+{'effort': 'xhigh', 'reasoning': 87, 'completion': 91, 'correct': True, 'content': '5', 'secs': 14.0}
+{'effort': 'xhigh', 'reasoning': 98, 'completion': 102, 'correct': True, 'content': '5', 'secs': 15.5}
+{'effort': 'xhigh', 'reasoning': 90, 'completion': 94, 'correct': True, 'content': '5', 'secs': 14.7}
+
+=== SUMMARY (mean reasoning tokens per condition) ===
+absent   n=4 mean_reasoning=105.5 range=90..126 correct=4/4
+none     n=4 mean_reasoning=0 range=0..0 correct=4/4
+low      n=4 mean_reasoning=86.8 range=71..102 correct=4/4
+medium   n=4 mean_reasoning=92.2 range=88..95 correct=4/4
+xhigh    n=4 mean_reasoning=91.2 range=87..98 correct=4/4
+
+[exited with code 0]

@@ -1,0 +1,21 @@
+# Scratch DSH home for the T-23 chain confirmation. Not a lane.
+llm-pi-ai:
+  providers:
+    lmstudio:
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:1234/v1
+      models:
+        - id: unsloth/qwen3.8-27b
+          input: [text, image]
+          contextWindow: 32768
+          reasoningEfforts:
+            off: none
+            low: low
+            medium: medium
+            xhigh: xhigh
+
+agent-default-model:
+  provider: lmstudio
+  model: unsloth/qwen3.8-27b
+  reasoningEffort: off
