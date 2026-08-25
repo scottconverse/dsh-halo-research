@@ -378,3 +378,30 @@ The top five by value:
 Also worth knowing: **T-7 / §17.3 criterion 6** (network-disconnect proof of locality) remains
 **untested** — cutting the NIC severs the operator session driving the experiment. It is recorded as
 untested, not waived.
+
+---
+
+## K. Post-handoff addendum (23:45, before context clear)
+
+1. **T-C2e result** — see the superseded note in §I: **15/15 FULL PASS**, 49.7 m,
+   47 tool calls. The computer-forced cadence (	c2e-instructions.md) is the
+   winning variant, 1/1. Replicate (R2') before relying on it.
+2. **DSH web access, verified from installed source:** DSH ships a full web seam
+   (dsh-web registry + dsh-tool-web exposing web_search/web_fetch), BUT
+   web_search is wired to DeepSeek's cloud API (needs DEEPSEEK_API_KEY — dead
+   on this keyless box) and web_fetch ships etch: false with **no fetch
+   provider mounted or installed** (deliberate SSRF posture; web-fetch-http
+   exists in the repo, not in this profile). **Net: no web access out of the box.**
+   Three routes, ranked for this stack: (1) **crawl4ai** as a local tool the agent
+   shells to — evaluated 2026-08-24: real product (v0.9.2, 1,589 commits, Apache
+   2.0, not a stub; its Cloud API is a separate closed beta), Playwright-based,
+   JS-rendered pages -> clean/fit Markdown files (compounds the §12.7
+   docs-in-files win), LLMExtractionStrategy speaks OpenAI-compatible endpoints
+   (route it to the coder MoE, never the agent's slot); fits CivicCast/Granicus
+   ingestion. (2) Mount web-fetch-http + etch: true in the user patch layer —
+   plain HTTP, no JS. (3) Feed web_search a key (cloud, paid). All three are
+   v2.4 spec material; §19.2 should state the out-of-box absence plainly.
+3. **v2.4 merge remains the top documentation task**: sweep + T-C battery +
+   §18.1 contextWindow amendment + T-28 into §20 + the web-access finding above.
+4. Operator context: the operator is evaluating whether the next leg runs on a
+   different vendor's agent. This document is the bootstrap either way.
