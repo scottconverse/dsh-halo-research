@@ -339,8 +339,11 @@ verification, and the one experiment it justified. Five changes:
    a DSH session (reasoning_chars **0 vs 1,023** on the same-class task).
    §12.6's operational conclusion ("you cannot turn reasoning down") is
    overturned; its measurement stands. **T-23 resolved in mechanism.** Graded
-   levels did not separate on a small task and remain unsized — **no standing
-   configuration was changed.**
+   levels did not separate on a small task and remain unsized. **Same-day
+   correction: this is a REdiscovery** — the rc.7 deployment had already
+   shipped the effort map at medium (§12.6b correction block; the §21.14
+   pointer rule's second failure). Operator order followed: xhigh stopped
+   everywhere; **medium is the wired 27B default** pending the sizing battery.
 2. **§24.4c (new) — 13 citations fetched and checked one by one: 12 verified,
    1 FAILED (a claimed Windows benchmark report that is actually an empty
    benchmark request), 1 partial.** §21.15 applied to research prose. The
@@ -2076,6 +2079,18 @@ reasoning down on this stack."* The measurement stands; the conclusion is
 **overturned** (2026-08-25), found by cross-checking an external research pass
 (§24.4c) against the harness source.
 
+**\[v2.7 correction, same day\] This is a REdiscovery, not a discovery.**
+The pre-reset session record shows the fix was already shipped on the
+rc.7-era deployment — *"Action 1 (reasoning_effort → low): already done,
+hours ago… route-level `medium` with the effort map"*
+(`SessionTranscript.md` ≈ line 2905) — sourced from the same Willison
+article §24.4c re-verified today; that session even recorded a scan
+*rediscovering* the same fix from the same source. The §21.14 pointer rule
+failed a second time (Code Mode was the first): the knowledge sat fenced in
+the transcripts with no pointer in the current-stack docs, and was re-bought.
+What is genuinely new today is only the **current-stack confirmation** that
+DSH 0.1.1-rc.2 → LM Studio carries the field end to end.
+
 **Mechanism, from source.** pi-ai transmits reasoning effort as the
 **top-level `reasoning_effort` request field** for `api: openai-completions`
 (`catalog.ts:343`), resolved per call as `options.reasoningEffort ??
@@ -2113,8 +2128,10 @@ tools. The harness → LM Studio → template chain carries the lever end to end
 forwarding gap nor a template gap — it was the wrong field. Still open before
 any lane default changes: sizing `low/medium/xhigh` on planner-scale tasks
 (§12.6's own caution stands — 58/60 correct came *with* thinking on;
-zero-reasoning quality on hard agent work is unmeasured). **No standing
-configuration was changed by this finding.**
+zero-reasoning quality on hard agent work is unmeasured). **Operator order,
+same day: stop xhigh everywhere.** `medium` is now the wired default for the
+27B home (`~\.dsh\settings.yaml`: effort map + agent default,
+canary-verified), pending the sizing battery's verdict.
 
 Declare only card-valid wire values (`none/low/medium/xhigh`): the external
 record shows undeclared level names crashing requests outright (HTTP 500s in
