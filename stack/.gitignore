@@ -1,0 +1,3 @@
+ws-*/
+dsh-home-worker/*
+!dsh-home-worker/settings.yaml

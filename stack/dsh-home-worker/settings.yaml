@@ -1,0 +1,27 @@
+# Halo v1 WORKER-LANE DSH home (spec v2.5 §19.1 / §12.12).
+#
+# Why a separate DSH_HOME: dsh-agent-default-model reads its live selection
+# from the SETTINGS USER LAYER once mounted ("when one is mounted, its user
+# layer is read live" — packages/core/agent-default-model/src/index.ts), so a
+# --patch overlay cannot hold the worker on the coder while ~/.dsh names the
+# 27B. Runtime proof of the failure: LM Studio server log 2026-08-25
+# 06:45–06:49 — a patched worker session served entirely by the 27B.
+#
+# Only the coder is declared here ON PURPOSE: the build lane can never
+# silently fall back to the cockpit model.
+
+llm-pi-ai:
+  providers:
+    lmstudio:
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:1234/v1
+      models:
+        - id: unsloth/qwen3-coder-30b-a3b-instruct
+          input: [text]
+          # REQUIRED: keep equal to the loaded --context-length (§18.1).
+          contextWindow: 32768
+
+agent-default-model:
+  provider: lmstudio
+  model: unsloth/qwen3-coder-30b-a3b-instruct
