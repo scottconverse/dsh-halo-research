@@ -1,0 +1,4426 @@
+Now do the same analysis you did with the last video with with these two videos and transcripts:
+
+
+Video/transcript 1
+
+
+https://www.youtube.com/watch?v=UK2xbBmxywg
+
+
+
+LINKS:
+
+
+
+https://huggingface.co/Qwen/Qwen3.8-27B
+
+
+
+https://x.com/xenovacom/status/208943...
+
+
+
+https://recipes.vllm.ai/Qwen/Qwen3.8-27B
+
+
+
+https://huggingface.co/mlx-community/...
+
+
+
+https://github.com/deepseek-ai/deepse...
+
+
+
+
+
+
+
+In this video
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chapters
+
+
+
+
+
+
+
+Transcript
+
+
+
+Search in video
+
+
+
+Qwen 3.8 27B
+
+
+
+0:00
+
+
+
+Quinn 3.827B.
+
+
+
+0:02
+
+
+
+This is the best local model that you
+
+
+
+0:04
+
+
+
+can run on consumer hardware and it's
+
+
+
+0:07
+
+
+
+really great for its size. In this
+
+
+
+0:09
+
+
+
+video, I'm going to show you how to
+
+
+
+0:10
+
+
+
+combine this with a powerful coding
+
+
+
+0:12
+
+
+
+agent like Deep Seek Harness to build
+
+
+
+0:15
+
+
+
+powerful agentic systems and it also has
+
+
+
+0:17
+
+
+
+some really interesting hidden
+
+
+
+0:19
+
+
+
+capabilities. For example, it's really
+
+
+
+0:21
+
+
+
+created image understanding and drawing
+
+
+
+0:23
+
+
+
+bounding boxes. So, in this video, my
+
+
+
+0:26
+
+
+
+goal is to show you how to set this up.
+
+
+
+0:29
+
+
+
+what are the different configurations
+
+
+
+0:30
+
+
+
+that you want to be using if you want to
+
+
+
+0:33
+
+
+
+use this model and also mistakes a lot
+
+
+
+0:36
+
+
+
+of people are using for inference. To
+
+
+
+0:39
+
+
+
+start off, we're going to look at just a
+
+
+
+0:40
+
+
+
+couple of different benchmarks because
+
+
+
+0:42
+
+
+
+this really shows you how powerful this
+
+
+
+0:44
+
+
+
+model is. So here's the artificial
+
+
+
+0:46
+
+
+
+intelligence agentic index. Right now
+
+
+
+0:49
+
+
+
+it's at 51 which actually is just behind
+
+
+
+0:53
+
+
+
+Kim 3. Kim 3 is a 2.8 trillion parameter
+
+
+
+0:57
+
+
+
+model. The most important thing is that
+
+
+
+0:59
+
+
+
+the performance actually holds up in
+
+
+
+1:01
+
+
+
+real world testing. And I'll show you a
+
+
+
+1:03
+
+
+
+few examples later in the video. Now to
+
+
+
+1:06
+
+
+
+put it in perspective, uh intelligence
+
+
+
+1:09
+
+
+
+or performance is very close to Claude
+
+
+
+1:12
+
+
+
+4.8
+
+
+
+1:14
+
+
+
+on max setting, which was
+
+
+
+1:16
+
+
+
+state-of-the-art model just a few months
+
+
+
+1:20
+
+
+
+ago. Now, one could argue this is
+
+
+
+1:22
+
+
+
+probably benchmaxed, but the real world
+
+
+
+1:25
+
+
+
+performance is actually really, really
+
+
+
+DeepSeek Harness
+
+
+
+1:27
+
+
+
+great. I'm going to show you how to set
+
+
+
+1:29
+
+
+
+this up with the Deep Seek harness,
+
+
+
+1:31
+
+
+
+which in itself, I think, is a very
+
+
+
+1:33
+
+
+
+interesting innovation, especially
+
+
+
+1:35
+
+
+
+coming from Deep Seek. It's a very
+
+
+
+1:37
+
+
+
+powerful harness, and I have been having
+
+
+
+1:39
+
+
+
+a lot of fun with it. Their core idea is
+
+
+
+1:42
+
+
+
+everything is plug-in. I created a video
+
+
+
+1:44
+
+
+
+on it. I'll highly recommend to watch
+
+
+
+1:46
+
+
+
+that to get started. Okay, but before
+
+
+
+1:48
+
+
+
+that I'll talk about where you can get
+
+
+
+1:50
+
+
+
+the model. So it's already available on
+
+
+
+1:51
+
+
+
+hugging face. If you have Apple silicon
+
+
+
+1:54
+
+
+
+then I'll recommend to use the MLX
+
+
+
+1:56
+
+
+
+version and if you want to run this on
+
+
+
+1:58
+
+
+
+Linux or Windows VLM and steelang are
+
+
+
+2:02
+
+
+
+two options that you want to try. So
+
+
+
+Server Setup on DGX
+
+
+
+2:05
+
+
+
+right now I am on GX Spark. I'm going to
+
+
+
+2:08
+
+
+
+be running the NVFP4 version. Uh I have
+
+
+
+2:11
+
+
+
+a cluster of two nodes. Now DJ Sparks
+
+
+
+2:14
+
+
+
+are not really designed for running the
+
+
+
+2:18
+
+
+
+27 billion dense model. So I'm getting
+
+
+
+2:20
+
+
+
+about 15 to 20 tokens per second on
+
+
+
+2:23
+
+
+
+single thread on concurrency. I think I
+
+
+
+2:26
+
+
+
+get up to 60 to 70 tokens per second
+
+
+
+2:29
+
+
+
+which is pretty usable. Now in order to
+
+
+
+2:32
+
+
+
+run the model you can simply run this.
+
+
+
+2:35
+
+
+
+It's going to uh set up uh the server
+
+
+
+2:38
+
+
+
+for you and you can access it over the
+
+
+
+2:39
+
+
+
+network. This basically downloads the
+
+
+
+2:42
+
+
+
+model for you along with the drafter
+
+
+
+2:44
+
+
+
+model enables speculative decoding.
+
+
+
+Harness Model Config
+
+
+
+2:47
+
+
+
+Okay. So for inference I already
+
+
+
+2:49
+
+
+
+downloaded the deepseek harness. I
+
+
+
+2:52
+
+
+
+created a video on it. I highly
+
+
+
+2:53
+
+
+
+recommend to watch it to get a sense of
+
+
+
+2:56
+
+
+
+the basics. Okay. So here's how the
+
+
+
+2:59
+
+
+
+harness looks like. Now in order to set
+
+
+
+3:01
+
+
+
+up the quen model I had to go through
+
+
+
+3:05
+
+
+
+settings and then within settings you
+
+
+
+3:08
+
+
+
+can actually configure any model of your
+
+
+
+3:11
+
+
+
+choice. So you just need to go to the
+
+
+
+3:13
+
+
+
+open configuration file. This is going
+
+
+
+3:16
+
+
+
+to open this YAML file for you. Now
+
+
+
+3:19
+
+
+
+within this YAML file uh you need to
+
+
+
+3:22
+
+
+
+define your provider. So I've been
+
+
+
+3:24
+
+
+
+experimenting with the different models.
+
+
+
+3:26
+
+
+
+So you can see here's a Deepseek V4
+
+
+
+3:28
+
+
+
+flash that was running on that cluster.
+
+
+
+3:30
+
+
+
+There's even uh 3.827B
+
+
+
+3:34
+
+
+
+MLX version. Right now I am using this
+
+
+
+3:38
+
+
+
+configuration which is running it on two
+
+
+
+3:42
+
+
+
+DGX sparks and the reason is that I
+
+
+
+3:45
+
+
+
+wanted to use that full context window
+
+
+
+3:47
+
+
+
+with multiple concurrent requests. Now
+
+
+
+Vision Demo OpenCV
+
+
+
+3:50
+
+
+
+you probably have seen the coding
+
+
+
+3:51
+
+
+
+capabilities. So I'm going to start with
+
+
+
+3:53
+
+
+
+what I found to be the most interesting
+
+
+
+3:55
+
+
+
+one. So I provided this image because
+
+
+
+3:57
+
+
+
+it's a reference image. It's a
+
+
+
+3:58
+
+
+
+multimodel model. It means it can
+
+
+
+4:01
+
+
+
+understand images and text. Now in here
+
+
+
+4:05
+
+
+
+I basically asked it to describe what
+
+
+
+4:07
+
+
+
+exactly it sees in the image and it
+
+
+
+4:09
+
+
+
+actually goes into a lot of details. Uh
+
+
+
+4:13
+
+
+
+the description that it produced is
+
+
+
+4:15
+
+
+
+pretty accurate. But I asked it to use
+
+
+
+4:18
+
+
+
+Open CV which is a Python package for
+
+
+
+4:20
+
+
+
+computer vision. Let it decide to do
+
+
+
+4:23
+
+
+
+some analysis.
+
+
+
+4:24
+
+
+
+So it actually wrote its own harness
+
+
+
+4:27
+
+
+
+analyzing raccoon image. Now since this
+
+
+
+4:31
+
+
+
+was pretty open-ended so it did quite a
+
+
+
+4:33
+
+
+
+few things. So for example here it's
+
+
+
+4:35
+
+
+
+looking at edge detection. This is doing
+
+
+
+4:38
+
+
+
+some type of corner overlay is to
+
+
+
+4:40
+
+
+
+identify corners in the images. Now this
+
+
+
+4:43
+
+
+
+is running entirely local on the DGX
+
+
+
+4:45
+
+
+
+cluster. Thanks to Nvidia for sponsoring
+
+
+
+4:48
+
+
+
+the compute. These vision language
+
+
+
+Counting and Patching
+
+
+
+4:52
+
+
+
+models are really great at identifying
+
+
+
+4:54
+
+
+
+objects, but they're really bad at
+
+
+
+4:56
+
+
+
+counting. But uh this model actually
+
+
+
+5:00
+
+
+
+surprised me. So I said, "How many cars
+
+
+
+5:01
+
+
+
+do you see in this image?" And it
+
+
+
+5:04
+
+
+
+counted a total of 26 cars in the image.
+
+
+
+5:09
+
+
+
+So I thought it probably just made up a
+
+
+
+5:11
+
+
+
+number. But then it says okay starting
+
+
+
+5:14
+
+
+
+with the top row which basically is here
+
+
+
+5:17
+
+
+
+and if you can count the car 1 2 3 4 5 6
+
+
+
+5:21
+
+
+
+7 8 9 10 11 right so it counted a total
+
+
+
+5:25
+
+
+
+of 11 cars then it's talking about the
+
+
+
+5:28
+
+
+
+main lot where we can actually see there
+
+
+
+5:31
+
+
+
+are 1 2 3 4 5 6 7 8 nine cars. Now for
+
+
+
+5:36
+
+
+
+some reason it didn't count this zero as
+
+
+
+5:39
+
+
+
+a part of the main lot but the uh
+
+
+
+5:42
+
+
+
+counting turned out to be pretty
+
+
+
+5:44
+
+
+
+accurate. Now for this we need to look
+
+
+
+5:46
+
+
+
+at the chain of thought. So it seems
+
+
+
+5:48
+
+
+
+like it's able to divide the image into
+
+
+
+5:51
+
+
+
+different patches uh of variable size
+
+
+
+5:54
+
+
+
+and then it's able to identify objects
+
+
+
+5:57
+
+
+
+and count them within those patches. So
+
+
+
+6:01
+
+
+
+it's not just identifying objects but
+
+
+
+6:03
+
+
+
+it's able to point at them. We have seen
+
+
+
+6:05
+
+
+
+this capability with the deepseek vision
+
+
+
+6:08
+
+
+
+model paper but haven't really seen this
+
+
+
+6:11
+
+
+
+in the wild. Okay. But then it gets
+
+
+
+6:14
+
+
+
+actually even more interesting. So I
+
+
+
+6:16
+
+
+
+said how many white cars are in the
+
+
+
+6:18
+
+
+
+image. Then it's again started counting
+
+
+
+6:20
+
+
+
+exactly the way it did before. So it
+
+
+
+6:22
+
+
+
+divides uh and looks at the top row then
+
+
+
+6:25
+
+
+
+the main lot and then curve. So
+
+
+
+6:28
+
+
+
+according to it there are a total of
+
+
+
+6:31
+
+
+
+eight different white cards. Now if you
+
+
+
+6:34
+
+
+
+go to the original image there seems to
+
+
+
+6:36
+
+
+
+be one two three four five white cards
+
+
+
+6:39
+
+
+
+but it definitely added this this and I
+
+
+
+6:44
+
+
+
+think this but then I said okay what if
+
+
+
+Bounding Box Results
+
+
+
+6:47
+
+
+
+I asked it to draw bounding boxes around
+
+
+
+6:50
+
+
+
+the objects but the interesting thing
+
+
+
+6:52
+
+
+
+was to see the actual results. Now in
+
+
+
+6:54
+
+
+
+order to do that it actually wrote a
+
+
+
+6:56
+
+
+
+Python program. So the coordinates of
+
+
+
+6:59
+
+
+
+the bounding boxes that you are seeing
+
+
+
+7:00
+
+
+
+these are coming directly from the
+
+
+
+7:02
+
+
+
+model. So the model is actually pointing
+
+
+
+7:04
+
+
+
+to different objects in the image and
+
+
+
+7:08
+
+
+
+then just drawing bounding boxes on top
+
+
+
+7:10
+
+
+
+of that. Okay, so here are the results
+
+
+
+7:12
+
+
+
+and it's actually pretty impressive
+
+
+
+7:14
+
+
+
+especially that is a vision language
+
+
+
+7:16
+
+
+
+model drawing bounding boxes just by
+
+
+
+7:19
+
+
+
+looking at the image. Now they're not
+
+
+
+7:21
+
+
+
+perfect, right? So if you look at these
+
+
+
+7:23
+
+
+
+probably it's covering a lot more area,
+
+
+
+7:25
+
+
+
+but in general it's really accurate.
+
+
+
+7:28
+
+
+
+Now, one could argue about these two or
+
+
+
+7:31
+
+
+
+even the pickup truck case. However, uh
+
+
+
+7:33
+
+
+
+I think you could say that they pass.
+
+
+
+7:36
+
+
+
+Now, you could add another model which
+
+
+
+7:39
+
+
+
+basically does object detection and then
+
+
+
+7:42
+
+
+
+you can use this model to say whether
+
+
+
+7:45
+
+
+
+these detected objects are accurate or
+
+
+
+7:47
+
+
+
+not. But in general, I am really
+
+
+
+7:50
+
+
+
+impressed. I haven't seen a vision
+
+
+
+7:52
+
+
+
+language model this accurate on bounding
+
+
+
+7:57
+
+
+
+boxes for multiple different objects of
+
+
+
+8:00
+
+
+
+different orientations and keep in mind
+
+
+
+8:03
+
+
+
+it's not using any external tools which
+
+
+
+8:06
+
+
+
+makes it even more impressive. Okay, so
+
+
+
+ISS Tracker Example
+
+
+
+8:09
+
+
+
+some other tests that I ran. So here is
+
+
+
+8:11
+
+
+
+a result of real time international
+
+
+
+8:13
+
+
+
+space station tracker. It actually is
+
+
+
+8:16
+
+
+
+one of the best outputs that I have seen
+
+
+
+8:18
+
+
+
+from an open model. Really impressive
+
+
+
+8:20
+
+
+
+work here and it's pretty accurate in
+
+
+
+8:23
+
+
+
+terms of the real time updates. It does
+
+
+
+8:26
+
+
+
+it every 5 seconds the exactly the way
+
+
+
+8:28
+
+
+
+we asked. But the quality of the output
+
+
+
+8:31
+
+
+
+is going to really be dependent on the
+
+
+
+8:33
+
+
+
+reasoning effort that you set. Now next
+
+
+
+Reasoning Effort Levels
+
+
+
+8:37
+
+
+
+we need to talk about the reasoning
+
+
+
+8:38
+
+
+
+efforts. There are four different
+
+
+
+8:40
+
+
+
+levels. Completely off which becomes a
+
+
+
+8:42
+
+
+
+non-reasoning model. Then low, medium
+
+
+
+8:44
+
+
+
+and extra high. There's no high. Now you
+
+
+
+8:47
+
+
+
+need to be very careful when you select
+
+
+
+8:49
+
+
+
+the uh listening efforts because it can
+
+
+
+8:52
+
+
+
+overthink a lot and I mean by a lot
+
+
+
+8:55
+
+
+
+sometimes when you set it on extra high
+
+
+
+8:58
+
+
+
+or medium it will use the entire
+
+
+
+9:01
+
+
+
+completion budget as thinking budget and
+
+
+
+9:03
+
+
+
+you're not going to get anything as an
+
+
+
+9:05
+
+
+
+output and I have seen this happen to me
+
+
+
+9:07
+
+
+
+quite a few times. So for completely off
+
+
+
+Website Prompt Comparison
+
+
+
+9:11
+
+
+
+I asked it to create a website about
+
+
+
+9:13
+
+
+
+itself using web search. So the output
+
+
+
+9:16
+
+
+
+tokens were about 20,000 tokens. Now
+
+
+
+9:18
+
+
+
+here are the results of uh same prompt
+
+
+
+9:21
+
+
+
+for four different thinking levels. So
+
+
+
+9:24
+
+
+
+this one is completely off. You can
+
+
+
+9:26
+
+
+
+actually see that it just made up some
+
+
+
+9:29
+
+
+
+numbers. I asked the model to do web
+
+
+
+9:31
+
+
+
+search in a harness that it hasn't seen
+
+
+
+9:34
+
+
+
+before and then create a website
+
+
+
+9:36
+
+
+
+explaining everything. Now this is AI
+
+
+
+9:40
+
+
+
+slop that you would expect from a small
+
+
+
+9:42
+
+
+
+local model. But then just by changing
+
+
+
+9:45
+
+
+
+the reasoning effort to uh low, it
+
+
+
+9:49
+
+
+
+actually started to generate some really
+
+
+
+9:51
+
+
+
+interesting results. This is actually a
+
+
+
+9:53
+
+
+
+pretty nice website and argue that it's
+
+
+
+9:56
+
+
+
+even better than something like GPD 5.5
+
+
+
+9:59
+
+
+
+when it was initially released. There is
+
+
+
+10:03
+
+
+
+that bluish tint still, but overall the
+
+
+
+10:06
+
+
+
+visuals are really nice. Now here are
+
+
+
+10:09
+
+
+
+the results when you crank up the king
+
+
+
+10:12
+
+
+
+budget to medium. Now it started adding
+
+
+
+10:15
+
+
+
+these nice animations. I think the
+
+
+
+10:18
+
+
+
+quality improved significantly compared
+
+
+
+10:21
+
+
+
+to completely off reasoning. Right? So
+
+
+
+10:24
+
+
+
+you can see substantial improvement.
+
+
+
+10:26
+
+
+
+However, the number of tokens that it
+
+
+
+10:27
+
+
+
+used was substantially more uh compared
+
+
+
+10:31
+
+
+
+to the non-thinking one. And finally,
+
+
+
+10:34
+
+
+
+same prompt, same context, uh is extra
+
+
+
+10:38
+
+
+
+high reasoning. You can actually see uh
+
+
+
+10:41
+
+
+
+we get much much better results. The
+
+
+
+10:43
+
+
+
+visual quality is pretty great.
+
+
+
+10:45
+
+
+
+Animations are very similar to the
+
+
+
+10:49
+
+
+
+medium reasoning. Uh but the visual
+
+
+
+10:51
+
+
+
+language is a little different. The
+
+
+
+10:54
+
+
+
+colors are different compared to the low
+
+
+
+10:57
+
+
+
+and medium. Uh for some reason, they
+
+
+
+10:59
+
+
+
+used a pretty consistent colors.
+
+
+
+11:02
+
+
+
+Now, I had another go on extra high. Uh,
+
+
+
+11:05
+
+
+
+and here are the results. Seems like the
+
+
+
+11:07
+
+
+
+reasoning has a lot to do with what the
+
+
+
+11:11
+
+
+
+output theme is going to look like. And
+
+
+
+11:15
+
+
+
+I think this is a pretty usable website
+
+
+
+11:18
+
+
+
+that you can get out of a local model.
+
+
+
+Token Cost Breakdown
+
+
+
+11:22
+
+
+
+Now, a quick look at the out of tokens.
+
+
+
+11:25
+
+
+
+So, for reasoning off, input tokens were
+
+
+
+11:28
+
+
+
+82,000 tokens. output are about 20,000
+
+
+
+11:32
+
+
+
+tokens and it took around 15 minutes.
+
+
+
+11:36
+
+
+
+The per second are about 25 but it
+
+
+
+11:40
+
+
+
+varies between runto run because it's
+
+
+
+11:42
+
+
+
+running multiple concurrent models with
+
+
+
+11:45
+
+
+
+extra high almost 500,000 tokens input
+
+
+
+11:49
+
+
+
+60,000 output tokens with around 86
+
+
+
+11:54
+
+
+
+minutes. Now medium for some reason
+
+
+
+11:57
+
+
+
+actually consumes a lot more tokens. So,
+
+
+
+12:00
+
+
+
+it's almost 860,000
+
+
+
+12:03
+
+
+
+tokens with 38,000
+
+
+
+12:05
+
+
+
+output tokens and it also took about 63
+
+
+
+12:09
+
+
+
+minutes uh reasoning 35 minutes
+
+
+
+12:13
+
+
+
+70,000 tokens input and about 31,000
+
+
+
+12:17
+
+
+
+output tokens. Right? So, you can see if
+
+
+
+12:20
+
+
+
+you crank up the reasoning effort, the
+
+
+
+12:22
+
+
+
+number of tokens basically explodes. Now
+
+
+
+12:24
+
+
+
+this is happening under a completely new
+
+
+
+12:28
+
+
+
+harness uh which I don't think the agent
+
+
+
+12:30
+
+
+
+has seen before. This is deepse harness
+
+
+
+Trajectory and Auditing
+
+
+
+12:33
+
+
+
+but it has this really neat feature of
+
+
+
+12:35
+
+
+
+trajectory. So you can click on this and
+
+
+
+12:38
+
+
+
+this basically shows you everything that
+
+
+
+12:41
+
+
+
+has happened so far in the context. So
+
+
+
+12:44
+
+
+
+we have the initial system prompt.
+
+
+
+12:46
+
+
+
+Everything is auditable. You can
+
+
+
+12:48
+
+
+
+actually see what exactly went into the
+
+
+
+12:50
+
+
+
+system prompt. Then what was the user
+
+
+
+12:53
+
+
+
+message? uh this was my initial message
+
+
+
+12:55
+
+
+
+to the system. Then the context and this
+
+
+
+12:58
+
+
+
+is the initial context that the model
+
+
+
+13:00
+
+
+
+has for deepseek harness. Now some of
+
+
+
+13:03
+
+
+
+this is not relevant to the quen model
+
+
+
+13:06
+
+
+
+but it still sees those. So these are
+
+
+
+13:08
+
+
+
+all the lists of skills that is
+
+
+
+13:10
+
+
+
+available right but then the beauty is
+
+
+
+13:12
+
+
+
+that you can actually see what exactly
+
+
+
+13:15
+
+
+
+the actions the model took. If there are
+
+
+
+13:17
+
+
+
+tool calls you can see what exactly the
+
+
+
+13:20
+
+
+
+payload were. what is the schema it was
+
+
+
+13:23
+
+
+
+using the results the timing which is
+
+
+
+13:25
+
+
+
+pretty incredible like I haven't seen
+
+
+
+13:27
+
+
+
+any other harness provide you this level
+
+
+
+13:30
+
+
+
+of details usually you need to use some
+
+
+
+13:33
+
+
+
+other tracing tool uh for observability
+
+
+
+13:36
+
+
+
+but deepseek enables you to actually
+
+
+
+13:39
+
+
+
+look at all the actions that were taken
+
+
+
+13:42
+
+
+
+along with a timeline so you can audit
+
+
+
+13:45
+
+
+
+it you can figure out where the agent is
+
+
+
+13:48
+
+
+
+failing and then you can even update
+
+
+
+13:50
+
+
+
+your tools If you see multiple tool
+
+
+
+13:52
+
+
+
+calls are failing which is pretty
+
+
+
+13:54
+
+
+
+incredible. Now I do plan to create a
+
+
+
+13:57
+
+
+
+dedicated video on exploring this
+
+
+
+13:59
+
+
+
+plugging mechanism in the deepseek
+
+
+
+14:01
+
+
+
+harness. I feel like this is a very new
+
+
+
+14:04
+
+
+
+take on harness design and a lot of
+
+
+
+14:07
+
+
+
+people can learn from it. Okay, by the
+
+
+
+14:09
+
+
+
+way it has just crossed60,000
+
+
+
+14:13
+
+
+
+GitHub stars. It's less than a week old
+
+
+
+14:16
+
+
+
+which is crazy at the moment. I think
+
+
+
+14:19
+
+
+
+this is the fastest growing open-source
+
+
+
+14:22
+
+
+
+project on GitHub in its entire history.
+
+
+
+14:25
+
+
+
+Now, the funny thing is that they are
+
+
+
+14:27
+
+
+
+not accepting any external
+
+
+
+14:30
+
+
+
+contributions. So, all of this is thanks
+
+
+
+14:33
+
+
+
+to the DeepSeek team. Okay, I'm going to
+
+
+
+14:36
+
+
+
+be running some more experiments
+
+
+
+14:37
+
+
+
+especially with the visual analysis
+
+
+
+14:39
+
+
+
+capabilities because I think I haven't
+
+
+
+14:41
+
+
+
+seen anything like this. But do check it
+
+
+
+14:44
+
+
+
+out and let me know if you have any
+
+
+
+14:46
+
+
+
+specific questions. Anyways, I hope you
+
+
+
+14:48
+
+
+
+found this video useful. Thanks for
+
+
+
+14:50
+
+
+
+watching and as always, see you in the
+
+
+
+14:52
+
+
+
+next one.
+
+
+
+Video transcript 2
+
+
+
+In this video
+
+
+
+Chapters
+
+Transcript
+Search in video
+DFlash 2: The 141 Tokens/s Claim
+0:01
+141 tokens a second on a single consumer
+0:04
+GPU. Same model file you already
+0:06
+downloaded. I saw that number in a
+0:08
+Reddit post last week and did exactly
+0:10
+what it wanted me to do. I got excited.
+0:12
+I opened a new tab. I started reading
+0:14
+the comments to find out which flag to
+0:16
+flip and how quickly I could get that
+0:18
+number on my own machine. And then I
+0:20
+actually read the table. Not the
+0:22
+headline number, the whole table. Three
+0:24
+rows up from 140.6 six in the same
+0:28
+spreadsheet from the same person on the
+0:30
+same card the same afternoon sits the
+0:33
+number 114.7.
+0:36
+And that 114.7 is what the model already
+0:39
+does when you've correctly turned on the
+0:41
+speed feature it already ships with. So
+0:43
+the three times faster claim that's been
+0:45
+going around, that's 140.6 measured
+0:48
+against 47.4. And 47.4 Four is a
+0:51
+configuration nobody who knows what
+0:53
+they're doing actually runs. Against
+0:55
+what your machine would do today
+0:57
+properly configured, the new thing is
+0:59
+worth about 23%. Now 23% is still real.
+1:04
+And the engineering behind Dlash 2 is
+1:06
+clever enough that I want to explain it
+1:08
+properly rather than just debunk the
+1:10
+headline. But the headline is the
+1:11
+headline. And the reason it's misleading
+1:13
+isn't dishonesty. It's a table that has
+1:16
+both numbers in it and everyone's
+1:18
+screenshotting the one on the right.
+Why the “3× Faster” Claim Is Misleading
+1:20
+Here's what's actually going on. Dlash 2
+1:22
+is a drafter. And to understand why the
+1:25
+baseline matters, I need to make sure
+1:27
+we're on the same page about what
+1:29
+speculative decoding actually does.
+1:31
+Because this is the mechanism underneath
+1:33
+the number, and the mechanism is the
+1:36
+whole story. Generating text is a cue,
+1:39
+one token at a time, one full pass
+1:41
+through the model per word, and the
+1:43
+bottleneck is memory. your GPU reading
+1:46
+18 gigabytes of weights for every single
+1:48
+token it produces. Speculative decoding
+1:51
+goes after that waste by using a small
+1:54
+fast guesser to predict the next few
+1:55
+tokens ahead. Then the big model checks
+1:58
+all of those guesses in one pass for
+2:00
+roughly what a single token used to
+2:02
+cost. If the guesser was right, four
+2:04
+tokens arrive for the price of one. If
+2:06
+it was wrong, the bad tokens get thrown
+2:09
+out and you land exactly where you
+2:10
+started. Wrong guesses cost time. They
+2:13
+cannot cost quality. The big model
+2:16
+verifies everything. Think of it like a
+2:18
+commute. The big model is the road, same
+2:21
+length no matter what. The drafter is
+2:23
+the thing predicting which turns you're
+2:24
+about to take so the junctions can be
+2:26
+cleared ahead of you. Get the turns
+2:28
+right and you never stop. Get one wrong
+How Speculative Decoding & MTP Work
+2:31
+and you rejoin at the last correct
+2:33
+junction, having lost nothing but the
+2:35
+guess. Now, here's the part that makes
+2:36
+the 141 token headline complicated. Quen
+2:40
+3.827b 827B already comes with a drafter
+2:43
+inside it. It's called multi-token
+2:45
+prediction, MTP, and I already created
+2:47
+video on this topic. A second small head
+2:50
+trained directly into the model weights
+2:52
+that predict several tokens ahead as
+2:54
+part of the file you already downloaded.
+2:56
+It is not a plugin. It is not a branch.
+2:58
+It is in the box. And in the Reddit
+3:00
+table that everyone is citing, MTP gives
+3:03
+you 114.7 tokens per second. The plain
+3:07
+auto reggressive baseline, no
+3:08
+speculation at all, gives you 47.4.
+3:11
+Dlash 2 gives you 140.6. So the honest
+3:15
+comparison is 140.6 against 114.7,
+3:21
+not 140.6 against 47.4. The three times
+3:25
+headline compares the best new thing
+3:27
+against the worst possible starting
+3:29
+point, which is a configuration that
+3:31
+exists only as a benchmark anchor, not
+3:33
+as something anyone runs in practice. I
+3:36
+want to be careful about whose numbers
+3:37
+these are because this matters a lot.
+3:39
+The Reddit post is from Local Llama, 262
+3:43
+points. The author rented an RTX 6000
+3:46
+for the afternoon, pulled a specific
+3:48
+Llama CPP pull request, and ran four
+3:50
+prompts through four configurations,
+3:53
+self-reported, one person, rented
+3:55
+hardware, and they also disclose
+3:57
+unprompted, which is credit to them,
+3:59
+that they're from a team that sells
+4:01
+local model quants and an app. There is
+4:03
+an incentive attached to these numbers.
+4:05
+Both of those facts deserve to be in
+4:07
+your head when you read the table. The
+4:09
+benchmark table is one person's
+Real GPU Owners Test DFlash 2
+4:11
+afternoon on rented hardware. The
+4:13
+comment thread is what happens when five
+4:15
+different GPU owners try it that same
+4:17
+night and report back. And the comment
+4:19
+thread is the more useful document. 25
+4:22
+points from someone with real context.
+4:24
+It's only on low context. On realistic
+4:26
+use cases, it's slower than MTP. 26
+4:30
+points. Apple silicon. I couldn't beat
+4:32
+my MTP config I already run. Tried
+4:34
+multiple options and quants. Someone on
+4:37
+a 5090 reported acceptance around 2.5,
+4:40
+quite similar to MTP. A 3090 owner gave
+4:43
+the most useful single sentence in the
+4:45
+entire thread. Maybe some 10%ish uplift
+4:48
+over MTP, but at the cost of the 1.1 GB
+4:52
+download. And for the 24 gig card, the
+4:54
+context loss just wasn't worth the minor
+4:56
+speed bump. a seen XTX owner. Same seems
+5:00
+to be more VRAM for similar performance.
+5:03
+Three vendors of silicon, four different
+5:05
+cards, one verdict. Roughly MTP parody
+5:09
+paid for in VRAMm and context window.
+5:11
+That is the answer to the question in my
+5:13
+title. Not from people who rented
+5:15
+hardware for an afternoon, but from the
+5:17
+only people whose opinion costs them
+5:19
+something. They own the cards. They
+5:22
+spent the time. They tried it and
+5:24
+reported what they got. The vendor's own
+5:26
+model card does the same thing in
+5:28
+public, just with bigger numbers. Single
+5:30
+H200, one concurrent user, auto
+5:33
+reggressive, 68.9 tokens per second. MTP
+5:38
+178.5,
+5:40
+Dlash 2, 236.1.
+5:43
+Their speed up column says 3.43 times
+5:46
+and it is measuring against the 68.9
+5:49
+against the 178.5 that the model already
+5:52
+does with MTP. D Flash 2 is 1.32 times.
+DFlash 2 vs MTP: The Real Benchmark
+5:57
+Both numbers are in the same table on
+5:59
+the same row. And the one that describes
+6:01
+your actual upgrade is the one that
+6:03
+never makes it into any headline. I want
+How DFlash 2 Actually Works
+6:05
+to spend real time on the mechanism
+6:07
+because the engineering behind Dlash 2
+6:09
+is interesting. And this is the part
+6:11
+that nobody has actually explained.
+6:13
+Dlash one was a block diffusion drafter.
+6:16
+Instead of guessing one token at a time,
+6:19
+it filled in a whole block of eight at
+6:21
+once in a single forward pass using an
+6:24
+attention mask that let every position
+6:26
+see every other position rather than
+6:28
+only what came before. Fast, parallel,
+6:31
+and it had one obvious failure. Every
+6:34
+position picked its own most likely word
+6:36
+independently. So you'd get eight words
+6:38
+that were each individually plausible
+6:40
+but jointly gibberish. On the commute
+6:43
+analogy, that's choosing the best
+6:45
+looking turn at every junction
+6:46
+separately and ending up in a culde-sac.
+6:48
+Dlash 2's fix is elegant. Instead of
+6:51
+trying to guess better, it focuses on
+6:53
+choosing better. It keeps the top 16
+6:56
+candidate tokens at every position,
+6:58
+scores every neighboring pair of
+7:00
+candidates against each other using what
+7:01
+the authors call a low rank billinear
+7:04
+attention over adjacent candidates, and
+7:07
+then walks one coherent route through
+7:09
+that lattice. The whole addition costs 2
+7:11
+million extra parameters and 0.6% extra
+7:14
+latency. It buys a third of a token more
+7:17
+accepted per verification pass. And the
+7:20
+comparison they print right next to it
+7:21
+tells the whole story. A competing
+7:24
+approach, a correction module from a
+7:26
+drafter called DSpark that got hyped
+7:27
+heavily a couple of months ago buys 2/3
+7:30
+as much improvement for 77.8 million
+7:33
+parameters and 9.6% more latency. That's
+7:36
+roughly 40 times the parameters and 16
+7:39
+times the latency cost for less. The
+7:42
+author's own summary line is the best
+7:44
+sentence written about speculative
+7:45
+decoding this year. Choosing is cheaper
+7:48
+than predicting. The second innovation
+7:50
+is smaller and stranger. They measured
+7:52
+that inside the drafter, attention paid
+7:54
+to the block it's currently drafting
+7:56
+collapses with depth. 30% in layer 1, 8%
+7:59
+by layer 5. The late layers stopped
+8:02
+looking at their own work. So they added
+8:04
+a twotap depthwise convolution before
+8:06
+and after every sub layer, letting each
+8:09
+position mix with the one before it.
+8:11
+After that, layers four and five dropped
+8:13
+from 9.4% to 0.5% self attention
+8:17
+collapse. Their conclusion, suffix decay
+8:20
+is mostly a local problem. A five layer
+8:22
+drafter with those convolutions nearly
+8:24
+matches a 15 layer one at a third of the
+8:27
+parameters. That's real engineering and
+8:29
+it's the reason I don't want this video
+8:31
+to read as a pure debunk. There is a
+8:33
+number in the same model card that
+8:35
+nobody's put in a title and it's more
+8:37
+interesting than 236. Take the
+8:39
+concurrency from one request to 32,
+8:42
+which is what a hosting company does,
+8:44
+what any shared inference server does,
+8:46
+and the whole idea evaporates. MTBench
+8:49
+at 32 concurrent users, auto
+8:52
+reggressive, 157 tokens per second,
+8:55
+Dlash 2,525.
+8:58
+That's 1.01 times, essentially nothing.
+9:01
+And MTP and DSpark don't just match auto
+9:04
+reggressive at that scale. They go below
+9:06
+it. 0.77 and 0.74 times. Actively slower
+9:11
+than doing nothing clever at all. The
+9:13
+reason is mechanical. Speculative
+9:15
+decoding spends spare compute to cut
+9:17
+your waiting. At one concurrent user,
+9:20
+there's lots of spare compute and the
+9:21
+technique makes sense. At 32 concurrent
+9:24
+users, there's no spare compute to
+9:26
+spend. Every GPU cycle is already
+9:28
+assigned. Drafting just adds overhead
+9:30
+with nothing to fund it. Which means
+9:32
+this is a technique whose best case is
+9:34
+precisely one person, one GPU, one
+9:38
+request at a time. It is nearly
+9:40
+worthless to a cloud. It is aimed
+9:42
+exactly at us solo developers running
+9:44
+local inference on consumer hardware.
+9:46
+That inversion is in nobody's title, but
+9:49
+it's the thing I found most interesting
+9:50
+in the whole release because it
+9:52
+describes the techniques actual terrain
+9:54
+more honestly than any benchmark number.
+9:56
+I've been careful about the numbers. So,
+9:58
+let me be equally careful about where
+10:00
+the praise is actually earned because
+10:02
+there is a workload where this technique
+10:04
+does what the headline promises and it's
+10:06
+a workload a lot of us run regularly.
+10:09
+Someone on a single RTX3090 spent a week
+10:12
+tuning Dlash 2 in public and got to 381
+Why DFlash 2 Fails at High Concurrency
+10:15
+tokens per second on one particular
+10:18
+task. Read what that actually is. About
+10:21
+133 on ordinary chat prompts. 382 when
+10:25
+the model is reproducing its own
+10:26
+context, quoting a document back at you,
+10:29
+or applying edits to code it just read.
+10:31
+In that mode, 15 of every 16 drafted
+10:35
+tokens got accepted. Their verdict in
+10:37
+their own words plus 53% where the model
+10:40
+reproduces its context about 2:1 behind
+10:43
+plain MTP everywhere else with twice the
+10:46
+time to first token. So it's a mode for
+10:48
+rag frontends and coding assistants
+10:50
+applying edits not a default. That is
+10:53
+the real answer written by the person
+10:55
+with the most to gain from overselling
+10:57
+it. If your workload is retrieval,
+10:59
+dumping a document into context and
+11:01
+asking questions about it, or a coding
+11:03
+agent that reads a file and then applies
+11:05
+changes to it, the drafter guesses right
+11:08
+most of the time because the output
+11:10
+heavily mirrors the input. That's where
+11:12
+381 comes from. That's where Dlash 2
+11:15
+earns every word. There's also something
+11:17
+worth noting that the vendor actually
+11:19
+admits. They publish their own ceiling
+The RTX 3090 Test: Up to 381 Tokens/s
+11:21
+with a perfect selector. Acceptance
+11:23
+length would be 6.79 instead of 4.2. 27
+11:27
+per pass. They call their version the
+11:30
+simplest selector we could think of.
+11:31
+Vendors don't usually print how much of
+11:33
+their own headroom they left on the
+11:35
+floor. That's a genuinely honest
+11:37
+disclosure. Before you go and set this
+11:39
+up, I want to be honest about what the
+11:41
+install path actually looks like right
+11:42
+now because it's not a checkbox. VLM
+11:46
+wants a pull request branch that hasn't
+11:48
+merged to main. Lama.cpp
+11:51
+is pull request 27342,
+11:54
+also not in a tagged release. OLAM is
+11:57
+issue 17865.
+11:59
+SGLANG is a git subdirectory. The Apple
+12:02
+path needs a pre-built fork that caps
+12:04
+you at block size 5 instead of the 8 the
+12:07
+benchmarks use because the quantized
+12:09
+maple kernel gets less efficient at
+12:11
+larger verify widths. That's very likely
+12:13
+why the Apple silicon owner in the
+12:15
+comments couldn't beat their existing
+12:16
+MTP config. Nothing that runs Dlash 2 is
+12:20
+in a release build of anything. You're
+12:21
+pulling branches. And there's one more
+12:23
+thing. During the same week all these
+12:25
+benchmarks were being posted, a
+12:27
+developer had to retract a benchmark
+12:29
+table. Someone filed an issue saying the
+12:31
+long context numbers didn't reproduce,
+12:33
+they were right. Because the tables had
+12:35
+been measured in a batch configuration
+12:37
+that runs no speculative decoding at
+12:39
+all. So the numbers weren't measuring
+12:40
+Dlash 2 in the first place. The
+12:42
+developer held up, corrected it
+12:44
+publicly, and gets credit for that. But
+Where DFlash 2 Actually Makes Sense
+12:46
+that's the state of the evidence on this
+12:48
+topic. 3 days old at time of writing.
+12:50
+Every table self-reported, one already
+12:53
+withdrawn. I also want to be transparent
+12:55
+about my own gap here. I haven't run
+12:57
+this myself. Every figure in this video
+12:59
+belongs to someone else on their
+13:01
+hardware. And I've told you who's each
+13:03
+time. Here's the practical call. If
+13:05
+you're on a 24 GB card, don't do
+13:07
+anything this week. The people who tried
+13:09
+it on your card got 10% over MTP and
+13:12
+paid for it in reduced context window.
+13:15
+That's not a trade worth making for most
+13:16
+workloads. Wait for the pull requests to
+13:19
+land in tagged releases. If your work is
+13:21
+retrieval, rag pipelines, a coding agent
+13:24
+that reads files and applies edits, this
+13:26
+is worth the branch install right now.
+13:29
+That's the one workload where the
+13:30
+drafter guesses right 15 times out of 16
+13:33
+and 141 tokens per second turns into
+13:36
+381. The technique earns its marketing
+13:39
+there. And whatever you decide about
+13:41
+Dlash 2, go and check whether MTP is
+13:43
+already on. That number 114.7
+How to Install DFlash 2 Right Now
+13:47
+versus 47.4
+13:49
+or 178.5 versus 68.9
+13:53
+is the real upgrade hiding in most
+13:55
+people's configs right now. The drafter
+13:57
+is already in the weights you
+13:58
+downloaded. Half the people posting
+14:00
+Dlash 2 comparisons this week are
+14:02
+quietly discovering they had never
+14:04
+enabled MTP in the first place. Fix that
+14:07
+before you evaluate anything on top of
+14:08
+it. The one signal worth watching is
+14:11
+those three pull requests merging. The
+14:13
+day Llama CPP27342
+14:16
+lands in a tagged release is the day
+14:18
+this stops being a benchmark argument
+14:20
+and becomes a checkbox. And then the
+14:22
+only honest comparison left is DFl2
+14:24
+against MTP. The one that was in the
+14:26
+table all along, three rows up from the
+14:29
+number everyone screenshotted. The road
+14:31
+is the same length either way. All
+14:33
+speculative decoding does is guess your
+14:35
+turns. And a shortcut is only a shortcut
+14:37
+against the route you were actually
+14:39
+driving. 141 tokens per second is real.
+14:42
+It was measured on real hardware by a
+14:45
+real person. The question is what it's a
+14:47
+shortcut from. And the answer is a
+14:49
+baseline that nobody in practice runs.
+14:52
+Sitting three rows up in the same table
+14:53
+that produced the headline. The 23% over
+14:56
+MTP is also real. And for retrieval and
+14:59
+edit application workloads, something
+15:01
+much bigger is real. That's the honest
+15:03
+shape of this. If this helped you read
+15:05
+the next benchmark table a little more
+15:06
+carefully, or at least go and check
+15:08
+whether MTP is already on before you
+15:10
+pull a development branch, that's
+15:12
+everything I was going for. Hit the like
+15:13
+button if it was useful. Subscribe for
+15:15
+more honest breakdowns like this, and
+15:17
+drop a comment with what you're getting
+15:19
+on your card with MTP switched on
+15:21
+because I suspect a lot of people in the
+15:22
+comments section are about to have the
+15:24
+pleasant surprise of discovering they'd
+15:26
+never turned it on. See you in the next
+15:28
+one.
+
+
+https://www.youtube.com/watch?v=H2oWD4WT7Os
+
+
+transcript 3
+
+In this video
+
+
+
+Chapters
+
+Transcript
+Search in video
+Benchmark Trap
+0:00
+Okay, so real talk. Last week I spent
+0:02
+three hours convincing myself that a
+0:04
+Chinese AI lab had just built the most
+0:07
+capable coding model on the planet. I
+0:09
+had the benchmark open. I had the GitHub
+0:11
+tab pinned. And then I actually read the
+0:14
+footnote, one footnote buried under a
+0:17
+table. And that footnote changed
+0:19
+everything I thought I knew about how AI
+0:20
+benchmarks work. And honestly, it made
+0:23
+me feel a little embarrassed about how
+0:25
+I'd been reading leaderboards for the
+0:26
+past 2 years. So today we're talking
+0:28
+about Deep Seek Harness, what it
+0:31
+actually is, why it matters more than
+0:33
+the model score everyone's been arguing
+0:35
+about, and why there's a decent chance
+0:37
+you've been misled by every benchmark
+0:39
+table you've ever seen, including ones
+0:41
+I've probably talked about on this
+0:42
+channel. Let's get into it. First, what
+0:45
+even is a harness? Because I genuinely
+0:48
+did not have a clean answer to this
+0:49
+question before I went down this rabbit
+0:51
+hole. I thought it was basically just a
+0:53
+wrapper, a thin shell around the model.
+0:56
+I was wrong. And the degree to which I
+0:58
+was wrong is kind of funny. [laughter]
+1:00
+Here's the right way to think about it.
+1:01
+Imagine a student sitting an exam. The
+1:04
+model is the student, but the harness is
+1:06
+the room the student sits in. And it
+1:08
+turns out the room matters enormously.
+1:11
+One room gives the student 3 hours, an
+1:14
+open textbook, and a machine that checks
+1:16
+their arithmetic as they go. Another
+1:18
+room gives 40 minutes, a bare desk, and
+1:21
+two pens. You would never print those
+1:23
+two results side by side and call it a
+1:25
+comparison of students. But that's
+1:27
+exactly what every AI benchmark table
+1:30
+does. Every score you've read in the
+1:31
+last 2 years is actually a pair, a
+1:34
+model, and the room it was tested in.
+1:36
+And the industry almost always only
+1:38
+publishes one half of the pair. That was
+1:40
+a bit of a gut punch when I properly
+1:42
+understood it because I've made videos
+1:44
+about benchmark tables. I've talked
+1:46
+about score comparisons and I was
+1:48
+treating them like clean neutral
+1:51
+measurements when they were anything
+1:52
+but. So when DeepSeek published a score
+1:55
+of 87.9 on Terminal Bench for their
+1:57
+coding model enough to top the public
+1:59
+leaderboard and then in a tiny footnote
+2:01
+mentioned it was produced using
+2:02
+something called minimal mode of
+2:04
+deepseek harness. Most people saw the
+2:07
+number and celebrated. A few people saw
+2:09
+the footnote and went hang on. I am
+2:11
+proud to say I was not immediately in
+2:13
+that second group, but I got there
+2:16
+eventually. 90 minutes after that model
+2:18
+card dropped, Deepseek shipped the
+2:20
+harness itself and it hit 170,000 GitHub
+2:24
+stars within a week, which if you're not
+2:27
+a developer, just know that's people
+2:29
+losing their minds territory. But here's
+2:31
+the thing that actually broke my brain.
+2:33
+The public terminal bench leaderboard at
+2:35
+TBench AI does something almost no other
+2:38
+benchmark does. It lets different people
+2:40
+submit the same model weights inside
+2:43
+different harnesses, which means you can
+2:45
+literally read the rapper's contribution
+2:47
+off the page. Here's the example that
+2:49
+stopped me midscroll. Gemini 3 Pro
+2:52
+running inside a research harness called
+2:53
+Terminus 2 scores 73.9.
+2:57
+The same Gemini 3 Pro, exact same
+2:59
+weights, running inside Google's own
+3:01
+Gemini CLI tool scores 65.8. That's 8.1
+3:06
+points. The gap is the wrapper. And the
+3:09
+wild part, the vendor's own tool is the
+3:12
+one that loses. Now, here's where it
+3:13
+gets almost philosophical. If you hold
+3:16
+the harness constant and just change the
+3:18
+model from Gemini 3 Pro to Gemini 3.1
+3:21
+Pro, the score moves from 65.8 to 65.8.
+3:27
+A whole model generation, billions of
+3:29
+dollars of training compute, and it
+3:31
+contributes nothing because the room
+3:33
+stayed the same bad room. I kept
+3:35
+checking if I was reading the table
+3:36
+wrong. I wasn't. This holds across the
+3:39
+board. Fable 5 scores 83.8 under claude
+3:42
+code and 80.4 under a different harness.
+3:45
+GPT 5.5 scores 83.1 under codec CLI and
+3:50
+78.0 under something else. Five points
+3:53
+for the wrapper. In four out of five
+3:55
+pairs on that leaderboard, the software
+3:57
+with no model weights in it at all is
+3:59
+worth more than a year of model
+Golden Rule
+4:01
+development underneath it. So, when
+4:02
+Deepseek says their model score is 87.9,
+4:06
+there's an important follow-up question.
+4:08
+Compared to what? And using whose room?
+4:10
+Here's the uncomfortable answer. There
+4:12
+is no DeepSk row on the public terminal
+4:15
+bench board. Not the model, not the
+4:17
+harness, nothing independently
+4:19
+submitted. So, the number everyone's
+4:21
+been holding up against Claude codes
+4:23
+83.8 is the lab's own run versus an
+4:26
+audited public submission. Those are not
+4:28
+the same measurement. Even inside
+4:30
+Deepseek's own document, a competitor
+4:32
+called Ky K3 beats them 88.3 on Terminal
+4:36
+Bench to Deepseek's 87.9. Deepseek
+4:39
+printed the numbers that beat them,
+4:41
+which is genuinely more honest than most
+4:43
+labs. But two of the 10 rows they
+4:45
+published are marked as internal test
+4:47
+sets nobody outside the building can
+4:49
+reproduce. So, here's where I want to
+4:51
+give DeepSeek real credit because
+4:53
+there's a part of this harness that is
+4:55
+genuinely clever engineering, and I
+4:57
+don't want it to get lost in the
+4:58
+benchmark drama. Inside the repo,
+5:00
+there's a design note dated the 5th of
+5:02
+July, and it has one rule. Once
+5:04
+something has been sent to the model,
+5:06
+you never go back and change it. That
+5:08
+sounds simple. It is not simple to
+5:10
+actually build. A typical AI agent
+5:13
+session is basically a list of messages
+5:15
+that can get shuffled, edited,
+5:18
+summarized, and those edits can silently
+5:20
+corrupt the context the model is working
+5:22
+with. What DeepS built instead is an
+5:25
+appendon log. Every event gets added to
+5:28
+the end, never modified, the message
+5:30
+history sent to the model is rebuilt
+5:32
+fresh every single turn by running
+5:34
+through that log from the top. No
+5:36
+mutable array sitting around waiting to
+5:38
+be accidentally corrupted. The derived
+5:40
+history is frozen. So if a plugin tries
+5:42
+to reach back and edit it, it throws an
+5:45
+error instead of quietly breaking
+5:46
+things. This might sound like
+5:48
+architecture pedentry. And the first
+5:50
+time I read it, I kind of skimmed it,
+5:51
+but then I understood why they did it
+5:53
+and it clicked. Prefix caching. If
+5:56
+you're paying for AI API calls, you
+5:58
+probably know that cash hits are cheap
+Prefix Caching
+6:00
+and cash misses are expensive. At the
+6:02
+time this note was written on
+6:04
+DeepSseek's own platform, the gap
+6:06
+between a cash hit and a cash miss was
+6:09
+120 times the price. That's not a
+6:11
+rounding error. And prefix caching only
+6:13
+works if the prefix, the stuff at the
+6:16
+start of your message, is bite forbite
+6:18
+identical every time. If anything
+6:20
+shifts, the cache misses. So if you're
+6:23
+running a long agentic session and your
+6:25
+message history keeps getting mutated
+6:27
+and reshuffled, you're bleeding money on
+6:29
+cash misses the whole time. Their
+6:31
+solution to the summarizer problem is
+6:33
+the detail I keep thinking about. When
+6:35
+they built the tool that summarizes old
+6:37
+context to save space, the first version
+6:40
+put you are a summarizer at the front of
+6:42
+the request, which sounds totally fine,
+6:45
+except that invalidates the entire
+6:47
+cacheed prefix at the exact moment your
+6:49
+history is longest. So, they move the
+6:51
+instruction to the back. They replay the
+6:53
+previous request word for word, then
+6:55
+append one new message at the end. They
+6:57
+even kept the tool definitions that the
+6:59
+summarizer can never use because
+7:01
+deleting them would shift every token
+7:03
+that follows out of alignment with the
+7:04
+cached copy. Their actual words, the
+7:07
+rule is not send the model what it
+7:09
+needs. The rule is do not disturb the
+7:12
+bites that came before. I read that and
+7:14
+had a moment of genuine respect. And it
+7:17
+works. One tester put a satellite
+7:19
+tracking task through it. 35 minutes,
+7:21
+two turns, 20 million tokens, 100% cash
+7:25
+hit rate. Another ran the same prompt
+7:27
+through Deepseek Harness and Claude Code
+7:29
+side by side. Deepseek Harness finished
+7:32
+in 11 minutes, used 483,000 tokens, cost
+7:36
+5. Claude Code with Opus 5 was still
+7:39
+running at 30 minutes, had used 48,000
+7:42
+tokens, and the human judging the output
+7:44
+said Claude's result was the more
+7:46
+professional one. So that's 10 times the
+7:49
+tokens, a 20th of the cost, three times
+7:52
+the speed, and a worse output. That's a
+7:55
+completely new shape of trade-off and I
+7:57
+don't think anyone has a good framework
+7:58
+for scoring it yet. Finished fast and
+8:00
+cheaply but the answer was worse is not
+8:03
+the same as better model or worse model.
+8:06
+It's something else and we don't have a
+8:08
+box for it yet. All right, buckle in
+8:11
+because this is where the whole thing
+8:12
+gets genuinely strange. Inside the Deep
+8:15
+Sea Carness repo, there's a directory
+8:17
+called sub agent. And two of the
+8:19
+backends inside it are called sub aent
+8:21
+claude code and sub aent codecs. I
+8:24
+assumed when I first saw this that they
+8:26
+were like re-implementations,
+8:28
+inspired by versions. Nope. The first
+8:31
+one pins Anthropic's official Claude
+8:33
+agent SDK at version 0.3, which bundles
+8:37
+Claude code 2.1 itself a 256 megabyte
+8:41
+payload when unpacked. It has a
+8:43
+permission mode that defaults to not
+8:44
+asking for confirmation and an option
+8:47
+literally named bypass permissions. The
+8:49
+second one starts OpenAI's official
+8:51
+codeex wrapper as an app server over
+8:53
+stdio. So a Chinese AI lab has shipped a
+8:56
+harness that internally wraps Anthropics
+8:59
+and OpenAI's own CLI tools. And every
+Sub-Agents
+9:02
+one of those plug-in readmes documents
+9:04
+its own token effect and its own KV
+9:06
+cache effect, which is a level of
+9:08
+housekeeping I genuinely haven't seen
+9:10
+from anyone selling Agentic tooling. And
+9:12
+then the repo ships a claude.md file and
+9:14
+aclaw skills sim link. Meaning
+9:17
+DeepSeek's harness repo is configured
+9:19
+for claude code to work inside it. One
+9:21
+developer claimed at least 20% of the
+9:23
+commits came from codeex work trees,
+9:25
+though that's a single tweet, so take it
+9:28
+as a claim rather than a confirmed fact.
+9:30
+But the shape of it is real. Deepseek
+9:32
+built a harness that beats claude code
+9:34
+on a benchmark using claude code and
+9:36
+codecs internally to help build it and
+9:39
+then ships those same tools inside the
+9:41
+harness for you to use. I don't know
+9:42
+what to call that. Recursive audacious.
+9:46
+I've settled on extremely online. Here's
+9:49
+the part that made me actually nervous.
+9:51
+There's a file in the repo called third
+9:53
+party notices.md.
+9:55
+Most people don't open these. I didn't
+9:57
+open it the first time I cloned the
+9:59
+repo. When someone flagged it, I went
+10:01
+back and read it and it states that the
+10:03
+project owner authorizes distribution of
+10:06
+every version of the official claude
+10:08
+code CLI and platform payloads and then
+10:11
+adds that this identity scoped
+10:13
+authorization does not classify their
+10:16
+declared terms as permissive. Read that
+10:18
+twice. An MIT licensed harness from a
+10:21
+Chinese lab is redistributing Anthropics
+10:23
+command line tool while stating in
+10:25
+writing that Anthropics license is not a
+10:27
+permissive one. And the Anthropics
+10:29
+claude code repository for its part
+10:32
+declares no license at all through the
+10:34
+GitHub API. I am not a lawyer. I cannot
+10:37
+tell you what this means legally. But it
+10:39
+made me uncomfortable and I think you
+10:41
+should know about it before you build a
+10:43
+production workflow on top of this
+10:44
+thing. There's also a security concern
+10:46
+documented in their own readme which
+10:49
+earns some credit for honesty even
+10:50
+though the thing being disclosed is
+10:52
+alarming. There is no isolation between
+10:55
+plugins. Every plugin gets full shell
+10:57
+and file system access. Plugins are
+11:00
+found and installed from GitHub and
+11:02
+creator mode gives the model a tool that
+11:04
+runs arbitrary JavaScript against the
+11:06
+live runtime. Their own documentation
+11:09
+says to treat that as shell access. One
+11:12
+bad plugin in your config can reach your
+11:14
+API keys. The harness's job, in theory,
+11:17
+is to make prompt injection attacks
+11:19
+harder, but this plug-in architecture
+11:21
+makes it easier. That's not a criticism
+11:23
+I'm inventing. It's in their own docs.
+11:25
+The repos issues tab is switched off.
+11:27
+Not zero open bugs. Nowhere to file one.
+11:30
+Cloud code has 14,785
+11:34
+open. Deepseek harness has a closed
+11:36
+issues tab and a version number of 0.1.
+11:39
+Now, the part I genuinely respect, and I
+11:42
+want to be clear, this is earned.
+11:44
+Deepseek named the room in a footnote
+11:46
+and then shipped the room. Alibaba, XAI,
+11:49
+and others all published benchmark
+11:51
+tables the same week, all self-run, all
+11:54
+choosing their own comparison columns,
+11:56
+and not one of them gave you the
+11:57
+harness. Publishing the harness doesn't
+11:59
+make the claim true. It makes it
+Security Risks
+12:01
+checkable. That's a real difference, and
+12:04
+nobody else offered it. On top of that,
+12:06
+728 design notes in the repo are public.
+12:10
+Everyone required to have an
+12:11
+alternatives considered section. And
+12:14
+there are four written postmortems,
+12:16
+including one where their own agent
+12:18
+edited the web UI it was running inside,
+12:20
+accidentally started a second dev
+12:22
+server, checked that one instead of the
+12:24
+original, declared success, and left the
+12:27
+user's actual page blank. Then started a
+12:29
+third server. That's the kind of failure
+12:31
+story companies usually delete. They
+12:33
+published it. that matters. There's also
+12:36
+a price update that shipped alongside
+12:37
+the harness that almost nobody covered.
+12:39
+The cash hit input price on V4 Pro went
+12:42
+up roughly 12fold the same afternoon.
+12:45
+The cash discount shrank from 120x down
+12:48
+to 30x. Peak pricing hours are Chinese
+12:51
+business hours. The free harness and the
+12:53
+dramatically more expensive cash pricing
+12:55
+shipped 90 minutes apart. And the column
+12:58
+that got most expensive is exactly the
+13:00
+column Agentic workloads live in because
+13:02
+agents replay the same prefix
+13:04
+constantly. The free thing and the
+13:06
+expensive thing arrived together. Worth
+13:09
+knowing. Here's my practical take after
+13:11
+spending way too long in this repo and
+13:14
+way too much time rereading that
+13:15
+benchmark leaderboard. Don't wire
+13:17
+production automation to a release
+13:19
+candidate with no issues tab. That's
+13:21
+just not a place to put anything you
+13:23
+care about. But do run minimal mode
+13:25
+against a real task you actually have
+13:27
+because for the first time you can check
+13:29
+a vendor's agentic benchmark score with
+13:31
+the vendor's own rig. That's genuinely
+13:34
+new. If you install both the claude code
+13:36
+and codec sub agent bundles, you're
+13:39
+adding about 250 megbytes of your
+13:41
+competitor's tooling to your system. Not
+13:43
+a big deal, but know it's there. And
+13:45
+whatever you use, go read that design
+13:47
+note about the appendon log. The
+13:49
+discipline in it is free. It applies to
+13:52
+anything you build on any model and it's
+13:54
+probably the most transferable idea in
+13:56
+the whole repo. The one signal I'm
+13:58
+actually watching a DeepSseek row
+14:01
+appearing on the public terminal bench
+14:02
+leaderboard submitted by someone who
+14:04
+doesn't work at Deepseek. That's the
+14:06
+single event that turns 87.9 from a
+14:09
+claim into a measurement. Until that
+14:11
+happens, the gap between 87.9 and 83.8 8
+14:15
+tells you less than the 8.1 point gap
+14:18
+between two runs of the exact same model
+14:20
+weights in different rooms because every
+14:22
+score you read is still a model in a
+14:24
+room. Every lab sells you the model.
+14:27
+Deepseek is the first one that actually
+14:28
+handed over the room. And a benchmark
+14:31
+you can't rerun was never a measurement.
+14:33
+It was an advert with a decimal point.
+14:35
+If any of this messed with how you think
+14:36
+about AI benchmarks, good. Drop a
+14:39
+comment. I want to know what you're
+14:40
+going to reevaluate. See you next time.
+
+https://www.youtube.com/watch?v=y0BW4hpMpyM

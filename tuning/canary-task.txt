@@ -1,0 +1,20 @@
+Build a minimal notes web app in this directory, in a single file named app.py.
+
+Requirements (match these exactly, they are tested):
+- Python plus Flask plus SQLite. Store notes in a SQLite file named notes.db.
+- Route GET on the path slash returns an HTML page that lists every note text,
+  and an HTML form that POSTs to /add with a text field named text.
+- Route POST on /add reads the form field named text, inserts it as a new note,
+  then redirects with status 302 to the slash path.
+- Route POST on /delete plus a slash plus the note integer id (a Flask int path
+  parameter) deletes the note with that id, then redirects with status 302 to
+  the slash path.
+- On the listing page, render each note as its text followed by a form that
+  POSTs to the delete route for that note id with a submit button. Include each
+  note id in the page as the string note-N where N is the integer id, for
+  example note-1, so notes can be located by id.
+- Run the server on host 127.0.0.1 port 5099 when app.py is executed directly
+  with python app.py. Create the table on startup if it does not exist.
+
+Keep it to the single file app.py. Do not add authentication, template
+directories, or extra files. Write the file, then stop. Do not run it.

@@ -1,0 +1,17 @@
+DeepSeek V4 Flash is a massive 284 billion parameter Mixture-of-Experts (MoE) AI model
+. In this video, we set up and run it fully locally on a single consumer APU—the AMD Ryzen AI Max+ 395 featuring the Radeon 8060S GPU and 125GB of unified memory
+. Using a cutting-edge, custom C++ inference engine called "loose-box," we hit a blazing-fast local inference speed of 32 tokens per second
+!
+"loose-box" is a custom-compiled C++ server binary that bypasses Python, vLLM, or llama.cpp entirely, talking directly to the AMD GPU over ROCm HIP
+.
+To break past the standard 22–25 tokens per second autoregressive baseline, we implement Speculative Decoding via the "DSpark" draft model with a Q=4 verification cap
+. This allows a tiny, fast draft model to guess upcoming tokens while the massive 284B target model verifies them in a single, fused GPU forward pass
+. The result is a massive 26% performance gain entirely on consumer AMD hardware
+. We also dive into how DeepSeek V4 Flash uses built-in Multi-Token Prediction (MTP) heads to predict additional tokens per pass without requiring extra memory or downloading a second model
+.
+Watch as we walk through the custom C++ server build, configure CPU performance modes, lock the GPU clock speeds, and stream coherent local responses in real-time over raw HTTP
+.
+
+DeepSeek V4, DeepSeek V4 Flash, Local LLM, AMD Ryzen AI Max, Radeon 8060S, Speculative Decoding, DSpark, loose-box inference, ROCm HIP, Run LLM locally, Mixture of Experts, 284B MoE, AMD AI hardware, AMD unified memory, Multi-Token Prediction, MTP heads, Local AI server, C++ inference engine
+Relevant Hashtags
+#DeepSeek #LocalAI #AMDRyzen #LLM #SpeculativeDecoding #AIPerformance #MachineLearning #Hardware

@@ -1,0 +1,364 @@
+Reconciliation handoff for Claude
+
+Purpose: fix the specification so it faithfully reflects the full
+session transcript, including the agent’s internal reasoning, without
+reopening settled architecture decisions.
+
+1. Executive directive
+
+Do not redesign the system. The final architecture and most findings are
+sound. The required work is a reconciliation pass: correct provenance
+language, propagate later corrections into stale summary tables,
+distinguish deliberate exclusions from accidental omissions, and
+preserve the user’s explicit edits.
+
+  -----------------------------------------------------------------------
+  Overall         High. The final report captures the session’s
+  fidelity        direction, major findings, architecture, and decisions
+                  to a high degree.
+  --------------- -------------------------------------------------------
+  Main defect     Revision propagation: several early summary/table
+                  statements were not updated after later experiments
+                  changed the conclusions.
+
+  Provenance      The report’s absolute clean-room declaration became
+  defect          false after selected pre-reset evidence was
+                  intentionally imported into later revisions.
+
+  Do not disturb  The final architecture, user-directed exclusions,
+                  §18.2b optional-guard framing, and §21.3 placeholder
+                  decision unless the user explicitly changes them.
+  -----------------------------------------------------------------------
+
+2. Sources and scope
+
+- Source of truth for what happened: SessionTranscriptwiththinking.docx
+  — 1,487 pages, including the agent’s internal reasoning blocks and the
+  visible conversation.
+
+- Target document to repair: DSHStrixHaloReportv2.2.1.docx — 120 pages.
+
+- Use the transcript to establish what was actually discussed, measured,
+  corrected, deliberately excluded, and explicitly edited by the user.
+  Use the current spec to find where those conclusions did or did not
+  propagate.
+
+Important scope boundary: the session contains a deliberate reset.
+Before the clean-room research began, the old halo-stack implementation
+was retired. The restart instruction was to start from scratch, use
+existing tools rather than hand-roll replacements, and inspect what DSH
+actually mounts before building anything. That architectural reset
+should remain the foundation of the report.
+
+3. What the internal-thinking transcript establishes
+
+1.  The agent really did audit the full session near the end. After
+    being told that things might have been missed, it explicitly
+    enumerated all 364 turns, identified the clean-room reset boundary,
+    and reviewed the pre-reset material rather than trusting the
+    compaction summary.
+
+2.  It found one genuinely unexecuted direct request: the Unsloth
+    Q5_K_XL vs bartowski Q5_K_M comparison. It then ran it and later
+    inserted the result into §13.2/T-26.
+
+3.  It deliberately surfaced two pieces of pre-reset evidence for a user
+    decision. The user chose to import only the planted-bug reliability
+    test and to exclude the 397B/GLM/Kimi material. That distinction is
+    intentional and must remain visible.
+
+4.  It repeatedly corrected itself after inspecting better evidence:
+    tool-bash vs tool-pwsh, native-Windows PyTorch support, ROCm
+    replication/confounding, DGX Spark evidence recovery, and the
+    build-comparison result. The detailed body generally reflects those
+    corrections.
+
+5.  The final “everything is present” check was a topic-coverage audit,
+    not a full semantic-consistency audit. That explains why the report
+    can contain the correct detailed conclusion in one section and stale
+    summary language elsewhere.
+
+4. Required fixes in v2.2.1
+
+These are the changes Claude should make. They are
+editorial/reconciliation fixes unless otherwise stated.
+
+  ----------------------------------------------------------------------------------------------
+  Pri.   Location           Problem                  Required correction         Type
+  ------ ------------------ ------------------------ --------------------------- ---------------
+  P0     Clean-room         It says no prior         Rewrite the declaration to  Provenance
+         declaration        implementation was read, say the                     
+                            searched, inherited, or  architecture/primary        
+                            used as evidence. That   research baseline was       
+                            was true for the initial clean-room, then disclose   
+                            architecture pass, but   that selected earlier       
+                            later revisions          first-party evidence was    
+                            deliberately reread the  reviewed and explicitly     
+                            pre-reset transcript and imported after the          
+                            imported §12.8.          clean-room baseline was     
+                                                     complete. State that no old 
+                                                     implementation architecture 
+                                                     or code was inherited into  
+                                                     the recommendation.         
+
+  P0     §2 capability      “PyTorch/vLLM/training   Split the row: PyTorch is   Stale summary
+         table              on native Windows for    vendor-documented supported 
+                            gfx1151 — Not            on native Windows for       
+                            established” contradicts gfx1151; execution on this  
+                            the later verified       exact box remains T-18      
+                            PyTorch finding.         until run.                  
+                                                     vLLM/SGLang/training        
+                                                     support remains             
+                                                     unestablished as            
+                                                     applicable.                 
+
+  P0     §22 BUILD NOW:     Rationale still says     Replace with final measured Stale summary
+         Vulkan             Vulkan “wins decode      rationale: ROCm wins        
+                            everywhere, at prefill   normal-context prefill      
+                            parity by 45 K tokens,   decisively; Vulkan is       
+                            2.7× less memory.” Later default because ROCm’s      
+                            replication explicitly   memory footprint is larger  
+                            invalidated that         and grows with prompt size, 
+                            framing.                 Vulkan’s is flat, ROCm      
+                                                     decode is noisier, and      
+                                                     Vulkan is decisively faster 
+                                                     on decode from 32K upward.  
+                                                     Do not rely on the          
+                                                     confounded 45K parity rung. 
+
+  P1     §26 upgrade path   Still treats PyTorch as  Remove PyTorch from the     Stale summary
+                            a future Windows         future-support watch item.  
+                            capability and says the  Keep vLLM/SGLang or other   
+                            relevant path “today”    unverified components as    
+                            needs Linux.             the future watch. If        
+                                                     desired, retain T-18 as     
+                                                     “run the documented PyTorch 
+                                                     wheel on this machine.”     
+
+  P1     §27 known unknowns Says ports 3080/3090 are Make the timing explicit:   State/history
+         / UI state         occupied by an existing  during the initial          
+                            deployment and therefore clean-room baseline the old 
+                            the DSH UI was not       deployment occupied         
+                            booted. Later §16.3      3080/3090, so a second UI   
+                            records that old         instance was not booted.    
+                            deployment was           That deployment was         
+                            uninstalled.             subsequently removed.       
+                                                     Preserve that end-to-end    
+                                                     verification of the new     
+                                                     recommended build remains a 
+                                                     later acceptance item       
+                                                     unless separately proven.   
+
+  P1     Historical         The report imports the   Add one sentence explaining Scope clarity
+         evidence note      planted-bug result from  that earlier rc.7/65K       
+                            the pre-reset deployment deployment benchmarks exist 
+                            but silently omits other but are intentionally       
+                            rc.7/65K measurements    treated as                  
+                            such as the old 181      superseded/non-comparable   
+                            tok/s prefill and 41s    to the clean-room           
+                            worker task result.      current-stack measurements. 
+                                                     Do not re-import them into  
+                                                     current performance tables  
+                                                     unless a like-for-like      
+                                                     reconciliation is done.     
+
+  P2     §21.3              Two passages still point Do not silently fix this.   User-directed
+         cross-references   to §21.3 even though     The user explicitly said    
+                            §21.3 now says “this     “let it.” Leave as-is       
+                            text deleted by user.”   unless the user now         
+                                                     instructs otherwise. If     
+                                                     documenting the issue,      
+                                                     label it intentional        
+                                                     historical residue.         
+  ----------------------------------------------------------------------------------------------
+
+5. Suggested replacement text
+
+Use or adapt the following language; keep the report’s existing tone and
+evidence discipline.
+
+5.1 Clean-room declaration
+
+  This investigation’s architecture and primary findings were derived
+  from first principles without relying on the prior HALO-stack
+  implementation. After the clean-room baseline was complete, selected
+  earlier first-party evidence from this same machine was reviewed and
+  incorporated where explicitly identified, including §12.8. No prior
+  implementation architecture or code was inherited into the recommended
+  design. Addendum and later-revision material is identified in place
+  and sourced according to the report’s evidence hierarchy.
+
+5.2 PyTorch status
+
+  PyTorch on native Windows for gfx1151: vendor-documented supported;
+  AMD publishes torch[device-gfx1151]==2.12.0+rocm7.14.0. It was not
+  installed or executed during the clean-room test, so T-18 remains the
+  machine-level verification step. vLLM/SGLang and broader
+  training-stack support remain unestablished unless separately
+  verified.
+
+5.3 Vulkan decision summary
+
+  Vulkan remains the default. ROCm has a large, reproducible prefill
+  advantage at short-to-moderate context, but its GPU-memory footprint
+  is materially larger at ordinary 32K workloads and grows with prompt
+  size, while Vulkan remains flat. ROCm decode is also less consistent
+  and is decisively slower from 32K upward in the replicated
+  measurements. The confounded 45K long-context parity result is
+  retained only as an observation and is not used to justify the
+  decision.
+
+5.4 Earlier deployment evidence
+
+  An earlier rc.7/65K HALO deployment produced additional first-party
+  measurements. Those results are not used as current-stack performance
+  evidence because the deployment, context configuration, runtime state,
+  and architecture were superseded before the clean-room investigation.
+  Selected behavioral evidence from that period is incorporated only
+  where explicitly identified, such as §12.8.
+
+6. Findings and decisions that should be preserved
+
+- DSH itself should remain almost entirely stock. Local LM Studio
+  connectivity is configuration through dsh-llm-pi-ai, not a middleware
+  engineering project.
+
+- The plugin/package-count distinction is important: repository
+  packages, CLI dependencies, and the composed web-profile package count
+  are different numbers; retain the 133 mounted web-profile figure with
+  its method.
+
+- Native Windows is the intended execution path. Do not reopen
+  Linux/WSL-primary as the default simply because ROCm exists there.
+
+- Leave VGM at 64 GB for the default configuration. The report’s memory
+  analysis correctly distinguishes firmware carve-out from GPU
+  addressable memory and the max single-allocation limit.
+
+- Keep Vulkan as the default llama.cpp backend and ROCm as an
+  experimental lane. The decision is based primarily on memory shape and
+  stability, not on a blanket claim that Vulkan is faster at everything.
+
+- Keep Qwen3.8-27B UD-Q5_K_XL at 131,072 as the incumbent primary until
+  a contender wins on measured agent tasks. The bartowski Q5_K_M test
+  was a dead heat and provides no reason to switch.
+
+- Keep the tools-on conclusion from §12.7: on the measured
+  sandbox-favourable task set, tool access moved accuracy from 28% to
+  100% and reduced wall-clock 5.1×. Preserve the report’s limitations
+  language.
+
+- Keep §12.8 as informal first-party behavioral evidence, not a
+  benchmark. It is valuable because it shows refusal to fabricate,
+  evidence-updating after the file changed, semantic reasoning about the
+  bug, and no-commit constraint adherence.
+
+- Keep model stacking through multiple tool-subagent instances and
+  shipped provider/model bindings; do not introduce a custom auto-router
+  unless later evidence justifies it.
+
+- Keep subscription OAuth as the preferred path for supported
+  subscription-backed providers, with API-key auth retained where
+  required.
+
+- Keep FastFlowLM/NPU, DeepSeek-V4-Flash, Qwen3-Coder-Next, tuned ROCm,
+  parallel serving, and similar items in experimental/watch lanes unless
+  the report’s own acceptance tests promote them.
+
+- Keep the user’s removal of the prescriptive danger-full-access
+  paragraph from §18.2 and the rewrite of §18.2b as an optional
+  command-guard capability. Do not reinsert “counterweight,” “removal is
+  stronger,” or similar policy prose.
+
+7. Do not misinterpret these as defects
+
+- “Category A — none found” in §24.1 is not a denial that the earlier
+  local deployment existed. In context it is a statement about
+  external/community prior art: no outside firsthand DSH + local-model +
+  Strix Halo report had been found.
+
+- The 397B / GLM / Kimi material is absent because the user explicitly
+  chose option B: import the planted-bug result only and leave the
+  secondhand 397B material out.
+
+- The two remaining references to §21.3 are not accidental omissions in
+  the final pass; the agent surfaced them and the user explicitly said
+  “let it.”
+
+- The absence of Mission Control, Hermes, and the old halo-stack
+  implementation from the recommended architecture is intentional. The
+  project was reset specifically to avoid carrying forward hand-built
+  duplicates of shipped DSH capabilities.
+
+8. Evidence map for Claude
+
+Use these locations to verify each correction. Page numbers refer to the
+two supplied DOCX files, not to any web source.
+
+  -----------------------------------------------------------------------
+  Issue               Thinking transcript   Current spec
+  ------------------- --------------------- -----------------------------
+  Reset / clean-room  pp. 1147–1148         p. 1 clean-room declaration
+  boundary                                  
+
+  Full-session audit  pp. 1463–1467         §12.8, pp. 54–55
+  / deliberate import                       
+
+  User-directed §18.2 pp. 1474–1485         §18.2/18.2b; §21.3
+  / §21.3 edits                             
+
+  ROCm confound +     late research phase;  §10.2–10.6, pp. 34–41
+  replication         see ROCm replication  
+  reasoning           discussion            
+
+  Native-Windows      research phase after  Executive summary §1; §9.4;
+  PyTorch correction  Codex addendum        stale §2 and §26 rows
+
+  Vulkan stale        replication           §22 vs corrected §10.3–10.6
+  summary             explicitly retracts   
+                      long-context reliance 
+
+  Build comparison    pp. 1464–1473; final  §13.2 / T-26
+  completed late      audit pp. 1484–1485   
+
+  UI/port historical  clean-room baseline   §16.3 vs §27 item 11
+  state               then later uninstall  
+  -----------------------------------------------------------------------
+
+9. Acceptance checklist for the repaired spec
+
+- The clean-room declaration accurately describes the actual provenance
+  after later revisions imported selected historical evidence.
+
+- Every summary table agrees with the detailed section it summarizes; no
+  superseded ROCm or PyTorch wording remains.
+
+- Historical/current-state language is timestamped where machine state
+  changed during the investigation.
+
+- Deliberate exclusions are still excluded and labeled as deliberate
+  decisions rather than missing research.
+
+- No user-directed §18.2/§21.3 policy edits are silently reversed.
+
+- The final architecture remains stock-DSH-first, LM Studio direct,
+  native Windows, Vulkan default, 64 GB VGM, measured model selection,
+  and no custom routing middleware.
+
+- All cross-references and section numbers are checked after edits. If
+  the user still wants the two §21.3 references left dangling, preserve
+  them exactly and do not “clean them up” automatically.
+
+- The DOCX is rebuilt from the corrected source and the resulting file
+  is compared against the edited source for section/line completeness.
+
+10. Final instruction to Claude
+
+Perform a reconciliation pass, not a new research project. Use the
+transcript to validate provenance and decisions; use the spec to correct
+stale or contradictory statements. Do not weaken measured conclusions,
+resurrect the old HALO architecture, or add new cautionary policy that
+the user explicitly removed. After editing, run a document-wide
+consistency search for PyTorch, ROCm/Vulkan, §21.3, ports 3080/3090,
+“clean-room,” “prior implementation,” “45 K,” and “2.7×” so no
+superseded wording survives.

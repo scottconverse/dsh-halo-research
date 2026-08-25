@@ -1,0 +1,3 @@
+"Label","Model","PromptKb","PromptTokens","CompletionTok","TtftSec","TotalSec","PrefillTokPerS","DecodeTokPerS"
+"vulkan-rep2","qwen/qwen3.8-27b","8","1489","192","22.73","34.801","65.5","15.9"
+"vulkan-rep2","qwen/qwen3.8-27b","32","5654","192","44.471","57.831","127.1","14.4"

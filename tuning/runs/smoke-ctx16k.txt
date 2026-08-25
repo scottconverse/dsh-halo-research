@@ -1,0 +1,8 @@
+  [PASS] server starts on :5099
+  [PASS] POST /add redirects (302)
+  [PASS] GET / lists the added note
+  [PASS] note id rendered as note-<id>
+  [PASS] second note also listed
+  [PASS] POST /delete/<id> redirects (302)
+  [PASS] deleted note gone, other remains
+RESULT: 7/7 checks passed

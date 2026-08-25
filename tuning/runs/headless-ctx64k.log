@@ -1,0 +1,8 @@
+Wrote `app.py` in the working directory and stopped — not executed. It matches the spec:
+
+- **Flask + SQLite**, DB at `notes.db` (pinned next to `app.py`); table created on startup via `CREATE TABLE IF NOT EXISTS`.
+- **GET /** — lists every note's text, plus a form POSTing to `/add` with field name `text`.
+- **POST /add** — reads `text`, inserts it, redirects 302 to `/`.
+- **POST /delete/<int:id>** — deletes that id, redirects 302 to `/`.
+- Each note renders as its text followed by a delete form with a submit button; each item carries `id="note-N"` (e.g. `note-1`) so notes are locatable by id.
+- Runs on `127.0.0.1:5099` only when executed directly (`python app.py`). Single file, no auth or template directories.

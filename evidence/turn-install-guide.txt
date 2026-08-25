@@ -1,0 +1,1757 @@
+NOW: Read the transcript. 
+
+
+
+Read the info in these links:
+
+
+
+DeepSeek Harness Installation Guide:
+
+https://docs.google.com/document/d/1m...
+
+
+
+Prompt Used for Test:
+
+https://docs.google.com/document/d/1D...
+
+
+
+💬 The Dictation Tool I Use ⤵️
+
+https://www.cotype.io/
+
+
+
+and tell me if any of this changes your recommendation from above?
+
+
+
+Transcript
+
+
+
+
+
+Search in video
+
+0:00
+
+It seems like the current default path
+
+0:01
+
+is heading towards a very very scary
+
+0:03
+
+place.
+
+0:04
+
+Deep sea,
+
+0:04
+
+deep sea,
+
+0:05
+
+deep sea.
+
+0:06
+
+And it is shaking this entire industry
+
+0:08
+
+to its core.
+
+0:09
+
+It would be really bad for China to be
+
+0:11
+
+ahead in AI capabilities.
+
+0:14
+
+China is beginning to engage in what
+
+0:16
+
+I'll call AI dumping. About a third of
+
+0:18
+
+corporations now are supposedly using
+
+0:20
+
+Chinese lightweight openweight models
+
+0:22
+
+that are cheaper. If I were Shia, I
+
+0:23
+
+would just dump cheap AI into the US
+
+0:25
+
+market. I think the US market crashes.
+
+0:27
+
+then practically gave the whole thing
+
+0:29
+
+away for free. It might be over for
+
+0:32
+
+Claude and Chat GPT. Deepseek just
+
+0:35
+
+released their own harness and this
+
+0:37
+
+changes everything we know about coding
+
+0:39
+
+agents. It can do everything that Claude
+
+0:41
+
+code can do. It can run commands, read
+
+0:43
+
+files, but you can use any model you
+
+0:45
+
+want inside of this harness. But you
+
+0:47
+
+know what's very different? The price.
+
+0:49
+
+I'm paying $200 a month right now for
+
+0:51
+
+Claude Code Max. Cursa is 20 bucks, but
+
+0:54
+
+this new Deep Seek harness is zero. Yes,
+
+0:57
+
+you hit that right. No free trial, not a
+
+0:59
+
+startup tier, zero. All you do is that
+
+1:01
+
+you bring your own API key. There are a
+
+1:03
+
+lot of people right now that are making
+
+1:04
+
+guides on YouTube right now that are
+
+1:06
+
+saying that you can stop your claw code
+
+1:07
+
+subscription. However, you should know
+
+1:08
+
+by now that most setup guides, they
+
+1:10
+
+don't tell you the entire truth. Because
+
+1:12
+
+if you watch what happens in those
+
+1:13
+
+videos, they set it up, they build some
+
+1:15
+
+simple project, they say it works, and
+
+1:17
+
+then they're done. But no one actually
+
+1:18
+
+shows you the bills that break, the
+
+1:20
+
+things that actually matter, and the
+
+1:21
+
+thing that determines if you're going to
+
+1:22
+
+switch or not. So, is Deepse Seek
+
+1:24
+
+Harness actually as good as people say
+
+1:26
+
+it is? Well, I ran the ultimate test
+
+1:29
+
+against both Claude Code and Codeex.
+
+1:32
+
+Let's not waste any more time. Let's get
+
+1:34
+
+into it. Let's start with the absolute
+
+1:35
+
+most important thing first, which of
+
+1:37
+
+course is the pricing. In order to have
+
+1:39
+
+access to the Codeex app and use it for
+
+1:42
+
+actually building stuff, you would need
+
+1:43
+
+the $20 a month subscription. So, Chat
+
+1:46
+
+Gvt Plus, because this gives the
+
+1:48
+
+expanded access to Codeex, which you
+
+1:50
+
+would need. The $8 a month doesn't give
+
+1:51
+
+you enough usage. It allows you to build
+
+1:53
+
+with the Codeex app for Mac OS and
+
+1:55
+
+Windows. It has access to the advanced
+
+1:57
+
+reasoning models which are the ones that
+
+1:58
+
+we're going to be using. These things
+
+2:00
+
+are pretty crucial if you're serious
+
+2:01
+
+about building anything. So, Codeex is
+
+2:04
+
+$20 a month. CL is writing it in a
+
+2:06
+
+little bit of a sketchy way in my
+
+2:07
+
+opinion. They're writing $17 a month
+
+2:09
+
+right here. This is only if you take the
+
+2:10
+
+annual subscription. It is also $20 a
+
+2:13
+
+month when you pay monthly, which most
+
+2:15
+
+of us do. The problem with the pro plan
+
+2:17
+
+is that you probably already know it. We
+
+2:18
+
+don't have that much usage on the pro
+
+2:20
+
+plan. So if you actually want to build
+
+2:21
+
+real stuff for your business, then you
+
+2:23
+
+would probably need the Max plan, which
+
+2:25
+
+is $100 a month. So Claude is definitely
+
+2:27
+
+the expensive option. And then we have
+
+2:29
+
+the Deep Seek Harness, which was
+
+2:31
+
+literally just released. And the crazy
+
+2:33
+
+thing about this is that it's fully open
+
+2:35
+
+source. You can see I can find the
+
+2:36
+
+GitHub repo right here. It has 177,000
+
+2:39
+
+stars already and almost 20,000 forks.
+
+2:42
+
+And the entire harness is open source,
+
+2:45
+
+which is pretty cool in my opinion.
+
+2:46
+
+However, one thing that we need to take
+
+2:48
+
+into consideration when we do the test
+
+2:50
+
+is that this is still in preview. They
+
+2:52
+
+literally just released this as a
+
+2:53
+
+preview to what is coming. And we're
+
+2:55
+
+going to talk more about this, but the
+
+2:56
+
+main thing that I think is super cool
+
+2:58
+
+about the DC harness and is a massive
+
+3:01
+
+opportunity is the fact that every
+
+3:03
+
+capability is a plug-in they call it
+
+3:05
+
+that can be swapped or recomposed. So,
+
+3:08
+
+we can literally change anything we want
+
+3:10
+
+about this harness. We can customize it
+
+3:13
+
+to our exact use case, which is
+
+3:15
+
+something we cannot do with codeex or
+
+3:17
+
+with cl code because that's of course
+
+3:19
+
+closed sourced. In this video, I'll show
+
+3:21
+
+you some insane use cases and we're
+
+3:23
+
+going to put it to the ultimate test to
+
+3:25
+
+see if this is just another hype video
+
+3:27
+
+or if it's actually something that's
+
+3:28
+
+good. Let's get into it. There are
+
+3:30
+
+multiple ways that you can install the
+
+3:31
+
+harness. And a lot of them are pretty
+
+3:33
+
+confusing and pretty technical, but I'll
+
+3:35
+
+show you the absolute easiest way. Just
+
+3:37
+
+copy this and paste it in. Say install
+
+3:40
+
+this. and it's going to install it in a
+
+3:42
+
+couple of minutes. However, if you don't
+
+3:44
+
+have CL codeex installed, I've created
+
+3:46
+
+this installation guide, so you can just
+
+3:47
+
+follow this with these commands. I'm
+
+3:49
+
+basically just going to create a new
+
+3:50
+
+folder. I'm going to call it DeepS. Then
+
+3:53
+
+I'm going to open up Visual Studio Code.
+
+3:55
+
+If you don't have it already, you can
+
+3:56
+
+just download it off the internet just
+
+3:58
+
+by searching Visual Studio Code
+
+4:00
+
+download. Click open and then choose the
+
+4:02
+
+Deepseek folder that we just created,
+
+4:04
+
+just like this. Open the terminal. And
+
+4:07
+
+now we are ready. All we have to do is
+
+4:08
+
+just paste in this command right here
+
+4:10
+
+and hit enter. It's in the installation
+
+4:12
+
+docs and this is going to download and
+
+4:14
+
+set up the harness for us. When it's
+
+4:16
+
+done, it's going to give you this URL
+
+4:17
+
+right here where the harness is open.
+
+4:19
+
+So, just paste that into your browser.
+
+4:21
+
+And there we go. Now, we are inside the
+
+4:22
+
+brand new harness that is still in
+
+4:24
+
+preview. There's a couple of things that
+
+4:25
+
+we're going to do before our test. The
+
+4:27
+
+first thing we're going to do is that
+
+4:28
+
+we're going to set it to full access.
+
+4:29
+
+And for the model, we're going to choose
+
+4:31
+
+the Deep Seek V4 Pro, which is the
+
+4:33
+
+strongest Deep Seek model. It's a lot
+
+4:35
+
+cheaper than the other models. I gave
+
+4:37
+
+the pricing from the cloud API and the
+
+4:40
+
+pricing from the Deep Seek API. And what
+
+4:41
+
+we'll be able to see is that 5.6 Soul is
+
+4:44
+
+15 times more expensive when it comes to
+
+4:46
+
+the output and 7 and 12 times more
+
+4:49
+
+expensive when it comes to the input.
+
+4:50
+
+Opus is almost the same as GBC 5.6 Soul.
+
+4:54
+
+And then Fable 5 is 15 times more
+
+4:56
+
+expensive on the input and 25 times more
+
+5:00
+
+expensive on the output. So, if the
+
+5:02
+
+DeepSeek V4 Pro is just close to being
+
+5:05
+
+as good as the other models and can
+
+5:07
+
+perform something that's close, I would
+
+5:09
+
+say that's a win for DeepSeek. But let's
+
+5:11
+
+see. This is my brutally honest test.
+
+5:13
+
+We're actually going to be starting with
+
+5:14
+
+the hardest and most exciting test
+
+5:16
+
+first, which is going to be running for
+
+5:17
+
+a while. I want all the models to try
+
+5:19
+
+and build a Loom clone with full
+
+5:22
+
+authentication, full backend, full
+
+5:24
+
+database, absolutely everything. So,
+
+5:26
+
+what I'm going to do is that I'm going
+
+5:27
+
+to copy this entire thing and then I'm
+
+5:29
+
+going to paste it in. I'm going to set
+
+5:30
+
+it to standard mode, which is the full
+
+5:32
+
+coding agent with file editing and
+
+5:34
+
+everything. We're going to set it to the
+
+5:36
+
+DeepC V4 Pro, and we are going to set it
+
+5:38
+
+to effort high. So, this is what we're
+
+5:40
+
+going to do on all of them. I'm going to
+
+5:41
+
+set it to full access so I don't have to
+
+5:43
+
+sit there and accept everything that it
+
+5:45
+
+does. And then we run it. And then we're
+
+5:47
+
+going to do the exact same for Claude.
+
+5:49
+
+We're going to paste in the exire
+
+5:50
+
+prompt. We're going to use Opus 5, which
+
+5:52
+
+is the closest equivalent to the Deep
+
+5:53
+
+Seek model. It is still like 10 times
+
+5:55
+
+the price, but again, what we're testing
+
+5:57
+
+right here is not necessarily the model.
+
+5:59
+
+is the model and the harness together.
+
+6:00
+
+We set it to auto mode and then we hit
+
+6:02
+
+enter. And then we're going to take the
+
+6:04
+
+exact same prompt, give that to codeex
+
+6:06
+
+as well, use 5.6 with high and then run
+
+6:10
+
+that prompt as well. And there we have
+
+6:12
+
+it. All three harnesses are now running
+
+6:14
+
+side by side on the exact same prompt. I
+
+6:17
+
+can see I just forgot that Opus 5 of
+
+6:18
+
+course needs to be on high as well, same
+
+6:21
+
+as the other models, so it is fair. But
+
+6:23
+
+now my guess is that it's going to take
+
+6:25
+
+a couple of hours for each model to now
+
+6:27
+
+build this out. So, I'm very excited to
+
+6:28
+
+see the results. In the meantime, I want
+
+6:30
+
+to show you some extremely cool things
+
+6:31
+
+that you can do inside of Deepseek as
+
+6:33
+
+well that's pretty unique to a harness
+
+6:35
+
+that I've actually never seen before.
+
+6:37
+
+Deepseek has done something that's very
+
+6:38
+
+cool that I've never seen before inside
+
+6:40
+
+of a harness. Usually, you're only able
+
+6:42
+
+to see the chat. You're not able to see
+
+6:44
+
+what's actually going on behind the
+
+6:45
+
+scenes. But, we have this button right
+
+6:47
+
+here, trajectory, where we can literally
+
+6:49
+
+see all the tool calls, what the AI is
+
+6:51
+
+thinking, exactly what's going on
+
+6:53
+
+throughout this entire process. because
+
+6:55
+
+it is open source, it allows us to
+
+6:57
+
+actually look behind what's going on,
+
+6:59
+
+which is extremely cool. And on top of
+
+7:01
+
+that, the customization that I talked
+
+7:03
+
+about earlier, we can go inside of
+
+7:04
+
+settings, and then we can go inside of
+
+7:06
+
+plugins. And then inside the plug-in
+
+7:07
+
+list, we can literally enable and
+
+7:09
+
+disable every single tool inside of
+
+7:11
+
+here, which is pretty cool, not going to
+
+7:13
+
+lie. And because it's open source as
+
+7:15
+
+well, and we're running this harness
+
+7:16
+
+locally, we can actually update and tune
+
+7:18
+
+this to whatever we want. It's almost
+
+7:20
+
+like playing with Legos. All right, all
+
+7:22
+
+harnesses are running side by side. I'm
+
+7:25
+
+extremely excited to see the result of
+
+7:27
+
+how well this new harness performs
+
+7:29
+
+compared to codeex and claude because if
+
+7:31
+
+it's even close and we are paying
+
+7:33
+
+onetenth of the price that would be such
+
+7:35
+
+a gamecher well only time can tell this
+
+7:38
+
+is going to take a couple of hours
+
+7:39
+
+before they are ready. Now comes the
+
+7:40
+
+part to actually look at the result for
+
+7:42
+
+what these models and harnesses actually
+
+7:44
+
+built. We have three separate platforms
+
+7:46
+
+that look kind of similar. Some are
+
+7:48
+
+definitely better than other and I can't
+
+7:50
+
+even remember what platforms are which.
+
+7:52
+
+So, I'm going to look at them, give my
+
+7:53
+
+honest opinion about what platform I
+
+7:55
+
+think is best, and then you'll see
+
+7:57
+
+exactly what hardness and model is
+
+8:00
+
+actually best. So far, just looking at
+
+8:02
+
+this landing page right here, this looks
+
+8:04
+
+extremely good and clean. I really like
+
+8:06
+
+how it is designed. This honestly looks
+
+8:08
+
+very good. The pricing cards, they look
+
+8:10
+
+clean. It does look a bit vioded, so you
+
+8:12
+
+would still need to put in some effort
+
+8:14
+
+when it comes to like making this
+
+8:15
+
+animation look not as viodated, but as a
+
+8:17
+
+landing page off of one prompt, I think
+
+8:19
+
+that's pretty good. Let's log in.
+
+8:20
+
+already now running into a bug for the
+
+8:22
+
+first software. I'm going to fix the bug
+
+8:24
+
+so we can see the rest of the platform.
+
+8:26
+
+We just need to keep in mind that we
+
+8:27
+
+already have a bug on this platform. We
+
+8:29
+
+can't even log in. Okay, to be fair, it
+
+8:30
+
+wasn't an issue with the software. It
+
+8:32
+
+was just the port on our computer that
+
+8:33
+
+we were running it from. Let me log in
+
+8:35
+
+right quick. We receive an email like
+
+8:37
+
+this where we can just click open. This
+
+8:38
+
+email, to be fair, looks very good and
+
+8:40
+
+professional. So, that's pretty good.
+
+8:41
+
+And then we actually have an onboarding.
+
+8:43
+
+That looks good. Start my first
+
+8:45
+
+recording. It asks us for our camera
+
+8:46
+
+right here. That's pretty cool. Click
+
+8:48
+
+allow this time. Allow for the
+
+8:49
+
+microphone. And let's click start
+
+8:51
+
+recording. Entire screen. 1 2 3 testing.
+
+8:54
+
+1 2 3 testing. Is it working like it
+
+8:56
+
+should? This screen right here that we
+
+8:57
+
+just saw. That was a bit buggy though.
+
+8:59
+
+So, not the best user experience there.
+
+9:01
+
+Recording didn't start. Block number two
+
+9:03
+
+that we need to fix. All right. Now, it
+
+9:05
+
+actually uploaded this time. Let's see
+
+9:07
+
+if it actually works. It does. The
+
+9:09
+
+recording is kind of messed up, but this
+
+9:10
+
+is, to be fair, what I saw on my screen.
+
+9:13
+
+So, now we have a fully functioning Loom
+
+9:15
+
+right here. Pretty impressive, not going
+
+9:17
+
+to lie. And it has the link that we can
+
+9:19
+
+send to people to share. There's an
+
+9:21
+
+issue right here with the images though.
+
+9:23
+
+But like we have a fully functioning app
+
+9:25
+
+and the UI honestly looks very very
+
+9:26
+
+good. We even have multiple workspaces.
+
+9:28
+
+We can even create folders. Not bad for
+
+9:31
+
+the first one. Let's check the other
+
+9:32
+
+two. This is Lumi. I actually have no
+
+9:35
+
+idea. I forgot which one was which. But
+
+9:37
+
+we can sign in here as well. We get this
+
+9:39
+
+login link right here where we can sign
+
+9:41
+
+in with a magic link. All right. We have
+
+9:43
+
+an onboarding again. Product demos.
+
+9:45
+
+Continue to our first recording. There
+
+9:47
+
+we go. Allow default camera, default
+
+9:49
+
+microphone. Not showing a preview right
+
+9:52
+
+here. Start recording. Hello. Does this
+
+9:54
+
+work? Can we see this screen right here?
+
+9:56
+
+So, a bug with this software as well.
+
+9:59
+
+Let me try and fix that so we can have
+
+10:00
+
+free working products. So, we can
+
+10:02
+
+compare them one by one. But of course,
+
+10:03
+
+we got to keep in mind how much time it
+
+10:05
+
+actually takes to fix it because so far
+
+10:07
+
+none of these harnesses is actually one
+
+10:08
+
+shot of this. All right. Fix the first
+
+10:10
+
+bug in the software. So, we can click
+
+10:12
+
+start recording. Choose our entire
+
+10:14
+
+screen. This is going to start the
+
+10:16
+
+countdown and I can say yo yo yo. Can
+
+10:18
+
+you hear what I'm saying? We can show
+
+10:20
+
+this screen a little bit. We can show
+
+10:21
+
+this and then we can stop the recording.
+
+10:24
+
+Finalizing your recording. That was
+
+10:25
+
+actually pretty quick this time. Paste
+
+10:27
+
+this in. See if it works. It does. And
+
+10:30
+
+it shows me face a little squished
+
+10:32
+
+though. But we have a fully working loop
+
+10:34
+
+clone with audio. All right. Not bad. It
+
+10:37
+
+doesn't have the entire platform like
+
+10:38
+
+the other one had. So that's a bit of an
+
+10:40
+
+L, but it can do what we needed to do.
+
+10:42
+
+And then we have the last one also
+
+10:44
+
+called Lumi. We can also sign in here.
+
+10:46
+
+The UI looks pretty good here, not going
+
+10:48
+
+to lie. Then we have this like an email
+
+10:49
+
+right here where we like create an
+
+10:51
+
+account. We have a very clean
+
+10:53
+
+onboarding. This looks good. And then we
+
+10:54
+
+can like start recording entire screen.
+
+10:56
+
+Let's see if it can actually oneshot
+
+10:58
+
+this cuz none of these has been able to
+
+11:00
+
+oneshot it so far, but it would be cool
+
+11:02
+
+if one of them can oneshot it. So my
+
+11:03
+
+like screen is down here in the lefthand
+
+11:05
+
+corner. It's showing while it's
+
+11:06
+
+recording. Go a bit to this screen as
+
+11:08
+
+well. Go back a little bit and click
+
+11:10
+
+stop. Wrapping up your recording. upload
+
+11:12
+
+problem once again. So, every single one
+
+11:14
+
+of the harnesses couldn't one-shot this,
+
+11:16
+
+which is very, very interesting. Let me
+
+11:18
+
+fix that and be right back. All right,
+
+11:19
+
+and there we have it. Now, the upload
+
+11:21
+
+works. Exact same bug as the other one.
+
+11:23
+
+So, it's very interesting how no one
+
+11:25
+
+called that one. But now we have a
+
+11:26
+
+perfect screen recording software. And
+
+11:28
+
+this software also has a my library tab,
+
+11:31
+
+but that doesn't work. Let me try and
+
+11:34
+
+sign into that again and see if it works
+
+11:35
+
+then. Cool. So, this platform also has
+
+11:37
+
+an entire back end that looks pretty
+
+11:39
+
+good. I like this. It's very intuitive,
+
+11:41
+
+so that definitely gives an extra point
+
+11:43
+
+as well. All right, the time for the big
+
+11:44
+
+reveal. What harness and model actually
+
+11:47
+
+created each of these? The first one
+
+11:49
+
+that had a couple of bucks was actually
+
+11:51
+
+Codeex that worked for an hour and 46
+
+11:55
+
+minutes. So, it took almost 2 hours to
+
+11:57
+
+build out this platform. And I'm going
+
+11:58
+
+to say based on the free we have right
+
+12:00
+
+here, I like this UI the best. It's
+
+12:02
+
+nicer on the eye. This looks very vibe
+
+12:04
+
+coded, however, but like in general, the
+
+12:07
+
+platform looks nice. Number two that's
+
+12:09
+
+running on port 3100 was actually Deep
+
+12:12
+
+Seek and you can see it has run for 82
+
+12:14
+
+minutes. So what is that like an hour
+
+12:16
+
+and 20 minutes? That is not bad
+
+12:18
+
+considering this model is onetenth of
+
+12:20
+
+the cost of the two other models that
+
+12:21
+
+we're using right now. It creating this
+
+12:23
+
+and creating a working product. We had
+
+12:25
+
+one bug we had to fix. It's honestly
+
+12:27
+
+really really impressive. I still like
+
+12:29
+
+the UI better on this one. I like the
+
+12:31
+
+platform and how intuitive it was
+
+12:33
+
+better. But considering that it's an
+
+12:34
+
+open source model and that it's onetenth
+
+12:36
+
+of the price, I'm honestly extremely
+
+12:38
+
+impressed. I didn't expect that. And
+
+12:39
+
+that also means the last one, this one
+
+12:41
+
+right here, the third one, was made by
+
+12:43
+
+Claude Code. But the crazy thing is that
+
+12:45
+
+Claude Code and Opus was the one that
+
+12:46
+
+took the longest by far. It took 3 hours
+
+12:50
+
+and 27 minutes to build out, which was
+
+12:52
+
+twice as long as DeepS and almost an
+
+12:54
+
+hour more than Codeex. But what do you
+
+12:56
+
+guys think? Let me know in the comments
+
+12:57
+
+which UI, which logic that you like the
+
+12:59
+
+best, and if you're going to be using
+
+13:00
+
+the Deepseek Harish yourself. If you
+
+13:02
+
+want a full guide for how you can take
+
+13:04
+
+your AI knowledge and turn it into a
+
+13:05
+
+business, then you can consider our
+
+13:07
+
+community. You can try it completely for
+
+13:09
+
+free. It has all of my applause skills
+
+13:10
+
+and it has the 7-day challenge that
+
+13:12
+
+takes you from nothing to building an AI
+
+13:14
+
+business in 7 days. I'll leave a link in
+
+13:16
+
+the description below. It's safe to say
+
+13:17
+
+that Chinese AI is catching up. I would
+
+13:19
+
+say that I like this one the best from
+
+13:21
+
+Codeex, then probably Claw, and then
+
+13:23
+
+Deepseek, but Deepseek is not far from
+
+13:25
+
+the other models, and it's onetenth of
+
+13:27
+
+the price. Thank you so much for
+
+13:28
+
+watching. Albert out.
+
+
+
+All
+
+
+
+From Albert Olgaard
+
+
+
+APIs

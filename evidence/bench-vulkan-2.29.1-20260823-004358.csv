@@ -1,0 +1,5 @@
+"Label","Model","PromptKb","PromptTokens","CompletionTok","TtftSec","TotalSec","PrefillTokPerS","DecodeTokPerS"
+"vulkan-2.29.1","qwen/qwen3.8-27b","1","247","192","10.136","21.599","24.4","16.8"
+"vulkan-2.29.1","qwen/qwen3.8-27b","8","1463","192","18.913","29.832","77.4","17.6"
+"vulkan-2.29.1","qwen/qwen3.8-27b","32","5628","185","31.28","40.849","179.9","19.3"
+"vulkan-2.29.1","qwen/qwen3.8-27b","64","11183","179","40.601","50.392","275.4","18.3"

@@ -1,0 +1,1057 @@
+<html><head><meta charset="utf-8"><style>
+body{font-family:Arial,sans-serif;font-size:11pt}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #c8ccd4;padding:5px 7px;font-size:9pt;vertical-align:top;text-align:left}
+th{background:#eceff3;font-weight:bold}
+pre{background:#f1f3f4;padding:10px;font-family:"Roboto Mono",monospace;font-size:9pt}
+blockquote{border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043}
+code{font-family:"Roboto Mono",monospace;background:#f1f3f4}
+</style></head><body>
+<h1 style="page-break-before:always">DeepSeek Harness on a 128 GB AMD Strix Halo Windows 11 Workstation</h1>
+<h2>A clean-room research report and initial build specification</h2>
+<p><strong>Research date:</strong> 2026-08-23 <strong>Target machine:</strong> AMD Ryzen AI Halo Developer Platform (<code>RAH-001</code>), native Windows 11 <strong>Status of this document:</strong> research + specification. Nothing has been installed or reconfigured on the target machine except where explicitly recorded in §16.3.</p>
+<hr>
+<h2>Clean-room declaration</h2>
+<p>This investigation was conducted from first principles. No prior implementation of this concept was read, searched for, inherited from, or used as evidence. Every number in this report comes from one of:</p>
+<ol>
+<li>the upstream source tree at a pinned commit,</li>
+<li>the npm registry,</li>
+<li>first-party vendor documentation,</li>
+<li>a command executed on the target machine on 2026-08-23, or</li>
+<li>a cited third-party source, labelled as such.</li>
+</ol>
+<p>Where a claim is community evidence rather than vendor or source evidence, it is marked <strong>[community]</strong>. Where something could not be established, it is marked <strong>UNKNOWN</strong> rather than filled with speculation.</p>
+<hr>
+<h1 style="page-break-before:always">1. Executive summary</h1>
+<p><strong>The best DeepSeek Harness workstation that can actually be built on this machine today is a four-layer stack in which DSH itself is left almost entirely stock.</strong></p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">DeepSeek Harness 0.1.1-rc.2  (web profile, 133 plugins, workspace-write sandbox)
+        │  dsh-llm-pi-ai, protocol "openai-completions", per-model baseURL
+        ▼
+LM Studio local server  :1234   (OpenAI-compatible, GET /models discovery)
+        │
+        ▼
+llama.cpp 2.29.1  — Vulkan runtime as the default (measured, §10),
+                    ROCm runtime installed as an experimental lane
+        ▼
+AMD Adrenalin 26.7.1 / driver 32.0.31035.1003  →  Radeon 8060S (gfx1151)
+        ▼
+128 GB LPDDR5X-8000 unified memory, currently split 64 GB VGM / 64 GB system</pre>
+<p>The five findings that decide the architecture:</p>
+<p><strong>1. DSH already speaks to local OpenAI-compatible servers, out of the box, with no middleware.</strong> The stock <code>web</code> profile mounts <code>@deepseek-ai/dsh-llm-pi-ai</code>, which implements the <code>openai-completions</code> and <code>openai-responses</code> protocols, accepts a per-provider and per-model <code>baseURL</code> override, and discovers models by <code>GET {baseURL}/models</code> (<code>packages/llm/llm-pi-ai/src/discovery.ts:39-232</code>, <code>provider.ts:25-187</code>). A local-model workstation is a <strong>configuration</strong> exercise, not an engineering one.</p>
+<p><strong>2. The plugin count that matters is 133, not 227.</strong> The repository contains 227 packages; the <code>dsh</code> CLI declares 62 direct dependencies; the composed default <code>web</code> profile mounts <strong>133</strong> distinct packages. These are three different numbers and they are routinely conflated. §5 gives all three with the method for each.</p>
+<p><strong>3. Windows containment is already implemented, natively, and is on by default.</strong> The stock sandbox mode is <code>workspace-write</code>, resolved as <code>process.env.DSH_PERMISSION_MODE ?? 'workspace-write'</code>. On Windows the enforcement is a real restricted-token spawn with a capability-SID write allowlist, implemented in ~115 KB of Win32 FFI (<code>packages/sandbox/sandbox-windows-acl/</code>). There is nothing to build here, and one environment variable can silently disable all of it — see §21.3.</p>
+<p><strong>4. ROCm is now a legitimate native-Windows option for this exact machine — and it was measured, and it loses.</strong> ROCm 7.14.0 (released 2026-07-16) lists <code>gfx1151</code> as supported on <strong>Windows 11 25H2</strong>, precisely this box's OS, and LM Studio ships <code>llama.cpp-win-x86_64-amd-rocm-avx2@2.29.1</code> — the <em>same llama.cpp version</em> as the Vulkan runtime, which made a genuinely controlled comparison possible. The result (§10): ROCm is <strong>1.85–2.92× faster to first token between 1.5 K and 11 K prompt tokens</strong>, at <strong>parity by 45 K tokens</strong> (164.5 vs 165.2 tok/s), <strong>21–106 % slower on decode</strong>, and consumes <strong>78.39 GiB of GPU memory against Vulkan's 29.35 GiB</strong> — driving free system RAM to 1.55 GB. <strong>Vulkan is the default.</strong> Had the benchmark stopped at 64 KB, this report would have recommended the wrong backend.</p>
+<p><strong>5. The memory question has a precise answer, and it is not "96 GB".</strong> See §8. The short version: 96 GB is the maximum <em>VGM carve-out</em> AMD exposes on a 128 GB part, the current setting is 64 GB, the GPU can already address ~99.8 GiB, and the binding constraint for a single model is the <strong>54.4 GiB maximum single allocation</strong>, not the carve-out.</p>
+<p>The single largest risk to this build is not technical. It is that DSH's own defaults point at a cloud provider (<code>deepseek-official</code> / <code>deepseek-v4-flash</code>), so a workstation that "works" can quietly be doing none of its work locally. §21.4 specifies the check.</p>
+<hr>
+<h1 style="page-break-before:always">2. What is actually possible today</h1>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Capability</th><th>Status on this machine, today</th></tr>
+<tr><td>Run DSH natively on Windows 11</td><td><strong>Yes</strong> — verified, §4</td></tr>
+<tr><td>Drive DSH from a local model with no middleware</td><td><strong>Yes</strong> — stock plugin, §6</td></tr>
+<tr><td>User-visible model switching in the DSH UI</td><td><strong>Yes</strong> — <code>dsh-client-ui-model-selection</code> is mounted by default</td></tr>
+<tr><td>Enforced filesystem containment on Windows</td><td><strong>Yes</strong> — restricted-token/ACL, on by default</td></tr>
+<tr><td>ROCm on native Windows for gfx1151</td><td><strong>Yes</strong> — ROCm 7.14.0, Windows 11 25H2</td></tr>
+<tr><td>A 27B dense VL model at 128K context</td><td><strong>Yes</strong> — currently resident, 21.1 GB</td></tr>
+<tr><td>Speculative decoding / MTP</td><td><strong>Yes</strong> — already active, measured, §12.4</td></tr>
+<tr><td>Use the XDNA 2 NPU for the primary LLM</td><td><strong>No</strong> — §14</td></tr>
+<tr><td>PyTorch/vLLM/training on native Windows for gfx1151</td><td><strong>Not established</strong> — §9</td></tr>
+</table><p></p>
+<hr>
+<h1 style="page-break-before:always">3. Version discipline — what exactly was measured</h1>
+<p>Every version below was read from the machine or the registry on <strong>2026-08-23</strong>.</p>
+<h2>3.1 Target machine, as found</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Item</th><th>Value</th><th>How obtained</th></tr>
+<tr><td>System</td><td>AMD <code>RAH-001</code>, board Compal "AMD Ryzen AI Halo"</td><td><code>Win32_ComputerSystem</code>, <code>Win32_BaseBoard</code></td></tr>
+<tr><td>CPU</td><td>AMD Ryzen AI Max+ 395 w/ Radeon 8060S, 16C/32T, 3.0 GHz base</td><td><code>Win32_Processor</code></td></tr>
+<tr><td>Memory</td><td>8 × 16 GB Samsung <code>K3KLALA0EM-MGCV</code> @ <strong>8000 MT/s</strong> = 128 GB</td><td><code>Win32_PhysicalMemory</code></td></tr>
+<tr><td>Memory visible to Windows</td><td><strong>63.79 GB</strong></td><td><code>Win32_OperatingSystem</code></td></tr>
+<tr><td>GPU</td><td>AMD Radeon 8060S, PCI <code>VEN_1002&amp;DEV_1586</code></td><td><code>Win32_VideoController</code></td></tr>
+<tr><td>Display driver</td><td><strong>32.0.31035.1003</strong>, dated <strong>2026-07-23</strong></td><td><code>Win32_VideoController</code></td></tr>
+<tr><td>Adrenalin / LLPC</td><td><strong>26.7.1</strong></td><td><code>vulkaninfo</code> <code>driverInfo</code></td></tr>
+<tr><td>BIOS</td><td>AMD <strong>03.03</strong>, dated <strong>2026-06-09</strong></td><td><code>Win32_BIOS</code></td></tr>
+<tr><td>OS</td><td>Windows 11 Pro <strong>25H2</strong>, build <strong>26200.9168</strong></td><td><code>CurrentVersion</code> registry key</td></tr>
+<tr><td>System SSD</td><td>Micron 4600 <code>MTFDLBA2T0THJ</code>, 1905.6 GB, <strong>852.5 GB free</strong></td><td><code>Get-PhysicalDisk</code>, <code>Get-Volume</code></td></tr>
+<tr><td>Secondary</td><td>Seagate One Touch Hub 7452 GB USB HDD (<code>D:</code>)</td><td><code>Get-PhysicalDisk</code></td></tr>
+</table><p></p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>Note on the OS name.</strong> The registry <code>ProductName</code> still reads "Windows 10 Pro". This is a known Windows 11 registry artefact; <code>DisplayVersion 25H2</code> and build <code>26200</code> are authoritative.</blockquote>
+<h2>3.2 Toolchain, as found</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Tool</th><th>Version</th><th>Note</th></tr>
+<tr><td>Node.js</td><td><strong>25.9.0</strong></td><td>satisfies DSH's <code>&gt;=24.0.0</code></td></tr>
+<tr><td>npm</td><td>11.12.1</td><td>not used to run DSH — see §4.4</td></tr>
+<tr><td>pnpm</td><td><strong>11.22.0</strong></td><td>DSH declares <code>pnpm@11.7.0</code></td></tr>
+<tr><td>Python</td><td>3.13.5</td><td></td></tr>
+<tr><td>Git</td><td>2.55.0.windows.3</td><td></td></tr>
+<tr><td>PowerShell</td><td><strong>7.6.5</strong></td><td>DSH ships a PowerShell tool seam</td></tr>
+<tr><td>Vulkan</td><td>instance <strong>1.4.341</strong>, device API <strong>1.4.349</strong></td><td>AMD proprietary driver</td></tr>
+<tr><td>OpenCL</td><td>driver 3679.0 (PAL,LC)</td><td></td></tr>
+<tr><td>LM Studio CLI</td><td><code>lms</code> present</td><td>server live on <strong>:1234</strong></td></tr>
+<tr><td>ROCm / HIP SDK</td><td><strong>not installed</strong></td><td><code>C:\Program Files\AMD\ROCm</code> absent, <code>HIP_PATH</code> unset</td></tr>
+<tr><td>Ollama, llama-server standalone</td><td><strong>not installed</strong></td><td></td></tr>
+</table><p></p>
+<h2>3.3 Upstream software, as published</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Component</th><th>Pinned value</th><th>Source</th></tr>
+<tr><td>DSH repository</td><td><code>github.com/deepseek-ai/deepseek-harness</code>, default branch <code>master</code></td><td>GitHub API</td></tr>
+<tr><td>DSH repo created</td><td><strong>2026-08-13T11:56:32Z</strong></td><td>GitHub API</td></tr>
+<tr><td><strong>DSH master commit (pinned for this report)</strong></td><td><strong><code>b150a551b8d465e31e418e1b2eaf5e79bbb7d28e</code></strong> (2026-08-21T12:03:37Z)</td><td>GitHub API + local clone</td></tr>
+<tr><td>DSH latest release</td><td><code>dsh-v0.1.1-rc.2</code>, 2026-08-21T12:35:08Z, <strong>prerelease</strong></td><td>GitHub API</td></tr>
+<tr><td>DSH on npm</td><td><code>@deepseek-ai/dsh@0.1.1-rc.2</code>, <code>latest</code> <strong>and</strong> <code>next</code>, published 2026-08-21</td><td>npm registry</td></tr>
+<tr><td>DSH licence</td><td>MIT</td><td>package manifest</td></tr>
+<tr><td>DSH <code>engines.node</code></td><td><code>^22.19.0 || &gt;=24.0.0</code></td><td>root <code>package.json</code></td></tr>
+<tr><td>DSH <code>packageManager</code></td><td><code>pnpm@11.7.0</code></td><td>root <code>package.json</code></td></tr>
+<tr><td>DSH stars / forks</td><td>185,833 / 20,587</td><td>GitHub API</td></tr>
+<tr><td>ROCm current</td><td><strong>7.14.0</strong>, released <strong>2026-07-16</strong></td><td>AMD compatibility matrix</td></tr>
+<tr><td>llama.cpp (via LM Studio runtimes)</td><td><strong>2.29.1</strong> for both Vulkan and ROCm</td><td><code>lms runtime</code></td></tr>
+<tr><td>Lemonade</td><td><strong>v11.7.0</strong>, published 2026-08-19, not a prerelease</td><td>GitHub releases API</td></tr>
+<tr><td>Qwen3.8-27B</td><td>released <strong>2026-08-14</strong>, Apache 2.0</td><td>see §12</td></tr>
+</table><p></p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">Only four DSH releases exist in total (<code>0.1.0-rc.7</code>, <code>0.1.0-rc.8</code>, <code>0.1.1-rc.1</code>, <code>0.1.1-rc.2</code>), all prereleases, all published within six days. <strong>This is nine-day-old software.</strong> Every recommendation in this report should be re-checked against upstream before it is treated as durable.</blockquote>
+<h1 style="page-break-before:always">4. DSH current-state analysis</h1>
+<p>Pinned to commit <code>b150a551b8d465e31e418e1b2eaf5e79bbb7d28e</code>, read from a local clone.</p>
+<h2>4.1 Shape of the project</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Monorepo layout</td><td><code>pnpm-workspace.yaml</code>; workspaces <code>vendor/*</code>, <strong><code>packages/*/*</code></strong>, <code>native/landlock-run</code>, <code>apps/*</code>, <code>website</code></td></tr>
+<tr><td>Package root</td><td><code>packages/</code> contains <strong>50 category directories</strong>, each holding packages</td></tr>
+<tr><td>Build</td><td><code>tsdown</code>, TypeScript project references, <code>oxlint</code>, <code>lefthook</code>, <code>vitest</code> (7 separate vitest configs incl. e2e, web-stress, perf, snapshot)</td></tr>
+<tr><td>Plugin framework</td><td>Cordis 4.x (<code>@deepseek-ai/cordis</code>)</td></tr>
+<tr><td>Native code</td><td><code>native/landlock-run</code> — a Node addon, Linux-only by name</td></tr>
+<tr><td>Python</td><td>a <code>python/</code> directory and <code>pytest.ini</code> exist at root — a Python SDK surface</td></tr>
+</table><p></p>
+<p>The <code>packages/*/*</code> double glob is the single most misread thing about this repository. A flat listing of <code>packages/</code> returns 50 entries, which are <strong>categories</strong>, not packages.</p>
+<h2>4.2 Entry point and profiles</h2>
+<p><code>dsh</code> is a launcher over "profiles": an ordered stack of plugin-bundle patch layers with the user's own overrides applied last.</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">Usage: dsh [options] [command] [args...]
+
+  --profile &lt;name&gt;          the profile under $DSH_HOME/profiles to boot
+  --patch &lt;path&gt;            extra patch-list overlay applied after the profile layer
+  --dump-config             print the composed profile tree and exit
+  --dump-default-config     print the profile tree without its user layer or --patch overlays</pre>
+<p>Three bundles ship: <code>base</code>, <code>headless</code>, <code>web-app</code>. The <code>--dump-default-config</code> flag is the authoritative way to answer "what is actually mounted", because it deliberately excludes the user layer. <strong>Every plugin count in this report was produced with it, or by parsing the bundle patch files directly. The two methods agree.</strong></p>
+<h2>4.3 Composition, measured three ways</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Question</th><th>Answer</th><th>Method</th></tr>
+<tr><td>How many packages exist in the repo?</td><td><strong>227</strong> (225 published, 2 private)</td><td>walked <code>packages/*/*/package.json</code></td></tr>
+<tr><td>How many does the <code>dsh</code> CLI directly depend on?</td><td><strong>62</strong> (59 first-party + <code>commander</code>, <code>js-yaml</code>, <code>node-addon-require-builtin</code>)</td><td>npm packument for <code>@deepseek-ai/dsh@0.1.1-rc.2</code></td></tr>
+<tr><td>How many compose into the stock <strong>web</strong> profile?</td><td><strong>133</strong></td><td><code>dsh --profile web --dump-default-config</code></td></tr>
+<tr><td>How many compose into the stock <strong>headless</strong> profile?</td><td><strong>78</strong></td><td>bundle patch parse (<code>base</code> 76 + <code>headless</code> 2)</td></tr>
+</table><p></p>
+<p>So roughly <strong>94 of the 227 packages are not in the stock web profile at all.</strong> They are alternates (a different sandbox backend, a different search provider, a different subagent driver), test support, or infrastructure.</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>On "200+ plugins".</strong> The claim is defensible only as "packages published under the <code>@deepseek-ai</code> scope". It is not the number of things a user can exercise, and it is not the number that load. When sizing work against this platform, <strong>133</strong> is the number that matters for the web profile.</blockquote>
+<h2>4.4 Node and package manager</h2>
+<p><code>engines.node</code> is <code>^22.19.0 || &gt;=24.0.0</code>. This box runs <strong>Node 25.9.0</strong> — satisfied.</p>
+<p>The repo declares <code>packageManager: pnpm@11.7.0</code>; the box has pnpm 11.22.0. The README's quick-start is <code>npx @deepseek-ai/dsh web</code>. <strong>On this machine <code>pnpm dlx</code> should be preferred over <code>npx</code></strong> — see §6.5, which records a reproducible npm-resolver problem. This is a machine-specific finding, not an upstream defect.</p>
+<hr>
+<h1 style="page-break-before:always">5. DSH capability inventory</h1>
+<p>The 50 categories, with package counts, from the pinned tree:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Category</th><th>n</th><th>Category</th><th>n</th><th>Category</th><th>n</th></tr>
+<tr><td>client</td><td>40</td><td>fs</td><td>7</td><td>attachment</td><td>2</td></tr>
+<tr><td>session</td><td>13</td><td>util</td><td>7</td><td>boot</td><td>2</td></tr>
+<tr><td>subagent</td><td>11</td><td>context</td><td>6</td><td>experimental</td><td>2</td></tr>
+<tr><td>shell</td><td>10</td><td>examples</td><td>6</td><td>feedback</td><td>2</td></tr>
+<tr><td>core</td><td>8</td><td>test-support</td><td>6</td><td>guard</td><td>2</td></tr>
+<tr><td>host</td><td>8</td><td>web</td><td>6</td><td>preset</td><td>2</td></tr>
+<tr><td>fs</td><td>7</td><td>interaction</td><td>5</td><td>settings</td><td>2</td></tr>
+<tr><td>compaction</td><td>4</td><td>llm</td><td>5</td><td>subprocess</td><td>2</td></tr>
+<tr><td>goal</td><td>4</td><td>code-runtime</td><td>3</td><td>acp</td><td>1</td></tr>
+<tr><td>session-query</td><td>4</td><td>credentials</td><td>3</td><td>identity</td><td>1</td></tr>
+<tr><td>sandbox</td><td>4</td><td>e2b</td><td>3</td><td>mcp</td><td>1</td></tr>
+<tr><td>skill</td><td>4</td><td>examples</td><td>3</td><td>plan</td><td>1</td></tr>
+<tr><td>storage</td><td>4</td><td>hooks</td><td>3</td><td>runtime-diagnostics</td><td>1</td></tr>
+<tr><td>typert</td><td>4</td><td>jobs</td><td>3</td><td>schedule</td><td>1</td></tr>
+<tr><td>workflow</td><td>4</td><td>lsp</td><td>3</td><td>todo</td><td>1</td></tr>
+<tr><td>extensions</td><td>4</td><td>sdk</td><td>3</td><td>workspace</td><td>1</td></tr>
+<tr><td>bundle</td><td>3</td><td>spill</td><td>3</td><td>api</td><td>2</td></tr>
+<tr><td></td><td></td><td>terminal</td><td>3</td><td></td><td></td></tr>
+</table><p></p>
+<h2>5.1 Capability map — what is genuinely there</h2>
+<p>Grouped by the directive's categories. <strong>Bold</strong> = mounted in the stock web profile.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Capability</th><th>Packages</th></tr>
+<tr><td>Filesystem</td><td><strong><code>fs-local</code></strong>, <strong><code>fs-sandbox</code></strong>, <strong><code>tool-fs</code></strong>, <strong><code>tool-fs-search</code></strong>, <code>file-reference-local</code></td></tr>
+<tr><td>Code editing</td><td><strong><code>tool-str-replace-editor</code></strong></td></tr>
+<tr><td>Shell / process</td><td><strong><code>tool-bash</code></strong>, <strong><code>tool-pwsh</code></strong>, <strong><code>bash-sandbox</code></strong>, <strong><code>pwsh-sandbox</code></strong>, <code>bash-local</code>, <code>pwsh-local</code>, <code>tool-bash-persistent</code>, <code>tool-pwsh-persistent</code>, <code>shell-env</code>, <code>terminal</code>, <code>terminal-bash</code></td></tr>
+<tr><td>Sandbox / security</td><td><strong><code>sandbox-local</code></strong>, <strong><code>sandbox-policy</code></strong>, <strong><code>permission-presets</code></strong>, <code>sandbox</code>, <code>sandbox-windows-acl</code></td></tr>
+<tr><td>Providers / models</td><td><strong><code>llm</code></strong>, <strong><code>llm-pi-ai</code></strong>, <strong><code>llm-deepseek</code></strong>, <strong><code>llm-retry</code></strong>, <strong><code>token-meter</code></strong></td></tr>
+<tr><td>Web / search</td><td><strong><code>web-search-deepseek</code></strong>, <code>web-search-exa</code>, <code>web-search-perplexity</code>, <code>web-fetch-http</code>, <code>tool-web</code></td></tr>
+<tr><td>MCP</td><td><code>mcp-client</code> — <strong>not mounted by default</strong></td></tr>
+<tr><td>Skills</td><td><strong><code>skill</code></strong>, <strong><code>skill-filesystem</code></strong>, <strong><code>tool-skill</code></strong>, <code>skill-badge</code></td></tr>
+<tr><td>Subagents / delegation</td><td><strong><code>tool-subagent</code></strong>, <strong><code>tool-subagent-control</code></strong>, <code>subagent-claude-code</code>, <code>subagent-codex</code>, <code>subagent-acp</code>, <code>subagent-dsh-sdk</code>, <code>subagent-fork-in-process</code>, <code>subagent-spawn-in-process</code>, <code>tool-subagent-report</code></td></tr>
+<tr><td>Planning / goals</td><td><strong><code>plan-mode</code></strong>, <strong><code>goal</code></strong>, <strong><code>goal-round-driver</code></strong>, <strong><code>command-goal</code></strong>, <strong><code>tool-goal</code></strong>, <strong><code>tool-todo</code></strong></td></tr>
+<tr><td>Workflow / loops</td><td><strong><code>tool-workflow</code></strong>, <strong><code>workflow-worker-thread</code></strong>, <strong><code>tool-ralph</code></strong>, <code>workflow</code></td></tr>
+<tr><td>Code Mode</td><td><strong><code>code-runtime-worker-thread</code></strong>, <code>code-runtime</code>, <code>code-runtime-python</code></td></tr>
+<tr><td>Context / compaction</td><td><strong><code>compaction-basic</code></strong>, <strong><code>compaction-tool-result-pruner</code></strong>, <strong><code>command-compact</code></strong>, <strong><code>agent-instructions</code></strong>, <strong><code>time-context</code></strong>, <strong><code>spill-local</code></strong>, <code>spill-policy</code>, <code>tmux-context</code></td></tr>
+<tr><td>Session / replay</td><td><strong><code>session</code></strong>, <strong><code>session-projection</code></strong>, <strong><code>session-reference</code></strong>, <strong><code>session-log-export</code></strong>, <strong><code>session-stats</code></strong>, <strong><code>session-query-sqlite</code></strong>, <strong><code>session-title</code></strong></td></tr>
+<tr><td>Jobs / scheduling</td><td><strong><code>jobs-local</code></strong>, <strong><code>tool-jobs</code></strong>, <strong><code>schedule</code></strong></td></tr>
+<tr><td>Storage</td><td><strong><code>storage</code></strong>, <strong><code>storage-json</code></strong>, <strong><code>storage-domain</code></strong></td></tr>
+<tr><td>Host / UI</td><td><strong><code>web-app</code></strong>, <strong><code>host-webserver</code></strong>, <strong><code>host-apiproxy</code></strong>, <strong><code>host-plugin-inventory</code></strong>, 38 <code>client-ui-*</code> packages</td></tr>
+<tr><td>LSP</td><td><code>lsp</code> ×3 — <strong>not mounted by default</strong></td></tr>
+<tr><td>Remote sandbox</td><td><code>e2b</code> ×3 — <strong>not mounted by default</strong></td></tr>
+</table><p></p>
+<h3>The notable ones</h3>
+<ul>
+<li><strong><code>subagent-claude-code</code> and <code>subagent-codex</code> exist.</strong> DSH can delegate to other harnesses as subagents. Not mounted by default.</li>
+<li><strong><code>code-runtime-python</code></strong> — Code Mode has a Python runtime, not just a worker thread.</li>
+<li><strong><code>session-query-sqlite</code></strong> is mounted: sessions are queryable, not just replayable.</li>
+<li><strong><code>tool-ralph</code></strong> — a dedicated loop-until-done driver.</li>
+<li><strong><code>spill-*</code></strong> — context spilling to keep large bodies out of the window.</li>
+<li><strong><code>token-meter</code></strong> — real token accounting, mounted by default.</li>
+</ul>
+<hr>
+<h1 style="page-break-before:always">6. DSH Windows compatibility audit</h1>
+<h2>6.1 Windows is a first-class target in the source</h2>
+<p>Signal counts across <code>packages/**</code> at the pinned commit:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Pattern</th><th>Matches</th></tr>
+<tr><td><code>win32</code></td><td>865</td></tr>
+<tr><td><code>pwsh</code></td><td>555</td></tr>
+<tr><td><code>landlock</code></td><td>177</td></tr>
+<tr><td><code>bwrap</code> / <code>bubblewrap</code></td><td>148</td></tr>
+<tr><td><code>process.platform</code></td><td>157</td></tr>
+<tr><td><code>powershell</code></td><td>123</td></tr>
+<tr><td><code>seatbelt</code></td><td>113</td></tr>
+<tr><td><code>AppContainer</code> / restricted token</td><td>87</td></tr>
+<tr><td><code>icacls</code></td><td>23</td></tr>
+<tr><td><strong><code>WSL</code></strong></td><td><strong>0</strong></td></tr>
+</table><p></p>
+<p>Zero WSL references anywhere in <code>packages/</code>. DSH does not treat WSL as its Windows story.</p>
+<h2>6.2 The Windows sandbox is real</h2>
+<p><code>packages/sandbox/sandbox-local/src/index.ts:2-3</code> documents the runner chain explicitly:</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">"It selects the platform runner chain (Linux bwrap then Landlock; macOS Seatbelt; Windows the ACL restricted-token runner), functionally probes …"</blockquote>
+<p>Selection is a functional probe, not a platform guess — <code>SelectedRunner</code> is typed <code>'bwrap' | 'landlock' | 'seatbelt' | 'windows-acl'</code>.</p>
+<p><code>@deepseek-ai/dsh-sandbox-windows-acl</code> describes itself as a <em>"Windows ACL write-restriction sandbox backend (restricted-token spawn with capability-SID write allowlist)"</em>. It is ~115 KB across 12 files including <code>ffi.ts</code> (23.1 KB), <code>win32-abi.ts</code> (13.2 KB), <code>token.ts</code> (11 KB) and <code>acl.ts</code> (13.1 KB), calling <code>GetNamedSecurityInfoW</code> / <code>SetEntriesInAclW</code> and building <code>EXPLICIT_ACCESS</code> entries against a capability SID.</p>
+<p><strong>Verdict: CONFIRMED NATIVE WINDOWS.</strong> This is a genuine implementation, not a stub.</p>
+<h2>6.3 Permission modes</h2>
+<p>From the composed default web tree:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">- id: sandbox-policy
+  name: '@deepseek-ai/dsh-sandbox-policy'
+  config:
+    mode: !!js process.env.DSH_PERMISSION_MODE ?? 'workspace-write'
+- id: permission
+  name: '@deepseek-ai/dsh-permission-presets'
+  # presets expose: read-only | workspace-write | danger-full-access</pre>
+<p><strong>The stock default is <code>workspace-write</code> — confined.</strong> <code>danger-full-access</code> is an opt-out that a single environment variable can set for every session. See §21.3.</p>
+<h2>6.4 Windows compatibility matrix</h2>
+<p>Applied to the <strong>133</strong> packages in the stock web profile, and to significant non-default ones.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Status</th><th>Capabilities</th></tr>
+<tr><td><strong>CONFIRMED NATIVE WINDOWS</strong></td><td><code>sandbox-windows-acl</code> (Win32 FFI), <code>pwsh-sandbox</code>, <code>tool-pwsh</code>, <code>fs-local</code>, <code>fs-sandbox</code>, <code>tool-fs</code>, <code>tool-str-replace-editor</code>, <code>host-webserver</code>, <code>web-app</code> + all 38 <code>client-ui-*</code>, <code>session*</code>, <code>storage*</code>, <code>llm*</code>, <code>token-meter</code>, <code>jobs-local</code>, <code>schedule</code></td></tr>
+<tr><td><strong>REQUIRES CONFIGURATION</strong></td><td><code>llm-pi-ai</code> — needs a provider block for any local server (§18); <code>web-search-deepseek</code> — needs a key</td></tr>
+<tr><td><strong>DEPENDENT ON EXTERNAL SOFTWARE</strong></td><td><code>session-query-sqlite</code> (SQLite binding), <code>code-runtime-python</code> (Python — present, 3.13.5)</td></tr>
+<tr><td><strong>CORRECTLY PLATFORM-GATED</strong></td><td><code>tool-bash</code> + <code>bash-sandbox</code> — present in the tree but <strong><code>disabled</code> on <code>win32</code></strong> at every layer; <code>tool-pwsh</code> + <code>pwsh-sandbox</code> are the active pair. See §6.5</td></tr>
+<tr><td><strong>NOT APPLICABLE ON WINDOWS</strong></td><td><code>node-addon-landlock-run</code>, Landlock/bwrap/Seatbelt probes (correctly bypassed by the chain)</td></tr>
+<tr><td><strong>UNKNOWN — MUST TEST</strong></td><td><code>lsp</code> ×3, <code>mcp-client</code>, <code>e2b</code> ×3, <code>subagent-claude-code</code>, <code>subagent-codex</code>, <code>tmux-context</code> (tmux does not exist natively on Windows)</td></tr>
+</table><p></p>
+<h2>6.5 The bash seam — a corrected finding</h2>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>This section previously reported a high-severity containment defect (D-1). That finding was wrong, and it is retracted here rather than quietly deleted.</strong></blockquote>
+<h3>What was claimed, and why it was wrong</h3>
+<p>An earlier pass of this report asserted that <code>tool-bash</code> and <code>bash-sandbox</code> were <em>mounted</em> in the stock web profile, and that because <code>bash</code> on this box resolved to a failing WSL alias, DSH tool calls would either fail or — if WSL were ever repaired — silently escape the Windows ACL sandbox into a Linux VM.</p>
+<p>The error was methodological: the check matched <strong>package names</strong> in the composed plugin list and never read the <strong><code>disabled</code> key on the row</strong>. Presence in the tree is not the same as being active, which is precisely the distinction §4.3 makes about plugin counts — applied to counting, and then not applied to this.</p>
+<h3>What the source actually says</h3>
+<p><code>packages/bundle/base/cordis.patch.yml</code>:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">- id: bash-sandbox
+  name: '@deepseek-ai/dsh-bash-sandbox'
+  disabled: !!js process.platform === 'win32'
+
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: !!js process.platform === 'win32'
+
+- id: pwsh-sandbox
+  name: '@deepseek-ai/dsh-pwsh-sandbox'
+  disabled: !!js process.platform !== 'win32'
+
+- id: tool-pwsh
+  name: '@deepseek-ai/dsh-tool-pwsh'
+  disabled: !!js process.platform !== 'win32'</pre>
+<p>The web-app bundle then disables the <em>host-level</em> <code>tool-bash</code> and <code>tool-pwsh</code> rows outright (<code>disabled: true</code>), because agent presets own the model-facing tool rows. And the agent presets deployed on this machine repeat the same platform gate:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt"># ~/.dsh/.agent-presets/halo-standard/agent.cordis.yml:44
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: !!js process.platform === 'win32'</pre>
+<p><strong>On Windows, the agent is given <code>tool-pwsh</code> backed by <code>pwsh-sandbox</code>, and no bash tool at all. The gate holds at the base bundle, the mode bundle, and the preset.</strong></p>
+<h3>Revised verdict</h3>
+<p><strong>There is nothing to fix, and nothing to disable.</strong> DSH's Windows story here is more careful than the earlier draft credited: the bash seam is platform-gated at three independent layers, and the Windows-native PowerShell seam is the one that is actually wired up. This is a <strong>point in the platform's favour</strong>, not a defect.</p>
+<p>The state of <code>bash.exe</code> on the host is therefore irrelevant to DSH containment. It was still a real machine fault in its own right — see §6.7.</p>
+<h3>D-2 — <code>tmux-context</code> cannot work natively</h3>
+<p><code>tmux</code> does not exist on native Windows. The package is <strong>not</strong> in the stock web composition, so this is latent rather than live — but any profile that adds it will not function.</p>
+<h2>6.6 Missing supporting binaries</h2>
+<p><code>rg</code> (ripgrep) and <code>fd</code> are <strong>absent</strong> from PATH. <code>tool-fs-search</code> is mounted; whether it shells out to ripgrep or uses a bundled implementation is <strong>UNKNOWN — MUST TEST</strong>. Installing ripgrep is cheap insurance either way (<code>scoop install ripgrep</code>).</p>
+<h2>6.7 A real machine fault, found while chasing the retracted finding — and fixed</h2>
+<p>Independent of DSH, this box had a genuinely damaged WSL installation.</p>
+<p><strong>Symptom.</strong> <code>bash</code> on PATH failed with <em>"The file cannot be accessed by the system."</em></p>
+<p><strong>First (wrong) reading.</strong> That the <code>bash.exe</code> App Execution Alias stub was a broken 0-byte reparse point. It is 0 bytes with no visible link target — but <strong>so is every working alias</strong>, including <code>winget.exe</code>, <code>notepad.exe</code> and <code>wsl.exe</code>. Stub size proves nothing.</p>
+<p><strong>Diagnosis that actually isolated it.</strong> Invoke the alias stubs <em>directly by full path</em>, so PATH order cannot mask the result:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Alias stub</th><th>Owning package status</th><th>Result</th></tr>
+<tr><td><code>winget.exe</code></td><td><code>Microsoft.DesktopAppInstaller</code> — <strong>Ok</strong></td><td><strong>works</strong></td></tr>
+<tr><td><code>wsl.exe</code></td><td><code>MicrosoftCorporationII.WindowsSubsystemForLinux</code> — <strong>Modified, NeedsRemediation</strong></td><td><strong>fails</strong></td></tr>
+<tr><td><code>bash.exe</code></td><td>same package</td><td><strong>fails</strong></td></tr>
+</table><p></p>
+<p>The alias <em>mechanism</em> was healthy. <strong>Both aliases belonging to the WSL package were dead, and Windows had already flagged that package <code>Modified, NeedsRemediation</code>.</strong> <code>wsl</code> appeared to work only because a real <code>C:\windows\system32\wsl.exe</code> exists and wins on PATH before the alias is ever consulted — so the damage was invisible from the command that would normally reveal it.</p>
+<p><strong>The fix that was rejected.</strong> Putting <code>C:\Program Files\Git\bin</code> on PATH ahead of <code>WindowsApps</code> so <code>bash</code> would resolve to Git Bash. It would have made the symptom disappear while leaving the damaged package in place — and <code>Git\bin</code> carries ~40 msys binaries (<code>find.exe</code>, <code>sort.exe</code>, <code>echo.exe</code>, <code>tee.exe</code>) that shadow Windows built-ins. Git's own installer defaults to <code>Git\cmd</code> precisely to avoid this. <strong>A symptom-level shim that introduces a known footgun is not a fix.</strong></p>
+<p><strong>The fix applied.</strong> <code>wsl --update</code> — Microsoft's supported remediation path:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th></th><th>Before</th><th>After</th></tr>
+<tr><td>WSL package version</td><td>2.6.3.0</td><td><strong>2.7.12.0</strong> — latest stable (released 2026-08-18)</td></tr>
+<tr><td>Package status</td><td><strong>Modified, NeedsRemediation</strong></td><td><strong>Ok</strong></td></tr>
+<tr><td><strong>WSL2 kernel</strong></td><td><strong>6.6.87.2</strong></td><td><strong>6.18.33.2</strong></td></tr>
+<tr><td>WSLg</td><td>1.0.71</td><td>1.0.73.2</td></tr>
+<tr><td><code>bash.exe</code> alias</td><td>fails</td><td><strong>works</strong></td></tr>
+<tr><td><code>bash</code> from a fresh shell</td><td>fails</td><td><strong>works</strong> (WSL bash)</td></tr>
+<tr><td>Ubuntu distro</td><td>Stopped, intact, <strong>WSL version 2</strong></td><td>intact, <strong>WSL version 2</strong></td></tr>
+<tr><td>User <code>PATH</code></td><td>—</td><td><strong>byte-identical, never modified</strong></td></tr>
+</table><p></p>
+<p>Distros are separate from the WSL system package, so nothing was lost. <strong>This is the only change made to the machine's configuration in this entire investigation</strong> (see §16.3 for the full list, including the reverted runtime experiment).</p>
+<h3>An unplanned consequence worth recording</h3>
+<p>The repair moved the WSL2 kernel from <strong>6.6.87.2 to 6.18.33.2</strong> — a major jump, because the damaged package had been stuck.</p>
+<p>That crosses a threshold this report cares about. AMD's Strix Halo optimization guidance states that <strong>gfx1151 requires Linux <code>6.18.4</code> or later</strong> on distributions without a vendor-patched kernel (with packaged alternatives at Ubuntu 24.04 HWE <code>6.17.0-19.19~24.04.2</code>+ or OEM <code>6.14.0-1018</code>+). The previous 6.6.87.2 kernel was far below every one of those floors; 6.18.33.2 clears the general one.</p>
+<p><strong>This does not make ROCm-in-WSL a recommendation</strong> — §19.2 still rejects making WSL the primary execution environment, GPU access inside WSL goes through <code>/dev/dxg</code> paravirtualization rather than the native driver path, and none of that was tested here. It does mean the <em>kernel</em> is no longer the blocker if the Linux lane is ever wanted for comparison work. Recorded as an observation, not a plan.</p>
+<p>WSL is on the <strong>stable</strong> channel. A <code>2.9.4</code> pre-release exists (WSL Containers, public preview); it is <strong>not</strong> recommended, on the same reasoning §15 applies to Windows Insider builds — no identified gain for this workload.</p>
+<h1 style="page-break-before:always">7. Strix Halo hardware analysis</h1>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Property</th><th>Measured / documented value</th><th>Source</th></tr>
+<tr><td>APU</td><td>AMD Ryzen AI Max+ 395</td><td><code>Win32_Processor</code></td></tr>
+<tr><td>CPU</td><td>16 Zen 5 cores / 32 threads, 3.0 GHz base</td><td><code>Win32_Processor</code></td></tr>
+<tr><td>iGPU</td><td>Radeon 8060S, PCI device <code>0x1586</code></td><td><code>Win32_VideoController</code></td></tr>
+<tr><td>gfx target</td><td><strong>gfx1151</strong> (RDNA 3.5)</td><td>AMD ROCm compatibility matrix maps Ryzen AI Max to gfx1151</td></tr>
+<tr><td>Compute units</td><td><strong>20 reported by OpenCL</strong></td><td><code>clinfo</code></td></tr>
+<tr><td>Memory</td><td>8 × 16 GB LPDDR5X @ <strong>8000 MT/s</strong> = 128 GB</td><td><code>Win32_PhysicalMemory</code></td></tr>
+<tr><td>Theoretical bandwidth</td><td>~256 GB/s (256-bit × 8000 MT/s)</td><td>derived</td></tr>
+<tr><td>Vulkan</td><td>device API <strong>1.4.349</strong>, AMD proprietary, LLPC <strong>26.7.1</strong></td><td><code>vulkaninfo</code></td></tr>
+<tr><td>OpenCL</td><td>driver 3679.0 (PAL,LC)</td><td><code>clinfo</code></td></tr>
+</table><p></p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>On the compute-unit count.</strong> AMD markets the 8060S as 40 CUs; <code>clinfo</code> reports <strong>20</strong>. These are consistent: RDNA groups two CUs into one work-group processor, and the OpenCL runtime reports WGPs. Nothing is wrong with the part. Any tool that reports "20 CUs" on this machine is reporting WGPs, and a benchmark that scales by "CU count" must say which it means.</blockquote>
+<hr>
+<h1 style="page-break-before:always">8. Windows memory architecture — the question answered properly</h1>
+<p>This is the section most often got wrong, so every number below is measured.</p>
+<h2>8.1 What the machine reports</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Reading</th><th>Value</th><th>Source</th></tr>
+<tr><td>Physical DIMM capacity</td><td><strong>128 GB</strong></td><td><code>Win32_PhysicalMemory</code> (8 × 16 GB)</td></tr>
+<tr><td>Memory visible to Windows</td><td><strong>63.79 GB</strong></td><td><code>Win32_OperatingSystem</code></td></tr>
+<tr><td>GPU <strong>Dedicated</strong> memory</td><td><strong>65,360 MB</strong> ≈ 63.83 GiB</td><td><code>dxdiag</code></td></tr>
+<tr><td>GPU <strong>Shared</strong> memory</td><td><strong>48,938 MB</strong> ≈ 47.79 GiB</td><td><code>dxdiag</code></td></tr>
+<tr><td>GPU <strong>Display (total)</strong> memory</td><td><strong>114,298 MB</strong> ≈ 111.6 GiB</td><td><code>dxdiag</code></td></tr>
+<tr><td>OpenCL global memory</td><td><strong>107,206,131,712 B</strong> = <strong>99.84 GiB</strong></td><td><code>clinfo</code></td></tr>
+<tr><td>OpenCL <strong>max single allocation</strong></td><td><strong>58,411,555,225 B</strong> = <strong>54.40 GiB</strong></td><td><code>clinfo</code></td></tr>
+<tr><td><code>Win32_VideoController.AdapterRAM</code></td><td>4,293,918,720 (~4 GB)</td><td><strong>ignore — 32-bit overflow artefact</strong></td></tr>
+</table><p></p>
+<p><code>65,360 + 48,938 = 114,298</code>, exactly. Windows' "Display Memory" is simply dedicated plus shared.</p>
+<h2>8.2 What is actually happening</h2>
+<p>The 128 GB is one physical pool. <strong>VGM (Variable Graphics Memory) is currently set to 64 GB</strong>, which is why:</p>
+<ul>
+<li>Windows sees 63.79 GB rather than 128 GB — the carve-out is taken <em>before</em> the OS counts memory, at firmware level. It is not "reserved from Windows"; Windows never sees it.</li>
+<li>The GPU reports 63.83 GiB "Dedicated" — the carve-out.</li>
+<li>The GPU additionally reports 47.79 GiB "Shared" — a WDDM mapping over the <em>remaining</em> system RAM, which is the Windows analogue of Linux's GTT.</li>
+</ul>
+<p>AMD's own Strix Halo optimization guidance says the opposite of what most Windows users do:</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">"AI frameworks work more efficiently with GTT-backed allocations. GTT allows large, flexible mappings without permanently reserving memory, resulting in better overall system utilization." — AMD ROCm docs, Strix Halo system optimization</blockquote>
+<p>AMD recommends keeping the firmware VRAM reservation <em>minimal</em> (as low as 0.5 GB) and raising the GTT limit instead. <strong>But that entire page is Linux-only.</strong> Its mechanism is the TTM <code>pages_limit</code> sysfs knob and the <code>amd-ttm</code> helper. There is no TTM on Windows, no <code>pages_limit</code>, and no <code>amd-ttm</code>.</p>
+<p><strong>This is the single most important asymmetry in the whole investigation:</strong> on Linux you tune GTT and leave VRAM tiny; on Windows the carve-out <em>is</em> the tuning knob, because the flexible half is not user-controllable.</p>
+<h2>8.3 Answering the required questions directly</h2>
+<p><strong>Q14 — What does Variable Graphics Memory actually do?</strong> It moves the firmware boundary between memory Windows can see and memory presented to the GPU as dedicated VRAM. It is a firmware reservation, applied before Windows boots, adjustable in AMD Software: Adrenalin (Performance → Tuning → System → Variable Graphics Memory) or in BIOS. It does <strong>not</strong> change total installed memory and does not create bandwidth.</p>
+<p><strong>Q15 — Is ~96 GB a real GPU-memory ceiling?</strong> <strong>No — it is three different things being conflated.</strong></p>
+<ul>
+<li>96 GB is the <strong>maximum VGM carve-out</strong> AMD exposes on a 128 GB part. That is a real product limit on the <em>carve-out</em>.</li>
+<li>It is <strong>not</strong> the GPU's addressable ceiling. On this machine, with VGM at only 64 GB, OpenCL already reports <strong>99.84 GiB</strong> of global memory and <code>dxdiag</code> reports <strong>111.6 GiB</strong> total.</li>
+<li>The ceiling that actually bites first is the <strong>54.40 GiB maximum single allocation</strong>.</li>
+</ul>
+<p><strong>Q16 — Can workloads use more than the configured VGM amount?</strong> <strong>Yes, and this machine proves it.</strong> VGM is 64 GB; OpenCL global memory is 99.84 GiB. The surplus is the shared/GTT-equivalent mapping over system RAM. The caveat is that memory beyond the carve-out is reached over the same physical bus but through WDDM's shared path, and is subject to eviction under desktop memory pressure — so it is <em>available</em> rather than <em>equivalent</em>.</p>
+<p><strong>Q17 — What VGM setting should this machine use?</strong> <strong>Leave it at 64 GB.</strong> Reasoning, from this machine's own measurements:</p>
+<ul>
+<li>The resident 27B model uses <strong>26.73 GB</strong> of GPU-local memory total (§8.4) — well inside 64 GB.</li>
+<li>Raising VGM to 96 GB would drop Windows to ~32 GB visible. This box runs a browser, an IDE, Node processes and the harness itself; 32 GB is a real constraint, and DSH's own worker threads and Chromium-based UI are not free.</li>
+<li>Nothing measured here is currently limited by the carve-out.</li>
+<li>Raise it to 96 GB <strong>only</strong> for a specific experiment that needs a &gt;55 GB resident model, and put it back afterwards. See §22 for the decision rule.</li>
+</ul>
+<p><strong>Q18 — How much should remain for Windows and DSH?</strong> On this machine the current split leaves 63.79 GB to Windows, of which <strong>25.51 GB was free</strong> with the model resident and the stack running. That is comfortable. Treat <strong>32 GB visible to Windows as the floor</strong> — which is exactly what a 96 GB VGM setting would leave, i.e. the aggressive setting has no headroom margin at all.</p>
+<h2>8.4 Measured memory behaviour with a real model</h2>
+<p>With <code>qwen/qwen3.8-27b</code> (UD-Q5_K_XL, 21.15 GB on disk) resident at <strong>131,072 context</strong>:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Reading</th><th>Value</th></tr>
+<tr><td>LM Studio process GPU-local memory</td><td><strong>26.73 GB</strong></td></tr>
+<tr><td>All processes GPU-local</td><td>28.89 GB</td></tr>
+<tr><td>GPU <strong>non-local (shared)</strong> usage</td><td><strong>0 GB</strong></td></tr>
+<tr><td>System RAM free</td><td>25.51 GB of 63.79 GB</td></tr>
+</table><p></p>
+<p>Two conclusions:</p>
+<ol>
+<li><strong>Weights 21.15 GB + ~5.6 GB of KV cache and compute buffers at 131 K context.</strong> That KV figure is far smaller than a conventional 27B dense transformer would need.</li>
+<li><strong>Nothing spilled to shared memory.</strong> With VGM at 64 GB and a 27 GB workload, the shared path is not being exercised at all — which is why raising VGM would change nothing today.</li>
+</ol>
+<p>The small KV figure is explained by the architecture, not by luck. Qwen3.8-27B is a <strong>hybrid</strong>:</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">"16 × (3 × (Gated DeltaNet → FFN) → 1 × (Gated Attention → FFN))" — Qwen3.8-27B model card</blockquote>
+<p>Of 64 layers, only <strong>16</strong> carry full attention; the other 48 are Gated DeltaNet, whose state is constant-size rather than growing with sequence length. A standard 27B dense model with 64 full-attention layers at 131 K context would need roughly six times the KV cache. <strong>This model is unusually well suited to long-context agent work on a memory-bandwidth-limited part</strong>, and that is an architectural property, not a quantization trick.</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>Caveat, stated honestly:</strong> llama.cpp normally preallocates KV at load, but the benchmark runs in §10 reached ~11 K tokens, not 131 K. The 5.6 GB figure is therefore <em>allocated</em>, and confirmed not to grow into shared memory under the load tested. A dedicated fill-the-window test is listed in §20 as an outstanding acceptance test.</blockquote>
+<hr>
+<h1 style="page-break-before:always">9. Native Windows ROCm — the exact current state</h1>
+<h2>9.1 What is documented</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Fact</th><th>Value</th><th>Source</th></tr>
+<tr><td>Current ROCm</td><td><strong>7.14.0</strong>, released <strong>2026-07-16</strong></td><td>AMD compatibility matrix</td></tr>
+<tr><td>Operating systems</td><td>Linux <strong>and Windows</strong></td><td>same</td></tr>
+<tr><td><code>gfx1151</code> listed</td><td><strong>Yes</strong></td><td>same</td></tr>
+<tr><td>Windows version listed for Ryzen AI Max</td><td><strong>Windows 11 25H2</strong></td><td>same</td></tr>
+<tr><td>Component versions named</td><td>hipBLASLt 1.4.1, MIOpen 3.5.2, RCCL 2.30.4</td><td>same</td></tr>
+<tr><td>HIP SDK for Windows</td><td>7.2.0 documented; RDNA3.5 (<code>gfx1150</code>, <code>gfx1151</code>) <strong>Supported</strong></td><td>AMD Windows install docs</td></tr>
+<tr><td>AMD ROCm Debugger on RDNA3.5</td><td><strong>Not supported</strong></td><td>same</td></tr>
+</table><p></p>
+<p><strong>This box runs Windows 11 25H2, build 26200.</strong> It is the exact configuration AMD lists.</p>
+<p>"Supported" is defined by AMD as: <em>"Official software distributions of the current HIP SDK release fully support this hardware."</em></p>
+<h2>9.2 What is installed here — nothing</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Check</th><th>Result</th></tr>
+<tr><td><code>C:\Program Files\AMD\ROCm</code></td><td><strong>absent</strong></td></tr>
+<tr><td><code>C:\Program Files\AMD\HIP SDK</code></td><td><strong>absent</strong></td></tr>
+<tr><td><code>HIP_PATH</code> environment variable</td><td><strong>unset</strong></td></tr>
+<tr><td><code>rocminfo</code> on PATH</td><td><strong>absent</strong></td></tr>
+<tr><td>LM Studio ROCm runtime</td><td><strong>was not installed</strong> (see §16.3)</td></tr>
+</table><p></p>
+<p>The machine has been running Vulkan the whole time.</p>
+<h2>9.3 Component status for gfx1151 on native Windows</h2>
+<p>Classified per the directive's scheme. Where AMD's matrix does not state a component's Windows status, this report says so rather than guessing.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Component</th><th>Native-Windows status for gfx1151</th></tr>
+<tr><td>HIP runtime</td><td><strong>SUPPORTED PRODUCTION</strong> — AMD lists gfx1151 on Windows 11 25H2</td></tr>
+<tr><td>HIP SDK</td><td><strong>SUPPORTED PRODUCTION</strong></td></tr>
+<tr><td>llama.cpp ROCm/HIP backend</td><td><strong>SUPPORTED PRODUCTION</strong> — shipped as an LM Studio runtime, v2.29.1, measured in §10</td></tr>
+<tr><td>hipBLASLt / MIOpen / RCCL</td><td>versions published in the matrix; <strong>per-OS status for gfx1151 not separately stated → UNKNOWN</strong></td></tr>
+<tr><td>ROCm Debugger</td><td><strong>UNSUPPORTED</strong> on RDNA3.5 (explicit ❌)</td></tr>
+<tr><td>PyTorch on native Windows for gfx1151</td><td><strong>UNKNOWN</strong> — not stated in the matrix consulted</td></tr>
+<tr><td>vLLM on native Windows for gfx1151</td><td><strong>UNKNOWN</strong> — community reports place vLLM work on Linux</td></tr>
+<tr><td>SGLang, MIGraphX, training</td><td><strong>UNKNOWN / NOT ESTABLISHED</strong> for native Windows</td></tr>
+<tr><td>Flash Attention (rocWMMA)</td><td>present in llama.cpp ROCm builds <strong>[community]</strong>; not verified here as a separate library</td></tr>
+</table><p></p>
+<p><strong>Q12 — What portions of ROCm actually work natively on Windows today?</strong> The HIP runtime and HIP SDK for gfx1151, and llama.cpp built against them. That is enough to serve models, which is all this workstation needs.</p>
+<p><strong>Q13 — What is still Linux-only or unestablished?</strong> The debugger is explicitly unsupported on RDNA3.5. The full Linux ROCm framework stack — PyTorch, vLLM, SGLang, training paths — is <strong>not established</strong> for native Windows on this target by the sources consulted. Anyone needing those should expect to use Linux, and this report does not recommend converting the machine.</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>Discipline note.</strong> "ROCm supports Strix Halo" is true <em>for the HIP runtime and SDK, on Windows 11 25H2, for gfx1151</em>. It is not a statement about PyTorch or vLLM on Windows, and the two are routinely conflated in secondary sources.</blockquote>
+<h1 style="page-break-before:always">10. Vulkan versus ROCm — measured on this machine</h1>
+<p>This is the section the directive cares most about, and the one where secondary sources are least trustworthy. Everything below was measured on the target machine on 2026-08-23.</p>
+<h2>10.1 Why this comparison is unusually clean</h2>
+<p>Both backends are the <strong>same llama.cpp version, 2.29.1</strong>, shipped as interchangeable LM Studio runtime extensions. Only the backend changed between runs:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Held constant</th><th>Value</th></tr>
+<tr><td>Model</td><td><code>unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_XL.gguf</code></td></tr>
+<tr><td>Quantization</td><td>Q5_K_XL (5-bit), 21.15 GB on disk, 19.69 GiB loaded</td></tr>
+<tr><td>Context length</td><td>131,072</td></tr>
+<tr><td><code>parallel</code></td><td>1</td></tr>
+<tr><td>llama.cpp</td><td><strong>2.29.1 on both sides</strong></td></tr>
+<tr><td>Sampling</td><td><code>temperature = 0</code></td></tr>
+<tr><td>Output cap</td><td>192 tokens</td></tr>
+<tr><td>Machine state</td><td>VGM 64 GB, driver 32.0.31035.1003, nothing else driving the GPU</td></tr>
+</table><p></p>
+<p>Method: an HTTP ladder over the OpenAI-compatible endpoint, each rung prefixed with a <strong>unique GUID nonce</strong> so no rung is served from a previous rung's prompt cache, preceded by a <strong>discarded warm-up</strong> request so no rung pays a model reload inside TTFT. Both backends ran the identical script, and nothing else touched the server during either run.</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043"><strong>Three runs were discarded before these were accepted.</strong> The first shared a prompt prefix across rungs and measured the prompt cache (inflating marginal prefill by ~71 %). The second and third were contended — interactive probes were issued against the same single-slot server mid-run. Only uncontended, cache-defeated, warmed runs appear below. The discarded CSVs are kept in <code>evidence/</code> deliberately.</blockquote>
+<h2>10.2 Results</h2>
+<h3>Time to first token (lower is better)</h3>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Prompt</th><th>Prompt tokens</th><th>Vulkan</th><th>ROCm</th><th>ROCm advantage</th></tr>
+<tr><td>8 KB</td><td>~1,486</td><td>22.539 s</td><td><strong>7.718 s</strong></td><td><strong>2.92× faster</strong></td></tr>
+<tr><td>32 KB</td><td>~5,653</td><td>44.343 s</td><td><strong>20.924 s</strong></td><td><strong>2.12× faster</strong></td></tr>
+<tr><td>64 KB</td><td>~11,211</td><td>76.884 s</td><td><strong>41.558 s</strong></td><td><strong>1.85× faster</strong></td></tr>
+<tr><td>256 KB</td><td>~44,531</td><td>278.536 s</td><td><strong>244.161 s</strong></td><td><strong>1.14× faster</strong></td></tr>
+</table><p></p>
+<h3>Marginal prefill throughput</h3>
+<p>The slope between rungs, which removes the large fixed per-request overhead that contaminates a naive <code>prompt_tokens ÷ TTFT</code>. <strong>This is the honest prefill number.</strong></p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Segment</th><th>Vulkan</th><th>ROCm</th><th>ROCm advantage</th></tr>
+<tr><td>8 KB → 32 KB</td><td>191.0 tok/s</td><td><strong>315.7 tok/s</strong></td><td><strong>+65 %</strong></td></tr>
+<tr><td>32 KB → 64 KB</td><td>170.9 tok/s</td><td><strong>269.3 tok/s</strong></td><td><strong>+58 %</strong></td></tr>
+<tr><td><strong>64 KB → 256 KB</strong></td><td><strong>165.2 tok/s</strong></td><td><strong>164.5 tok/s</strong></td><td><strong>−0.4 % — parity</strong></td></tr>
+</table><p></p>
+<h3>Decode throughput (higher is better)</h3>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Prompt</th><th>Vulkan</th><th>ROCm</th><th>Vulkan advantage</th></tr>
+<tr><td>8 KB</td><td><strong>16.4 tok/s</strong></td><td>13.5 tok/s</td><td>+21 %</td></tr>
+<tr><td>32 KB</td><td><strong>15.9 tok/s</strong></td><td>11.6 tok/s</td><td>+37 %</td></tr>
+<tr><td>64 KB</td><td><strong>16.2 tok/s</strong></td><td>11.9 tok/s</td><td>+36 %</td></tr>
+<tr><td>256 KB</td><td><strong>14.8 tok/s</strong></td><td>7.2 tok/s</td><td><strong>+106 %</strong></td></tr>
+</table><p></p>
+<h2>10.3 What this says</h2>
+<p><strong>Q10 — does Vulkan outperform ROCm?</strong> <strong>On decode, yes — consistently, and the gap widens sharply with context: +21 % at 8 K, +106 % at 45 K tokens.</strong> Vulkan's decode is also far more stable (16.4 → 14.8 tok/s across the whole ladder) where ROCm's collapses (13.5 → 7.2 tok/s).</p>
+<p><strong>Q11 — where does ROCm outperform Vulkan?</strong> <strong>On prefill, in a specific band: roughly 1.5 K to 11 K prompt tokens.</strong> There it is worth 1.85× to 2.92× on time-to-first-token and +58 % to +65 % on marginal throughput.</p>
+<p><strong>The advantage does not survive long context.</strong> Between 64 KB and 256 KB the two backends prefill at <strong>165.2 and 164.5 tok/s</strong> — statistically indistinguishable. Whatever ROCm does well at moderate batch sizes, it has stopped doing by ~45 K tokens.</p>
+<p>This partially reproduces community reports <strong>[community]</strong> (ROCm ≈ +20.6 % prompt processing, ≈ −24.6 % generation): the decode penalty brackets their figure at short context, and the prefill advantage measured here is <em>larger</em> than theirs in the band where it exists. The claim that ROCm "maintains high performance with almost no drop-off as the context window grows" is <strong>not reproduced on native Windows</strong> — here it is Vulkan that holds, and ROCm that degrades.</p>
+<h2>10.4 The memory measurement</h2>
+<p>Sampled from <code>\GPU Process Memory(*)</code> while each backend ran the identical 45 K-token rung:</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>State</th><th>Vulkan</th><th>ROCm</th></tr>
+<tr><td>Model loaded, idle</td><td>26.73 GiB</td><td>—</td></tr>
+<tr><td><strong>During the 45 K-token rung</strong></td><td><strong>29.35 GiB</strong></td><td><strong>78.39 GiB</strong></td></tr>
+<tr><td>Free system RAM during that rung</td><td>18.42 GB</td><td><strong>1.55 GB</strong></td></tr>
+<tr><td>Shared (non-local) GPU memory</td><td>0 GiB</td><td>0 GiB</td></tr>
+</table><p></p>
+<p><strong>ROCm consumed 2.7× the GPU memory for identical work, and drove free system RAM from ~19 GB to 1.55 GB.</strong> The footprint grew monotonically through the rung — 64.79 → 69.57 → 78.39 GiB on successive samples — exceeding the 63.83 GiB dedicated carve-out.</p>
+<p>Three consequences:</p>
+<ol>
+<li><strong>This directly contradicts the community claim</strong> that ROCm uses <em>less</em> memory than Vulkan. That claim almost certainly describes <strong>Linux</strong>, where AMD's GTT-based model applies (§8.2). On Windows the memory model is different, and the claim does not transfer. This is precisely the Linux→Windows substitution the directive warns against.</li>
+<li><strong>It is a stability hazard on a working machine.</strong> 1.55 GB of free RAM on a box also running a browser, an IDE and the harness is the edge of thrashing.</li>
+<li><strong>It caps headroom.</strong> A second resident model would not fit alongside ROCm's working set, which removes the multi-model portfolio §13.2 wants.</li>
+</ol>
+<p>The mechanism was not isolated. The plausible cause is HIP compute-buffer sizing scaling with batch; community evidence points at <code>GGML_HIP_NO_VMM=ON</code> as a related HIP VMM defect on this GPU <strong>[community]</strong>, but LM Studio's runtime does not expose that flag, so it could not be tested here. <strong>Recorded as an open unknown (§27), not as an explanation.</strong></p>
+<h2>10.5 Verdict and the selected backend</h2>
+<p><strong>Vulkan is the default on this machine. ROCm is an experimental lane with a narrow, real use.</strong></p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th></th><th>Vulkan</th><th>ROCm</th></tr>
+<tr><td>Prefill, 1.5 K–11 K tokens</td><td>slower</td><td><strong>1.85–2.92× faster</strong></td></tr>
+<tr><td>Prefill, ~45 K tokens</td><td>165.2 tok/s</td><td>164.5 tok/s — <strong>parity</strong></td></tr>
+<tr><td>Decode, short context</td><td><strong>+21 %</strong></td><td>slower</td></tr>
+<tr><td>Decode, long context</td><td><strong>+106 %</strong></td><td>collapses to 7.2 tok/s</td></tr>
+<tr><td>GPU memory for the same work</td><td><strong>29.35 GiB</strong></td><td>78.39 GiB</td></tr>
+<tr><td>Free system RAM under load</td><td><strong>18.42 GB</strong></td><td>1.55 GB</td></tr>
+<tr><td>Headroom for a second model</td><td><strong>yes</strong></td><td>no</td></tr>
+<tr><td><strong>Verdict</strong></td><td><strong>BUILD NOW — default</strong></td><td><strong>EXPERIMENTAL LANE</strong></td></tr>
+</table><p></p>
+<p>The earlier reading of this data — "ROCm wins the metric that matters most" — <strong>does not survive the full ladder.</strong> ROCm wins prefill only in a band, loses decode everywhere, loses badly at long context, and costs 2.7× the memory. On this machine, under native Windows, <strong>Vulkan is the better backend on the merits, not merely the safer one.</strong></p>
+<p><strong>The machine was returned to Vulkan.</strong> Verified after restore: runtime <code>llama.cpp-win-x86_64-vulkan-avx2@2.29.1</code> selected; <code>qwen/qwen3.8-27b</code> resident at Q5_K_XL, <code>contextLength 131072</code>, <code>parallel 1</code>; 19.22 GB system RAM free; 29.25 GiB GPU local. See §16.3.</p>
+<h3>Where ROCm would still be the right choice</h3>
+<p>Its band of advantage is real and matches a genuine workload shape: <strong>many short-to-moderate turns, each with a fresh 2–10 K prompt, where time-to-first-token dominates and total context stays small.</strong> A subagent fleet doing classification or triage looks exactly like that.</p>
+<p><strong>T-10 — the highest-value follow-up on this box:</strong> load the model on ROCm at a <strong>32 K context limit</strong> rather than 131 K, re-measure the footprint, and re-run the 8–32 KB rungs. If the working set stays under ~40 GiB, a ROCm profile becomes a legitimate second lane for short-prompt work while Vulkan serves the long-context main thread. That is the one experiment most likely to change this recommendation.</p>
+<h1 style="page-break-before:always">11. Local inference-server comparison</h1>
+<h2>11.1 The requirement DSH actually imposes</h2>
+<p>From <code>docs/user/guide/providers.md</code> at the pinned commit, a server is usable by DSH if it:</p>
+<ol>
+<li>answers OpenAI Chat Completions (<code>api: openai-completions</code>), OpenAI Responses, or Anthropic Messages;</li>
+<li>accepts a bearer credential (which may be a dummy for a local server);</li>
+<li>optionally answers <code>GET {baseURL}/models</code> for discovery — and DSH degrades gracefully without it ("enter models manually for endpoints that do not provide it").</li>
+</ol>
+<p>DSH is explicit that most gateways get something wrong, and it ships two named switches for the two most common failures:</p>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">"A model that declares reasoning has its system prompt sent as <code>role: "developer"</code>, which many gateways reject outright, and the output cap is sent as <code>max_completion_tokens</code>, which a server that only knows <code>max_tokens</code> refuses."</blockquote>
+<p><strong>Both were tested against LM Studio on this machine, and both passed:</strong></p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Probe</th><th>Result</th></tr>
+<tr><td><code>role: "developer"</code> accepted</td><td><strong>ACCEPTED</strong> (<code>finish_reason: length</code>, 83 tokens)</td></tr>
+<tr><td><code>max_completion_tokens</code> honoured</td><td><strong>ACCEPTED</strong> (<code>completion_tokens: 24</code>)</td></tr>
+</table><p></p>
+<p><strong>Therefore no <code>compat</code> block is required for LM Studio.</strong> This is measured, not assumed.</p>
+<h2>11.2 Candidate comparison</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th></th><th><strong>LM Studio</strong></th><th><strong>llama-server</strong></th><th><strong>Lemonade</strong></th><th><strong>Ollama</strong></th></tr>
+<tr><td>Installed here</td><td><strong>yes</strong>, serving :1234</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>OpenAI Chat Completions</td><td><strong>verified on this box</strong></td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td><code>GET /models</code></td><td><strong>verified — 34 models listed</strong></td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td><code>developer</code> role</td><td><strong>verified accepted</strong></td><td>UNKNOWN</td><td>UNKNOWN</td><td>UNKNOWN</td></tr>
+<tr><td><code>max_completion_tokens</code></td><td><strong>verified accepted</strong></td><td>UNKNOWN</td><td>UNKNOWN</td><td>UNKNOWN</td></tr>
+<tr><td>Vulkan backend on this GPU</td><td><strong>yes, running</strong></td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td>ROCm backend for gfx1151 on Windows</td><td><strong>yes — v2.29.1 available</strong></td><td>build-it-yourself</td><td>yes</td><td>limited</td></tr>
+<tr><td>Backend switching without rebuild</td><td><strong>yes — <code>lms runtime select</code></strong></td><td>no, separate builds</td><td>yes</td><td>no</td></tr>
+<tr><td>Model hot-swap / load / unload</td><td><strong>yes — <code>lms load</code>/<code>unload</code></strong></td><td>one model per process</td><td>yes</td><td>yes</td></tr>
+<tr><td>Multiple models resident</td><td><strong>yes</strong></td><td>multi-process only</td><td>yes</td><td>yes</td></tr>
+<tr><td>Structured output / JSON schema</td><td>yes (grammar-based) <strong>[community]</strong></td><td>yes (GBNF grammars)</td><td>yes <strong>[community]</strong></td><td>weaker <strong>[community]</strong></td></tr>
+<tr><td>Tool calling</td><td>yes</td><td>yes</td><td>yes + MCP</td><td>weaker <strong>[community]</strong></td></tr>
+<tr><td>Authoritative residency query</td><td><strong><code>lms ps --json</code></strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>NPU path</td><td>no</td><td>no</td><td><strong>yes (hybrid)</strong> <strong>[community]</strong></td><td>no</td></tr>
+</table><p></p>
+<h2>11.3 Recommendation</h2>
+<p><strong>Q6 / Q7 — LM Studio is the right choice here, and not merely because it is the easiest.</strong></p>
+<p>The deciding factor is not convenience, it is that <strong>LM Studio can switch the llama.cpp execution backend without rebuilding anything</strong>. On this machine:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">llama.cpp-win-x86_64-vulkan-avx2@2.29.1     ← was selected
+llama.cpp-win-x86_64-amd-rocm-avx2@2.29.1   ← now installed
+llama.cpp-win-x86_64-avx2@2.28.2            ← CPU fallback</pre>
+<p>Two backends at the <strong>identical llama.cpp version</strong>, swappable with one command. On a platform where the Vulkan-vs-ROCm answer is workload-dependent (§10), that is a structural advantage that llama-server cannot match without maintaining two builds, and it makes the comparison in §10 methodologically clean.</p>
+<p>Secondary reasons: <code>lms ps --json</code> is the only trustworthy residency/quantization readout found in this investigation, and multiple models can stay resident — which §13's portfolio needs.</p>
+<p><strong>Q8 — Is Lemonade advantageous here?</strong> Not for the primary path today. Its distinguishing feature is NPU/hybrid execution, and §14 concludes the NPU has no role in the primary LLM workload. It belongs in the <strong>EXPERIMENTAL LANE</strong>, revisited if AMD's NPU story changes.</p>
+<p><strong>Q9 — Is direct llama-server preferable?</strong> No, for the workstation. It is the right tool for a <em>microbenchmark</em> (<code>llama-bench</code> isolates prefill from TTFT far better than an HTTP ladder can — see §10.4), and installing it for that purpose is recommended. It is not the right thing for DSH to talk to.</p>
+<hr>
+<h1 style="page-break-before:always">12. Qwen3.8 analysis</h1>
+<h2>12.1 The family, as it actually exists</h2>
+<p>Established from the Qwen model card and release records. Variants not listed here were not found, and are not invented.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Model</th><th>Released</th><th>Params</th><th>Type</th><th>Context</th><th>Licence</th></tr>
+<tr><td><strong>Qwen3.8-27B</strong></td><td><strong>2026-08-14</strong></td><td>27.78 B</td><td><strong>dense</strong>, hybrid attention</td><td><strong>262,144</strong> native, extensible to 1 M</td><td><strong>Apache 2.0</strong></td></tr>
+<tr><td>Qwen3.8-2.4T-A95B</td><td>2026-08-12</td><td>2.4 T total / ~95 B active</td><td>sparse MoE</td><td>—</td><td>open weights</td></tr>
+<tr><td>Qwen3.8-Max</td><td>GA 2026-08-03</td><td>undisclosed</td><td>hosted</td><td>1 M</td><td>proprietary, hosted</td></tr>
+</table><p></p>
+<p>Only <strong>Qwen3.8-27B</strong> is relevant to this machine. The 2.4T-A95B is far beyond 128 GB at any useful quantization, and Max is a hosted API.</p>
+<h2>12.2 Architecture — why this model suits this machine</h2>
+<blockquote style="border-left:3px solid #9aa0a6;margin-left:0;padding-left:12px;color:#3c4043">"64 layers … 16 × (3 × (Gated DeltaNet → FFN) → 1 × (Gated Attention → FFN))"</blockquote>
+<p>Three-quarters of the layers are <strong>Gated DeltaNet</strong> — linear attention with constant-size state. Only 16 of 64 layers accumulate a growing KV cache.</p>
+<p>Consequences, measured in §8.4:</p>
+<ul>
+<li><strong>KV cache at 131,072 context is ~5.6 GB</strong>, against roughly 34 GB for a hypothetical conventional 27B with 64 full-attention layers.</li>
+<li>Long context is affordable <em>in memory</em> on a 128 GB box, and the constraint moves to prefill <strong>time</strong> rather than prefill <strong>space</strong>.</li>
+<li>It is a <strong>native vision-language model</strong> — text, images and video — under Apache 2.0.</li>
+</ul>
+<h2>12.3 The configuration on this machine</h2>
+<p><code>lms ps --json</code>, the authoritative source:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">{ "identifier": "qwen/qwen3.8-27b",
+  "path": "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_XL.gguf",
+  "sizeBytes": 21145786112, "architecture": "qwen35",
+  "quantization": { "name": "Q5_K_XL", "bits": 5 },
+  "contextLength": 131072, "maxContextLength": 262144,
+  "vision": true, "trainedForToolUse": true, "parallel": 1 }</pre>
+<p><strong>Q21 — which quantization is the best compromise?</strong> <strong>Q5_K_XL</strong>, and the current setting is already right. At 21.15 GB it leaves the entire rest of a 64 GB carve-out free, decodes at the speed measured in §10, and sits above the Q4 range where quality loss becomes visible in code generation. Q6/Q8 would cost bandwidth — the binding constraint on this part — for a smaller quality gain than Q4→Q5 delivers. The box also holds <code>q3_k_xl</code>, <code>q4_k_xl</code> and a <code>q6_k</code> variant, so this is verifiable rather than theoretical.</p>
+<p><strong>Q22 — what context length is actually useful?</strong> <strong>131,072 is the right operating setting</strong>, against a 262,144 maximum. Reasons: §8.4 shows the memory cost is affordable; §10 shows the <em>time</em> cost of prefill is the real limit — a 45 K-token prompt already takes minutes. Raising the window does not make long prompts affordable, it just permits them.</p>
+<p><strong>Q23 — KV cache at 32 K / 64 K / 128 K / 256 K?</strong> Measured total at 131 K is ~5.6 GB of KV + compute buffers. Because 48 of 64 layers are constant-state, the growth is roughly linear in the 16 attention layers only. A precise per-window table was <strong>not</strong> established — the benchmark reached ~45 K tokens, not 256 K — and §20 lists the fill-the-window test that would settle it. <strong>Stated as UNKNOWN rather than extrapolated.</strong></p>
+<h2>12.4 Speculative decoding is already active — measured</h2>
+<p>A non-streaming request returned:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">"stats": { "total_draft_tokens_count": 5,
+           "accepted_draft_tokens_count": 5,
+           "rejected_draft_tokens_count": 0 }</pre>
+<p><strong>Q25 — does MTP/speculative decoding materially improve this workload? Yes, measurably.</strong> A 21.15 GB model on a ~256 GB/s bus has a hard decode ceiling near <strong>12 tok/s</strong> if every token requires a full weight sweep. Measured decode is <strong>17–21 tok/s</strong> (§10) — comfortably above that ceiling, which is only possible because multiple tokens are being produced per weight sweep. Draft acceptance was 5/5 on the sample observed.</p>
+<p>This is important for the architecture: <strong>the decode figure for this model is not bandwidth-bound in the naive way</strong>, and any capacity planning that assumes <code>bandwidth ÷ model size</code> will understate it.</p>
+<h2>12.5 Agent-suitability notes</h2>
+<ul>
+<li><code>trainedForToolUse: true</code> and <code>vision: true</code> are asserted by the model metadata.</li>
+<li><strong>Thinking mode is on by default.</strong> In a probe with <code>max_tokens: 8</code>, the response content was <strong>empty</strong> and <code>completion_tokens_details.reasoning_tokens</code> was <strong>8</strong> — the reasoning trace consumed the entire output budget. <strong>Any DSH tool-calling configuration must budget output tokens well above the expected answer length, or tool calls will be truncated before they are emitted.</strong> This is a concrete, measured failure mode.</li>
+<li>Qwen's own recommended sampling differs by mode: thinking <code>temperature=1.0, top_p=0.95, top_k=20</code>; instruct <code>temperature=0.7, top_p=0.80, top_k=20</code>. The benchmarks in §10 used <code>temperature=0</code> deliberately for reproducibility — that is a benchmark setting, <strong>not</strong> a recommended agent setting.</li>
+<li>Qwen documents max output of 262,144 tokens for reasoning content and 131,072 for the final response — far above anything a harness should actually allow.</li>
+</ul>
+<hr>
+<h1 style="page-break-before:always">18. DSH configuration for this machine</h1>
+<p>Config lives in <code>$DSH_HOME</code> (default <code>~/.dsh</code>): hand-written settings in <code>$DSH_HOME/settings.yaml</code>, secrets in <code>$DSH_HOME/.credentials.yaml</code>. Model changes take effect on the next request without restarting the server.</p>
+<h2>18.1 The provider block</h2>
+<p>Verified against <code>docs/user/guide/providers.md</code> and the two live compat probes in §11.1.</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">llm-pi-ai:
+  providers:
+    lmstudio:
+      # LM Studio ignores the value but pi-ai requires a credential to exist.
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:1234/v1
+      models:
+        # Qwen3.8-27B is a native vision-language model, but a hand-entered
+        # model is treated as text-only until it says otherwise. Without this
+        # line, attaching an image is refused before it is ever sent.
+        - id: qwen/qwen3.8-27b
+          input: [text, image]</pre>
+<p>Set <code>LMSTUDIO_API_KEY</code> to any non-empty string.</p>
+<p><strong>No <code>compat:</code> block is needed.</strong> §11.1 proves LM Studio accepts both <code>role: "developer"</code> and <code>max_completion_tokens</code>. Add one only if a <em>different</em> server is introduced.</p>
+<h2>18.2 Containment</h2>
+<p>Leave the sandbox alone. The stock default is already <code>workspace-write</code>, resolved as <code>process.env.DSH_PERMISSION_MODE ?? 'workspace-write'</code>.</p>
+<p><strong>Do not set <code>DSH_PERMISSION_MODE=danger-full-access</code>.</strong> Per <code>docs/subsystems/sandbox.md</code>, that mode does not narrow confinement — it <em>bypasses</em> it entirely: "A <code>danger-full-access</code> consumer spawns its original argv and does not call <code>ctx.sandbox</code>." One environment variable silently disables every file-effect boundary for every session, and nothing in the UI is obviously different afterwards.</p>
+<p><strong>Known limitation, from upstream's own documentation:</strong> on Windows the ACL runner reports <strong><code>partial</code></strong> enforcement, not <code>full</code> — "the Windows ACL runner grants no explicit writable root and reports partial enforcement for its ambient ACL gaps", with "Everyone/hard-link boundaries" named as the current gaps. Windows containment here is real and worth having, but it is <strong>not</strong> an absolute boundary and should not be treated as one.</p>
+<h2>18.3 The shell seam — leave it alone</h2>
+<p><strong>No patch is required here.</strong> An earlier draft of this report instructed disabling <code>tool-bash</code> and <code>bash-sandbox</code>; that instruction was based on a false finding and is <strong>withdrawn</strong>. See §6.5.</p>
+<p>Both rows carry <code>disabled: !!js process.platform === 'win32'</code> in the base bundle, the web-app bundle disables the host-level rows outright, and the agent presets deployed on this machine repeat the same gate. On Windows the agent receives <strong><code>tool-pwsh</code> backed by <code>pwsh-sandbox</code></strong>, and no bash tool. Adding a user patch to disable something already disabled would only add a row to maintain.</p>
+<p><strong>Verify rather than assume</strong>, using the same method that caught the original error — read the row, not the package name:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" --profile web --dump-config</pre>
+<p>Then confirm <code>tool-bash</code> carries a <code>disabled</code> key and <code>tool-pwsh</code> is the active shell row.</p>
+<h2>18.4 Verify the model is actually local</h2>
+<p>The stock composition sets a <strong>cloud</strong> default:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">- id: agent-default-model
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-flash</pre>
+<p>A workstation can therefore appear to work perfectly while doing none of its work locally. After configuring, confirm with both of:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">lms ps --json</pre>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" --profile web --dump-config</pre>
+<p>The first proves which model is resident and at what quantization; the second proves what the composed profile will actually use. <strong>Neither can be replaced by looking at the UI.</strong></p>
+<h1 style="page-break-before:always">13. Model portfolio</h1>
+<h2>13.1 What is already on the machine</h2>
+<p><code>lms ls</code> reports <strong>41 models, 549.14 GB</strong>, against 852.5 GB free on the 2 TB system SSD. The portfolio problem here is not acquisition — it is <strong>pruning</strong>. Several entries are duplicates across quantizations or are tagged to other machines in a fleet (<code>NvideaBlackwell</code>, <code>R71</code>, <code>TinyRyzen7</code>) rather than <code>Local</code>.</p>
+<h2>13.2 Recommended portfolio</h2>
+<p>Roles derived from the workload, not from the model list.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Role</th><th>Model</th><th>Quant</th><th>Disk</th><th>Loaded (est.)</th><th>Context</th><th>Status</th></tr>
+<tr><td><strong>Primary agent / coding / vision</strong></td><td><code>unsloth/qwen3.8-27b</code></td><td>UD-Q5_K_XL</td><td>21.15 GB</td><td><strong>26.73 GB measured @131 K</strong></td><td>131,072</td><td><strong>resident — keep</strong></td></tr>
+<tr><td><strong>Fast worker / subagent</strong></td><td><code>qwen/qwen3.6-35b-a3b</code></td><td>Q4/Q5</td><td>22.07 GB</td><td>~24 GB</td><td>32–64 K</td><td>present — <strong>promote</strong></td></tr>
+<tr><td><strong>Fast coding worker (alt.)</strong></td><td><code>unsloth/qwen3-coder-30b-a3b-instruct</code></td><td>Q4</td><td>17.46 GB</td><td>~19 GB</td><td>32–64 K</td><td>present</td></tr>
+<tr><td><strong>Maximum-quality reasoning</strong></td><td><code>gpt-oss-120b</code></td><td>—</td><td>63.39 GB</td><td>~64 GB+</td><td>reduced</td><td>present — <strong>capacity-test before trusting</strong></td></tr>
+<tr><td><strong>Embeddings</strong></td><td><code>text-embedding-nomic-embed-text-v1.5</code></td><td>—</td><td>84 MB</td><td>&lt;1 GB</td><td>—</td><td>present — keep</td></tr>
+<tr><td><strong>Reranking</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><strong>GAP</strong></td></tr>
+<tr><td><strong>Draft / speculative</strong></td><td><em>not needed as a separate model</em></td><td>—</td><td>—</td><td>—</td><td>—</td><td>MTP is internal (§12.4)</td></tr>
+</table><p></p>
+<h3>Why this shape</h3>
+<p><strong>One dense primary, one sparse worker.</strong> The decisive property of this machine is memory bandwidth (~256 GB/s), not compute. Decode speed is governed by how many bytes must be swept per token:</p>
+<ul>
+<li>A <strong>dense</strong> 27B at Q5 sweeps ~21 GB per token-step → measured 17–21 tok/s (§10), helped above the naive ceiling by MTP.</li>
+<li>An <strong>A3B MoE</strong> activates roughly 3 B parameters per token → a far smaller sweep, and should decode several times faster at comparable total size.</li>
+</ul>
+<p>That asymmetry is the whole argument for a two-model portfolio: the dense model for quality on the main thread, the MoE for subagents, batch classification and anything where latency matters more than depth. <strong>This claim is derived, and §20 lists the measurement that would confirm it on this box.</strong> It is not yet measured here and is not presented as though it were.</p>
+<p><strong>No separate vision model.</strong> Qwen3.8-27B is natively vision-language. Adding <code>qwen3-vl-30b-a3b-instruct</code> (19.64 GB) is only justified if vision throughput becomes a bottleneck.</p>
+<p><strong>Q28 — largest model this machine can technically run.</strong> <code>gpt-oss-120b</code> at 63.39 GB is the largest present. With VGM at 64 GB it sits right at the carve-out boundary and would begin using the shared path; the OpenCL <strong>54.40 GiB maximum single allocation</strong> is a real hazard for any single buffer above that size, though llama.cpp allocates per-tensor rather than as one block. Technically feasible; <strong>verify, do not assume</strong>.</p>
+<p><strong>Q29 — largest it can run <em>usefully</em>.</strong> Distinct question, and the honest answer is that it depends on active parameters, not file size. A 63 GB <em>dense</em> model would decode near 4 tok/s and be useless as an interactive agent. A 63 GB <em>MoE</em> with small active parameters could be perfectly usable. §20 specifies the test.</p>
+<p><strong>Q32 — which small model for fast worker/subagent tasks?</strong> <code>qwen3.6-35b-a3b</code> or <code>qwen3-coder-30b-a3b</code>, on the MoE-decode argument above.</p>
+<h2>13.3 Pruning</h2>
+<p>549 GB of models on a 1.9 TB drive with 852 GB free is not yet a problem, but it is heading for one. Concretely: <code>qwen3.8-27b</code> exists locally at <code>q3_k_xl</code>, <code>q4_k_xl</code>, <code>q5_k_xl</code> (loaded) and <code>q6_k</code>. Once §20's quantization comparison has run, <strong>keep the winner and one fallback, delete the rest</strong> — that alone is ~35 GB.</p>
+<hr>
+<h1 style="page-break-before:always">14. XDNA 2 NPU analysis</h1>
+<p><strong>Q35 — does the XDNA 2 NPU provide a useful role? Not for this workstation today.</strong></p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Finding</th><th>Status</th></tr>
+<tr><td>NPU rated &gt;50 AI TOPS</td><td>vendor claim</td></tr>
+<tr><td>Used by llama.cpp / LM Studio for GGUF LLM inference</td><td><strong>No</strong> — no NPU runtime is offered by <code>lms runtime</code> on this box</td></tr>
+<tr><td>Targeted by Lemonade / Ryzen AI Software for specific models</td><td>yes, for named models <strong>[community]</strong></td></tr>
+<tr><td>Practical use today</td><td>Whisper, diffusion, background Copilot+ tasks <strong>[community]</strong></td></tr>
+<tr><td>Largely unused for general LLM inference as of mid-2026</td><td><strong>[community]</strong>, consistent with the runtime list here</td></tr>
+</table><p></p>
+<p>The runtime inventory on this machine is direct evidence: <code>lms runtime get -l</code> offers exactly four extensions — <code>harmony</code>, <code>llama.cpp</code> CPU/AVX2, <code>llama.cpp</code> Vulkan, <code>llama.cpp</code> AMD ROCm. <strong>There is no NPU option to select.</strong> The path to using the NPU at all would be Lemonade or Ryzen AI Software with a specifically supported model, which is a different model portfolio than the one this workstation wants.</p>
+<p>Where it could earn a place later: embeddings, reranking, ASR, and OCR running <em>concurrently</em> with the GPU-resident LLM, so they do not steal bandwidth from decode. That is a real architectural benefit on a bandwidth-limited part — the NPU has its own execution resources. But it is <strong>WATCH</strong>, not <strong>BUILD NOW</strong>, and it should not shape the initial build.</p>
+<hr>
+<h1 style="page-break-before:always">15. Windows 11 developments</h1>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Item</th><th>Value on this machine</th></tr>
+<tr><td>Build</td><td><strong>26200.9168</strong>, <code>DisplayVersion 25H2</code></td></tr>
+<tr><td>Relevance</td><td><strong>This is the exact build AMD's ROCm 7.14.0 matrix names for Ryzen AI Max</strong></td></tr>
+<tr><td>WDDM shared-memory behaviour</td><td>measured, §8.1 — 48,938 MB shared over 63.79 GB system RAM</td></tr>
+<tr><td>WSL2</td><td>installed, Ubuntu default — <strong>a hazard, not an asset</strong>, see §6.5 (D-1)</td></tr>
+<tr><td>Insider builds</td><td><strong>not recommended</strong></td></tr>
+</table><p></p>
+<p><strong>Q36 — are recent Windows builds materially improving Strix Halo local AI?</strong> For this machine the material fact is alignment rather than a new subsystem: 25H2 / build 26200 is the version AMD certifies for gfx1151 ROCm support. That alignment is what makes §9 and §10 possible.</p>
+<p><strong>Q37 — are any Insider features compelling enough to test?</strong> <strong>No.</strong> Nothing found in this investigation identifies an Insider-only capability that changes GPU memory allocation, ROCm availability, or inference throughput on this part. The machine is already on the certified build. Moving to Insider would trade a certified configuration for no identified gain. Classification: <strong>REJECT FOR NOW</strong>.</p>
+<hr>
+<h1 style="page-break-before:always">16. Storage plan</h1>
+<h2>16.1 Current state</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Volume</th><th>Size</th><th>Free</th></tr>
+<tr><td><code>C:</code> — Micron 4600 NVMe SSD</td><td>1905.6 GB</td><td><strong>852.5 GB</strong></td></tr>
+<tr><td><code>D:</code> — Seagate One Touch Hub, USB <strong>HDD</strong></td><td>7451.8 GB</td><td>4346 GB</td></tr>
+</table><p></p>
+<p>Models currently consume <strong>549.14 GB</strong>.</p>
+<h2>16.2 Recommended allocation</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Purpose</th><th>Budget</th><th>Notes</th></tr>
+<tr><td>Windows + drivers + apps</td><td>~200 GB</td><td>as-is</td></tr>
+<tr><td>Dev toolchain, Node/pnpm store, Python envs, repos</td><td>~150 GB</td><td>pnpm's content-addressed store grows quietly</td></tr>
+<tr><td><strong>Model weights</strong></td><td><strong>≤ 700 GB</strong></td><td>a ceiling, not a target — currently 549 GB</td></tr>
+<tr><td>DSH state, sessions, logs, spill</td><td>~50 GB</td><td><code>$DSH_HOME</code>; <code>session-query-sqlite</code> and <code>spill-local</code> both write</td></tr>
+<tr><td>Benchmark data + evidence</td><td>~20 GB</td><td></td></tr>
+<tr><td><strong>Free reserve</strong></td><td><strong>≥ 250 GB</strong></td><td>do not go below</td></tr>
+</table><p></p>
+<p><strong>Keep model weights on <code>C:</code> (NVMe).</strong> <code>D:</code> is a USB <strong>hard disk</strong>, not an SSD. §8.4 showed that a model falling out of residency costs a full reload inside the next request's TTFT — paying that from spinning rust over USB would be severe. <code>D:</code> is correct for archives, benchmark artefacts and GGUF files not in rotation; it is wrong for anything LM Studio may need to page in.</p>
+<h2>16.3 Changes actually made to this machine during the investigation</h2>
+<p>Recorded here because the rest of the report asserts the machine was left alone.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Change</th><th>Reason</th><th>Reversible</th></tr>
+<tr><td>Downloaded LM Studio runtime <code>llama.cpp-win-x86_64-amd-rocm-avx2@2.29.1</code> (210.73 MB)</td><td>required for the controlled backend comparison in §10 — it is not possible to compare ROCm against Vulkan without it</td><td>yes — <code>lms runtime remove</code></td></tr>
+<tr><td>Cloned <code>deepseek-harness</code> to <code>dsh-halo-research\_upstream\</code></td><td>source reading for §4–§6</td><td>yes — delete</td></tr>
+<tr><td>Created <code>C:\Users\scott\Desktop\Code\dsh-halo-research\</code></td><td>report, evidence, benchmark scripts</td><td>yes — delete</td></tr>
+<tr><td>Ran inference requests against the already-running LM Studio server on <code>:1234</code></td><td>benchmarks</td><td>no persistent effect</td></tr>
+<tr><td><strong>Temporarily selected the ROCm runtime</strong> and reloaded the model on it</td><td>the §10 comparison cannot be made any other way</td><td><strong>done — reverted, see below</strong></td></tr>
+<tr><td><strong><code>wsl --update</code></strong> — WSL package 2.6.3.0 → 2.7.12.0</td><td>the package was <code>Modified, NeedsRemediation</code>; both its App Execution Aliases were dead (§6.7)</td><td><strong>intentionally permanent</strong> — this repaired damaged system state</td></tr>
+</table><p></p>
+<h3>The runtime switch, and its restoration</h3>
+<p>To measure ROCm the selected runtime had to be changed and the model reloaded. Both were done with the model's exact prior parameters recorded first (<code>evidence/PRE-SWITCH-lms-ps.json</code>) and restored afterwards:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">lms runtime select llama.cpp-win-x86_64-vulkan-avx2@2.29.1
+lms load unsloth/qwen3.8-27b --identifier qwen/qwen3.8-27b \
+         --context-length 131072 --parallel 1 --ttl 86400 -y</pre>
+<p><strong>Verified restored state:</strong> selected runtime <code>llama.cpp-win-x86_64-vulkan-avx2@2.29.1</code>; <code>qwen/qwen3.8-27b</code> resident at Q5_K_XL, <code>contextLength 131072</code>, <code>parallel 1</code>, <code>ttlMs 86400000</code> — identical to the pre-investigation reading. System RAM free returned to 19.22 GB and GPU local to 29.25 GiB.</p>
+<p><strong>One incident worth recording.</strong> During the ROCm long-context rung the machine reached <strong>1.55 GB of free system RAM</strong> with the GPU process holding <strong>78.39 GiB</strong> (§10.4). The run completed, and the state above was restored immediately afterwards. This was a live box running other services; the ROCm long-context path should not be re-run on it without first reducing the model's context length.</p>
+<p><strong>No DSH configuration was written. No VGM setting was changed. No <code>PATH</code> entry was added or removed — the user <code>PATH</code> is byte-identical to the backup taken at <code>evidence/HKCU-Path-backup.txt</code>. The machine ends this investigation on the runtime and model configuration it started with, plus one deliberate repair: the WSL package is now healthy (§6.7).</strong></p>
+<hr>
+<h1 style="page-break-before:always">17. Benchmark and acceptance-test architecture</h1>
+<h2>17.1 Why the obvious benchmark is the wrong one</h2>
+<p>Decode tokens/sec is the number everyone quotes and the least useful one for this workload. An agent turn is dominated by <strong>prefill</strong>: a repository file, a 4,000-line diff, a tool result, a compaction pass. §10 measures a 45 K-token prompt taking minutes to first token while decode sits comfortably around 20 tok/s. <strong>Optimising this machine for decode would optimise the part that is already fine.</strong></p>
+<h2>17.2 The suite</h2>
+<h3>Tier 1 — raw inference (scripted, repeatable)</h3>
+<p><code>bench/Bench-Local.ps1</code> in the research directory implements this. Two methodological requirements it enforces, both learned the hard way during this investigation:</p>
+<ol>
+<li><strong>A discarded warm-up request.</strong> LM Studio lets an idle model fall out of residency; the first request then pays a 21 GB reload <em>inside TTFT</em>. Without a warm-up the first rung is pure noise — observed as 22.8 s TTFT for a 274-token prompt.</li>
+<li><strong>A unique nonce at the head of every prompt.</strong> Without it, successive rungs share a prefix and are served from the prompt cache. Measured effect: apparent marginal prefill fell from <strong>336.7 tok/s (cached)</strong> to <strong>196.6 tok/s (honest)</strong> on the same rung — a 71 % overstatement.</li>
+</ol>
+<p>A third requirement was learned by violating it: <strong>nothing else may touch the server during a run.</strong> One benchmark pass in this investigation was discarded because interactive compat probes were issued against the same single-slot server mid-run.</p>
+<h3>Tier 2 — DSH agent performance</h3>
+<p>Fixed, repeatable tasks against a real repository, scored on completion rather than speed: repository comprehension; multi-file edit; a test/fix loop; a Git operation; a PowerShell operation; use of a specific tool; a long-running task that crosses a compaction boundary; a deliberately oversized tool output; recovery after a tool error.</p>
+<h3>Tier 3 — reliability</h3>
+<p>Tool-call success rate, malformed calls, hallucinated tools, loops, context failures, truncation, incorrect edits, permission failures. <strong>This tier decides the model choice, not Tier 1.</strong> A model that is 30 % faster and emits one malformed tool call in twenty is worse than a slower model that never does.</p>
+<h2>17.3 Acceptance criteria</h2>
+<p>The environment is <strong>not</strong> complete because DSH opens and a model answers "hello". Acceptance requires all of:</p>
+<ol>
+<li><code>lms ps --json</code> shows the intended model <strong>and quantization</strong> resident.</li>
+<li><code>dsh --dump-config</code> shows the intended provider and model — not <code>deepseek-official</code>.</li>
+<li>A DSH session completes a multi-file edit in a real repository, using the PowerShell tool seam, with the sandbox in <code>workspace-write</code>.</li>
+<li>A tool call whose result exceeds 100 KB is ingested without breaking the turn.</li>
+<li>A session survives at least one compaction and continues correctly.</li>
+<li>The network is disconnected and the same task still completes — <strong>the only real proof that the work is local</strong>.</li>
+<li><code>--dump-config</code> shows <code>tool-bash</code> carrying a <code>disabled</code> key and <code>tool-pwsh</code> active — read the <strong>row</strong>, not the package name (§6.5).</li>
+</ol>
+<p>Criterion 6 is the one that would have caught the failure mode §18.4 describes. Criterion 7 is the one that would have caught the false finding retracted in §6.5.</p>
+<h1 style="page-break-before:always">24. Community and upstream evidence</h1>
+<h2>24.1 Real-world DSH + Strix Halo evidence — the honest position</h2>
+<p>The directive asks for this to be separated into three categories and never blurred.</p>
+<p><strong>Category A — directly demonstrated DSH on Strix Halo.</strong> <strong>None found.</strong> No firsthand report was located of DeepSeek Harness driven by a local model on Ryzen AI Max / Radeon 8060S hardware. Given DSH is <strong>nine days old</strong> at the time of writing, this is expected rather than surprising. It should not be papered over: <strong>this report's end-to-end architecture is not something the community has already validated.</strong></p>
+<p><strong>Category B — demonstrated components that compose.</strong> This is where most of the evidence sits, and it is strong:</p>
+<ul>
+<li>DSH's OpenAI-compatible provider seam is verified <strong>in source</strong> and its two documented gateway incompatibilities were <strong>tested live against LM Studio and both passed</strong> (§11.1).</li>
+<li>llama.cpp on gfx1151 under both Vulkan and ROCm is verified <strong>on this machine</strong> (§10).</li>
+<li>Qwen3.8-27B at Q5_K_XL / 131 K context is verified resident and serving <strong>on this machine</strong>.</li>
+</ul>
+<p><strong>Category C — architectural hypothesis.</strong> The MoE-worker argument in §13.2 and the <code>gpt-oss-120b</code> reasoning role in §13.2 are reasoned from measured bandwidth behaviour but <strong>not yet measured</strong> (T-1, T-2).</p>
+<h2>24.2 Upstream project signals</h2>
+<p>Read from the repository and its Discussions on 2026-08-23.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Signal</th><th>Finding</th></tr>
+<tr><td><strong>Issues are disabled</strong></td><td><code>has_issues: false</code>. There is <strong>no public bug tracker</strong>. All reports go through Discussions (4,117 of them, 816 watchers).</td></tr>
+<tr><td>Release cadence</td><td>4 releases in 6 days, all prereleases</td></tr>
+<tr><td>Community plugin ecosystem</td><td>Already active — <code>dsh-session-export</code>, <code>dsh-local-ai</code> (an Ollama adapter), <code>dsh-budget</code>, <code>dsh-click</code> ("Windows first"), <code>dsh-fast</code>, migration tools from Claude Code / Codex / OpenCode</td></tr>
+</table><p></p>
+<p>The absence of an issue tracker matters for a workstation build: <strong>when something breaks, there is no canonical place to check whether it is known.</strong> Discussions search is the substitute.</p>
+<h2>24.3 Upstream-reported defects relevant to this build</h2>
+<p>These were found in Discussions and are reported here with their status <strong>verified against the pinned commit where possible</strong>, rather than repeated as-is.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Report</th><th>Relevance</th><th>Status at <code>b150a551</code></th></tr>
+<tr><td><strong>Subagents use the model snapshotted at parent-agent creation, not the currently selected model</strong> — 7 subagents failed with <code>UNKNOWN_MODEL</code> naming a provider/model never configured (discussion 3377)</td><td><strong>Direct.</strong> A local-provider setup plus subagents can fail this way.</td><td><strong>Not verified as fixed.</strong> Treat as live — see §21.7</td></tr>
+<tr><td><strong>All <code>POST /api/*</code> return 403</strong> — trust-fence compared <code>new URL(origin).host</code> against the Host header, and WHATWG drops default ports (discussion 2009)</td><td>Would break the whole UI</td><td><strong>Appears FIXED.</strong> <code>packages/client/connection/src/api-request-trust.ts</code> at the pinned commit uses canonical-authority comparison with explicit port semantics, not the naive <code>.host</code> equality</td></tr>
+<tr><td><strong>Orphaned <code>dsh web</code> process holds port 3080; no stop/restart subcommand</strong> (discussion 2933)</td><td>Operational friction; blocks restart</td><td><strong>Live.</strong> The CLI at the pinned commit exposes no <code>--stop</code>/<code>--restart</code></td></tr>
+<tr><td><code>sandbox-windows-acl</code> gates on <code>resolvePwshPath</code> but launches literal <code>pwsh</code>, "so escape-regression tests silently never run"</td><td><strong>Direct</strong> — bears on §18.2's <code>partial</code> enforcement</td><td>Reported upstream; not independently verified here</td></tr>
+<tr><td>Hook bridge suites mount <code>LocalBashExecutor</code> unconditionally, "testing a shell no Windows host runs hooks through"</td><td>A <strong>test-coverage</strong> gap, not a runtime one — it is consistent with §6.5, where the runtime rows are correctly <code>win32</code>-gated but the suites do not model that</td><td>Reported upstream</td></tr>
+<tr><td><code>DSH_SNAPSHOT=refresh</code> writes literal cwd paths on Windows</td><td>Windows path handling</td><td>Reported upstream</td></tr>
+</table><p></p>
+<h2>24.4 Community benchmark evidence, and why this report measured its own</h2>
+<p>Community reports on Strix Halo backends, recorded with their claims <strong>[community]</strong>:</p>
+<ul>
+<li>ROCm ≈ <strong>+20.6 % prompt processing</strong> and ≈ <strong>−24.6 % generation</strong> versus Vulkan.</li>
+<li>ROCm with rocWMMA Flash Attention holds throughput "with almost no drop-off" past 8 K context, "while using less memory than Vulkan".</li>
+<li><code>GGML_HIP_NO_VMM=ON</code> is described as necessary because HIP VMM misbehaves on this GPU.</li>
+<li>Dense 70B ≈ 5 tok/s; 7–13B ≈ 30–45 tok/s; 30B-A3B MoE ≈ 70–100 tok/s.</li>
+</ul>
+<p><strong>Methodology warning, per the directive.</strong> These figures come from different models, quantizations, context lengths, llama.cpp versions and operating systems, and several do not state whether they measured Linux or Windows. They are <strong>not</strong> directly comparable to each other, and they are not comparable to §10 — which used one model, one quantization, one llama.cpp version (2.29.1), one OS, and one machine, changing <strong>only</strong> the backend.</p>
+<p>Where §10 and community evidence <strong>agree</strong>: ROCm wins prefill, Vulkan wins decode.</p>
+<p>Where §10 and community evidence <strong>disagree</strong>: the claim that ROCm "uses less memory than Vulkan" is <strong>contradicted on this machine</strong> — see §10.4. The likely explanation is that the community claim concerns Linux, where AMD's GTT-based memory model applies; this box is Windows, where §8.2 shows the memory model is materially different. <strong>This is exactly the substitution the directive warns against, and it is why the measurement was repeated locally.</strong></p>
+<h1 style="page-break-before:always">19. Recommended architecture</h1>
+<h2>19.1 The stack</h2>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">┌──────────────────────────────────────────────────────────────────────┐
+│  DeepSeek Harness 0.1.1-rc.2   ·   profile: web   ·   133 plugins    │
+│  sandbox: workspace-write (default, unchanged)                       │
+│  bash seam: DISABLED (§18.3)   ·   pwsh seam: active                 │
+└────────────────────────────┬─────────────────────────────────────────┘
+                             │  @deepseek-ai/dsh-llm-pi-ai
+                             │  api: openai-completions
+                             │  baseURL: http://127.0.0.1:1234/v1
+                             ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│  LM Studio local server  :1234   (process: llama-server)              │
+│  residency + quantization truth source: `lms ps --json`              │
+└────────────────────────────┬─────────────────────────────────────────┘
+                             ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│  llama.cpp 2.29.1 — backend selectable without rebuild               │
+│    · llama.cpp-win-x86_64-amd-rocm-avx2@2.29.1   (installed)         │
+│    · llama.cpp-win-x86_64-vulkan-avx2@2.29.1     (installed)         │
+│    · llama.cpp-win-x86_64-avx2@2.28.2            (CPU fallback)      │
+└────────────────────────────┬─────────────────────────────────────────┘
+                             ▼
+      AMD Adrenalin 26.7.1 / display driver 32.0.31035.1003
+                             ▼
+      Radeon 8060S (gfx1151, RDNA 3.5) — 20 WGPs / 40 CUs
+                             ▼
+      128 GB LPDDR5X-8000, ~256 GB/s
+      VGM 64 GB dedicated  |  63.79 GB to Windows  |  47.79 GiB shared</pre>
+<p><strong>No middleware, no routing layer, no custom plugins.</strong> The directive warns against introducing middleware because middleware can be built; nothing found in this investigation justifies any. DSH's provider seam, LM Studio's model management and LM Studio's runtime switching cover every requirement identified.</p>
+<h2>19.2 What is deliberately absent</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Not recommended</th><th>Why</th></tr>
+<tr><td>A custom routing layer</td><td><strong>Q33</strong> — DSH already exposes per-session model selection in the UI (<code>dsh-client-ui-model-selection</code>, mounted) and subagents can carry their own model. Automatic routing would add a component with no measured benefit. Use manual selection plus subagent-specific models.</td></tr>
+<tr><td>Ollama</td><td>LM Studio is already installed, is ahead on OpenAI-surface completeness <strong>[community]</strong>, and uniquely offers backend switching.</td></tr>
+<tr><td>A second serving backend</td><td>Heterogeneity is permitted by the directive but must earn its place. One server that can switch backends achieves the same result with less to break.</td></tr>
+<tr><td>Converting to Linux / making WSL primary</td><td>Explicitly out of scope, and unnecessary — §9 shows the needed ROCm components are supported natively.</td></tr>
+<tr><td>ROCm HIP SDK installed system-wide</td><td>Not required. LM Studio's ROCm runtime is self-contained. Install the SDK only for building llama.cpp by hand.</td></tr>
+<tr><td>Insider Windows builds</td><td>§15 — no identified gain, and the machine is already on AMD's certified build.</td></tr>
+</table><p></p>
+<hr>
+<h1 style="page-break-before:always">20. Outstanding tests — what this report does not yet know</h1>
+<p>Listed so they are not mistaken for settled.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>#</th><th>Test</th><th>Question it settles</th></tr>
+<tr><td>T-1</td><td>Dense vs MoE decode: same ladder against <code>qwen3.6-35b-a3b</code></td><td>Confirms or refutes §13.2's central portfolio argument</td></tr>
+<tr><td>T-2</td><td><code>gpt-oss-120b</code> load + decode at reduced context</td><td><strong>Q29</strong> — largest <em>usefully</em> runnable model</td></tr>
+<tr><td>T-3</td><td>Fill the 131 K window and observe shared-memory usage</td><td>Whether the preallocation in §8.4 holds at full occupancy</td></tr>
+<tr><td>T-4</td><td>Quantization sweep: <code>q3_k_xl</code> / <code>q4_k_xl</code> / <code>q5_k_xl</code> / <code>q6_k</code> on tool-call correctness</td><td><strong>Q21</strong> with evidence rather than reasoning</td></tr>
+<tr><td>T-5</td><td><code>llama-bench</code> microbenchmark isolating pure prefill</td><td>Removes TTFT overhead from §10's numbers entirely</td></tr>
+<tr><td>T-6</td><td>DSH Tier-2 agent tasks (§17.2) end to end</td><td>Whether the harness is actually <em>good</em> here, not just working</td></tr>
+<tr><td>T-7</td><td>Network-disconnected task completion</td><td>Proof that the work is local (§17.3 criterion 6)</td></tr>
+<tr><td>T-8</td><td><code>tool-fs-search</code> behaviour without <code>rg</code> on PATH</td><td>Whether ripgrep is a hidden dependency</td></tr>
+<tr><td>T-9</td><td><code>mcp-client</code>, <code>lsp</code>, <code>subagent-codex</code> on Windows</td><td>The <strong>UNKNOWN</strong> rows in §6.4</td></tr>
+</table><p></p>
+<hr>
+<h1 style="page-break-before:always">21. Risks</h1>
+<h2>21.1 The software is nine days old</h2>
+<p>DSH's first commit is 2026-08-13 and the newest release is 2026-08-21. There are four releases in total, all prereleases, and the repository README says breaking changes are expected. <strong>Pin <code>0.1.1-rc.2</code> and pin the commit.</strong> Do not track <code>latest</code> automatically.</p>
+<h2>21.2 <code>npx</code> should not be used on this box</h2>
+<p>The README's quick start is <code>npx @deepseek-ai/dsh web</code>. Use <strong><code>pnpm dlx</code></strong> instead. This is a machine-specific finding recorded in §3.2 and is not an upstream defect; DSH itself declares <code>packageManager: pnpm@11.7.0</code>.</p>
+<h2>21.3 One environment variable disables all containment</h2>
+<p><code>DSH_PERMISSION_MODE=danger-full-access</code> does not narrow the sandbox — it <strong>bypasses</strong> it: <em>"A <code>danger-full-access</code> consumer spawns its original argv and does not call <code>ctx.sandbox</code>."</em> The stock default is <code>workspace-write</code>. If containment matters, the check is not "is the sandbox plugin loaded" — it is <strong>"what is <code>DSH_PERMISSION_MODE</code> set to"</strong>, because the plugin is loaded and inert either way.</p>
+<p>Related: on Windows the ACL runner self-reports <strong><code>partial</code></strong> enforcement (§18.2). Real, useful, not absolute.</p>
+<h2>21.4 A local workstation that quietly runs in the cloud</h2>
+<p>The stock default model is <code>deepseek-official</code> / <code>deepseek-v4-flash</code>. Nothing about a working DSH session proves it is local. §17.3 criterion 6 — disconnect the network and re-run — is the only test that cannot be faked.</p>
+<h2>21.5 <s><code>tool-bash</code> on this machine</s> — RETRACTED</h2>
+<p>This risk does not exist. <code>tool-bash</code> and <code>bash-sandbox</code> are <code>disabled</code> on <code>win32</code> at the base bundle, the mode bundle, and the agent preset. The Windows agent gets <code>tool-pwsh</code> + <code>pwsh-sandbox</code>. See §6.5 for the retraction and the methodological cause.</p>
+<p><strong>The residual lesson is the one worth keeping:</strong> a package appearing in <code>--dump-default-config</code> output is <em>not</em> evidence that it is active. Read the <code>disabled</code> key on the row. The same distinction that governs the plugin counts in §4.3 governs this.</p>
+<h2>21.6 Thinking tokens consume the output budget</h2>
+<p>Measured: <code>max_tokens: 8</code> produced empty content and 8 reasoning tokens. Under-budgeted output limits will truncate tool calls before they are emitted.</p>
+<h2>21.7 Subagents can silently use the wrong provider — reported upstream, unfixed</h2>
+<p>Discussion 3377 reports that subagents use the model <strong>snapshotted when the parent agent was created</strong>, not the currently selected one. The reporter's seven subagents all failed with:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">UNKNOWN_MODEL: pi-ai provider "packyai" has no configured model "kimi-k3"</pre>
+<p>naming a provider/model combination that <strong>had never been configured in that deployment</strong>, while the parent had already switched to a working provider.</p>
+<p><strong>Why this matters here specifically.</strong> The recommended build adds a <em>custom</em> provider (<code>lmstudio</code>) and expects the user to switch to it in the UI. That is exactly the sequence the bug punishes: switch model in the UI, spawn subagents, and they may still carry the stale provider from session creation.</p>
+<p><strong>Mitigation until fixed:</strong></p>
+<ol>
+<li>Make the local model the <strong>default</strong> — selecting a model in the picker also makes it the default for new sessions (§18.1's source doc).</li>
+<li>After changing models, <strong>start a new session</strong> before using subagents.</li>
+<li>If subagents fail with <code>UNKNOWN_MODEL</code>, do not debug the provider block first — check the <code>subagent/descriptor</code> entries in the session log against the parent's <code>provider</code>/<code>model</code>.</li>
+</ol>
+<h2>21.8 There is no bug tracker</h2>
+<p>Issues are <strong>disabled</strong> on the DSH repository (<code>has_issues: false</code>). When something breaks there is no canonical place to check whether it is already known; Discussions search (4,117 threads) is the only substitute. Budget for that.</p>
+<h2>21.9 No <code>dsh web</code> stop or restart</h2>
+<p>Reported upstream (discussion 2933) and confirmed against the pinned CLI: there is no <code>--stop</code>/<code>--restart</code>. A closed terminal leaves an orphan holding port 3080, and the next launch fails with "port in use". Keep a kill command handy:</p>
+<pre style="background:#f1f3f4;padding:10px;font-family:'Roboto Mono',monospace;font-size:9pt">Get-NetTCPConnection -LocalPort 3080 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }</pre>
+<hr>
+<h1 style="page-break-before:always">22. Build Now / Experimental / Watch / Reject</h1>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Decision</th><th>Item</th><th>Rationale</th></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>DSH 0.1.1-rc.2, <code>web</code> profile, stock composition</td><td>133 plugins compose cleanly; Windows is first-class</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td><code>dsh-llm-pi-ai</code> → LM Studio via <code>openai-completions</code></td><td>verified working; no <code>compat</code> block needed</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>Sandbox left at <code>workspace-write</code></td><td>already the default; Windows backend is genuine</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>Leave the shell seam <strong>unpatched</strong></td><td>§6.5 — <code>tool-bash</code> is already <code>disabled</code> on win32 at three layers; the earlier "disable it" instruction was withdrawn</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>Qwen3.8-27B UD-Q5_K_XL @ 131,072 context</td><td>resident, measured, 26.73 GB, VL + tool use</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>LM Studio as the serving layer</td><td>only option offering runtime switching</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td><strong>Vulkan</strong> as the llama.cpp backend</td><td>§10 — better on the merits: wins decode everywhere, at prefill parity by 45 K tokens, 2.7× less memory</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>VGM left at <strong>64 GB</strong></td><td>§8.3 — nothing measured is limited by it</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td><code>pnpm dlx</code>, never <code>npx</code>, on this box</td><td>§21.2</td></tr>
+<tr><td><strong>BUILD NOW</strong></td><td>Install ripgrep (<code>scoop install ripgrep</code>)</td><td>cheap insurance for <code>tool-fs-search</code></td></tr>
+<tr><td><strong>EXPERIMENTAL</strong></td><td>ROCm at a <strong>32 K context limit</strong> (T-10)</td><td>its 1.85–2.92× prefill win is real at 1.5–11 K tokens; the open question is whether the footprint stays safe</td></tr>
+<tr><td><strong>EXPERIMENTAL</strong></td><td>MoE worker model for subagents</td><td>§13.2 argument is sound but unmeasured (T-1)</td></tr>
+<tr><td><strong>EXPERIMENTAL</strong></td><td><code>gpt-oss-120b</code> for deep reasoning</td><td>capacity and usefulness unverified (T-2)</td></tr>
+<tr><td><strong>EXPERIMENTAL</strong></td><td><code>mcp-client</code>, <code>lsp</code>, <code>subagent-codex</code></td><td>not in stock composition; Windows status UNKNOWN</td></tr>
+<tr><td><strong>EXPERIMENTAL</strong></td><td><code>llama-bench</code> for clean microbenchmarks</td><td>measurement tooling, not production</td></tr>
+<tr><td><strong>WATCH</strong></td><td>XDNA 2 NPU for embeddings / rerank / ASR</td><td>no runtime exists today; real bandwidth argument if it arrives</td></tr>
+<tr><td><strong>WATCH</strong></td><td>Lemonade</td><td>NPU/hybrid path; revisit if the NPU story changes</td></tr>
+<tr><td><strong>WATCH</strong></td><td>PyTorch / vLLM native Windows on gfx1151</td><td>UNKNOWN today; would unlock fine-tuning</td></tr>
+<tr><td><strong>WATCH</strong></td><td>VGM at 96 GB</td><td>only if a &gt;55 GB resident model becomes worth it</td></tr>
+<tr><td><strong>REJECT FOR NOW</strong></td><td>Custom routing middleware</td><td>no measured benefit; DSH already switches models</td></tr>
+<tr><td><strong>REJECT FOR NOW</strong></td><td>Windows Insider builds</td><td>no identified gain; loses a certified configuration</td></tr>
+<tr><td><strong>REJECT FOR NOW</strong></td><td>Converting to Linux / WSL-primary</td><td>out of scope and unnecessary</td></tr>
+<tr><td><strong>REJECT FOR NOW</strong></td><td>Ollama</td><td>strictly worse here than what is installed</td></tr>
+<tr><td><strong>REJECT FOR NOW</strong></td><td>Tracking DSH <code>latest</code> automatically</td><td>nine-day-old prerelease software</td></tr>
+</table><p></p>
+<hr>
+<h1 style="page-break-before:always">23. Installation sequence</h1>
+<p>Non-destructive, in order, with a rollback for every step that changes anything.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>#</th><th>Step</th><th>Rollback</th></tr>
+<tr><td>1</td><td>Record the baseline (<code>machine-baseline.txt</code>, <code>dxdiag</code>, <code>clinfo</code>, <code>vulkaninfo</code>, <code>lms ps --json</code>)</td><td>—</td></tr>
+<tr><td>2</td><td>Confirm Windows 25H2 / build 26200 and driver 32.0.31035.1003</td><td>—</td></tr>
+<tr><td>3</td><td><strong>Leave VGM at 64 GB</strong> — verify, do not change</td><td>Adrenalin → Performance → Tuning → System</td></tr>
+<tr><td>4</td><td>Confirm <strong>Vulkan</strong> is the selected runtime (<code>lms runtime ls</code>) — §10's verdict</td><td><code>lms runtime select</code></td></tr>
+<tr><td>5</td><td><em>(optional, experimental)</em> Install the ROCm runtime for the T-10 experiment only</td><td><code>lms runtime remove</code></td></tr>
+<tr><td>6</td><td>Re-run the §17.2 Tier-1 ladder to confirm the machine matches §10's baseline</td><td>—</td></tr>
+<tr><td>7</td><td><code>scoop install ripgrep</code></td><td><code>scoop uninstall ripgrep</code></td></tr>
+<tr><td>8</td><td>Launch DSH: <code>pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" web</code></td><td>nothing persisted until settings are written</td></tr>
+<tr><td>9</td><td>Write the §18.1 provider block into <code>$DSH_HOME/settings.yaml</code>; set <code>LMSTUDIO_API_KEY</code></td><td>delete the provider entry</td></tr>
+<tr><td>10</td><td>Confirm via <code>--dump-config</code> that <code>tool-bash</code> carries a <code>disabled</code> key and <code>tool-pwsh</code> is active — <strong>no patch to write</strong> (§18.3)</td><td>—</td></tr>
+<tr><td>11</td><td>Select the local model in the DSH UI</td><td>re-select any other model</td></tr>
+<tr><td>12</td><td>Run the §17.3 acceptance criteria <strong>including criterion 6 (network disconnected)</strong></td><td>—</td></tr>
+<tr><td>13</td><td>Run Tier-2 agent tasks; record tool-call reliability</td><td>—</td></tr>
+<tr><td>14</td><td>Add the MoE worker model; re-run T-1</td><td><code>lms unload</code></td></tr>
+<tr><td>15</td><td>Freeze: record every version, commit the evidence directory</td><td>—</td></tr>
+</table><p></p>
+<p><strong>Do not perform step 9 before step 6.</strong> Choosing a backend after configuring the harness means re-validating the harness against a changed serving layer.</p>
+<hr>
+<h1 style="page-break-before:always">26. Upgrade path</h1>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Component</th><th>What to watch</th><th>What would change here</th></tr>
+<tr><td><strong>DSH</strong></td><td>Anything past <code>0.1.1-rc.2</code>; breaking changes are promised</td><td>Re-run <code>--dump-default-config</code> and diff the plugin set. <strong>The composition is the contract</strong>, not the version number.</td></tr>
+<tr><td><strong>ROCm Windows</strong></td><td>Components moving from UNKNOWN to supported on gfx1151 — especially PyTorch</td><td>Would open fine-tuning and vLLM natively; today those need Linux</td></tr>
+<tr><td><strong>llama.cpp</strong></td><td>rocWMMA / Flash Attention improvements for RDNA 3.5</td><td>Directly moves the §10 prefill numbers</td></tr>
+<tr><td><strong>LM Studio runtimes</strong></td><td>An NPU runtime appearing in <code>lms runtime get -l</code></td><td>The single event that would move §14 from WATCH to BUILD</td></tr>
+<tr><td><strong>Qwen</strong></td><td>Successors to Qwen3.8-27B keeping the hybrid DeltaNet design</td><td>The KV economics in §12.2 are the reason this model fits; a conventional successor would not</td></tr>
+<tr><td><strong>AMD driver</strong></td><td>VGM granularity, shared-memory behaviour on Windows</td><td>Could change §8's conclusions; re-measure <code>clinfo</code> global + max-alloc after driver updates</td></tr>
+<tr><td><strong>Windows</strong></td><td>WDDM changes to shared-memory limits</td><td>Re-run <code>dxdiag</code> and <code>clinfo</code> after feature updates</td></tr>
+</table><p></p>
+<p><strong>Deliberately modular seams</strong> — keep these swappable:</p>
+<ol>
+<li><strong>The provider block.</strong> Changing serving layer should be a <code>baseURL</code> edit, nothing more.</li>
+<li><strong>The backend.</strong> <code>lms runtime select</code> — never bake a backend into a build.</li>
+<li><strong>The model.</strong> DSH's model picker; do not hard-code a model into agent instructions.</li>
+<li><strong>The sandbox mode.</strong> A knob, not a code path.</li>
+</ol>
+<hr>
+<h1 style="page-break-before:always">27. Known unknowns</h1>
+<p>Stated plainly, per the directive's evidence standard.</p>
+<ol>
+<li><strong>Direct DSH + Strix Halo evidence is sparse.</strong> No firsthand report was found of DSH specifically driven by a local model on Ryzen AI Max hardware. Given DSH is nine days old, this is expected. <strong>This report is therefore mostly Category B (demonstrated components that compose) and Category C (architectural hypothesis), not Category A.</strong> The DSH-side facts are strong because they come from source; the <em>combination</em> is not yet widely demonstrated.</li>
+<li><strong>PyTorch / vLLM / SGLang / training on native Windows for gfx1151</strong> — not established.</li>
+<li><strong>Per-window KV cache table (32 K / 64 K / 128 K / 256 K)</strong> — the preallocation behaviour is measured (§8.4) but a per-window breakdown was not derived.</li>
+<li><strong><code>tool-fs-search</code> without ripgrep</strong> — untested (T-8).</li>
+<li><strong><code>mcp-client</code>, <code>lsp</code>, <code>e2b</code>, <code>subagent-codex</code> on Windows</strong> — untested (T-9).</li>
+<li><strong>Whether <code>hipBLASLt</code> / <code>MIOpen</code> / <code>RCCL</code> are Windows-available for gfx1151 specifically</strong> — the matrix gives versions, not per-OS per-target status.</li>
+<li><s>Lemonade's current release number</s> — <strong>RESOLVED</strong>: <code>lemonade-sdk/lemonade</code> <strong>v11.7.0</strong>, published <strong>2026-08-19T19:39:54Z</strong>, not a prerelease (GitHub releases API).</li>
+<li><strong>Long-run stability</strong> — nothing here ran for hours. Thermal and stability behaviour under sustained agent load is unmeasured.</li>
+<li><strong>Why ROCm's memory footprint grows as it does (§10.4)</strong> — the mechanism was not isolated. The plausible cause is HIP compute-buffer sizing scaling with batch, and community evidence points at <code>GGML_HIP_NO_VMM=ON</code> as a related HIP VMM defect on this GPU <strong>[community]</strong> — but LM Studio's runtime does not expose that flag, so it was not testable here.</li>
+<li><strong>Whether the subagent provider-snapshot bug (§21.7) is fixed at the pinned commit</strong> — the report was not independently reproduced or refuted. Treated as live.</li>
+</ol>
+<h1 style="page-break-before:always">25. The forty required questions, answered directly</h1>
+<p>Answers are short by design; each names the section holding the evidence.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>#</th><th>Question</th><th>Answer</th></tr>
+<tr><td>1</td><td>Does current DSH run <strong>well</strong> natively on Windows 11, not merely launch?</td><td><strong>Yes.</strong> Windows is a first-class target — 865 <code>win32</code> references, 555 <code>pwsh</code>, a real Win32-FFI sandbox, <strong>zero</strong> WSL references, and the shell seam is platform-gated at three independent layers (§6.5). One genuine caveat remains: Windows sandbox enforcement self-reports <strong><code>partial</code></strong>, not <code>full</code> (§18.2).</td></tr>
+<tr><td>2</td><td>What DSH capabilities are weaker or unavailable on Windows?</td><td><code>tmux-context</code> (tmux does not exist natively); sandbox enforcement is <code>partial</code>, not <code>full</code>. <code>lsp</code>, <code>mcp-client</code>, <code>e2b</code>, <code>subagent-codex</code> are <strong>UNKNOWN</strong> — none is in the stock composition. <strong><code>tool-bash</code> is not on this list</strong>: it is deliberately <code>disabled</code> on <code>win32</code>, with <code>tool-pwsh</code> active in its place (§6.5, retracting an earlier claim).</td></tr>
+<tr><td>3</td><td>How many actual first-party runtime plugins/capabilities does DSH contain?</td><td><strong>227</strong> packages exist; the CLI declares <strong>62</strong> direct dependencies; the stock <code>web</code> profile composes <strong>133</strong>; <code>headless</code> composes <strong>78</strong>. §4.3.</td></tr>
+<tr><td>4</td><td>How many work natively on Windows?</td><td>Of the 133 composed, <strong>no Windows-specific failure was identified</strong>. The two previously flagged (<code>tool-bash</code>, <code>bash-sandbox</code>) turned out to be correctly <code>disabled</code> on <code>win32</code> rather than broken (§6.5). Stated precisely: the profile composes and boots, and the high-risk packages were individually checked — <strong>all 133 were not individually exercised</strong>, so this is "none found", not "all verified".</td></tr>
+<tr><td>5</td><td>Can DSH reliably use local OpenAI-compatible inference servers?</td><td><strong>Yes, out of the box.</strong> <code>dsh-llm-pi-ai</code> implements <code>openai-completions</code>, <code>openai-responses</code> and <code>anthropic-messages</code>, takes a <code>baseURL</code> override per provider <em>and</em> per model, and discovers models via <code>GET {baseURL}/models</code>. §6, §11.1.</td></tr>
+<tr><td>6</td><td>Which local server gives DSH the best experience on Strix Halo today?</td><td><strong>LM Studio.</strong> §11.3.</td></tr>
+<tr><td>7</td><td>Is LM Studio the best choice, or merely the easiest?</td><td><strong>Best, on the merits.</strong> It is the only candidate that switches the llama.cpp execution backend without a rebuild — decisive on a platform where Vulkan-vs-ROCm is workload-dependent. §11.3.</td></tr>
+<tr><td>8</td><td>Is Lemonade currently advantageous on this hardware?</td><td><strong>No, not for the primary path.</strong> Its edge is NPU/hybrid execution, and §14 finds no NPU role today. <strong>WATCH.</strong></td></tr>
+<tr><td>9</td><td>Is direct llama-server preferable?</td><td><strong>No for serving; yes for measurement.</strong> <code>llama-bench</code> isolates prefill far better than an HTTP ladder (§17.2, T-5).</td></tr>
+<tr><td>10</td><td>Does Vulkan outperform ROCm on relevant Windows llama.cpp workloads?</td><td><strong>Measured on this machine — see §10.</strong></td></tr>
+<tr><td>11</td><td>Where does ROCm outperform Vulkan?</td><td><strong>Measured on this machine — see §10.</strong></td></tr>
+<tr><td>12</td><td>What portions of ROCm actually work natively on Windows today?</td><td>The <strong>HIP runtime and HIP SDK for gfx1151 on Windows 11 25H2</strong>, and llama.cpp built against them (shipped as an LM Studio runtime, v2.29.1). §9.3.</td></tr>
+<tr><td>13</td><td>What important ROCm components are still Linux-only?</td><td>The <strong>ROCm Debugger is explicitly unsupported on RDNA 3.5</strong>. PyTorch, vLLM, SGLang, MIGraphX and training paths on native Windows for gfx1151 are <strong>UNKNOWN / not established</strong>. §9.3.</td></tr>
+<tr><td>14</td><td>What does AMD's Variable Graphics Memory setting actually do?</td><td>Moves the <strong>firmware boundary</strong> between memory Windows can see and memory presented to the GPU as dedicated VRAM. Applied before Windows boots. Creates no bandwidth. §8.2.</td></tr>
+<tr><td>15</td><td>Is approximately 96 GB a real GPU-memory ceiling?</td><td><strong>No.</strong> 96 GB is the maximum <em>carve-out</em>. With VGM at 64 GB this GPU already reports <strong>99.84 GiB</strong> of OpenCL global memory and <strong>111.6 GiB</strong> of total display memory. The ceiling that actually bites is the <strong>54.40 GiB maximum single allocation</strong>. §8.3.</td></tr>
+<tr><td>16</td><td>Can workloads practically consume more than the configured VGM amount?</td><td><strong>Yes — proven on this machine.</strong> VGM is 64 GB; OpenCL global memory is 99.84 GiB. §8.3.</td></tr>
+<tr><td>17</td><td>What VGM setting should this 128 GB machine use?</td><td><strong>Keep 64 GB.</strong> The resident model uses 26.73 GB with <strong>zero</strong> shared-memory spill; nothing measured is limited by the carve-out, and 96 GB would leave Windows only ~32 GB. §8.3.</td></tr>
+<tr><td>18</td><td>How much memory should remain available to Windows and DSH?</td><td>Currently 63.79 GB visible, <strong>25.51 GB free under load</strong>. Treat <strong>32 GB visible as the floor</strong> — which is exactly what the aggressive 96 GB setting would leave. §8.3.</td></tr>
+<tr><td>19</td><td>Which Qwen3.8 variants exist today?</td><td><strong>Qwen3.8-27B</strong> (2026-08-14, dense 27.78 B, Apache 2.0), <strong>Qwen3.8-2.4T-A95B</strong> (2026-08-12, MoE), <strong>Qwen3.8-Max</strong> (GA 2026-08-03, hosted). Only the 27B is relevant here. §12.1.</td></tr>
+<tr><td>20</td><td>Which Qwen3.8 configuration is best for DSH?</td><td><strong>Qwen3.8-27B, UD-Q5_K_XL, 131,072 context, <code>parallel: 1</code></strong> — the configuration already resident. §12.3.</td></tr>
+<tr><td>21</td><td>Which quantization is the best quality/performance compromise?</td><td><strong>Q5_K_XL.</strong> 21.15 GB, above the Q4 range where code-generation quality degrades, without paying Q6/Q8 bandwidth on a bandwidth-bound part. §12.3; confirm with T-4.</td></tr>
+<tr><td>22</td><td>What context length is actually useful?</td><td><strong>131,072</strong>, against a 262,144 maximum. The limit is prefill <strong>time</strong>, not memory — 45 K tokens already costs minutes to first token. §10, §12.3.</td></tr>
+<tr><td>23</td><td>How much memory does the KV cache require at 32 K / 64 K / 128 K / 256 K?</td><td><strong>~5.58 GB total at 131,072, preallocated at load and confirmed not to grow during a 45 K-token prefill</strong> (§8.4). A per-window table was <strong>not</strong> derived — <strong>UNKNOWN</strong>, T-3.</td></tr>
+<tr><td>24</td><td>Does Flash Attention materially improve this workload?</td><td><strong>Partially answered.</strong> Community evidence attributes ROCm's flat long-context behaviour to rocWMMA Flash Attention <strong>[community]</strong>; §10 measures the end-to-end consequence on this box but does not isolate FA as a variable.</td></tr>
+<tr><td>25</td><td>Does MTP/speculative decoding materially improve this workload?</td><td><strong>Yes — measured.</strong> Draft acceptance 5/5 observed, and decode of <strong>15–21 tok/s</strong> exceeds the ~12 tok/s naive bandwidth ceiling for a 21.15 GB model on ~256 GB/s. §12.4.</td></tr>
+<tr><td>26</td><td>Are ROCmFPX or similar AMD-specialized runtimes ready for normal use?</td><td><strong>UNKNOWN.</strong> No current, verifiable evidence was found. Not recommended.</td></tr>
+<tr><td>27</td><td>What other local models should be installed?</td><td>An <strong>A3B MoE worker</strong> (<code>qwen3.6-35b-a3b</code> or <code>qwen3-coder-30b-a3b</code>), the existing <strong>nomic embedding</strong> model, and — experimentally — <code>gpt-oss-120b</code>. A <strong>reranker is a gap</strong>. §13.2.</td></tr>
+<tr><td>28</td><td>What is the largest model this machine can technically run?</td><td><code>gpt-oss-120b</code> at <strong>63.39 GB</strong> is the largest present; the addressable ceiling is ~99.8 GiB with a <strong>54.40 GiB single-allocation</strong> hazard. §13.2.</td></tr>
+<tr><td>29</td><td>More importantly, what is the largest it can run <strong>usefully</strong>?</td><td><strong>Depends on <em>active</em> parameters, not file size</strong> — a 63 GB dense model would decode near 4 tok/s and be useless interactively; a 63 GB MoE could be fine. <strong>Not yet measured — T-2.</strong> §13.2.</td></tr>
+<tr><td>30</td><td>What makes the best primary local coding/agent model?</td><td><strong>Qwen3.8-27B UD-Q5_K_XL</strong> — dense quality, native vision, <code>trainedForToolUse</code>, 262 K native context, and a hybrid architecture that makes long context affordable in memory. §12.</td></tr>
+<tr><td>31</td><td>Which model should handle high-quality reasoning?</td><td><code>gpt-oss-120b</code>, <strong>EXPERIMENTAL</strong> until T-2 runs. Today the 27B in thinking mode is the practical answer.</td></tr>
+<tr><td>32</td><td>Which smaller model for fast worker/subagent tasks?</td><td>An <strong>A3B MoE</strong> — <code>qwen3.6-35b-a3b</code> or <code>qwen3-coder-30b-a3b</code>. Small active-parameter count means far less memory traffic per token on a bandwidth-bound part. §13.2, T-1.</td></tr>
+<tr><td>33</td><td>Should DSH dynamically route among models?</td><td><strong>No.</strong> DSH already ships user model selection (<code>dsh-client-ui-model-selection</code>, mounted) and per-subagent models. A routing layer would add a component with no measured benefit. §19.2.</td></tr>
+<tr><td>34</td><td>Can several models remain loaded simultaneously?</td><td><strong>Yes.</strong> LM Studio supports concurrent residency, and the headroom exists — 26.73 GB used of a 64 GB carve-out, with ~48 GiB of shared memory beyond it. §8.4, §11.2.</td></tr>
+<tr><td>35</td><td>Does the XDNA 2 NPU provide a useful role?</td><td><strong>Not today.</strong> No NPU runtime is offered by <code>lms runtime</code> on this box; the only four extensions available are CPU, Vulkan, ROCm and harmony. <strong>WATCH.</strong> §14.</td></tr>
+<tr><td>36</td><td>Are recent Windows builds materially improving Strix Halo local AI?</td><td>The material fact is <strong>alignment</strong>: build 26200 / 25H2 is exactly the version AMD certifies for gfx1151 ROCm support. §15.</td></tr>
+<tr><td>37</td><td>Are any Insider features compelling enough to justify testing?</td><td><strong>No.</strong> Nothing identified changes GPU memory allocation, ROCm availability or throughput. <strong>REJECT FOR NOW.</strong> §15.</td></tr>
+<tr><td>38</td><td>What is the best daily-driver configuration?</td><td>The §19.1 stack: stock DSH <code>web</code> profile → LM Studio <code>:1234</code> → llama.cpp 2.29.1 on the backend chosen in §10 → Qwen3.8-27B Q5_K_XL @ 131 K, VGM 64 GB, sandbox <code>workspace-write</code>, bash seam disabled.</td></tr>
+<tr><td>39</td><td>What should be installed only experimentally?</td><td>MoE worker model, <code>gpt-oss-120b</code>, <code>mcp-client</code>/<code>lsp</code>/<code>subagent-codex</code>, <code>llama-bench</code>, and — if promoted — whichever backend §10 does not select. §22.</td></tr>
+<tr><td>40</td><td>What should we wait for?</td><td>An <strong>NPU runtime in <code>lms runtime get -l</code></strong>; <strong>PyTorch/vLLM on native Windows for gfx1151</strong>; rocWMMA/Flash-Attention improvements for RDNA 3.5; and DSH reaching a non-prerelease. §26.</td></tr>
+</table><p></p>
+<hr>
+<h1 style="page-break-before:always">28. Source appendix</h1>
+<p>Evidence is ordered by the directive's precedence: source code first, community last.</p>
+<h2>Tier 1 — source code, at a pinned commit</h2>
+<p>Repository <code>github.com/deepseek-ai/deepseek-harness</code>, commit <strong><code>b150a551b8d465e31e418e1b2eaf5e79bbb7d28e</code></strong> (2026-08-21), cloned locally.</p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr><th>Claim</th><th>File</th></tr>
+<tr><td>OpenAI-compatible protocols and <code>baseURL</code> override</td><td><code>packages/llm/llm-pi-ai/src/provider.ts:25-187</code></td></tr>
+<tr><td><code>GET /models</code> discovery</td><td><code>packages/llm/llm-pi-ai/src/discovery.ts:39-232</code></td></tr>
+<tr><td>Runner chain incl. Windows ACL backend</td><td><code>packages/sandbox/sandbox-local/src/index.ts:2-3,141</code></td></tr>
+<tr><td>Windows restricted-token / capability-SID sandbox</td><td><code>packages/sandbox/sandbox-windows-acl/src/</code> (12 files, ~115 KB)</td></tr>
+<tr><td>Sandbox modes, <code>partial</code> enforcement on Windows</td><td><code>docs/subsystems/sandbox.md</code></td></tr>
+<tr><td>Permission presets and their defaults</td><td><code>docs/subsystems/permission-presets.md</code></td></tr>
+<tr><td>Provider/model configuration surface, <code>compat</code> switches</td><td><code>docs/user/guide/providers.md</code></td></tr>
+<tr><td>Node/pnpm requirements, workspace layout</td><td>root <code>package.json</code>, <code>pnpm-workspace.yaml</code></td></tr>
+<tr><td>Composed profile trees</td><td><code>packages/bundle/{base,headless,web-app}/cordis.patch.yml</code></td></tr>
+</table><p></p>
+<h2>Tier 2 — registries and vendor APIs</h2>
+<ul>
+<li>npm packument for <code>@deepseek-ai/dsh</code> — versions, dist-tags, 62 dependencies, MIT licence.</li>
+<li>GitHub API — repository metadata, releases, pinned commit.</li>
+<li>AMD ROCm compatibility matrix — ROCm <strong>7.14.0</strong> (2026-07-16), gfx1151 on Windows 11 25H2.</li>
+<li>AMD Windows install docs — HIP SDK 7.2.0, RDNA 3.5 support levels, debugger exclusion.</li>
+<li>AMD ROCm "Strix Halo system optimization" — GTT/GART/VRAM model; <strong>Linux-only guidance</strong>.</li>
+<li>Qwen3.8-27B model card — parameters, hybrid architecture, context, licence, sampling.</li>
+</ul>
+<h2>Tier 3 — commands executed on the target machine, 2026-08-23</h2>
+<p><code>Win32_*</code> CIM classes · <code>dxdiag</code> · <code>clinfo</code> · <code>vulkaninfo --summary</code> · <code>Get-Counter '\GPU Process Memory(*)'</code> · <code>lms version|ps|ls|runtime|load|unload</code> · <code>GET /v1/models</code> and <code>POST /v1/chat/completions</code> against <code>:1234</code> · <code>pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" --help</code> and <code>--dump-default-config</code> · <code>bench/Bench-Local.ps1</code>.</p>
+<p>Raw artefacts are in <code>dsh-halo-research/evidence/</code>.</p>
+<h2>Tier 4 — community evidence, labelled as such</h2>
+<p>Used <strong>only</strong> for the claims marked <strong>[community]</strong> in the body, and never elevated to vendor support: Vulkan-vs-ROCm split behaviour on Strix Halo; rocWMMA Flash-Attention long-context flatness; <code>GGML_HIP_NO_VMM=ON</code>; NPU under-utilisation for LLM inference; Lemonade release numbering; LM Studio structured-output/tool-calling completeness relative to Ollama.</p>
+<p>Where community sources disagreed — notably Lemonade's current release number — the disagreement is recorded in §27 rather than silently resolved.</p>
+</body></html>
+

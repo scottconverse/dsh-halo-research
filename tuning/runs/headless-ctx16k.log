@@ -1,0 +1,10 @@
+Wrote `app.py` (single file) in the workspace root. It matches every requirement:
+
+- **Flask + SQLite**, notes stored in `notes.db` next to the script; table created via `CREATE TABLE IF NOT EXISTS` at startup (`init_db()` runs on import).
+- **GET `/`** — lists all note texts and includes a form posting to `/add` with an input named `text`.
+- **POST `/add`** — reads form field `text`, inserts it, redirects 302 to `/`.
+- **POST `/delete/<int:id>`** — deletes that id, redirects 302 to `/`.
+- Each note renders as its text followed by a delete form (submit button) posting to `/delete/<id>`, wrapped in `<div id="note-N">` so the literal `note-N` string is on the page.
+- Runs on **127.0.0.1:5099** only when executed directly (`if __name__ == "__main__"`).
+
+No auth, no template directory, no extra files — and I did not run it.

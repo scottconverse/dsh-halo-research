@@ -1,0 +1,9 @@
+Wrote `app.py` in the working directory — single file, no extra files or template directories:
+
+- **SQLite**: notes stored in `notes.db`; table created on startup via `CREATE TABLE IF NOT EXISTS`.
+- **GET /**: lists every note's text (HTML-escaped), each followed by a form POSTing to `/delete/<id>` with a submit button, and includes the literal string `note-N` for each id; also has an add form POSTing to `/add` with field name `text`.
+- **POST /add**: reads form field `text`, inserts it, redirects 302 to `/`.
+- **POST /delete/<int:id>**: deletes that note, redirects 302 to `/`.
+- **Entry point**: `python app.py` runs the server on `127.0.0.1:5099`.
+
+Not run, per your instruction.

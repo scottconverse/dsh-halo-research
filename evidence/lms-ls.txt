@@ -1,0 +1,48 @@
+
+You have 41 models, taking up 549.14 GB of disk space.
+
+LLM                                                PARAMS      ARCH                SIZE         DEVICE                     
+gemma-4-12b-coder-fable5-composer2.5-v1            12B         gemma4              7.38 GB      Local                      
+gemma-4-12b-coder-fable5-composer2.5-v1            12B         gemma4              7.38 GB      NvideaBlackwell            
+gemma-4-12b-it                                     423M        gemma4-assistant    674.63 MB    Local                      
+gemma-4-12b-it-qat                                 12B         gemma4              6.93 GB      NvideaBlackwell            
+gemma-4-26b-a4b-it-qat@?                           A4B         gemma4-assistant    2.54 GB      NvideaBlackwell            
+gemma-4-26b-a4b-it-qat@q4_k_xl                     128x2.6B    gemma4              16.54 GB     NvideaBlackwell            
+google/gemma-4-12b-qat (1 variant)                 12B         gemma4              7.15 GB      Local                      
+google/gemma-4-12b-qat (1 variant)                 12B         gemma4              7.15 GB      R71                        
+google/gemma-4-12b-qat (1 variant)                 12B         gemma4              7.15 GB      TinyRyzen7                 
+google/gemma-4-26b-a4b (1 variant)                 26B-A4B     gemma4              17.99 GB     Local                      
+google/gemma-4-31b-qat (1 variant)                 31B         gemma4              18.85 GB     Local                      
+gpt-oss-120b                                       120B        gpt-oss             63.39 GB     Local                      
+granite-4.1-8b                                     8B          granite             5.35 GB      NvideaBlackwell            
+lmstudio-community/qwen3-coder-30b-a3b-instruct    30B-A3B     qwen3moe            18.56 GB     Local                      
+muse-glimmer-30b                                   28B         muse-glimmer        17.28 GB     Local                      
+nvidia-nemotron-3.5-lightning-30b-a3b              30B-A3B     nemotron_h_moe      24.47 GB     Local                      
+openai/gpt-oss-20b (1 variant)                     20B         gpt-oss             12.11 GB     Local                      
+ornith-1.0-35b-mtp-apex                            35B         qwen35moe           15.24 GB     NvideaBlackwell            
+ornith-1.0-9b                                      9B          qwen35              9.53 GB      NvideaBlackwell            
+prism-ml/bonsai-27b (1 variant)                    27B         qwen35              4.73 GB      R71                        
+qwen/qwen3-14b (1 variant)                         14B         qwen3               9.00 GB      NvideaBlackwell            
+qwen/qwen3-coder-next (1 variant)                  80B         qwen3next           48.49 GB     Local                      
+qwen/qwen3.5-9b (1 variant)                        9B          qwen35              6.55 GB      R71                        
+qwen/qwen3.6-35b-a3b (1 variant)                   35B-A3B     qwen35moe           22.07 GB     Local                      
+qwen/qwen3.8-27b (1 variant)                       27B         qwen35              17.74 GB     Local                      
+qwen/qwen3.8-27b (1 variant)                       27B         qwen35              17.74 GB     R71                        
+qwen3-coder-30b-a3b-instruct                       30B-A3B     qwen3moe            17.46 GB     NvideaBlackwell            
+qwen3-vl-30b-a3b-instruct                          30B-A3B     qwen3vlmoe          19.64 GB     Local                      
+qwen3.5-35b-a3b-ud-layers                          35B-A3B     qwen35moe           10.94 MB     Local                      
+qwen3.8-27b-uncensored@f16                         461M        CLIP                927.61 MB    Local                      
+qwen3.8-27b-uncensored@q6_k                        27B         qwen35              22.08 GB     Local                      
+qwen3.8-27b@q3_k_xl                                27B         qwen35              13.44 GB     NvideaBlackwell            
+qwen3.8-27b@q4_k_xl                                27B         qwen35              17.92 GB     NvideaBlackwell            
+unsloth/gemma-4-26b-a4b-it                         26B-A4B     gemma4              18.78 GB     Local                      
+unsloth/qwen3-coder-30b-a3b-instruct               30B-A3B     qwen3moe            17.46 GB     Local                      
+unsloth/qwen3.8-27b                                27B         qwen35              21.15 GB     Local              ✓ LOADED
+zai-org/glm-4.6v-flash (1 variant)                 9.4B        glm4                7.95 GB      R71                        
+
+EMBEDDING                               PARAMS    ARCH          SIZE        DEVICE             
+text-embedding-nomic-embed-text-v1.5              Nomic BERT    84.11 MB    Local              
+text-embedding-nomic-embed-text-v1.5              Nomic BERT    84.11 MB    NvideaBlackwell    
+text-embedding-nomic-embed-text-v1.5              Nomic BERT    84.11 MB    R71                
+text-embedding-nomic-embed-text-v1.5              Nomic BERT    84.11 MB    TinyRyzen7         
+

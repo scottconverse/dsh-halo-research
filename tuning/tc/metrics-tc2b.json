@@ -1,0 +1,24 @@
+{
+  "session": "session-cd38c98d-6f3a-4b9d-9903-c8ea39bbff52",
+  "records": 6843,
+  "steps": 21,
+  "tool_calls": 24,
+  "tool_names": {
+    "todo_write": 1,
+    "glob": 1,
+    "read": 2,
+    "pwsh": 11,
+    "create_goal": 1,
+    "write": 1,
+    "job_output": 3,
+    "edit": 4
+  },
+  "compactions": 0,
+  "llm_retries": 1,
+  "reasoning_chars": 50811,
+  "text_chars": 2086,
+  "action_ratio_by_chars": 0.039,
+  "peak_context_tokens": 32709,
+  "total_output_tokens": 19598,
+  "session_wall_seconds": 3644.6
+}

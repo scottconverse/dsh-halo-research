@@ -1,0 +1,6 @@
+upstream/
+evidence/yt/*.vtt
+*.pyc
+__pycache__/
+ws-*/townreporter.db
+

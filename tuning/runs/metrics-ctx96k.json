@@ -1,0 +1,18 @@
+{
+  "session": "session-46fc6c4c-c331-463c-b6d8-914d4af31364",
+  "records": 1742,
+  "steps": 3,
+  "tool_calls": 2,
+  "tool_names": {
+    "glob": 1,
+    "write": 1
+  },
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 11617,
+  "text_chars": 1089,
+  "action_ratio_by_chars": 0.086,
+  "peak_context_tokens": 12398,
+  "total_output_tokens": 4047,
+  "session_wall_seconds": 735.1
+}

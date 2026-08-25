@@ -1,0 +1,15 @@
+{
+  "session": "session-fa38e808-1afe-4ae2-bb4a-605eb9be6fa9",
+  "records": 10396,
+  "steps": 1,
+  "tool_calls": 0,
+  "tool_names": {},
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 87793,
+  "text_chars": 0,
+  "action_ratio_by_chars": 0.0,
+  "peak_context_tokens": 9599,
+  "total_output_tokens": 23168,
+  "session_wall_seconds": 4031.5
+}

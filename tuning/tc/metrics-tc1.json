@@ -1,0 +1,15 @@
+{
+  "session": "session-dba1c296-dedf-4e86-a1aa-f1608bd696a0",
+  "records": 7184,
+  "steps": 1,
+  "tool_calls": 0,
+  "tool_names": {},
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 55157,
+  "text_chars": 0,
+  "action_ratio_by_chars": 0.0,
+  "peak_context_tokens": 0,
+  "total_output_tokens": 0,
+  "session_wall_seconds": 2665.3
+}

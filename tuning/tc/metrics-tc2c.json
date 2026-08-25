@@ -1,0 +1,20 @@
+{
+  "session": "session-954b2574-dc7a-4675-9e6c-fba4eac59148",
+  "records": 11360,
+  "steps": 2,
+  "tool_calls": 5,
+  "tool_names": {
+    "todo_write": 1,
+    "glob": 1,
+    "read": 1,
+    "pwsh": 2
+  },
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 76653,
+  "text_chars": 424,
+  "action_ratio_by_chars": 0.006,
+  "peak_context_tokens": 9829,
+  "total_output_tokens": 18386,
+  "session_wall_seconds": 4430.1
+}

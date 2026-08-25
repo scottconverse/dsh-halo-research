@@ -1,0 +1,3 @@
+"Label","Model","PromptKb","PromptTokens","CompletionTok","TtftSec","TotalSec","PrefillTokPerS","DecodeTokPerS"
+"rocm-rep1","qwen/qwen3.8-27b","8","1490","74","7.689","12.335","193.8","15.9"
+"rocm-rep1","qwen/qwen3.8-27b","32","5652","192","20.991","36.68","269.3","12.2"

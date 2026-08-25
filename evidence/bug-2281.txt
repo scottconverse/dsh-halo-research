@@ -1,0 +1,27 @@
+test one passed, doing 2 next
+
+## What the code does
+
+`dsh-bench-lab` is a tiny CommonJS Node project — no package.json, no dependencies, just two files:
+
+**[inventory.js](C:\Users\scott\Desktop\Code\dsh-bench-lab\inventory.js)** exports three pure inventory-management functions:
+- `restockLevel(current, capacity)` → free space remaining (`capacity − current`), i.e. how much to restock up to full.
+- `averageDailySales(totals)` → mean of an array of daily sales totals; returns `0` for empty/non-array input instead of dividing by zero.
+- `daysUntilEmpty(current, dailySales)` → whole days until stock runs out, rounded **up** (`Math.ceil`); returns `Infinity` when there's no sales pressure (≤ 0).
+
+**[inventory.test.js](C:\Users\scott\Desktop\Code\dsh-bench-lab\inventory.test.js)** uses Node's built-in test runner (`node:test`) with `node:assert`, covering all three functions plus the two edge cases (rounding up, zero sales → Infinity).
+
+One observation worth flagging: line 12 of `inventory.js` carries a comment claiming the loop "should go to `totals.length - 1`" — that advice is **wrong**; following it would skip the last element and break the average. The code as written (`i < totals.length`) is correct, so the comment is stale/misleading rather than the code being buggy.
+
+## Test results
+
+```
+✔ restockLevel returns free capacity (0.4431ms)
+✔ averageDailySales averages the totals (0.0844ms)
+✔ daysUntilEmpty rounds up (0.0552ms)
+✔ daysUntilEmpty is Infinity with no sales (0.0486ms)
+
+tests 4 · pass 4 · fail 0 · cancelled 0 · skipped 0 · duration ~75 ms
+```
+
+**All 4 tests pass.** The suite runs clean on the installed Node runtime via `node --test`.

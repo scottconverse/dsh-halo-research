@@ -1,0 +1,17 @@
+{
+  "session": "session-31433f6d-2155-4230-8107-e2bec410a0e3",
+  "records": 504,
+  "steps": 2,
+  "tool_calls": 1,
+  "tool_names": {
+    "write": 1
+  },
+  "compactions": 0,
+  "llm_retries": 0,
+  "reasoning_chars": 5076,
+  "text_chars": 688,
+  "action_ratio_by_chars": 0.119,
+  "peak_context_tokens": 10630,
+  "total_output_tokens": 2183,
+  "session_wall_seconds": 244.6
+}

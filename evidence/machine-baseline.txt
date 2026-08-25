@@ -1,0 +1,44 @@
+=== OS ===
+ProductName    : Windows 10 Pro
+DisplayVersion : 25H2
+CurrentBuild   : 26200
+UBR            : 9168
+EditionID      : Professional
+InstallDate    : 2026-04-23 23:26:37Z
+
+=== CPU ===
+Name: AMD RYZEN AI MAX+ 395 w/ Radeon 8060S          
+Cores/Threads: 16/32
+MaxClockMHz: 3000
+
+=== MEMORY (physical modules) ===
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+16 GB @ 8000 MT/s  Samsung K3KLALA0EM-MGCV     
+TotalPhysicalMemory: 63.79 GB
+TotalVisibleMemoryKB: 66890052  = 63.79 GB
+FreePhysicalMemoryKB: 34565872  = 32.96 GB
+
+=== GPU ===
+Name: AMD Radeon(TM) 8060S Graphics
+DriverVersion: 32.0.31035.1003
+DriverDate: 07/23/2026 18:00:00
+AdapterRAM(reported): 4293918720
+VideoProcessor: AMD Radeon Graphics Processor (0x1586)
+PNPDeviceID: PCI\VEN_1002&DEV_1586&SUBSYS_10991022&REV_C1\4&31ED7FF&0&0041
+
+=== BIOS / BOARD ===
+BIOS: AMD 03.03 06/09/2026 18:00:00
+Board: Compal Electronics, Inc. AMD Ryzen AI Halo
+System: Advanced Micro Devices, Inc. (AMD) RAH-001
+
+=== STORAGE ===
+D: Seagate_Hub size=7451.8GB free=4346GB
+C:  size=1905.6GB free=852.5GB
+PhysDisk: Seagate One Touch Hub 7452GB HDD USB
+PhysDisk: Micron_4600_MTFDLBA2T0THJ 1907.7GB SSD NVMe

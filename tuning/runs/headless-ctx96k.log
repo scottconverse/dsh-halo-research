@@ -1,0 +1,10 @@
+Wrote `app.py` (single file) in the working directory. How it maps to the requirements:
+
+- **Flask + SQLite**: notes stored in `notes.db`, created next to `app.py`; table `notes(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)` is created via `CREATE TABLE IF NOT EXISTS` at startup (`init_db()` runs on import and before `app.run`).
+- **GET /**: returns an HTML page listing every note's text (in id order) plus a `<form method="post" action="/add">` with an input named `text`.
+- **POST /add**: reads form field `text`, inserts it, then `redirect("/", code=302)`.
+- **POST /delete/<int:id>**: Flask int path parameter; deletes that note's row, then `redirect("/", code=302)`.
+- **Per-note rendering**: each note shows its text followed by a `<form method="post" action="/delete/{id}">` with a submit button, and the page contains the literal string `note-N` (e.g. `note-1`) in a span so notes are locatable by id.
+- **Server**: `if __name__ == "__main__": app.run(host="127.0.0.1", port=5099)`.
+
+No auth, no template directory, no extra files — and per your instruction I did not run it.

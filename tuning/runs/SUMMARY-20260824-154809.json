@@ -1,0 +1,44 @@
+[
+  {
+    "config": "ctx64k",
+    "context_len": 65536,
+    "completed": true,
+    "smoke": "RESULT: 7/7 checks passed",
+    "wall_min": 5.9,
+    "timed_out": false,
+    "peak_context_tok": 12040,
+    "tool_calls": 1,
+    "compactions": 0,
+    "action_ratio": 0.066,
+    "output_tokens": 3604,
+    "app_py_bytes": 1944
+  },
+  {
+    "config": "ctx96k",
+    "context_len": 98304,
+    "completed": true,
+    "smoke": "RESULT: 7/7 checks passed",
+    "wall_min": 12.4,
+    "timed_out": false,
+    "peak_context_tok": 12398,
+    "tool_calls": 2,
+    "compactions": 0,
+    "action_ratio": 0.086,
+    "output_tokens": 4047,
+    "app_py_bytes": 1998
+  },
+  {
+    "config": "ctx128k",
+    "context_len": 131072,
+    "completed": true,
+    "smoke": "RESULT: 7/7 checks passed",
+    "wall_min": 9.9,
+    "timed_out": false,
+    "peak_context_tok": 11232,
+    "tool_calls": 1,
+    "compactions": 0,
+    "action_ratio": 0.097,
+    "output_tokens": 2806,
+    "app_py_bytes": 1994
+  }
+]

@@ -1,0 +1,11 @@
+LLM ENGINE                                             SELECTED    MODEL FORMAT
+executorch-asr-win-x86_64-nvidia-cuda128-avx2@0.0.8                    PTE     
+llama.cpp-win-x86_64-amd-rocm-avx2@2.29.1                              GGUF    
+llama.cpp-win-x86_64-avx2@2.28.2                                       GGUF    
+llama.cpp-win-x86_64-avx2@2.12.0                                       GGUF    
+llama.cpp-win-x86_64-nvidia-cuda-avx2@2.28.2                           GGUF    
+llama.cpp-win-x86_64-nvidia-cuda-avx2@2.12.0                           GGUF    
+llama.cpp-win-x86_64-vulkan-avx2@2.29.1                   ✓            GGUF    
+llama.cpp-win-x86_64-vulkan-avx2@2.28.2                                GGUF    
+llama.cpp-win-x86_64-vulkan-avx2@2.27.1                                GGUF    
+llama.cpp-win-x86_64-vulkan-avx2@2.12.0                                GGUF    

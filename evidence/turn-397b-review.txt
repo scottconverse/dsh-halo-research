@@ -1,0 +1,1104 @@
+one more time:
+
+Transcript
+
+
+Search in video
+0:01
+[music]
+0:05
+[music]
+0:06
+So the clever and rather morbid answer
+0:09
+is that you have to use the knife on
+0:11
+everything. Oranges, children, and the
+0:13
+knife itself.
+0:17
+It doesn't just want you to cut the
+0:19
+oranges. It wants you to cut the
+0:20
+children. Hey guys, welcome to the show.
+0:22
+Today we're checking out 1.5. Now this
+0:24
+model came out maybe a month or so ago
+0:26
+and it was a hit. Lots of people liked
+0:27
+it. It's a a tune of Quen 3.5 post
+0:31
+trained, all that kind of cool stuff to
+0:32
+make it super smarter. We're trying out
+0:34
+the maximum version of this, the 397B.
+0:36
+And according to its benchmarks, it is
+0:39
+smashing GLM 5.2. Like it's beet deep
+0:43
+SWE. It's not better than GLM 5.2, but
+0:47
+it says it's better than GLM 5.2. So,
+0:50
+we're going to find out exactly how
+0:51
+great this model is. Look at that SW
+0:53
+Bench 86. That's even better than the
+0:56
+latest Quinn 3.8, the Max edition. So,
+1:00
+we're going to see how good this model
+1:01
+is. I'm just going to jump straight into
+1:03
+it. Now, this is a multimodel model. So,
+1:06
+that means it can inference vision and
+1:08
+it can do all kind of cool stuff. So,
+1:09
+for example, this cat says the ginger
+1:11
+cat known as an orange tabby a tabby
+1:15
+cat. Now, I'm going to do coding test as
+1:16
+well as logic test and math test, but
+1:18
+I'm going to jump in first with the
+1:19
+logic test cuz I got a hilarious result
+1:21
+with the logic the trained logic with
+1:23
+it. I just want to share that with you.
+1:25
+So, let's h just do maths. Okay. So,
+1:28
+this is an IMO test from a couple years
+1:31
+ago. So, and the answer is even in
+1:34
+integers. Now, this is with thinking
+1:35
+disabled 3,000 tokens. It got the right
+1:38
+answer with thinking enabled. This has
+1:41
+just just thinking on or off. It's not
+1:42
+the latest coin 3.8. So, it has extra
+1:46
+high high mode. And this is 11,000
+1:48
+tokens with thinking mode. And it even
+1:50
+got the right answer then. So, that is a
+1:52
+quality result there. That That's good.
+1:53
+They haven't lost the mathematics. This
+1:56
+one is the test that I really like.
+1:57
+Yeah. Okay. You're going to like this
+1:59
+one. Okay. You have eight oranges, four
+2:01
+children, and a knife. Distribute them
+2:03
+evenly. So, first with thinking
+2:05
+disabled, it says you cut eight oranges
+2:07
+and it gives you 16 halves and four
+2:09
+halves, which is around two oranges
+2:11
+each. So, it's kind of figured out in a
+2:14
+verbosy kind of way, but it figured it
+2:15
+out with thinking enabled. However, this
+2:18
+is going to go crazy. Okay, get ready
+2:20
+for this. The trick is the word them. If
+2:22
+you only distriute the origin oranges,
+2:24
+it's easy. 8 / two. However, you have to
+2:27
+distribute them. Meaning everything
+2:30
+you've got, eight oranges, four
+2:32
+children, and one knife. [laughter] So
+2:35
+that's 13 items divided by four. 3.25
+2:39
+each. So the clever and rather morbid
+2:42
+answer is that you have to use the knife
+2:44
+on everything. Oranges, children, and
+2:47
+the knife itself. [laughter]
+2:51
+It doesn't just want you to cut the
+2:53
+oranges. It wants you to cut the
+2:54
+children. And it also wants you to cut
+2:56
+the knife.
+2:58
+How you use a knife to cut the knife.
+3:00
+[laughter]
+3:02
+This model is hilarious.
+3:04
+What? What? [laughter]
+3:07
+At least, you know, when it comes into
+3:09
+the world of censorship, if you're
+3:11
+writing some creative stories, you know,
+3:13
+horror stories, all that kind of stuff,
+3:14
+it's it's up for it. [laughter] It's
+3:16
+it's taking your horror story to the
+3:18
+next level. It's even cutting the knife
+3:20
+itself. That's uh you know I just first
+3:22
+I got to give it a little obation for
+3:24
+that leap of knowledge. Maybe it's
+3:26
+[laughter] better than 5.2 if you're
+3:29
+that way inclined. But yeah, I just
+3:30
+wanted to share that. Let's just finish
+3:31
+off the logic test with B selector. So
+3:34
+if you walk into a crowd and you shout
+3:35
+and they shout out B selector, what
+3:36
+should you do? The answer is eat w. And
+3:39
+uh this one just says yan respect which
+3:42
+could work in a native hammy. It
+3:44
+could work back then but um the the real
+3:46
+answer is rewind. Now we're thinking
+3:48
+enabled. Is it going to say rewind? Oh,
+3:52
+it does no rewind. So, this hasn't been
+3:54
+trained on UK culture. Check it out. So,
+3:57
+you can ask them for a wheel up. So, it
+3:59
+doesn't say say rewind. It says you got
+4:01
+to ask them for a wheel up, which is in
+4:03
+brackets rewinds. I'm going to give this
+4:04
+half a mark there. That is good cuz not
+4:07
+many modelers know this stuff. Now,
+4:08
+we're thinking the same we're going to
+4:09
+do the car wash question. If you walk,
+4:11
+car wash is 50 m from my house. Should I
+4:13
+drive there or should I walk? And it
+4:15
+says to get you need to drive there. So
+4:17
+they've definitely trained it on some
+4:18
+sort of logic test, especially cutting
+4:20
+the knife itself. I want the knife,
+4:24
+please. So um we're going to be asking
+4:26
+here, create me an animated 3D voxal
+4:29
+version of this image. So this is an
+4:31
+orange tabby, green eyes, kind of
+4:33
+concrety background, green grass. Is it
+4:35
+going to do a good job? And the answer
+4:37
+is it is uh it's lost in the world. This
+4:42
+is bit 5.2. to uh you can kind of see
+4:45
+the cat there. I think it's upside down.
+4:48
+It's definitely upside down. It's
+4:49
+standing up. Uh can you change colors?
+4:51
+You can change colors. So, that is good.
+4:53
+You can stop rotation and you can reset
+4:55
+the view. So, that's it's doing
+4:56
+something. It's not probably a good job,
+4:58
+I'd say. So, let's enable thinking and
+5:00
+let's just see how well it does. 18,000
+5:03
+tokens, 24 tokens a second. Now, this is
+5:05
+a big model. Doesn't have MTP that. But
+5:08
+what is this creation is made? It is.
+5:12
+Uh, the camera rotates. That's nice. I
+5:14
+think I [laughter] maybe it's been
+5:17
+trained on the arts of war. It's like,
+5:20
+what am I going to do with a cat, bro?
+5:23
+Let me sort it out. Okay, a 3D solar
+5:25
+system standard test. 5,000 tokens, 24
+5:28
+tokens a second. Let's see memory usage.
+5:30
+This is 424 jibs of memory. So, we're
+5:32
+competing against GM 5.2, the Quinn, the
+5:34
+bigger ones, all that kind of stuff. So,
+5:37
+let's hit play. And we do have a nice
+5:39
+solar system. Can we click on the You
+5:41
+can click on the planets. That is good.
+5:44
+Very very similar to what a Kimmy K3
+5:47
+would make except Kim K3 is slightly
+5:49
+slightly better. Maybe I can show you
+5:51
+that one. So this is a Kim K3
+5:53
+generation. As you can see, it's uh
+5:56
+maybe it's slightly better. Slightly
+5:58
+better. This is a different generation
+6:00
+than the one I made last time. I'm still
+6:02
+working it. Trying to get this working
+6:03
+really well. But we see the earth and
+6:05
+all that kind of stuff. So that's Kimmy
+6:06
+K3 versus thinking mode with Orife.
+6:10
+Maybe it's a bit more bare bones, but at
+6:11
+least you the planets are lit. Sometimes
+6:13
+you make this demonstration and the
+6:15
+planets aren't lit cuz you know universe
+6:16
+is dark. So this is the test I want to
+6:19
+find out. And I've taken its generation
+6:21
+and I said, can you add a spaceship
+6:23
+control with a keyboard and mouse cuz I
+6:25
+want to see can this model actually do
+6:27
+work? Can it edit the code? Can it do
+6:29
+some kind of cool stuff? So, we're
+6:31
+thinking disabled now. 7,000 tokens
+6:33
+later. It has added a spaceship on the
+6:37
+screen. Now, it's a funky looking
+6:38
+spaceship. And moving the mouse right
+6:40
+makes it move left. So, maybe something
+6:42
+has broken in the quantization or maybe
+6:44
+it's just a little bit broken itself.
+6:46
+But, it's definitely doing some good
+6:48
+good work. That is that is definitely
+6:50
+fine. I do like that generation is a bit
+6:52
+hard to control cuz I'm remote
+6:53
+desktoping into my studio. So, I can't
+6:57
+take full screen controls. But now let's
+6:59
+see if we can make a 3D flight
+7:01
+simulator. Now I the context window of
+7:04
+this one maybe I can just show you is
+7:07
+61,000 tokens. Right now thinking is
+7:10
+disabled but the first time I ran it was
+7:12
+with thinking enabled just to get it
+7:14
+working. So it did think for quite a
+7:15
+bit. Only problem is there was a bug. So
+7:18
+the sound button wasn't made. So 44,000
+7:21
+tokens what it took. So I asked it to
+7:23
+fix it and it managed to do it with
+7:25
+thinking disabled. So let's see what we
+7:26
+have here. And
+7:29
+this is some hipster. This is some hip
+7:31
+and happening generation. You can see.
+7:34
+Well, first let me get some control. You
+7:35
+can see here. Look at that. It's like
+7:36
+I'm I'm I'm flying inside one of those
+7:39
+rendered paintings back in the day. The
+7:41
+van goes of the world. I might as well
+7:43
+start doing some stuff with my ear cuz
+7:44
+that just looks kind of fun and amazing.
+7:46
+The clouds have have sparkles in them. I
+7:49
+wouldn't say this is relaxing. Maybe it
+7:52
+is actually. Maybe it is. Maybe the the
+7:53
+tranquility of the waves of the mind.
+7:55
+This is definitely a funk. I don't I
+7:58
+don't know if it meant to do that or
+7:59
+it's just a bug, but nonetheless, it's a
+8:02
+cool bug to make. Look at that. You got
+8:04
+a procedurally generated world just in
+8:07
+your feet. Now, can I crash? So, this
+8:09
+was a beautiful generation there. It's
+8:11
+doing pretty okay. It's not not that
+8:13
+bad. Procedural photorealistic face. We
+8:16
+had one error there as we saw. So, the
+8:18
+context window with thinking disabled is
+8:21
+13,000 tokens. And this is an MOE model,
+8:24
+so it's very very power. So the face
+8:26
+itself it's a bit of a potato. So maybe
+8:28
+is GL 5.2 when you use it on their their
+8:31
+cloud service. But when you run it
+8:32
+locally and you can set the sampling
+8:34
+parameters correctly or incorrectly
+8:37
+according to their model card but
+8:38
+correctly according to lo and db and for
+8:42
+coding it performs a lot better. So
+8:45
+we'll find out this again. Another
+8:46
+potato here with thinking enabled. We
+8:50
+have a context window of 69,000. issue
+8:53
+is you make a generation and it does
+8:54
+have errors. So, I'm asking it to fix it
+8:58
+several times and it is just it doesn't
+9:00
+know how to render a face when thinking
+9:02
+is enabled. Unfortunately, I've done it
+9:04
+and this is the best version of a head I
+9:07
+can get out of it. So, as you can see,
+9:09
+no eyes, no mouth. There is a little
+9:11
+bump for the nose. So, that's pretty
+9:12
+good. And it does look there's lots of
+9:14
+potential there. I think someone's been
+9:15
+doing some stuff behind the scenes. Look
+9:17
+at that. He's got a little love bite.
+9:18
+What's going on, Mr. Modell [laughter]
+9:21
+or Neve? What are you up to?
+9:24
+He's probably been using a knife.
+9:25
+[laughter]
+9:26
+Anyway, let's go into 3D human anatomy.
+9:29
+And this is with thinking disabled.
+9:30
+9,000 tokens later. This is nice. Look
+9:33
+at that. The rib cage is uh humans. The
+9:38
+ribs are going this way. Okay, that's
+9:41
+his shoulders are very It's like a Brock
+9:42
+Lesnar kind of kind of shoulder system.
+9:45
+Let's see. He's got muscles. Oh, that's
+9:46
+a nice big pecs. Look at that. Can you
+9:48
+click on them? Nope. You can't. He's got
+9:49
+nice abs. Look at the abs. You can kind
+9:51
+of click on them. It's like a brick. One
+9:53
+of them, a couple of them works. It's
+9:55
+kind of nice nervous system. This is the
+9:57
+brain. This is what we are. This is what
+9:58
+we think with this little, you know,
+10:02
+this probably one of the better
+10:04
+generations that I've seen for this
+10:05
+model. You got a heart. Look at it's
+10:06
+beating. Boom. Boom. Boom. Boom. Boom.
+10:08
+Boom. It's not really the circuitary
+10:09
+system. It's just the heart. But that's
+10:11
+nice. And the organs. Again, you got the
+10:13
+heart again in a different way. So, this
+10:14
+is actually a decent generation. might
+10:17
+even be maybe not as UI better than Quen
+10:19
+3.8, but maybe physiologically better
+10:23
+than the other ones. Ballista, we're
+10:25
+thinking disabled. 5,000 tokens. Is it
+10:28
+actually going to fire? Oh, look. This
+10:29
+is nice. This could be an Age of
+10:30
+Empires. This is uh this is cool. So, it
+10:33
+fires that way. So, that's that's cool.
+10:36
+We got some sort of physics. Very very
+10:37
+basic. I guess I do have thinking
+10:39
+disabled cuz generations take time. I
+10:42
+did do some thinking ones like Grand
+10:43
+Theft Auto. I got non-thinking and
+10:44
+thinking. It takes time when you do
+10:45
+thinking. lots of tokens. So, I hope you
+10:47
+appreciate these tests. So, with
+10:49
+thinking disabled making Grand Theft
+10:50
+Auto, we have 9,500 tokens and the Los
+10:56
+Santos Neon City. So, yeah, we are in a
+10:59
+car right now. It's an actual city.
+11:01
+Look, there's other AI drivers on the
+11:02
+road now. They are doing some sort of,
+11:04
+you know, too fast, too furious
+11:07
+[laughter]
+11:08
+driving.
+11:09
+This is a fun world. There's a tree in
+11:12
+the middle of the road there. [laughter]
+11:14
+So, I don't know what city planning
+11:17
+approved this. There was obly some
+11:19
+bribes involved, but this generation put
+11:22
+some trees in the middle of the road.
+11:23
+That's pretty clever. That car's all
+11:25
+parked. So, the cars, there is AI and
+11:27
+the cars that do move if you know the
+11:30
+kind of like they need rotating. So,
+11:32
+that is a pretty fun generation. But
+11:34
+definitely a definitely beautiful
+11:35
+generation here. And the car right goes
+11:37
+right. The wheels are moving. So, this
+11:38
+is this one is a good job. I like that.
+11:41
+But we're going to put in thinking
+11:42
+enabled because we want to see how good
+11:44
+it can get. So this is 40,000 tokens and
+11:48
+this is just the first time one prompt
+11:50
+actually generated this make a GTA 5
+11:52
+clone and I want cool cutscenes and
+11:54
+everything. So it made that without any
+11:56
+error correction required. So that is
+11:58
+that is good. You know sometimes you
+12:01
+know other models they make little
+12:03
+errors here and there and you need to
+12:04
+constantly correct it and fix it which
+12:06
+can be frustrating.
+12:08
+See, when you're running with um an
+12:09
+agent, it just does it all for you, but
+12:11
+you spend forever just redoing the code
+12:13
+over. So, it's like, why is this
+12:14
+generation taking forever? It's because,
+12:15
+you know, it's a bit buggy. This one
+12:17
+here, look at that one one prompt and it
+12:19
+made it. We got a nice little character
+12:21
+walking around. I think you can change
+12:22
+the camera. So, they've implemented
+12:24
+that. And trees are again still in the
+12:26
+middle of the road. So, definitely need
+12:27
+some sort of training data on city
+12:29
+planning. Let's see if I can get in the
+12:30
+car. I can get in the car. Look at that.
+12:33
+There is actual sound.
+12:38
+That is cool. Oh, that is cool.
+12:41
+Can I see if there's collisions?
+12:44
+Oh, look at that. Nice. There is AI on
+12:46
+the road. So, there's other drivers
+12:49
+there.
+12:52
+Know where he's going. All right. So,
+12:55
+there's something happening. So, that is
+12:57
+pretty good. I do like that. And you can
+12:59
+get in and out of the car. You don't
+13:01
+have a weapon, so you can't shoot. So,
+13:03
+it's just a a roaming city. It is
+13:06
+getting darker there. So, there is a
+13:07
+night and day transitioning happening. I
+13:09
+don't see any city building lights
+13:11
+coming on or anything like that. So,
+13:12
+it's not that advanced, but still, look
+13:14
+at that AI driving around the city. You
+13:16
+got a health bar. You got a mini map.
+13:18
+So, this is a decent generation.
+13:20
+Actually, it's really, really good job.
+13:21
+I like that. Lots for you to build on.
+13:24
+Next up, we're going to be doing the Red
+13:27
+Dead Redemption remake. And I told it
+13:29
+that I'm making a video on YouTube, so
+13:31
+make it your best work. Let's see what
+13:33
+it best work is. Now, the the winner of
+13:35
+this generation is definitely still
+13:37
+deepseek. It was definitely doing some
+13:39
+deepseeking in that generation. Check
+13:40
+out the Deep Seek video for that. And
+13:43
+there was a couple of errors when making
+13:45
+this generation. So, our context window
+13:47
+is at 49,000 tokens. So, we hit play and
+13:50
+we see Red Dead Horizon
+13:53
+Dun Free Rome and story mode. I want
+13:55
+story mode.
+13:56
+The year is 1,899.
+13:59
+The age of outlaws and gunslingers is
+14:01
+dying.
+14:05
+Go on. Go on. Okay, that was the cut
+14:08
+scene. Oh, whoa, whoa, whoa. What just
+14:11
+happened? I flew up and the Okay, the
+14:14
+first This is an amazing town that
+14:16
+they're actually moving. Well, I'm
+14:18
+getting done here. They're actually
+14:20
+moving around. That guy's got pistols.
+14:21
+There's pedestrians just walking around.
+14:23
+An actual city here. Maybe it's not the
+14:25
+best designed city, but there's a well
+14:27
+there. That guy's floating and he's a
+14:28
+bit feet, but you got the bad guys
+14:29
+there. You can actually see him. And
+14:31
+this this is a welldesigned town. The
+14:33
+only thing that was a bit dodgy is as
+14:35
+soon as I started the level, I just
+14:37
+floated up into heaven. Maybe I died
+14:40
+straight away. Look at that. So,
+14:42
+[laughter]
+14:42
+I can actually move. And there's bad
+14:45
+guy. They are looking at me. They're
+14:46
+looking to do something. Maybe they're
+14:47
+shooting at me. So, there is a little
+14:49
+bug with this one. I kind of want to fix
+14:51
+this bug and play this game. This Let's
+14:53
+do free roam. Okay, free roam kind of
+14:55
+works. And walking. I'm getting shot.
+14:58
+The guys that guy's shooting at me. So,
+15:00
+there's actual AI in this in this level.
+15:02
+The crowd, they should be running away
+15:03
+if we getting shot. But let's see if I
+15:05
+can shoot back.
+15:07
+So, I can shoot back. Can I shoot this
+15:09
+guy? I died. Wasted. It's got the bones.
+15:14
+You're going to need maybe a little bit
+15:16
+of programming skills or prompting
+15:18
+skills to get this fixed, but it does
+15:20
+have sort of bones. You got AI there.
+15:21
+You got a town. You got pedestrians. It
+15:23
+just needs a little bit of logic to make
+15:24
+the crowd run away when there's there's
+15:26
+there's guns being fired. Maybe not fire
+15:28
+at you straight away. Maybe you need to
+15:30
+do something and aim in a bit there. But
+15:32
+this is a definitely a good generation.
+15:34
+And I think when I made it, it was this
+15:36
+was with thinking disabled. So now we're
+15:39
+going to jump in and do Super Mario.
+15:41
+This is with thinking disabled. And our
+15:43
+context window is at 10,000 tokens. So
+15:46
+this is the generation 3D platformer
+15:48
+game. And there was an error in which I
+15:51
+couldn't see Mario. So I told it to fix
+15:53
+it. And there you go. Oh, that is cool.
+15:56
+It's the same sort of character. He's
+15:58
+not. He's really walking around. So,
+15:59
+it's kind of like GTA Mario. Let's see.
+16:02
+We can't double jump, but this is more
+16:04
+like a running man game. Oh, I missed
+16:06
+that. This is actually really cool. It's
+16:07
+a bit hard. I need to add in double
+16:09
+jump. Oh, look at that. Okay. Oh, I just
+16:13
+missed it. This is This is This is This
+16:15
+is This is good. Much much better
+16:17
+generation than Gemini Pro does. But
+16:18
+this is a good generation here. So, I do
+16:20
+like that. Good job. And this, by the
+16:22
+way, was with Thinking Disabled. So,
+16:24
+even if you disable thinking, it makes
+16:26
+some credibly good generations. Here,
+16:28
+here's making a 3D car racing game,
+16:30
+Outrun. And it did make a generation
+16:32
+here. 8,600 tokens. Now, it is a bit
+16:34
+trippy. Let's see. Start engine. Do we
+16:37
+not have sound? But let's see what we
+16:39
+do. So, it is kind of cool when you're
+16:44
+moving the camera here. Definitely
+16:45
+gorgeous graphics, but the actual racing
+16:48
+doesn't actually happen. I mean, I can't
+16:50
+move forward. It says I'm moving
+16:52
+forward, but I don't see anything
+16:53
+actually happening here. So, the the
+16:55
+track is a bit broken, all that kind of
+16:57
+stuff. And there is collision though.
+16:59
+I'm colliding into that that car. But
+17:01
+yeah, it's generally broken, but there's
+17:04
+potential there. I do like the the funky
+17:06
+kind of graphics. That's cool. So, I'm
+17:08
+asking it to see if it can fixed it.
+17:09
+Now, we're going to do a basic drawing.
+17:11
+So, this is canvas animation. And with
+17:13
+that thinking disabled, 7,000 tokens, we
+17:16
+hit play. And that is a nice generation.
+17:18
+That is all right. We're back in Egypt.
+17:20
+back in the well. I don't know.
+17:22
+Actually, this is this is probably just
+17:23
+mountains. I remember last time Quinn at
+17:25
+3.8 loves making all their backgrounds
+17:27
+in Egypt. Now, I don't know which
+17:30
+direction we're going cuz I think we're
+17:32
+going backwards. Yeah, we're definitely
+17:34
+going backwards.
+17:36
+The lights should be going forward. So,
+17:38
+definitely an Aussie outback driver over
+17:40
+here. Just he's got suspension raised.
+17:44
+He's all he's doing is missing that big
+17:46
+aerial. Lots of lots of lamp post there.
+17:49
+He's driving on the left side of the
+17:50
+road so Americans don't get upset
+17:53
+because in most of the world they do
+17:55
+drive on the left. Sorry for your loss.
+17:57
+So we hit it was at the moon on the
+17:59
+ground. Crazy. So now we're going to go
+18:01
+into productivity application. So we're
+18:03
+asking it to make Microsoft Word with
+18:06
+thinking disabled and 4,600 tokens is
+18:09
+what it took. And this is actually a
+18:11
+decent generation of of Word. This looks
+18:12
+nice especially with thinking disabled.
+18:14
+Now, unfortunately, changing Oh, no.
+18:16
+Changing the font does work. Making it
+18:19
+big. Does it is it working? Making it
+18:21
+bigger does work. You can move it to the
+18:23
+right. So, it's definitely doing a good
+18:24
+job there. Now, does this menu system
+18:26
+work? So, unfortunately, the menu system
+18:27
+doesn't work. So, I do find this with
+18:29
+some modelers, they make the UI, but
+18:31
+they don't make the UI actually usable.
+18:33
+So, you can give it a name and all that
+18:35
+kind of stuff. So, that is pretty good.
+18:37
+But remember the highlight of this model
+18:40
+is if you are doing logic, maybe
+18:42
+business logic, you have eight oranges,
+18:45
+four children, and a knife. Distribute
+18:47
+them evenly. It might actually give you
+18:50
+an interesting answer cuz it took it
+18:51
+seriously. Everything had to get
+18:53
+distributed evenly. So, I'm looking
+18:55
+forward to what kind of wackiness comes
+18:57
+out of that methodology of thinking.
+18:59
+Maybe it's going to solve the mysteries
+19:01
+of the universe. So, let me know what
+19:02
+you guys think. Hope you guys found this
+19:03
+video useful and enjoyed the show.
+19:07
+[music]
+19:12
+So the clever and rather morbid answer
+19:14
+is that you have to use the knife on
+19:16
+everything. Oranges, children, and the
+19:19
+knife itself.
+19:22
+It doesn't just want you to cut the
+19:24
+oranges. It wants you to cut the
+19:26
+children.
+
+All
+
+AI
+
+Learning
+
+Related
+
+For you
+
+Recently uploaded
+
+Watched
+
+https://www.youtube.com/watch?v=vyvE1jZ--7o

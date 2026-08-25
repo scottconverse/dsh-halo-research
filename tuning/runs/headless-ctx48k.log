@@ -1,0 +1,12 @@
+Done. Created `app.py` in the working directory (single file, no other files added) and stopped without running it. How it maps to the requirements:
+
+- **Stack**: Python + Flask + SQLite; notes stored in `notes.db`.
+- **Table creation**: `init_db()` runs `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT NOT NULL)` at startup (module load), so it exists whenever the app starts.
+- **`GET /`**: Returns an HTML page listing every note's text and a `<form method="post" action="/add">` with `<input type="text" name="text">`.
+- **`POST /add`**: Reads `request.form["text"]`, inserts it, then `redirect(..., code=302)` to `/`.
+- **`POST /delete/<int:id>`**: Deletes the note by integer id, then redirects 302 to `/`.
+- **Per-note delete forms**: Each note renders as its (HTML-escaped) text followed by `<form method="post" action="/delete/{id}">` with a submit button.
+- **Locatable ids**: Each note's wrapper carries `id="note-N"` (e.g., `note-1`), so the literal string `note-N` appears on the page for every note id N.
+- **Server**: `if __name__ == "__main__": app.run(host="127.0.0.1", port=5099)` — runs on 127.0.0.1:5099 when executed directly with `python app.py`.
+
+No authentication, no template directory, no extra files.
