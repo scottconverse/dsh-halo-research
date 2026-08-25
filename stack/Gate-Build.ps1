@@ -15,6 +15,7 @@ param(
     [Parameter(Mandatory)][string] $Workspace,
     [Parameter(Mandatory)][string] $TestScript,
     [string] $Task = 'Carry out the build specified in AGENTS.md in this directory, exactly as written.',
+    [ValidateSet('worker','cockpit')][string] $Lane = 'worker',
     [int]    $MaxRounds = 3,
     [int]    $CapMin = 20,
     [switch] $VerifyOnly,
@@ -50,18 +51,27 @@ function Run-Verdict {
 function Run-WorkerRound([string]$roundTask, [int]$round) {
     $pnpmCmd = Join-Path (Split-Path (Get-Command pnpm).Source -Parent) 'pnpm.cmd'
     $env:DSH_PERMISSION_MODE = 'danger-full-access'
-    $env:DSH_TOOLS_MODE = 'code'
     $env:LMSTUDIO_API_KEY = 'x'
-    # The worker's own DSH_HOME pins the coder: a --patch cannot do it, because
-    # agent-default-model reads the settings USER LAYER live once mounted.
-    $env:DSH_HOME = $workerHome
+    if ($Lane -eq 'worker') {
+        # Coder-30B in Code Mode. The worker's own DSH_HOME pins the coder: a
+        # --patch cannot, because agent-default-model reads the settings USER
+        # LAYER live once mounted.
+        $env:DSH_TOOLS_MODE = 'code'
+        $env:DSH_HOME = $workerHome
+    } else {
+        # Cockpit lane: 27B, native tool mode, default home (~\.dsh), with the
+        # forced-cadence brief stamped into AGENTS.md (spec §12.10 recipe).
+        Remove-Item Env:DSH_TOOLS_MODE -EA SilentlyContinue
+        Remove-Item Env:DSH_HOME -EA SilentlyContinue
+    }
     $rlog = Join-Path $wsFull ("gate-round{0}.log" -f $round)
     $sw = [Diagnostics.Stopwatch]::StartNew()
     $p = Start-Process -FilePath $pnpmCmd `
             -ArgumentList @('dlx', $DshVer, '--profile', 'headless', $roundTask) `
             -WorkingDirectory $wsFull -NoNewWindow -PassThru `
             -RedirectStandardOutput $rlog -RedirectStandardError "$rlog.err"
-    Log "round $round : worker launched (pid $($p.Id), cap ${CapMin}m, Code Mode, coder-30b)"
+    $laneDesc = if ($Lane -eq 'worker') { 'Code Mode, coder-30b' } else { 'native + cadence, 27B cockpit' }
+    Log "round $round : agent launched (pid $($p.Id), cap ${CapMin}m, $laneDesc)"
     $finished = $p.WaitForExit($CapMin * 60 * 1000)
     $sw.Stop()
     if (-not $finished) {
@@ -77,9 +87,23 @@ function Run-WorkerRound([string]$roundTask, [int]$round) {
     if ($leak) { Log ("round $round : WARNING new top-level dirs created during round: " + (($leak | ForEach-Object Name) -join ', ')) }
 }
 
+function Ensure-Cadence {
+    # Cockpit builds always carry the forced-cadence brief (the only recipe
+    # with a full autonomous pass on record). Appended after any existing
+    # contract, never duplicated, never touched on the worker lane.
+    $marker = 'HALO-CADENCE-BRIEF'
+    $brief  = Join-Path $stack 'cadence-brief.md'
+    $agents = Join-Path $wsFull 'AGENTS.md'
+    if (-not (Test-Path $brief)) { Log 'WARNING cadence-brief.md missing - cockpit round runs without cadence'; return }
+    if ((Test-Path $agents) -and ((Get-Content $agents -Raw) -match $marker)) { return }
+    Add-Content $agents ("`n`n" + (Get-Content $brief -Raw))
+    Log 'cadence brief stamped into AGENTS.md'
+}
+
 # ---------------- gate loop ----------------
 "" | Set-Content $log
-Log ("gate start | workspace=$wsFull | verifier=$tsFull | verifyOnly=$VerifyOnly")
+Log ("gate start | lane=$Lane | workspace=$wsFull | verifier=$tsFull | verifyOnly=$VerifyOnly")
+if (-not $VerifyOnly -and $Lane -eq 'cockpit') { Ensure-Cadence }
 
 if ($VerifyOnly) {
     $v = Run-Verdict

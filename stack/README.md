@@ -18,11 +18,19 @@ $env:LMSTUDIO_API_KEY='x'; $env:DSH_PERMISSION_MODE='danger-full-access'
 pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" web
 ```
 
-**Build (THE worker path — there is no other):**
+**Build (THE build path — there is no other):**
 
 ```powershell
 .\Gate-Build.ps1 -Workspace <dir> -TestScript <verifier outside the workspace> -Task "<one line, no < >>"
 ```
+
+Two lanes, both gated: `-Lane worker` (default — Coder-30B, Code Mode) for
+implementation; `-Lane cockpit` (27B, native mode) for builds that need the
+stronger model — the gate stamps the forced-cadence brief
+(`stack\cadence-brief.md`, derived from the 15/15 recipe) into the workspace
+`AGENTS.md` automatically on the cockpit lane. Both lanes proven on the
+seeded-bug check: worker 0.6 min, cockpit 3.3 min, each PASS by test evidence
+with model identity confirmed from the LM Studio server log.
 
 The verifier is any script/exe taking the workspace path and exiting 0 only on
 pass (repo tests + acceptance checks the worker cannot rewrite). The gate
