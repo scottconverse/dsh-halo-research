@@ -18,6 +18,16 @@ $env:LMSTUDIO_API_KEY='x'; $env:DSH_PERMISSION_MODE='danger-full-access'
 pnpm dlx "@deepseek-ai/dsh@0.1.1-rc.2" web
 ```
 
+The cockpit carries a **standing build-routing rule** in its system prompt
+(deployed at `~\.dsh\profiles\web\cordis.patch.yml`; canonical copy
+`stack\web-cockpit.patch.yml`): asked for anything beyond a quick edit, it
+invokes `Gate-Build.ps1` itself and relays the gate verdict, instead of
+building in-session — so "just ask in chat" routes long work to the gated
+lanes automatically. Exception marker `HALO-CADENCE-BRIEF` tells a
+gate-launched 27B it IS the builder. Seam verified before wiring: no live
+settings override in the plugin source, plus a runtime persona sentinel
+(HALO-ROUTE-42) and a composed-config check.
+
 **Build (THE build path — there is no other):**
 
 ```powershell
