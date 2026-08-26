@@ -1,0 +1,5 @@
+F20F4852D9A891602EDF5628229B27DA6702FA248869F93843185B8B62153CF2  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B3-security-0826-032840\AGENTS.md
+4FA76D1EDC45017A0630038C1A6D187E644CB979F330AA589AF273E94441EED8  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B3-security-0826-032840\GATE-FEEDBACK.md
+BF29C299F3E8F62D153571758A73D0346F0660C30628FA69209F839CC9326306  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B3-security-0826-032840\gate-log.txt
+3FFF766CEA95518BDF8BE6CD77F5117D387C792D7947DDA2574A76A707A035BC  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B3-security-0826-032840\gate-verdict.txt
+4DAC5BD7E60D3FE9540FE7671D150275BED65F99FB64FED010608E249A46F0BC  C:\Users\scott\Desktop\Code\halo-research-gateway\tests\unit\test_security.py

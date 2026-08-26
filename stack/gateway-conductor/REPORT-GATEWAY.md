@@ -52,3 +52,10 @@ default on prior evidence. No rerun - building instead.
 [08-26 02:31:39] === batch A7 end: 0 green, 2 red ===
 [08-26 02:31:54] night-run: restored B2-v6 forensic implementation (8/12) as the seed for B2a/B2b
 [08-26 02:48:28] night-run unit B2a-migrations: GREEN in 16.6 min
+[08-26 03:12:39] night-run unit B2b-cache: RED in 24.2 min
+[08-26 03:28:40] night-run unit B8-envelope: RED in 16 min
+[08-26 03:47:08] night-run unit B3-security: RED in 18.5 min
+[08-26 03:47:08] night-run complete
+[08-26 03:49:06] night-run-2: restored src/halo_research_gateway/security.py from B3-security-0826-032840 as the seed
+[08-26 03:52:00] NIGHT RUN 1 RESULT via public entry point (Halo-Code): B2a-migrations GREEN 16.6m (verified independently: 4/4, frozen tests untouched, 355 worker-written lines). B2b RED 6/8, B8 RED 8/11, B3 RED 9/11 - and B3 did NOT cheat this time (frozen defense changed its behaviour). Aggregate 23/30 acceptance tests passing.
+[08-26 03:52:00] Pattern confirmed twice: oversized unit + generic brief = red; micro-unit + brief naming the exact defect = green. Launching night-run-2 with per-defect briefs, each unit seeded from its own preserved output.
