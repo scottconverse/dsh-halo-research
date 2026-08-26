@@ -14,3 +14,4 @@ A5,B5-cockpit,cockpit-27b,VOID(killed by operator STOP; runner had survived the 
 A6-prep,frozen-acceptance-tests-B2-B3,fable-gate,AUTHORED,0,0,fable,0,gate_test_lines=207
 A6,B2-v5,worker-coder30b,RED,2,24.3,fable-brief,0,gate-authored-frozen
 A6,B3-v3,worker-coder30b,RED,2,20.5,fable-brief,0,gate-authored-frozen
+A7,B2-v6,worker-coder30b,VOID(operator full-stop mid round 2; models unloaded),2,25,fable-brief,0,gate-authored-frozen,

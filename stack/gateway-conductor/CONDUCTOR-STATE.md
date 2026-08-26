@@ -17,9 +17,19 @@ SHELVED — this is a real build, not a test program.
 
 ## Live right now
 
-- **Batch A7 running in background** (task `b0qpjktqd`, ~23:2x 08-25): B2-v6
-  (cap 15) + B3-v4 (cap 12), same frozen tests and briefs as A6, trees seeded
-  from A6 red forensics — rerun because of the root cause below.
+- **FULL STOP by operator order, 08-25 ~23:45. NOTHING runs. Do NOT launch
+  anything until the operator says so.** A7 was killed mid B2-v6 round 2
+  (B3-v4 never ran); all DSH processes down; **both models UNLOADED**
+  (`lms ps`: none loaded — reload them before any future lane run); shutdown
+  verified by the 90-second silence watch. The operator is deciding how to
+  proceed after a day he judged wasted — read spec v2.9 §30.6 (the failure
+  record) FIRST.
+- Next session, in order: (1) read §30.6; (2) wire the harness-green
+  requirement INTO run-batch as a hard refusal; (3) await operator go;
+  (4) reload models, run `test-harness.ps1`, then A7 remains the staged
+  rerun (first sighted-feedback batch — B2/B3 seeds still in the working
+  tree).
+- Superseded context below (A7 launch rationale):
 - **ROOT CAUSE FOUND for the all-day red grind:** Gate-Build's `Run-Verdict`
   captured the verifier with `2>&1`, but the verifier reports via Write-Host
   (stream 6) — so `gate-verdict.txt` and **GATE-FEEDBACK.md were EMPTY all

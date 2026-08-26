@@ -42,3 +42,4 @@ default on prior evidence. No rerun - building instead.
 [08-25 23:03:25] === batch A6 end: 0 green, 2 red ===
 [08-25 23:05:42] === batch A7 start: 2 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
 [08-25 23:25:00] ROOT CAUSE: Run-Verdict 2>&1 never captured Write-Host output -> GATE-FEEDBACK.md was EMPTY all day; all retry rounds ran blind. Fixed (*>&1), proven by harness T4b (11/11). A7 launched: B2-v6 + B3-v4, seeded from A6 forensics, fixed gate live (tripwire + ENV now armed with real text).
+[08-25 23:45:00] OPERATOR FULL STOP: A7 killed mid B2-v6 round 2 (B3-v4 never ran); all DSH processes down; both models unloaded (lms confirms none loaded); 90s silence watch clean. Day closed for review.
