@@ -8,6 +8,20 @@
 # Seam verified before wiring: system-prompt has no live settings override
 # (packages/core/system-prompt/src/index.ts), and a persona sentinel probe
 # reached a live session (HALO-ROUTE-42, 2026-08-25).
+# Coder subagent — the 30B implementation worker, dispatched by the cockpit
+# for any build work. Uses DSH's in-process spawn provider; the agentOptions
+# pin it to the coder model on LM Studio.
+- insert:
+    - id: tool-subagent-coder
+      name: '@deepseek-ai/dsh-tool-subagent'
+      config:
+        provider: spawn
+        toolName: subagent_coder
+        agentOptions:
+          provider: lmstudio
+          model: unsloth/qwen3-coder-30b-a3b-instruct
+          maxTokens: 32768
+
 - id: system-prompt
   config:
     persona: >-
