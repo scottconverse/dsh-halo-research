@@ -4581,7 +4581,10 @@ paths. If a claim and a path disagree, the path wins.
 | Hardened external verifier (anti-shrinkage `UNIT_REQUIRED`, frozen-tests check) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\verify-pytest.ps1` |
 | Red-round forensics (preserved worker output from failed units, A5 onward) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\reds\` |
 | Authoritative per-unit evidence archive (gate log + verdict + frozen-test SHA256s, outside the workspace) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\` |
-| Pipeline dry-run harness (11 checks, ~90 s, zero inference — REQUIRED green before any batch) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\test-harness.ps1` (+ `fake-gate.ps1`) |
+| Pipeline dry-run harness (14 checks, ~90 s, zero inference — REQUIRED green before any batch) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\test-harness.ps1` (+ `fake-gate.ps1`) |
+| **THE PUBLIC ENTRY POINT — one command, any frontier coordinator** | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Halo-Code.ps1` |
+| **Coordinator's guide (read this to drive the stack)** | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\HALO-STACK-GUIDE.md` |
+| Language-agnostic external verifier (frozen-file + anti-shrinkage checks) | `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\verify-generic.ps1` |
 
 # 30. Conductor mode — the LOCAL-MOST gateway build, measured \[v2.8\]
 

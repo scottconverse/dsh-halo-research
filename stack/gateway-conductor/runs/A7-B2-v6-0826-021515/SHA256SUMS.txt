@@ -1,0 +1,5 @@
+AAAA70367056622F29A5A566D332C760223DBA18C43E362DECE250EC1E787E13  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\A7-B2-v6-0826-021515\GATE-FEEDBACK.md
+3FC4F226FF2ABB532DBAFA7D2CBC1D11EA8ED220909ABDB4804B533D4B6378FE  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\A7-B2-v6-0826-021515\gate-log.txt
+8370E16FF13432C966AF9025B72E3A3658A0006B09AAFF6D2AC634F360A5C9C5  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\A7-B2-v6-0826-021515\gate-verdict.txt
+F97D39E5AA054DAD4EE3F3412D5F7E95F986F4B559E4634AD3E1E279DA0B5652  C:\Users\scott\Desktop\Code\halo-research-gateway\tests\unit\test_cache.py
+83F72BB9ACA6C5858E67A5BA6ADEB1275E692A20EC5D4BC2E0CEA2B0D091EEEE  C:\Users\scott\Desktop\Code\halo-research-gateway\tests\unit\test_migrations.py

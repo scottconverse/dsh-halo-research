@@ -8,6 +8,7 @@ $ErrorActionPreference = 'Stop'
 $cond = $PSScriptRoot
 $verify = Join-Path $cond 'verify-pytest.ps1'
 $fails = 0
+$env:HALO_IN_HARNESS = '1'   # recursion guard: Halo-Code must not re-enter this harness
 function Check([string]$name, [bool]$ok) {
     if ($ok) { Write-Host "PASS  $name" } else { Write-Host "FAIL  $name"; $script:fails++ }
 }
@@ -69,11 +70,44 @@ $evDirs = Get-ChildItem (Join-Path $cond 'runs') -Directory -Filter 'DRY-*' -EA 
 $sums = $evDirs | ForEach-Object { Join-Path $_.FullName 'SHA256SUMS.txt' } | Where-Object { (Test-Path $_) -and (Get-Item $_).Length -gt 0 }
 Check 'T10 evidence archived outside workspace with hashes (both units)' ($evDirs.Count -eq 2 -and $sums.Count -eq 2)
 
+# --- T11-T14: Halo-Code.ps1, the public entry point any frontier model drives ---
+$halo = Join-Path (Split-Path $cond -Parent) 'Halo-Code.ps1'
+$fake = Join-Path $cond 'fake-gate.ps1'
+$env:UNIT_TESTS = ''; $env:UNIT_REQUIRED = ''; $env:UNIT_FROZEN = ''
+$briefGreen = Join-Path $Scratch 'brief-green.md'
+Set-Content $briefGreen "Implement the unit.`n`nFAKEMODE: green`n"
+$briefFrozen = Join-Path $Scratch 'brief-frozen.md'
+Set-Content $briefFrozen "Implement the unit.`n`nFAKEMODE: frozen`n"
+
+& $halo -Repo $repo -Brief $briefGreen -Verify 'uv run --frozen python -m pytest -q tests/unit/test_frozen.py' `
+        -Frozen 'tests/unit/test_frozen.py' -Name 'dryhalo-green' -GateScript $fake `
+        -SkipSelfTest -SkipModelLoad -Rounds 1 -CapMin 1 *> $null
+$haloGreen = $LASTEXITCODE
+Check 'T11 Halo-Code green path returns 0 with frozen file intact' ($haloGreen -eq 0)
+
+$evH = Get-ChildItem (Join-Path $cond 'runs') -Directory -Filter 'dryhalo-green-*' -EA SilentlyContinue | Select-Object -Last 1
+Check 'T12 Halo-Code writes evidence + SHA256SUMS outside the repo' ($null -ne $evH -and (Test-Path (Join-Path $evH.FullName 'SHA256SUMS.txt')) -and (Get-Item (Join-Path $evH.FullName 'SHA256SUMS.txt')).Length -gt 0)
+
+& $halo -Repo $repo -Brief $briefFrozen -Verify 'uv run --frozen python -m pytest -q tests/unit/test_frozen.py' `
+        -Frozen 'tests/unit/test_frozen.py' -Name 'dryhalo-frozen' -GateScript $fake `
+        -SkipSelfTest -SkipModelLoad -Rounds 1 -CapMin 1 *> $null
+$haloFrozen = $LASTEXITCODE
+$frozenClean = -not (git -C $repo status --porcelain -- tests/unit/test_frozen.py)
+Check 'T13 Halo-Code rejects frozen-file tampering and restores the repo' ($haloFrozen -ne 0 -and $frozenClean)
+
+$notARepo = Join-Path $Scratch 'not-a-repo'
+New-Item -ItemType Directory -Force -Path $notARepo | Out-Null
+& $halo -Repo $notARepo -Brief 'x' -Verify 'echo x' -Name 'dryhalo-preflight' -GateScript $fake `
+        -SkipSelfTest -SkipModelLoad *> $null
+Check 'T14 Halo-Code refuses a non-git target instead of running blind' ($LASTEXITCODE -eq 2)
+
 # --- cleanup --------------------------------------------------------------
 Set-Location $cond   # verifier leaks Set-Location into the process; step out before deleting
 if ($redDir) { Remove-Item $redDir.FullName -Recurse -Force -Confirm:$false }
 $evDirs | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$false -EA SilentlyContinue }
 Remove-Item $Scratch -Recurse -Force -Confirm:$false -EA SilentlyContinue
-Write-Host "=== dry-run: $((11 - $fails))/11 pass ==="
+$evAll = Get-ChildItem (Join-Path $cond 'runs') -Directory -Filter 'dryhalo-*' -EA SilentlyContinue
+$evAll | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$false -EA SilentlyContinue }
+Write-Host "=== dry-run: $((14 - $fails))/14 pass ==="
 exit $fails
 

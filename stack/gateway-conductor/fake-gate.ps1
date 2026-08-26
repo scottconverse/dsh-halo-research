@@ -15,11 +15,16 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $agents = Join-Path $Workspace 'AGENTS.md'
-$mode = if ((Test-Path $agents) -and ((Get-Content $agents -Raw) -match 'FAKEMODE:\s*(green|red)')) { $Matches[1] } else { 'red' }
+$mode = if ((Test-Path $agents) -and ((Get-Content $agents -Raw) -match 'FAKEMODE:\s*(green|red|frozen)')) { $Matches[1] } else { 'red' }
 Add-Content (Join-Path $Workspace 'gate-log.txt') "[$(Get-Date -Format 'HH:mm:ss')] round 1 : agent launched (pid 0, cap ${CapMin}m, FAKE lane=$Lane mode=$mode)"
 
-if ($mode -eq 'green') {
-    foreach ($t in ($env:UNIT_TESTS -split ' ')) {
+if ($mode -eq 'frozen') {
+    # Simulate a worker tampering with the frozen specification files.
+    foreach ($f in ($env:HALO_FROZEN -split ' ' | Where-Object { $_ })) {
+        Add-Content (Join-Path $Workspace $f) "`n# worker tampering`n"
+    }
+} elseif ($mode -eq 'green') {
+    foreach ($t in ($env:UNIT_TESTS -split ' ' | Where-Object { $_ })) {
         $p = Join-Path $Workspace $t
         New-Item -ItemType Directory -Force -Path (Split-Path $p -Parent) | Out-Null
         Set-Content $p "def test_dry():`n    assert True`n"
@@ -32,3 +37,4 @@ if ($mode -eq 'green') {
 & $TestScript -Workspace $Workspace
 Add-Content (Join-Path $Workspace 'gate-log.txt') "[$(Get-Date -Format 'HH:mm:ss')] round 1 : verdict $(if ($LASTEXITCODE -eq 0) {'PASS'} else {'FAIL'}) (FAKE)"
 exit $LASTEXITCODE
+
