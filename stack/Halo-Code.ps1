@@ -82,8 +82,13 @@ if (-not (Test-Path (Join-Path $repoFull '.git'))) { Say "Not a git repo (needed
 $dirty = git -C $repoFull status --porcelain
 if ($dirty -and -not $Commit) { Say 'note: repo has uncommitted changes; they are treated as the starting point.' }
 
-# Model residency: this box cannot hold both local models at once (measured
-# 2026-08-26: both loaded -> 1.1 GB free; one loaded -> 32.6 GB free).
+# Model residency: this box cannot hold both local models at once.
+# Measured 2026-08-26: both loaded (at GGUF-default 262K KV cache) -> 0.9 GiB
+# free; one loaded -> 28.6 GiB free. The --context-length flag on lms load
+# is silently ignored by LM Studio CLI commit 07b7252; models always load at
+# the GGUF's 262K default. DSH's settings.yaml contextWindow: 32768 is the
+# EFFECTIVE bound (the model processes at that window regardless).
+# Sequential swapping is the only viable path until LM Studio honors the flag.
 $want = if ($Lane -eq 'worker') { 'unsloth/qwen3-coder-30b-a3b-instruct' } else { 'unsloth/qwen3.8-27b' }
 $loaded = @()
 if ($SkipModelLoad) { $want = '(model load skipped)' } else {
@@ -91,7 +96,7 @@ try { $loaded = (& lms ps --json 2>$null | ConvertFrom-Json) | ForEach-Object { 
 if ($loaded -notcontains $want) {
     Say "loading $want for the $Lane lane (unloading others first)..."
     & lms unload --all *> $null
-    & lms load $want --gpu max -y *> $null
+    & lms load $want --context-length 32768 --gpu max -y *> $null
     if ($LASTEXITCODE -ne 0) { Say "model load FAILED: $want"; exit 2 }
 } elseif ($loaded.Count -gt 1) {
     Say 'unloading the idle model to free memory (one lane at a time)...'
