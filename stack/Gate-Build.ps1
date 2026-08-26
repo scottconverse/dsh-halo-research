@@ -42,8 +42,11 @@ if ($tsFull.StartsWith($wsFull, [System.StringComparison]::OrdinalIgnoreCase)) {
 
 function Run-Verdict {
     # The only authority on completion. Exit 0 = pass. Everything else = fail.
-    if ($tsFull -like '*.py') { $out = & python $tsFull $wsFull 2>&1 }
-    else                      { $out = & $tsFull $wsFull 2>&1 }
+    # *>&1 (not 2>&1): the verifier reports via Write-Host (stream 6), which
+    # 2>&1 never captures - that gap fed EMPTY feedback to every retry round
+    # until 2026-08-25 and would misfire the ENV classifier.
+    if ($tsFull -like '*.py') { $out = & python $tsFull $wsFull *>&1 }
+    else                      { $out = & $tsFull $wsFull *>&1 }
     $code = $LASTEXITCODE
     return @{ code = $code; text = ($out -join "`n") }
 }

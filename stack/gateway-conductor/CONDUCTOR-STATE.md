@@ -17,7 +17,17 @@ SHELVED — this is a real build, not a test program.
 
 ## Live right now
 
-- **NOTHING is running.** Operator ordered STOP + pause (21:0x 08-25). Batch
+- **Batch A7 running in background** (task `b0qpjktqd`, ~23:2x 08-25): B2-v6
+  (cap 15) + B3-v4 (cap 12), same frozen tests and briefs as A6, trees seeded
+  from A6 red forensics — rerun because of the root cause below.
+- **ROOT CAUSE FOUND for the all-day red grind:** Gate-Build's `Run-Verdict`
+  captured the verifier with `2>&1`, but the verifier reports via Write-Host
+  (stream 6) — so `gate-verdict.txt` and **GATE-FEEDBACK.md were EMPTY all
+  day; every retry round ran blind.** Fixed to `*>&1`; proven by new harness
+  check T4b (Gate-Build -VerifyOnly must produce a verdict file containing
+  `RESULT:`). Harness now 11/11. A6's verdicts (B2-v5 RED 2r/24.3m, B3-v3
+  RED 2r/20.5m) carry this asterisk — the units never saw their failures.
+- Historical note (superseded): operator ordered STOP + pause 21:0x 08-25. Batch
   A5's final tally: B2-v4 RED 3r/54.7m (forensics preserved and salvaged),
   B3-v2 GREEN/committed `e72b9d6` **but hollow** (fails 9/11 gate-authored
   tests; classify_ip crashes on IPv6), B5-cockpit killed in round 1.

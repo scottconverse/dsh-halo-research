@@ -38,3 +38,7 @@ default on prior evidence. No rerun - building instead.
 [08-25 21:15:00] A6 staged test-first (B2-v5 seeded from forensics, B3-v3 vs frozen tests, 12-min caps). NOT launched - operator pause. Ledger col9 (tests_by) applies to rows written by the updated runner.
 [08-25 22:18:37] === batch A6 start: 2 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
 [08-25 22:42:52] unit B2-v5: RED after 2 round(s), 24.3 min - preserving work for forensics, then reverting repo
+[08-25 23:03:25] unit B3-v3: RED after 2 round(s), 20.5 min - preserving work for forensics, then reverting repo
+[08-25 23:03:25] === batch A6 end: 0 green, 2 red ===
+[08-25 23:05:42] === batch A7 start: 2 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 23:25:00] ROOT CAUSE: Run-Verdict 2>&1 never captured Write-Host output -> GATE-FEEDBACK.md was EMPTY all day; all retry rounds ran blind. Fixed (*>&1), proven by harness T4b (11/11). A7 launched: B2-v6 + B3-v4, seeded from A6 forensics, fixed gate live (tripwire + ENV now armed with real text).

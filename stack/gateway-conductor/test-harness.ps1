@@ -41,6 +41,14 @@ Push-Location $repo; git checkout -q -- tests/unit/test_frozen.py; Pop-Location
 $out = & $verify -Workspace $repo *>&1 | Out-String
 Check 'T4 clean tree + collected tests pass open' ($LASTEXITCODE -eq 0 -and $out -match 'RESULT: PASS')
 
+# T4b: Gate-Build's OWN capture of the verifier (the 2>&1/Write-Host gap fed
+# empty feedback to every retry round until 2026-08-25 - never again).
+$env:UNIT_TESTS = 'tests/unit/test_frozen.py'; $env:UNIT_REQUIRED = ''; $env:UNIT_FROZEN = ''
+& (Join-Path (Split-Path $cond -Parent) 'Gate-Build.ps1') -Workspace $repo -TestScript $verify -VerifyOnly *> $null
+$vfile = Join-Path $repo 'gate-verdict.txt'
+$vtext = if (Test-Path $vfile) { Get-Content $vfile -Raw } else { '' }
+Check 'T4b gate captures verifier output into gate-verdict.txt (non-empty, has RESULT:)' ($LASTEXITCODE -eq 0 -and $vtext -match 'RESULT: PASS')
+
 # --- T5-T9: runner pipeline with fake gate -------------------------------
 $env:UNIT_TESTS = ''; $env:UNIT_REQUIRED = ''; $env:UNIT_FROZEN = ''
 $ledger = Join-Path $Scratch 'ledger.csv'; $report = Join-Path $Scratch 'report.md'
@@ -66,6 +74,6 @@ Set-Location $cond   # verifier leaks Set-Location into the process; step out be
 if ($redDir) { Remove-Item $redDir.FullName -Recurse -Force -Confirm:$false }
 $evDirs | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$false -EA SilentlyContinue }
 Remove-Item $Scratch -Recurse -Force -Confirm:$false -EA SilentlyContinue
-Write-Host "=== dry-run: $((10 - $fails))/10 pass ==="
+Write-Host "=== dry-run: $((11 - $fails))/11 pass ==="
 exit $fails
 

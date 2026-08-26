@@ -17,6 +17,13 @@ $report = if ($Report) { $Report } else { Join-Path $cond 'REPORT-GATEWAY.md' }
 function Rep($m){ $l="[$(Get-Date -Format 'MM-dd HH:mm:ss')] $m"; Write-Host $l; Add-Content $report $l }
 
 $batches = @{
+  'A7' = @(  # A6 rerun with the FIXED gate (feedback capture repaired) - same frozen tests, trees seeded from reds
+    @{ n='B2-v6'; brief='B2-cache-migrations-v5.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_cache.py tests/unit/test_migrations.py'; cap=15; rounds=2; stop=$false;
+       frozen='tests/unit/test_cache.py tests/unit/test_migrations.py';
+       required='test_migrate_creates_schema test_migrate_second_run_noop test_schema_too_new_error test_backup_created_and_capped test_cache_requires_migrated_database test_put_get_roundtrip test_expiry_ttl test_max_age_stricter_than_ttl test_oversize_entry_rejected test_lru_eviction_order test_evict_preserves_rate_state test_stats_counts_and_bytes' },
+    @{ n='B3-v4'; brief='B3-security-v3.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_security.py'; cap=12; rounds=2; stop=$false;
+       frozen='tests/unit/test_security.py' }
+  )
   'DRY' = @(  # pipeline self-test units - run only via test-harness.ps1 against a throwaway repo
     @{ n='DRY-green'; brief='DRY-green.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_dry.py'; cap=1; rounds=1; stop=$false },
     @{ n='DRY-red';   brief='DRY-red.md';   verifier='verify-pytest.ps1'; tests='tests/unit/test_dry.py'; cap=1; rounds=1; stop=$false; required='test_missing_on_purpose' }
