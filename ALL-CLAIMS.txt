@@ -1,0 +1,390 @@
+Every proven/verified/completion claim the model made about the Halo work,
+mined from all session transcripts. 194 sentences, deduped.
+
+[13c9d3b9 #4] Also confirmed in `models.md`: LM Studio/Ollama plug in via `~/.prime/agent/models.json` with an `openai-completions` API type, hot-reloaded without restart, and there's a `compat` matrix that already handles local-server quirks (including a `qwen-chat-template` thinking format — relevant to this box's Qwen models).
+
+[13c9d3b9 #17] The PATH needed no surgery after all: the installer put the binary back at the exact same location (`%LOCALAPPDATA%\agy\bin`), and its own verifier confirmed the existing User PATH entry is correctly configured — so the "stale" entry is simply valid again.
+
+[13c9d3b9 #17] That completes the holy-grail prerequisite: **all four meters are now live and verified from this machine** — Claude (this harness), Codex (doctor 17/17), Antigravity (just smoke-tested), and local (LM Studio + your fixed Lemonade).
+
+[13c9d3b9 #42] **What the spawn test actually proved:** Prime Agent accepted `model="lmstudio/google/gemma-4-26b-a4b"` for a child and returned a handle carrying that exact model string.
+
+[13c9d3b9 #44] The full verified chain: Prime Agent v0.7.2 runs in the sandboxed Ubuntu distro → its IPython kernel executes model-written Python and writes files (`result.txt` = `42`) → `rlm.find_models()` sees exactly the five LM Studio models I registered → sub-agents spawn on selectable models, run, complete, and persist their own session directories with full transcripts.
+
+[13c9d3b9 #64] Worth noting what you now have: **three of the four meters are live inside Prime Agent** — Codex just now, local LM Studio verified earlier, and Antigravity reachable as a bridge subprocess once we write the `ask_gemini()` skill.
+
+[13c9d3b9 #107] Confirmed — `find_models` returns only the five LM Studio models; `gpt-5`/`sol` return empty.
+
+[13c9d3b9 #108] Discovery gap confirmed: ``` ALL= ['lmstudio/google/gemma-4-26b-a4b', 'lmstudio/gpt-oss-120b', 'lmstudio/lmstudio-community/qwen3-coder-30b-a3b-instruct', 'lmstudio/qwen/qwen3-coder-next', 'lmstudio/qwen/qwen3.6-35b-a3b'] GPT5= [] SOL= [] ``` Only the five `models.json`-defined LM Studio models.
+
+[13c9d3b9 #140] **Root cause proven.** The Codex catalog endpoint gates on client version: ``` client_version=0.7.2 (installed build sends this) → HTTP 200, 0 models: [] client_version=0.147.0 (main sends this) → HTTP 200, 9 models ``` The released 0.7.2 sends **Prime Agent's own version** as the Codex client version.
+
+[4c6ed200 #84] SEC-1 confirmed on `facility` routes (0 role checks in the file; mutations gated by token only).
+
+[4c6ed200 #87] **There is no separate `/visitor` skill — not in this local copy, and not in the canonical GitHub repo.** Both have exactly **three lanes: `lite`, `walkthrough`, `full`.** I confirmed the GitHub version (`scottconverse/GauntletGate`) is also **Markdown-instruction only** — no `scripts/`, no `.spec.ts`, no runnable Playwright harness.
+
+[4c6ed200 #95] Key fact confirmed: **GauntletGate is markdown-only** — its `walkthrough` lane is *instructions* to drive Playwright, not a bundled harness; there's no `visitor` lane.
+
+[4c6ed200 #136] - **SEC-1:** stays **code-confirmed** (0 `require_any_role` in `facility/router.py`); I proved routes are token-gated but did not mint a `records_clerk` token the service accepts to demo the escalation.
+
+[a3ad7bb8 #46] **My recommendation:** amend the gate to "Sandbox for iteration, fleet for hardware truth, one formal Sandbox one-shot at the frozen candidate stays as the ritual." With that amendment, the K1 proof loop moves from days (fleet round-trips) to hours (local Sandbox runs), and K2's fix can be proven the same afternoon it is written.
+
+[a3ad7bb8 #59] Verdict: FIX-FIRST — do not use it as-is.** The short version: - **Worst finding:** the last session removed the path jail entirely, so one bad command from a 27B local model can write anywhere on the machine — and the audit *proved* it, planting a file outside the work folder.
+
+[a3ad7bb8 #64] Current board:** - **LM Studio:** fixed — server was off after your reset; started via `lms`, Qwen 27B loaded, inference verified.
+
+[a3ad7bb8 #91] The "I need 10 more runs to be sure it never fails" → "no, I can't guarantee that" is an unfalsifiable gate.
+
+[a3ad7bb8 #403] The Sandbox proved the core of K1 on a clean box** — but surfaced the next gate.
+
+[a3ad7bb8 #744] - **Tasks #1–6 tracking the punch list.** ## Running right now - **`sec1_enum`** — `qwen/qwen3.8-27b` on LM Studio `:1234` (verified live, 65k ctx) is sweeping every router on the release branch read-only, building the staff-mutation-route inventory with receipts (`sec1-enum-audit.jsonl`).
+
+[a3ad7bb8 #794] The A-1 verdict just landed double-confirmed (details below), and yes — the second verifier failed the **same way**.
+
+[a3ad7bb8 #800] - **TEST-1 confirmed with a twist:** the GStreamer tests skip on *any* non-Linux unconditionally — but my native pipeline proof shows that gate is **obsolete**.
+
+[a3ad7bb8 #828] - **Two new agents** on the last non-conflicting queue items: - K1-1 + K1-2 (activation gates match runtime reality) + **TEST-1 un-skip** — the real GStreamer pipeline tests get run natively against the bundled runtime for the first time, using the exact env recipe proven earlier today.
+
+[a3ad7bb8 #916] That agent is under the corrected routing — **local qwen3.8-27b does the analysis, it reviews, escalates only on proven failure**, and reports which tier did what.
+
+[a3ad7bb8 #1354] Everything else in the repo is proven: installer 68/68 e2e, 153/153 unit, typecheck clean; portals 621/621 + 46/46; Python suite 9498 passed; all policy gates clean.
+
+[061fa025 #1381] ## What the document gets right Genuinely strong: §3.1 one-candidate-one-commit; §3.3 green≠proven; §3.4 no fail-open with PASS/FAIL/PARTIAL/NOT RUN/BLOCKED; §8 catching that my own claims-count numbers were internally inconsistent; §32's "a code change means a new candidate"; and the repeated clean-context audit gates.
+
+[f1581f10 #46] You're right.** - **B-field-proven** — cable headend, EAS, DeckLink/NDI, control-room devices, OTT store submissions, proven at a real plant: that's calendar time gated on hardware and a station, not code time.
+
+[f1581f10 #83] Qwen3.8-27b — verified, and your dossier was right - **Tool calling: excellent on the exact loaded file.** I gave it a two-step conditional job (check deploy status → file a ticket *only if* failing).
+
+[f1581f10 #84] - **A next** as its own optional component, gated on the same hardware poll, proven with the existing GPU benchmark harness before it ships.
+
+[f1581f10 #85] **Direct LM Studio calls — open, proven, in use now.** Classification, extraction, summaries, vision, single-shot codegen, and tool chains I drive myself.
+
+[f1581f10 #102] Qwen's side of that is already proven — I verified the two-step conditional tool chain on the exact loaded file.
+
+[f1581f10 #106] The loop we just proved is the loop from here on: **you set direction and gate the tags — I design, dispatch, verify, and merge — Sonnet codes — Haiku fetches — the local models grind for free — the fleet proves it on real hardware.** Every tier doing what it's priced for, and your box finally earning its invoice.
+
+[f1581f10 #129] The agent proved it: claims verifier run standalone at our HEAD with CI's exact flags — **PASS, exit 0.** Zero hash edits, zero claim rewrites, working tree untouched.
+
+[f1581f10 #148] And the working method got proven alongside the product: Sonnet wrote every line, Haiku and the local models did the research and grunt work, the testers did the proving, and four genuinely nasty bugs — the wrong-root check, the missing-PATH loader, the two-wheels question, the `os.name`-poisons-pathlib trap — were each caught by a review gate or a real machine *before* a station could meet them.
+
+[f1581f10 #160] That codex path is BROKEN in practice: verified on this machine 2026-08-15 against LM Studio + qwen/qwen3.8-27b, codex's message layout hits the model's chat template with "System message must be at the beginning" (Jinja error) and the loop never runs.
+
+[f1581f10 #196] **Run A (guards ON) is done, and it's the more interesting half than I expected.** Waiting on Run B, but here's what A proves — verified from the audit log: **Qwen is clearly capable and safe here.** It: - Read everything, ran the suite, and correctly diagnosed the exact bug — its patch script targets `range(days)` → `range(days + 1)`, which is precisely right.
+
+[f1581f10 #201] No more "eh, this feels like a Sonnet job." One caveat for honesty: this run proved Qwen's *diagnosis* and *safety judgment*, but the harness blocked it from *finishing the code* — so the boldest claim ("route coding to local") should be grounded on a clean end-to-end completion from the fixed harness, which the B re-runs will also give us.
+
+[5fb7f768 #9] Install path is confirmed as `npx @deepseek-ai/dsh web`, config lives in `$DSH_HOME/settings.yaml`.
+
+[5fb7f768 #11] The first report is in: the kernel and config layer is fully mapped (install package `@deepseek-ai/dsh`, home at `C:\Users\scott\.dsh`, layered patch system confirmed as replace-not-merge, permission presets and the `DSH_PERMISSION_MODE` env switch located in source).
+
+[5fb7f768 #24] **Grok's hybrid is literally my merge proposal** — my Phases 1–2 exact, OpenCode untouched, Hermes + Mission Control after the cockpit is proven, Codex's queue-policy language kept.
+
+[5fb7f768 #27] The YAML — confirmed wrong, in source.** I grepped the base bundle: row `id: llm` is `@deepseek-ai/dsh-llm`, the core LLM registry.
+
+[5fb7f768 #29] **Codex's contributions adopted** — queue policy, Hermes as a bounded ops plane in Phase 5 (justified by the verified session-scoped scheduler, with a gate: only if it beats your existing scheduled Claude agents), and thin Mission Control as Phase 6.
+
+[5fb7f768 #55] **Phase 1 complete — every check passed and independently verified.** The harness just did its first real coding cycle on the local Qwen: found the lab repo, ran the suite, diagnosed the reversed division in `percentOf`, fixed it, re-ran to green, and staged a clean minimal diff.
+
+[5fb7f768 #90] The entity is physically on disk at `C:\Users\scott\.dsh\memory\memory.json` — verified with my own eyes, not the model's.
+
+[5fb7f768 #116] **UI cockpit: proven functional** — session created from the composer, HALO Standard preset attached, Full access badge, model at Medium reasoning.
+
+[5fb7f768 #119] - **Cockpit**: web UI proven end-to-end; `halo-standard` (with the subagent trio) is now the default preset for every new session; Full access + Medium reasoning by default.
+
+[5fb7f768 #166] If that looks clean, today's fully wrapped: cockpit deployed and hardened, reboot-proven, boot chain fixed, OpenCode autostart removed, translate defanged.
+
+[5fb7f768 #178] It verified green, the file changed behind its back, and rather than quietly absorbing that, it flagged the anomaly and told you to investigate the mystery editor.
+
+[5fb7f768 #229] `/delta-scan-halo` lives there now: catalog-verified, `/`-invocable, in the rebuild scripts, documented in the manual.
+
+[5fb7f768 #269] "72% faster" claim retired | | Nemotron vs Qwen Coder | DNS: LM Studio's engine predates `nemotron_h_moe` — proven by b10472 loading the same file in 7 s | Nothing.
+
+[5fb7f768 #275] Pages is enabled and building — GitHub confirmed the config (`master`/`docs`, HTTPS enforced) and the URL will be **https://scottconverse.github.io/halo-stack/**.
+
+[5fb7f768 #276] **Live: https://scottconverse.github.io/halo-stack/** — verified serving, correct title, HTTPS enforced.
+
+[5fb7f768 #291] So: **no, I wasn't sure — and the auditor proved I shouldn't have been.** Final state, all pushed at `409eb98`: **Refuted:** Mission Control's "duplicates nothing." DSH ships a full status API (session, workspace, jobs, plugin inventory) and a UI-extension architecture; MC scrapes the filesystem instead.
+
+[5fb7f768 #297] Restarted it, verified: `source: dsh api`, correct data on screen.
+
+[5fb7f768 #302] All docs updated?** Almost — and checking just now against your question: **no, one gap.** The correction went into the build log's HTML (published, verified) but **not its markdown twin** (`Claude-Harness-HALO-Design-v2.md`).
+
+[5fb7f768 #306] The complete, *verified* menu of what DSH exposes that Mission Control doesn't yet show: **A.
+
+[5fb7f768 #316] On this box that's disqualifying, because HALO's whole design is the 96/32 unified split — and here's the kicker: your memory split was confirmed 96 GPU / 32 Windows on 8/13, which means Windows *can't have* 46 GB free.
+
+[5fb7f768 #364] My four pieces are done and verified: - **#1 docs** — manual now leads with "config applies live, no restart" (with the flip-side warning), and the cockpit's AGENTS.md tells every session the same, so the model itself knows config edits are production-affecting in 20 seconds.
+
+[5fb7f768 #372] **Restart ritual: dead.** Hot reconciliation proven live in both directions; manual, AGENTS.md, and the cockpit's own operating knowledge all updated.
+
+[5fb7f768 #386] **Everything is live on the public page, verified from outside:** [scottconverse.github.io/halo-stack](https://scottconverse.github.io/halo-stack/) now shows the v0.1.0 pill, the full v0.1.0 content, and the corrected hero stat — "12 hours" with the real story, "2 transcripts" and "1 day" both gone.
+
+[5fb7f768 #399] The "Cache hit 0%" is the cosmetic LM Studio reporting gap from the manual — the real cache is working (TTFT averages 1m10s instead of the 2-minute cold reads).
+
+[5fb7f768 #414] Plan, using the established bench discipline: - **Round 1 (no downloads, no config changes):** gpt-oss-120b, Gemma 4 26B-A4B, Qwen3.6-35B-A3B — each: load-probe at max viable context (`lms ps` verified, MC's shared-pool alarm watching for the Aug-16 leak pattern), raw prefill/decode fresh+cached, then the same real harness task suite the brain was crowned on, scored on quality first.
+
+[5fb7f768 #535] **What the experiment proved — and it's a real yes:** a local 27B, fully autonomous, **authored and mounted two working plugins** onto the running cockpit from plain English — the entity-count panel (v1) and the colored graph with type-legend, live counts, and entity list (v2), both still running in your Memory Graph tab right now.
+
+[5fb7f768 #551] The Halo proved it *can* author plugins; this doesn't need it to.
+
+[5fb7f768 #559] Understood — finish line assignments locked: Sonnet's graph gets verified and finished, HALO keeps its 32K run as the backend proof, everything wired, and the write-up tells the whole truth including my two failures at the end (the stale-browser misread, and inverting your HALO-first order).
+
+[5fb7f768 #582] (Snapshot taken before the edit, parse verified after — 5 entities, 4 relations intact.) Still in flight: the living-physics rework (with your escape hatches) and HALO's 32K emit.
+
+[5fb7f768 #595] - **Landing page** — new **"Proven portable"** section above Honest Status: 79s vs 176s, the overlay recipe, and the honest boundary (the Q5 brain at 65K and two-model residency remain unified-memory-only — which is HALO's whole bet, now *sharpened* by the comparison rather than undermined).
+
+[5fb7f768 #602] The report's phrase "the repo's dsh/ configs adapted" doesn't survive your eyewitness account, and my "Proven portable — the stack is not married to its hardware" landing section says more than the evidence supports.
+
+[5fb7f768 #614] Box restored and verified (brain resident, stock config, cockpit untouched).
+
+[5fb7f768 #618] No LAN server exposure was needed: HALO's HTTP server binds `127.0.0.1` *only* (verified in `http-server-config.json`), so the cross-machine traffic rides LM Link's own device channel, not your API port.
+
+[5fb7f768 #620] **Per-device loader profiles in the repo** — `lmstudio/` gains a Blackwell profile encoding the TESTER's proven best-value config (Q3, KV q8_0, MTP off).
+
+[5fb7f768 #633] Here is where things stand: **v0.2.0 is live for real this time** — tag on [335ed3e](https://github.com/scottconverse/halo-stack), remote verified.
+
+[5fb7f768 #633] - **Two Mission Control fixes its report demanded, done and verified live**: carveout math now reads GPU capacity from the driver registry instead of assuming 128 GiB (HALO reads 64.2 GiB correctly; Blackwell's card will read ~16), and **remote fleet models no longer get an Unload button** — plus a server-side guard that returns 403 if anything tries anyway.
+
+[5fb7f768 #662] Smoke test (b): unloaded the brain with the cockpit up and relaunched — the fixed launcher reloaded it (Q5_K_XL @ 65536 verified) without disturbing the cockpit.
+
+[5fb7f768 #676] Here's the whole picture, proven from outside my own machine this time: **The graph IS in the repo.** I cloned halo-stack fresh from GitHub just now, ran that clone's Mission Control untouched on a test port: Memory tab present, interactive graph rendering 5 nodes with live physics.
+
+[5fb7f768 #676] Verified on HALO's own deploy just now: "clone is current with origin/master," everything green, all audit rows PASS.
+
+[5fb7f768 #703] The first run wasn't wasted — it proved the retry bounds and the human-gate park behave exactly as designed, and it caught my payload-semantics bug before any real work depended on it.
+
+[5fb7f768 #848] If it does, that's the sync path proven — and it's a better distribution story than the LM Studio one turned out to be: claude.ai pushes to every surface at once, which is exactly the reach I wrongly thought Bionic had.
+
+[5fb7f768 #860] **My ROCm findings, honestly partial** (I got one search through before the 429s, and I'm not spending more requests while Qwen is working): - **[2026-08-18] Native vLLM + ROCm 7.15 on Windows 11, no WSL2** — verified on RX 6750 XT (gfx1031, RDNA2), one-click install, 62 tok/s.
+
+[5fb7f768 #871] Now proving it fails closed — a gate I haven't seen block something is just a promise:
+
+[5fb7f768 #876] - **Proven three ways, not asserted:** a restricted file exits 1 and names it; a published-by-decision file exits 0 and re-states your recorded decision so it isn't silently forgotten; and a gate that can't evaluate its own policy exits 1.
+
+[5fb7f768 #902] https://scottconverse.github.io/halo-stack/ now serves **v0.5.0**, build status `built`, confirmed from outside — a fresh fetch, not my local copy.
+
+[5fb7f768 #930] ## State now - dsh restarted, `:3080` HTTP 200 - **The doomed session did not auto-resume** — I checked specifically - Nothing running, brain `idle` - Deploy green, all audit rows PASS ## For the next attempt Settings alone won't make that job work.
+
+[5fb7f768 #954] **HALO 2.0 builds exactly four things** — the verified gaps, nothing more: sizing/planning/coverage scripts (pure code), one `large-job` skill carrying the canonical workflow template, Mission Control truthful liveness + per-session STOP, and the MC Settings tab.
+
+[5fb7f768 #962] I verified the binary itself is fine: run in the foreground, it bound `:3080` and printed `dsh web: http://127.0.0.1:3080` immediately.
+
+[5fb7f768 #974] `__DSH_BOOT__` is a solid identity marker, and the `cmd.exe` wrapper is confirmed — PID 25044, exactly the process my cleanup never looked at.
+
+[5fb7f768 #996] Log is clean, no false error, cockpit identity-verified.
+
+[5fb7f768 #1001] If a contractor handed me that list, I'd take the merged fixes — they're proven — and then I'd put a gate between them and anything I depend on, and I'd seriously evaluate the alternative that requires less watching.
+
+[5fb7f768 #1142] web` serves a working cockpit — HTTP 200, `__DSH_BOOT__`, zero native-module errors.** The mechanism is proven end to end.
+
+[5fb7f768 #1162] **Migration launcher works** — `pnpm.cmd` fixed it: served in ~10s, and **dsh 0.1.1-rc.2 confirmed serving :3080**.
+
+[5fb7f768 #1172] **33 pass, 0 fail, all 18 mutations caught — suite fails closed.** One real functional risk I haven't verified: the subagent plugins in `~/.dsh/profiles` are rc.7-installed, but the core is now 0.1.1.
+
+[5fb7f768 #1184] **PE-M1 confirmed — and it's the most important finding.** `patch: entry "jobs-local" not found`: the base plugin composes as `id: jobs` (name `dsh-jobs-local`).
+
+[5fb7f768 #1223] Release is done and verified — v0.6.0 is **Latest**, live stack serves dsh 0.1.1-rc.2, master==origin.
+
+[5fb7f768 #1227] Live check passed — cockpit serves dsh **0.1.1-rc.2**, master == origin, 29 tests green, all mutations caught (suite fails closed).
+
+[5fb7f768 #1317] - **Halo-Coverage** — recomputes from disk and **fails closed** two ways: a gap hidden in the report (exit 4), and a child that called a frontier model (exit 5, the E5 tripwire).
+
+[5fb7f768 #1343] Committing the WP2/WP3 skill + tests increment (green, fails closed), then tackling the deploy staging and the live gates.
+
+[5fb7f768 #1350] **Containment (the auditor's gate):** proven *by construction* — halo-ljp is halo-standard minus exactly the 3 frontier rows (generator + drift-gate), dsh makes one tool per row so no row = no tool, and children inherit the preset (verified in dsh source).
+
+[5fb7f768 #1365] **Two honest notes:** - **Containment** is proven by construction (halo-ljp = halo-standard minus exactly the 3 frontier rows, drift-gated; children inherit the preset; no row = no tool).
+
+[5fb7f768 #1430] Tick done — the **live G1 keystone is running.** The deterministic half is proven on real content (92 KB, 5 files → decompose into 5 units), and I kicked off the brain-in-the-loop half: a cockpit session (`run-2e8a18ee1aa9` in `Desktop\Code\halo-g1`) is now executing the workflow call — reading the template, spawning one local child per file, then reduce + coverage.
+
+[5fb7f768 #1441] **Big tick — the live G1 keystone proved the mechanism works, and works well.** The 27B relayed the 90-line template into the workflow call correctly (the key risk — passed), the engine ran it, and a child read its file and wrote an excellent structured finding to disk.
+
+[5fb7f768 #1460] **The LJP did QA on itself** — the first live child's review of Halo-Coverage.ps1 flagged 3 genuine bugs, and I fixed all three across the protocol scripts: - **UTF-8 reads** (`Get-Content -Raw` mangled em-dashes on PS 5.1) → `-Encoding UTF8` everywhere; verified an em-dash finding now round-trips.
+
+[5fb7f768 #1469] The build is done and tested; the G1 keystone's mechanism is proven; but its clean automated completion is blocked by real dsh infrastructure (both session paths down) — and the remaining steps (the heavy/billed gauntletgate, then merge/tag/publish) are exactly the kind of costly/irreversible actions I shouldn't fire autonomously while a keystone gap and a genuine decision are open.
+
+[5fb7f768 #1470] ## The whole v2.0 build is done and tested On `feat/halo2-wp2`, **40 tests pass, all 32 mutations caught (fails closed)**: - LJP toolchain (size/plan/pending/coverage), the skill, the workflow template, the restricted preset, deploy integration.
+
+[5fb7f768 #1470] - **G1 keystone: the mechanism is PROVEN live** — the 27B relayed the template into a workflow call, a child read its file and wrote an excellent structured finding, and **it caught 3 real bugs in my own code, which I then fixed.** The decomposed job runs on the local brain and is genuinely useful.
+
+[5fb7f768 #1489] That's the PE-M1 lesson one layer up: *a gate that only inspects composition can pass while the runtime is dead.* ## Fixed and verified Removed both from our patch (the bundles provide them), kept `subagent-opencode-acp` (nothing else registers it).
+
+[5fb7f768 #1522] Both verified live: hero **BRAIN DOWN**, and **"RESIDENT POOL LAST KNOWN — LM STUDIO DOWN"**.
+
+[5fb7f768 #1527] Both confirmed — the panel is right, and the second one is damning: - **Live `Halo-Coverage.ps1` is stale** — I fixed it after my last deploy and never redeployed.
+
+[5fb7f768 #1596] Confirmed — `start-cockpit` is the one action using raw `spawn` while every sibling uses `safeSpawn`.
+
+[5fb7f768 #1689] 92.2 KB.** README, USER-MANUAL, SKILL.md, and two of the protocol scripts — **all from halo-stack itself.** So the headline claim of v0.7.0 is proven on a small corpus, and the corpus is *its own repo*.
+
+[5fb7f768 #1707] Gate proven both ways: **passes the deletion, still blocks a real re-add.** Cleaning up the probe and pushing.
+
+[5fb7f768 #1710] HALO already composes all of it — I verified against the live `--dump-config`, not package names: | Mounted row | Package | What it does | |---|---|---| | `sandbox` | `dsh-sandbox-local` | Backends incl.
+
+[5fb7f768 #1713] ## What was actually duplicated Verified against the live composed configuration (`dsh --dump-config`), not package names.
+
+[5fb7f768 #1722] ## Archive `C:\Users\scott\Desktop\Halo Old Archive` **1.65 GB · 46,231 files.** Verified by actually restoring it before I destroyed anything — cloned the mirror back and got **161 commits, 7 tags, matching head**.
+
+[5fb7f768 #1906] node_modules/logs) | 471 files | 471 files | **0** | | `~/.lmstudio/scripts` | 8 files | 8 files | **0** | All four LM Studio loaders — the one component worth carrying into a rebuild — verified **byte-identical by SHA-256** in the archive.
+
+[5fb7f768 #1986] Its thesis is the academic form of the "model in a room" argument: **the deploy-time harness participates in post-training.** Qwen3.5-9B on SWE-bench Verified went **41.8% → 56.4% (+14.6 pts) from 6K examples**, ~3,500 LOC, code released.
+
+[5fb7f768 #2129] ## Everything else is tracked Merged and verified in v2.1: MTP ablation, DFlash 2 + PR 27342, reasoning levels, bash conformance, the tool-bash retraction, PyTorch, Vulkan memory shape, OAuth + API-key option, model stacking, no-auto-router, `pnpm dlx`, benchmark hygiene, the WSL user switch, the halo-stack uninstall.
+
+[5fb7f768 #2132] His fix: ```bash sqlite3 ~/.unsloth/studio/auth/auth.db "UPDATE api_keys SET is_active=0 WHERE id NOT IN (SELECT MAX(id) FROM api_keys);" ``` ## Two config gotchas, confirmed by both sources independently For any local provider in DSH: 1.
+
+[5fb7f768 #2132] ## Containment: a mechanism that actually works Video 1 built a **command-guard plugin** into `~/.dsh`, wired to the live profile, and verified it: `git reset --hard` returned **"bash blocked — command guard blocked."** He also allowed `docker psql` while blocking direct `psql`.
+
+[5fb7f768 #2154] ``` C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v2.2.md C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v2.2.docx ``` **3,547 lines.** Re-verified after the edits: all 40 questions present, §11.2 table intact at 15 rows, all six new sections present.
+
+[5fb7f768 #2159] Confirmed — those DGX Spark numbers are for **Qwen3.8-27B**, the same model we benchmark.
+
+[5fb7f768 #2181] **"Qwen official" doesn't exist as a GGUF.** I verified that three ways earlier — Qwen publishes no official GGUF for this model.
+
+[5fb7f768 #2244] Config wiring confirmed: `mode` binds to `DSH_PERMISSION_MODE`, and the permission prompt flips to `never` when it's `danger-full-access`.
+
+[5fb7f768 #2277] Status: ## What's working (verified, not asserted) - **DSH booted on bare metal**, `pnpm dlx`, port 3080 — the first successful UI boot on this clean setup, which closes the §27 item 11 gap the report could never close.
+
+[5fb7f768 #2289] Now it's genuinely sending-confirmed: - Composer cleared, session started, tab is now the TownReporter session - Trajectory shows **"Context injection → skill-catalog → Deep diving…"** — the 27B is actively thinking now (started 01:08) So the loop is truly live this time, verified three ways (composer empty, URL/session changed, thinking state visible).
+
+[5fb7f768 #2289] Net so far: DSH on bare metal, `danger-full-access` confirmed, local 27B wired and now building.
+
+[5fb7f768 #2295] The reasoning is **on track and thorough** — the agent correctly planned Python+Flask+SQLite, all five features, the LLM endpoint, the exact hard-check gate (source URL + disclaimer + verified checkbox + record approver/time), and the corrections flow.
+
+[5fb7f768 #2295] **The loop is definitively proven** — DSH → local 27B → planning a real app correctly, all local, Full access.
+
+[5fb7f768 #2296] I decompressed the session log and read the model's reasoning: it correctly planned the whole app — Python/Flask/SQLite, all five features, the exact hard-check gate (source URL + disclaimer + verified checkbox + record approver/time), and the corrections flow.
+
+[5fb7f768 #2304] One thing it doesn't know that I do: my §12.6 proved `enable_thinking: false` is **inert** on this LM Studio stack, so if it tests that path it'll burn another ~15-min call for nothing.
+
+[5fb7f768 #2305] - **The agent then blocked itself**: that 15-min call held the single LM Studio slot, so the agent's own next calls hit `EMPTY_RESPONSE` and retried (§21.11 single-slot contention, confirmed).
+
+[5fb7f768 #2321] The DSH loop is already proven (Phase 1's real question); this delivers the actual product instead of forcing the slow model to do labor it can't do in acceptable time.
+
+[5fb7f768 #2327] So the division of labor is confirmed by measurement: **local 27B = capable but slow runtime brain (~7 min/draft); not a code-writer.** Still holding for your call on how we proceed — A (keep the orchestrated build I started) or something else.
+
+[5fb7f768 #2336] **Foundation confirmed** — the LM Studio probe blocked for 30s, which means the headless run is actively holding the single slot generating.
+
+[5fb7f768 #2344] reload the model at window N (verified via lms ps) lms unload --all lms load unsloth/qwen3.8-27b --context-length N --gpu max -y # 2.
+
+[5fb7f768 #2394] - **Goal-round-driver** — DSH's own loop-until-done mechanism, untested by us headless - **Me as orchestrator** — proven, but it spends frontier tokens; local-first prefers the tiny watchdog **4.
+
+[5fb7f768 #2400] Process level — make the lesson structural, not remembered The deepest finding of the last two days isn't about the model — it's that **I design from recall, and recall loses to compaction.** A memory note won't fix that; we've proven notes don't gate my output (the absence-claims rule took a CLAUDE.md entry after memory failed four times).
+
+[5fb7f768 #2409] Launch verified clean: both models resident (coder@16K + 27B@32K), agent live (pid 7388), no launcher errors.
+
+[5fb7f768 #2423] **The reliable recipe is structural: decompose big jobs into canary-sized one-shot units** — each unit sits in the proven 6/6 regime, and DSH ships the mechanism (tool-ralph/workflow).
+
+[5fb7f768 #2432] Handoff agent launched (Opus, full brief: mission, machine facts, proven results, next runs, harness usage, every trap, your working rules, complete file map including the repo and the Halo Old Archive, and live-state capture).
+
+[5fb7f768 #2437] **DSH has the web architecture; it ships the access turned off or cloud-keyed:** **What's actually there (from the installed source, just verified):** - A full **web capability seam** — `dsh-web` (search/fetch provider registry) and `dsh-tool-web` (model-facing `web_search` **and** `web_fetch` tools).
+
+[9e39825a #17] If either of them proposes a genuine design that beats a 5–7 week path to a gate-proven beta, I want to read it.
+
+[9e39825a #19] - **Gate B — 24h machine-proven soak with reboot (§10 step 13, §5 rung 2):** runs at the end, on a real box or Hyper-V VM (Sandbox can't reboot) — the tester fleet or the LPM box itself.
+
+[9e39825a #19] **Move 2 — Topology: 5 process families → 3.** Verified today: the broker defaults to in-process (`platform/broker.py:97`) and the production NATS mode was never fully wired — the box ships, health-gates, and runs a message server that does no real work.
+
+[9e39825a #22] **Finish `civiccast-native` to beta behind the machine gates (~6–8 wks).** Not because the old architecture is good — because a shipped, gate-proven beta is the thing NG needs most: a **live behavioral oracle** and proof the product is worth a re-platform.
+
+[9e39825a #24] **Gate evidence:** clean install and TSDuck 3-channel verify are each **proven once** (Aug 18–19, outside CI).
+
+[9e39825a #31] Findings register (consolidated, all verified against code) **Blockers (prevent the beta gate from being attempted):** - **B1 — No current-source candidate.** `native-beta-candidate-artifacts` has never completed in `civiccast-native`; zero CI secrets configured; `release-artifacts.yml` still fires broken WSL builds on any `v*` tag.
+
+[9e39825a #45] **My understanding of the race, confirmed back to you:** - I finish `civiccast-native`, in its current repo, executing my plan: machine gates first, process-layer deletion, the findings register as the work list, one-candidate-one-identity, and the tripwire discipline — if a gate won't go green-repeatable, I say so loudly instead of grinding silently.
+
+[9e39825a #144] PR #10's fix (`219c728`) is in CI; PR #11's rerun is in CI; the rung-pipeline deletion agent is working; Gate A run #4 is finishing its install and will enter the 20-minute boot wait with diagnostics capturing either way.
+
+[9e39825a #155] **Root cause confirmed by reproduction** ([PR #13](https://github.com/scottconverse/civiccast-native/pull/13)): the agent ran the real `pg_ctl` from the failing kit through the real supervisor functions — same log file for both handles → exit 1 with the exact Gate A error; separate files → clean start.
+
+[9e39825a #199] Confirmed: zombie run cancelled, runner online and busy on the new Gate A run.
+
+[9e39825a #234] **Current run is legitimate** — the sandbox up right now belongs to my Gate A #6 (verified by process lineage and the active runner job), so it runs to completion.
+
+[9e39825a #245] PR #26 is complete: the budget policy now carries an honest exception ledger (entries excuse only exact ledgered values, empty reasons fail closed — 12 new tests) with Gate A's two deviations registered and reasoned.
+
+[9e39825a #265] The full picture for you, plainly: **Candidate #3 passed every product check Gate A throws at it.** Fresh clean-box install, station live in 18 seconds, both UIs, upload→publish→captions, the GStreamer product engine verified by tsduck with zero transport errors, soak 4/4.
+
+[9e39825a #270] When #27 merges: sandbox-free check (Codex), then the next Gate A run — the first with both a proven-good candidate and a harness that can't wedge silently.
+
+[9e39825a #271] Gate A run #7 is live — staged kit, wedge-proof harness, proven-good candidate.
+
+[9e39825a #321] Pushed `96f5d9e` to #39: format fix, the `-m "not integration"` gate so external-server tests can never flake a merge again, and the claims re-bind — 120/120 verified locally.
+
+[9e39825a #405] The running Gate A run is **cancelled** (confirmed `cancelled`, not zombie).
+
+[f16f1a38 #8] I load it at 16K next to the 27B (the proven two-model pattern), then start the app.
+
+[f16f1a38 #14] The gate blocks publishing until three things exist: a source link, a checked "Verified" box, and the producer's name.
+
+[f16f1a38 #46] The fresh `.docx` is rendered, and both files are updated in place: - `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v2.4.md` (+ `.docx`) - `C:\Users\scott\Desktop\Halo Stack Research\DSH-Strix-Halo-Report-v2.4.md` (+ `.docx`) Verified after the fix: T-28 sits inside the §20 table, §29 renders as its own section, and the five `[Revised v2.4]` tags landed where intended.
+
+[f16f1a38 #49] New risks §21.15 (success claims are not evidence) and §21.16 (the `C:\civicledger` root-leak), new T-29 (the gate, must fail closed), and §19.1 now records your build-lane decision.
+
+[f16f1a38 #49] They compose: Code Mode gives the worker its cadence for free; the forced-cadence brief remains the proven mode for the 27B whenever it builds.
+
+[f16f1a38 #58] - **Worker lane proven by composition and igniting live:** the `--patch` makes the coder the session model (verified in `--dump-config`), and the smoke run has already written `hello.py` in Code Mode.
+
+[f16f1a38 #58] - **Gate built and fail-closed PROVEN twice:** a seeded-bug workspace with a planted "5/5 green, COMPLETE" note → gate verdict **FAIL** (prose ignored, tests ran); a verifier placed inside the workspace → **REFUSED**.
+
+[f16f1a38 #66] Proven **fail-closed twice**: a workspace with a planted bug *and* a planted "all 5 tests green, COMPLETE" note got **FAIL** — the lie changed nothing; and a verifier placed where the worker could rewrite it got **REFUSED**.
+
+[f16f1a38 #68] So the split I'd keep: **cadence lives where it was proven — the 27B, whenever it builds.** That half is worth baking in, and I can wire it when you say so.
+
+[f16f1a38 #70] Three-part answer, verified just now: **Exists: yes.** `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Gate-Build.ps1` — on disk (5.3 KB), committed to the repo (`06e9c222`), and already proven working four ways this morning: it failed a workspace that lied about passing, refused a verifier it couldn't trust, and ran two seeded-bug jobs from failing to green — one on each model.
+
+[f16f1a38 #71] That's worse than an honest ungated run, because a hollow gate *launders* unverified work as verified — the exact §21.15 disease wearing a badge.
+
+[f16f1a38 #73] All three pieces are in and proven (`b952bd55`): the gate is now the only documented build path, `Probe-Worker.ps1` stamps every ungated run **NOT EVIDENCE**, and `Check-Done.ps1` enforces the records rule — I tested it both directions: the gated workspace says DONE, the ungated smoke says NOT DONE.
+
+[f16f1a38 #73] **The workspace brief (`AGENTS.md`) — the proven seam.** This is exactly how the 15/15 happened: DSH natively reads `AGENTS.md` from the working folder.
+
+[f16f1a38 #73] Wiring: a small launcher for 27B builds writes the proven cadence text (verbatim from `tuning\tc\tc2e-instructions.md` — the winning wording, not a paraphrase) into the workspace before the session starts.
+
+[f16f1a38 #73] **My recommendation:** wire 1 (a `Start-CockpitBuild.ps1` that stamps the proven brief into every 27B build, optionally routing through the gate too), and use 2 by hand in the one or two projects where you build constantly.
+
+[f16f1a38 #73] If you ever want 3 anyway, we verify the persona seam the same way we verified `DSH_TOOLS_MODE` — read the source, one live probe — before trusting it.
+
+[f16f1a38 #77] Cockpit lane proven end to end.
+
+[f16f1a38 #78] **Option 1** (the cockpit gets one standing routing line — "never run long builds yourself; invoke the gate" — verified against source before wiring) or **Option 2** (a launch alias that seeds the folder at startup).
+
+[f16f1a38 #86] Launcher verified — HTTP 200 on port 3080, cockpit live right now, shortcut on your Desktop.
+
+[f16f1a38 #89] The headline: this research independently re-derived almost exactly the stack we already built and proved — two models, 27B planner + Coder-30B worker, 32K both, Vulkan first, worker in Code Mode, planner in Standard.
+
+[f16f1a38 #89] Our §12.6 proved the effort lever inert — but we tested it **through LM Studio's HTTP door** (`chat_template_kwargs`), not through DSH's own mapping, which may inject effort a different way.
+
+[f16f1a38 #94] When it completes: one end-to-end confirmation through DSH itself (scratch home, `reasoningEfforts` mapping, effect measured from session logs), then v2.7 with the 12 verified citations, the 1 failed one named, and the probe result — then the parked-items review against what the probe says.
+
+[f16f1a38 #99] **The headline finding — the throttle is real.** DSH's wire field (`reasoning_effort`, top-level) is honored by LM Studio: `none` → **zero reasoning tokens, every rep, correct, ~4× faster**, and confirmed through a full DSH session (**0 vs 1,023** reasoning chars on the same-class task).
+
+[f16f1a38 #117] My recommendation: **both** — I snapshot the docs pack, *and* we enable fetch in the worker lane as its own small verified change (runtime-proven per the §18.6 lesson, not assumed from config).
+
+[f16f1a38 #129] Everything needed to continue lives on disk, committed (`706a8310`): - **`stack\gateway-conductor\CONDUCTOR-STATE.md`** — the full handoff: live batch A4 (task `bj0rdhja6`, three units in flight), the triage loop, the scoreboard (3 green / 3 retrying / 0 lines of code from me), the five briefing rules learned, the remaining units to queue, and the budget discipline.
+
+[f16f1a38 #138] Quick proof the new check fails closed — run the verifier against the stub tree with one real and one missing name:
+
+[f16f1a38 #141] B5 — reddit parser, on the bigger 27B model Score still: 2 units shipped, 0 lines of code written by me.
+
+[f16f1a38 #146] **What the failures bought:** the gate now rejects shrunk test lists (proved it fails closed), briefs are self-contained, and red work is preserved instead of wiped.
+
+[f16f1a38 #165] - I wrote the real acceptance tests myself (207 lines, logged in the ledger as gate code — product code is still 0 lines from me).
+
+[f16f1a38 #168] It does not argue for more agents — it explicitly says scale the verifier before the workers, and smallest architecture that can be verified.
+
+[f16f1a38 #234] Here's where things stand while it works: **The stack is proven and one-click verifiable.** I built `Prove-Halo.ps1` and put **`Halo - PROVE IT`** on your desktop.
+
+[f16f1a38 #237] **Where it stands at 02:49:** `B2a-migrations` went **GREEN in 16.6 minutes** via `Halo-Code.ps1`, and I verified it independently rather than trusting the verdict: 4/4 acceptance tests pass on a fresh run, the frozen test file was untouched in the commit, and the worker wrote 355 lines across three source files.
+
+[f16f1a38 #248] That makes **two units shipped tonight through the public entry point**, both written entirely by the local 30B, both independently re-verified.
+
+[f16f1a38 #248] Four verified units in the gateway now, none written by me.
+
+[f16f1a38 #252] **Shipped overnight, by the local 30B, zero lines from me:** - `B2a-migrations` — green in 16.6 minutes - `B2b-cache` — green in 11.4 minutes I didn't take the gate's word for either.
+
+[f16f1a38 #252] Four verified units in the gateway now.
+
+[f16f1a38 #264] The machine is as I found it: nothing running, no models resident, the gateway repo clean at its last green commit.
+
+[f16f1a38 #268] **Their core charge is verified by my own documents.** `DSH-Strix-Halo-Report-v3.0.md` line 3229 is a section called **"18.5.2 Stacking — one delegation tool per model."** It contains the exact YAML for mounting `tool-subagent` multiple times with per-instance model binding.
