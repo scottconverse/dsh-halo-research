@@ -72,10 +72,19 @@ foreach ($u in $units) {
     & $gate -Workspace $Repo -TestScript (Join-Path $cond $u.verifier) -Lane $lane `
         -MaxRounds $u.rounds -CapMin $u.cap `
         -Task 'Carry out the unit specified in AGENTS.md in this directory, exactly as written. Touch only the files that unit names.'
-    $ok = ($LASTEXITCODE -eq 0)
+    $gexit = $LASTEXITCODE
+    $ok = ($gexit -eq 0)
+    $verdict = switch ($gexit) { 0 {'GREEN'} 2 {'RED-ENV'} 3 {'RED-TRIPWIRE'} default {'RED'} }
     $mins = [Math]::Round(((Get-Date) - $t0).TotalMinutes, 1)
     $rounds = (Select-String -Path (Join-Path $Repo 'gate-log.txt') -Pattern 'round \d+ : agent launched' -EA SilentlyContinue).Count
-    Add-Content $ledger "$Batch,$($u.n),$(if($lane -eq 'cockpit'){'cockpit-27b'}else{'worker-coder30b'}),$(if($ok){'GREEN'}else{'RED'}),$rounds,$mins,fable-brief,0,$(if($u.frozen){'gate-authored-frozen'}else{'worker-authored'})"
+    # Authoritative evidence archive OUTSIDE the worker-writable workspace, with hashes.
+    $evDir = Join-Path $cond ("runs\" + $Batch + '-' + $u.n + '-' + (Get-Date -Format 'MMdd-HHmmss'))
+    New-Item -ItemType Directory -Force -Path $evDir | Out-Null
+    foreach ($f in 'gate-log.txt','gate-verdict.txt','GATE-FEEDBACK.md') { $s = Join-Path $Repo $f; if (Test-Path $s) { Copy-Item $s $evDir -Force } }
+    $hashTargets = @(Get-ChildItem $evDir -File)
+    if ($u.frozen) { $hashTargets += @($u.frozen -split ' ' | ForEach-Object { Join-Path $Repo $_ } | Where-Object { Test-Path $_ } | Get-Item) }
+    $hashTargets | Get-FileHash -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $($_.Path)" } | Set-Content (Join-Path $evDir 'SHA256SUMS.txt')
+    Add-Content $ledger "$Batch,$($u.n),$(if($lane -eq 'cockpit'){'cockpit-27b'}else{'worker-coder30b'}),$verdict,$rounds,$mins,fable-brief,0,$(if($u.frozen){'gate-authored-frozen'}else{'worker-authored'}),runs\$(Split-Path $evDir -Leaf)"
     if ($ok) {
         $green++
         Push-Location $Repo
@@ -85,7 +94,7 @@ foreach ($u in $units) {
         Rep "unit $($u.n): GREEN in $rounds round(s), $mins min - committed"
     } else {
         $red++
-        Rep "unit $($u.n): RED after $rounds round(s), $mins min - preserving work for forensics, then reverting repo"
+        Rep "unit $($u.n): $verdict after $rounds round(s), $mins min - preserving work for forensics, then reverting repo"
         $redDir = Join-Path $cond ("reds\" + $u.n + '-' + (Get-Date -Format 'HHmmss'))
         New-Item -ItemType Directory -Force -Path $redDir | Out-Null
         Push-Location $Repo

@@ -1,4 +1,4 @@
-batch,unit,coder,verdict,rounds,minutes,brief_by,fable_code_lines
+batch,unit,coder,verdict,rounds,minutes,brief_by,fable_code_lines,tests_by,evidence
 A,A-scaffold,worker-coder30b,GREEN,3,23.2,fable-brief,0
 A,B1-config-logging,worker-coder30b,RED,3,66.8,fable-brief,0
 A2,B1-retry,worker-coder30b,GREEN,2,32.7,fable-brief,0
@@ -12,3 +12,4 @@ A5,B2-v4,worker-coder30b,RED,3,54.7,fable-brief,0
 A5,B3-v2,worker-coder30b,GREEN,2,12.9,fable-brief,0
 A5,B5-cockpit,cockpit-27b,VOID(killed by operator STOP; runner had survived the first kill),1,0,fable-brief,0
 A6-prep,frozen-acceptance-tests-B2-B3,fable-gate,AUTHORED,0,0,fable,0,gate_test_lines=207
+A6,B2-v5,worker-coder30b,RED,2,24.3,fable-brief,0,gate-authored-frozen

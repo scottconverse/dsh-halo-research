@@ -112,6 +112,7 @@ if ($VerifyOnly) {
     exit $(if ($v.code -eq 0) { 0 } else { 1 })
 }
 
+$prevSig = $null
 for ($r = 1; $r -le $MaxRounds; $r++) {
     if ($r -eq 1) {
         $roundTask = $Task
@@ -125,6 +126,22 @@ for ($r = 1; $r -le $MaxRounds; $r++) {
         Log ("round $r : verdict PASS - external tests green. Task complete BY TEST EVIDENCE.")
         exit 0
     }
+    # Failure classification before retry (spec s30.4; playbook s XIII taxonomy).
+    # ENV_FAILURE: the verifier died before issuing a verdict. Worker rounds cannot
+    # repair the environment - stop the unit and hand it to the conductor. Every
+    # verifier is contractually required to print a 'RESULT:' line on every path.
+    if ($v.text -notmatch 'RESULT:') {
+        Log ("round $r : verdict ENV_FAILURE - verifier produced no RESULT line (harness/environment defect, not worker code). Stopping unit; conductor repairs.")
+        exit 2
+    }
+    # TRIPWIRE: identical failure signature to the previous round - the feedback
+    # loop is not converging, so further rounds are waste. End the unit early.
+    $sig = (($v.text -split "`n") | Where-Object { $_ -match 'FAILED|ERROR|MISSING|RESULT:' }) -join '|'
+    if ($prevSig -and $sig -eq $prevSig) {
+        Log ("round $r : verdict TRIPWIRE - failure signature identical to round $($r-1). Ending unit early instead of burning rounds.")
+        exit 3
+    }
+    $prevSig = $sig
     Log ("round $r : verdict FAIL (exit {0}) - feeding failures back" -f $v.code)
     $fb = "# GATE FEEDBACK - round $r`n`nThe external verifier rejected the work. Exact output:`n`n" + '```' + "`n" + $v.text + "`n" + '```' + "`n"
     $fb | Set-Content (Join-Path $wsFull 'GATE-FEEDBACK.md')

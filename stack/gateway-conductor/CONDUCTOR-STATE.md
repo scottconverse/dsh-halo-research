@@ -67,6 +67,25 @@ tests — three hollow/weak-test incidents (B2-v3, B2 6-test shrink, B3-v2).
    test function names in the brief AND in the batch's `required=` field —
    `verify-pytest.ps1` fails the unit if any named test is not collected
    (anti-shrinkage; proven fail-closed 08-25 19:53).
+8. Every gate-authored frozen test file MUST include adversarial /
+   forbidden-outcome cases, not only happy paths — at least one per unit
+   (examples already in force: `rate_state` survives evict; byte-identical
+   file after SchemaTooNewError refusal; a max_age miss must not delete).
+   An artifact existing is not the same as the task being done.
+9. Escalation packet: every question to the operator states (a) the decision
+   needed, (b) my recommendation and why, (c) alternatives already tried or
+   rejected, (d) the cost of waiting. Never a bare "what should I do?".
+10. Every verifier MUST print a `RESULT:` line on every exit path — the gate
+   classifies a verdict with no RESULT line as ENV_FAILURE (exit 2, unit
+   stops, conductor repairs; worker rounds are never spent on environment
+   defects). Gate exit codes: 0 green, 1 fail-after-rounds, 2 ENV_FAILURE,
+   3 TRIPWIRE (identical failure signature two rounds running — stop early,
+   the feedback loop is not converging). Ledger verdicts mirror these:
+   GREEN / RED / RED-ENV / RED-TRIPWIRE. Evidence for every unit is archived
+   with SHA256 hashes under `runs\<batch>-<unit>-<time>\` (outside the
+   worker-writable workspace); the ledger's `evidence` column points there.
+   Trip-wire + ENV classification live in Gate-Build.ps1 and are parse-checked
+   but not yet exercised by a real red — first live firing should be checked.
 
 ## Remaining units to brief and queue (specs sections in v1.3)
 

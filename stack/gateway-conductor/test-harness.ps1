@@ -57,11 +57,15 @@ Check 'T7 ledger: DRY-red RED row written' (($rows -match '^DRY,DRY-red,.*,RED,'
 $redDir = Get-ChildItem (Join-Path $cond 'reds') -Directory -Filter 'DRY-red-*' -EA SilentlyContinue | Sort-Object Name | Select-Object -Last 1
 Check 'T8 red forensics preserved, repo reverted clean' ($null -ne $redDir -and (Test-Path (Join-Path $redDir.FullName 'src\junk-from-red-round.txt')) -and -not (Test-Path (Join-Path $repo 'src\junk-from-red-round.txt')))
 Check 'T9 runner exit code = red count (1)' ($runnerExit -eq 1)
+$evDirs = Get-ChildItem (Join-Path $cond 'runs') -Directory -Filter 'DRY-*' -EA SilentlyContinue
+$sums = $evDirs | ForEach-Object { Join-Path $_.FullName 'SHA256SUMS.txt' } | Where-Object { (Test-Path $_) -and (Get-Item $_).Length -gt 0 }
+Check 'T10 evidence archived outside workspace with hashes (both units)' ($evDirs.Count -eq 2 -and $sums.Count -eq 2)
 
 # --- cleanup --------------------------------------------------------------
 Set-Location $cond   # verifier leaks Set-Location into the process; step out before deleting
 if ($redDir) { Remove-Item $redDir.FullName -Recurse -Force -Confirm:$false }
+$evDirs | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$false -EA SilentlyContinue }
 Remove-Item $Scratch -Recurse -Force -Confirm:$false -EA SilentlyContinue
-Write-Host "=== dry-run: $((9 - $fails))/9 pass ==="
+Write-Host "=== dry-run: $((10 - $fails))/10 pass ==="
 exit $fails
 
