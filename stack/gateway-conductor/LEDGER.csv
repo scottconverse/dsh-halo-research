@@ -9,10 +9,11 @@ A3,B5-retry,worker-coder30b,RED,3,72.3,fable-brief,0
 A3,B3-security,worker-coder30b,RED,3,51.6,fable-brief,0
 A4,B2-v3,worker-coder30b,VOID(task died at compaction; leftover audited: tests green but cache a stub - hollow),2,33,fable-brief,0
 A5,B2-v4,worker-coder30b,RED,3,54.7,fable-brief,0
-A5,B3-v2,worker-coder30b,GREEN,2,12.9,fable-brief,0
+A5,B3-v2,worker-coder30b,RETRACTED-HOLLOW(passed worker-authored tests; fails 9/11 gate-authored tests; reopened),2,12.9,fable-brief,0
 A5,B5-cockpit,cockpit-27b,VOID(killed by operator STOP; runner had survived the first kill),1,0,fable-brief,0
 A6-prep,frozen-acceptance-tests-B2-B3,fable-gate,AUTHORED,0,0,fable,0,gate_test_lines=207
 A6,B2-v5,worker-coder30b,RED,2,24.3,fable-brief,0,gate-authored-frozen
 A6,B3-v3,worker-coder30b,RED,2,20.5,fable-brief,0,gate-authored-frozen
 A7,B2-v6,worker-coder30b,VOID(operator full-stop mid round 2; models unloaded),2,25,fable-brief,0,gate-authored-frozen,
 A7,B2-v6,worker-coder30b,RED,2,22.9,fable-brief,0,gate-authored-frozen,runs\A7-B2-v6-0826-021515
+A7,B3-v4,worker-coder30b,RED-TRIPWIRE,2,16.4,fable-brief,0,gate-authored-frozen,runs\A7-B3-v4-0826-023138

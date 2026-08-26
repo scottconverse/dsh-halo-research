@@ -1,0 +1,8 @@
+
+[02:15:15] gate start | lane=worker | workspace=C:\Users\scott\Desktop\Code\halo-research-gateway | verifier=C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\verify-pytest.ps1 | verifyOnly=False
+[02:15:15] round 1 : agent launched (pid 2276, cap 12m, Code Mode, coder-30b)
+[02:19:35] round 1 : worker exited after 4.3 min (code 0)
+[02:19:35] round 1 : verdict FAIL (exit 1) - feeding failures back
+[02:19:35] round 2 : agent launched (pid 10660, cap 12m, Code Mode, coder-30b)
+[02:31:35] round 2 : hit 12m cap - killing recorded tree (pid 10660)
+[02:31:38] round 2 : verdict TRIPWIRE - failure signature identical to round 1. Ending unit early instead of burning rounds.
