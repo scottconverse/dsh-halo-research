@@ -14,6 +14,12 @@ $report = Join-Path $cond 'REPORT-GATEWAY.md'
 function Rep($m){ $l="[$(Get-Date -Format 'MM-dd HH:mm:ss')] $m"; Write-Host $l; Add-Content $report $l }
 
 $batches = @{
+  'A5' = @(
+    @{ n='B2-v4';      brief='B2-cache-migrations-v4.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_cache.py tests/unit/test_migrations.py'; cap=35; rounds=3; stop=$false;
+       required='test_migrate_creates_schema test_migrate_second_run_noop test_schema_too_new_error test_backup_created_and_capped test_cache_requires_migrated_database test_put_get_roundtrip test_expiry_ttl test_max_age_stricter_than_ttl test_oversize_entry_rejected test_lru_eviction_order test_evict_preserves_rate_state test_stats_counts_and_bytes' },
+    @{ n='B3-v2';      brief='B3-security-v2.md';         verifier='verify-pytest.ps1'; tests='tests/unit/test_security.py'; cap=30; rounds=3; stop=$false },
+    @{ n='B5-cockpit'; brief='B5-reddit-parser-v2.md';    verifier='verify-pytest.ps1'; tests='tests/unit/test_reddit.py';   cap=35; rounds=2; stop=$false; lane='cockpit' }
+  )
   'A' = @(
     @{ n='A-scaffold';        brief='A-scaffold.md';        verifier='verify-scaffold.ps1'; tests='';                                                        cap=20; rounds=3; stop=$true  },
     @{ n='B1-config-logging'; brief='B1-config-logging.md'; verifier='verify-pytest.ps1';   tests='tests/unit/test_config.py tests/unit/test_redaction.py'; cap=25; rounds=3; stop=$true  },
@@ -45,6 +51,7 @@ foreach ($u in $units) {
     $briefSrc = Join-Path $cond ("briefs\" + $u.brief)
     Copy-Item $briefSrc (Join-Path $Repo 'AGENTS.md') -Force
     $env:UNIT_TESTS = $u.tests
+    $env:UNIT_REQUIRED = if ($u.required) { $u.required } else { '' }
     $lane = if ($u.lane) { $u.lane } else { 'worker' }
     $t0 = Get-Date
     & $gate -Workspace $Repo -TestScript (Join-Path $cond $u.verifier) -Lane $lane `

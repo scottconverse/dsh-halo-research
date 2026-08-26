@@ -7,3 +7,4 @@ A2,B5-reddit-parser,worker-coder30b,RED,3,49.9,fable-brief,0
 A3,B2-retry,worker-coder30b,RED,3,38.9,fable-brief,0
 A3,B5-retry,worker-coder30b,RED,3,72.3,fable-brief,0
 A3,B3-security,worker-coder30b,RED,3,51.6,fable-brief,0
+A4,B2-v3,worker-coder30b,VOID(task died at compaction; leftover audited: tests green but cache a stub - hollow),2,33,fable-brief,0

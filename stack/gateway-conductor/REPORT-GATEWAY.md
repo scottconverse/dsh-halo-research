@@ -26,3 +26,8 @@ default on prior evidence. No rerun - building instead.
 [08-25 17:12:16] unit B3-security: RED after 3 round(s), 51.6 min - left uncommitted for triage
 [08-25 17:12:16] === batch A3 end: 0 green, 3 red ===
 [08-25 17:14:27] === batch A4 start: 3 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 19:54:52] === batch A5 start: 3 units, repo=C:\Users\scott\Desktop\Code\halo-research-gateway ===
+[08-25 19:55:00] batch A4 post-mortem: background task died at compaction (~17:17, during B2-v3 round 2). B3-v2 and B5-cockpit never ran.
+[08-25 19:55:00] B2-v3 leftover audit: pytest 6/6 green BUT cache.py is a 37-line stub (eviction = comment). Hollow pass - NOT committed. Cause: v3 brief said 'keep everything else' against an already-reverted tree.
+[08-25 19:55:00] reds\ is empty - A3 red work was wiped by the pre-preservation runner. Fuller B2 implementation lost; rebuilt via self-contained v4 brief.
+[08-25 19:55:00] gate hardened: verify-pytest now enforces UNIT_REQUIRED (named test functions must be collected). Proven fail-closed against the stub tree.

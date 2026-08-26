@@ -17,21 +17,28 @@ SHELVED — this is a real build, not a test program.
 
 ## Live right now
 
-- **Batch A4 running in background** (task id `bj0rdhja6`), sequential gated units:
-  1. `B2-v3` — cache/migrations, surgical brief (two named defects; lock class already cured)
-  2. `B3-v2` — SSRF/URL policy, path-hammered brief (prior failure: file never at required path)
-  3. `B5-cockpit` — reddit parser **escalated to the 27B cockpit lane** (`lane='cockpit'`) after 6 coder rounds
-- On its notification: read `LEDGER.csv` tail + grep the task output for
+- **Batch A5 running in background** (task id `b5psw1v4c`, launched 19:54 08-25):
+  1. `B2-v4` — cache/migrations, COMPLETE self-contained brief + 12 required
+     test names enforced by the verifier (`UNIT_REQUIRED`)
+  2. `B3-v2` — SSRF/URL policy, path-hammered brief (never got its A4 run)
+  3. `B5-cockpit` — reddit parser on the 27B cockpit lane (never got its A4 run)
+- **A4 died at compaction** (~17:17, during B2-v3 round 2). Its leftover work
+  passed pytest 6/6 but the cache was a 37-line stub — hollow pass, caught by
+  audit, NOT committed. The stub tree was left in place as B2-v4's documented
+  starting point.
+- On A5's notification: read `LEDGER.csv` tail + grep the task output for
   `FAILED|RESULT|MISSING` signatures ONLY (never full transcripts). Greens are
   already committed by the runner. Reds: rebrief (v+1 file in `briefs\`) or move
   up the ladder: coder → tightened rebrief → 27B lane → split smaller → Fable
   codes (logged failure of the experiment). Red work is preserved under
-  `reds\<unit>-<time>\` for forensics.
+  `reds\<unit>-<time>\` for forensics (works for A5+; A3 reds were wiped by the
+  old runner — that fuller B2 code is gone).
 
 ## Scoreboard so far
 
-GREEN: A-scaffold (3r/23m), B1-config-logging (retry, 2r/33m). RED in flight:
-B2 (x2), B5 (x2), B3 (x1). All code local. Pattern that works: tightened
+GREEN + committed: A-scaffold (3r/23m), B1-config-logging (retry, 2r/33m).
+Open: B2 (v4 in flight), B3 (v2 in flight), B5 (cockpit lane in flight).
+All code local; fable_code_lines still 0. Pattern that works: tightened
 rebrief with the exact failure class named → green next attempt.
 
 ## Briefing rules learned (apply to every new brief)
@@ -46,6 +53,13 @@ rebrief with the exact failure class named → green next attempt.
    creating them first.
 5. Every brief ends: run the verifier's exact pytest command until green before
    stopping; touch only named files.
+6. Briefs must be fully SELF-CONTAINED. Never write "keep everything else" or
+   reference prior attempts — the runner may have reverted the tree and the
+   worker then rebuilds a minimal version that hollow-passes (B2-v3 incident).
+7. For any unit where test coverage IS the contract, list the exact required
+   test function names in the brief AND in the batch's `required=` field —
+   `verify-pytest.ps1` fails the unit if any named test is not collected
+   (anti-shrinkage; proven fail-closed 08-25 19:53).
 
 ## Remaining units to brief and queue (specs sections in v1.3)
 
@@ -63,5 +77,8 @@ optional, per-unit).
 - Effort battery: VOIDED (conductor cwd bug); medium stands as cockpit default.
   No more test programs — operator is done with tests.
 - Transcript-grep-first rule before ANY new experiment (see memory: 4 incidents).
+- Background batches DIE at compaction. On any resume: check gate-log.txt
+  freshness + live processes before trusting "in flight"; audit leftover work
+  (a green verifier on a shrunk test list is not a green unit).
 - Never touch: `~\.dsh` model routes, worker home settings, LM Studio port,
   spec files. Operator is point-and-click only — no CLI instructions to him.
