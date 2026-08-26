@@ -65,3 +65,9 @@ default on prior evidence. No rerun - building instead.
 [08-26 04:29:43] night-run-2: restored src/halo_research_gateway/cache.py from B2b-cache-0826-024829 as the seed
 [08-26 04:41:04] night-run-2 unit B2b-cache: GREEN in 11.4 min
 [08-26 04:41:04] night-run-2 complete
+[08-26 05:01:39] night-run-3 unit B3-security: RED in 19.5 min
+[08-26 05:20:36] night-run-3 unit B8-envelope: RED in 18.9 min
+[08-26 05:25:00] NIGHT COMPLETE. Shipped via Halo-Code: B2a-migrations GREEN 16.6m, B2b-cache GREEN 11.4m (both re-verified independently: 12/12 across cache+migrations, frozen specs untouched). Total verified units in the gateway: 4. Coordinator product-code lines: 0.
+[08-26 05:25:00] NOT DONE: B8-envelope stalled at 9/11 (both failures = the serialized_chars fixed-point measurement); B3-security stalled at 9/11 and the worker broke the module's imports on two separate attempts at the same edit. Best implementations + resume notes preserved in gateway-conductor\incomplete-units\. Stopped dispatching rather than run the box into the operator's morning after 4 failed attempts on one unit; escalation path (-Lane cockpit, 27B) written up and untried.
+[08-26 05:25:00] Anti-scratch footer VERIFIED EFFECTIVE: night-run-3 workers wrote zero scratch validator files (previous runs wrote 2-4 each).
+[08-26 05:25:00] Prove-Halo final run: 7/7. Stack state left healthy - coder-30b resident, 32.6 GB free, repo clean at the last green commit.

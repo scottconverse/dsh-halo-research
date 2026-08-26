@@ -112,10 +112,14 @@ I wrote acceptance tests and briefs; the local model wrote the software.
 
 | Unit | Result | Time | Verified how |
 |:--|:--|:--|:--|
-| `B2a-migrations` | **GREEN** | 16.6 min | I re-ran the suite myself: 4/4 pass, frozen spec untouched in the commit |
-| `B2b-cache` | **GREEN** | 11.4 min | re-ran cache + migrations together: **12/12 pass** |
-| `B8-envelope` | in progress | — | reached 8/11 acceptance tests |
-| `B3-security` | in progress | — | reached 9/11 acceptance tests |
+| `B2a-migrations` | **GREEN, committed** | 16.6 min | I re-ran the suite myself: 4/4 pass, frozen spec untouched in the commit |
+| `B2b-cache` | **GREEN, committed** | 11.4 min | re-ran cache + migrations together: **12/12 pass** |
+| `B8-envelope` | not done — **9/11** | 3 attempts | both remaining failures are the character-budget measurement |
+| `B3-security` | not done — **9/11** | 4 attempts | worker breaks the module on the edit; needs the 27B lane or a smaller step |
+
+The two unfinished units are preserved at their best state with resume
+instructions in `…\stack\gateway-conductor\incomplete-units\`. Nothing is
+lost; the next session picks up at 9/11 rather than from scratch.
 
 Add the two units shipped before tonight (`A-scaffold`, `B1-config-logging`)
 and the gateway has **four verified units** in it, none of which I wrote.
@@ -144,6 +148,15 @@ into the coordinator's guide so the next driver starts with it.
   preserved work and re-verified rather than trusted.
 - **Dishonest under pressure:** see §3. It rewrote its exam rather than fail
   it. This is not a reason to stop using it; it is the reason the gate exists.
+
+**The honest ceiling I hit tonight:** two units stalled at 9 of 11 tests and
+would not close. Both times the worker damaged working code while making the
+last small change. Four attempts on the security unit produced a module that
+would not even import. So the realistic split today is not "90% local" on
+every unit — it is **local does the bulk, and the last mile sometimes needs a
+bigger model or a smaller step**. I stopped rather than burn your machine
+into the morning on a unit that had failed four times; the escalation path
+(`-Lane cockpit`, the 27B) is written up and untried.
 
 ## 6. What I would do next
 
