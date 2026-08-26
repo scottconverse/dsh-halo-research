@@ -4,16 +4,30 @@
 [CmdletBinding()]
 param(
     [string] $Repo = 'C:\Users\scott\Desktop\Code\halo-research-gateway',
-    [string] $Batch = 'A'
+    [string] $Batch = 'A',
+    [string] $GateScript = 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Gate-Build.ps1',
+    [string] $Ledger = '',
+    [string] $Report = ''
 )
 $ErrorActionPreference = 'Stop'
 $cond = $PSScriptRoot
-$gate = 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Gate-Build.ps1'
-$ledger = Join-Path $cond 'LEDGER.csv'
-$report = Join-Path $cond 'REPORT-GATEWAY.md'
+$gate = $GateScript
+$ledger = if ($Ledger) { $Ledger } else { Join-Path $cond 'LEDGER.csv' }
+$report = if ($Report) { $Report } else { Join-Path $cond 'REPORT-GATEWAY.md' }
 function Rep($m){ $l="[$(Get-Date -Format 'MM-dd HH:mm:ss')] $m"; Write-Host $l; Add-Content $report $l }
 
 $batches = @{
+  'DRY' = @(  # pipeline self-test units - run only via test-harness.ps1 against a throwaway repo
+    @{ n='DRY-green'; brief='DRY-green.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_dry.py'; cap=1; rounds=1; stop=$false },
+    @{ n='DRY-red';   brief='DRY-red.md';   verifier='verify-pytest.ps1'; tests='tests/unit/test_dry.py'; cap=1; rounds=1; stop=$false; required='test_missing_on_purpose' }
+  )
+  'A6' = @(  # test-first micro-units: gate-authored FROZEN acceptance tests, worker implements src only
+    @{ n='B2-v5'; brief='B2-cache-migrations-v5.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_cache.py tests/unit/test_migrations.py'; cap=12; rounds=2; stop=$false;
+       frozen='tests/unit/test_cache.py tests/unit/test_migrations.py';
+       required='test_migrate_creates_schema test_migrate_second_run_noop test_schema_too_new_error test_backup_created_and_capped test_cache_requires_migrated_database test_put_get_roundtrip test_expiry_ttl test_max_age_stricter_than_ttl test_oversize_entry_rejected test_lru_eviction_order test_evict_preserves_rate_state test_stats_counts_and_bytes' },
+    @{ n='B3-v3'; brief='B3-security-v3.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_security.py'; cap=12; rounds=2; stop=$false;
+       frozen='tests/unit/test_security.py' }
+  )
   'A5' = @(
     @{ n='B2-v4';      brief='B2-cache-migrations-v4.md'; verifier='verify-pytest.ps1'; tests='tests/unit/test_cache.py tests/unit/test_migrations.py'; cap=35; rounds=3; stop=$false;
        required='test_migrate_creates_schema test_migrate_second_run_noop test_schema_too_new_error test_backup_created_and_capped test_cache_requires_migrated_database test_put_get_roundtrip test_expiry_ttl test_max_age_stricter_than_ttl test_oversize_entry_rejected test_lru_eviction_order test_evict_preserves_rate_state test_stats_counts_and_bytes' },
@@ -52,6 +66,7 @@ foreach ($u in $units) {
     Copy-Item $briefSrc (Join-Path $Repo 'AGENTS.md') -Force
     $env:UNIT_TESTS = $u.tests
     $env:UNIT_REQUIRED = if ($u.required) { $u.required } else { '' }
+    $env:UNIT_FROZEN = if ($u.frozen) { $u.frozen } else { '' }
     $lane = if ($u.lane) { $u.lane } else { 'worker' }
     $t0 = Get-Date
     & $gate -Workspace $Repo -TestScript (Join-Path $cond $u.verifier) -Lane $lane `
@@ -60,7 +75,7 @@ foreach ($u in $units) {
     $ok = ($LASTEXITCODE -eq 0)
     $mins = [Math]::Round(((Get-Date) - $t0).TotalMinutes, 1)
     $rounds = (Select-String -Path (Join-Path $Repo 'gate-log.txt') -Pattern 'round \d+ : agent launched' -EA SilentlyContinue).Count
-    Add-Content $ledger "$Batch,$($u.n),worker-coder30b,$(if($ok){'GREEN'}else{'RED'}),$rounds,$mins,fable-brief,0"
+    Add-Content $ledger "$Batch,$($u.n),$(if($lane -eq 'cockpit'){'cockpit-27b'}else{'worker-coder30b'}),$(if($ok){'GREEN'}else{'RED'}),$rounds,$mins,fable-brief,0,$(if($u.frozen){'gate-authored-frozen'}else{'worker-authored'})"
     if ($ok) {
         $green++
         Push-Location $Repo

@@ -9,6 +9,14 @@ $targets = $env:UNIT_TESTS -split ' '
 $fail = 0
 foreach ($t in $targets) { if (-not (Test-Path $t)) { Write-Host "MISSING TEST FILE: $t"; $fail++ } }
 if ($fail -gt 0) { Write-Host 'RESULT: FAIL (required test files absent)'; exit 1 }
+if ($env:UNIT_FROZEN) {
+    # Test-first units: the gate authored these files; the worker may not touch them.
+    foreach ($f in ($env:UNIT_FROZEN -split ' ')) {
+        $dirty = git status --porcelain -- $f 2>$null
+        if ($dirty) { Write-Host "FROZEN TEST MODIFIED: $f (revert it - the acceptance tests are the spec)"; $fail++ }
+    }
+    if ($fail -gt 0) { Write-Host 'RESULT: FAIL (frozen acceptance tests were modified)'; exit 1 }
+}
 if ($env:UNIT_REQUIRED) {
     # Anti-shrinkage: every named test function must be collected, or the unit fails.
     $collected = (& uv run --frozen python -m pytest --collect-only -q @targets 2>&1) -join "`n"

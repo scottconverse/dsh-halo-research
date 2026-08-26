@@ -17,29 +17,36 @@ SHELVED — this is a real build, not a test program.
 
 ## Live right now
 
-- **Batch A5 running in background** (task id `b5psw1v4c`, launched 19:54 08-25):
-  1. `B2-v4` — cache/migrations, COMPLETE self-contained brief + 12 required
-     test names enforced by the verifier (`UNIT_REQUIRED`)
-  2. `B3-v2` — SSRF/URL policy, path-hammered brief (never got its A4 run)
-  3. `B5-cockpit` — reddit parser on the 27B cockpit lane (never got its A4 run)
-- **A4 died at compaction** (~17:17, during B2-v3 round 2). Its leftover work
-  passed pytest 6/6 but the cache was a 37-line stub — hollow pass, caught by
-  audit, NOT committed. The stub tree was left in place as B2-v4's documented
-  starting point.
-- On A5's notification: read `LEDGER.csv` tail + grep the task output for
-  `FAILED|RESULT|MISSING` signatures ONLY (never full transcripts). Greens are
-  already committed by the runner. Reds: rebrief (v+1 file in `briefs\`) or move
-  up the ladder: coder → tightened rebrief → 27B lane → split smaller → Fable
-  codes (logged failure of the experiment). Red work is preserved under
-  `reds\<unit>-<time>\` for forensics (works for A5+; A3 reds were wiped by the
-  old runner — that fuller B2 code is gone).
+- **NOTHING is running.** Operator ordered STOP + pause (21:0x 08-25). Batch
+  A5's final tally: B2-v4 RED 3r/54.7m (forensics preserved and salvaged),
+  B3-v2 GREEN/committed `e72b9d6` **but hollow** (fails 9/11 gate-authored
+  tests; classify_ip crashes on IPv6), B5-cockpit killed in round 1.
+- **The method changed to TEST-FIRST (spec §30.4).** The conductor authored
+  frozen acceptance tests, committed `36a2192` in the product repo
+  (`test_cache.py`, `test_migrations.py`, `test_security.py`, 207 lines,
+  ledger `A6-prep` row). The verifier enforces `UNIT_FROZEN` (no worker edits
+  to tests) + `UNIT_REQUIRED` (anti-shrinkage). The pipeline dry-run
+  `test-harness.ps1` passes 9/9 in ~90 s with zero inference — run it before
+  ANY real batch.
+- **Batch A6 is staged, NOT launched** (needs operator go + free machine):
+  1. `B2-v5` — worker implements src against frozen tests; working tree
+     seeded with the best B2-v4 forensic code (cache.py 7.5 KB etc.)
+  2. `B3-v3` — fix shipped security.py against frozen tests (9 known failures
+     listed in the brief)
+  Both: 12-min caps, 2 rounds, worker lane, ONE lane at a time.
+  Launch: `& run-batch.ps1 -Batch A6` (background), after `test-harness.ps1`
+  is green and the machine is free.
+- B5 reddit parser: rebrief test-first later (needs RSS fixture files
+  authored by the gate first).
 
 ## Scoreboard so far
 
-GREEN + committed: A-scaffold (3r/23m), B1-config-logging (retry, 2r/33m).
-Open: B2 (v4 in flight), B3 (v2 in flight), B5 (cockpit lane in flight).
-All code local; fable_code_lines still 0. Pattern that works: tightened
-rebrief with the exact failure class named → green next attempt.
+GREEN + committed + trusted: A-scaffold (3r/23m), B1-config-logging (2r/33m).
+Committed but hollow, reopened: B3 (v3 staged). Open: B2 (v5 staged), B5.
+All product code local; fable_code_lines 0; gate test lines 207 (own ledger
+column, never counted as product). Pattern that works: tightened rebrief
+naming the exact failure class → green. Pattern that does NOT: worker-authored
+tests — three hollow/weak-test incidents (B2-v3, B2 6-test shrink, B3-v2).
 
 ## Briefing rules learned (apply to every new brief)
 
@@ -80,5 +87,11 @@ optional, per-unit).
 - Background batches DIE at compaction. On any resume: check gate-log.txt
   freshness + live processes before trusting "in flight"; audit leftover work
   (a green verifier on a shrunk test list is not a green unit).
+- KILLING a batch: TaskStop + cmdline sweeps are NOT enough — the A5 runner
+  survived both and ran 3 more units. Kill the process TREE rooted at the
+  agent pid printed in gate-log.txt AND any pwsh whose cmdline mentions
+  run-batch/Gate-Build, then verify death by a 90-second state-change watch
+  (gate-log + report + ledger all static, `lms ps` idle). A quiet cmdline
+  probe alone is a claim of absence — never report "stopped" from it.
 - Never touch: `~\.dsh` model routes, worker home settings, LM Studio port,
   spec files. Operator is point-and-click only — no CLI instructions to him.

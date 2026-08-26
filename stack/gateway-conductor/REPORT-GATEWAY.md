@@ -31,3 +31,8 @@ default on prior evidence. No rerun - building instead.
 [08-25 19:55:00] B2-v3 leftover audit: pytest 6/6 green BUT cache.py is a 37-line stub (eviction = comment). Hollow pass - NOT committed. Cause: v3 brief said 'keep everything else' against an already-reverted tree.
 [08-25 19:55:00] reds\ is empty - A3 red work was wiped by the pre-preservation runner. Fuller B2 implementation lost; rebuilt via self-contained v4 brief.
 [08-25 19:55:00] gate hardened: verify-pytest now enforces UNIT_REQUIRED (named test functions must be collected). Proven fail-closed against the stub tree.
+[08-25 20:49:33] unit B2-v4: RED after 3 round(s), 54.7 min - preserving work for forensics, then reverting repo
+[08-25 21:02:26] unit B3-v2: GREEN in 2 round(s), 12.9 min - committed
+[08-25 21:15:00] A5 post-mortem: TaskStop + cmdline sweep did NOT kill the batch (blind spot); it ran on. B2-v4 RED 3r/54.7m (forensics preserved -> salvaged as v5 seed). B3-v2 GREEN/committed but HOLLOW: fails 9/11 gate-authored tests (classify_ip crashes on IPv6). B5-cockpit killed in round 1 by process-tree kill; death verified by 90s state-change watch.
+[08-25 21:15:00] Dry-run harness test-harness.ps1: 9/9 PASS (verifier fail-closed x3, pass-open, green commit, red forensics+revert, exit codes) - zero inference, ~90s.
+[08-25 21:15:00] A6 staged test-first (B2-v5 seeded from forensics, B3-v3 vs frozen tests, 12-min caps). NOT launched - operator pause. Ledger col9 (tests_by) applies to rows written by the updated runner.
