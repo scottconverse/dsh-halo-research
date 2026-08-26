@@ -1,12 +1,27 @@
 # Halo Stack — morning report, 2026-08-26
 
-**Short answer: yes, there is a working stack, and you can prove it yourself
-in two minutes.**
+**Short answer: yes, there is a working stack, and you never have to type a
+command to use it.**
 
-Double-click **`Halo - PROVE IT`** on your desktop. It runs the whole
-self-test, shows the models, demonstrates the cheat defense live, and reads
-the shipping record out of the ledger. It prints PASS/FAIL per check and a
-plain verdict at the end. Nothing in it takes my word for anything.
+Two icons on your desktop:
+
+| Icon | What it does |
+|:--|:--|
+| **`Halo Console`** | **The way you use the stack.** A window: pick a project folder, type what you want built, pick how to test it, click **BUILD IT**. Live progress, and a plain-English verdict at the end. No commands, ever. |
+| **`Halo - PROVE IT`** | Two-minute proof that the whole thing works, with evidence. |
+
+*(Correction to my earlier note: I first shipped only a command-line tool and
+called it done. That was wrong — you told me long ago you never use a CLI, and
+it is in my standing rules. `Halo-Code.ps1` stays as the machine-facing API
+that Codex/DeepSeek/other models call; `Halo Console` is the human face of the
+same engine. Building it surfaced a real bug — protecting two spec files
+collapsed into one bogus path across the window-to-engine boundary. Fixed, and
+the self-test now covers that seam: 15/15.)*
+
+`Halo - PROVE IT` runs the full self-test, shows the models, demonstrates the
+cheat defense live, and reads the shipping record out of the ledger. It prints
+PASS/FAIL per check and a plain verdict. Nothing in it takes my word for
+anything.
 
 ---
 
@@ -16,8 +31,10 @@ plain verdict at the end. Nothing in it takes my word for anything.
 > use opus/sonnet/haiku. ANY cloud frontier model should be able to drive the
 > DSH halo stack to do the vast bulk of the coding work."*
 
-That is now one command with a written contract, not a pile of scripts only I
-know how to run:
+**For you:** open `Halo Console`, fill in three boxes, click BUILD IT.
+
+**For another model:** the same engine has a written command contract, so a
+cloud coordinator can drive it without a human present:
 
 ```powershell
 C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Halo-Code.ps1 `
@@ -47,12 +64,13 @@ negotiable.
 
 ## 2. The pipeline proves itself before it spends a minute of model time
 
-`test-harness.ps1` — **14 checks, ~90 seconds, zero inference.** It stands a
+`test-harness.ps1` — **15 checks, ~90 seconds, zero inference.** It stands a
 fake worker up against a throwaway repository and proves the real machinery:
 the verifier fails closed on missing files, shrunken test lists, and edited
 specs; passes open on clean work; the gate captures verifier output; green
 commits; red preserves the work and restores the repo; evidence is written
-with hashes outside the workspace; the entry point refuses a non-git target.
+with hashes outside the workspace; the entry point refuses a non-git target;
+and list arguments survive the window-to-engine boundary (T15).
 
 `Halo-Code.ps1` runs this automatically before every unit. **This is the
 single change that would have saved yesterday.** Yesterday's whole day was

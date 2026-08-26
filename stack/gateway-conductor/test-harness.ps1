@@ -101,6 +101,20 @@ New-Item -ItemType Directory -Force -Path $notARepo | Out-Null
         -SkipSelfTest -SkipModelLoad *> $null
 Check 'T14 Halo-Code refuses a non-git target instead of running blind' ($LASTEXITCODE -eq 2)
 
+# T15: the GUI crosses a -File boundary, which collapses arrays into one string.
+# Two protected files must still register as two (this was a real bug 2026-08-26).
+Push-Location $repo
+Set-Content (Join-Path 'tests' (Join-Path 'unit' 'test_second.py')) "def test_second():`n    assert True`n"
+git add -A 2>$null; git commit -q -m second 2>$null
+Pop-Location
+$fileOut = & (Get-Command pwsh).Source -NoProfile -ExecutionPolicy Bypass -File $halo `
+    -Repo $repo -Brief $briefFrozen -Verify 'uv run --frozen python -m pytest -q tests/unit/test_frozen.py' `
+    -Frozen "tests/unit/test_frozen.py,tests/unit/test_second.py" -Name 'dryhalo-argsplit' -GateScript $fake `
+    -SkipSelfTest -SkipModelLoad -Rounds 1 -CapMin 1 *>&1 | Out-String
+$bothSeen = ($fileOut -match 'test_frozen') -and ($fileOut -match 'test_second')
+Check 'T15 list args survive the -File boundary (GUI path): both protected files register' $bothSeen
+Push-Location $repo; git checkout -q -- . 2>$null; Pop-Location
+
 # --- cleanup --------------------------------------------------------------
 Set-Location $cond   # verifier leaks Set-Location into the process; step out before deleting
 if ($redDir) { Remove-Item $redDir.FullName -Recurse -Force -Confirm:$false }
@@ -108,6 +122,6 @@ $evDirs | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$fal
 Remove-Item $Scratch -Recurse -Force -Confirm:$false -EA SilentlyContinue
 $evAll = Get-ChildItem (Join-Path $cond 'runs') -Directory -Filter 'dryhalo-*' -EA SilentlyContinue
 $evAll | ForEach-Object { Remove-Item $_.FullName -Recurse -Force -Confirm:$false -EA SilentlyContinue }
-Write-Host "=== dry-run: $((14 - $fails))/14 pass ==="
+Write-Host "=== dry-run: $((15 - $fails))/15 pass ==="
 exit $fails
 

@@ -42,6 +42,16 @@ param(
     [Parameter(ParameterSetName='SelfTest', Mandatory)][switch] $SelfTest
 )
 $ErrorActionPreference = 'Stop'
+
+# Callers that cross a -File boundary (the GUI, some coordinators) deliver an
+# array as one comma/space-joined string. Normalise it, or two protected spec
+# files silently become one bogus path.
+function Split-ListArg([string[]] $v) {
+    if ($v.Count -eq 1 -and $v[0] -match '[,\s]') { return @($v[0] -split '[,\s]+' | Where-Object { $_ }) }
+    return $v
+}
+$Frozen   = Split-ListArg $Frozen
+$Required = Split-ListArg $Required
 $stack = $PSScriptRoot
 $cond  = Join-Path $stack 'gateway-conductor'
 $harness = Join-Path $cond 'test-harness.ps1'

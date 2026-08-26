@@ -7,6 +7,14 @@
 
 ---
 
+## Operator surface (do not forget this again)
+
+Scott is **point-and-click only, never CLI**. Desktop icons:
+`Halo Console` (drive the stack: project + brief + test command -> BUILD IT)
+and `Halo - PROVE IT` (the proof). `Halo-Code.ps1` is the machine-facing API
+for cloud coordinators, NOT the operator's interface. Shipping only the CLI
+was a real miss on 2026-08-26; any new capability needs a GUI face.
+
 ## The stack now has a public interface
 
 `stack\Halo-Code.ps1` is THE entry point. One command; any frontier
