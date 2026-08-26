@@ -26,7 +26,15 @@ leaves 32.6 GB. `Halo-Code.ps1` handles residency for you. Never load both.
 
 ---
 
-## 2. The one command
+## 1a. Note on the human operator
+
+This machine's owner is **point-and-click only and never uses a CLI**. The
+graphical front end `Halo-Console.ps1` (desktop icon **Halo Console**) is his
+interface; `Halo-Code.ps1` below is the machine-facing API that *you* call.
+If you add a capability, it is not delivered until it also has a
+point-and-click face. Never hand him a command to run.
+
+## 2. The one command (for coordinators, not for the operator)
 
 ```powershell
 C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Halo-Code.ps1 `

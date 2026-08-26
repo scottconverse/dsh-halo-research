@@ -25,10 +25,11 @@ archives hashed evidence outside the repo, commits on green, restores on red.
 - `stack\verify-generic.ps1` — language-agnostic verifier (`-Verify` takes any
   shell command). Enforces frozen specs + anti-shrinkage. Prints `RESULT:` on
   every path (the ENV_FAILURE contract).
-- `stack\gateway-conductor\test-harness.ps1` — **14 checks, ~90 s, zero
+- `stack\gateway-conductor\test-harness.ps1` — **15 checks, ~90 s, zero
   inference.** Required green before model time. Includes T4b (the gate must
-  prove it captured verifier output — the bug that cost 2026-08-25) and
-  T11–T14 (the entry point itself).
+  prove it captured verifier output — the bug that cost 2026-08-25), T11–T14
+  (the entry point) and T15 (list args across the GUI boundary).
+- `Halo-Console.ps1` — the operator GUI (see the Operator surface section).
 - `stack\Prove-Halo.ps1` + desktop shortcut **"Halo - PROVE IT"** — the
   operator-facing proof (7/7 as of 02:32). Scott is point-and-click only.
 
@@ -53,15 +54,18 @@ archives hashed evidence outside the repo, commits on green, restores on red.
 
 ## Live right now
 
-- `night-run.ps1` dispatching 4 units through Halo-Code, sequentially:
-  B2a-migrations → B2b-cache → B8-envelope → B3-security. Started 02:32.
-  Each: 12–15 min cap, 2 rounds, gate-authored frozen tests, surgical briefs
-  naming the exact defects.
+- **Nothing running.** Night complete. Shipped via Halo-Code: `B2a-migrations`
+  GREEN 16.6 min, `B2b-cache` GREEN 11.4 min — both independently re-verified
+  (12/12 across cache+migrations, frozen specs untouched). Four verified units
+  total; coordinator product-code lines: 0.
+- **Not finished:** `B8-envelope` and `B3-security` both stalled at 9/11. Best
+  implementations + resume notes in `incomplete-units`. B3's worker broke the
+  module's imports on two separate attempts at the same edit — try
+  `-Lane cockpit` (27B) or split the change smaller.
 - Frozen acceptance tests committed in the product repo:
   `test_migrations.py`, `test_cache.py`, `test_security.py`, `test_envelope.py`.
   **Coordinator-authored; the worker may never edit them.**
-- `MORNING-REPORT-2026-08-26.md` is written but its §5 (`<!--RESULTS-->`)
-  must be filled from the ledger before Scott reads it.
+- `MORNING-REPORT-2026-08-26.md` is final and copied to both locations.
 
 ## Standing rules (violating these is what cost 2026-08-25)
 
@@ -80,10 +84,14 @@ archives hashed evidence outside the repo, commits on green, restores on red.
    verify with a 90-second artifact-silence watch. A quiet process probe is
    never proof — reporting "stopped" from one was a live false claim on 08-25.
 9. One lane at a time; heavy work only when Scott is not using the machine.
+10. Every capability needs a point-and-click face. A CLI alone is not a
+    delivered feature for this operator.
 
 ## Known gaps
 
 - ENV_FAILURE classifier not yet exercised live.
+- The "any frontier model can drive it" claim is UNTESTED against a non-Claude
+  coordinator. That is the next real acceptance test.
 - 27B cockpit lane not run since the residency change.
 - `lms -c` ignored (above) — worth solving properly.
 - B5 (reddit parser) still has no gate-authored frozen tests; it needs RSS
