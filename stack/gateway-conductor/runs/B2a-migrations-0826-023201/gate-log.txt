@@ -1,0 +1,8 @@
+
+[02:32:01] gate start | lane=worker | workspace=C:\Users\scott\Desktop\Code\halo-research-gateway | verifier=C:\Users\scott\Desktop\Code\dsh-halo-research\stack\verify-generic.ps1 | verifyOnly=False
+[02:32:01] round 1 : agent launched (pid 22376, cap 12m, Code Mode, coder-30b)
+[02:36:23] round 1 : worker exited after 4.4 min (code 0)
+[02:36:24] round 1 : verdict FAIL (exit 1) - feeding failures back
+[02:36:24] round 2 : agent launched (pid 18100, cap 12m, Code Mode, coder-30b)
+[02:48:24] round 2 : hit 12m cap - killing recorded tree (pid 18100)
+[02:48:28] round 2 : verdict PASS - external tests green. Task complete BY TEST EVIDENCE.

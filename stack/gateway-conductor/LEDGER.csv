@@ -17,3 +17,4 @@ A6,B3-v3,worker-coder30b,RED,2,20.5,fable-brief,0,gate-authored-frozen
 A7,B2-v6,worker-coder30b,VOID(operator full-stop mid round 2; models unloaded),2,25,fable-brief,0,gate-authored-frozen,
 A7,B2-v6,worker-coder30b,RED,2,22.9,fable-brief,0,gate-authored-frozen,runs\A7-B2-v6-0826-021515
 A7,B3-v4,worker-coder30b,RED-TRIPWIRE,2,16.4,fable-brief,0,gate-authored-frozen,runs\A7-B3-v4-0826-023138
+NIGHT,B2a-migrations,worker-coder30b,GREEN,,16.6,fable-brief,0,gate-authored-frozen,via-Halo-Code

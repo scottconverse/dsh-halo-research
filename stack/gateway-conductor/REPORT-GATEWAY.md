@@ -51,3 +51,4 @@ default on prior evidence. No rerun - building instead.
 [08-26 02:31:38] unit B3-v4: RED-TRIPWIRE after 2 round(s), 16.4 min - preserving work for forensics, then reverting repo
 [08-26 02:31:39] === batch A7 end: 0 green, 2 red ===
 [08-26 02:31:54] night-run: restored B2-v6 forensic implementation (8/12) as the seed for B2a/B2b
+[08-26 02:48:28] night-run unit B2a-migrations: GREEN in 16.6 min

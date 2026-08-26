@@ -45,6 +45,7 @@ C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Halo-Code.ps1 `
 | `-Verify` | any shell command; **exit 0 = done**. Language-agnostic: `npm test`, `cargo test`, `go test ./...`, `pytest …` |
 | `-Frozen` | files the worker may not touch — put your acceptance tests here |
 | `-Required` | test names that must still be collected (blocks test-shrinking) |
+| `-CollectCmd` | how to list tests, when `-Required` is used with a non-pytest runner (pytest is inferred automatically) |
 | `-Lane` | `worker` (default) or `cockpit` |
 | `-CapMin` / `-Rounds` | per-round minute cap (default 15) and max rounds (default 2) |
 | `-Commit` | commit automatically on green |
