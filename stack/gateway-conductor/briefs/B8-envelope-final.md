@@ -69,3 +69,13 @@ With `cursor=None` you start at index 0, cumulative 0, page number 1.
 ```
 uv run --frozen python -m pytest -q tests/unit/test_envelope.py
 ```
+
+## Also required (a previous attempt regressed these)
+
+- The envelope MUST contain the key `retry_after_seconds` (value `None` on
+  success). `test_envelope_has_required_shape` fails without it.
+- `page.serialized_chars` must be <= `char_budget`; a page measured at 3605
+  against a 3000 budget means you stopped adding items too late. Add an item
+  ONLY if the envelope still fits after adding it.
+- `SCHEMA_VERSION` must be the single source of the `schema_version` value;
+  do not hard-code a different string anywhere.

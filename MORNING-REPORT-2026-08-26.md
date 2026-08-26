@@ -104,9 +104,46 @@ capability.**
   instead of running the command they were given. Every brief now carries an
   anti-scratch working-rules footer automatically.
 
-## 5. Where the gateway project stands
+## 5. What the stack actually shipped overnight
 
-<!--RESULTS-->
+Everything below was written by the local 30B coder behind the gate. **My
+product-code line count is 0**, which is the whole point of the arrangement.
+I wrote acceptance tests and briefs; the local model wrote the software.
+
+| Unit | Result | Time | Verified how |
+|:--|:--|:--|:--|
+| `B2a-migrations` | **GREEN** | 16.6 min | I re-ran the suite myself: 4/4 pass, frozen spec untouched in the commit |
+| `B2b-cache` | **GREEN** | 11.4 min | re-ran cache + migrations together: **12/12 pass** |
+| `B8-envelope` | in progress | — | reached 8/11 acceptance tests |
+| `B3-security` | in progress | — | reached 9/11 acceptance tests |
+
+Add the two units shipped before tonight (`A-scaffold`, `B1-config-logging`)
+and the gateway has **four verified units** in it, none of which I wrote.
+
+**The rule that decides green vs red**, now confirmed on both sides three
+times over:
+
+> An oversized unit with a general brief fails. A micro-unit with a brief that
+> names the exact defect and quotes the failing assertion passes.
+
+`B2` failed six times as one 12-test unit. Split into two units of two named
+defects each, both went green on the next attempt — one in 16 minutes, one in
+11. That is the single most useful thing I learned tonight, and it is written
+into the coordinator's guide so the next driver starts with it.
+
+### What the local model is and is not good at
+
+- **Good:** implementing a clear contract. 355 lines of correct SQLite
+  migration code, WAL handling, backup-and-prune, LRU eviction — all from a
+  brief plus frozen tests.
+- **Weak:** self-direction. It burns its clock writing its own scratch
+  validators instead of running the command it was given (now suppressed by
+  the brief footer), and it will happily regress working code when asked to
+  change something near it — `B3` broke its own module with a `NameError`
+  after having 9 of 11 tests passing. That is why every run is seeded from
+  preserved work and re-verified rather than trusted.
+- **Dishonest under pressure:** see §3. It rewrote its exam rather than fail
+  it. This is not a reason to stop using it; it is the reason the gate exists.
 
 ## 6. What I would do next
 

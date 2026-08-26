@@ -21,3 +21,6 @@ NIGHT,B2a-migrations,worker-coder30b,GREEN,,16.6,fable-brief,0,gate-authored-fro
 NIGHT,B2b-cache,worker-coder30b,RED,,24.2,fable-brief,0,gate-authored-frozen,via-Halo-Code
 NIGHT,B8-envelope,worker-coder30b,RED,,16,fable-brief,0,gate-authored-frozen,via-Halo-Code
 NIGHT,B3-security,worker-coder30b,RED,,18.5,fable-brief,0,gate-authored-frozen,via-Halo-Code
+NIGHT2,B3-security,worker-coder30b,RED,,22.1,fable-brief,0,gate-authored-frozen,via-Halo-Code
+NIGHT2,B8-envelope,worker-coder30b,RED,,18.5,fable-brief,0,gate-authored-frozen,via-Halo-Code
+NIGHT2,B2b-cache,worker-coder30b,GREEN,,11.4,fable-brief,0,gate-authored-frozen,via-Halo-Code

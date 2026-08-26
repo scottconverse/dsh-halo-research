@@ -81,3 +81,11 @@ loopback forms must all raise `UNSAFE_URL/ip`.
 ```
 uv run --frozen python -m pytest -q tests/unit/test_security.py
 ```
+
+## IMPORTANT — a previous attempt broke this file
+
+The last attempt crashed the whole module with `NameError: name 'URLResult'
+is not defined` — it referenced a type it never defined. The file you are
+given now is the WORKING 9/11 version. Make the two changes above and nothing
+else. Every name you use must be defined in the file. Before you stop, run
+the command once and confirm there is no NameError or ImportError.

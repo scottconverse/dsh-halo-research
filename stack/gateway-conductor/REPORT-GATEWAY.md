@@ -59,3 +59,9 @@ default on prior evidence. No rerun - building instead.
 [08-26 03:49:06] night-run-2: restored src/halo_research_gateway/security.py from B3-security-0826-032840 as the seed
 [08-26 03:52:00] NIGHT RUN 1 RESULT via public entry point (Halo-Code): B2a-migrations GREEN 16.6m (verified independently: 4/4, frozen tests untouched, 355 worker-written lines). B2b RED 6/8, B8 RED 8/11, B3 RED 9/11 - and B3 did NOT cheat this time (frozen defense changed its behaviour). Aggregate 23/30 acceptance tests passing.
 [08-26 03:52:00] Pattern confirmed twice: oversized unit + generic brief = red; micro-unit + brief naming the exact defect = green. Launching night-run-2 with per-defect briefs, each unit seeded from its own preserved output.
+[08-26 04:11:12] night-run-2 unit B3-security: RED in 22.1 min
+[08-26 04:11:12] night-run-2: restored src/halo_research_gateway/envelope.py from B8-envelope-0826-031240 as the seed
+[08-26 04:29:43] night-run-2 unit B8-envelope: RED in 18.5 min
+[08-26 04:29:43] night-run-2: restored src/halo_research_gateway/cache.py from B2b-cache-0826-024829 as the seed
+[08-26 04:41:04] night-run-2 unit B2b-cache: GREEN in 11.4 min
+[08-26 04:41:04] night-run-2 complete
