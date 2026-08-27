@@ -4774,38 +4774,51 @@ under the corrected gate, one full unit cycle costs minutes to validate and
 - **Full-stop protocol** — tree-kill from recorded pids, `lms unload --all`,
   then the 90-second silence watch; report only what the watch proved.
 
-# 31. The Halo Stack as a product — one entry point, any coordinator [v3.0]
+# 31. The Halo Stack as a product — DSH cockpit restored [v3.1]
 
-## 31.1 What was built
+## 31.1 Architecture restoration (v3.1, 2026-08-26)
 
-The stack stopped being "a set of scripts the current session knows how to
-run" and became an interface with a written contract.
+The v3.0 architecture inverted the original clean-room specification. An
+external frontier model (Claude) became the coordinator; DSH was reduced to
+a model-inference endpoint that required an externally-supplied brief,
+verification command, frozen tests, and retry decisions. This was the
+inversion: a cloud model ran the show, and DSH was just a backend.
 
-- **`stack\Halo-Code.ps1`** — the entry point. Inputs: `-Repo`, `-Brief`
-  (file or inline), `-Verify` (ANY shell command; exit 0 = done), `-Frozen`
-  (specification files the worker may not touch), `-Required` (test names
-  that must remain collected), `-Lane`, `-CapMin`, `-Rounds`, `-Commit`,
-  `-SelfTest`. Outputs: exit `0` GREEN, `1` RED, `2` ENV_FAILURE (the stack
-  is broken — do not retry), `3` TRIPWIRE (two identical failures, stopped
-  early). It self-tests before spending model time, manages model residency,
-  stamps the brief with anti-scratch working rules, archives hashed evidence
-  outside the workspace, commits on green and restores on red.
-- **`stack\HALO-STACK-GUIDE.md`** — the coordinator's contract: lanes and
-  their frontier equivalents, the loop, how to write briefs that converge,
-  the failure taxonomy, where evidence lives, and the non-negotiable rules.
-  Hand this file to Codex, DeepSeek, Kimi or a fresh Claude and it can drive
-  the stack without further context. That claim remains **untested against a
-  non-Claude coordinator** and is the next acceptance test.
+**v3.1 restores DSH as the product surface.** The DeepSeek Harness web
+cockpit at `localhost:3080` is the only required interface. The 27B cockpit
+owns planning, dispatching to the 30B coder via `subagent_coder`,
+verification, retry, and commit. A cloud model may optionally assist as a
+DSH subagent, but none is required.
+
+Changes in v3.1:
+- **DSH cockpit persona**: replaced the "don't build here / invoke the gate
+externally" rule with a build-capable persona (§31.1a).
+- **`subagent_coder`**: the 30B coder is registered as a DSH tool-subagent
+with in-process spawn; the cockpit dispatches implementation to it directly.
+- **Gate as internal tool**: `Gate-Build.ps1` and `verify-generic.ps1` are
+invoked by the cockpit, not by an external cloud model.
+- **Mission Control**: lightweight monitoring surface at `:3090` — services,
+models, memory, gate ledger. Backend: `stack\mission-control\mission-control.mjs`
+(zero deps), frontend: `stack\mission-control\status.html`.
+- **Halo-Console.ps1 removed**: the standalone GUI is redundant; the cockpit
+at `:3080` and Mission Control at `:3090` are the operator's interfaces.
+- **HALO-STACK-GUIDE.md rewritten**: now describes DSH as the coordinator
+rather than a cloud model.
+
+## 31.1a What was built (carried forward from v3.0)
+
+- **DSH web cockpit at `localhost:3080`** — the product surface. 27B model
+  (Qwen3.8-27B, Q5_K_XL) owns planning, dispatch, verification, and commit.
+  The 30B coder (Qwen3-Coder-30B-A3B, Q4_K_S) is dispatched via the
+  `subagent_coder` tool.
+- **`stack\Halo-Code.ps1`** — the gate entry point. Inputs: `-Repo`, `-Brief`,
+  `-Verify`, `-Frozen`, `-Required`, `-Lane`, `-CapMin`, `-Rounds`, `-Commit`,
+  `-SelfTest`. Outputs: exit `0` GREEN, `1` RED, `2` ENV_FAILURE, `3` TRIPWIRE.
 - **`stack\verify-generic.ps1`** — language-agnostic external verifier.
-  Enforces frozen specs and anti-shrinkage; prints `RESULT:` on every exit
-  path (the ENV_FAILURE contract of §30.4).
+  Enforces frozen specs and anti-shrinkage; prints `RESULT:` on every exit path.
 - **`stack\Prove-Halo.ps1`** + desktop shortcut **"Halo - PROVE IT"** — the
-  operator-facing proof: pipeline self-test, model inventory, a live
-  demonstration of the cheat defense, and the shipping record read from the
-  ledger. 7/7 at first run.
-- **`gateway-conductor\test-harness.ps1`** — 14 checks, ~90 s, zero
-  inference, covering the verifier, the runner, the entry point, and (T4b)
-  the gate's capture of verifier output.
+  operator-facing proof. 7/7 at first run.
+- **`gateway-conductor\test-harness.ps1`** — 15 checks, ~90 s, zero inference.
 
 ## 31.2 Measured: feedback was the bottleneck, not model capability
 
