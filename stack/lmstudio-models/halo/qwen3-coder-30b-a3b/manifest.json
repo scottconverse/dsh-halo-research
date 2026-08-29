@@ -1,0 +1,22 @@
+{
+  "type": "model",
+  "owner": "halo",
+  "name": "qwen3-coder-30b-a3b",
+  "dependencies": [
+    {
+      "type": "model",
+      "purpose": "baseModel",
+      "modelKeys": [
+        "unsloth/qwen3-coder-30b-a3b-instruct-gguf"
+      ],
+      "sources": [
+        {
+          "type": "huggingface",
+          "user": "unsloth",
+          "repo": "Qwen3-Coder-30B-A3B-Instruct-GGUF"
+        }
+      ]
+    }
+  ],
+  "revision": 1
+}

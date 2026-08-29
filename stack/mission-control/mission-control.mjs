@@ -1043,8 +1043,8 @@ const ACTIONS = {
   // bare executable name, bypassing the PATH-resolution hardening every sibling
   // uses -- a poisoned PATH entry named powershell.exe would have been launched.
   'start-cockpit': () => safeSpawn('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH], { detached: true, stdio: 'ignore' }).unref(),
-  'load-q5': () => safeSpawn('lms', ['load', 'unsloth/qwen3.8-27b', '--identifier', 'unsloth/qwen3.8-27b', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
-  'load-worker': () => safeSpawn('lms', ['load', 'unsloth/qwen3-coder-30b-a3b-instruct', '--identifier', 'unsloth/qwen3-coder-30b-a3b-instruct', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
+  'load-q5': () => safeSpawn('lms', ['load', 'halo/qwen3.8-27b', '--identifier', 'halo/qwen3.8-27b', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
+  'load-worker': () => safeSpawn('lms', ['load', 'halo/qwen3-coder-30b-a3b', '--identifier', 'halo/qwen3-coder-30b-a3b', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
   'unload-worker': () => safeSpawn('lms', ['unload', 'qwen3-coder-30b-a3b-instruct'], { detached: true, stdio: 'ignore' }).unref(),
   'unload-all': () => safeSpawn('lms', ['unload', '--all'], { detached: true, stdio: 'ignore' }).unref(),
 };

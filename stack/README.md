@@ -1,19 +1,21 @@
-# Halo v1 — the standing stack (spec v2.5 §19.1)
+# Halo — the standing DSH stack
 
-Two models resident on LM Studio `:1234`, one harness, one external gate.
+Two tuned model lanes on LM Studio `:1234`, with only the active local model
+resident at a time, one harness, and one external gate.
 
 | Piece | Value |
 |---|---|
 | Cockpit / planner | `unsloth/qwen3.8-27b` @ 32,768 — Standard tool mode. When it builds, it uses the forced-cadence brief (§12.10). |
-| Implementation worker | `unsloth/qwen3-coder-30b-a3b-instruct` @ 32,768 — **Code Mode** (`DSH_TOOLS_MODE=code`), pinned via its own DSH home `stack\dsh-home-worker\` (a `--patch` cannot pin the model: `agent-default-model` reads the settings user layer live — proven the hard way, see the note in that settings file). |
+| Implementation worker | `unsloth/qwen3-coder-30b-a3b-instruct` @ 32,768 — foreground one-shot child using the Halo Orchestrator's Standard-derived tool composition. The separate gate worker home retains its historical Code Mode configuration. |
 | Gate (T-29) | `Gate-Build.ps1` — external verifier-and-repair loop. Only test evidence completes a task (§21.15). Fail-closed. |
 | Provider config | `~\.dsh\settings.yaml` — both models declared with `contextWindow: 32768`, kept equal to the loaded context (§18.1). |
 
 ## Launch
 
 **The operator surface is point-and-click — the "Halo Cockpit" desktop
-shortcut.** Double-click it: it ensures both models are resident at 32 K,
-starts `dsh web` hidden if port 3080 isn't already serving (reaping only a
+shortcut.** Double-click it: LM Studio JIT-loads the selected model on the
+first request and evicts the previous JIT model when the lane changes. The
+launcher starts `dsh web` hidden if port 3080 isn't already serving (reaping only a
 dead DSH orphan first, ownership-checked), and opens the browser at the
 cockpit. If it can't come up in 150 s it says so in a dialog. Scripts:
 `Launch-Halo.ps1` (the launcher) and `Install-Shortcut.ps1` (recreates the
@@ -88,3 +90,17 @@ rule can never count as complete. Use for debugging and config checks only.
 - **Never `npx`** — `pnpm dlx` only. **Never kill by image name** — recorded PID trees only.
 - **Root-leak guard** — POSIX-style model paths land at `C:\` under full access (§21.16).
 - Apps-under-test that call an LLM use the coder endpoint, never the agent's slot (§12.11).
+
+## Web research
+
+The bundled DeepSeek-keyed search provider remains disabled. The web profile
+connects DSH to OpenCode's anonymous Exa MCP endpoint instead and exposes:
+
+- `mcp__exa__web_search_exa` for public-web discovery;
+- `mcp__exa__web_fetch_exa` for full-page retrieval of selected URLs.
+
+Neither requires a DeepSeek key, Exa key, or account. The installed
+`reddit-search` skill under `C:\Users\scott\.agents\skills` supplies the
+machine-wide pacing and RSS workflow for Reddit. DSH's bundled direct HTTP
+fetch provider is deliberately not enabled because its own rc.2 documentation
+states that private-address and DNS-rebinding protection are deferred.

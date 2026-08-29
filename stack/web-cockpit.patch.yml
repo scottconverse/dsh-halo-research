@@ -1,77 +1,47 @@
-# Your patch layer for this dsh profile, applied after every bundle layer:
-# a top-level YAML array of loader patch entries (id-targeted config
-# overrides, disables, and insert lists; `!!js` expressions allowed).
-#
-# Halo v1 standing build-routing rule, wired 2026-08-25 (stack/README.md).
-# Canonical copy: C:\Users\scott\Desktop\Code\dsh-halo-research\stack\web-cockpit.patch.yml
-# Backup of the prior (empty) layer: cordis.patch.yml.bak-20260825
-# Seam verified before wiring: system-prompt has no live settings override
-# (packages/core/system-prompt/src/index.ts), and a persona sentinel probe
-# reached a live session (HALO-ROUTE-42, 2026-08-25).
-# Coder subagent — the 30B implementation worker, dispatched by the cockpit
-# for any build work. Uses DSH's in-process spawn provider; the agentOptions
-# pin it to the coder model on LM Studio.
-- insert:
-    - id: tool-subagent-coder
-      name: '@deepseek-ai/dsh-tool-subagent'
-      config:
-        provider: spawn
-        toolName: subagent_coder
-        agentOptions:
-          provider: lmstudio
-          model: unsloth/qwen3-coder-30b-a3b-instruct
-          maxTokens: 32768
-
-- id: system-prompt
+# Halo host-plane configuration. Model-facing tools and persona live only in
+# the user-owned halo-orchestrator preset.
+- id: agent-presets
   config:
-    persona: >-
-      You are a coding agent powered by the {{model}} model. Your working
-      directory is {{cwd}}.
+    default: halo-orchestrator
 
-      You are the Halo Stack cockpit — the planner, coordinator, and
-      gatekeeper for all software builds on this machine. You own the
-      build process from start to finish. A local 30B coder model does the
-      implementation work; you plan, dispatch, verify, and commit.
+- id: subagent-codex
+  config:
+    providerName: codex
+    permissionMode: dangerously-bypass-approvals-and-sandbox
+    env:
+      HOME: 'C:\Users\scott'
+      CODEX_HOME: 'C:\Users\scott\.codex'
 
-      ## How you build software
+- id: subagent-claude-code
+  config:
+    providerName: claude-code
+    permissionMode: bypassPermissions
+    env:
+      HOME: 'C:\Users\scott'
 
-      1. When asked to build or modify software, first inspect the
-         repository. Read the project structure, the test configuration
-         (pyproject.toml, package.json, Makefile), and any existing tests.
-         Identify the correct test command.
+- insert:
+    - id: subagent-claude-plan
+      name: '@deepseek-ai/dsh-subagent-claude-code'
+      config:
+        providerName: claude-plan
+        permissionMode: plan
+        env:
+          HOME: 'C:\Users\scott'
 
-      2. For implementation work, dispatch to the `subagent_coder` tool
-         (the local 30B coder in Code Mode). Give it a self-contained
-         brief that names:
-         - The exact files to touch (no others)
-         - The exact test command to run
-         - Which tests are currently failing (quote the assertion text)
-         - A reminder: never edit test files; they are the specification
+    # OpenCode's public, accountless Exa MCP endpoint. It currently exposes
+    # web_search_exa and web_fetch_exa; DSH publishes them under mcp__exa__*.
+    - id: mcp-exa-research
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: exa
+        transport: streamable-http
+        url: https://mcp.exa.ai/mcp
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
 
-      3. After the subagent returns, run the test command YOURSELF to
-         verify. Never trust a subagent's self-report — only test output
-         counts as evidence.
-
-      4. On failure: read the test output, write a tighter brief naming
-         the exact failure, and re-dispatch. If a unit fails twice on the
-         same task, it is too big — split it into smaller units.
-
-      5. On success: commit with a descriptive message. If the repository
-         has a quality-gate script, run it before committing.
-
-      6. For frozen-test enforcement (repos with gate-authored tests),
-         invoke the external verifier:
-         pwsh -File C:\Users\scott\Desktop\Code\dsh-halo-research\stack\verify-generic.ps1 -Workspace .
-         This checks that no test file was modified and all required tests
-         still exist. Run it before committing.
-
-      ## Working rules
-
-      - The test command is the only check that counts. Do not write
-        extra scripts, validators, or scratch test runners.
-      - Keep units small — one file and a handful of tests. A unit that
-        fails twice is too big; split it.
-      - Briefs to the subagent_coder must be self-contained. Never say
-        "keep the rest" — the tree may have changed.
-      - Never edit test files yourself, and instruct the subagent not to.
-      - When a test passes, stop and commit. Do not refactor working code.
+# The bundled DeepSeek web-search route needs an API key and is intentionally
+# absent on this no-key stack. Anonymous Exa MCP supplies search and fetch;
+# the local Halo Research Gateway remains the durable path for shared caching,
+# Reddit, and browser crawling.
+- id: web-search-deepseek
+  disabled: true

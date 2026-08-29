@@ -1,4 +1,8 @@
 <#
+  LEGACY EXTERNAL CONDUCTOR — DO NOT REVIVE AS THE CURRENT HALO CONTROL PLANE.
+  Retained for historical recovery and verifier-logic reference only. Current
+  orchestration belongs to DSH; Stage 3 will attach verification natively.
+
   Gate-Build.ps1 — T-29: the external verifier-and-repair gate (spec v2.5 §19.1, §21.15).
 
   The worker (Coder-30B, Code Mode, 32K) builds in -Workspace. The verdict comes

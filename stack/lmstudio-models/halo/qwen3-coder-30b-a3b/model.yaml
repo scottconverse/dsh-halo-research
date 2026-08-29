@@ -1,0 +1,59 @@
+# Halo-owned LM Studio model definition for the tuned DSH implementation lane.
+model: halo/qwen3-coder-30b-a3b
+base:
+  - key: unsloth/qwen3-coder-30b-a3b-instruct-gguf
+    sources:
+      - type: huggingface
+        user: unsloth
+        repo: Qwen3-Coder-30B-A3B-Instruct-GGUF
+metadataOverrides:
+  domain: llm
+  architectures:
+    - qwen3moe
+  compatibilityTypes:
+    - gguf
+  paramsStrings:
+    - 30B-A3B
+  minMemoryUsageBytes: 17000000000
+  contextLengths:
+    - 32768
+  vision: false
+  reasoning: false
+  trainedForToolUse: true
+config:
+  load:
+    fields:
+      - key: llm.load.contextLength
+        value: 32768
+      - key: llm.load.numParallelSessions
+        value: 1
+      - key: llm.load.useUnifiedKvCache
+        value: true
+      - key: llm.load.offloadKVCacheToGpu
+        value: true
+      - key: llm.load.numCpuExpertLayersRatio
+        value: "off"
+      - key: llm.load.llama.autoFit
+        value: false
+      - key: llm.load.llama.acceleration.offloadRatio
+        value: "max"
+      - key: llm.load.llama.evalBatchSize
+        value: 2048
+      - key: llm.load.llama.physicalBatchSize
+        value: 512
+      - key: llm.load.llama.flashAttention
+        value: true
+      - key: llm.load.llama.contextCheckpoints
+        value: 32
+      - key: llm.load.llama.speculativeDecoding.draftMtp
+        value: false
+      - key: llm.load.llama.speculativeDecoding.draftSimple
+        value: false
+      - key: llm.load.llama.keepModelInMemory
+        value: false
+      - key: llm.load.llama.useFp16ForKVCache
+        value: true
+      - key: llm.load.llama.tryMmap
+        value: false
+      - key: load.gpuStrictVramCap
+        value: true

@@ -1,5 +1,10 @@
 <#
-  Halo-Code.ps1 — THE public entry point of the Halo Stack.
+  LEGACY ORCHESTRATOR — DO NOT USE AS THE CURRENT HALO CONTROL PLANE.
+  Retained for historical recovery and verifier-logic reference only. Current
+  orchestration belongs to DSH; Stage 3 will attach verification natively.
+
+  Historical description below (superseded): this script was once called the
+  public entry point of the Halo Stack.
 
   One command. A frontier-model coordinator (Claude, Codex, DeepSeek, Kimi, ...)
   hands this a repo, a brief, and an acceptance command. Local models on this

@@ -1,0 +1,67 @@
+# Halo-owned LM Studio model definition for the tuned DSH cockpit lane.
+# Load settings are baked into the model identity so API/JIT loads receive the
+# same envelope as interactive loads. Runtime logs remain the acceptance truth.
+model: halo/qwen3.8-27b
+base:
+  - key: unsloth/qwen3.8-27b-gguf
+    sources:
+      - type: huggingface
+        user: unsloth
+        repo: Qwen3.8-27B-GGUF
+metadataOverrides:
+  domain: llm
+  architectures:
+    - qwen35
+  compatibilityTypes:
+    - gguf
+  paramsStrings:
+    - 27B
+  minMemoryUsageBytes: 20000000000
+  contextLengths:
+    - 32768
+  vision: true
+  reasoning: true
+  trainedForToolUse: true
+config:
+  load:
+    fields:
+      - key: llm.load.contextLength
+        value: 32768
+      - key: llm.load.numParallelSessions
+        value: 1
+      - key: llm.load.useUnifiedKvCache
+        value: true
+      - key: llm.load.offloadKVCacheToGpu
+        value: true
+      - key: llm.load.numCpuExpertLayersRatio
+        value: "off"
+      - key: llm.load.llama.autoFit
+        value: false
+      - key: llm.load.llama.acceleration.offloadRatio
+        value: "max"
+      - key: llm.load.llama.evalBatchSize
+        value: 2048
+      - key: llm.load.llama.physicalBatchSize
+        value: 512
+      - key: llm.load.llama.flashAttention
+        value: true
+      - key: llm.load.llama.contextCheckpoints
+        value: 32
+      - key: llm.load.llama.speculativeDecoding.draftMtp
+        value: true
+      - key: llm.load.llama.speculativeDecoding.draftSimple
+        value: false
+      - key: llm.load.llama.speculativeDecoding.draftMaxTokens
+        value: 4
+      - key: llm.load.llama.speculativeDecoding.draftMinTokens
+        value: 0
+      - key: llm.load.llama.speculativeDecoding.draftMinContinueProbability
+        value: 0.5
+      - key: llm.load.llama.keepModelInMemory
+        value: false
+      - key: llm.load.llama.useFp16ForKVCache
+        value: true
+      - key: llm.load.llama.tryMmap
+        value: false
+      - key: load.gpuStrictVramCap
+        value: true

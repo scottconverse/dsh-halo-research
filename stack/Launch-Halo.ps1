@@ -2,7 +2,7 @@
   Launch-Halo.ps1 — the operator's point-and-click cockpit launcher.
 
   Double-clicked via the "Halo Cockpit" desktop shortcut. Idempotent:
-    1. ensures both standing models are resident at 32,768 (spec v2.5 §19.1),
+    1. leaves model residency to LM Studio JIT so only the active lane is loaded,
     2. starts `dsh web` hidden if port 3080 is not already serving
        (reaping only a dead DSH orphan that holds the port — §21.9),
     3. opens the default browser at the cockpit.
@@ -27,23 +27,10 @@ function Test-Cockpit {
         return ($r.StatusCode -ge 200 -and $r.StatusCode -lt 500)
     } catch { return $false }
 }
-function Ensure-Model([string]$id, [int]$ctx) {
-    # Note: --context-length is silently ignored by LM Studio CLI 07b7252;
-    # models always load at the GGUF's 262K default. The $ctx param is kept
-    # for future-proofing. DSH's settings.yaml contextWindow: 32768 is the
-    # effective bound.
-    $ps = & lms ps --json 2>$null | ConvertFrom-Json
-    $m = $ps | Where-Object { $_.identifier -eq $id }
-    # Check presence only -- contextLength check would always fail (always 262K).
-    if ($m) { return }
-    & lms load $id --context-length $ctx --gpu max -y 2>&1 | Out-Null
-}
-
-# ---- 1. standing models (idempotent)
-# Only the 27B cockpit is kept resident. Both models at GGUF-default 262K
-# leave 0.9 GiB free (measured 2026-08-26). The coder is loaded on demand by
-# the build lane (Halo-Code.ps1 / Gate-Build.ps1), which swaps models.
-Ensure-Model 'unsloth/qwen3.8-27b' 32768
+# ---- 1. model residency
+# Do not manually load or pin a model here. LM Studio's JIT loader has
+# unloadPreviousJITModelOnLoad enabled, so the requested lane replaces the
+# previous lane: 27B cockpit -> Coder worker -> 27B cockpit.
 
 # ---- 2. cockpit server
 $healthy = Test-Cockpit

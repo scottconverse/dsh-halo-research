@@ -1,0 +1,8 @@
+
+[16:46:21] gate start | lane=worker | workspace=C:\Users\scott\Desktop\Code\halo-research-gateway | verifier=C:\Users\scott\Desktop\Code\dsh-halo-research\stack\verify-generic.ps1 | verifyOnly=False
+[16:46:21] round 1 : agent launched (pid 13460, cap 15m, Code Mode, coder-30b)
+[16:48:51] round 1 : worker exited after 2.5 min (code )
+[16:48:51] round 1 : verdict FAIL (exit 1) - feeding failures back
+[16:48:51] round 2 : agent launched (pid 2412, cap 15m, Code Mode, coder-30b)
+[16:51:58] round 2 : worker exited after 3.1 min (code )
+[16:51:58] round 2 : verdict TRIPWIRE - failure signature identical to round 1. Ending unit early instead of burning rounds.

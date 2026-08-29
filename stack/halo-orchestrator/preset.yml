@@ -1,0 +1,3 @@
+name: Halo Orchestrator
+description: Tuned local cockpit with Qwen Coder, Codex, and Claude delegation lanes.
+order: 1
