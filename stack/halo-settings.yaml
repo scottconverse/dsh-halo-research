@@ -49,8 +49,8 @@ llm-pi-ai:
         - id: unsloth/qwen3-coder-30b-a3b-instruct
           name: Qwen3 Coder 30B-A3B Q4_K_S (raw local model)
           contextWindow: 32768
-        - id: qwen3.8-27b-uncensored@q6_k
-          name: Qwen3.8 27B Uncensored Q6_K
+        - id: qwen3.8-27b-uncensored
+          name: Qwen3.8 27B Uncensored Q6_K + F16 vision projector
           contextWindow: 32768
         - id: nvidia-nemotron-3.5-lightning-30b-a3b
           name: Nemotron 3.5 Lightning 30B-A3B Q4_K_S

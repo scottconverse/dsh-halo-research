@@ -91,8 +91,21 @@ const HISTORY_FILE = path.join(MC_DIR, 'mc-history.jsonl');
 const LMSTUDIO_LOGS = path.join(HOME, '.lmstudio', 'server-logs');
 const LMSTUDIO_VERSION_FILE = path.join(HOME, '.lmstudio', '.internal', 'historical-version-info.json');
 const LM_LINK_ACCOUNT_CACHE = path.join(HOME, '.lmstudio', '.internal', 'lm-link-account-status-cache.json');
-const LOADER_Q5 = path.join(HOME, '.lmstudio', 'scripts', 'Load-OpenCode-Qwen.mjs');
-const LOADER_WORKER = path.join(HOME, '.lmstudio', 'scripts', 'Load-Worker-Coder.mjs');
+const LMSTUDIO_MODELS_DIR = path.join(HOME, '.lmstudio', 'models');
+// The legacy JavaScript loaders were removed when the measured load envelope
+// moved into LM Studio model.yaml aliases. Mission Control used to keep reading
+// those deleted scripts, which made the real daily pair appear empty and
+// "unknown-origin". These are the current, versioned role contracts.
+const DAILY_BRAIN = {
+  modelKey: 'halo/qwen3.6-35b-a3b', identifier: 'halo-brain-35b',
+  quant: 'Q4_K_M', context: 32768, parallel: 1,
+  definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.6-35b-a3b', 'model.yaml'),
+};
+const DAILY_WORKER = {
+  modelKey: 'halo/qwen3-coder-30b-a3b-q4km', identifier: 'halo-coder-q4km',
+  quant: 'Q4_K_M', context: 32768, parallel: 1,
+  definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3-coder-30b-a3b-q4km', 'model.yaml'),
+};
 const START_DSH = 'C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\Launch-Halo.ps1';
 const DSH_VERSION_PIN = '0.1.1-rc.2';
 // Resolved executables (needs HOME above). safeExecFile/safeSpawn read this.
@@ -234,44 +247,11 @@ function lmStudioAppVersion() {
 // whatever the loader chose to call it — a hint at best, never proof; the
 // deviceIdentifier field is the authoritative signal and is always preferred.
 //
-// Critically, a foreign LM Link caller can command THIS box to load a model
-// for them — that instance then shows deviceIdentifier:null too, physically
-// indistinguishable from a real local load (this is exactly how yesterday's
-// bench got contaminated with nothing labeling it). The only thing that
-// tells the two apart is whether the identifier/modelKey matches one of
-// this box's own known loader scripts — hence the allowlist below.
-// Issue #15: this list used to be HARDCODED to HALO's identities, which made it
-// exactly inverted on any other box — the 5070 Ti's own brain
-// (`qwen/qwen3.8-27b-5070ti`) was not in it and got labelled FLEET/unknown-origin
-// with a false alarm, while HALO's model, resident on the remote peer, was
-// labelled "local". The comment above always said the test should be "does it
-// match one of THIS box's own loader scripts"; only the implementation was
-// hardcoded. It is now derived from the loaders actually installed here, with
-// the old list kept only as a fallback for when extraction fails.
-const FALLBACK_LOCAL_IDENTIFIERS = [
-  'qwen/qwen3.8-27b',
-  'qwen3-coder-30b-a3b-instruct',
-  'qwen3.8-27b-uncensored@q6_k',
-  'qwen3.8-27b-uncensored@f16',
-];
-function localIdentitySet() {
-  const lq = loaderQuants();
-  const s = new Set();
-  if (lq.brainId) s.add(lq.brainId);
-  if (lq.workerId) s.add(lq.workerId);
-  // Uncensored variants are this box's own side-loads, not fleet models.
-  for (const extra of ['qwen3.8-27b-uncensored@q6_k', 'qwen3.8-27b-uncensored@f16']) s.add(extra);
-  if (!lq.idsDerived) for (const f of FALLBACK_LOCAL_IDENTIFIERS) s.add(f);
-  return s;
-}
-function isKnownLocalIdentity(identifier, modelKey) {
-  const known = localIdentitySet();
-  for (const s of [identifier, modelKey]) {
-    if (!s) continue;
-    if (known.has(s) || s.startsWith('bench/')) return true;
-  }
-  return false;
-}
+// A null deviceIdentifier proves physical residency/catalog presence on THIS
+// LM Studio instance. It does not prove which client requested the load, and
+// Mission Control must not pretend it can infer that from a model name. The UI
+// therefore reports physical origin only: this device, a named peer, or an
+// unresolved non-null peer id.
 
 async function lmsLinkStatus() {
   try {
@@ -303,23 +283,19 @@ function buildDeviceMap(linkStatus) {
 }
 
 // Resolves the origin of one loaded model instance to exactly one bucket:
-//   kind 'local'   — identifier/modelKey is on the known-loader-script
-//                     allowlist. Rendered plainly, no alarm.
+//   kind 'local'   — deviceIdentifier is null: physically on this device.
 //   kind 'device'  — deviceIdentifier resolves to a named device via `lms
 //                     link status` (self or a connected peer). A real,
 //                     identified fleet load — not a mystery, informational only.
-//   kind 'unknown' — deviceIdentifier present but unresolved, OR
-//                     deviceIdentifier null under an identifier we don't
-//                     recognize as our own. This is the amber case: a load
-//                     with no honest explanation.
+//   kind 'unknown' — a non-null deviceIdentifier is not in link status.
 function resolveOrigin(identifier, modelKey, deviceIdentifier, deviceMap) {
-  if (isKnownLocalIdentity(identifier, modelKey)) return { kind: 'local', label: 'local', deviceId: deviceIdentifier || null };
+  if (!deviceIdentifier) return { kind: 'local', label: 'this device', deviceId: null };
   if (deviceIdentifier) {
     const dev = deviceMap.get(deviceIdentifier);
     if (dev) return { kind: 'device', label: dev.name, deviceId: deviceIdentifier, isSelf: !!dev.isSelf };
     return { kind: 'unknown', label: 'FLEET/unknown-origin', deviceId: deviceIdentifier };
   }
-  return { kind: 'unknown', label: 'FLEET/unknown-origin', deviceId: null };
+  return { kind: 'local', label: 'this device', deviceId: null };
 }
 
 // LM Link account entitlement cache — a small file LM Studio itself
@@ -616,8 +592,10 @@ function parseMemoryFile() {
       if (obj.type === 'entity') entities.push({ name: obj.name, entityType: obj.entityType, observations: obj.observations || [] });
       else if (obj.type === 'relation') relations.push({ from: obj.from, to: obj.to, relationType: obj.relationType });
     }
-  } catch { /* missing/unreadable */ }
-  return { entities, relations, relationCount: relations.length };
+    return { ok: true, file: MEMORY_FILE, entities, relations, relationCount: relations.length };
+  } catch (e) {
+    return { ok: false, file: MEMORY_FILE, error: e?.code === 'ENOENT' ? 'not configured' : 'unreadable', entities, relations, relationCount: 0 };
+  }
 }
 
 function monitorDue(entities) {
@@ -726,11 +704,16 @@ const diskCache = { at: 0, usedBytes: 0, freeBytes: 0, ok: false };
 async function diskUsage() {
   if (Date.now() - diskCache.at < 60000 && diskCache.at) return diskCache;
   try {
-    const cmd = "$d=Get-PSDrive C; '{0}|{1}' -f $d.Used,$d.Free";
-    const { stdout } = await execFileP('powershell.exe', ['-NoProfile', '-Command', cmd], { timeout: 8000 });
-    const [used, free] = stdout.trim().split('|').map(Number);
-    diskCache.usedBytes = used || 0;
-    diskCache.freeBytes = free || 0;
+    // Native Node statfs is both cheaper and more reliable than starting a
+    // hidden PowerShell and assuming Get-PSDrive returned numeric fields. The
+    // latter returned an empty string after one MC restart, which was parsed as
+    // zero while `ok` was still set true.
+    const s = fs.statfsSync('C:\\');
+    const total = Number(s.bsize) * Number(s.blocks);
+    const free = Number(s.bsize) * Number(s.bavail);
+    if (!(total > 0) || !(free >= 0) || free > total) throw new Error('invalid statfs result');
+    diskCache.usedBytes = total - free;
+    diskCache.freeBytes = free;
     diskCache.ok = true;
     diskCache.at = Date.now();
   } catch { diskCache.ok = false; diskCache.at = Date.now(); }
@@ -809,15 +792,30 @@ function readHistorySpark(n = 40) {
 
 // ─────────────────────────── model catalog ───────────────────────────
 
+function directoryUsage(root) {
+  let bytes = 0, files = 0;
+  const walk = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.isFile()) { bytes += fs.statSync(p).size; files++; }
+    }
+  };
+  try { walk(root); return { ok: true, bytes, files }; }
+  catch { return { ok: false, bytes: 0, files: 0 }; }
+}
+
 async function catalog() {
   const [lsAll, psAll, linkStatus] = await Promise.all([lmsLs(), lmsPs(), getLinkStatus()]);
   if (lsAll === null) return { error: true, catalog: [], totalGB: 0 };
   const deviceMap = buildDeviceMap(linkStatus);
-  const loadedByKey = new Map((psAll || []).map(m => [m.modelKey, m]));
   const loadedByPath = new Map((psAll || []).map(m => [m.path, m]));
   const rows = lsAll.map(m => {
-    const loaded = loadedByKey.get(m.modelKey) || loadedByPath.get(m.path) || null;
-    const origin = loaded ? resolveOrigin(loaded.identifier, m.modelKey, loaded.deviceIdentifier, deviceMap) : null;
+    const loaded = loadedByPath.get(m.path) || (psAll || []).find(p => p.modelKey === m.modelKey && p.deviceIdentifier === m.deviceIdentifier) || null;
+    // lms ls is fleet-merged. Its deviceIdentifier is therefore required even
+    // for unloaded rows; leaving Origin blank made remote peer catalogs look
+    // like stale local files and exposed a bogus local Load button.
+    const origin = resolveOrigin(loaded?.identifier || null, m.modelKey, m.deviceIdentifier, deviceMap);
     return {
       modelKey: m.modelKey,
       displayName: m.displayName,
@@ -836,8 +834,9 @@ async function catalog() {
       lastUsedTime: loaded?.lastUsedTime ?? null,
       queued: loaded?.queued ?? null,
       parallel: loaded?.parallel ?? null,
-      origin: origin ? origin.label : null,
-      originKind: origin ? origin.kind : null,
+      origin: origin.label,
+      originKind: origin.kind,
+      deviceId: origin.deviceId || null,
     };
   });
   // Any loaded model somehow missing from `ls` (shouldn't normally happen, but
@@ -856,8 +855,21 @@ async function catalog() {
     });
   }
   rows.sort((a, b) => (b.loaded - a.loaded) || a.displayName.localeCompare(b.displayName));
-  const totalGB = Math.round(lsAll.reduce((a, m) => a + (m.sizeBytes || 0), 0) / 1e9 * 10) / 10;
-  return { error: false, catalog: rows, totalGB };
+  const localRows = rows.filter(r => r.originKind === 'local');
+  const fleetRows = rows.filter(r => r.originKind === 'device' || r.originKind === 'unknown');
+  const disk = directoryUsage(LMSTUDIO_MODELS_DIR);
+  return {
+    error: false,
+    catalog: rows,
+    localCount: localRows.length,
+    fleetCount: fleetRows.length,
+    localDiskGiB: disk.ok ? gib(disk.bytes) : null,
+    localDiskFiles: disk.ok ? disk.files : null,
+    // Addressable totals include model.yaml aliases that share base weights;
+    // never present this number as physical disk use.
+    localAddressableGB: Math.round(localRows.reduce((a, m) => a + (m.sizeGB || 0), 0) * 10) / 10,
+    fleetCatalogGB: Math.round(fleetRows.reduce((a, m) => a + (m.sizeGB || 0), 0) * 10) / 10,
+  };
 }
 
 // ─────────────────────────── status() — the 5 s poll ───────────────────────────
@@ -866,7 +878,9 @@ async function status() {
   const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus] = await Promise.all([
     tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(),
   ]);
-  const sc = await getSessions(dshUp, 50);
+  // Today totals and context selection need the complete session inventory,
+  // not whichever 50 happen to sort first. The UI still renders a short slice.
+  const sc = await getSessions(dshUp, 500);
   const slow = dshUp ? await slowPulls() : slowCache;
   const mem = parseMemoryFile();
   const due = monitorDue(mem.entities);
@@ -881,6 +895,7 @@ async function status() {
       context: m.contextLength,
       status: m.status,
       queued: m.queued,
+      parallel: m.parallel ?? null,
       gb: gb(m.sizeBytes),
       origin: origin.label,
       originKind: origin.kind,
@@ -931,14 +946,17 @@ async function status() {
     },
     sessions: (sc.sessions || []).slice(0, 8),
     sessionsSource: sc.source,
-    // Worst live context fill across active sessions — feeds the HARNESS
-    // light so a session approaching the output-token wall is visible from
-    // the strip, not only from the Sessions tab.
+    // Context warning for work that is actually live/recent. The old reduction
+    // ranged over every retained session, so a dormant 97%-full experiment from
+    // days ago kept the global strip red forever. Historical fill remains on
+    // the Sessions tab; the global alarm covers running sessions and sessions
+    // whose durable log advanced in the last 15 minutes.
     contextPressure: (() => {
-      const withCtx = (sc.sessions || []).filter(x => x.ctxPct != null);
+      const recentCutoff = Date.now() - 15 * 60 * 1000;
+      const withCtx = (sc.sessions || []).filter(x => x.ctxPct != null && (x.running || x.mtime >= recentCutoff));
       if (!withCtx.length) return null;
       const worst = withCtx.reduce((a, b) => (b.ctxPct > a.ctxPct ? b : a));
-      return { worstPct: worst.ctxPct, worstTitle: worst.title || worst.id, worstId: worst.id };
+      return { worstPct: worst.ctxPct, worstTitle: worst.title || worst.id, worstId: worst.id, scope: 'running or updated within 15 minutes' };
     })(),
     today,
     presets: dshUp ? slow.presets : null,
@@ -952,13 +970,13 @@ async function status() {
       }))),
       queuedInputs: [...mux.queues.values()].reduce((a, b) => a + b, 0),
     },
-    memory: { entities: mem.entities.length, tripwire: MEMORY_ENTITY_TRIPWIRE, ...due },
-    loaders: { brain: loaderQuants().brain, worker: loaderQuants().worker },
+    memory: { ok: mem.ok, error: mem.error || null, file: mem.file, entities: mem.entities.length, tripwire: MEMORY_ENTITY_TRIPWIRE, ...due },
+    loaders: { brain: roleProfiles().brain.quant, worker: roleProfiles().worker.quant },
     // Eviction JIT-reload trap (5070Ti port, issue #5): when LM Studio evicts
     // the brain, the next API call reloads it with SERVER defaults, not the
     // loader profile (measured 17.5 vs 49 tok/s on the port box). Compare the
     // live local brain against the loader script's own identity/quant/ctx.
-    brainConfigMismatch: brainMismatch(loaderQuants(), modelsWithOrigin),
+    brainConfigMismatch: brainMismatch(roleProfiles(), modelsWithOrigin),
     // RAM/GPU pools in GiB (binary) — matches AMD Adrenalin's VGM split units.
     // Disk stays decimal GB below — drives are marketed in decimal.
     ram: { totalGiB: gib(winTotal), freeGiB: gib(winFree), usedGiB: gib(winTotal - winFree) },
@@ -972,70 +990,36 @@ async function status() {
 
 // ─────────────────────────── actions ───────────────────────────
 
-// Button labels come from the loader scripts' actual GGUF paths, not
-// hardcoded strings — after a port adapts a loader (e.g. Q5 -> Q3 on a
-// 16 GB box) a "Load Brain (Q5)" label would lie (issue #3).
-const loaderQuantCache = { at: 0, brain: null, worker: null, brainCtx: null, brainId: null, workerId: null, idsDerived: false };
-function loaderProfile(file) {
+// The model.yaml aliases are now the load profiles. Validate that the files
+// exist and still carry the expected context/parallel settings before using
+// their role contracts in the UI.
+const roleProfileCache = { at: 0, value: null };
+function readRoleProfile(role) {
+  let definitionOk = false;
   try {
-    const src = fs.readFileSync(file, 'utf8');
-    const g = src.match(/([A-Za-z0-9_.]*(?:IQ|Q)\d[A-Za-z0-9_]*)\.gguf/);
-    const q = g ? g[1].match(/(UD-)?(IQ|Q)\d[A-Za-z0-9_]*$/) : null;
-    const ctx = src.match(/contextLength:\s*(\d+)/);
-    // The identifier is USUALLY passed as a variable, not a literal:
-    //     const modelId = "qwen/qwen3.8-27b";
-    //     ... client.llm.load(modelPath, { identifier: modelId, ... })
-    // The old pattern required a quoted value right after `identifier:`, so on
-    // every real loader it matched NOTHING and returned id:null. That one miss
-    // silently disabled two separate guards for days:
-    //   - brainConfigMismatch returns null on a null brainId, so the box ran
-    //     the Q4 rollback at parallel 4 while the console said nothing (F-1).
-    //   - the local-identity allowlist below could not be derived per machine,
-    //     so it stayed hardcoded to HALO's names and inverted every badge on
-    //     the 5070 Ti (issue #15).
-    // Accept a literal, or resolve one level of variable indirection.
-    let id = null;
-    const lit = src.match(/identifier:\s*["']([^"']+)["']/);
-    if (lit) {
-      id = lit[1];
-    } else {
-      const viaVar = src.match(/identifier:\s*([A-Za-z_$][\w$]*)/);
-      if (viaVar) {
-        const decl = src.match(new RegExp('(?:const|let|var)\\s+' + viaVar[1] + '\\s*=\\s*["\']([^"\']+)["\']'));
-        if (decl) id = decl[1];
-      }
-    }
-    return { quant: q ? q[0] : null, ctx: ctx ? parseInt(ctx[1], 10) : null, id };
-  } catch { return { quant: null, ctx: null, id: null }; }
+    const src = fs.readFileSync(role.definition, 'utf8');
+    definitionOk = new RegExp('model:\\s*' + role.modelKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(src)
+      && /key:\s*llm\.load\.contextLength\s*[\s\S]*?value:\s*32768\b/.test(src)
+      && /key:\s*llm\.load\.numParallelSessions\s*[\s\S]*?value:\s*1\b/.test(src);
+  } catch { definitionOk = false; }
+  return { ...role, definitionOk };
 }
-// Pure so it can be unit-tested: the live-model list in, a human sentence or
-// null out. It was an inline IIFE inside status(), which is part of why it went
-// dead for days without anyone noticing (F-1) — nothing could exercise it.
-function brainMismatch(lq, models) {
-  if (!lq || !lq.brainId) {
-    // Not "everything is fine" — we could not read the loader's identity, so
-    // there is nothing to compare against. Say so rather than returning null.
-    return 'cannot verify the brain: the loader profile did not yield a model identifier, so the resident model is UNCHECKED';
-  }
-  const b = (models || []).find(m => m.identifier === lq.brainId && m.originKind === 'local');
+function roleProfiles() {
+  if (roleProfileCache.value && Date.now() - roleProfileCache.at < 60000) return roleProfileCache.value;
+  roleProfileCache.value = { brain: readRoleProfile(DAILY_BRAIN), worker: readRoleProfile(DAILY_WORKER) };
+  roleProfileCache.at = Date.now();
+  return roleProfileCache.value;
+}
+function brainMismatch(profiles, models) {
+  const expected = profiles?.brain;
+  if (!expected?.definitionOk) return 'cannot verify the daily brain: its LM Studio model.yaml definition is missing or no longer pins 32K / parallel=1';
+  const b = (models || []).find(m => m.identifier === expected.identifier && m.originKind === 'local');
   if (!b) return null;
-  const quantOk = !lq.brain || !b.quant || b.quant === '?' || lq.brain.endsWith(b.quant) || b.quant.endsWith(lq.brain);
-  const ctxOk = !lq.brainCtx || b.context === lq.brainCtx;
-  if (quantOk && ctxOk) return null;
-  return `brain is loaded as ${b.quant}@${b.context} but the loader profile says ${lq.brain}@${lq.brainCtx} - wrong model resident; re-run the brain loader`;
-}
-function loaderQuants() {
-  if (Date.now() - loaderQuantCache.at < 60000 && loaderQuantCache.at) return loaderQuantCache;
-  const b = loaderProfile(LOADER_Q5);
-  const w = loaderProfile(LOADER_WORKER);
-  loaderQuantCache.brain = b.quant;
-  loaderQuantCache.brainCtx = b.ctx;
-  loaderQuantCache.brainId = b.id;
-  loaderQuantCache.worker = w.quant;
-  loaderQuantCache.workerId = w.id;
-  loaderQuantCache.idsDerived = !!(b.id || w.id);
-  loaderQuantCache.at = Date.now();
-  return loaderQuantCache;
+  const quantOk = b.quant === expected.quant;
+  const ctxOk = b.context === expected.context;
+  const parallelOk = b.parallel === expected.parallel;
+  if (quantOk && ctxOk && parallelOk) return null;
+  return `brain is loaded as ${b.quant}@${b.context} parallel=${b.parallel ?? '?'} but the daily profile says ${expected.quant}@${expected.context} parallel=${expected.parallel}`;
 }
 
 const ACTIONS = {
@@ -1043,9 +1027,9 @@ const ACTIONS = {
   // bare executable name, bypassing the PATH-resolution hardening every sibling
   // uses -- a poisoned PATH entry named powershell.exe would have been launched.
   'start-cockpit': () => safeSpawn('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH], { detached: true, stdio: 'ignore' }).unref(),
-  'load-q5': () => safeSpawn('lms', ['load', 'halo/qwen3.8-27b', '--identifier', 'halo/qwen3.8-27b', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
-  'load-worker': () => safeSpawn('lms', ['load', 'halo/qwen3-coder-30b-a3b', '--identifier', 'halo/qwen3-coder-30b-a3b', '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
-  'unload-worker': () => safeSpawn('lms', ['unload', 'qwen3-coder-30b-a3b-instruct'], { detached: true, stdio: 'ignore' }).unref(),
+  'load-q5': () => safeSpawn('lms', ['load', DAILY_BRAIN.modelKey, '--identifier', DAILY_BRAIN.identifier, '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
+  'load-worker': () => safeSpawn('lms', ['load', DAILY_WORKER.modelKey, '--identifier', DAILY_WORKER.identifier, '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
+  'unload-worker': () => safeSpawn('lms', ['unload', DAILY_WORKER.identifier], { detached: true, stdio: 'ignore' }).unref(),
   'unload-all': () => safeSpawn('lms', ['unload', '--all'], { detached: true, stdio: 'ignore' }).unref(),
 };
 
@@ -1209,6 +1193,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <div class="filterbar">
 <button id="btn-load-brain" onclick="act('load-q5')">Load Brain</button>
 <button id="btn-load-worker" onclick="act('load-worker')">Load Worker</button>
+<label class="mut toggle" title="LM Link merges models from connected peers into lms ls. Local-only is the truthful default for this machine."><input type="checkbox" id="showFleetModels" onchange="loadModels()"> also show LM Link peer catalogs</label>
 <span class="danger-cluster">
 <button class="danger" onclick="act('unload-worker')">Unload Worker</button>
 <button class="danger" onclick="act('unload-all')">Unload All</button>
@@ -1782,10 +1767,11 @@ function renderOverview(s){
 
   var mem=s.memory||{};
   var memCls=mem.entities>=mem.tripwire?'v-warn':'';
-  document.getElementById('ov-knowledge').innerHTML=
-    '<div class="row"><span class="k">entities</span><span class="'+memCls+'">'+mem.entities+' / '+mem.tripwire+' tripwire</span></div>'+
-    '<div class="row"><span class="k">graph</span><span><a href="#memory" onclick="showTab(&quot;memory&quot;)">open the memory graph</a></span></div>'+
-    '<div class="mut" style="margin-top:2px">what the local models remember across sessions; snapshotted hourly</div>';
+  document.getElementById('ov-knowledge').innerHTML=mem.ok
+    ? ('<div class="row"><span class="k">entities</span><span class="'+memCls+'">'+mem.entities+' / '+mem.tripwire+' tripwire</span></div>'+
+       '<div class="row"><span class="k">graph</span><span><a href="#memory" onclick="showTab(&quot;memory&quot;)">open the memory graph</a></span></div>'+
+       '<div class="mut" style="margin-top:2px">what the local models remember across sessions</div>')
+    : '<div class="mut">memory graph '+esc(mem.error||'unavailable')+' &mdash; no zero count is asserted</div>';
 
   var fc=s.fleet||{};
   var ac=fc.accountCache||{};
@@ -1959,7 +1945,7 @@ function renderVitalsHead(){
     '<div class="vstat"><b>'+s.gpu.dedicatedGiB+(s.gpu.carveoutGiB!=null?' <span class="mut" style="font-size:.62em">/ '+s.gpu.carveoutGiB+'</span>':'')+'</b><span>GPU dedicated GiB</span></div>'+
     '<div class="vstat"><b class="'+sharedCls+'">'+s.gpu.sharedGiB+'</b><span title="~1.5 GiB is the normal floor: Vulkan staging buffers plus the desktop. Growth is the leak signal.">GPU shared GiB (flat ≈ healthy)</span></div>'+
     '<div class="vstat"><b class="'+freeCls+'">'+s.ram.freeGiB+'</b><span>Windows free GiB</span></div>'+
-    '<div class="vstat"><b class="'+ctxCls+'">'+(worst?worst.worstPct+'%':'&mdash;')+'</b><span>fullest session context</span></div>'+
+    '<div class="vstat"><b class="'+ctxCls+'">'+(worst?worst.worstPct+'%':'&mdash;')+'</b><span title="running sessions or sessions updated within the last 15 minutes; historical fill remains on the Sessions tab">fullest recent context</span></div>'+
     '<div class="vstat"><b>'+gen+'</b><span>models generating now</span></div>';
 }
 function sparkSvg(vals){
@@ -1978,23 +1964,27 @@ async function loadModels(){
     var c=await (await fetch('/api/catalog')).json();
     if(c.error){ document.getElementById('models-table').innerHTML='<div class="mut">lms CLI down &mdash; no catalog</div>'; return }
     modelsCache=c.catalog;
-    var rows=c.catalog.map(function(m,i){
+    var showFleet=!!(document.getElementById('showFleetModels')&&document.getElementById('showFleetModels').checked);
+    var visible=c.catalog.map(function(m,i){return {m:m,i:i}}).filter(function(x){return showFleet||x.m.originKind==='local'});
+    var rows=visible.map(function(x){
+      var m=x.m,i=x.i;
       var ctxBadge=(m.loaded&&m.contextLength>=200000)?' <span class="badge badge-amber">ctx ≥ 200K</span>':'';
       var stateCell=m.loaded?('<span class="dot up"></span>'+esc(m.status||'loaded')+' &middot; '+fmtK(m.contextLength)+' &middot; TTL '+fmtTtl(m.ttlMs,m.lastUsedTime)):'<span class="mut">on disk</span>';
-      var originCell='<span class="mut">&mdash;</span>';
-      if(m.loaded){
-        if(m.originKind==='unknown') originCell='<span class="badge badge-amber" title="deviceIdentifier unresolved, or a local (deviceIdentifier:null) load under an identity not on the known-loader-script allowlist">'+esc(m.origin)+'</span>';
-        else if(m.originKind==='device') originCell='<span class="badge badge-teal" title="running on a named LM Link fleet device">fleet: '+esc(m.origin)+'</span>';
-        else originCell='<span class="badge badge-mut">local</span>';
-      }
+      var originCell=m.originKind==='unknown'
+        ? '<span class="badge badge-amber" title="LM Link reported a peer identifier that link status could not resolve">'+esc(m.origin)+'</span>'
+        : (m.originKind==='device'
+          ? '<span class="badge badge-teal" title="catalog entry belongs to a connected LM Link peer">fleet: '+esc(m.origin)+'</span>'
+          : '<span class="badge badge-mut">this device</span>');
       var actionCell=m.loaded?
         (m.originKind==='local'?
           '<button onclick="unloadModel('+i+')">Unload</button>'
           : '<span class="mut" title="This model runs on another LM Link device. Unloading from here would kill it on THAT machine.">runs on '+esc(m.origin||'another device')+'<br><a href="#overview" onclick="showTab(&quot;overview&quot;)">see Fleet &rarr;</a></span>')
-        : ('<button onclick="showLoadRow('+i+')">Load</button>'+
-           '<span id="loadrow-'+i+'" style="display:none;gap:4px;align-items:center;margin-top:4px">'+
-           '<input type="number" id="loadctx-'+i+'" value="32768">'+
-           '<button onclick="loadModel('+i+')">Confirm</button></span>');
+        : (m.originKind==='local'
+          ? ('<button onclick="showLoadRow('+i+')">Load</button>'+
+             '<span id="loadrow-'+i+'" style="display:none;gap:4px;align-items:center;margin-top:4px">'+
+             '<input type="number" id="loadctx-'+i+'" value="32768">'+
+             '<button onclick="loadModel('+i+')">Confirm</button></span>')
+          : '<span class="mut">manage on '+esc(m.origin||'peer')+'</span>');
       // Two rows titled "Qwen3.8 27B UD" read as a duplicate render, not as
       // two heavy models resident at once. Fold the distinguishing quant into
       // the title so a name can never fail to identify its row.
@@ -2006,7 +1996,10 @@ async function loadModels(){
         :/bert|embed/i.test((m.architecture||'')+m.modelKey)?'embedding'
         :/assistant|mtp/i.test((m.architecture||'')+m.modelKey)?'draft head'
         :(m.sizeGB===0?'metadata':null);
-      var kindBadge=kind?' <span class="badge badge-mut" title="not a chat model — a component used by another model">'+kind+'</span>':'';
+      var kindTitle=kind==='vision'
+        ? 'optional vision projector used with its matching language model for image input; not a standalone chat model'
+        : 'not a chat model — a component used by another model';
+      var kindBadge=kind?' <span class="badge badge-mut" title="'+kindTitle+'">'+kind+'</span>':'';
       return '<tr>'+
         '<td>'+title+ctxBadge+kindBadge+'<br><span class="mono mut">'+esc(m.modelKey)+'</span></td>'+
         '<td>'+esc(m.architecture||'?')+' / '+esc(m.paramsString||'?')+'</td>'+
@@ -2019,7 +2012,8 @@ async function loadModels(){
         '</tr>';
     }).join('');
     document.getElementById('models-table').innerHTML='<table class="tbl"><thead><tr><th>Model</th><th>Arch/Params</th><th>Quant</th><th class="num">Size</th><th class="num">Max ctx</th><th>State</th><th>Origin</th><th>Actions</th></tr></thead><tbody>'+rows+'</tbody></table>';
-    document.getElementById('models-footer').textContent='catalog: '+c.totalGB+' GB total \\u00b7 engine: '+(lastStatus&&lastStatus.services.engine||'unknown');
+    var localDisk=c.localDiskGiB==null?'unavailable':(c.localDiskGiB+' GiB in '+c.localDiskFiles+' files');
+    document.getElementById('models-footer').textContent='this device: '+c.localCount+' addressable entries, '+localDisk+' physically on disk (aliases share base weights) \\u00b7 LM Link peers: '+c.fleetCount+' catalog entries / '+c.fleetCatalogGB+' GB \\u00b7 engine: '+(lastStatus&&lastStatus.services.engine||'unknown');
   }catch(e){ document.getElementById('models-table').innerHTML='<div class="mut">catalog fetch failed</div>' }
 }
 
@@ -2220,6 +2214,7 @@ async function validateConfig(){
 async function loadMemoryGraph(){
   try{
     var g=await (await fetch('/api/memory-graph')).json();
+    if(!g.ok){ document.getElementById('sys-memgraph').innerHTML='<div class="mut">memory graph '+esc(g.error||'unavailable')+' &mdash; '+esc(g.file||'')+'</div>'; return }
     var html='<div class="mut" style="margin-bottom:8px">'+g.entities.length+'/'+g.tripwire+' entities (upgrade tripwire) \\u00b7 '+g.relationCount+' relations</div>';
     html+=g.entities.map(function(e,i){
       return '<div class="row clickable" onclick="toggleObs('+i+')"><span>'+esc(e.name)+' <span class="mut">['+esc(e.entityType)+']</span></span><span class="k">'+e.observations.length+' obs</span></div>'+
@@ -2308,6 +2303,12 @@ async function loadMemoryGraphTab(){
     canvas.innerHTML='';
     legendEl.innerHTML='';
     document.getElementById('mg-detail').innerHTML='<div class="mut">Click a node to see its details.</div>';
+    return;
+  }
+  if(!g.ok){
+    headerEl.textContent='Memory Graph \u2014 '+(g.error||'unavailable');
+    statusEl.textContent='No graph is shown because the backing memory file is not available.';
+    canvas.innerHTML=''; legendEl.innerHTML='';
     return;
   }
   var entities=g.entities||[];
@@ -3018,9 +3019,9 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/memory-graph') {
-      const { entities, relations, relationCount } = parseMemoryFile();
+      const { ok, file, error, entities, relations, relationCount } = parseMemoryFile();
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ entities, relations, relationCount, tripwire: MEMORY_ENTITY_TRIPWIRE }));
+      res.end(JSON.stringify({ ok, file, error: error || null, entities, relations, relationCount, tripwire: MEMORY_ENTITY_TRIPWIRE }));
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/history') {
