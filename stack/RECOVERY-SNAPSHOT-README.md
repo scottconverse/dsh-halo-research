@@ -1,6 +1,7 @@
 # Current Halo configuration recovery snapshot
 
-Updated: 2026-08-30 after Revision 3.2 and parallel-review reconciliation
+Updated: 2026-08-30 after Revision 3.2, parallel-review reconciliation, and the
+Mission Control truth-source audit
 
 Start with `HALO-CURRENT-CONFIGURATION.md`. It explains the installed system,
 the model lifecycle, tools, permissions, web access, operating procedure,
@@ -56,6 +57,10 @@ configuration. The executable canonical files remain under:
 - `HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md`: approved permanent removal of
   fourteen model directories, the seven-model retained library, reclaimed
   space, retired aliases, picker synchronization, and post-cleanup smokes.
+- `HALO-MISSION-CONTROL-AUDIT-2026-08-30.md`: end-to-end telemetry-source
+  reconciliation, local-versus-fleet catalog repair, current Brain/Worker role
+  repair, recent-context scope, explicit unavailable-memory state, disk-probe
+  hardening, and the preserved/paired uncensored-Qwen vision projector.
 
 `MANIFEST-SHA256.txt` records every other file in this snapshot. Restore must
 not be performed blindly: compare paths and versions, preserve user work,

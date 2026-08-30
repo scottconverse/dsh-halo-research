@@ -196,6 +196,29 @@ approximately 136.30 GiB. Fourteen rejected, incomplete, redundant, or
 nonessential directories were permanently removed, reclaiming 246.984 GiB.
 Codex and Claude are subscription-backed tools, not picker models.
 
+The retained uncensored Qwen entry is now `qwen3.8-27b-uncensored`. Its
+22.08 GB Q6_K no-MTP language weights and 0.93 GB F16 vision projector are
+still separate files but one LM Studio model. On 2026-08-30 the projector was
+renamed from the publisher's former
+`Qwen3.8-27B-Uncensored-vision-f16.gguf` name to the current
+`mmproj-Qwen3.8-27B-Uncensored-F16.gguf` name. The bytes were not downloaded or
+changed: local SHA-256
+`5ac423f8a29059dc24e51bc6a43e9380dcd57a9347f28b62591e0b3f60b7081c`
+matches the publisher's artifact. LM Studio then indexed one vision-capable
+model instead of two misleading standalone rows.
+
+### Mission Control truth contract
+
+Mission Control defaults the Models tab to this device. LM Link peer catalogs
+are opt-in and every row carries its physical origin; peer rows cannot invoke a
+local load action. The footer distinguishes physical local disk use from
+addressable entries because Halo aliases share the raw weight files. The Brain
+and Worker slots are derived from the current LM Studio model.yaml aliases, not
+the deleted legacy loader scripts. Global context alarms cover running sessions
+and sessions updated in the previous 15 minutes; historical fill remains on the
+Sessions tab and does not keep the whole dashboard red. A missing memory graph
+is reported as not configured, never as zero entities.
+
 ## 7. Verified Coder gate
 
 The current `subagent_coder` is the Halo-owned DSH composite in

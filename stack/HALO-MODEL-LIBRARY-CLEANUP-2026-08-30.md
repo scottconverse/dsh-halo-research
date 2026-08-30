@@ -1,5 +1,14 @@
 # Halo model-library cleanup — 2026-08-30
 
+> **Post-cleanup pairing correction (2026-08-30):** the retained uncensored
+> Qwen vision projector was present and byte-identical to the publisher's
+> current artifact. It was renamed in place from
+> `Qwen3.8-27B-Uncensored-vision-f16.gguf` to
+> `mmproj-Qwen3.8-27B-Uncensored-F16.gguf` so LM Studio auto-discovers it with
+> the Q6_K no-MTP weights. Physical storage is unchanged. LM Studio now exposes
+> one vision-capable `qwen3.8-27b-uncensored` entry instead of separate language
+> and CLIP rows; the DSH picker was updated to that paired key.
+
 ## Result
 
 Scott approved the balanced curated-library proposal. Fourteen LM Studio model
