@@ -1,5 +1,12 @@
 # The Halo Stack — operator guide
 
+> **Evidence warning (2026-08-30):** the accepted daily baseline is the 35B
+> planner plus Q4_K_M worker described below, but a Q6 worker and persistent
+> memory audition is preserved in canonical/live configuration. Prior Hardgate
+> evidence was actively guided by Codex and must not be cited as unassisted
+> autonomy. Read `HALO-TAKEOVER-HANDOFF-2026-08-30.md` before changing or
+> evaluating the stack.
+
 **Use the DeepSeek Harness web cockpit at `http://127.0.0.1:3080`.**
 
 ## What is running
@@ -61,14 +68,15 @@ Receipts are under:
 `C:\Users\scott\AppData\Local\HaloGate\runs`
 
 The real 2026-08-29 canary passed end to end. A 2026-08-30 Hardgate run then
-proved the complete autonomous path on a real repository: one 35B brief, one
-30B worker call, verified promotion, read-only review, and stop, with no Codex
-steering. See `HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md` and
+proved the complete **guided Halo path** on a real repository: one 35B brief,
+one 30B worker call, verified promotion, read-only review, and stop. Codex
+designed and constrained the workflow, so this is not evidence of unassisted
+autonomy. See `HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md` and
 `HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`.
 
 The receipt proves only what the protected verifier checks. The first Hardgate
 proof exposed a weak string-only documentation contract. A second bounded
-autonomous unit strengthened that contract, proved the expected RED, repaired
+guided unit strengthened that contract, proved the expected RED, repaired
 the README through the verified worker, and finished with 18/18 target tests
 and 134/134 repository tests. Do not turn a green receipt into a broader
 quality claim than its contract supports.
@@ -103,9 +111,10 @@ Sandbox or model process.
   the LM Studio load service before inference. Their GGUFs and active aliases
   were removed in the approved 2026-08-30 curated-library cleanup; restoring
   one requires a new download and new runtime proof.
-- The local library now contains seven model directories totaling 136.300 GiB:
-  the daily pair, both proven fallbacks, Qwen3-VL, Nemotron 3.5 Lightning, and
-  the uncensored Qwen3.8 lane.
+- The accepted cleanup baseline contained seven model directories totaling
+  136.300 GiB. A Q6 coder file and Halo hard-link alias were subsequently
+  added for an unfinished audition. Enumerate actual files and hard-link
+  identities before citing a current count or physical-byte total.
 - Full local worker turns include a large coding/tool prefix and are slower
   than tiny direct prompts.
 - Tonight's acceptance used short real smokes and one live gated edit, not a
@@ -114,6 +123,8 @@ Sandbox or model process.
 ## Key files
 
 - Current full configuration: `stack\HALO-CURRENT-CONFIGURATION.md`
+- Takeover and evidence correction:
+  `stack\HALO-TAKEOVER-HANDOFF-2026-08-30.md`
 - Runtime evidence: `stack\HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md`
 - Autonomous coding evidence:
   `stack\HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`

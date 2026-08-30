@@ -1,6 +1,8 @@
 # Halo stack — current installed configuration
 
-**Status:** authoritative human-readable configuration record
+**Status:** accepted daily baseline plus an unfinished Q6/persistent-memory
+audition. Read `HALO-TAKEOVER-HANDOFF-2026-08-30.md` before treating a model or
+autonomy claim as current.
 
 **Verified:** 2026-08-30 after the 64/64 reboot, dual-resident DSH planner/worker smoke, Hardgate repair, library cleanup, and Revision 3.3
 
@@ -13,6 +15,23 @@
 This is the current operating record for Halo. It supersedes older handoffs,
 morning reports, sequential-residency instructions, and the 2026-08-27 model
 choices. Historical files remain evidence, not current configuration.
+
+## Evidence correction — 2026-08-30
+
+The daily 35B/Q4_K_M baseline below is the last accepted operating
+configuration. Canonical and live files now also preserve an unfinished Q6
+worker and persistent-memory audition. At the handoff capture, both the 35B
+brain and Q6 coder were resident, the live DSH default had been temporarily
+changed to Q6, and the Halo preset's worker pointed to Q6. That is experiment
+state, not an accepted replacement for the baseline.
+
+Prior Hardgate/canary results were actively shaped by Codex through prompts,
+roles, tool restrictions, acceptance criteria, and retry decisions. They prove
+the guided Halo pipeline, not unassisted prompt-to-software autonomy. The raw
+record and failure analysis for the first replacement prompt-only trial are in
+`..\evidence\prompt-only-todo-20260830` and the takeover handoff. Direct
+runtime measurements, file hashes, gate unit tests, and independently rerun
+repository tests remain valid within their stated scope.
 
 ## 1. Source of truth and copy policy
 
@@ -260,7 +279,8 @@ The simplified plugin's zero-model suite passes 9/9, including scratch
 containment, parent mutation lock, protected-test tampering, and verifier
 crash/timeout cases.
 
-A fresh real-repository autonomous proof then ran without Codex steering:
+A fresh real-repository guided Halo proof then ran under a Codex-designed
+brief, role split, tool boundary, verifier, and retry policy:
 
 - parent session: `session-halo-hardgate-simplified-20260830`;
 - gate receipt:
@@ -273,10 +293,10 @@ A fresh real-repository autonomous proof then ran without Codex steering:
   suite passed 133/133;
 - the protected test hash stayed unchanged.
 
-The proof also exposed an important verifier boundary: the original protected
+The guided proof also exposed an important verifier boundary: the original protected
 test asserted strings but not the full Claude hook schema. A separate bounded
 unit added a semantic schema test, proved a genuine RED (`1 failed, 17
-passed`), then let the same autonomous 35B-to-30B gated flow repair only the
+passed`), then let the same guided 35B-to-30B gated flow repair only the
 README. The gate passed on round one; isolated, post-promotion, and independent
 target checks all passed 18/18; the complete Hardgate suite passed 134/134.
 The current README now matches Hardgate's canonical nested hook structure.
