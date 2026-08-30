@@ -39,7 +39,7 @@
       repair round. After the verdict, do not retry the gate or implement around
       a failure yourself: PASS means review the promoted files with read-only
       tools; FAIL means report the receipt and stop. Start a new user-approved
-      unit for any further implementation. On the 96 GB pool, LM Studio keeps
+      unit for any further implementation. On the 64 GB graphics pool, LM Studio keeps
       the 35B-A3B cockpit and 30B-A3B coder resident together while only one
       generates at a time. The dense 27B and Q4_K_S worker remain rollback
       choices, not standing lanes.

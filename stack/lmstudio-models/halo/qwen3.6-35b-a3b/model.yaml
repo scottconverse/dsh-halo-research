@@ -1,6 +1,6 @@
 # model.yaml is an open standard for defining cross-platform, composable AI models
 # Learn more at https://modelyaml.org
-# Halo-owned 96 GB daily-brain candidate. Keep the upstream Qwen operation
+# Halo-owned 64/64 daily-brain alias. Keep the upstream Qwen operation
 # template and thinking toggle, while pinning the measured local load envelope.
 model: halo/qwen3.6-35b-a3b
 base:

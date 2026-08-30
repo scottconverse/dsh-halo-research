@@ -12,9 +12,10 @@
 | Model host | LM Studio at `:1234` | local inference |
 | Monitoring | Mission Control at `:3090` | services, models, memory, receipts |
 
-The machine uses a 96 GB graphics / 32 GB Windows split. The 35B brain and
-Q4_K_M coder stay resident together with one parallel slot each. Only one
-generates at a time. The old dense 27B and Q4_K_S coder remain fallbacks.
+The machine uses a 64 GB graphics / 64 GB Windows split. The 35B brain and
+Q4_K_M coder were post-reboot verified resident together with one parallel
+slot each. Only one generates at a time. The old dense 27B and Q4_K_S coder
+remain fallbacks.
 
 `parallel=1` is the accepted daily profile, not a hardware-wide rejection of
 parallel inference. A future two-worker profile would leave the planner at one

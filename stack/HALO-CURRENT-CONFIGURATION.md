@@ -2,7 +2,7 @@
 
 **Status:** authoritative human-readable configuration record
 
-**Verified:** 2026-08-30 after the Hardgate repair, library cleanup, slot-test correction, and Revision 3.2 reconciliation
+**Verified:** 2026-08-30 after the 64/64 reboot, dual-resident DSH planner/worker smoke, Hardgate repair, library cleanup, and Revision 3.2 reconciliation
 
 **DSH:** `@deepseek-ai/dsh@0.1.1-rc.2`
 
@@ -32,16 +32,18 @@ manifest in the same task.
 
 ## 2. Machine and memory policy
 
-The AMD Variable Graphics Memory split is now **96 GB graphics / 32 GB
+The AMD Variable Graphics Memory split is now **64 GB graphics / 64 GB
 Windows**. Scott no longer uses WSL and permits only one Windows Sandbox at a
-time. This split is intentional: model capacity has priority over simultaneous
-VM capacity.
+time. Halo owns model inference and tuning; CivicCast owns its Windows Sandbox
+lane.
 
-The normal Halo pair fits together in the 96 GB pool. Only one model generates
-at a time, but both remain resident so the planner/worker loop does not pay a
-reload on every delegation. A Windows Sandbox or another memory-heavy build
-must not be started blindly on top of active inference; coordinate the single
-heavy lane and check current headroom first.
+The normal Halo pair was post-reboot verified together in the 64 GB graphics
+pool at 32K and `parallel=1`. It used 43.9 GiB dedicated and 0.68 GiB shared
+GPU memory, while Windows retained 40.56 GiB free after a real DSH planner turn
+and gated worker PASS. Only one model generates at a time, but both remain
+resident so the planner/worker loop does not pay a reload on every delegation.
+If a future configuration cannot remain fully resident without material shared
+memory or paging, serialized loading is the fallback before changing VGM again.
 
 ## 3. Current topology
 

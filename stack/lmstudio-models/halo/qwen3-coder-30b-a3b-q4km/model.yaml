@@ -1,4 +1,4 @@
-# Halo-owned 96 GB daily-worker candidate using the Q4_K_M reliability floor.
+# Halo-owned 64/64 daily-worker alias using the Q4_K_M reliability floor.
 model: halo/qwen3-coder-30b-a3b-q4km
 base:
   - key: lmstudio-community/qwen3-coder-30b-a3b-instruct-gguf

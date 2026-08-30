@@ -1,7 +1,7 @@
 # Current Halo configuration recovery snapshot
 
-Updated: 2026-08-30 after Revision 3.2, parallel-review reconciliation, and the
-Mission Control truth-source audit
+Updated: 2026-08-30 after the 64/64 reboot validation, Revision 3.2,
+parallel-review reconciliation, and the Mission Control truth-source audit
 
 Start with `HALO-CURRENT-CONFIGURATION.md`. It explains the installed system,
 the model lifecycle, tools, permissions, web access, operating procedure,
