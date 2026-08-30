@@ -39,6 +39,21 @@
         toolCallTimeoutMs: 60000
         failOnStartupError: false
 
+    # Local, account-free persistent knowledge graph. The pinned server owns
+    # the JSONL file; Mission Control reads the same file without inventing a
+    # second store.
+    - id: memory-mcp-reference
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: reference_memory
+        transport: stdio
+        command: mcp-server-memory
+        cwd: 'C:\Users\scott\.dsh\memory'
+        env:
+          MEMORY_FILE_PATH: 'C:\Users\scott\.dsh\memory\memory.json'
+        toolCallTimeoutMs: 30000
+        failOnStartupError: false
+
 # The bundled DeepSeek web-search route needs an API key and is intentionally
 # absent on this no-key stack. Anonymous Exa MCP supplies search and fetch;
 # the local Halo Research Gateway remains the durable path for shared caching,

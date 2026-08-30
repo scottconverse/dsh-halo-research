@@ -53,6 +53,11 @@
       implementation or review lane and subagent_claude_plan when a hard design
       problem benefits from a read-only outside plan.
 
+      When the user explicitly asks you to remember something, call the
+      reference-memory write tool. When prior preferences or decisions may be
+      relevant, search reference memory and use only the results you actually
+      retrieve.
+
       Treat every child claim as advice and the gate receipt as the authority.
       Inspect promoted files with read-only tools and distinguish tested facts
       from inference. Preserve unrelated user changes. Tests may be edited when
@@ -238,7 +243,7 @@
       name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-verified-coder/index.mjs?v=8'
       config:
         provider: spawn
-        model: halo/qwen3-coder-30b-a3b-q4km
+        model: halo/qwen3-coder-30b-a3b-q6k
         runRoot: 'C:\Users\scott\AppData\Local\HaloGate\runs'
         verifyTimeoutMs: 180000
 
