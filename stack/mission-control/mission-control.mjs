@@ -465,7 +465,7 @@ muxConnect();
 
 function isDriveRoot(p) { return typeof p === 'string' && /^[A-Za-z]:\\?$/.test(p.trim()); }
 
-async function listSessionsApi(limit = 50) {
+async function listSessionsApi(limit = 500) {
   const [ws, sess] = await Promise.all([dshRpc('workspace.list'), dshRpc('session.list')]);
   const wsTitle = new Map(ws.items.map(w => [w.workspaceId, w.title || w.path]));
   const wsOfSession = new Map();
@@ -494,7 +494,10 @@ async function listSessionsApi(limit = 50) {
         id: s.sessionId.replace(/^session-/, '').slice(0, 8),
         sessionId: s.sessionId,
         title: v.title || null,
-        goal: v.goal || null,
+        // dsh-goal-round-driver has emitted both a plain string and an object
+        // wrapper over its lifetime.  The browser contract is always a string.
+        goal: typeof v.goal === 'string' ? v.goal
+          : (v.goal?.goal?.objective || v.goal?.objective || null),
         mtime: s.updatedAt || 0,
         // `running` is the harness's own flag and this console repeated it
         // without corroboration. On 2026-08-20 a session sat at running:true
@@ -553,18 +556,20 @@ function listSessionsScrape(limit = 50) {
 // Shared 4 s cache so /api/status and /api/sessions don't double-hit dsh.
 const sessionsCache = { at: 0, sessions: null, source: null };
 async function getSessions(dshUp, limit = 50) {
-  if (Date.now() - sessionsCache.at < 4000 && sessionsCache.sessions) return sessionsCache;
+  if (Date.now() - sessionsCache.at < 4000 && sessionsCache.sessions) {
+    return { ...sessionsCache, sessions: sessionsCache.sessions.slice(0, limit) };
+  }
   let sessions, source;
   if (dshUp) {
-    try { sessions = await listSessionsApi(limit); source = 'dsh api'; }
-    catch { sessions = listSessionsScrape(limit); source = 'disk scan (api failed)'; }
+    try { sessions = await listSessionsApi(500); source = 'dsh api'; }
+    catch { sessions = listSessionsScrape(500); source = 'disk scan (api failed)'; }
   } else {
-    sessions = listSessionsScrape(limit); source = 'disk scan (dsh down)';
+    sessions = listSessionsScrape(500); source = 'disk scan (dsh down)';
   }
   sessionsCache.at = Date.now();
   sessionsCache.sessions = sessions;
   sessionsCache.source = source;
-  return sessionsCache;
+  return { ...sessionsCache, sessions: sessionsCache.sessions.slice(0, limit) };
 }
 
 function todayStats(sessions) {
@@ -1050,7 +1055,7 @@ const PAGE = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#080c11,#0c1420);color:var(--ink);font:15px/1.5 Segoe UI,Arial,sans-serif;padding:18px 24px 40px}
 h1{font-size:1.3rem;margin:0 0 2px}.sub{color:var(--mut);font-size:.82rem;margin-bottom:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
 .card h2{font-size:.92rem;margin:0 0 10px;color:#dcecff}
 .card.wide{grid-column:1/-1}
 .card.span2{grid-column:span 2}
@@ -1126,6 +1131,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 .bar.amber>i{background:var(--amber)}.bar.red>i{background:var(--red)}
 .filterbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
 .filterbar input[type=text]{width:220px}
+.table-scroll{max-width:100%;overflow-x:auto}
+#models-table table{min-width:980px}#sessions-table table{min-width:1080px}#plugins-table table{min-width:760px}
 .detail{background:#0c1620;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:4px 0 10px;font-size:.82rem}
 .spark{display:block}
 .tabsection{margin-bottom:22px}
@@ -1148,6 +1155,13 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 .mg-about[open] summary{margin-bottom:8px}
 .mg-about .mg-about-body{color:var(--mut);font-size:.83rem;line-height:1.6}
 .mg-about .mg-about-body .mono{color:var(--teal)}
+@media(max-width:700px){
+  body{padding:12px 10px 28px}.grid{grid-template-columns:minmax(0,1fr)}
+  .card.span2{grid-column:1/-1}.tabs{flex-wrap:nowrap;overflow-x:auto}.tabbtn{white-space:nowrap}
+  .strip{gap:5px;padding:8px}.light-item{padding:4px}.alarm{flex-basis:100%;text-align:left}
+  .danger-cluster{margin-left:0}.mgraph-wrap{height:auto;min-height:0;display:block}
+  .mgraph-canvas{height:480px}.mgraph-side{width:auto;margin-top:12px}.mgraph-detail{min-height:240px}
+}
 </style></head><body>
 <h1>HALO Mission Control</h1><div class="sub">Refreshes every 5 seconds &middot; updated <span id="stamp"></span></div>
 <div id="strip" class="strip"></div>
@@ -1199,7 +1213,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <button class="danger" onclick="act('unload-all')">Unload All</button>
 </span>
 </div>
-<div id="models-table"></div>
+<div id="models-table" class="table-scroll"></div>
 <div class="mut" id="models-footer" style="margin-top:8px"></div>
 </div>
 </div>
@@ -1210,17 +1224,17 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <span id="sessions-agg"></span>
 <label class="mut toggle" title="Sessions opened on a drive root (C:\\) never bind their workspace — a known rc.7 bug. They are hidden because they cannot be used."><input type="checkbox" id="showDriveRoot" onchange="loadSessions()"> also show unusable drive-root sessions</label>
 </div>
-<div id="sessions-table"></div>
+<div id="sessions-table" class="table-scroll"></div>
 </div>
 </div>
 
 <div id="tab-plugins" class="tabpanel">
 <div class="card">
 <div class="filterbar">
-<input type="text" id="pluginFilter" placeholder="filter entryId / module / phase / description" oninput="renderPlugins()">
+<label class="mut" for="pluginFilter">Filter plugins</label><input type="text" id="pluginFilter" aria-label="Filter plugins" placeholder="entryId / module / phase / description" oninput="renderPlugins()">
 <span class="mut" id="plugins-summary"></span>
 </div>
-<div id="plugins-table"></div>
+<div id="plugins-table" class="table-scroll"></div>
 </div>
 </div>
 
@@ -1239,8 +1253,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 
 <div id="tab-settings" class="tabpanel">
 <div class="tabsection">
-<h2>Settings</h2>
-<p class="mut">The live tunables, the compaction maths they produce, and the checks that refuse a dangerous value. Edit a value and Apply to change the live config &mdash; no assistant, no hand-editing YAML. A change that would re-arm a failure this stack has already hit is refused before anything is written.</p>
+<h2>Effective configuration</h2>
+<p class="mut">The values DSH actually uses, including plugin defaults that do not appear in <code>settings.yaml</code>. This view is intentionally read-only: these settings live in multiple files, so Mission Control will not pretend one form can safely edit all of them.</p>
 <div id="settings-body">loading&hellip;</div>
 </div>
 </div>
@@ -1340,30 +1354,12 @@ async function loadSettings(){
   var el=document.getElementById('settings-body'); if(!el) return;
   try{
     var d=await (await fetch('/api/settings')).json();
-    // UX-6: an unreadable config is a degraded state, not a footnote.
     if(d.error){ el.innerHTML='<div class="card" style="border-color:var(--red)"><b style="color:var(--red)">Settings unavailable:</b> '+esc(d.error)+'</div>'; return; }
-    var v=d.values;
-    var rows=[
-      ['Context window (tokens)','contextWindow',v.window],
-      ['Compaction threshold ratio','thresholdRatio',v.thresholdRatio],
-      ['Retain ratio','retainRatio',v.retainRatio],
-      ['Summary max tokens','summaryMaxTokens',v.summaryMaxTokens],
-      ['Stream idle timeout (ms)','streamIdleTimeoutMs',v.streamIdleTimeoutMs],
-      ['LLM max retries','maxRetries',v.maxRetries],
-      ['Reasoning default','reasoning',v.reasoning]
-    ];
-    var tbl='<table class="tbl" style="width:auto">'+rows.map(function(r){
-      return '<tr><td class="mut" style="padding-right:18px"><label for="set-'+esc(r[1])+'">'+esc(r[0])+'</label></td><td>'+settingsInput(r[1],r[2],r[0])+'</td></tr>';
-    }).join('')+'</table>';
-    el.innerHTML=tbl
-      +'<div id="set-math" class="card" style="margin-top:14px"></div>'
-      +'<div id="set-ref" style="margin-top:12px"></div>'
-      +'<div style="margin-top:14px"><button id="set-apply" onclick="applySettingsChanges()" style="background:#12344c;color:#cfe8ff;border:1px solid #3c6284;border-radius:6px;padding:6px 14px;cursor:pointer">Apply changes</button> <span id="set-msg" class="mut" style="margin-left:8px"></span></div>'
-      +'<p class="mut" style="margin-top:10px">Whitelisted scalar edits to <code>~/.dsh/settings.yaml</code>, written in place so the file&rsquo;s comments survive, with a timestamped backup taken first. A change that would re-arm a known failure is refused before it is written. dsh hot-reloads within ~20s; your live config then leads the repo &mdash; commit it with <code>scripts&#92;Sync-FromLive.ps1</code>.</p>';
-    settingsRecalc();
-  // gauntlet re-verify UX-6: the earlier fix reddened the d.error branch and the
-  // Apply paths but left THIS one grey -- the very path you hit when Mission
-  // Control itself is unreachable, which is the most degraded state of all.
+    var rows=(d.rows||[]).map(function(r){
+      return '<tr><td class="mut">'+esc(r.label)+'</td><td class="mono">'+esc(r.value)+'</td><td class="mut">'+esc(r.source)+'</td></tr>';
+    }).join('');
+    el.innerHTML='<div class="table-scroll"><table class="tbl"><thead><tr><th>Setting</th><th>Effective value</th><th>Source</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      '<p class="mut" style="margin-top:12px">Read-only by design. Change the named source, validate it, then sync the live configuration into the repository recovery snapshot.</p>';
   }catch(e){ el.innerHTML='<div class="card" style="border-color:var(--red)"><b style="color:var(--red)">Settings unavailable:</b> '+esc(String(e&&e.message||e))+'</div>'; }
 }
 function settingsGather(){
@@ -1484,7 +1480,6 @@ function onTabShown(name){
 }
 document.querySelectorAll('.tabbtn').forEach(function(b){b.addEventListener('click', function(){ location.hash='#'+b.dataset.tab })});
 window.addEventListener('hashchange', function(){ showTab((location.hash||'#overview').slice(1) || 'overview') });
-showTab((location.hash||'#overview').slice(1) || 'overview');
 
 // Stop one session through the harness's own cancel endpoint. Before this
 // existed the only remedy for a runaway was killing the whole dsh process.
@@ -1603,12 +1598,18 @@ function computeLights(s){
   else lights.CONTEXT={level:'g',cause:null};
   // STREAM
   lights.STREAM=s.jobs.streamConnected?{level:'g',cause:null}:{level:'a',cause:'events WebSocket disconnected'};
+  // STORE — persistent model memory is distinct from machine RAM.  Missing is
+  // amber (feature unavailable); malformed/unreadable is red (configured data
+  // cannot be trusted).
+  if(s.memory&&s.memory.ok) lights.STORE={level:'g',cause:null};
+  else if(s.memory&&/not configured/i.test(s.memory.error||'')) lights.STORE={level:'a',cause:'persistent model memory is not configured'};
+  else lights.STORE={level:'r',cause:'persistent model memory failed: '+((s.memory&&s.memory.error)||'unknown error')};
   return lights;
 }
-var lightTab={HARNESS:'overview',MODELS:'models',MEMORY:'system',DISK:'system',CONTEXT:'sessions',STREAM:'overview'};
+var lightTab={HARNESS:'overview',MODELS:'models',MEMORY:'system',STORE:'memory',DISK:'system',CONTEXT:'sessions',STREAM:'overview'};
 function renderStrip(s){
   var lights=computeLights(s);
-  var order=['HARNESS','MODELS','MEMORY','CONTEXT','DISK','STREAM'];
+  var order=['HARNESS','MODELS','MEMORY','STORE','CONTEXT','DISK','STREAM'];
   var worst=null, cause=null, info=null;
   order.forEach(function(name){
     var lv=lights[name].level;
@@ -1627,7 +1628,7 @@ function renderStrip(s){
   var alarmCls=worst?' bad':(info?' info':'');
   // Scope the reassurance to what is actually watched, so "nominal" is a
   // checkable claim rather than a blanket one.
-  var alarmTxt=worst?cause:(info?info:'Nominal on all six watched signals');
+  var alarmTxt=worst?cause:(info?info:'Nominal on all seven watched signals');
   html+='<span class="alarm'+alarmCls+'">'+esc(alarmTxt)+'</span>';
   document.getElementById('strip').innerHTML=html;
 }
@@ -1752,7 +1753,8 @@ function renderOverview(s){
     '<div class="row"><span class="k">kTok in / out today</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest
       ? '<div class="row"><span class="k">decode, last run</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">vs 26.9 base</span></span></div>'+
-        '<div class="row"><span class="k">TTFT, last run</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+' <span class="mut">vs 181 t/s prefill</span></span></div>'
+        '<div class="row"><span class="k">TTFT, last run</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+'</span></div>'+
+        '<div class="row"><span class="k">Prefill, last run</span><span>'+(latest.prefillTps!=null?latest.prefillTps+' tok/s':'&mdash;')+' <span class="mut">reference 181 tok/s</span></span></div>'
       : '<div class="row"><span class="k">decode</span><span class="mut">no run with stats yet</span></div>');
 
   var dFree=s.disk.ok?s.disk.freeGB:null;
@@ -1982,7 +1984,7 @@ async function loadModels(){
         : (m.originKind==='local'
           ? ('<button onclick="showLoadRow('+i+')">Load</button>'+
              '<span id="loadrow-'+i+'" style="display:none;gap:4px;align-items:center;margin-top:4px">'+
-             '<input type="number" id="loadctx-'+i+'" value="32768">'+
+             '<label class="mut" for="loadctx-'+i+'">context</label> <input type="number" aria-label="Context length for '+esc(m.displayName||m.modelKey)+'" id="loadctx-'+i+'" value="32768">'+
              '<button onclick="loadModel('+i+')">Confirm</button></span>')
           : '<span class="mut">manage on '+esc(m.origin||'peer')+'</span>');
       // Two rows titled "Qwen3.8 27B UD" read as a duplicate render, not as
@@ -2098,8 +2100,9 @@ function toggleSessionDetail(i){
 }
 
 // ── plugins tab ──
-var pluginsData=null, pluginBucket=null;
-function setPluginBucket(b){ pluginBucket=b||null; renderPlugins(); }
+var pluginsData=null, pluginBucket=null, pluginLimit=75;
+function setPluginBucket(b){ pluginBucket=b||null; pluginLimit=75; renderPlugins(); }
+function showMorePlugins(){ pluginLimit+=75; renderPlugins(); }
 async function loadPlugins(){
   try{
     pluginsData=await (await fetch('/api/plugins')).json();
@@ -2137,7 +2140,9 @@ function renderPlugins(){
     var rb=(b.stuck?0:rank[b.bucket]!=null?rank[b.bucket]:9);
     return ra-rb || String(a.entryId).localeCompare(String(b.entryId));
   });
-  var html=rows.map(function(e){
+  var totalFiltered=rows.length;
+  var visibleRows=rows.slice(0,pluginLimit);
+  var html=visibleRows.map(function(e){
     var state, stateColor='', tip='';
     if(e.bucket==='failed'){ state='<span class="dot down"></span>failed'; stateColor=' style="color:var(--red)"'; }
     else if(e.bucket==='transitioning'){
@@ -2163,7 +2168,8 @@ function renderPlugins(){
       '</tr>';
   }).join('');
   document.getElementById('plugins-table').innerHTML='<table class="tbl"><thead><tr><th>entryId</th><th>state</th><th>module</th><th>what it does</th></tr></thead><tbody>'+html+'</tbody></table>'+
-    '<div class="mut" style="margin-top:6px">showing '+rows.length+' of '+pluginsData.entries.length+' rows</div>';
+    '<div class="mut" style="margin-top:6px">showing '+visibleRows.length+' of '+totalFiltered+' matching ('+pluginsData.entries.length+' total)'+
+    (visibleRows.length<totalFiltered?' <button onclick="showMorePlugins()">Show 75 more</button>':'')+'</div>';
 }
 
 // ── system tab ──
@@ -2805,6 +2811,10 @@ async function refreshStatus(){
     if(currentTab==='system') renderSystem(s);
   }catch(e){ document.getElementById('stamp').textContent='status fetch failed' }
 }
+// Activate the initial tab only after every later global (notably
+// vitalsHours and the memory graph state) has been initialized.  Calling this
+// near the top produced /api/history?hours=undefined and raced the first paint.
+showTab((location.hash||'#overview').slice(1) || 'overview');
 refreshStatus();
 setInterval(function(){
   refreshStatus();
@@ -2949,7 +2959,41 @@ function settingsData(file = SETTINGS_FILE) {
   let raw = '';
   try { raw = fs.readFileSync(file, 'utf8'); }
   catch { return { error: 'settings.yaml not readable at ' + file }; }
-  return Object.assign({ file }, computeSettings(raw));
+  const presetFile = path.join(HOME, '.dsh', '.agent-presets', 'halo-orchestrator', 'agent.cordis.yml');
+  const brainFile = DAILY_BRAIN.definition;
+  const workerFile = DAILY_WORKER.definition;
+  const readText = p => { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } };
+  const preset = readText(presetFile);
+  const brain = readText(brainFile);
+  const worker = readText(workerFile);
+  const n = (text, re, fallback = null) => { const m = text.match(re); return m ? Number(m[1]) : fallback; };
+  const reasoning = text => {
+    const custom = text.match(/key:\s*enableThinking[\s\S]*?defaultValue:\s*(true|false)/);
+    if (custom) return custom[1].toLowerCase();
+    const meta = text.match(/^\s*reasoning:\s*(true|false)\s*$/m);
+    return meta ? meta[1].toLowerCase() : 'not declared';
+  };
+  const context = n(raw, /defaultContextWindow:\s*(\d+)/, 32768);
+  // compaction-basic is loaded without an override in this preset. These are
+  // the installed plugin's effective defaults, not imaginary settings.yaml keys.
+  const explicitCompaction = /compaction-basic:[\s\S]*?(?=\n\S|$)/.exec(preset)?.[0] || '';
+  const threshold = n(explicitCompaction, /thresholdRatio:\s*([\d.]+)/, 0.8);
+  const retain = n(explicitCompaction, /retainRatio:\s*([\d.]+)/, 0.16);
+  const summaryMax = n(explicitCompaction, /maxTokens:\s*(\d+)/, 8192);
+  return {
+    file, editable: false,
+    rows: [
+      { label: 'Default context window', value: context + ' tokens', source: file },
+      { label: 'Compaction enabled', value: 'true', source: presetFile + ' + dsh-compaction-basic default' },
+      { label: 'Compaction threshold', value: threshold, source: explicitCompaction.includes('thresholdRatio:') ? presetFile : 'dsh-compaction-basic default' },
+      { label: 'Compaction retain ratio', value: retain, source: explicitCompaction.includes('retainRatio:') ? presetFile : 'dsh-compaction-basic default' },
+      { label: 'Compaction summary maximum', value: summaryMax + ' tokens', source: explicitCompaction.includes('maxTokens:') ? presetFile : 'dsh-compaction-basic default' },
+      { label: 'Brain reasoning', value: reasoning(brain), source: brainFile },
+      { label: 'Worker reasoning', value: reasoning(worker), source: workerFile },
+      { label: 'Brain parallel slots', value: n(brain, /llm\.load\.numParallelSessions[\s\S]*?value:\s*(\d+)/, DAILY_BRAIN.parallel), source: brainFile },
+      { label: 'Worker parallel slots', value: n(worker, /llm\.load\.numParallelSessions[\s\S]*?value:\s*(\d+)/, DAILY_WORKER.parallel), source: workerFile },
+    ]
+  };
 }
 
 // ─────────────────────────── HTTP server ───────────────────────────
@@ -3012,7 +3056,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/api/sessions') {
       const dshUp = await tcpCheck(3080);
-      const sc = await getSessions(dshUp, 50);
+      const wantAll = url.searchParams.get('all') === '1';
+      const sc = await getSessions(dshUp, wantAll ? 500 : 50);
       const today = todayStats(sc.sessions || []);
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ sessions: sc.sessions, source: sc.source, today }));
