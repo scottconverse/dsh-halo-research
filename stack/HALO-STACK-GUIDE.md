@@ -1,137 +1,134 @@
-# The Halo Stack — DSH cockpit guide
+# The Halo Stack — operator guide
 
-**The DeepSeek Harness web cockpit at `localhost:3080` is the product surface.
-This machine's operator is point-and-click only and never uses a CLI.**
+**Use the DeepSeek Harness web cockpit at `http://127.0.0.1:3080`.**
 
----
+## What is running
 
-## 1. What the stack is
-
-| Layer | What it is | Role |
+| Part | Current choice | Job |
 |:--|:--|:--|
-| **Cockpit** | DSH web at `:3080`, tuned alias `halo/qwen3.8-27b` (Qwen3.8-27B Q5_K_XL) | planner, coordinator, gatekeeper |
-| **Worker** | tuned alias `halo/qwen3-coder-30b-a3b` (Qwen3-Coder-30B Q4_K_S) | implementation — dispatched as a foreground one-shot child via `subagent_coder` |
-| **Gate** | Halo Verified Coder plugin (Stage 3 installed) | isolated staging, protected tests, fail-closed verification, promotion/rollback evidence |
-| **Mission Control** | status page at `:3090` | monitoring: services, models, memory, gate ledger |
+| Cockpit | `halo/qwen3.6-35b-a3b` Q4_K_M, 32K | plan, coordinate, call tools, review |
+| Worker | `halo/qwen3-coder-30b-a3b-q4km`, 32K | implement behind `subagent_coder` |
+| Gate | Halo Verified Coder | stage, verify, promote or fail closed |
+| Model host | LM Studio at `:1234` | local inference |
+| Monitoring | Mission Control at `:3090` | services, models, memory, receipts |
 
-Models run in LM Studio at `localhost:1234`. Halo intentionally keeps **one
-local model resident at a time** for desktop responsiveness. LM Studio JIT
-swaps the 27B cockpit and 30B coder sequentially.
+The machine uses a 96 GB graphics / 32 GB Windows split. The 35B brain and
+Q4_K_M coder stay resident together with one parallel slot each. Only one
+generates at a time. The old dense 27B and Q4_K_S coder remain fallbacks.
 
-Both Halo aliases carry their load envelopes with them. A 2026-08-27
-DSH-native proof showed one 32K slot on both models, 2048/512 batches, Flash
-Attention, 32 checkpoints, GPU KV offload, and MTP `n=4 / p=0.5` on the 27B.
-The receipt is `STAGE-1-RUNTIME-EVIDENCE-2026-08-27.md`. Do not replace the
-aliases with the raw model ids in normal Halo routing; doing so drops the
-enforced load envelope.
+`parallel=1` is the accepted daily profile, not a hardware-wide rejection of
+parallel inference. A future two-worker profile would leave the planner at one
+slot and test a separate two-slot coder alias with two isolated, independently
+verified units. That profile is proposed only; it is not installed or selectable
+today.
 
-The 27B route uses LM Studio's real boolean reasoning default, `on`. DSH shows
-no graded effort selector for this alias because relabeling `on` as `medium`
-would be false. `STAGE-2-RUNTIME-EVIDENCE-2026-08-27.md` proves a real DSH
-request produced a separated reasoning block with no conversion warning.
+## Start and use it
 
-## 2. How a build works (the cockpit drives it)
+1. Start LM Studio.
+   If loading models manually, serialize the loads and wait for each `lms load`
+   command to report success. The early `idle` status can precede the backend
+   health handshake.
+2. Double-click `C:\Users\scott\Desktop\Halo Cockpit.lnk`.
+3. Open a new task using the **Halo Orchestrator** preset.
+4. Describe the software you want built in plain English.
+5. Let the 35B inspect and create one bounded brief. It calls
+   `subagent_coder` once with editable paths, protected paths, and a real test
+   command.
+6. The 30B implements with only six tools: `read`, `write`, `edit`, `glob`,
+   `grep`, and `pwsh`. It cannot plan, create goals, delegate, browse the web,
+   or manage background work.
+7. Trust the gate receipt, not the worker's claim. Only PASS is promoted. A
+   FAIL stops the unit; the 35B cannot retry or directly edit around it.
 
-1. **Operator opens DSH at `:3080`** and describes the work in plain language.
-2. **The 27B cockpit** inspects the repository, identifies the test command
-   (from `pyproject.toml`, `package.json`, `Makefile`, etc.), and constructs
-   a plan.
-3. **The cockpit dispatches implementation** to `subagent_coder` with a
-   self-contained brief, explicit editable paths, protected test/verifier
-   paths, and an executable-plus-argument verification command.
-4. **The tool, not the model, owns acceptance.** It runs the Coder in an
-   isolated staging worktree, rejects protected or out-of-scope changes, and
-   verifies in a second worktree built with the protected baseline. A failed,
-   timed-out, or crashed verifier is a failure. One repair round is allowed.
-5. **Only a green unit is promoted.** The gate refuses promotion if the live
-   editable paths changed concurrently, backs up each promoted file, reruns
-   verification in the live workspace, and restores the backup on failure.
-6. **A cloud model (Claude, Codex, GPT, etc.) may optionally assist as a
-   DSH subagent**, but none is required to operate the stack.
+The model picker changes the model answering the current conversation. It
+does not reproduce the planner/worker/verifier workflow by itself.
 
-The model picker changes which model answers the current DSH conversation. It
-does not create a plan, choose a worker, wait for that worker, or verify the
-result. The Halo Orchestrator is the configured agent preset that performs
-those jobs and owns the `subagent_coder`, Codex, and Claude delegation tools.
+## What the gate guarantees
 
-## 2.1 Web research
+The worker edits a detached staging worktree under a reduced
+`workspace-write` parent. DSH's native child filter exposes only the six coding
+tools listed above. Temporary fixtures belong under gate-owned
+`.halo-scratch`, which is ignored and never promoted. The gate
+rejects protected-test and out-of-scope changes, verifies against an
+independent baseline, allows one bounded repair, promotes with a
+compare-and-swap check, reruns the verifier after promotion, and rolls back a
+bad promotion. A crashed or timed-out verifier is FAIL. After a verdict the
+same parent is mechanically barred from a second gate call or direct mutation.
 
-The Halo Orchestrator has anonymous public-web discovery and retrieval through
-`mcp__exa__web_search_exa` and `mcp__exa__web_fetch_exa`. These use the same
-keyless hosted Exa MCP endpoint used by OpenCode. Reddit research uses the
-installed `reddit-search` skill and its machine-wide RSS pacing rules. The
-bundled DeepSeek-keyed search provider and the unsafe direct HTTP fetch
-provider remain disabled.
+Receipts are under:
 
-## 3. The gate machinery
+`C:\Users\scott\AppData\Local\HaloGate\runs`
 
-`halo-verified-coder\index.mjs` is the DSH-native gate tool and
-`halo-verified-coder\gate-core.mjs` is its zero-dependency gate engine.
-`verify-generic.ps1` remains available as one verifier command.
-`Halo-Code.ps1` and `Gate-Build.ps1` are legacy external conductors retained
-for history only; they are not the control plane. Once a gated unit starts,
-the plugin also denies `update_goal(action=complete)` for that parent until
-the latest verdict is `PASS`.
+The real 2026-08-29 canary passed end to end. A 2026-08-30 Hardgate run then
+proved the complete autonomous path on a real repository: one 35B brief, one
+30B worker call, verified promotion, read-only review, and stop, with no Codex
+steering. See `HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md` and
+`HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`.
 
-The verifier logic covers:
+The receipt proves only what the protected verifier checks. The first Hardgate
+proof exposed a weak string-only documentation contract. A second bounded
+autonomous unit strengthened that contract, proved the expected RED, repaired
+the README through the verified worker, and finished with 18/18 target tests
+and 134/134 repository tests. Do not turn a green receipt into a broader
+quality claim than its contract supports.
 
-- **Frozen acceptance tests**: files the worker may never edit. The gate
-  rejects any run that touches them.
-- **Anti-shrinkage**: every required test name must still be collected.
-  Deleting a failing test to get a green is caught.
-- **Evidence**: every run writes a structured `verdict.json` outside the
-  workspace, including rounds, changed paths, verifier output, and terminal
-  state.
-- **Bounded repair**: the worker receives at most one repair turn (two total
-  rounds); failure remains failure and is never promoted.
+## Keys and accounts
 
-## 4. Standing rules
+Halo needs **no DeepSeek API key**. The DeepSeek picker catalog is disabled.
+The launcher sets `LMSTUDIO_API_KEY=x` only because the OpenAI-compatible
+client insists on a nonempty string; LM Studio ignores it. It is not a real
+credential.
 
-1. **Self-test before model time.** `Halo-Code.ps1 -SelfTest` — ~90 seconds,
-   zero inference. Run it before any batch.
-2. **Never trust a model's self-report.** Only the verifier's exit code
-   counts as evidence. This applies to the cockpit, the subagent, and any
-   cloud model.
-3. **The worker never writes or edits acceptance tests.** Frozen-test defense
-   catches cheats. Three hollow passes on 2026-08-25 came from this.
-4. **Units that fail twice are too big.** Split them; never re-run them
-   bigger.
-5. **Briefs must be self-contained.** Never say "keep the rest" — the tree
-   may have been reverted since.
-6. **One lane at a time.** Heavy batches only when the operator is not using
-   the machine.
-7. **Every capability needs a point-and-click face.** The cockpit at `:3080`
-   and Mission Control at `:3090` are the operator's interfaces.
-8. **Coordinate heavy windows with Townlight.** Before loading either large
-   Halo model, get `HALO-CLEAR` from the `Townlight STATION dev` task. Unload
-   all Halo models and send `HALO-RELEASED` when the window ends.
+Codex and Claude use their signed-in subscription integrations as optional
+subagent tools. They are not LM Studio picker models.
 
-## 5. Key files
+## Web research
 
-| Path | What it is |
-|:--|:--|
-| `localhost:3080` | DSH web cockpit — the product surface |
-| `localhost:3090` | Mission Control — status monitoring |
-| `stack\Halo-Code.ps1` | LEGACY external orchestrator; reference only |
-| `stack\Gate-Build.ps1` | LEGACY external conductor; reference only |
-| `stack\verify-generic.ps1` | language-agnostic verifier |
-| `stack\gateway-conductor\test-harness.ps1` | pipeline self-test |
-| `stack\gateway-conductor\LEDGER.csv` | scoring ledger |
-| `stack\mission-control\mission-control.mjs` | Mission Control backend |
-| `stack\mission-control\status.html` | Mission Control frontend |
-| `stack\lmstudio-models\halo\...\model.yaml` | tuned JIT load envelopes for the two Halo aliases |
-| `stack\STAGE-1-RUNTIME-EVIDENCE-2026-08-27.md` | DSH-native slot/config/swap receipt |
-| `stack\STAGE-2-RUNTIME-EVIDENCE-2026-08-27.md` | DSH-native boolean-reasoning receipt |
+Halo exposes anonymous Exa search/fetch and the installed Reddit RSS skill.
+Anonymous Exa can be rate-limited. The full Halo Research Gateway is not yet
+deployed.
 
-## 6. Architecture note
+## Heavy-work rule
 
-The original clean-room specification (§1 of the governing report) called for
-DSH to be the primary harness — the 27B owning planning, the 30B doing
-implementation, and cloud models as optional subagents. This was restored in
-v3.1 (2026-08-26). The prior v3.0 architecture inverted this: a cloud model
-coordinated from outside and DSH was reduced to a model-inference endpoint.
-The cockpit persona now tells the 27B to own the build; the gate is invoked
-internally; and cloud models are optional DSH subagents.
+Only one Windows Sandbox is allowed. Before a Sandbox, installer build, or
+other large workload overlaps the resident model pair, check current memory
+and coordinate the single heavy lane. Do not kill or adopt another task's
+Sandbox or model process.
 
-Governing spec: `DSH-Strix-Halo-Report-v3.0.md` §31.
-Continuation authority: `stack\gateway-conductor\CONDUCTOR-STATE.md`.
+## Current limits
+
+- GPT-OSS 120B did not load on the Windows Vulkan backend even at 96/32.
+  GPT-OSS 20B failed to start a stable engine, and Qwen3-Coder-Next 80B wedged
+  the LM Studio load service before inference. Their GGUFs and active aliases
+  were removed in the approved 2026-08-30 curated-library cleanup; restoring
+  one requires a new download and new runtime proof.
+- The local library now contains seven model directories totaling 136.300 GiB:
+  the daily pair, both proven fallbacks, Qwen3-VL, Nemotron 3.5 Lightning, and
+  the uncensored Qwen3.8 lane.
+- Full local worker turns include a large coding/tool prefix and are slower
+  than tiny direct prompts.
+- Tonight's acceptance used short real smokes and one live gated edit, not a
+  multi-hour soak. Real software use is the next evaluation.
+
+## Key files
+
+- Current full configuration: `stack\HALO-CURRENT-CONFIGURATION.md`
+- Runtime evidence: `stack\HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md`
+- Autonomous coding evidence:
+  `stack\HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`
+- Improvement/audition evidence:
+  `stack\HALO-IMPROVEMENT-BASELINE-2026-08-30.md`
+- Parallel-slot evidence: `stack\HALO-PARALLEL-SLOT-TEST-2026-08-30.md`
+- Parallel review/correction:
+  `stack\HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md`
+- Governing current specification: `DSH-Strix-Halo-Report-v3.2.md`
+- Complete revisions 2.0–3.1 history: `DSH-Strix-Halo-Report-v3.0.md`
+- Curated-library cleanup evidence:
+  `stack\HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md`
+- DSH catalog: `stack\halo-settings.yaml`
+- Halo preset: `stack\halo-orchestrator\agent.cordis.yml`
+- Gate plugin: `stack\halo-verified-coder\index.mjs`
+- Gate engine: `stack\halo-verified-coder\gate-core.mjs`
+- Model aliases: `stack\lmstudio-models\halo\...\model.yaml`
+- Launcher: `stack\Launch-Halo.ps1`
+- User copy and recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research`

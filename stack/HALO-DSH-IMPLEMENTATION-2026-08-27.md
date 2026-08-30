@@ -8,6 +8,19 @@ LM Studio API: http://127.0.0.1:1234
 
 Definitive configuration record: `HALO-CURRENT-CONFIGURATION.md`.
 
+> **2026-08-29 supersession:** This is the original implementation report.
+> The current 96/32 configuration uses the dual-resident
+> `halo/qwen3.6-35b-a3b` / `halo/qwen3-coder-30b-a3b-q4km` pair, and the live
+> verified-worker path now uses a simplified six-tool direct Coder lane with a
+> single-call parent lock and gate-owned scratch. Use
+> `HALO-CURRENT-CONFIGURATION.md` and
+> `HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md` for current operation; model and
+> sequential-residency statements below are historical.
+> The final simplified autonomous path was proved on a real Hardgate unit on
+> 2026-08-30; see `HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`. That proof
+> also records the verifier-contract limitation found during independent
+> review.
+
 ## Result
 
 The Halo DSH stack is running. New sessions use the user-owned `halo-orchestrator` preset, the tuned `halo/qwen3.8-27b` alias is the default cockpit, and the tuned `halo/qwen3-coder-30b-a3b` alias is the bulk implementation worker. Native Codex/Claude subscription-backed delegation works. New Halo sessions default to DSH `danger-full-access`. Anonymous Exa MCP search and fetch are available without a DeepSeek or Exa API key. Stage 1 proved both aliases at one 32K slot through the real DSH JIT path. Stage 2 removed the false `medium` declaration and proved that an effort-less DSH request preserves LM Studio's real boolean `on` default, produces a separated reasoning block, and introduces no conversion warning.
