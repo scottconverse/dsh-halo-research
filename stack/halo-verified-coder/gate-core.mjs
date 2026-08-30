@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import { cp, lstat, mkdir, readFile, readdir, rm, stat, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 
-const SKIP_DIRS = new Set(['.git', 'node_modules', '.halo-gate', '__pycache__', '.pytest_cache'])
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.halo-gate', '.halo-scratch', '__pycache__', '.pytest_cache'])
 
 export function normalizeRelativePath(value) {
   if (typeof value !== 'string' || value.trim() === '') throw new Error('paths must be non-empty strings')
@@ -182,6 +182,7 @@ export async function runGatedUnit(options) {
   const id = `${new Date().toISOString().replaceAll(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`
   const root = join(options.runRoot, id)
   const stage = join(root, 'stage')
+  const scratch = join(stage, '.halo-scratch')
   const verification = join(root, 'verification')
   const backup = join(root, 'promotion-backup')
   const auditPath = join(root, 'verdict.json')
@@ -193,6 +194,7 @@ export async function runGatedUnit(options) {
     const liveBefore = await snapshotSelected(repo, editable)
     await createWorktree(repo, stage)
     stageCreated = true
+    await mkdir(scratch, { recursive: true })
     const stageBefore = await snapshotTree(stage)
     const protectedBefore = await snapshotSelected(stage, protectedPaths)
 
@@ -201,7 +203,7 @@ export async function runGatedUnit(options) {
     let acceptedChanges = []
     for (let round = 1; round <= 2; round += 1) {
       try {
-        workerText = await options.runWorker({ stage, round, feedback: lastFailure })
+        workerText = await options.runWorker({ stage, scratch, round, feedback: lastFailure })
       } catch (error) {
         audit.rounds.push({ round, state: 'WORKER_FAILED', evidence: String(error) })
         lastFailure = `Worker failed: ${String(error)}`

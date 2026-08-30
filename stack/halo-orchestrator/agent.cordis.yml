@@ -27,17 +27,22 @@
     text: >-
       You are the Halo Orchestrator, a coding agent powered by {{model}}. Your
       working directory is {{cwd}}. Build and ship real software from the
-      user's request: inspect the repository, form a concrete plan, delegate
-      implementation where useful, verify the resulting files and tests
-      yourself, and report only evidence you actually observed.
+      user's request: inspect the repository, form one bounded implementation
+      brief, delegate the implementation, review the verified result, and report
+      only evidence you actually observed.
 
-      Use subagent_coder for the bulk of ordinary implementation. It is the
-      tuned local Qwen3 Coder worker and runs as a foreground one-shot child so
-      it finishes before you resume. Give it one substantial, self-contained
-      implementation unit with the goal, workspace, relevant files, constraints,
-      and exact verification command. Do not split one job into rapid alternating
-      local-model turns: LM Studio keeps one local model resident at a time and
-      swaps 27B cockpit -> Coder worker -> 27B cockpit on demand.
+      Use subagent_coder exactly once for each ordinary implementation unit. It
+      runs the tuned local Qwen3 Coder Q4_K_M directly with only read, write,
+      edit, glob, grep, and PowerShell tools. Give it one self-contained unit
+      with relevant files, constraints, editable and protected paths, and one
+      exact verification command. The gate may give the worker one automatic
+      repair round. After the verdict, do not retry the gate or implement around
+      a failure yourself: PASS means review the promoted files with read-only
+      tools; FAIL means report the receipt and stop. Start a new user-approved
+      unit for any further implementation. On the 96 GB pool, LM Studio keeps
+      the 35B-A3B cockpit and 30B-A3B coder resident together while only one
+      generates at a time. The dense 27B and Q4_K_S worker remain rollback
+      choices, not standing lanes.
 
       For current public-web research, use mcp__exa__web_search_exa to discover
       sources and mcp__exa__web_fetch_exa to read selected URLs. Cite the URLs
@@ -48,8 +53,8 @@
       implementation or review lane and subagent_claude_plan when a hard design
       problem benefits from a read-only outside plan.
 
-      Treat every child result as advice, not proof. Inspect the changed files,
-      run the real project tests or quality gate, and distinguish tested facts
+      Treat every child claim as advice and the gate receipt as the authority.
+      Inspect promoted files with read-only tools and distinguish tested facts
       from inference. Preserve unrelated user changes. Tests may be edited when
       the requested behavior legitimately changes them, but never weaken,
       delete, or rewrite tests merely to hide an implementation failure. Do not
@@ -230,10 +235,10 @@
     # stages the child behind a synthetic workspace-write parent, verifies in
     # an independent worktree, and promotes only a mechanically passing unit.
     - id: tool-subagent-coder
-      name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-verified-coder/index.mjs?v=2'
+      name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-verified-coder/index.mjs?v=8'
       config:
         provider: spawn
-        model: halo/qwen3-coder-30b-a3b
+        model: halo/qwen3-coder-30b-a3b-q4km
         runRoot: 'C:\Users\scott\AppData\Local\HaloGate\runs'
         verifyTimeoutMs: 180000
 

@@ -76,6 +76,33 @@ test('honest worker verifies and promotes', async () => {
   }
 })
 
+test('gate-owned scratch files are ignored and never promoted', async () => {
+  const repo = await fixtureRepo()
+  try {
+    const result = await runGatedUnit({
+      repo,
+      runRoot: join(repo, '..', 'halo-gate-runs'),
+      editablePaths: ['src'],
+      protectedPaths: ['tests'],
+      verifyExecutable: process.execPath,
+      verifyArgs: ['tests/verify.mjs'],
+      verifyTimeoutMs: 5_000,
+      async runWorker({ stage, scratch }) {
+        assert.equal(scratch, join(stage, '.halo-scratch'))
+        await writeFile(join(stage, 'src', 'value.txt'), 'good\n')
+        await writeFile(join(scratch, 'manual-fixture.txt'), 'temporary\n')
+        return 'done'
+      },
+    })
+    assert.equal(result.status, 'PASS', JSON.stringify(result))
+    assert.equal(await readFile(join(repo, 'src', 'value.txt'), 'utf8'), 'good\n')
+    await assert.rejects(readFile(join(repo, '.halo-scratch', 'manual-fixture.txt')), { code: 'ENOENT' })
+  } finally {
+    await rm(repo, { recursive: true, force: true })
+    await rm(join(repo, '..', 'halo-gate-runs'), { recursive: true, force: true })
+  }
+})
+
 test('protected-test rewrite is caught and never promoted', async () => {
   const repo = await fixtureRepo()
   try {

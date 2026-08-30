@@ -2,7 +2,7 @@
   Launch-Halo.ps1 — the operator's point-and-click cockpit launcher.
 
   Double-clicked via the "Halo Cockpit" desktop shortcut. Idempotent:
-    1. leaves model residency to LM Studio JIT so only the active lane is loaded,
+    1. leaves the 96 GB model pool and Halo aliases to LM Studio JIT,
     2. starts `dsh web` hidden if port 3080 is not already serving
        (reaping only a dead DSH orphan that holds the port — §21.9),
     3. opens the default browser at the cockpit.
@@ -29,8 +29,9 @@ function Test-Cockpit {
 }
 # ---- 1. model residency
 # Do not manually load or pin a model here. LM Studio's JIT loader has
-# unloadPreviousJITModelOnLoad enabled, so the requested lane replaces the
-# previous lane: 27B cockpit -> Coder worker -> 27B cockpit.
+# enough pool space for the tuned 35B-A3B cockpit and Q4_K_M coder to remain
+# resident together. DSH still serializes their generation work; the launcher
+# neither evicts nor pins either model. The 120B heavy brain is exclusive-use.
 
 # ---- 2. cockpit server
 $healthy = Test-Cockpit
