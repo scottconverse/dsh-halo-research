@@ -2,7 +2,7 @@
 
 **Status:** authoritative human-readable configuration record
 
-**Verified:** 2026-08-30 after the 64/64 reboot, dual-resident DSH planner/worker smoke, Hardgate repair, library cleanup, and Revision 3.2 reconciliation
+**Verified:** 2026-08-30 after the 64/64 reboot, dual-resident DSH planner/worker smoke, Hardgate repair, library cleanup, and Revision 3.3
 
 **DSH:** `@deepseek-ai/dsh@0.1.1-rc.2`
 
@@ -22,7 +22,7 @@ choices. Historical files remain evidence, not current configuration.
 - Scott's required readable copy: `C:\Users\scott\Desktop\Halo Stack Research`
 - Recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research\Current Halo Configuration`
 - Governing current specification:
-  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.2.md`
+  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.3.md`
 - Complete historical specification through v3.1:
   `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.0.md`
 
