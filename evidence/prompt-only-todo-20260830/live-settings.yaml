@@ -1,0 +1,81 @@
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+
+# Full-machine authority for future Halo sessions. Existing sessions retain
+# the permission preset they were created with.
+permission:
+  defaultPreset: danger-full-access
+
+# Halo local-model catalog. Only complete LLMs physically stored on HALO are
+# listed: remote LM Link entries, embeddings, vision projections, draft/MTP
+# components, and incomplete downloads are intentionally excluded.
+llm-pi-ai:
+  providers:
+    lmstudio:
+      displayName: LM Studio (HALO local)
+      # LM Studio ignores this value, but the OpenAI-compatible client requires
+      # a non-empty credential. Launch-Halo.ps1 supplies the local dummy `x`.
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:1234/v1
+      defaultInput: [ text ]
+      defaultContextWindow: 32768
+      defaultMaxTokens: 8192
+      models:
+        # Halo-owned virtual model identities bake the measured LM Studio load
+        # envelope into API/JIT loads. Raw on-disk models remain selectable
+        # below for explicit experiments, but the standing lanes use these.
+        - id: halo/qwen3.8-27b
+          name: Halo Qwen3.8 27B Q5_K_XL (tuned cockpit)
+          contextWindow: 32768
+          # LM Studio reports this exact alias as boolean reasoning only:
+          # allowed_options=[on], default=on. DSH's pi-ai profile can expose
+          # canonical effort levels, but cannot honestly label boolean "on".
+          # Omitting the selector preserves LM Studio's real provider default.
+        - id: halo/qwen3-coder-30b-a3b
+          name: Halo Qwen3 Coder 30B-A3B Q4_K_S (tuned worker)
+          contextWindow: 32768
+        - id: halo/qwen3.6-35b-a3b
+          name: Halo Qwen3.6 35B-A3B Q4_K_M (64/64 daily brain)
+          contextWindow: 32768
+        - id: halo/qwen3-coder-30b-a3b-q4km
+          name: Halo Qwen3 Coder 30B-A3B Q4_K_M (64/64 daily worker)
+          contextWindow: 32768
+        - id: halo/qwen3-coder-30b-a3b-q6k
+          name: Halo Qwen3 Coder 30B-A3B Q6_K (quality-test candidate)
+          contextWindow: 32768
+        - id: unsloth/qwen3.8-27b
+          name: Qwen3.8 27B Q5_K_XL (raw local model)
+          contextWindow: 32768
+          # The raw Q5_K_XL route also advertises on/off rather than graded
+          # effort. Leave reasoning provider-owned instead of inventing levels.
+        - id: unsloth/qwen3-coder-30b-a3b-instruct
+          name: Qwen3 Coder 30B-A3B Q4_K_S (raw local model)
+          contextWindow: 32768
+        - id: qwen3.8-27b-uncensored
+          name: Qwen3.8 27B Uncensored Q6_K + F16 vision projector
+          contextWindow: 32768
+        - id: nvidia-nemotron-3.5-lightning-30b-a3b
+          name: Nemotron 3.5 Lightning 30B-A3B Q4_K_S
+          contextWindow: 32768
+        - id: qwen3-vl-30b-a3b-instruct
+          name: Qwen3 VL 30B-A3B Instruct Q4_K_M
+          contextWindow: 32768
+        - id: lmstudio-community/qwen3-coder-30b-a3b-instruct
+          name: Qwen3 Coder 30B-A3B Q4_K_M
+          contextWindow: 32768
+        - id: qwen/qwen3.6-35b-a3b
+          name: Qwen3.6 35B-A3B Q4_K_M
+          contextWindow: 32768
+
+# Hide the bundled DeepSeek API catalog. This machine has no DeepSeek API key;
+# Codex and Claude are exposed as native subscription-backed subagent tools.
+llm-deepseek:
+  models: []
+
+# Keep the Halo-owned, load-pinned MoE cockpit route as the default.
+agent-default-model:
+  provider: lmstudio
+  model: halo/qwen3-coder-30b-a3b-q6k
+  # The alias intentionally defaults enableThinking=false for the fast daily
+  # planning path. The dense 27B remains selectable as a rollback model.
