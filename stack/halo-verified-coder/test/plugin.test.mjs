@@ -77,7 +77,7 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
     assert.equal(composedFrom.parentCtx, cockpitCtx)
     assert.equal(spawnRequest.parent.session.header.cwd, setupOptions.meta.cwd)
     assert.deepEqual(spawnRequest.parent.events, [{ type: 'sandbox/mode', value: { mode: 'workspace-write' } }])
-    assert.equal(spawnRequest.agentOptions.model, 'halo/qwen3-coder-30b-a3b')
+    assert.equal(spawnRequest.agentOptions.model, 'halo/qwen3-coder-30b-a3b-q4km')
     assert.equal(spawnRequest.maxDepth, 1)
     assert.deepEqual(spawnRequest.toolFilter, {
       allow: ['read', 'write', 'edit', 'glob', 'grep', 'pwsh'],
@@ -97,4 +97,35 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
     await rm(repo, { recursive: true, force: true })
     await rm(runRoot, { recursive: true, force: true })
   }
+})
+
+test('planner cannot mutate directly and worker shell guard blocks runaway command shapes', async () => {
+  const listeners = new Map()
+  const ctx = {
+    on(name, callback) { listeners.set(name, callback) },
+    tools: { register() { return () => {} } },
+    agents: {},
+    subagents: {},
+  }
+  apply(ctx, { runRoot: 'C:\\HaloGate\\runs' })
+  const policy = listeners.get('tools/pre-execute')
+  const planner = { session: { header: { cwd: 'C:\\Users\\scott\\project' } } }
+  const worker = { session: { header: { cwd: 'C:\\HaloGate\\runs\\one\\stage' } } }
+  const allow = async () => ({ kind: 'allow' })
+  for (const name of ['write', 'edit', 'pwsh', 'bash', 'subagent', 'subagent_codex', 'subagent_claude_build', 'workflow', 'ralph']) {
+    const decision = await policy({ name, arguments: { command: 'Write-Output ok' }, agent: planner }, allow)
+    assert.equal(decision.kind, 'deny', `${name} must be denied to the planner`)
+  }
+  const recurse = await policy({
+    name: 'pwsh', arguments: { command: 'Get-ChildItem -Recurse' }, agent: worker,
+  }, allow)
+  assert.equal(recurse.kind, 'deny')
+  const foregroundServer = await policy({
+    name: 'pwsh', arguments: { command: 'npm run dev', run_in_background: false }, agent: worker,
+  }, allow)
+  assert.equal(foregroundServer.kind, 'deny')
+  const backgroundServer = await policy({
+    name: 'pwsh', arguments: { command: 'npm run dev', run_in_background: true }, agent: worker,
+  }, allow)
+  assert.deepEqual(backgroundServer, { kind: 'allow' })
 })

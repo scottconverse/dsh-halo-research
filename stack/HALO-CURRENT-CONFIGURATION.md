@@ -1,10 +1,10 @@
 # Halo stack — current installed configuration
 
-**Status:** accepted daily baseline plus an unfinished Q6/persistent-memory
-audition. Read `HALO-TAKEOVER-HANDOFF-2026-08-30.md` before treating a model or
-autonomy claim as current.
+**Status:** accepted 35B planner / Q4_K_M worker baseline with the 2026-08-30
+autonomy repair deployed. Q6 remains an installed test candidate only.
 
-**Verified:** 2026-08-30 after the 64/64 reboot, dual-resident DSH planner/worker smoke, Hardgate repair, library cleanup, and Revision 3.3
+**Verified:** 2026-08-30 after the 64/64 reboot, structural autonomy repair,
+13/13 gate tests, accepted-route reconciliation, and supervised-launcher parse
 
 **DSH:** `@deepseek-ai/dsh@0.1.1-rc.2`
 
@@ -18,12 +18,10 @@ choices. Historical files remain evidence, not current configuration.
 
 ## Evidence correction — 2026-08-30
 
-The daily 35B/Q4_K_M baseline below is the last accepted operating
-configuration. Canonical and live files now also preserve an unfinished Q6
-worker and persistent-memory audition. At the handoff capture, both the 35B
-brain and Q6 coder were resident, the live DSH default had been temporarily
-changed to Q6, and the Halo preset's worker pointed to Q6. That is experiment
-state, not an accepted replacement for the baseline.
+The daily 35B/Q4_K_M baseline below is the accepted operating configuration.
+The Q6 worker and persistent-memory audition remain preserved as unfinished
+experiments, but neither replaces the accepted route. The live root is restored
+to the 35B and `subagent_coder` is restored to Q4_K_M.
 
 Prior Hardgate/canary results were actively shaped by Codex through prompts,
 roles, tool restrictions, acceptance criteria, and retry decisions. They prove
@@ -41,7 +39,7 @@ repository tests remain valid within their stated scope.
 - Scott's required readable copy: `C:\Users\scott\Desktop\Halo Stack Research`
 - Recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research\Current Halo Configuration`
 - Governing current specification:
-  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.3.md`
+  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.4.md`
 - Complete historical specification through v3.1:
   `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.0.md`
 
@@ -128,6 +126,12 @@ The current default is **dual resident, serialized generation**:
 4. The already-resident 35B reviews a PASS with read-only tools or reports a
    FAIL and stops. It cannot retry the gate or directly mutate around the
    verdict in the same unit.
+
+The strict Halo Build preset now denies root `write`, `edit`, shell, generic
+subagent, Codex/Claude Build, workflow, and Ralph implementation calls from the
+start of the unit—not merely after a verdict. The root can inspect, run the
+read-only `halo_preflight`, define acceptance, and invoke the gated local worker.
+Use a different preset for explicitly requested direct/full-access work.
 
 The 2026-08-29 live canary ended with both models resident, idle, context
 32,768, and `parallel: 1`. Sequential swapping is now a fallback, not the
@@ -264,6 +268,14 @@ The current `subagent_coder` is the Halo-owned DSH composite in
   PASS;
 - denial of a second gate call or parent `write`/`edit`/shell mutation after
   the unit's verdict, whether PASS or FAIL;
+- denial of root mutation and ungated implementation children before the gate;
+- a read-only `halo_preflight` that checks the actual Git, Node, Python,
+  package-manager, Docker CLI, and Docker-daemon state;
+- non-Git greenfield support through gate-owned `.halo-acceptance` files,
+  written before the worker starts, protected from it, verified in isolated
+  Git worktrees, and never promoted into the user's project;
+- worker shell guards that reject unbounded recursive directory enumeration
+  and foreground development servers;
 - structured receipts under
   `C:\Users\scott\AppData\Local\HaloGate\runs`.
 
@@ -275,9 +287,10 @@ parent reported PASS. Receipt:
 
 `C:\Users\scott\AppData\Local\HaloGate\runs\2026-08-30T01-16-38-059Z-2fdc1f28\verdict.json`
 
-The simplified plugin's zero-model suite passes 9/9, including scratch
-containment, parent mutation lock, protected-test tampering, and verifier
-crash/timeout cases.
+The repaired plugin's zero-model suite passes 13/13, including Git and
+greenfield promotion, greenfield acceptance-test tampering, scratch
+containment, planner mutation/bypass locks, worker shell guards,
+protected-test tampering, launcher evidence, and verifier crash/timeout cases.
 
 A fresh real-repository guided Halo proof then ran under a Codex-designed
 brief, role split, tool boundary, verifier, and retry policy:
@@ -341,10 +354,12 @@ It runs:
 
 `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Launch-Halo.ps1`
 
-The launcher is idempotent. It supplies the local dummy LM Studio credential,
-sets DSH `danger-full-access`, starts DSH only if `:3080` is absent, and opens
-the browser. LM Studio must already be running. The current session was left
-with DSH serving HTTP 200 and both daily models resident.
+The launcher is idempotent. It starts a hidden, bounded supervisor which
+supplies the local dummy LM Studio credential, sets DSH
+`danger-full-access`, preserves stdout/stderr, writes child/supervisor PID and
+health metadata, captures the exit code, and performs at most one restart.
+Evidence is under `C:\Users\scott\.dsh\logs`. LM Studio must already be
+running.
 
 For a normal build, open a new Halo Orchestrator task, describe the software
 work, and let the 35B delegate implementation through `subagent_coder`. Select
@@ -359,6 +374,8 @@ planner/worker/gate flow.
   `HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`
 - Improvement and candidate-audition evidence:
   `HALO-IMPROVEMENT-BASELINE-2026-08-30.md`
+- Prompt-only failure and structural repair:
+  `HALO-AUTONOMY-REPAIR-2026-08-30.md`
 - Parallel-slot correction and outside-review reconciliation:
   `HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md`
 - Recovery snapshot manifest:

@@ -148,3 +148,64 @@ test('verifier launch crash is a failure, never a pass', async () => {
     await rm(join(repo, '..', 'halo-gate-runs'), { recursive: true, force: true })
   }
 })
+
+test('greenfield workspace uses gate-owned acceptance files and promotes only implementation files', async () => {
+  const workspace = await mkdtemp(join(tmpdir(), 'halo-greenfield-'))
+  const runRoot = join(workspace, '..', `halo-greenfield-runs-${Date.now()}`)
+  try {
+    const result = await runGatedUnit({
+      repo: workspace,
+      runRoot,
+      editablePaths: ['src', 'README.md'],
+      protectedPaths: ['.halo-acceptance/verify.mjs'],
+      acceptanceFiles: [{
+        path: '.halo-acceptance/verify.mjs',
+        content: "import fs from 'node:fs'; if (fs.readFileSync('src/value.txt','utf8').trim() !== 'good') process.exit(11)\n",
+      }],
+      verifyExecutable: process.execPath,
+      verifyArgs: ['.halo-acceptance/verify.mjs'],
+      verifyTimeoutMs: 5_000,
+      async runWorker({ stage }) {
+        await mkdir(join(stage, 'src'), { recursive: true })
+        await writeFile(join(stage, 'src', 'value.txt'), 'good\n')
+        await writeFile(join(stage, 'README.md'), 'greenfield\n')
+        return 'done'
+      },
+    })
+    assert.equal(result.status, 'PASS', JSON.stringify(result))
+    assert.equal(await readFile(join(workspace, 'src', 'value.txt'), 'utf8'), 'good\n')
+    assert.equal(await readFile(join(workspace, 'README.md'), 'utf8'), 'greenfield\n')
+    await assert.rejects(readFile(join(workspace, '.halo-acceptance', 'verify.mjs')), { code: 'ENOENT' })
+  } finally {
+    await rm(workspace, { recursive: true, force: true })
+    await rm(runRoot, { recursive: true, force: true })
+  }
+})
+
+test('greenfield worker cannot rewrite gate-owned acceptance files', async () => {
+  const workspace = await mkdtemp(join(tmpdir(), 'halo-greenfield-cheat-'))
+  const runRoot = join(workspace, '..', `halo-greenfield-cheat-runs-${Date.now()}`)
+  try {
+    const result = await runGatedUnit({
+      repo: workspace,
+      runRoot,
+      editablePaths: ['src'],
+      protectedPaths: ['.halo-acceptance/verify.mjs'],
+      acceptanceFiles: [{ path: '.halo-acceptance/verify.mjs', content: 'process.exit(9)\n' }],
+      verifyExecutable: process.execPath,
+      verifyArgs: ['.halo-acceptance/verify.mjs'],
+      verifyTimeoutMs: 5_000,
+      async runWorker({ stage }) {
+        await mkdir(join(stage, 'src'), { recursive: true })
+        await writeFile(join(stage, 'src', 'value.txt'), 'claimed\n')
+        await writeFile(join(stage, '.halo-acceptance', 'verify.mjs'), 'process.exit(0)\n')
+        return 'claimed success'
+      },
+    })
+    assert.equal(result.status, 'FAILED', JSON.stringify(result))
+    await assert.rejects(readFile(join(workspace, 'src', 'value.txt')), { code: 'ENOENT' })
+  } finally {
+    await rm(workspace, { recursive: true, force: true })
+    await rm(runRoot, { recursive: true, force: true })
+  }
+})

@@ -1,6 +1,6 @@
-import { join } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { runGatedUnit } from './gate-core.mjs'
+import { runGatedUnit, runProcess } from './gate-core.mjs'
 
 export const name = 'halo-verified-coder'
 export const inject = ['tools', 'subagents', 'agents']
@@ -8,6 +8,11 @@ export const inject = ['tools', 'subagents', 'agents']
 const verdictByAgent = new WeakMap()
 const workerToolFilter = { allow: ['read', 'write', 'edit', 'glob', 'grep', 'pwsh'] }
 const parentMutationTools = new Set(['subagent_coder', 'write', 'edit', 'pwsh', 'bash'])
+const directMutationTools = new Set([
+  'write', 'edit', 'pwsh', 'bash',
+  'subagent', 'subagent_fork', 'subagent_codex', 'subagent_claude_build',
+  'workflow', 'ralph',
+])
 const workerPersona = `You are the Halo implementation worker. Implement the supplied bounded unit directly and concisely.
 Use only the files and commands needed for that unit. Do not create plans, goals, subagents, or repository-root test fixtures.
 Put every temporary file under the supplied .halo-scratch directory. Run the named verification command when practical,
@@ -19,12 +24,31 @@ function textOf(output) {
 
 export function apply(ctx, config = {}) {
   const provider = config.provider ?? 'spawn'
-  const model = config.model ?? 'halo/qwen3-coder-30b-a3b'
+  const model = config.model ?? 'halo/qwen3-coder-30b-a3b-q4km'
   const runRoot = config.runRoot ?? join(process.env.LOCALAPPDATA ?? process.cwd(), 'HaloGate', 'runs')
   const verifyTimeoutMs = config.verifyTimeoutMs ?? 180_000
+  const normalizedRunRoot = `${resolve(runRoot).toLowerCase()}${sep}`
+
+  function isGateWorkspace(agent) {
+    const cwd = agent?.session?.header?.cwd
+    return typeof cwd === 'string' && `${resolve(cwd).toLowerCase()}${sep}`.startsWith(normalizedRunRoot)
+  }
 
   ctx.on('tools/pre-execute', async (exec, next) => {
     if (!exec.agent) return next()
+    if (!isGateWorkspace(exec.agent) && directMutationTools.has(exec.name)) {
+      return { kind: 'deny', reason: 'Halo Build is planner-led: direct mutation and ungated implementation children are disabled. Use halo_preflight, inspect with read/search tools, then call subagent_coder once. Use another preset for explicitly requested direct/full-access work.' }
+    }
+    if (isGateWorkspace(exec.agent) && exec.name === 'pwsh') {
+      const command = String(exec.arguments?.command ?? '')
+      if (/\b(?:Get-ChildItem|gci|dir)\b[^\r\n]*\s-Recurse\b/i.test(command)) {
+        return { kind: 'deny', reason: 'Unbounded recursive enumeration is disabled in Halo workers. Use rg --files with explicit exclusions or target a bounded directory.' }
+      }
+      const startsServer = /\b(?:npm|pnpm|yarn)\s+(?:run\s+)?(?:dev|start|serve)\b|\bpython(?:\.exe)?\s+-m\s+http\.server\b|\bnode(?:\.exe)?\s+\S*(?:server|serve)\S*\b/i.test(command)
+      if (startsServer && exec.arguments?.run_in_background !== true) {
+        return { kind: 'deny', reason: 'Foreground server commands are disabled in Halo workers. Set run_in_background=true and inspect the bounded job output.' }
+      }
+    }
     const verdict = verdictByAgent.get(exec.agent)
     if (verdict?.armed && parentMutationTools.has(exec.name)) {
       return { kind: 'deny', reason: `Halo coding unit is closed after its single gate call (${verdict.status}). Start a new bounded unit instead of retrying or editing around the verdict. Evidence: ${verdict.auditPath ?? 'pending'}` }
@@ -34,6 +58,31 @@ export function apply(ctx, config = {}) {
       return { kind: 'deny', reason: `Halo verification gate refuses completion: last verdict is ${verdict.status}. Evidence: ${verdict.auditPath ?? 'unavailable'}` }
     }
     return next()
+  })
+
+  ctx.tools.register({
+    name: 'halo_preflight',
+    description: 'Read-only environment preflight for a Halo build. Reports whether Git, Node, package managers, Python, and Docker CLI/daemon are actually available before the implementation brief is created.',
+    parameters: { type: 'object', additionalProperties: false, properties: {} },
+    output: {
+      schema: { type: 'object', additionalProperties: true },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value, null, 2) }],
+    },
+    async execute(_args, exec) {
+      const cwd = exec.agent?.session?.header?.cwd ?? process.cwd()
+      const commands = {}
+      for (const command of ['git.exe', 'node.exe', 'npm.cmd', 'pnpm.cmd', 'python.exe', 'py.exe', 'docker.exe']) {
+        const found = await runProcess('where.exe', [command], { cwd, timeoutMs: 5_000 }).catch(() => ({ code: -1, stdout: '' }))
+        commands[command] = found.code === 0 ? found.stdout.trim().split(/\r?\n/)[0] : null
+      }
+      const gitRoot = await runProcess('git.exe', ['rev-parse', '--show-toplevel'], { cwd, timeoutMs: 5_000 }).catch(() => ({ code: -1, stdout: '' }))
+      let docker = { cli: commands['docker.exe'] !== null, daemon: false }
+      if (docker.cli) {
+        const info = await runProcess('docker.exe', ['info', '--format', '{{json .ServerVersion}}'], { cwd, timeoutMs: 10_000 }).catch(error => ({ code: -1, stderr: String(error) }))
+        docker = { cli: true, daemon: info.code === 0, evidence: (info.stdout || info.stderr || '').trim().slice(0, 1_000) }
+      }
+      return { cwd, gitRoot: gitRoot.code === 0 ? gitRoot.stdout.trim() : null, commands, docker }
+    },
   })
 
   ctx.tools.register({
@@ -50,6 +99,15 @@ export function apply(ctx, config = {}) {
         protected_paths: { type: 'array', items: { type: 'string' }, description: 'Existing repository-relative tests and verifier inputs the worker must not change.' },
         verify_executable: { type: 'string', description: 'Verifier executable, without a shell.' },
         verify_args: { type: 'array', items: { type: 'string' }, description: 'Exact verifier argument vector.' },
+        acceptance_files: {
+          type: 'array',
+          maxItems: 16,
+          description: 'For a non-Git greenfield directory only: gate-owned verifier files under .halo-acceptance. The planner writes these before the worker runs; they are protected and never promoted.',
+          items: {
+            type: 'object', additionalProperties: false, required: ['path', 'content'],
+            properties: { path: { type: 'string' }, content: { type: 'string' } },
+          },
+        },
       },
     },
     output: {
@@ -79,6 +137,7 @@ export function apply(ctx, config = {}) {
         protectedPaths: args.protected_paths,
         verifyExecutable: args.verify_executable,
         verifyArgs: args.verify_args,
+        acceptanceFiles: args.acceptance_files,
         verifyTimeoutMs,
         async runWorker({ stage, scratch, round, feedback }) {
           const agentPresets = parent.ctx?.get?.('agentPresets')

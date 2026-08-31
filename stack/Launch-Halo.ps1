@@ -2,7 +2,7 @@
   Launch-Halo.ps1 — the operator's point-and-click cockpit launcher.
 
   Double-clicked via the "Halo Cockpit" desktop shortcut. Idempotent:
-    1. leaves the 96 GB model pool and Halo aliases to LM Studio JIT,
+    1. leaves the 64 GB model pool and Halo aliases to LM Studio JIT,
     2. starts `dsh web` hidden if port 3080 is not already serving
        (reaping only a dead DSH orphan that holds the port — §21.9),
     3. opens the default browser at the cockpit.
@@ -46,16 +46,20 @@ if (-not $healthy) {
             Start-Sleep -Seconds 2
         }
     }
-    $env:LMSTUDIO_API_KEY = 'x'
-    $env:DSH_PERMISSION_MODE = 'danger-full-access'
-    Remove-Item Env:DSH_TOOLS_MODE -EA SilentlyContinue   # cockpit = native mode
-    Remove-Item Env:DSH_HOME -EA SilentlyContinue         # cockpit = default home
-    $pnpmCmd = Join-Path (Split-Path (Get-Command pnpm).Source -Parent) 'pnpm.cmd'
-    Start-Process -FilePath $pnpmCmd -ArgumentList @('dlx', $DshVer, 'web') `
-        -WorkingDirectory $WorkRoot -WindowStyle Hidden | Out-Null
+    $supervisor = Join-Path $PSScriptRoot 'Run-HaloCockpit.ps1'
+    $logRoot = Join-Path $env:USERPROFILE '.dsh\logs'
+    New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
+    $supervisorOut = Join-Path $logRoot 'halo-supervisor.stdout.log'
+    $supervisorErr = Join-Path $logRoot 'halo-supervisor.stderr.log'
+    $supervisorProcess = Start-Process -FilePath 'powershell.exe' -ArgumentList @(
+        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $supervisor,
+        '-WorkRoot', $WorkRoot, '-Port', $Port, '-DshVer', $DshVer
+    ) -WorkingDirectory $WorkRoot -WindowStyle Hidden -PassThru `
+        -RedirectStandardOutput $supervisorOut -RedirectStandardError $supervisorErr
     $deadline = (Get-Date).AddSeconds(150)
     while ((Get-Date) -lt $deadline) {
         if (Test-Cockpit) { $healthy = $true; break }
+        if ($supervisorProcess.HasExited) { break }
         Start-Sleep -Milliseconds 1500
     }
 }
@@ -66,7 +70,7 @@ if ($healthy) {
 } else {
     Add-Type -AssemblyName PresentationFramework
     [System.Windows.MessageBox]::Show(
-        "Halo cockpit did not come up on port $Port within 150 seconds.`nCheck that LM Studio is running, then double-click again.",
+        "Halo cockpit did not come up on port $Port.`nCheck C:\Users\scott\.dsh\logs for preserved supervisor, stdout, stderr, PID, health, and exit evidence.",
         'Halo Cockpit') | Out-Null
     exit 1
 }

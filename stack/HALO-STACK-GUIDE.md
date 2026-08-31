@@ -1,8 +1,8 @@
 # The Halo Stack — operator guide
 
 > **Evidence warning (2026-08-30):** the accepted daily baseline is the 35B
-> planner plus Q4_K_M worker described below, but a Q6 worker and persistent
-> memory audition is preserved in canonical/live configuration. Prior Hardgate
+> planner plus Q4_K_M worker described below. A Q6 worker remains installed as
+> a test candidate but is not routed. Prior Hardgate
 > evidence was actively guided by Codex and must not be cited as unassisted
 > autonomy. Read `HALO-TAKEOVER-HANDOFF-2026-08-30.md` before changing or
 > evaluating the stack.
@@ -39,29 +39,46 @@ today.
 2. Double-click `C:\Users\scott\Desktop\Halo Cockpit.lnk`.
 3. Open a new task using the **Halo Orchestrator** preset.
 4. Describe the software you want built in plain English.
-5. Let the 35B inspect and create one bounded brief. It calls
+5. The 35B inspects read-only and calls `halo_preflight`. If a hard premise is
+   false (for example Docker is absent), it reports that instead of substituting
+   a different delivery method and claiming success.
+6. Let the 35B create one bounded brief. It calls
    `subagent_coder` once with editable paths, protected paths, and a real test
    command.
-6. The 30B implements with only six tools: `read`, `write`, `edit`, `glob`,
+7. For a new non-Git directory, the 35B also supplies independent verifier
+   files under `.halo-acceptance`; the gate freezes them before the worker runs
+   and never copies them into the finished project.
+8. The 30B implements with only six tools: `read`, `write`, `edit`, `glob`,
    `grep`, and `pwsh`. It cannot plan, create goals, delegate, browse the web,
    or manage background work.
-7. Trust the gate receipt, not the worker's claim. Only PASS is promoted. A
+9. Trust the gate receipt, not the worker's claim. Only PASS is promoted. A
    FAIL stops the unit; the 35B cannot retry or directly edit around it.
+
+In the strict Halo Build preset, the planner is mechanically blocked from
+direct file/shell mutation and from ungated implementation through generic,
+Codex, Claude Build, workflow, or Ralph children. Use another preset only when
+you intentionally want direct/full-access behavior instead of the verified
+local build path.
 
 The model picker changes the model answering the current conversation. It
 does not reproduce the planner/worker/verifier workflow by itself.
 
 ## What the gate guarantees
 
-The worker edits a detached staging worktree under a reduced
+For an existing Git repository, the worker edits a detached staging worktree
+under a reduced
 `workspace-write` parent. DSH's native child filter exposes only the six coding
-tools listed above. Temporary fixtures belong under gate-owned
+tools listed above. For greenfield work, the gate first creates its own Git
+baseline and independent protected acceptance files, then uses the same
+worktree flow. Temporary fixtures belong under gate-owned
 `.halo-scratch`, which is ignored and never promoted. The gate
 rejects protected-test and out-of-scope changes, verifies against an
 independent baseline, allows one bounded repair, promotes with a
 compare-and-swap check, reruns the verifier after promotion, and rolls back a
 bad promotion. A crashed or timed-out verifier is FAIL. After a verdict the
 same parent is mechanically barred from a second gate call or direct mutation.
+The worker is also blocked from unbounded `Get-ChildItem -Recurse`-style scans
+and from starting a development server in the foreground.
 
 Receipts are under:
 
@@ -89,7 +106,8 @@ client insists on a nonempty string; LM Studio ignores it. It is not a real
 credential.
 
 Codex and Claude use their signed-in subscription integrations as optional
-subagent tools. They are not LM Studio picker models.
+subagent tools in non-strict presets. The strict Halo Build preset blocks them
+from implementing around the local gate. They are not LM Studio picker models.
 
 ## Web research
 
@@ -133,7 +151,7 @@ Sandbox or model process.
 - Parallel-slot evidence: `stack\HALO-PARALLEL-SLOT-TEST-2026-08-30.md`
 - Parallel review/correction:
   `stack\HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md`
-- Governing current specification: `DSH-Strix-Halo-Report-v3.2.md`
+- Governing current specification: `DSH-Strix-Halo-Report-v3.4.md`
 - Complete revisions 2.0–3.1 history: `DSH-Strix-Halo-Report-v3.0.md`
 - Curated-library cleanup evidence:
   `stack\HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md`
@@ -143,4 +161,5 @@ Sandbox or model process.
 - Gate engine: `stack\halo-verified-coder\gate-core.mjs`
 - Model aliases: `stack\lmstudio-models\halo\...\model.yaml`
 - Launcher: `stack\Launch-Halo.ps1`
+- Supervisor: `stack\Run-HaloCockpit.ps1`
 - User copy and recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research`

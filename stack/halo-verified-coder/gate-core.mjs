@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import { cp, lstat, mkdir, readFile, readdir, rm, stat, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 
-const SKIP_DIRS = new Set(['.git', 'node_modules', '.halo-gate', '.halo-scratch', '__pycache__', '.pytest_cache'])
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.halo-gate', '.halo-scratch', '.halo-acceptance', '__pycache__', '.pytest_cache'])
 
 export function normalizeRelativePath(value) {
   if (typeof value !== 'string' || value.trim() === '') throw new Error('paths must be non-empty strings')
@@ -59,6 +59,11 @@ async function git(cwd, args, timeoutMs = 120_000) {
   const result = await runProcess('git.exe', args, { cwd, timeoutMs })
   if (result.code !== 0) throw new Error(`git ${args.join(' ')} failed (${result.code}): ${result.stderr || result.stdout}`)
   return result.stdout
+}
+
+async function discoverGitRoot(cwd) {
+  const result = await runProcess('git.exe', ['rev-parse', '--show-toplevel'], { cwd, timeoutMs: 30_000 })
+  return result.code === 0 ? result.stdout.trim() : undefined
 }
 
 async function hashFile(path) {
@@ -133,6 +138,34 @@ async function createWorktree(repo, path) {
   await overlayWorkingTree(repo, path)
 }
 
+async function createGreenfieldSeed(source, seed, acceptanceFiles) {
+  if (!Array.isArray(acceptanceFiles) || acceptanceFiles.length === 0) {
+    throw new Error('greenfield workspaces require gate-owned acceptance_files')
+  }
+  if (acceptanceFiles.length > 16) throw new Error('acceptance_files may contain at most 16 files')
+  await mkdir(seed, { recursive: true })
+  for (const path of await walk(source)) await copyOne(source, seed, path)
+  for (const item of acceptanceFiles) {
+    const path = normalizeRelativePath(item?.path)
+    if (!isWithin(path, ['.halo-acceptance'])) {
+      throw new Error(`acceptance file must be under .halo-acceptance: ${path}`)
+    }
+    if (typeof item?.content !== 'string' || Buffer.byteLength(item.content, 'utf8') > 65_536) {
+      throw new Error(`acceptance file content is invalid or too large: ${path}`)
+    }
+    const target = join(seed, path)
+    await mkdir(dirname(target), { recursive: true })
+    await writeFile(target, item.content)
+  }
+  for (const args of [
+    ['init'],
+    ['config', 'user.email', 'halo-gate@example.invalid'],
+    ['config', 'user.name', 'Halo Gate'],
+    ['add', '.'],
+    ['commit', '-m', 'gate-owned greenfield baseline'],
+  ]) await git(seed, args)
+}
+
 async function removeWorktree(repo, path) {
   await runProcess('git.exe', ['worktree', 'remove', '--force', path], { cwd: repo, timeoutMs: 30_000 })
   await rm(path, { recursive: true, force: true })
@@ -175,12 +208,9 @@ export async function runGatedUnit(options) {
   const editable = options.editablePaths.map(normalizeRelativePath)
   const protectedPaths = options.protectedPaths.map(normalizeRelativePath)
   assertPolicy(editable, protectedPaths)
-  const repoRoot = (await git(repo, ['rev-parse', '--show-toplevel'])).trim()
-  if (resolve(repoRoot).toLowerCase() !== repo.toLowerCase()) throw new Error(`workspace must be repository root: ${repoRoot}`)
-  for (const path of protectedPaths) await stat(join(repo, path))
-
   const id = `${new Date().toISOString().replaceAll(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`
   const root = join(options.runRoot, id)
+  const seed = join(root, 'greenfield-baseline')
   const stage = join(root, 'stage')
   const scratch = join(stage, '.halo-scratch')
   const verification = join(root, 'verification')
@@ -191,8 +221,20 @@ export async function runGatedUnit(options) {
   let stageCreated = false
   let verificationCreated = false
   try {
+    const discoveredRoot = await discoverGitRoot(repo)
+    let workingRepo = repo
+    if (discoveredRoot === undefined) {
+      await createGreenfieldSeed(repo, seed, options.acceptanceFiles)
+      workingRepo = seed
+      audit.workspaceMode = 'greenfield'
+    } else {
+      if (resolve(discoveredRoot).toLowerCase() !== repo.toLowerCase()) throw new Error(`workspace must be repository root: ${discoveredRoot}`)
+      if (options.acceptanceFiles?.length) throw new Error('acceptance_files are reserved for non-Git greenfield workspaces')
+      audit.workspaceMode = 'git'
+    }
+    for (const path of protectedPaths) await stat(join(workingRepo, path))
     const liveBefore = await snapshotSelected(repo, editable)
-    await createWorktree(repo, stage)
+    await createWorktree(workingRepo, stage)
     stageCreated = true
     await mkdir(scratch, { recursive: true })
     const stageBefore = await snapshotTree(stage)
@@ -229,11 +271,11 @@ export async function runGatedUnit(options) {
         continue
       }
 
-      if (verificationCreated) await removeWorktree(repo, verification)
-      await createWorktree(repo, verification)
+      if (verificationCreated) await removeWorktree(workingRepo, verification)
+      await createWorktree(workingRepo, verification)
       verificationCreated = true
       for (const path of acceptedChanges) await copyOne(stage, verification, path)
-      for (const path of protectedBefore.keys()) await copyOne(repo, verification, path)
+      for (const path of protectedBefore.keys()) await copyOne(workingRepo, verification, path)
       const result = await verify(verification, options.verifyExecutable, options.verifyArgs, options.verifyTimeoutMs)
       audit.rounds.push({ round, state: result.pass ? 'VERIFIED' : result.reason, changes: acceptedChanges, evidence: result.evidence, workerText })
       if (result.pass) {
@@ -271,7 +313,18 @@ export async function runGatedUnit(options) {
       }
       await copyOne(stage, repo, path)
     }
-    const post = await verify(repo, options.verifyExecutable, options.verifyArgs, options.verifyTimeoutMs)
+    let post
+    if (audit.workspaceMode === 'greenfield') {
+      await removeWorktree(workingRepo, verification)
+      verificationCreated = false
+      await createWorktree(workingRepo, verification)
+      verificationCreated = true
+      for (const path of acceptedChanges) await copyOne(repo, verification, path)
+      for (const path of protectedBefore.keys()) await copyOne(workingRepo, verification, path)
+      post = await verify(verification, options.verifyExecutable, options.verifyArgs, options.verifyTimeoutMs)
+    } else {
+      post = await verify(repo, options.verifyExecutable, options.verifyArgs, options.verifyTimeoutMs)
+    }
     audit.postPromotion = post
     if (!post.pass) {
       await restoreBackup(repo, backup, acceptedChanges, existed)
@@ -290,7 +343,8 @@ export async function runGatedUnit(options) {
     await writeFile(auditPath, `${JSON.stringify(audit, null, 2)}\n`).catch(() => {})
     return { status: 'GATE_CRASHED', auditPath, evidence: String(error) }
   } finally {
-    if (verificationCreated) await removeWorktree(repo, verification).catch(() => {})
-    if (stageCreated) await removeWorktree(repo, stage).catch(() => {})
+    const cleanupRepo = audit.workspaceMode === 'greenfield' ? seed : repo
+    if (verificationCreated) await removeWorktree(cleanupRepo, verification).catch(() => {})
+    if (stageCreated) await removeWorktree(cleanupRepo, stage).catch(() => {})
   }
 }
