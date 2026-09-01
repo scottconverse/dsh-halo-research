@@ -106,6 +106,10 @@ const DAILY_WORKER = {
   quant: 'Q4_K_M', context: 32768, parallel: 1,
   definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3-coder-30b-a3b-q4km', 'model.yaml'),
 };
+const TUNED_BRAIN_27B = {
+  modelKey: 'halo/qwen3.8-27b',
+  definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.8-27b', 'model.yaml'),
+};
 const START_DSH = 'C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\Launch-Halo.ps1';
 const DSH_VERSION_PIN = '0.1.1-rc.2';
 // Resolved executables (needs HOME above). safeExecFile/safeSpawn read this.
@@ -1344,10 +1348,6 @@ var lastStatus=null;
 function settingsInput(wl,val,label){
   var box='background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 6px';
   var id='set-'+wl;
-  if(wl==='reasoning'){
-    var opts=['low','medium','high','xhigh'].map(function(o){return '<option'+(o===String(val)?' selected':'')+'>'+o+'</option>'}).join('');
-    return '<select id="'+id+'" aria-label="'+esc(label)+'" data-wl="reasoning" data-orig="'+esc(String(val))+'" onchange="settingsRecalc()" style="'+box+'">'+opts+'</select>';
-  }
   return '<input id="'+id+'" type="number" inputmode="decimal" step="any" aria-label="'+esc(label)+'" data-wl="'+esc(wl)+'" data-orig="'+esc(String(val))+'" value="'+esc(String(val==null?'':val))+'" oninput="settingsRecalc()" style="width:150px;'+box+'">';
 }
 async function loadSettings(){
@@ -2857,8 +2857,7 @@ const SETTINGS_WHITELIST = {
   // [ \t]* let a future nested `maxTokens:` hijack both the read and the write.
   summaryMaxTokens:    { re: /(compaction-basic:[\s\S]*?\n {2}maxTokens: *)(\d+)/, kind: 'int', min: 1024,  max: 262144 },
   streamIdleTimeoutMs: { re: /(streamIdleTimeoutMs:[ \t]*)(\d+)/,               kind: 'int',   min: 60000, max: 7200000 },
-  maxRetries:          { re: /(maxRetries:[ \t]*)(\d+)/,                        kind: 'int',   min: 0,     max: 5 },
-  reasoning:           { re: /(\n[ \t]*reasoning:[ \t]*)(\w+)/,                 kind: 'enum',  enum: ['low', 'medium', 'high', 'xhigh'] }
+  maxRetries:          { re: /(maxRetries:[ \t]*)(\d+)/,                        kind: 'int',   min: 0,     max: 5 }
 };
 
 // computeSettings and applySettings are PURE (string in, result out) so they are
@@ -2884,7 +2883,6 @@ function computeSettings(raw) {
   const summaryMaxTokens = num('summaryMaxTokens');
   const streamIdleTimeoutMs = num('streamIdleTimeoutMs');
   const maxRetries = num('maxRetries');
-  const reasoning = read('reasoning');
 
   // C1: these used JS truthiness (`window &&`, `&& summaryMaxTokens`), so a real
   // ZERO made the derived value null and every refusal below silently skipped --
@@ -2908,7 +2906,7 @@ function computeSettings(raw) {
     refusals.push('Stream idle timeout (' + streamIdleTimeoutMs + 'ms) is under 10 minutes, which is shorter than a healthy first token at depth on this machine. Live requests get killed and retried, and each retry re-reads the whole context -- that is the storm that burned 2.4M tokens in a single turn.');
 
   return {
-    values: { window, thresholdRatio, retainRatio, summaryMaxTokens, streamIdleTimeoutMs, maxRetries, reasoning },
+    values: { window, thresholdRatio, retainRatio, summaryMaxTokens, streamIdleTimeoutMs, maxRetries },
     math: { compactAt, retain, toSummarize, summaryRatio },
     refusals,
     ok: refusals.length === 0
@@ -2955,6 +2953,109 @@ function applySettings(raw, changes, whitelist) {
 }
 /*__SETTINGS_FN_END__*/
 
+/*__REASONING_CONTRACT_START__*/
+// DSH and LM Studio expose two different kinds of reasoning control here.
+// DSH may send a named effort only when a provider/model explicitly declares
+// real effort levels. The Halo LM Studio aliases expose a Boolean Jinja switch
+// instead. Never relabel Boolean on/off as low/medium/high: that was the stale
+// Mission Control fiction this contract replaces.
+function parseAgentDefaultRoute(raw) {
+  const text = String(raw || '');
+  const match = text.match(/(?:^|\n)agent-default-model:\s*\r?\n((?:[ \t]+[^\r\n]*(?:\r?\n|$))*)/);
+  if (!match) return { provider: null, model: null, reasoningEffort: null };
+  const block = match[1];
+  const field = (name) => {
+    const value = block.match(new RegExp('^[ \\t]+' + name + ':[ \\t]*([^#\\r\\n]+)', 'm'))?.[1]?.trim() || null;
+    return value && /^(['"]).*\1$/.test(value) ? value.slice(1, -1) : value;
+  };
+  return {
+    provider: field('provider'),
+    model: field('model'),
+    reasoningEffort: field('reasoningEffort'),
+  };
+}
+
+function describeModelReasoning(raw) {
+  const text = String(raw || '');
+  if (!text.trim()) return { value: 'unknown', basis: 'model definition unavailable' };
+
+  const custom = text.match(/(?:^|\n)\s*-\s*key:\s*enableThinking\b([\s\S]*?)(?=\r?\n\s*-\s*key:|\r?\n\S|$)/);
+  const configured = custom?.[1]?.match(/^\s*defaultValue:\s*(true|false)\s*$/m)?.[1];
+  if (configured) {
+    return {
+      value: configured === 'true' ? 'on' : 'off',
+      basis: 'LM Studio enableThinking default=' + configured,
+    };
+  }
+
+  const capability = text.match(/^\s*reasoning:\s*(true|false)\s*$/m)?.[1];
+  if (capability === 'false') return { value: 'off', basis: 'model declares reasoning=false' };
+  if (capability === 'true') {
+    return { value: 'provider default', basis: 'reasoning-capable; no on/off default is declared' };
+  }
+  return { value: 'unknown', basis: 'model does not declare a reasoning contract' };
+}
+
+function describeConfiguredReasoningEffort(route) {
+  if (route?.reasoningEffort) {
+    return { value: 'explicit ' + route.reasoningEffort, basis: 'configured in DSH settings' };
+  }
+  return { value: 'none', basis: 'adapter/provider resolves at request time' };
+}
+
+function resolveCurrentRouteReasoning(route, definitions = {}) {
+  const routeKey = route?.provider && route?.model ? route.provider + '/' + route.model : null;
+  const exact = routeKey ? definitions[routeKey] : null;
+  if (exact?.raw?.trim()) {
+    return { ...describeModelReasoning(exact.raw), source: exact.source || null };
+  }
+  return {
+    value: 'provider-owned',
+    basis: 'unknown from static DSH configuration; no exact alias contract is declared for this route',
+    source: null,
+  };
+}
+
+function buildReasoningRows({
+  route,
+  definitions = {},
+  settingsSource,
+  brainContract,
+  brainSource,
+  workerContract,
+  workerSource,
+}) {
+  const routeName = route?.provider && route?.model
+    ? route.provider + '/' + route.model
+    : 'not declared';
+  const configuredEffort = describeConfiguredReasoningEffort(route);
+  const currentContract = resolveCurrentRouteReasoning(route, definitions);
+  return [
+    { label: 'Current DSH default model', value: routeName, source: settingsSource },
+    {
+      label: 'Configured DSH reasoning effort',
+      value: configuredEffort.value + ' — ' + configuredEffort.basis,
+      source: settingsSource,
+    },
+    {
+      label: 'Current model reasoning contract',
+      value: currentContract.value + ' — ' + currentContract.basis,
+      source: currentContract.source || settingsSource,
+    },
+    {
+      label: 'Daily brain alias reasoning default',
+      value: brainContract.value + ' — ' + brainContract.basis,
+      source: brainSource,
+    },
+    {
+      label: 'Worker alias reasoning default',
+      value: workerContract.value + ' — ' + workerContract.basis,
+      source: workerSource,
+    },
+  ];
+}
+/*__REASONING_CONTRACT_END__*/
+
 function settingsData(file = SETTINGS_FILE) {
   let raw = '';
   try { raw = fs.readFileSync(file, 'utf8'); }
@@ -2962,17 +3063,30 @@ function settingsData(file = SETTINGS_FILE) {
   const presetFile = path.join(HOME, '.dsh', '.agent-presets', 'halo-orchestrator', 'agent.cordis.yml');
   const brainFile = DAILY_BRAIN.definition;
   const workerFile = DAILY_WORKER.definition;
+  const tunedBrain27File = TUNED_BRAIN_27B.definition;
   const readText = p => { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } };
   const preset = readText(presetFile);
   const brain = readText(brainFile);
   const worker = readText(workerFile);
+  const tunedBrain27 = readText(tunedBrain27File);
   const n = (text, re, fallback = null) => { const m = text.match(re); return m ? Number(m[1]) : fallback; };
-  const reasoning = text => {
-    const custom = text.match(/key:\s*enableThinking[\s\S]*?defaultValue:\s*(true|false)/);
-    if (custom) return custom[1].toLowerCase();
-    const meta = text.match(/^\s*reasoning:\s*(true|false)\s*$/m);
-    return meta ? meta[1].toLowerCase() : 'not declared';
+  const route = parseAgentDefaultRoute(raw);
+  const brainReasoning = describeModelReasoning(brain);
+  const workerReasoning = describeModelReasoning(worker);
+  const reasoningDefinitions = {
+    ['lmstudio/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
+    ['lmstudio/' + DAILY_WORKER.modelKey]: { raw: worker, source: workerFile },
+    ['lmstudio/' + TUNED_BRAIN_27B.modelKey]: { raw: tunedBrain27, source: tunedBrain27File },
   };
+  const reasoningRows = buildReasoningRows({
+    route,
+    definitions: reasoningDefinitions,
+    settingsSource: file,
+    brainContract: brainReasoning,
+    brainSource: brainFile,
+    workerContract: workerReasoning,
+    workerSource: workerFile,
+  });
   const context = n(raw, /defaultContextWindow:\s*(\d+)/, 32768);
   // compaction-basic is loaded without an override in this preset. These are
   // the installed plugin's effective defaults, not imaginary settings.yaml keys.
@@ -2988,8 +3102,7 @@ function settingsData(file = SETTINGS_FILE) {
       { label: 'Compaction threshold', value: threshold, source: explicitCompaction.includes('thresholdRatio:') ? presetFile : 'dsh-compaction-basic default' },
       { label: 'Compaction retain ratio', value: retain, source: explicitCompaction.includes('retainRatio:') ? presetFile : 'dsh-compaction-basic default' },
       { label: 'Compaction summary maximum', value: summaryMax + ' tokens', source: explicitCompaction.includes('maxTokens:') ? presetFile : 'dsh-compaction-basic default' },
-      { label: 'Brain reasoning', value: reasoning(brain), source: brainFile },
-      { label: 'Worker reasoning', value: reasoning(worker), source: workerFile },
+      ...reasoningRows,
       { label: 'Brain parallel slots', value: n(brain, /llm\.load\.numParallelSessions[\s\S]*?value:\s*(\d+)/, DAILY_BRAIN.parallel), source: brainFile },
       { label: 'Worker parallel slots', value: n(worker, /llm\.load\.numParallelSessions[\s\S]*?value:\s*(\d+)/, DAILY_WORKER.parallel), source: workerFile },
     ]

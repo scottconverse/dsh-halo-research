@@ -73,9 +73,10 @@ llm-pi-ai:
 llm-deepseek:
   models: []
 
-# Keep the Halo-owned, load-pinned MoE cockpit route as the default.
+# Model selection is operator-controlled through DSH. This file records the
+# current selection; a live user selection and the recovery baseline may differ.
 agent-default-model:
   provider: lmstudio
   model: halo/qwen3.6-35b-a3b
-  # The alias intentionally defaults enableThinking=false for the fast daily
-  # planning path. The dense 27B remains selectable as a rollback model.
+  # No graded reasoning effort is injected here. The selected provider/model
+  # resolves its real Boolean or provider-owned contract at request time.
