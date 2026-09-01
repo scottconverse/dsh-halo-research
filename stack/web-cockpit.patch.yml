@@ -28,16 +28,18 @@
         env:
           HOME: 'C:\Users\scott'
 
-    # OpenCode's public, accountless Exa MCP endpoint. It currently exposes
-    # web_search_exa and web_fetch_exa; DSH publishes them under mcp__exa__*.
-    - id: mcp-exa-research
+    # One machine-wide localhost research service. It owns anonymous Exa/DDGS,
+    # direct fetch, Reddit pacing, Crawl4AI, cache, citations, jobs, local
+    # allow-listed targets, and approved action receipts. Keeping DSH behind
+    # this seam prevents each session from bypassing shared budgets.
+    - id: mcp-halo-research
       name: '@deepseek-ai/dsh-mcp-client'
       config:
-        serverName: exa
+        serverName: halo_research
         transport: streamable-http
-        url: https://mcp.exa.ai/mcp
-        toolCallTimeoutMs: 60000
-        failOnStartupError: false
+        url: http://127.0.0.1:8765/mcp
+        toolCallTimeoutMs: 120000
+        failOnStartupError: true
 
     # Local, account-free persistent knowledge graph. The pinned server owns
     # the JSONL file; Mission Control reads the same file without inventing a
@@ -55,8 +57,7 @@
         failOnStartupError: false
 
 # The bundled DeepSeek web-search route needs an API key and is intentionally
-# absent on this no-key stack. Anonymous Exa MCP supplies search and fetch;
-# the local Halo Research Gateway remains the durable path for shared caching,
-# Reddit, and browser crawling.
+# absent on this no-key stack. The local Halo Research Gateway supplies search,
+# fetch, Reddit, documents, browser crawling, shared cache, and bounded jobs.
 - id: web-search-deepseek
   disabled: true
