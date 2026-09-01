@@ -3,8 +3,9 @@
 **Status:** accepted 35B planner / Q4_K_M worker baseline with the 2026-08-30
 autonomy repair deployed. Q6 remains an installed test candidate only.
 
-**Verified:** 2026-08-30 after the 64/64 reboot, structural autonomy repair,
-13/13 gate tests, accepted-route reconciliation, and supervised-launcher parse
+**Verified:** 2026-09-01 after the 64/64 reboot baseline, structural autonomy
+repair, 13/13 gate tests, accepted-route reconciliation, supervised-launcher
+parse, and the live model-picker first-click regression
 
 **DSH:** `@deepseek-ai/dsh@0.1.1-rc.2`
 
@@ -30,6 +31,28 @@ record and failure analysis for the first replacement prompt-only trial are in
 `..\evidence\prompt-only-todo-20260830` and the takeover handoff. Direct
 runtime measurements, file hashes, gate unit tests, and independently rerun
 repository tests remain valid within their stated scope.
+
+## Model-picker package — 2026-09-01
+
+The web profile shadows only
+`@deepseek-ai/dsh-client-ui-model-selection@0.1.1-rc.2` with the reviewed local
+tgz under `stack\packages`. For a current model with no reasoning metadata, the
+first click now displays the full model-radio list directly. Models that expose
+reasoning metadata retain DSH's Model/Effort root menu. The active cockpit
+served the reviewed client SHA-256
+`ADD6028CF8ED2256E5A05D1B98B24B97A76F93EAD1800D87A6EFDE194BBA3D82`
+at revision `181d51cad54e`; one read-only UI check exposed all 12 models without
+the intermediate row and preserved the checked model.
+
+The canonical profile dependency is `stack\web-profile.package.json`. The
+installer `stack\Install-HaloPickerOverride.ps1` uses an offline,
+lifecycle-script-disabled profile install, creates hash-verified copies of the
+pre-install manifest and lockfile, and verifies the immutable tgz,
+client/index/invariant bytes, package contract, and lockfile integrity binding.
+It fails closed if the reviewed tgz is missing instead of rebuilding it, and
+returns the exact `-RollbackFrom` command. Installation and rollback each
+require a separate, ownership-checked DSH-cockpit-only restart; they do not
+restart LM Studio, the Research Gateway, Mission Control, or Ollama.
 
 ## 1. Source of truth and copy policy
 

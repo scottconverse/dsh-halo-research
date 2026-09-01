@@ -61,7 +61,20 @@ you intentionally want direct/full-access behavior instead of the verified
 local build path.
 
 The model picker changes the model answering the current conversation. It
-does not reproduce the planner/worker/verifier workflow by itself.
+does not reproduce the planner/worker/verifier workflow by itself. On the
+current package, a model with no reasoning controls opens the complete model
+list on the first click. Models with reasoning controls still open the
+Model/Effort menu.
+
+The reviewed picker package is pinned by `stack\web-profile.package.json` and
+installed with `stack\Install-HaloPickerOverride.ps1`. The installer works
+offline with lifecycle scripts disabled, verifies the immutable tgz, all three
+runtime bundles, and its lockfile integrity binding, and reports a
+backup-specific rollback command. It deliberately fails if the reviewed tgz
+is absent; restore that versioned artifact rather than rebuilding it. Do not
+hand-edit pnpm's global store. After install or rollback, restart only the owned
+DSH cockpit tree and use `stack\Launch-Halo.ps1 -NoBrowser`; leave LM Studio,
+the Research Gateway, Mission Control, and Ollama running.
 
 ## What the gate guarantees
 
@@ -162,4 +175,8 @@ Sandbox or model process.
 - Model aliases: `stack\lmstudio-models\halo\...\model.yaml`
 - Launcher: `stack\Launch-Halo.ps1`
 - Supervisor: `stack\Run-HaloCockpit.ps1`
+- Picker profile manifest: `stack\web-profile.package.json`
+- Picker install/rollback: `stack\Install-HaloPickerOverride.ps1`
+- Immutable picker package:
+  `stack\packages\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz`
 - User copy and recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research`

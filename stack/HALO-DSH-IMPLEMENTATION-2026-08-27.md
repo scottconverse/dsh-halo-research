@@ -21,6 +21,49 @@ Definitive configuration record: `HALO-CURRENT-CONFIGURATION.md`.
 > also records the verifier-contract limitation found during independent
 > review.
 
+## 2026-09-01 model-picker correction
+
+DSH `0.1.1-rc.2` returned the complete local model catalog, but a model with
+no reasoning metadata opened an unnecessary intermediate `Model` row before
+showing the choices. The client source now opens the model pane directly when
+`reasoning` is undefined and preserves the existing Model/Effort root menu for
+models that do declare reasoning controls.
+
+Evidence remains separated by layer:
+
+- Source-proven: the focused `model-select.client.spec.tsx` suite passed 6/6,
+  including first-click access to every model radio in a no-reasoning,
+  multi-model catalog and the existing reasoning-menu behavior.
+- Build-proven: the reviewed browser bundle SHA-256 is
+  `ADD6028CF8ED2256E5A05D1B98B24B97A76F93EAD1800D87A6EFDE194BBA3D82`.
+  The immutable package is
+  `stack\packages\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz`,
+  SHA-256
+  `BD1A3AC7F8BD61B23CD4254FD73E538BC55101DE75AD6B599FB5F99CF9AEEF0A`.
+- Live-proven after the separately ownership-checked DSH-only restart: the
+  cockpit returned HTTP 200, advertised picker revision `181d51cad54e`, and
+  served the exact reviewed browser-bundle hash. One click on a no-reasoning
+  session's model trigger exposed all 12 live model radios with no intermediate
+  `Model` row; the checked model remained unchanged.
+
+`stack\web-profile.package.json` pins the web profile's same-name package
+shadow to that tgz. `stack\Install-HaloPickerOverride.ps1` never changes the
+global pnpm store or starts/stops services. It requires the exact reviewed tgz
+to be present and fails closed instead of repacking non-reproducible archive
+bytes. Before a profile install it creates SHA-verified byte copies of
+`package.json` and `pnpm-lock.yaml`; the install is offline with lifecycle
+scripts disabled, verifies the tgz, package contract, client/index/invariant
+hashes, and lockfile integrity binding, and returns the backup-specific
+`-RollbackFrom` command. Rollback creates its own safety backup, restores both
+files exactly, runs an offline frozen-lockfile install with lifecycle scripts
+disabled, and rechecks the prior installed-client hash. Either direction
+requires a separate DSH-cockpit-only restart; LM Studio, the Research Gateway,
+Mission Control, and Ollama are outside that restart scope.
+
+The hardened installer itself is source-validated only in this update: its
+PowerShell AST parse and deterministic flag/hash assertions passed, but it was
+not re-run against the already-active profile.
+
 ## Result
 
 The Halo DSH stack is running. New sessions use the user-owned `halo-orchestrator` preset, the tuned `halo/qwen3.8-27b` alias is the default cockpit, and the tuned `halo/qwen3-coder-30b-a3b` alias is the bulk implementation worker. Native Codex/Claude subscription-backed delegation works. New Halo sessions default to DSH `danger-full-access`. Anonymous Exa MCP search and fetch are available without a DeepSeek or Exa API key. Stage 1 proved both aliases at one 32K slot through the real DSH JIT path. Stage 2 removed the false `medium` declaration and proved that an effort-less DSH request preserves LM Studio's real boolean `on` default, produces a separated reasoning block, and introduces no conversion warning.
