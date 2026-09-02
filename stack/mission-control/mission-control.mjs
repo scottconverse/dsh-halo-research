@@ -11,9 +11,12 @@ import path from 'node:path';
 import net from 'node:net';
 import os from 'node:os';
 import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 
 const execFileP = promisify(execFile);
 const PORT = 3090;
+const SOURCE_FILE = fileURLToPath(import.meta.url);
+const BUILD_SHA256 = crypto.createHash('sha256').update(fs.readFileSync(SOURCE_FILE)).digest('hex').toUpperCase();
 
 // ── safe subprocess execution (no shell) ────────────────────────────────────
 // GATE-2026-08-21 / PE-1 (Blocker): every lms/npx/node call in this file used
@@ -54,6 +57,24 @@ function safeSpawn(which, args, opts = {}) {
   return spawn(exe, args, { ...opts, shell: false });
 }
 
+// Resolve only after Windows confirms that the child really spawned.  A bare
+// detached spawn can emit `error` asynchronously after the request already
+// returned 200, which used to turn a failed launch into a false success (and
+// could crash Mission Control because nobody owned the error event).
+function safeSpawnStarted(which, args, opts = {}) {
+  return new Promise((resolve, reject) => {
+    const child = safeSpawn(which, args, opts);
+    const failed = error => reject(error);
+    child.once('error', failed);
+    child.once('spawn', () => {
+      child.off('error', failed);
+      child.on('error', error => console.error('[mission-control] detached child error:', error));
+      if (opts.detached) child.unref();
+      resolve(child);
+    });
+  });
+}
+
 // ── local request authorization (PE-1 / QA2) ────────────────────────────────
 // Binding to 127.0.0.1 stops remote network attackers but NOT a CSRF request
 // from a page the operator's own browser has open, which is the real vector.
@@ -70,7 +91,18 @@ function actionAuthorized(req) {
   if (tok !== ACTION_TOKEN) return false;
   const origin = req.headers['origin'] || '';
   const referer = req.headers['referer'] || '';
-  const ok = (u) => !u || u.startsWith('http://127.0.0.1:' + PORT) || u.startsWith('http://localhost:' + PORT);
+  if (!origin && !referer) return false;
+  const ok = (value) => {
+    if (!value) return true;
+    try {
+      const candidate = new URL(value);
+      return candidate.protocol === 'http:'
+        && (candidate.hostname === '127.0.0.1' || candidate.hostname === 'localhost')
+        && candidate.port === String(PORT);
+    } catch {
+      return false;
+    }
+  };
   return ok(origin) && ok(referer);
 }
 
@@ -92,6 +124,8 @@ const LMSTUDIO_LOGS = path.join(HOME, '.lmstudio', 'server-logs');
 const LMSTUDIO_VERSION_FILE = path.join(HOME, '.lmstudio', '.internal', 'historical-version-info.json');
 const LM_LINK_ACCOUNT_CACHE = path.join(HOME, '.lmstudio', '.internal', 'lm-link-account-status-cache.json');
 const LMSTUDIO_MODELS_DIR = path.join(HOME, '.lmstudio', 'models');
+const MEMORY_SNAPSHOTS = path.join(HOME, '.dsh', 'memory', 'snapshots');
+const MEMORY_SNAPSHOT_TASK = 'HALO Memory Snapshot';
 // The legacy JavaScript loaders were removed when the measured load envelope
 // moved into LM Studio model.yaml aliases. Mission Control used to keep reading
 // those deleted scripts, which made the real daily pair appear empty and
@@ -128,10 +162,10 @@ const EXE = {
   node: resolveExe('node') || process.execPath,
 };
 // A session that claims to be running but whose durable log has not advanced
-// in this long is STALLED, whatever the harness's own flag says. Five minutes
-// is well past a slow first token at depth (measured worst case 403s) so a
-// healthy deep prefill is not mislabelled.
-const STALL_MS = 5 * 60 * 1000;
+// in this long is STALLED, whatever the harness's own flag says. Ten minutes
+// clears the measured 403 s healthy first-token worst case and matches the
+// minimum safe stream-idle timeout enforced by the settings validator.
+const STALL_MS = 10 * 60 * 1000;
 // GPU carveout sizing must work on ANY box this deploys to (the 5070 Ti port
 // exposed a hardcoded-128-GiB defect: "14.9 / 96.4 GiB carveout" on a 16 GiB
 // discrete card). Primary source: the display driver's own VRAM capacity from
@@ -169,6 +203,349 @@ function gb(bytes) { return Math.round((bytes || 0) / 1e9 * 10) / 10; }
 // drive capacities are marketed in decimal GB.
 function gib(bytes) { return Math.round((bytes || 0) / 1073741824 * 10) / 10; }
 
+/*__DATA_CONTRACT_START__*/
+// Pure data-contract helpers live in this marked block so deterministic tests
+// can execute them without starting Mission Control or touching live services.
+function parseMemoryFile(file) {
+  const entities = [];
+  const relations = [];
+  const relationCandidates = [];
+  const entityNames = new Set();
+  let invalidRecords = 0;
+  let malformedRecords = 0;
+  let duplicateEntities = 0;
+  let danglingRelations = 0;
+  let totalRecords = 0;
+  let mtimeMs = null;
+  try {
+    const text = fs.readFileSync(file, 'utf8');
+    try { mtimeMs = fs.statSync(file).mtimeMs; } catch { /* content is still authoritative */ }
+    for (const line of text.split('\n')) {
+      if (!line.trim()) continue;
+      totalRecords++;
+      let obj;
+      try { obj = JSON.parse(line); }
+      catch { invalidRecords++; malformedRecords++; continue; }
+      if (obj?.type === 'entity') {
+        const valid = typeof obj.name === 'string' && obj.name.trim()
+          && typeof obj.entityType === 'string' && obj.entityType.trim()
+          && Array.isArray(obj.observations)
+          && obj.observations.every(o => typeof o === 'string');
+        if (!valid) { invalidRecords++; continue; }
+        if (entityNames.has(obj.name)) {
+          invalidRecords++;
+          duplicateEntities++;
+          continue;
+        }
+        entityNames.add(obj.name);
+        entities.push({ name: obj.name, entityType: obj.entityType, observations: obj.observations });
+      } else if (obj?.type === 'relation') {
+        const valid = typeof obj.from === 'string' && obj.from.trim()
+          && typeof obj.to === 'string' && obj.to.trim()
+          && typeof obj.relationType === 'string' && obj.relationType.trim();
+        if (!valid) { invalidRecords++; continue; }
+        relationCandidates.push({ from: obj.from, to: obj.to, relationType: obj.relationType });
+      } else {
+        invalidRecords++;
+      }
+    }
+    for (const relation of relationCandidates) {
+      if (!entityNames.has(relation.from) || !entityNames.has(relation.to)) {
+        invalidRecords++;
+        danglingRelations++;
+        continue;
+      }
+      relations.push(relation);
+    }
+    const ok = invalidRecords === 0;
+    const error = ok ? null
+      : [
+          `${invalidRecords} invalid memory record(s)`,
+          malformedRecords ? `${malformedRecords} malformed JSON` : null,
+          duplicateEntities ? `${duplicateEntities} duplicate entity name(s)` : null,
+          danglingRelations ? `${danglingRelations} dangling relation(s)` : null,
+        ].filter(Boolean).join('; ');
+    return {
+      ok, file, error, entities, relations, relationCount: relations.length, totalRecords,
+      invalidRecords, malformedRecords, duplicateEntities, danglingRelations, mtimeMs,
+    };
+  } catch (e) {
+    return {
+      ok: false, file, error: e?.code === 'ENOENT' ? 'not configured' : 'unreadable',
+      entities, relations, relationCount: 0, totalRecords, invalidRecords, malformedRecords,
+      duplicateEntities, danglingRelations, mtimeMs,
+    };
+  }
+}
+
+function selectNewestLogFile(root) {
+  let newest = null;
+  let newestMtime = -Infinity;
+  for (const month of fs.readdirSync(root, { withFileTypes: true })) {
+    if (!month.isDirectory() || !/^\d{4}-\d{2}$/.test(month.name)) continue;
+    const monthDir = path.join(root, month.name);
+    for (const entry of fs.readdirSync(monthDir, { withFileTypes: true })) {
+      if (!entry.isFile() || !entry.name.endsWith('.log')) continue;
+      const file = path.join(monthDir, entry.name);
+      const mtimeMs = fs.statSync(file).mtimeMs;
+      if (mtimeMs > newestMtime || (mtimeMs === newestMtime && file.localeCompare(newest || '') > 0)) {
+        newest = file;
+        newestMtime = mtimeMs;
+      }
+    }
+  }
+  return newest;
+}
+
+function selectDecodeObservation(sessions, previous) {
+  const completed = (sessions || [])
+    .filter(s => s?.decodeTps != null && s.running !== true && s.claimsRunning !== true)
+    .sort((a, b) => (b.mtime || 0) - (a.mtime || 0));
+  const latest = completed[0] || null;
+  if (!latest) {
+    return { decodeTps: null, decodeSourceKey: previous?.decodeSourceKey || null, decodeSourceSession: null, decodeSourceAt: null };
+  }
+  const id = latest.id || latest.sessionId || '?';
+  const decodeSourceKey = `${id}:${latest.mtime || 0}`;
+  return {
+    decodeTps: previous?.decodeSourceKey === decodeSourceKey ? null : latest.decodeTps,
+    decodeSourceKey,
+    decodeSourceSession: id,
+    decodeSourceAt: latest.mtime || null,
+  };
+}
+
+function describeValidationFreshness(validation, now = Date.now()) {
+  const when = Number(validation?.when);
+  if (!Number.isFinite(when) || when <= 0) return { state: 'never', ageMs: null };
+  const ageMs = Math.max(0, now - when);
+  return { state: ageMs > 24 * 3600000 ? 'stale' : 'current', ageMs };
+}
+
+function parseValidationDiagnostics(text, max = 50) {
+  const diagnostics = [];
+  const seen = new Set();
+  for (const raw of String(text || '').split(/\r?\n/)) {
+    const line = raw.replace(/\x1b\[[0-9;]*m/g, '').trim();
+    if (!line) continue;
+    if (!/^(?:\[[^\]]+\]\s*)?(?:warn(?:ing)?|error|fatal|unmatched\b|not found\b)(?:\s*[:\-]|\s+)/i.test(line)) continue;
+    const key = line.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    diagnostics.push(line);
+    if (diagnostics.length >= max) break;
+  }
+  return diagnostics;
+}
+
+function describeRouteRuntime(route, models) {
+  const model = route?.model || null;
+  const configured = route?.provider && model ? `${route.provider}/${model}` : null;
+  const localLlm = (models || []).filter(m => m?.originKind === 'local' && (!m?.type || m.type === 'llm'));
+  let matches = [];
+  let matchBasis = null;
+  if (route?.provider === 'lmstudio' && model) {
+    matches = localLlm.filter(m => m?.identifier === model || m?.modelKey === model);
+    if (matches.length === 1) matchBasis = 'exact key or identifier';
+    else if (matches.length === 0) {
+      // LM Studio's API qualifies catalog routes as publisher/key but its
+      // resident process view can expose the unqualified key as identifier.
+      // Preserve publisher and require an exact, unique qualified tuple;
+      // basename-only matching is unsafe when a Halo alias is also resident.
+      matches = localLlm.filter(m => {
+        if (!m?.publisher) return false;
+        const keys = [m.modelKey, m.identifier].filter(k => k && !String(k).includes('/'));
+        return keys.some(k => `${m.publisher}/${k}` === model);
+      });
+      if (matches.length === 1) matchBasis = 'publisher-qualified resident key';
+    }
+  }
+  const exact = matches.length === 1 ? matches[0] : null;
+  const exactResident = !!exact;
+  return {
+    configured,
+    model,
+    exactResident,
+    exactGenerating: !!exact && exact.status === 'generating',
+    matchedIdentifier: exact?.identifier || null,
+    matchBasis,
+    ambiguous: matches.length > 1,
+    configError: route?.error || null,
+    warning: route?.error || (configured && !exactResident
+      ? (matches.length > 1
+          ? 'configured route matches more than one resident model; residency is ambiguous'
+          : 'configured route is not resident; its next request can load a separate model instance')
+      : null),
+  };
+}
+
+function selectLatestCompletedSession(sessions) {
+  return (sessions || [])
+    .filter(session => session?.decodeTps != null && !session.running && !session.claimsRunning)
+    .sort((a, b) => (b.mtime || 0) - (a.mtime || 0))[0] || null;
+}
+
+function resolveExactResidentRole(role, models) {
+  const matches = (models || []).filter(model => model?.originKind === 'local'
+    && (model.identifier === role?.identifier || model.modelKey === role?.modelKey));
+  return {
+    model: matches.length === 1 ? matches[0] : null,
+    ambiguous: matches.length > 1,
+    matches: matches.map(model => model.identifier),
+  };
+}
+
+function modelStateMatches(models, identifier, shouldBeResident) {
+  const local = (models || []).filter(model => model?.deviceIdentifier == null && model?.originKind !== 'device');
+  const resident = identifier == null
+    ? local.length > 0
+    : local.some(model => model.identifier === identifier);
+  return shouldBeResident ? resident : !resident;
+}
+
+function normalizeHistoryRow(r) {
+  if (!r || !Number.isFinite(Number(r.t))) return null;
+  const hasDecodeProvenance = typeof r.decodeSourceKey === 'string' && r.decodeSourceKey.length > 0;
+  return {
+    t: Number(r.t),
+    // Before the provenance fields existed Mission Control copied the latest
+    // session aggregate into every minute of history. Those legacy numbers are
+    // not individual runs and must never be drawn as throughput observations.
+    decodeTps: hasDecodeProvenance && r.decodeTps != null && r.decodeTps !== ''
+      && Number.isFinite(Number(r.decodeTps)) ? Number(r.decodeTps) : null,
+    decodeSourceKey: hasDecodeProvenance ? r.decodeSourceKey : null,
+    decodeSourceSession: hasDecodeProvenance ? (r.decodeSourceSession ?? null) : null,
+    decodeSourceAt: hasDecodeProvenance ? (r.decodeSourceAt ?? null) : null,
+    winFree: r.winFreeGiB ?? r.winFreeGB ?? null,
+    gpuDed: r.gpuDedGiB ?? r.gpuDedGB ?? null,
+    gpuShared: r.gpuSharedGiB ?? r.gpuSharedGB ?? null,
+  };
+}
+
+function pruneHistoryLines(lines, now = Date.now(), retainMs = 8 * 24 * 3600000) {
+  const cutoff = now - retainMs;
+  return (lines || []).filter(line => {
+    try {
+      const row = JSON.parse(line);
+      return Number.isFinite(Number(row?.t)) && Number(row.t) >= cutoff;
+    } catch {
+      return false;
+    }
+  });
+}
+
+function parseGpuCounterOutput(stdout) {
+  let dedicatedBytes = 0;
+  let sharedBytes = 0;
+  let dedicatedCount = 0;
+  let sharedCount = 0;
+  for (const line of String(stdout || '').split('\n')) {
+    const parts = line.trim().split('|');
+    if (parts.length !== 3) continue;
+    const counterPath = parts[0].toLowerCase();
+    const value = Number(parts[2]);
+    if (!Number.isFinite(value) || value < 0) continue;
+    if (counterPath.includes('dedicated usage')) { dedicatedBytes += value; dedicatedCount++; }
+    else if (counterPath.includes('shared usage')) { sharedBytes += value; sharedCount++; }
+  }
+  if (dedicatedCount === 0 || sharedCount === 0) throw new Error('GPU counter query did not return both dedicated and shared samples');
+  return { dedicatedBytes, sharedBytes, dedicatedCount, sharedCount };
+}
+
+function describeFileFreshness(mtimeMs, now = Date.now(), staleAfterMs = 24 * 3600000) {
+  const value = Number(mtimeMs);
+  if (!Number.isFinite(value) || value <= 0) return { state: 'unknown', ageMs: null };
+  const ageMs = Math.max(0, now - value);
+  return { state: ageMs > staleAfterMs ? 'stale' : 'current', ageMs };
+}
+
+function downsampleHistoryRows(rows, maxPoints = 400) {
+  if (!Array.isArray(rows) || rows.length <= maxPoints) return rows || [];
+  const observations = rows.filter(r => r?.decodeTps != null);
+  if (observations.length >= maxPoints) return observations.slice(-maxPoints);
+  const observationSet = new Set(observations);
+  const resourceRows = rows.filter(r => !observationSet.has(r));
+  const budget = maxPoints - observations.length;
+  const sampled = [];
+  if (budget === 1 && resourceRows.length) {
+    sampled.push(resourceRows[resourceRows.length - 1]);
+  } else if (budget > 1 && resourceRows.length) {
+    for (let i = 0; i < budget; i++) {
+      const at = Math.round(i * (resourceRows.length - 1) / (budget - 1));
+      if (resourceRows[at] && sampled[sampled.length - 1] !== resourceRows[at]) sampled.push(resourceRows[at]);
+    }
+  }
+  return sampled.concat(observations).sort((a, b) => a.t - b.t);
+}
+
+function summarizeStalledSessions(sessions, limit = 12) {
+  const stalled = (sessions || []).filter(s => s?.stalled);
+  return {
+    inventoryCount: (sessions || []).length,
+    count: stalled.length,
+    items: stalled.slice(0, limit).map(s => ({
+      id: s.id, sessionId: s.sessionId, title: s.title, stalledMs: s.stalledMs,
+    })),
+  };
+}
+
+function describeCacheState(cache, now = Date.now()) {
+  const sampledAt = Number(cache?.sampledAt || cache?.at) || null;
+  const ageMs = sampledAt == null ? null : Math.max(0, now - sampledAt);
+  const dataAvailable = cache?.pluginEntries != null || cache?.dataAvailable === true;
+  return {
+    state: cache?.ok ? 'current' : (dataAvailable ? 'stale' : 'unavailable'),
+    stale: !cache?.ok && dataAvailable,
+    sampledAt,
+    ageMs,
+    error: cache?.error || null,
+  };
+}
+
+function describeMuxState(connected, jobs, queues, visibleSessionIds) {
+  const visible = new Set(visibleSessionIds || []);
+  const include = id => visible.size === 0 || visible.has(id);
+  const rawActive = [...(jobs || new Map()).entries()].filter(([id]) => include(id)).flatMap(([sid, list]) =>
+    (list || []).map(j => ({
+      session: sid.replace(/^session-/, '').slice(0, 8),
+      id: j.jobId || j.id || '?', kind: j.kind || '', state: j.state || j.status || (j.running ? 'running' : ''),
+    })));
+  const rawQueued = [...(queues || new Map()).entries()].filter(([id]) => include(id)).reduce((sum, [, count]) => sum + (count || 0), 0);
+  return {
+    active: connected ? rawActive : [],
+    queuedInputs: connected ? rawQueued : 0,
+    dataStale: !connected && (rawActive.length > 0 || rawQueued > 0),
+    staleActiveCount: !connected ? rawActive.length : 0,
+    staleQueuedInputs: !connected ? rawQueued : 0,
+  };
+}
+
+function readSnapshotCadence(snapshotDir, now = Date.now(), intervalMs = 3600000, graceMs = 15 * 60000) {
+  let newest = null;
+  let count = 0;
+  try {
+    for (const entry of fs.readdirSync(snapshotDir, { withFileTypes: true })) {
+      if (!entry.isFile()) continue;
+      const m = entry.name.match(/^memory-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})\.json$/);
+      if (!m) continue;
+      const at = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]), Number(m[6])).getTime();
+      if (!Number.isFinite(at)) continue;
+      count++;
+      if (!newest || at > newest.at) newest = { at, file: path.join(snapshotDir, entry.name) };
+    }
+  } catch (e) {
+    return { ok: false, error: e?.code === 'ENOENT' ? 'not configured' : 'unreadable', count: 0, lastSnapshotAt: null, nextExpectedAt: null, ageMs: null, overdue: null, file: null };
+  }
+  if (!newest) return { ok: false, error: 'no snapshots', count: 0, lastSnapshotAt: null, nextExpectedAt: null, ageMs: null, overdue: null, file: null };
+  const ageMs = Math.max(0, now - newest.at);
+  return {
+    ok: true, error: null, count, lastSnapshotAt: new Date(newest.at).toISOString(),
+    nextExpectedAt: new Date(newest.at + intervalMs).toISOString(), ageMs,
+    overdue: ageMs > intervalMs + graceMs, file: newest.file,
+  };
+}
+/*__DATA_CONTRACT_END__*/
+
 // ─────────────────────────── lms CLI surfaces ───────────────────────────
 
 async function lmsPs() {
@@ -176,6 +553,70 @@ async function lmsPs() {
     const { stdout } = await safeExecFile('lms', ['ps', '--json'], { timeout: 8000 });
     return JSON.parse(stdout || '[]');
   } catch { return null; }
+}
+
+async function waitForModelState(identifier, shouldBeResident, timeoutMs = 120000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() <= deadline) {
+    const models = await lmsPs();
+    if (models !== null && modelStateMatches(models, identifier, shouldBeResident)) return models;
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  const expected = shouldBeResident ? 'resident' : 'absent';
+  throw new Error(`LM Studio did not corroborate ${identifier || 'all local models'} as ${expected} within ${Math.round(timeoutMs / 1000)} seconds`);
+}
+
+async function runLmsMutation(args, identifier, shouldBeResident, timeoutMs = 120000) {
+  const { stdout = '', stderr = '' } = await safeExecFile('lms', args, {
+    timeout: timeoutMs,
+    maxBuffer: 16 * 1024 * 1024,
+  });
+  await waitForModelState(identifier, shouldBeResident, timeoutMs);
+  return { stdout, stderr };
+}
+
+const snapshotTaskCache = { at: 0, value: null };
+async function memorySnapshotTaskState(now = Date.now()) {
+  if (snapshotTaskCache.value && now - snapshotTaskCache.at < 60000) return snapshotTaskCache.value;
+  const script = [
+    "$t=Get-ScheduledTask -TaskName 'HALO Memory Snapshot' -ErrorAction SilentlyContinue",
+    "if ($null -eq $t) { [pscustomobject]@{configured=$false; state=$null; lastRunTime=$null; nextRunTime=$null; lastTaskResult=$null} | ConvertTo-Json -Compress; exit 0 }",
+    '$i=$t | Get-ScheduledTaskInfo -ErrorAction SilentlyContinue',
+    '$last=if ($null -ne $i.LastRunTime) { $i.LastRunTime.ToUniversalTime().ToString("o") } else { $null }',
+    '$next=if ($null -ne $i.NextRunTime) { $i.NextRunTime.ToUniversalTime().ToString("o") } else { $null }',
+    '[pscustomobject]@{configured=$true; state=[string]$t.State; lastRunTime=$last; nextRunTime=$next; lastTaskResult=$i.LastTaskResult} | ConvertTo-Json -Compress',
+  ].join('; ');
+  let value;
+  try {
+    const { stdout } = await execFileP('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], {
+      timeout: 8000,
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+    });
+    const parsed = JSON.parse(stdout.trim());
+    value = {
+      taskName: MEMORY_SNAPSHOT_TASK,
+      configured: parsed.configured === true,
+      state: parsed.state || null,
+      lastRunTime: parsed.lastRunTime || null,
+      nextRunTime: parsed.nextRunTime || null,
+      lastTaskResult: parsed.lastTaskResult ?? null,
+      error: null,
+    };
+  } catch (error) {
+    value = {
+      taskName: MEMORY_SNAPSHOT_TASK,
+      configured: false,
+      state: null,
+      lastRunTime: null,
+      nextRunTime: null,
+      lastTaskResult: null,
+      error: `scheduled-task state unavailable: ${String(error?.message || error).slice(0, 200)}`,
+    };
+  }
+  snapshotTaskCache.at = now;
+  snapshotTaskCache.value = value;
+  return value;
 }
 
 async function lmsLs() {
@@ -308,14 +749,22 @@ function resolveOrigin(identifier, modelKey, deviceIdentifier, deviceMap) {
 function readLmLinkAccountCache() {
   try {
     const raw = JSON.parse(fs.readFileSync(LM_LINK_ACCOUNT_CACHE, 'utf8'));
+    const mtimeMs = fs.statSync(LM_LINK_ACCOUNT_CACHE).mtimeMs;
     const j = raw.json || raw; // observed on-disk shape: {"json": {...}}
     return {
       ok: true,
       accountStatus: j.accountStatus ?? null,
       maxDevicesAllowed: j.maxDevicesAllowed ?? null,
       currentDeviceCount: j.currentDeviceCount ?? null,
+      mtimeMs,
+      freshness: describeFileFreshness(mtimeMs),
     };
-  } catch { return { ok: false, accountStatus: null, maxDevicesAllowed: null, currentDeviceCount: null }; }
+  } catch {
+    return {
+      ok: false, accountStatus: null, maxDevicesAllowed: null, currentDeviceCount: null,
+      mtimeMs: null, freshness: describeFileFreshness(null),
+    };
+  }
 }
 
 // ─────────────────────────── dsh cockpit RPC ───────────────────────────
@@ -422,9 +871,18 @@ function classifyPluginEntries(entries) {
 // Slow-changing pulls, cached ~30 s: presets + full plugin inventory. Both the
 // summary strip and the /api/plugins tab endpoint read off this same cache so
 // switching tabs doesn't double-hit the cockpit.
-const slowCache = { at: 0, presets: null, pluginEntries: null, pluginSummary: null, pluginById: null };
+const slowCache = {
+  at: 0, sampledAt: 0, attemptedAt: 0, ok: false, error: null,
+  presets: null, pluginEntries: null, pluginSummary: null, pluginById: null,
+};
+function slowCacheView(now = Date.now(), unavailableError = null) {
+  const state = describeCacheState({ ...slowCache, ok: unavailableError ? false : slowCache.ok, error: unavailableError || slowCache.error }, now);
+  return { ...slowCache, ...state };
+}
 async function slowPulls() {
-  if (Date.now() - slowCache.at < 30000 && slowCache.pluginEntries) return slowCache;
+  const now = Date.now();
+  if (now - slowCache.attemptedAt < 30000 && slowCache.attemptedAt) return slowCacheView(now);
+  slowCache.attemptedAt = now;
   try {
     const [pr, pi] = await Promise.all([dshRpc('agentPreset.list'), dshRpc('pluginInventory/list')]);
     slowCache.presets = (pr.presets || []).map(p => ({ id: p.id, trust: p.trust, isDefault: !!p.isDefault, broken: p.broken || null, name: p.name || p.id }));
@@ -433,9 +891,17 @@ async function slowPulls() {
     const { byId, summary } = classifyPluginEntries(entries);
     slowCache.pluginById = byId;
     slowCache.pluginSummary = summary;
-    slowCache.at = Date.now();
-  } catch { /* keep last good cache; dsh may be down */ }
-  return slowCache;
+    slowCache.at = now;
+    slowCache.sampledAt = now;
+    slowCache.ok = true;
+    slowCache.error = null;
+  } catch (e) {
+    // Retain the last good inventory for diagnosis, but mark it stale. A stale
+    // snapshot is useful; presenting it as a fresh green health signal is not.
+    slowCache.ok = false;
+    slowCache.error = String(e?.message || e || 'DSH inventory refresh failed').slice(0, 300);
+  }
+  return slowCacheView(now);
 }
 
 // Persistent mux stream: one connection carries session/jobs (and queue)
@@ -448,15 +914,27 @@ function muxConnect() {
   let ws;
   try { ws = new WebSocket('ws://127.0.0.1:3080/api/events.mux'); }
   catch { setTimeout(muxConnect, 10000); return; }
-  ws.onopen = () => { mux.connected = true; };
+  ws.onopen = () => {
+    // A new subscription generation must earn a fresh snapshot. Carrying maps
+    // across reconnects made completed jobs look active indefinitely.
+    mux.connected = true;
+    mux.jobs.clear();
+    mux.queues.clear();
+  };
   ws.onmessage = (e) => {
     try {
       const frame = JSON.parse(String(e.data));
       mux.lastFrameAt = Date.now();
       const m = frame.method;
       const p = frame.payload || {};
-      if (m === 'session/jobs' && p.sessionId) mux.jobs.set(p.sessionId, p.jobs || p.items || []);
-      if (m === 'session/queue' && p.sessionId) mux.queues.set(p.sessionId, (p.queue || p.items || []).length);
+      if (m === 'session/jobs' && p.sessionId) {
+        const jobs = p.jobs || p.items || [];
+        if (jobs.length) mux.jobs.set(p.sessionId, jobs); else mux.jobs.delete(p.sessionId);
+      }
+      if (m === 'session/queue' && p.sessionId) {
+        const count = (p.queue || p.items || []).length;
+        if (count) mux.queues.set(p.sessionId, count); else mux.queues.delete(p.sessionId);
+      }
     } catch { /* ignore malformed frame */ }
   };
   const down = () => { mux.connected = false; setTimeout(muxConnect, 10000); };
@@ -560,7 +1038,10 @@ function listSessionsScrape(limit = 50) {
 // Shared 4 s cache so /api/status and /api/sessions don't double-hit dsh.
 const sessionsCache = { at: 0, sessions: null, source: null };
 async function getSessions(dshUp, limit = 50) {
-  if (Date.now() - sessionsCache.at < 4000 && sessionsCache.sessions) {
+  const cacheMatchesAvailability = dshUp
+    ? sessionsCache.source === 'dsh api'
+    : sessionsCache.source === 'disk scan (dsh down)';
+  if (Date.now() - sessionsCache.at < 4000 && sessionsCache.sessions && cacheMatchesAvailability) {
     return { ...sessionsCache, sessions: sessionsCache.sessions.slice(0, limit) };
   }
   let sessions, source;
@@ -588,35 +1069,6 @@ function todayStats(sessions) {
 }
 
 // ─────────────────────────── memory graph ───────────────────────────
-
-function parseMemoryFile() {
-  const entities = [];
-  const relations = [];
-  try {
-    const lines = fs.readFileSync(MEMORY_FILE, 'utf8').split('\n');
-    for (const line of lines) {
-      if (!line.trim()) continue;
-      let obj;
-      try { obj = JSON.parse(line); } catch { continue; }
-      if (obj.type === 'entity') entities.push({ name: obj.name, entityType: obj.entityType, observations: obj.observations || [] });
-      else if (obj.type === 'relation') relations.push({ from: obj.from, to: obj.to, relationType: obj.relationType });
-    }
-    return { ok: true, file: MEMORY_FILE, entities, relations, relationCount: relations.length };
-  } catch (e) {
-    return { ok: false, file: MEMORY_FILE, error: e?.code === 'ENOENT' ? 'not configured' : 'unreadable', entities, relations, relationCount: 0 };
-  }
-}
-
-function monitorDue(entities) {
-  const mon = entities.find(e => e.name === 'halo-monitor-state');
-  const obs = mon?.observations?.find(o => /^Last scan:/i.test(o));
-  const m = obs && obs.match(/Last scan:\s*(\d{4}-\d{2}-\d{2})/);
-  if (!m) return { lastScanDate: null, dueDate: null, dueInDays: null };
-  const last = new Date(m[1] + 'T00:00:00');
-  const due = new Date(last.getTime() + 7 * 86400000);
-  const dueInDays = Math.round((due.getTime() - Date.now()) / 86400000);
-  return { lastScanDate: m[1], dueDate: due.toISOString().slice(0, 10), dueInDays };
-}
 
 // entryIds patched at the *top level* of cordis.patch.yml (column-0 "- id:"
 // lines only — nested ones under "- insert:" blocks are not machine-level
@@ -686,26 +1138,26 @@ function entryInstanceSuffix(entryId) {
 
 // ─────────────────────────── GPU / disk / ram ───────────────────────────
 
-const gpuCache = { at: 0, dedicatedBytes: 0, sharedBytes: 0, ok: false };
+const gpuCache = { at: 0, sampledAt: null, dedicatedBytes: null, sharedBytes: null, ok: false, error: null };
 async function gpuMemory() {
   if (Date.now() - gpuCache.at < 10000 && gpuCache.at) return gpuCache;
   try {
     const cmd = "(Get-Counter '\\GPU Adapter Memory(*)\\Dedicated Usage','\\GPU Adapter Memory(*)\\Shared Usage').CounterSamples | ForEach-Object { '{0}|{1}|{2}' -f $_.Path, $_.InstanceName, $_.CookedValue }";
     const { stdout } = await execFileP('powershell.exe', ['-NoProfile', '-Command', cmd], { timeout: 8000 });
-    let dedicated = 0, shared = 0;
-    for (const line of stdout.split('\n')) {
-      const parts = line.trim().split('|');
-      if (parts.length !== 3) continue;
-      const p = parts[0].toLowerCase();
-      const val = parseFloat(parts[2]) || 0;
-      if (p.includes('dedicated usage')) dedicated += val;
-      else if (p.includes('shared usage')) shared += val;
-    }
-    gpuCache.dedicatedBytes = dedicated;
-    gpuCache.sharedBytes = shared;
+    const counters = parseGpuCounterOutput(stdout);
+    gpuCache.dedicatedBytes = counters.dedicatedBytes;
+    gpuCache.sharedBytes = counters.sharedBytes;
     gpuCache.ok = true;
     gpuCache.at = Date.now();
-  } catch { gpuCache.ok = false; gpuCache.at = Date.now(); }
+    gpuCache.sampledAt = gpuCache.at;
+    gpuCache.error = null;
+  } catch (e) {
+    gpuCache.dedicatedBytes = null;
+    gpuCache.sharedBytes = null;
+    gpuCache.ok = false;
+    gpuCache.error = String(e?.message || e || 'GPU counter read failed').slice(0, 300);
+    gpuCache.at = Date.now();
+  }
   return gpuCache;
 }
 
@@ -748,21 +1200,30 @@ function writeState(patch) {
 async function appendHistory() {
   try {
     const [gpu, sess] = await Promise.all([gpuMemory(), getSessions(await tcpCheck(3080), 50)]);
-    const withStats = (sess.sessions || []).filter(s => s.decodeTps != null).sort((a, b) => b.mtime - a.mtime);
-    const decodeTps = withStats.length ? withStats[0].decodeTps : null;
+    if (!historyObservationState.initialized) {
+      historyObservationState.decodeSourceKey = readHistorySpark(1)[0]?.decodeSourceKey || null;
+      historyObservationState.initialized = true;
+    }
+    const observation = selectDecodeObservation(sess.sessions || [], historyObservationState);
+    historyObservationState.decodeSourceKey = observation.decodeSourceKey;
     const row = {
       t: Date.now(),
-      decodeTps,
+      ...observation,
       winFreeGiB: gib(os.freemem()),
-      gpuDedGiB: gib(gpu.dedicatedBytes),
-      gpuSharedGiB: gib(gpu.sharedBytes),
+      gpuDedGiB: gpu.ok ? gib(gpu.dedicatedBytes) : null,
+      gpuSharedGiB: gpu.ok ? gib(gpu.sharedBytes) : null,
     };
     fs.mkdirSync(MC_DIR, { recursive: true });
     fs.appendFileSync(HISTORY_FILE, JSON.stringify(row) + '\n');
     const lines = fs.readFileSync(HISTORY_FILE, 'utf8').split('\n').filter(Boolean);
-    if (lines.length > 6000) fs.writeFileSync(HISTORY_FILE, lines.slice(-5000).join('\n') + '\n');
+    const retained = pruneHistoryLines(lines);
+    // Eight days safely covers the UI's seven-day range even across DST and
+    // poll jitter. Time, not row count, is the contract.
+    if (retained.length !== lines.length) fs.writeFileSync(HISTORY_FILE, retained.join('\n') + '\n');
   } catch { /* best effort, never crash the poller */ }
 }
+
+const historyObservationState = { initialized: false, decodeSourceKey: null };
 
 // Time-series for the vitals chart. Field names drifted mid-collection
 // (winFreeGB -> winFreeGiB etc.) — accept both rather than losing the older
@@ -776,26 +1237,20 @@ function readHistoryRange(sinceMs, maxPoints = 400) {
       let r;
       try { r = JSON.parse(line); } catch { continue; }
       if (!r.t || r.t < sinceMs) continue;
-      rows.push({
-        t: r.t,
-        decodeTps: r.decodeTps ?? null,
-        winFree: r.winFreeGiB ?? r.winFreeGB ?? null,
-        gpuDed: r.gpuDedGiB ?? r.gpuDedGB ?? null,
-        gpuShared: r.gpuSharedGiB ?? r.gpuSharedGB ?? null,
-      });
+      const normalized = normalizeHistoryRow(r);
+      if (normalized) rows.push(normalized);
     }
-    if (rows.length <= maxPoints) return rows;
-    const stride = Math.ceil(rows.length / maxPoints);
-    const out = rows.filter((_, i) => i % stride === 0);
-    if (out[out.length - 1] !== rows[rows.length - 1]) out.push(rows[rows.length - 1]);
-    return out;
+    return downsampleHistoryRows(rows, maxPoints);
   } catch { return []; }
 }
 
 function readHistorySpark(n = 40) {
   try {
     const lines = fs.readFileSync(HISTORY_FILE, 'utf8').split('\n').filter(Boolean).slice(-n);
-    return lines.map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+    return lines.map(l => {
+      try { return normalizeHistoryRow(JSON.parse(l)); }
+      catch { return null; }
+    }).filter(Boolean);
   } catch { return []; }
 }
 
@@ -814,85 +1269,114 @@ function directoryUsage(root) {
   catch { return { ok: false, bytes: 0, files: 0 }; }
 }
 
+function configuredRouteData() {
+  try { return parseAgentDefaultRoute(fs.readFileSync(path.join(HOME, '.dsh', 'settings.yaml'), 'utf8')); }
+  catch (error) {
+    return {
+      provider: null,
+      model: null,
+      reasoningEffort: null,
+      error: error?.code === 'ENOENT' ? 'settings.yaml is not configured' : 'settings.yaml is unreadable',
+    };
+  }
+}
+
 async function catalog() {
   const [lsAll, psAll, linkStatus] = await Promise.all([lmsLs(), lmsPs(), getLinkStatus()]);
-  if (lsAll === null) return { error: true, catalog: [], totalGB: 0 };
+  if (lsAll === null || psAll === null) return { error: true, catalog: [], totalGB: 0 };
   const deviceMap = buildDeviceMap(linkStatus);
-  const loadedByPath = new Map((psAll || []).map(m => [m.path, m]));
-  const rows = lsAll.map(m => {
-    const loaded = loadedByPath.get(m.path) || (psAll || []).find(p => p.modelKey === m.modelKey && p.deviceIdentifier === m.deviceIdentifier) || null;
-    // lms ls is fleet-merged. Its deviceIdentifier is therefore required even
-    // for unloaded rows; leaving Origin blank made remote peer catalogs look
-    // like stale local files and exposed a bogus local Load button.
-    const origin = resolveOrigin(loaded?.identifier || null, m.modelKey, m.deviceIdentifier, deviceMap);
-    return {
-      modelKey: m.modelKey,
-      displayName: m.displayName,
-      publisher: m.publisher,
-      path: m.path,
-      architecture: m.architecture,
-      paramsString: m.paramsString,
-      quant: m.quantization?.name || '?',
-      sizeGB: gb(m.sizeBytes),
-      maxContextLength: m.maxContextLength || null,
-      loaded: !!loaded,
-      identifier: loaded?.identifier || null,
-      status: loaded?.status || null,
-      contextLength: loaded?.contextLength || null,
-      ttlMs: loaded?.ttlMs ?? null,
-      lastUsedTime: loaded?.lastUsedTime ?? null,
-      queued: loaded?.queued ?? null,
-      parallel: loaded?.parallel ?? null,
-      origin: origin.label,
-      originKind: origin.kind,
-      deviceId: origin.deviceId || null,
-    };
+  const residentsByEntry = new Map(lsAll.map(model => [model, []]));
+  const matchedResidents = new Set();
+  for (const resident of psAll) {
+    const sameDevice = lsAll.filter(model => (model.deviceIdentifier ?? null) === (resident.deviceIdentifier ?? null));
+    let matches = sameDevice.filter(model => model.modelKey && model.modelKey === resident.modelKey);
+    if (!matches.length) matches = sameDevice.filter(model => model.modelKey && model.modelKey === resident.identifier);
+    // A file path can be shared by several aliases or by peer machines. Use it
+    // only when it identifies one catalog entry on the resident's own device.
+    if (!matches.length && resident.path) matches = sameDevice.filter(model => model.path === resident.path);
+    if (matches.length === 1) {
+      residentsByEntry.get(matches[0]).push(resident);
+      matchedResidents.add(resident);
+    }
+  }
+  const rows = lsAll.flatMap(m => {
+    const residents = residentsByEntry.get(m);
+    return (residents.length ? residents : [null]).map(loaded => {
+      // lms ls is fleet-merged. Its deviceIdentifier is therefore required even
+      // for unloaded rows; leaving Origin blank made remote peer catalogs look
+      // like stale local files and exposed a bogus local Load button.
+      const origin = resolveOrigin(loaded?.identifier || null, m.modelKey, m.deviceIdentifier, deviceMap);
+      return {
+        modelKey: m.modelKey,
+        displayName: m.displayName,
+        publisher: m.publisher,
+        path: m.path,
+        architecture: m.architecture,
+        paramsString: m.paramsString,
+        quant: m.quantization?.name || '?',
+        sizeGB: gb(m.sizeBytes),
+        maxContextLength: m.maxContextLength || null,
+        loaded: !!loaded,
+        identifier: loaded?.identifier || null,
+        residentModelKey: loaded?.modelKey || null,
+        status: loaded?.status || null,
+        contextLength: loaded?.contextLength || null,
+        ttlMs: loaded?.ttlMs ?? null,
+        lastUsedTime: loaded?.lastUsedTime ?? null,
+        queued: loaded?.queued ?? null,
+        parallel: loaded?.parallel ?? null,
+        origin: origin.label,
+        originKind: origin.kind,
+        deviceId: origin.deviceId || null,
+      };
+    });
   });
   // Any loaded model somehow missing from `ls` (shouldn't normally happen, but
   // don't silently drop it) gets appended flagged loaded-only.
-  const seenKeys = new Set(rows.map(r => r.modelKey));
-  for (const m of (psAll || [])) {
-    if (seenKeys.has(m.modelKey)) continue;
+  for (const m of psAll) {
+    if (matchedResidents.has(m)) continue;
     const origin = resolveOrigin(m.identifier, m.modelKey, m.deviceIdentifier, deviceMap);
     rows.push({
       modelKey: m.modelKey, displayName: m.displayName, publisher: m.publisher, path: m.path,
       architecture: m.architecture, paramsString: m.paramsString, quant: m.quantization?.name || '?',
       sizeGB: gb(m.sizeBytes), maxContextLength: m.maxContextLength || null, loaded: true,
-      identifier: m.identifier, status: m.status, contextLength: m.contextLength, ttlMs: m.ttlMs,
+      identifier: m.identifier, residentModelKey: m.modelKey, status: m.status, contextLength: m.contextLength, ttlMs: m.ttlMs,
       lastUsedTime: m.lastUsedTime, queued: m.queued, parallel: m.parallel, loadedOnly: true,
-      origin: origin.label, originKind: origin.kind,
+      origin: origin.label, originKind: origin.kind, deviceId: origin.deviceId || null,
     });
   }
   rows.sort((a, b) => (b.loaded - a.loaded) || a.displayName.localeCompare(b.displayName));
-  const localRows = rows.filter(r => r.originKind === 'local');
-  const fleetRows = rows.filter(r => r.originKind === 'device' || r.originKind === 'unknown');
+  // Catalog totals count addressable entries, not the expanded resident rows:
+  // one available model may have several separately loaded instances.
+  const localEntries = lsAll.filter(m => m.deviceIdentifier == null);
+  const fleetEntries = lsAll.filter(m => m.deviceIdentifier != null);
   const disk = directoryUsage(LMSTUDIO_MODELS_DIR);
   return {
     error: false,
     catalog: rows,
-    localCount: localRows.length,
-    fleetCount: fleetRows.length,
+    localCount: localEntries.length,
+    fleetCount: fleetEntries.length,
     localDiskGiB: disk.ok ? gib(disk.bytes) : null,
     localDiskFiles: disk.ok ? disk.files : null,
     // Addressable totals include model.yaml aliases that share base weights;
     // never present this number as physical disk use.
-    localAddressableGB: Math.round(localRows.reduce((a, m) => a + (m.sizeGB || 0), 0) * 10) / 10,
-    fleetCatalogGB: Math.round(fleetRows.reduce((a, m) => a + (m.sizeGB || 0), 0) * 10) / 10,
+    localAddressableGB: Math.round(localEntries.reduce((a, m) => a + gb(m.sizeBytes), 0) * 10) / 10,
+    fleetCatalogGB: Math.round(fleetEntries.reduce((a, m) => a + gb(m.sizeBytes), 0) * 10) / 10,
   };
 }
 
 // ─────────────────────────── status() — the 5 s poll ───────────────────────────
 
 async function status() {
-  const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus] = await Promise.all([
-    tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(),
+  const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus, snapshotTask] = await Promise.all([
+    tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(),
   ]);
   // Today totals and context selection need the complete session inventory,
   // not whichever 50 happen to sort first. The UI still renders a short slice.
   const sc = await getSessions(dshUp, 500);
-  const slow = dshUp ? await slowPulls() : slowCache;
-  const mem = parseMemoryFile();
-  const due = monitorDue(mem.entities);
+  const slow = dshUp ? await slowPulls() : slowCacheView(Date.now(), 'DSH port unavailable');
+  const mem = parseMemoryFile(MEMORY_FILE);
+  const snapshots = readSnapshotCadence(MEMORY_SNAPSHOTS);
   const today = todayStats(sc.sessions || []);
   const deviceMap = buildDeviceMap(linkStatus);
   const modelsWithOrigin = (models || []).map(m => {
@@ -900,6 +1384,8 @@ async function status() {
     return {
       identifier: m.identifier,
       modelKey: m.modelKey,
+      publisher: m.publisher || null,
+      type: m.type || null,
       quant: m.quantization?.name || '?',
       context: m.contextLength,
       status: m.status,
@@ -908,10 +1394,27 @@ async function status() {
       gb: gb(m.sizeBytes),
       origin: origin.label,
       originKind: origin.kind,
+      deviceId: origin.deviceId || null,
     };
   });
   const unknownOrigin = modelsWithOrigin.filter(m => m.originKind === 'unknown');
   const accountCache = readLmLinkAccountCache();
+  const stalledSessions = summarizeStalledSessions(sc.sessions || []);
+  const routeRuntime = describeRouteRuntime(configuredRouteData(), modelsWithOrigin);
+  const profiles = roleProfiles();
+  const brainRole = resolveExactResidentRole(profiles.brain, modelsWithOrigin);
+  const workerRole = resolveExactResidentRole(profiles.worker, modelsWithOrigin);
+  const residentRoles = {
+    brain: brainRole.model,
+    worker: workerRole.model,
+    ambiguous: {
+      brain: brainRole.ambiguous ? brainRole.matches : [],
+      worker: workerRole.ambiguous ? workerRole.matches : [],
+    },
+  };
+  residentRoles.other = modelsWithOrigin.filter(m =>
+    m.originKind === 'local' && m !== residentRoles.brain && m !== residentRoles.worker);
+  const muxState = describeMuxState(mux.connected, mux.jobs, mux.queues, (sc.sessions || []).map(s => s.sessionId));
 
   const engineStr = runtime?.selected ? `${runtime.selected.name}@${runtime.selected.version}` : null;
   const state = readState();
@@ -928,6 +1431,7 @@ async function status() {
     : (apuDiff >= 8 * 1073741824 ? apuDiff : null);
 
   return {
+    build: { sourceFile: SOURCE_FILE, sourceSha256: BUILD_SHA256 },
     time: new Date().toISOString(),
     node: process.version,
     services: {
@@ -954,7 +1458,9 @@ async function status() {
       unknownOriginGenerating: unknownOrigin.filter(m => m.status === 'generating').map(m => m.identifier),
     },
     sessions: (sc.sessions || []).slice(0, 8),
+    latestCompletedRun: selectLatestCompletedSession(sc.sessions || []),
     sessionsSource: sc.source,
+    stalledSessions,
     // Context warning for work that is actually live/recent. The old reduction
     // ranged over every retained session, so a dormant 97%-full experiment from
     // days ago kept the global strip red forever. Historical fill remains on
@@ -968,19 +1474,39 @@ async function status() {
       return { worstPct: worst.ctxPct, worstTitle: worst.title || worst.id, worstId: worst.id, scope: 'running or updated within 15 minutes' };
     })(),
     today,
-    presets: dshUp ? slow.presets : null,
-    plugins: dshUp ? slow.pluginSummary : null,
+    presets: slow.presets,
+    plugins: slow.pluginSummary ? {
+      ...slow.pluginSummary, stale: slow.stale, cacheState: slow.state,
+      sampledAt: slow.sampledAt || null, sourceAgeMs: slow.ageMs, refreshError: slow.error,
+    } : null,
+    dshData: { available: dshUp, cacheState: slow.state, stale: slow.stale, sampledAt: slow.sampledAt || null, sourceAgeMs: slow.ageMs, error: slow.error },
+    routeRuntime,
+    residentRoles,
     jobs: {
       streamConnected: mux.connected,
       lastFrameAgeS: mux.lastFrameAt ? Math.round((Date.now() - mux.lastFrameAt) / 1000) : null,
-      active: [...mux.jobs.entries()].flatMap(([sid, list]) => (list || []).map(j => ({
-        session: sid.replace(/^session-/, '').slice(0, 8),
-        id: j.jobId || j.id || '?', kind: j.kind || '', state: j.state || j.status || (j.running ? 'running' : ''),
-      }))),
-      queuedInputs: [...mux.queues.values()].reduce((a, b) => a + b, 0),
+      ...muxState,
     },
-    memory: { ok: mem.ok, error: mem.error || null, file: mem.file, entities: mem.entities.length, tripwire: MEMORY_ENTITY_TRIPWIRE, ...due },
-    loaders: { brain: roleProfiles().brain.quant, worker: roleProfiles().worker.quant },
+    memory: {
+      ok: mem.ok, error: mem.error || null, file: mem.file, mtimeMs: mem.mtimeMs,
+      entities: mem.entities.length, relations: mem.relationCount, totalRecords: mem.totalRecords,
+      invalidRecords: mem.invalidRecords, malformedRecords: mem.malformedRecords,
+      duplicateEntities: mem.duplicateEntities, danglingRelations: mem.danglingRelations,
+      tripwire: MEMORY_ENTITY_TRIPWIRE,
+      writer: (() => {
+        const entry = (slow.pluginEntries || []).find(item => /(?:^|:)memory-mcp-reference$/.test(item.entryId || ''));
+        return {
+          configured: !!entry,
+          active: !!entry && entry.enabled === true && entry.fiberPhase === 'active',
+          entryId: entry?.entryId || null,
+          cacheState: slow.state,
+          error: slow.error || null,
+        };
+      })(),
+      snapshots,
+      snapshotTask,
+    },
+    loaders: { brain: profiles.brain.quant, worker: profiles.worker.quant },
     // Eviction JIT-reload trap (5070Ti port, issue #5): when LM Studio evicts
     // the brain, the next API call reloads it with SERVER defaults, not the
     // loader profile (measured 17.5 vs 49 tok/s on the port box). Compare the
@@ -989,10 +1515,19 @@ async function status() {
     // RAM/GPU pools in GiB (binary) — matches AMD Adrenalin's VGM split units.
     // Disk stays decimal GB below — drives are marketed in decimal.
     ram: { totalGiB: gib(winTotal), freeGiB: gib(winFree), usedGiB: gib(winTotal - winFree) },
-    gpu: { ok: gpu.ok, dedicatedGiB: gib(gpu.dedicatedBytes), sharedGiB: gib(gpu.sharedBytes), carveoutGiB: carveoutBytes != null ? gib(carveoutBytes) : null },
+    gpu: {
+      ok: gpu.ok,
+      dedicatedGiB: gpu.ok ? gib(gpu.dedicatedBytes) : null,
+      sharedGiB: gpu.ok ? gib(gpu.sharedBytes) : null,
+      carveoutGiB: carveoutBytes != null ? gib(carveoutBytes) : null,
+      sampledAt: gpu.sampledAt,
+      error: gpu.error,
+    },
     disk: { ok: disk.ok, usedGB: gb(diskCache.usedBytes), freeGB: gb(diskCache.freeBytes), totalGB: gb(diskCache.usedBytes + diskCache.freeBytes) },
     machineTotalRamGiB: Math.round(MACHINE_TOTAL_RAM / 1073741824),
-    validation: state.lastValidation || null,
+    validation: state.lastValidation
+      ? { ...state.lastValidation, freshness: describeValidationFreshness(state.lastValidation) }
+      : { when: null, ok: null, warnings: [], freshness: describeValidationFreshness(null) },
     historySpark: readHistorySpark(40).map(h => h.decodeTps),
   };
 }
@@ -1035,11 +1570,10 @@ const ACTIONS = {
   // gauntlet Eng-minor: this was the ONE action still calling raw spawn() with a
   // bare executable name, bypassing the PATH-resolution hardening every sibling
   // uses -- a poisoned PATH entry named powershell.exe would have been launched.
-  'start-cockpit': () => safeSpawn('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH], { detached: true, stdio: 'ignore' }).unref(),
-  'load-q5': () => safeSpawn('lms', ['load', DAILY_BRAIN.modelKey, '--identifier', DAILY_BRAIN.identifier, '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
-  'load-worker': () => safeSpawn('lms', ['load', DAILY_WORKER.modelKey, '--identifier', DAILY_WORKER.identifier, '--gpu', 'max', '-y'], { detached: true, stdio: 'ignore' }).unref(),
-  'unload-worker': () => safeSpawn('lms', ['unload', DAILY_WORKER.identifier], { detached: true, stdio: 'ignore' }).unref(),
-  'unload-all': () => safeSpawn('lms', ['unload', '--all'], { detached: true, stdio: 'ignore' }).unref(),
+  'start-cockpit': () => safeSpawnStarted('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH], { detached: true, stdio: 'ignore', windowsHide: true }),
+  'load-q5': () => runLmsMutation(['load', DAILY_BRAIN.modelKey, '--identifier', DAILY_BRAIN.identifier, '--gpu', 'max', '-y'], DAILY_BRAIN.identifier, true, 10 * 60 * 1000),
+  'load-worker': () => runLmsMutation(['load', DAILY_WORKER.modelKey, '--identifier', DAILY_WORKER.identifier, '--gpu', 'max', '-y'], DAILY_WORKER.identifier, true, 10 * 60 * 1000),
+  'unload-all': () => runLmsMutation(['unload', '--all'], null, false, 60000),
 };
 
 function readBody(req) {
@@ -1090,7 +1624,7 @@ input[type=text],input[type=number]{background:#0c1620;border:1px solid var(--li
 #actionMsg{color:var(--amber);font-size:.83rem;min-height:1.2em;margin:4px 0 10px}
 /* status strip */
 .strip{display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin-bottom:14px;flex-wrap:wrap}
-.light-item{display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.light-item{display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 8px;border:0;border-radius:8px;background:transparent;color:inherit;font:inherit}
 .light-item:hover{background:#16283c}
 .light{width:13px;height:13px;border-radius:50%;flex:none;box-shadow:0 0 6px 0 currentColor}
 .light.g{background:var(--green);color:var(--green)}.light.a{background:var(--amber);color:var(--amber)}.light.r{background:var(--red);color:var(--red)}
@@ -1105,7 +1639,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .danger-cluster{margin-left:auto;display:inline-flex;gap:6px}
 button.danger{background:#2a1414;border-color:#7a3030;color:#ffb0b0}
 button.danger:hover{background:#3a1a1a}
-.pchip{display:inline-block;margin:0 5px 0 0;padding:2px 9px;border-radius:999px;border:1px solid var(--line);font-size:.78rem;color:var(--mut);cursor:pointer}
+.pchip{display:inline-block;margin:0 5px 0 0;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:transparent;font:inherit;font-size:.78rem;color:var(--mut);cursor:pointer}
 .pchip:hover{border-color:#4a7799}
 .pchip.on{background:#1c5570;border-color:var(--teal);color:#fff}
 .pchip.bad{border-color:#7a3030;color:#ff9a9a}.pchip.warn{border-color:#7a6030;color:var(--amber)}.pchip.ok{border-color:#2f6a4a;color:#8fe3b4}
@@ -1124,6 +1658,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 .tbl td{padding:6px 8px;border-bottom:1px solid #1a2c42;vertical-align:top}
 .tbl tr:hover td{background:#132234}
 .tbl tr.clickable{cursor:pointer}
+.row-toggle,.memory-row{width:100%;margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left}
 .badge{display:inline-block;padding:1px 7px;border-radius:6px;font-size:.7rem;margin-left:6px;white-space:nowrap}
 /* gauntlet UX-1: badge-green was USED (the Settings "ok" state) but never
    defined, so the safe/common case rendered as plain body text -- the traffic
@@ -1161,29 +1696,29 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 .mg-about .mg-about-body .mono{color:var(--teal)}
 @media(max-width:700px){
   body{padding:12px 10px 28px}.grid{grid-template-columns:minmax(0,1fr)}
-  .card.span2{grid-column:1/-1}.tabs{flex-wrap:nowrap;overflow-x:auto}.tabbtn{white-space:nowrap}
+  .card.span2{grid-column:1/-1}.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}.tabbtn{white-space:nowrap}
   .strip{gap:5px;padding:8px}.light-item{padding:4px}.alarm{flex-basis:100%;text-align:left}
   .danger-cluster{margin-left:0}.mgraph-wrap{height:auto;min-height:0;display:block}
   .mgraph-canvas{height:480px}.mgraph-side{width:auto;margin-top:12px}.mgraph-detail{min-height:240px}
 }
 </style></head><body>
 <h1>HALO Mission Control</h1><div class="sub">Refreshes every 5 seconds &middot; updated <span id="stamp"></span></div>
-<div id="strip" class="strip"></div>
-<div id="actionMsg"></div>
-<nav class="tabs">
-<button class="tabbtn" data-tab="overview">Overview</button>
-<button class="tabbtn" data-tab="models">Models</button>
-<button class="tabbtn" data-tab="sessions">Sessions</button>
-<button class="tabbtn" data-tab="plugins">Plugins</button>
-<button class="tabbtn" data-tab="system">System</button>
-<button class="tabbtn" data-tab="memory">Memory</button>
-<button class="tabbtn" data-tab="settings">Settings</button>
+<div id="strip" class="strip" role="status" aria-live="polite">checking watched signals&hellip;</div>
+<div id="actionMsg" role="status" aria-live="polite"></div>
+<nav class="tabs" role="tablist" aria-label="Mission Control sections">
+<button id="tab-button-overview" class="tabbtn" data-tab="overview" role="tab" aria-controls="tab-overview" aria-selected="false">Overview</button>
+<button id="tab-button-models" class="tabbtn" data-tab="models" role="tab" aria-controls="tab-models" aria-selected="false">Models</button>
+<button id="tab-button-sessions" class="tabbtn" data-tab="sessions" role="tab" aria-controls="tab-sessions" aria-selected="false">Sessions</button>
+<button id="tab-button-plugins" class="tabbtn" data-tab="plugins" role="tab" aria-controls="tab-plugins" aria-selected="false">Plugins</button>
+<button id="tab-button-system" class="tabbtn" data-tab="system" role="tab" aria-controls="tab-system" aria-selected="false">System</button>
+<button id="tab-button-memory" class="tabbtn" data-tab="memory" role="tab" aria-controls="tab-memory" aria-selected="false">Memory</button>
+<button id="tab-button-settings" class="tabbtn" data-tab="settings" role="tab" aria-controls="tab-settings" aria-selected="false">Settings</button>
 </nav>
 
-<div id="tab-overview" class="tabpanel">
+<div id="tab-overview" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-overview">
 <div id="ov-hero" class="hero-state"></div>
 <div class="grid">
-<div class="card"><h2>Services</h2><div id="ov-services"></div>
+<div class="card"><h2>Services</h2><div id="ov-services">checking services&hellip;</div>
 <div id="ov-svcbtn" style="margin-top:4px"></div></div>
 <div class="card"><h2>Activity</h2><div id="ov-activity"></div></div>
 <div class="card"><h2>Memory pools</h2><div id="ov-pools"></div></div>
@@ -1205,7 +1740,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 </div>
 </div>
 
-<div id="tab-models" class="tabpanel">
+<div id="tab-models" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-models">
 <div class="card">
 <div id="model-slots" class="slots"></div>
 <div class="filterbar">
@@ -1217,45 +1752,45 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <button class="danger" onclick="act('unload-all')">Unload All</button>
 </span>
 </div>
-<div id="models-table" class="table-scroll"></div>
+<div id="models-table" class="table-scroll">loading model catalog&hellip;</div>
 <div class="mut" id="models-footer" style="margin-top:8px"></div>
 </div>
 </div>
 
-<div id="tab-sessions" class="tabpanel">
+<div id="tab-sessions" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-sessions">
 <div class="card">
 <div class="filterbar">
 <span id="sessions-agg"></span>
 <label class="mut toggle" title="Sessions opened on a drive root (C:\\) never bind their workspace — a known rc.7 bug. They are hidden because they cannot be used."><input type="checkbox" id="showDriveRoot" onchange="loadSessions()"> also show unusable drive-root sessions</label>
 </div>
-<div id="sessions-table" class="table-scroll"></div>
+<div id="sessions-table" class="table-scroll">loading sessions&hellip;</div>
 </div>
 </div>
 
-<div id="tab-plugins" class="tabpanel">
+<div id="tab-plugins" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-plugins">
 <div class="card">
 <div class="filterbar">
 <label class="mut" for="pluginFilter">Filter plugins</label><input type="text" id="pluginFilter" aria-label="Filter plugins" placeholder="entryId / module / phase / description" oninput="renderPlugins()">
 <span class="mut" id="plugins-summary"></span>
 </div>
-<div id="plugins-table" class="table-scroll"></div>
+<div id="plugins-table" class="table-scroll">loading plugins&hellip;</div>
 </div>
 </div>
 
-<div id="tab-system" class="tabpanel">
+<div id="tab-system" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-system">
 <div class="grid">
 <div class="card"><h2>RAM &amp; GPU memory</h2><div id="sys-memory"></div></div>
 <div class="card"><h2>Disk C:</h2><div id="sys-disk"></div></div>
 <div class="card"><h2>Versions</h2><div id="sys-versions"></div></div>
 <div class="card"><h2>Config validation</h2>
 <button onclick="validateConfig()">Validate config</button>
-<div id="sys-validate"></div></div>
+<div id="sys-validate" role="status" aria-live="polite">validation not run this view</div></div>
 </div>
 <div class="card tabsection" style="margin-top:14px"><h2>Memory entities (list view) <button style="float:right" onclick="loadMemoryGraph()">Refresh</button></h2><div class="mut" style="margin-bottom:6px">Text browser of the same data. The interactive graph is the <a href="#memory" onclick="showTab('memory')">Memory tab</a>.</div><div id="sys-memgraph"></div></div>
 <div class="card tabsection"><h2>Log tail <button style="float:right" onclick="loadLogtail()">Refresh</button></h2><div id="sys-logtail" class="mono"></div></div>
 </div>
 
-<div id="tab-settings" class="tabpanel">
+<div id="tab-settings" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-settings">
 <div class="tabsection">
 <h2>Effective configuration</h2>
 <p class="mut">The values DSH actually uses, including plugin defaults that do not appear in <code>settings.yaml</code>. This view is intentionally read-only: these settings live in multiple files, so Mission Control will not pretend one form can safely edit all of them.</p>
@@ -1263,17 +1798,18 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 </div>
 </div>
 
-<div id="tab-memory" class="tabpanel">
+<div id="tab-memory" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-memory">
 <details class="mg-about" id="mg-about" open>
 <summary>About this graph</summary>
 <div class="mg-about-body">
 This is the harness's persistent knowledge graph (<span class="mono">~\\.dsh\\memory\\memory.json</span>): what your local models remember across sessions. Nodes are entities (things the models chose to remember), colored by type. Edges are relations between them. Click a node to read its observations &mdash; the actual remembered facts.
 <br><br>
-It grows when sessions write to it &mdash; say <span class="mono">&quot;remember this:&quot;</span> in the cockpit.
+It can grow when the DSH memory writer is active and a session records durable facts &mdash; say <span class="mono">&quot;remember this:&quot;</span> in the cockpit.
 <br>
-It's snapshotted hourly by the scheduled task <span class="mono">HALO Memory Snapshot</span>.
+Hourly recovery copies are available when the <span class="mono">HALO Memory Snapshot</span> task is configured and producing snapshots. The live status below reports whether the writer, task, and snapshots actually exist; Mission Control does not invent them.
 </div>
 </details>
+<div id="mg-health" class="card" role="status" aria-live="polite" style="margin-bottom:12px">Checking memory writer, snapshot task, and recovery copies&hellip;</div>
 <div class="card" style="padding:12px 14px">
 <div class="filterbar" style="justify-content:space-between">
 <h2 style="margin:0" id="mg-header">Memory Graph &middot; &hellip;</h2>
@@ -1282,7 +1818,7 @@ It's snapshotted hourly by the scheduled task <span class="mono">HALO Memory Sna
 <button onclick="loadMemoryGraphTab()">Refresh</button>
 </span>
 </div>
-<div id="mg-status" class="mut" style="margin:2px 0 10px"></div>
+<div id="mg-status" class="mut" role="status" aria-live="polite" style="margin:2px 0 10px">waiting for memory data&hellip;</div>
 <div class="mgraph-wrap">
 <div id="mg-canvas" class="mgraph-canvas"></div>
 <div class="mgraph-side">
@@ -1331,7 +1867,7 @@ function fmtRel(ms){
 // "TTL 1429:57" read as minutes:seconds for what is really 23h 49m - a
 // clock format nobody parses at a glance. Use plain units.
 function fmtTtl(ttlMs,lastUsedTime){
-  if(ttlMs==null||lastUsedTime==null) return 'on disk';
+  if(ttlMs==null||lastUsedTime==null) return 'no automatic unload';
   var remain=ttlMs-(Date.now()-lastUsedTime); if(remain<0) remain=0;
   var mins=Math.floor(remain/60000);
   if(mins>=60){ var h=Math.floor(mins/60); return h+'h '+(mins%60)+'m'; }
@@ -1449,6 +1985,8 @@ async function applySettingsChanges(){
 }
 
 function showTab(name){
+  var validTabs=['overview','models','sessions','plugins','system','memory','settings'];
+  if(validTabs.indexOf(name)===-1) name='overview';
   // gauntlet UX-3: leaving Settings threw away unapplied edits with no warning --
   // the operator retypes budgets they thought were staged. This file already
   // confirms before a destructive session stop; do the same for losing work.
@@ -1463,9 +2001,19 @@ function showTab(name){
       return;
     }
   }
-  document.querySelectorAll('.tabpanel').forEach(function(p){p.classList.remove('active')});
-  var el=document.getElementById('tab-'+name); if(el) el.classList.add('active');
-  document.querySelectorAll('.tabbtn').forEach(function(b){b.classList.toggle('current', b.dataset.tab===name)});
+  document.querySelectorAll('.tabpanel').forEach(function(p){
+    var active=p.id==='tab-'+name;
+    p.classList.toggle('active',active);
+    p.hidden=!active;
+  });
+  var el=document.getElementById('tab-'+name);
+  document.querySelectorAll('.tabbtn').forEach(function(b){
+    var active=b.dataset.tab===name;
+    b.classList.toggle('current',active);
+    b.setAttribute('aria-selected',active?'true':'false');
+    b.tabIndex=active?0:-1;
+    if(active) b.scrollIntoView({block:'nearest',inline:'nearest'});
+  });
   currentTab=name;
   onTabShown(name);
 }
@@ -1478,7 +2026,18 @@ function onTabShown(name){
   if(name==='system'){ loadMemoryGraph(); loadLogtail(); }
   if(name==='memory') mgOnTabActivated();
 }
-document.querySelectorAll('.tabbtn').forEach(function(b){b.addEventListener('click', function(){ location.hash='#'+b.dataset.tab })});
+document.querySelectorAll('.tabbtn').forEach(function(b){
+  b.addEventListener('click',function(){location.hash='#'+b.dataset.tab});
+  b.addEventListener('keydown',function(ev){
+    var tabs=Array.prototype.slice.call(document.querySelectorAll('.tabbtn'));
+    var at=tabs.indexOf(b),next=null;
+    if(ev.key==='ArrowRight') next=tabs[(at+1)%tabs.length];
+    else if(ev.key==='ArrowLeft') next=tabs[(at-1+tabs.length)%tabs.length];
+    else if(ev.key==='Home') next=tabs[0];
+    else if(ev.key==='End') next=tabs[tabs.length-1];
+    if(next){ev.preventDefault();next.focus();location.hash='#'+next.dataset.tab;}
+  });
+});
 window.addEventListener('hashchange', function(){ showTab((location.hash||'#overview').slice(1) || 'overview') });
 
 // Stop one session through the harness's own cancel endpoint. Before this
@@ -1502,14 +2061,27 @@ async function act(a){
   // misclick used to evict every resident model with no confirm and no undo.
   if(a==='unload-all'||a==='unload-worker'){
     var loaded=(lastStatus&&lastStatus.models||[]).filter(function(m){return m.originKind==='local'});
-    var targets=a==='unload-all'?loaded:loaded.filter(function(m){return /coder/i.test(m.identifier)});
+    var worker=lastStatus&&lastStatus.residentRoles&&lastStatus.residentRoles.worker;
+    var targets=a==='unload-all'?loaded:(worker?[worker]:[]);
     if(!targets.length){ document.getElementById('actionMsg').textContent='nothing to unload'; setTimeout(function(){document.getElementById('actionMsg').textContent=''},2500); return; }
     var gb=targets.reduce(function(t,m){return t+(m.gb||0)},0);
     var names=targets.map(function(m){return m.identifier}).join(', ');
     if(!confirm('Unload '+targets.length+' model'+(targets.length>1?'s':'')+' and free about '+gb.toFixed(1)+' GB?\\n\\n'+names+'\\n\\nAny session using them will reload from disk on its next request.')) return;
   }
-  document.getElementById('actionMsg').textContent='running: '+a+'...';
-  await postAction('/api/action/'+a);
+  var endpoint='/api/action/'+a;
+  var payload;
+  if(a==='unload-worker'){
+    endpoint='/api/action/unload-model';
+    payload={identifier:targets[0].identifier};
+  }
+  var msg=document.getElementById('actionMsg');
+  msg.textContent='running: '+a+'...';
+  try{
+    var response=await postAction(endpoint,payload);
+    var detail=await response.text();
+    if(!response.ok){ msg.textContent='action failed: '+(detail||response.status); return; }
+    msg.textContent=a==='start-cockpit'?'action started successfully: '+a:'action completed successfully: '+a;
+  }catch(e){ msg.textContent='action failed: '+String(e&&e.message||e); return; }
   setTimeout(function(){document.getElementById('actionMsg').textContent='';refreshStatus();if(currentTab==='models')loadModels()},2500);
 }
 
@@ -1521,14 +2093,28 @@ async function loadModel(i){
   var ctxInput=document.getElementById('loadctx-'+i);
   var ctx=ctxInput?parseInt(ctxInput.value,10):32768;
   if(!ctx||ctx<512) ctx=32768;
-  document.getElementById('actionMsg').textContent='loading '+row.modelKey+' (ctx '+ctx+')...';
-  await postAction('/api/action/load-model',{path:row.path,modelKey:row.modelKey,ctx:ctx});
+  if(ctx>=200000&&!confirm('Load '+row.modelKey+' with '+ctx.toLocaleString()+' context tokens? This huge context can consume substantial memory.')) return;
+  var msg=document.getElementById('actionMsg');
+  msg.textContent='loading '+row.modelKey+' (ctx '+ctx+')...';
+  try{
+    var response=await postAction('/api/action/load-model',{path:row.path,modelKey:row.modelKey,ctx:ctx});
+    var detail=await response.text();
+    if(!response.ok){ msg.textContent='load failed: '+(detail||response.status); return; }
+    msg.textContent='loaded successfully: '+row.modelKey;
+  }catch(e){ msg.textContent='load failed: '+String(e&&e.message||e); return; }
   setTimeout(function(){document.getElementById('actionMsg').textContent='';loadModels();refreshStatus()},3000);
 }
 async function unloadModel(i){
   var row=modelsCache[i]; if(!row||!row.identifier) return;
-  document.getElementById('actionMsg').textContent='unloading '+row.identifier+'...';
-  await postAction('/api/action/unload-model',{identifier:row.identifier});
+  if(!confirm('Unload exactly '+row.identifier+'? Sessions using it will reload it from disk on their next request.')) return;
+  var msg=document.getElementById('actionMsg');
+  msg.textContent='unloading '+row.identifier+'...';
+  try{
+    var response=await postAction('/api/action/unload-model',{identifier:row.identifier});
+    var detail=await response.text();
+    if(!response.ok){ msg.textContent='unload failed: '+(detail||response.status); return; }
+    msg.textContent='unloaded successfully: '+row.identifier;
+  }catch(e){ msg.textContent='unload failed: '+String(e&&e.message||e); return; }
   setTimeout(function(){document.getElementById('actionMsg').textContent='';loadModels();refreshStatus()},2500);
 }
 function showLoadRow(i){
@@ -1546,13 +2132,19 @@ function computeLights(s){
   // A stalled session outranks every other harness condition: it is the state
   // this console previously reported as healthy for 4h41m (2026-08-20) while
   // the operator waited on a run that was already dead.
-  var stalledSessions=(s.sessions||[]).filter(function(x){return x.stalled});
-  if(stalledSessions.length){
-    lights.HARNESS={level:'r',cause:stalledSessions.length+' session(s) claim to be running but have not advanced: '+
-      stalledSessions.map(function(x){return '"'+(x.title||x.id)+'" idle '+fmtDur(x.stalledMs)}).join('; ')+
+  var stalled=s.stalledSessions||{count:0,items:[]};
+  if(stalled.count){
+    lights.HARNESS={level:'r',cause:stalled.count+' session(s) claim to be running but have not advanced: '+
+      (stalled.items||[]).map(function(x){return '"'+(x.title||x.id)+'" idle '+fmtDur(x.stalledMs)}).join('; ')+
       ' — the harness still reports them as running; stop them or investigate'};
   }
   else if(!s.services.cockpit) lights.HARNESS={level:'r',cause:'cockpit :3080 is down'};
+  else if(s.dshData&&(s.dshData.cacheState==='stale'||s.dshData.cacheState==='unavailable')) {
+    lights.HARNESS={level:'a',cause:'DSH inventory is '+s.dshData.cacheState+(s.dshData.error?': '+s.dshData.error:'')};
+  }
+  else if(s.plugins&&(s.plugins.cacheState==='stale'||s.plugins.cacheState==='unavailable')) {
+    lights.HARNESS={level:'a',cause:'plugin inventory is '+s.plugins.cacheState+(s.plugins.refreshError?': '+s.plugins.refreshError:'')};
+  }
   else if(s.plugins&&s.plugins.failed>0) {
     lights.HARNESS={level:'r',cause:s.plugins.failed+' plugin(s) failed: '+(s.plugins.failedList||[]).join(', ')};
   } else if(s.plugins&&s.plugins.stuck>0) {
@@ -1567,7 +2159,10 @@ function computeLights(s){
   var unknownGenerating=(s.fleet&&s.fleet.unknownOriginGenerating)||[];
   var localGenerating=s.models.some(function(m){return m.originKind==='local'&&m.status==='generating'});
   if(!s.services.lmsCli) lights.MODELS={level:'r',cause:'lms CLI failed'};
+  else if(s.routeRuntime&&s.routeRuntime.configError) lights.MODELS={level:'r',cause:'configured route cannot be read: '+s.routeRuntime.configError};
+  else if(s.routeRuntime&&s.routeRuntime.ambiguous) lights.MODELS={level:'r',cause:'configured route matches multiple resident models; routing is ambiguous'};
   else if(s.models.length===0) lights.MODELS={level:'a',cause:'zero models loaded'};
+  else if(s.routeRuntime&&s.routeRuntime.configured&&!s.routeRuntime.exactResident) lights.MODELS={level:'a',cause:s.routeRuntime.warning||'configured route is not resident'};
   else if(s.models.some(function(m){return m.context>=200000})) lights.MODELS={level:'a',cause:'a loaded model has context \u2265 200K (silent-huge-context trap)'};
   else if(s.brainConfigMismatch) lights.MODELS={level:'a',cause:s.brainConfigMismatch};
   else if(unknownGenerating.length&&localGenerating) lights.MODELS={level:'a',cause:'fleet contention: unknown-origin model generating alongside a local model \u2014 '+unknownGenerating.join(', ')};
@@ -1577,7 +2172,8 @@ function computeLights(s){
   // the alarm line so it's never a silent mystery, without tripping amber.
   if(unknownResident.length) lights.MODELS.info='fleet load resident: '+unknownResident.join(', ');
   // MEMORY
-  if(s.ram.freeGiB<3) lights.MEMORY={level:'r',cause:'Windows free RAM '+s.ram.freeGiB+' GiB < 3 GiB'};
+  if(!s.gpu||!s.gpu.ok) lights.MEMORY={level:'a',cause:'GPU memory counters unavailable'};
+  else if(s.ram.freeGiB<3) lights.MEMORY={level:'r',cause:'Windows free RAM '+s.ram.freeGiB+' GiB < 3 GiB'};
   else if(s.gpu.sharedGiB>8) lights.MEMORY={level:'a',cause:'GPU shared usage '+s.gpu.sharedGiB+' GiB > 8 GiB (model bytes leaking into Windows pool)'};
   else if(s.ram.freeGiB<6) lights.MEMORY={level:'a',cause:'Windows free RAM '+s.ram.freeGiB+' GiB < 6 GiB'};
   else lights.MEMORY={level:'g',cause:null};
@@ -1601,15 +2197,33 @@ function computeLights(s){
   // STORE — persistent model memory is distinct from machine RAM.  Missing is
   // amber (feature unavailable); malformed/unreadable is red (configured data
   // cannot be trusted).
-  if(s.memory&&s.memory.ok) lights.STORE={level:'g',cause:null};
-  else if(s.memory&&/not configured/i.test(s.memory.error||'')) lights.STORE={level:'a',cause:'persistent model memory is not configured'};
-  else lights.STORE={level:'r',cause:'persistent model memory failed: '+((s.memory&&s.memory.error)||'unknown error')};
+  var memory=s.memory||{};
+  var writer=memory.writer||{};
+  var task=memory.snapshotTask||{};
+  var snapshots=memory.snapshots||{};
+  if(!memory.ok&&/not configured/i.test(memory.error||'')) lights.STORE={level:'a',cause:'persistent model memory is not configured'};
+  else if(!memory.ok) lights.STORE={level:'r',cause:'persistent model memory failed: '+(memory.error||'unknown error')};
+  else if(writer.cacheState!=='current') lights.STORE={level:'a',cause:'memory-writer plugin state is '+(writer.cacheState||'unavailable')};
+  else if(!writer.configured||!writer.active) lights.STORE={level:'a',cause:'memory-writer plugin is not active'};
+  else if(task.error) lights.STORE={level:'a',cause:task.error};
+  else if(!task.configured) lights.STORE={level:'a',cause:'hourly memory snapshot task is not configured'};
+  else if(!/^(?:Ready|Running)$/i.test(task.state||'')) lights.STORE={level:'a',cause:'memory snapshot task state is '+(task.state||'unknown')};
+  else if(!snapshots.ok) lights.STORE={level:'a',cause:'memory snapshots are '+(snapshots.error||'unavailable')};
+  else if(snapshots.overdue) lights.STORE={level:'a',cause:'hourly memory snapshots are overdue'};
+  else lights.STORE={level:'g',cause:null};
+  // CONFIG — a successful validation is evidence only while it is current.
+  var val=s.validation||{};
+  var freshness=val.freshness||{state:'never'};
+  if(val.ok===false) lights.CONFIG={level:'r',cause:'configuration validation found issues'};
+  else if(freshness.state==='stale') lights.CONFIG={level:'a',cause:'configuration validation is stale'};
+  else if(freshness.state==='never'||val.ok==null) lights.CONFIG={level:'a',cause:'configuration has not been validated'};
+  else lights.CONFIG={level:'g',cause:null};
   return lights;
 }
-var lightTab={HARNESS:'overview',MODELS:'models',MEMORY:'system',STORE:'memory',DISK:'system',CONTEXT:'sessions',STREAM:'overview'};
+var lightTab={HARNESS:'overview',MODELS:'models',MEMORY:'system',STORE:'memory',DISK:'system',CONTEXT:'sessions',STREAM:'overview',CONFIG:'system'};
 function renderStrip(s){
   var lights=computeLights(s);
-  var order=['HARNESS','MODELS','MEMORY','STORE','CONTEXT','DISK','STREAM'];
+  var order=['HARNESS','MODELS','MEMORY','STORE','CONTEXT','DISK','STREAM','CONFIG'];
   var worst=null, cause=null, info=null;
   order.forEach(function(name){
     var lv=lights[name].level;
@@ -1623,12 +2237,12 @@ function renderStrip(s){
   var labelOf={MEMORY:'RAM'};
   var html=order.map(function(name){
     var l=lights[name];
-    return '<span class="light-item" title="'+esc(l.cause||name+' nominal')+'" onclick="location.hash=\\'#'+lightTab[name]+'\\'"><span class="light '+l.level+'"></span><span class="light-label">'+(labelOf[name]||name)+'</span></span>';
+    return '<button type="button" class="light-item" title="'+esc(l.cause||name+' nominal')+'" onclick="location.hash=\\'#'+lightTab[name]+'\\'"><span class="light '+l.level+'"></span><span class="light-label">'+(labelOf[name]||name)+'</span></button>';
   }).join('');
   var alarmCls=worst?' bad':(info?' info':'');
   // Scope the reassurance to what is actually watched, so "nominal" is a
   // checkable claim rather than a blanket one.
-  var alarmTxt=worst?cause:(info?info:'Nominal on all seven watched signals');
+  var alarmTxt=worst?cause:(info?info:'Nominal on all eight watched signals');
   html+='<span class="alarm'+alarmCls+'">'+esc(alarmTxt)+'</span>';
   document.getElementById('strip').innerHTML=html;
 }
@@ -1649,14 +2263,19 @@ function applyLoaderLabels(s){
   var slots=document.getElementById('model-slots');
   if(slots){
     var local=(s.models||[]).filter(function(m){return m.originKind==='local'});
-    var brain=local.filter(function(m){return !/coder/i.test(m.identifier)})[0];
-    var worker=local.filter(function(m){return /coder/i.test(m.identifier)})[0];
+    var brain=s.residentRoles&&s.residentRoles.brain||null;
+    var worker=s.residentRoles&&s.residentRoles.worker||null;
     var say=function(label,m){
       return '<span class="slot"><b>'+label+'</b> '+(m
         ? '<span class="mono">'+esc(m.identifier)+'</span> <span class="mut">'+(m.quant||'')+' &middot; ctx '+(m.context||0).toLocaleString()+'</span>'
         : '<span class="mut">empty</span>')+'</span>';
     };
-    slots.innerHTML=say('Brain:',brain)+say('Worker:',worker)+
+    var route=s.routeRuntime||{};
+    var routeHtml='<span class="slot"><b>Configured DSH route:</b> <span class="mono">'+esc(route.configured||'not declared')+'</span>'+
+      (route.warning?' <span class="badge badge-amber">'+esc(route.warning)+'</span>':'')+'</span>';
+    var others=((s.residentRoles&&s.residentRoles.other)||[]).map(function(m){return '<span class="mono">'+esc(m.identifier)+'</span>';}).join(', ');
+    slots.innerHTML=routeHtml+say('Resident Brain:',brain)+say('Resident Worker:',worker)+
+      (others?'<span class="slot"><b>Other resident:</b> '+others+'</span>':'')+
       '<span class="mut">resident '+local.length+' &middot; '+local.reduce(function(t,m){return t+(m.gb||0)},0).toFixed(1)+' GB</span>';
   }
 }
@@ -1684,8 +2303,7 @@ function renderOverview(s){
   // which reads as broken data. One sentence reconciles them.
   var running=s.sessions.filter(function(x){return x.running});
   var genModels=s.models.filter(function(m){return m.status==='generating'});
-  var withStats=s.sessions.filter(function(x){return x.decodeTps!=null}).sort(function(a,b){return b.mtime-a.mtime});
-  var latest=withStats[0];
+  var latest=s.latestCompletedRun||null;
   var localRes=s.models.filter(function(m){return m.originKind==='local'});
   var hero='',cls='idle',word='IDLE';
   // P6: never state a liveness word this screen has not corroborated. With
@@ -1715,47 +2333,58 @@ function renderOverview(s){
   document.getElementById('ov-hero').innerHTML=hero;
 
   var winPct=Math.min(100,Math.round(s.ram.usedGiB/s.ram.totalGiB*100));
-  var haveCarve=s.gpu.carveoutGiB!=null;
+  var gpuOk=!!(s.gpu&&s.gpu.ok);
+  var haveCarve=gpuOk&&s.gpu.carveoutGiB!=null;
   var gpuPct=haveCarve?Math.min(100,Math.round(s.gpu.dedicatedGiB/s.gpu.carveoutGiB*100)):0;
-  var sharedCls=s.gpu.sharedGiB>8?'v-bad':(s.gpu.sharedGiB>3?'v-warn':'');
+  var sharedCls=gpuOk?(s.gpu.sharedGiB>8?'v-bad':(s.gpu.sharedGiB>3?'v-warn':'')):'';
   // A 95%-full bar used to look identical to a 40% one - colour by proximity
   // to the limit so the gauge itself carries the warning.
   var barCls=function(pct){return pct>=95?'red':(pct>=80?'amber':'')};
   var freeCls=s.ram.freeGiB<6?'v-bad':(s.ram.freeGiB<12?'v-warn':'');
   // Proportion lives here; the vitals strip owns the trend and the raw
   // current levels, so this card shows capacity relationships only.
+  var gpuRows=gpuOk
+    ? ('<div class="row" style="margin-top:8px"><span class="k">GPU carveout</span><span class="'+(gpuPct>=95?'v-bad':(gpuPct>=80?'v-warn':''))+'">'+(haveCarve?gpuPct+'% used of '+s.gpu.carveoutGiB+' GiB':'capacity unknown')+'</span></div>'+
+       (haveCarve?'<div class="bar '+barCls(gpuPct)+'"><i style="width:'+gpuPct+'%"></i></div>':'')+
+       '<div class="row" style="margin-top:8px"><span class="k">GPU shared</span><span class="'+sharedCls+'">'+s.gpu.sharedGiB+' GiB'+(sharedCls?' &mdash; leaking':'')+'</span></div>'+
+       '<div class="mut" style="margin-top:2px">a steady ~1.5 GiB here is normal (Vulkan staging buffers + desktop); watch for <em>growth</em> &mdash; that is model bytes spilling out of the carveout</div>')
+    : '<div class="v-warn" style="margin-top:8px">GPU memory counters unavailable'+(s.gpu&&s.gpu.error?': '+esc(s.gpu.error):'')+'; no usage value is asserted</div>';
   document.getElementById('ov-pools').innerHTML=
     '<div class="row"><span class="k">Windows pool</span><span class="'+freeCls+'">'+s.ram.freeGiB+' GiB free of '+s.ram.totalGiB+'</span></div>'+
     '<div class="bar '+barCls(winPct)+'"><i style="width:'+winPct+'%"></i></div>'+
-    '<div class="row" style="margin-top:8px"><span class="k">GPU carveout</span><span class="'+(gpuPct>=95?'v-bad':(gpuPct>=80?'v-warn':''))+'">'+(haveCarve?gpuPct+'% used of '+s.gpu.carveoutGiB+' GiB':'capacity unknown')+'</span></div>'+
-    (haveCarve?'<div class="bar '+barCls(gpuPct)+'"><i style="width:'+gpuPct+'%"></i></div>':'')+
-    '<div class="row" style="margin-top:8px"><span class="k">GPU shared</span><span class="'+sharedCls+'">'+s.gpu.sharedGiB+' GiB'+(sharedCls?' &mdash; leaking':'')+'</span></div>'+
-    // Measured 2026-08-19: ~1.2 GiB of this is llama-server's own Vulkan
-    // host-visible memory (staging buffers, host scratch) and ~0.4 GiB is the
-    // desktop compositor. That floor is normal and does NOT move when the
-    // context window changes - it is plumbing, not spilled weights. Saying
-    // "should be near 0" made the healthy state look like a fault.
-    '<div class="mut" style="margin-top:2px">a steady ~1.5 GiB here is normal (Vulkan staging buffers + desktop); watch for <em>growth</em> &mdash; that is model bytes spilling out of the carveout</div>';
+    gpuRows;
 
-  var due=s.memory;
-  var dueTxt=due.dueDate?('due '+(due.dueInDays<0?('overdue '+Math.abs(due.dueInDays)+'d'):due.dueInDays+'d')):'no scan recorded';
+  var due=s.memory||{};
+  var snapshots=due.snapshots||{};
+  var dueTxt=snapshots.nextExpectedAt
+    ? (snapshots.overdue?'overdue by '+fmtDur(Math.max(0,(snapshots.ageMs||0)-3600000)):fmtStamp(snapshots.nextExpectedAt))
+    : 'no snapshot recorded';
+  var validation=s.validation||{};
+  var validationFreshness=validation.freshness||{state:'never'};
+  var validationTxt=validationFreshness.state==='never'
+    ? '<span class="v-warn">never run</span>'
+    : (validationFreshness.state==='stale'
+      ? '<span class="v-warn">stale</span> &middot; '+fmtStamp(validation.when)
+      : (validation.ok
+        ? '<span style="color:var(--green)">ok</span> &middot; '+fmtStamp(validation.when)
+        : '<span class="v-bad">issues</span> &middot; '+fmtStamp(validation.when)));
   document.getElementById('ov-cadence').innerHTML=
-    '<div class="row"><span class="k">last delta-scan</span><span>'+esc(due.lastScanDate||'—')+'</span></div>'+
-    '<div class="row"><span class="k">next scan</span><span class="'+(due.dueInDays!=null&&due.dueInDays<0?'v-warn':'')+'">'+esc(dueTxt)+'</span></div>'+
+    '<div class="row"><span class="k">last memory snapshot</span><span>'+(snapshots.lastSnapshotAt?fmtStamp(snapshots.lastSnapshotAt):'&mdash;')+'</span></div>'+
+    '<div class="row"><span class="k">next snapshot expected</span><span class="'+(snapshots.overdue?'v-warn':'')+'">'+esc(dueTxt)+'</span></div>'+
+    '<div class="row"><span class="k">snapshots retained</span><span>'+(snapshots.count||0)+'</span></div>'+
     '<div class="row"><span class="k">engine</span><span>'+esc(s.services.engine||'unknown')+'</span></div>'+
-    '<div class="row"><span class="k">last config validation</span><span>'+(s.validation?(s.validation.ok?'<span style="color:var(--green)">ok</span>':'<span class="v-bad">issues</span>')+' &middot; '+fmtStamp(s.validation.when):'never run')+'</span></div>';
+    '<div class="row"><span class="k">last config validation</span><span>'+validationTxt+'</span></div>';
 
   // Activity: what used to be two half-empty cards (Today + Throughput),
   // with the hairline sparkline dropped since the vitals strip owns trend.
   var tpsCls=latest&&latest.decodeTps<18?'v-warn':'';
   document.getElementById('ov-activity').innerHTML=
-    '<div class="row"><span class="k">sessions today</span><span>'+s.today.count+'</span></div>'+
-    '<div class="row"><span class="k">kTok in / out today</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
+    '<div class="row"><span class="k">session files updated today</span><span>'+s.today.count+'</span></div>'+
+    '<div class="row"><span class="k">cumulative kTok in / out for those sessions</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest
-      ? '<div class="row"><span class="k">decode, last run</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">vs 26.9 base</span></span></div>'+
-        '<div class="row"><span class="k">TTFT, last run</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+'</span></div>'+
-        '<div class="row"><span class="k">Prefill, last run</span><span>'+(latest.prefillTps!=null?latest.prefillTps+' tok/s':'&mdash;')+' <span class="mut">reference 181 tok/s</span></span></div>'
-      : '<div class="row"><span class="k">decode</span><span class="mut">no run with stats yet</span></div>');
+      ? '<div class="row"><span class="k">completed-run decode</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">session aggregate</span></span></div>'+
+        '<div class="row"><span class="k">TTFT, latest completed session</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+'</span></div>'
+      : '<div class="row"><span class="k">completed-run decode</span><span class="mut">no completed run with stats yet</span></div>');
 
   var dFree=s.disk.ok?s.disk.freeGB:null;
   var diskCls=dFree==null?'':(dFree<50?'v-bad':(dFree<150?'v-warn':''));
@@ -1783,6 +2412,7 @@ function renderOverview(s){
   } else {
     fleetHtml+='<div class="row"><span class="k">account status</span><span>'+esc(ac.accountStatus||'unknown')+'</span></div>';
     fleetHtml+='<div class="row"><span class="k">devices allowed</span><span>'+(ac.currentDeviceCount!=null?ac.currentDeviceCount:'&mdash;')+' / '+(ac.maxDevicesAllowed!=null?ac.maxDevicesAllowed:'&mdash;')+'</span></div>';
+    fleetHtml+='<div class="row"><span class="k">account cache</span><span'+(ac.freshness&&ac.freshness.state==='stale'?' class="v-warn"':'')+'>'+esc((ac.freshness&&ac.freshness.state)||'unknown')+(ac.mtimeMs?' &middot; '+fmtRel(ac.mtimeMs):'')+'</span></div>';
   }
   fleetHtml+='<div class="row"><span class="k">this device</span><span>'+(fc.linkOk?esc(fc.deviceName||'unknown'):'<span class="mut">lms link status unavailable</span>')+'</span></div>';
   var peers=fc.peers||[];
@@ -1927,7 +2557,7 @@ function renderVitals(){
     tip.innerHTML='<b>'+fmtClock(best.t,span)+'</b><br>'+
       'GPU dedicated: '+(best.gpuDed!=null?best.gpuDed+' GiB':'&mdash;')+'<br>'+
       'GPU shared: '+(best.gpuShared!=null?best.gpuShared+' GiB':'&mdash;')+'<br>'+
-      'decode: '+(best.decodeTps!=null?best.decodeTps+' t/s':'idle')+'<br>'+
+      'completed-run decode: '+(best.decodeTps!=null?best.decodeTps+' t/s':'no completed-run observation')+'<br>'+
       'Windows free: '+(best.winFree!=null?best.winFree+' GiB':'&mdash;');
   });
   hit.addEventListener('mouseleave',function(){ tip.style.display='none'; vx.style.display='none'; });
@@ -1937,15 +2567,16 @@ function renderVitalsHead(){
   if(!s){ head.innerHTML=''; return; }
   var last=null;
   for(var i=vitalsRows.length-1;i>=0;i--){ if(vitalsRows[i].decodeTps!=null){ last=vitalsRows[i]; break; } }
-  var sharedCls=s.gpu.sharedGiB>8?'bad':(s.gpu.sharedGiB>3?'warn':'');
+  var gpuOk=!!(s.gpu&&s.gpu.ok);
+  var sharedCls=gpuOk?(s.gpu.sharedGiB>8?'bad':(s.gpu.sharedGiB>3?'warn':'')):'';
   var freeCls=s.ram.freeGiB<6?'bad':(s.ram.freeGiB<12?'warn':'');
   var worst=s.contextPressure;
   var ctxCls=worst?(worst.worstPct>=85?'bad':(worst.worstPct>=70?'warn':'')):'';
   var gen=s.models.filter(function(m){return m.status==='generating'}).length;
   head.innerHTML=
-    '<div class="vstat"><b>'+(last?last.decodeTps:'&mdash;')+'</b><span>decode t/s (last run)</span></div>'+
-    '<div class="vstat"><b>'+s.gpu.dedicatedGiB+(s.gpu.carveoutGiB!=null?' <span class="mut" style="font-size:.62em">/ '+s.gpu.carveoutGiB+'</span>':'')+'</b><span>GPU dedicated GiB</span></div>'+
-    '<div class="vstat"><b class="'+sharedCls+'">'+s.gpu.sharedGiB+'</b><span title="~1.5 GiB is the normal floor: Vulkan staging buffers plus the desktop. Growth is the leak signal.">GPU shared GiB (flat ≈ healthy)</span></div>'+
+    '<div class="vstat"><b>'+(last?last.decodeTps:'&mdash;')+'</b><span>completed-run decode t/s</span></div>'+
+    '<div class="vstat"><b>'+(gpuOk?s.gpu.dedicatedGiB:'&mdash;')+(gpuOk&&s.gpu.carveoutGiB!=null?' <span class="mut" style="font-size:.62em">/ '+s.gpu.carveoutGiB+'</span>':'')+'</b><span>GPU dedicated GiB</span></div>'+
+    '<div class="vstat"><b class="'+sharedCls+'">'+(gpuOk?s.gpu.sharedGiB:'&mdash;')+'</b><span title="~1.5 GiB is the normal floor: Vulkan staging buffers plus the desktop. Growth is the leak signal.">GPU shared GiB (flat ≈ healthy)</span></div>'+
     '<div class="vstat"><b class="'+freeCls+'">'+s.ram.freeGiB+'</b><span>Windows free GiB</span></div>'+
     '<div class="vstat"><b class="'+ctxCls+'">'+(worst?worst.worstPct+'%':'&mdash;')+'</b><span title="running sessions or sessions updated within the last 15 minutes; historical fill remains on the Sessions tab">fullest recent context</span></div>'+
     '<div class="vstat"><b>'+gen+'</b><span>models generating now</span></div>';
@@ -1968,6 +2599,11 @@ async function loadModels(){
     modelsCache=c.catalog;
     var showFleet=!!(document.getElementById('showFleetModels')&&document.getElementById('showFleetModels').checked);
     var visible=c.catalog.map(function(m,i){return {m:m,i:i}}).filter(function(x){return showFleet||x.m.originKind==='local'});
+    if(!visible.length){
+      document.getElementById('models-table').innerHTML='<div class="mut">No local models are available in this catalog.</div>';
+      document.getElementById('models-footer').textContent='';
+      return;
+    }
     var rows=visible.map(function(x){
       var m=x.m,i=x.i;
       var ctxBadge=(m.loaded&&m.contextLength>=200000)?' <span class="badge badge-amber">ctx ≥ 200K</span>':'';
@@ -1977,7 +2613,13 @@ async function loadModels(){
         : (m.originKind==='device'
           ? '<span class="badge badge-teal" title="catalog entry belongs to a connected LM Link peer">fleet: '+esc(m.origin)+'</span>'
           : '<span class="badge badge-mut">this device</span>');
-      var actionCell=m.loaded?
+      // Classify components before constructing actions. Projectors, embedding
+      // models, draft heads and metadata shards are not standalone chat models.
+      var kind=/clip|vision/i.test(m.architecture||'')?'vision'
+        :/bert|embed/i.test((m.architecture||'')+m.modelKey)?'embedding'
+        :/assistant/i.test(m.architecture||'')?'draft head'
+        :(m.sizeGB===0?'metadata':null);
+      var actionCell=kind?'<span class="mut">component only</span>':(m.loaded?
         (m.originKind==='local'?
           '<button onclick="unloadModel('+i+')">Unload</button>'
           : '<span class="mut" title="This model runs on another LM Link device. Unloading from here would kill it on THAT machine.">runs on '+esc(m.origin||'another device')+'<br><a href="#overview" onclick="showTab(&quot;overview&quot;)">see Fleet &rarr;</a></span>')
@@ -1986,7 +2628,7 @@ async function loadModels(){
              '<span id="loadrow-'+i+'" style="display:none;gap:4px;align-items:center;margin-top:4px">'+
              '<label class="mut" for="loadctx-'+i+'">context</label> <input type="number" aria-label="Context length for '+esc(m.displayName||m.modelKey)+'" id="loadctx-'+i+'" value="32768">'+
              '<button onclick="loadModel('+i+')">Confirm</button></span>')
-          : '<span class="mut">manage on '+esc(m.origin||'peer')+'</span>');
+          : '<span class="mut">manage on '+esc(m.origin||'peer')+'</span>'));
       // Two rows titled "Qwen3.8 27B UD" read as a duplicate render, not as
       // two heavy models resident at once. Fold the distinguishing quant into
       // the title so a name can never fail to identify its row.
@@ -1994,10 +2636,6 @@ async function loadModels(){
       // Not everything in this catalog is a chat model. Loading an embedding,
       // an MTP draft head or a metadata shard is meaningless, and a 0 GB row
       // otherwise reads as corruption.
-      var kind=/clip|vision/i.test(m.architecture||'')?'vision'
-        :/bert|embed/i.test((m.architecture||'')+m.modelKey)?'embedding'
-        :/assistant|mtp/i.test((m.architecture||'')+m.modelKey)?'draft head'
-        :(m.sizeGB===0?'metadata':null);
       var kindTitle=kind==='vision'
         ? 'optional vision projector used with its matching language model for image input; not a standalone chat model'
         : 'not a chat model — a component used by another model';
@@ -2051,15 +2689,19 @@ async function loadSessions(){
     list.sort(function(a,b){ return (b.ctxPct||-1)-(a.ctxPct||-1) || b.mtime-a.mtime; });
     var atRisk=list.filter(function(s){return s.ctxPct!=null&&s.ctxPct>=50});
     document.getElementById('sessions-agg').innerHTML=
-      r.today.count+' session'+(r.today.count===1?'':'s')+' today &middot; '+
+      r.today.count+' session file'+(r.today.count===1?'':'s')+' updated today &middot; '+
       (atRisk.length
         ? '<span class="v-warn">'+atRisk.length+' of '+list.length+' over 50% context</span>'
         : 'all sessions under 50% context')+
-      ' <span class="mut">&middot; '+r.today.kTokIn+'K in / '+r.today.kTokOut+'K out today &middot; sorted by context risk</span>';
+      ' <span class="mut">&middot; '+r.today.kTokIn+'K in / '+r.today.kTokOut+'K out, cumulative across those sessions &middot; sorted by context risk</span>';
+    if(!list.length){
+      document.getElementById('sessions-table').innerHTML='<div class="mut">No sessions match the current view.</div>';
+      return;
+    }
     var rows=list.map(function(s,i){
       var bug=s.driveRootBug?' <span class="badge badge-red">drive-root bug</span>':'';
-      var main='<tr class="clickable" onclick="toggleSessionDetail('+i+')">'+
-        '<td>'+esc(s.title||s.id)+bug+(s.goal?'<br><span class="mut">'+esc(s.goal.slice(0,80))+'</span>':'')+'</td>'+
+      var main='<tr>'+
+        '<td><button type="button" onclick="toggleSessionDetail('+i+')" style="background:none;border:0;color:inherit;padding:0;text-align:left;cursor:pointer">'+esc(s.title||s.id)+'</button>'+bug+(s.goal?'<br><span class="mut">'+esc(s.goal.slice(0,80))+'</span>':'')+'</td>'+
         '<td>'+esc(s.workspace)+'</td>'+
         '<td>'+esc(s.preset||'—')+'</td>'+
         // STALLED is its own state, never folded into running or idle. A
@@ -2083,7 +2725,7 @@ async function loadSessions(){
           ? '<button class="btn btn-sm" onclick="event.stopPropagation();stopSession(&quot;'+esc(s.sessionId)+'&quot;,&quot;'+esc((s.title||s.id).replace(/"/g,'')) +'&quot;)">stop</button>'
           : '')+'</td>'+
         '</tr>';
-      var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="11"><div class="detail">'+
+      var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="12"><div class="detail">'+
         '<div>sessionId: <span class="mono">'+esc(s.sessionId)+'</span></div>'+
         (s.ctxPct!=null?'<div>context: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+' tokens ('+s.ctxPct+'% full, '+(s.ctxWindow-s.ctxUsed).toLocaleString()+' left)</div>':'')+
         (s.goal?'<div>goal: '+esc(s.goal)+'</div>':'')+
@@ -2091,7 +2733,7 @@ async function loadSessions(){
         '</div></td></tr>';
       return main+detail;
     }).join('');
-    document.getElementById('sessions-table').innerHTML='<table class="tbl"><thead><tr><th>Title</th><th>Workspace</th><th>Preset</th><th>State</th><th>Turns</th><th title="cumulative tokens sent to the model">Tokens in</th><th title="cumulative tokens generated">Tokens out</th><th title="how full this session’s context window is — a full window truncates large replies">Context</th><th title="time to first token, last run">TTFT</th><th title="decode rate, last run">Decode</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    document.getElementById('sessions-table').innerHTML='<table class="tbl"><thead><tr><th>Title</th><th>Workspace</th><th>Preset</th><th>State</th><th>Turns</th><th title="cumulative tokens sent to the model">Tokens in</th><th title="cumulative tokens generated">Tokens out</th><th title="how full this session’s context window is — a full window truncates large replies">Context</th><th title="time to first token, session aggregate">TTFT</th><th title="decode rate, session aggregate">Decode</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
   }catch(e){ document.getElementById('sessions-table').innerHTML='<div class="mut">sessions fetch failed</div>' }
 }
 function toggleSessionDetail(i){
@@ -2126,13 +2768,16 @@ function renderPlugins(){
   var sm=pluginsData.summary;
   var chip=function(n,label,cls){
     if(!n) return '';
-    return '<span class="pchip '+(cls||'')+(pluginBucket===label?' on':'')+'" onclick="setPluginBucket(&quot;'+label+'&quot;)">'+n+' '+label+'</span>';
+    return '<button type="button" class="pchip '+(cls||'')+(pluginBucket===label?' on':'')+'" aria-pressed="'+(pluginBucket===label?'true':'false')+'" onclick="setPluginBucket(&quot;'+label+'&quot;)">'+n+' '+label+'</button>';
   };
   document.getElementById('plugins-summary').innerHTML=
+    (pluginsData.stale
+      ? '<div class="v-warn" style="margin-bottom:8px">Showing last-known plugin inventory; refresh failed'+(pluginsData.sourceAgeMs!=null?' &middot; sample '+fmtDur(pluginsData.sourceAgeMs)+' old':'')+(pluginsData.refreshError?': '+esc(pluginsData.refreshError):'')+'</div>'
+      : '')+
     chip(sm.failed,'failed','bad')+chip(sm.stuck,'stuck','bad')+
     chip(sm.transitioning,'transitioning','warn')+chip(sm.waiting,'waiting','warn')+
     chip(sm.disabled,'disabled')+chip(sm.active,'active','ok')+
-    '<span class="pchip'+(pluginBucket===null?' on':'')+'" onclick="setPluginBucket(&quot;&quot;)">'+sm.total+' all</span>';
+    '<button type="button" class="pchip'+(pluginBucket===null?' on':'')+'" aria-pressed="'+(pluginBucket===null?'true':'false')+'" onclick="setPluginBucket(&quot;&quot;)">'+sm.total+' all</button>';
   // Problems first: a failure on row 140 of 166 may as well not be rendered.
   var rank={failed:0,transitioning:1,waiting:2,disabled:3,active:4};
   rows=rows.slice().sort(function(a,b){
@@ -2167,7 +2812,10 @@ function renderPlugins(){
       '<td class="mut" style="max-width:420px;white-space:normal">'+esc(e.description||'—')+'</td>'+
       '</tr>';
   }).join('');
-  document.getElementById('plugins-table').innerHTML='<table class="tbl"><thead><tr><th>entryId</th><th>state</th><th>module</th><th>what it does</th></tr></thead><tbody>'+html+'</tbody></table>'+
+  var pluginBody=visibleRows.length
+    ? '<table class="tbl"><thead><tr><th>entryId</th><th>state</th><th>module</th><th>what it does</th></tr></thead><tbody>'+html+'</tbody></table>'
+    : '<div class="mut">No plugins match the selected state and text filters.</div>';
+  document.getElementById('plugins-table').innerHTML=pluginBody+
     '<div class="mut" style="margin-top:6px">showing '+visibleRows.length+' of '+totalFiltered+' matching ('+pluginsData.entries.length+' total)'+
     (visibleRows.length<totalFiltered?' <button onclick="showMorePlugins()">Show 75 more</button>':'')+'</div>';
 }
@@ -2175,18 +2823,22 @@ function renderPlugins(){
 // ── system tab ──
 function renderSystem(s){
   var winPct=Math.min(100,Math.round(s.ram.usedGiB/s.ram.totalGiB*100));
-  var haveCarve=s.gpu.carveoutGiB!=null;
+  var gpuOk=!!(s.gpu&&s.gpu.ok);
+  var haveCarve=gpuOk&&s.gpu.carveoutGiB!=null;
   var gpuPct=haveCarve?Math.min(100,Math.round(s.gpu.dedicatedGiB/s.gpu.carveoutGiB*100)):0;
-  var sharedCls=s.gpu.sharedGiB>8?'amber':'';
+  var sharedCls=gpuOk&&s.gpu.sharedGiB>8?'amber':'';
   // Bars carry the warning themselves; a full gauge used to look exactly like
   // an empty one. Shared-pool bar is scaled against its 8 GiB alarm point so
   // the sliver has a stated denominator instead of floating unanchored.
   var bc=function(pct){return pct>=95?'red':(pct>=80?'amber':'')};
+  var gpuSystem=gpuOk
+    ? ('<div class="row" style="margin-top:10px"><span class="k">GPU carveout</span><span class="'+(gpuPct>=95?'v-bad':(gpuPct>=80?'v-warn':''))+'">'+s.gpu.dedicatedGiB+(haveCarve?' / '+s.gpu.carveoutGiB+' GiB':' GiB (capacity unknown)')+'</span></div>'+(haveCarve?'<div class="bar '+bc(gpuPct)+'"><i style="width:'+gpuPct+'%"></i></div>':'')+
+       '<div class="row" style="margin-top:10px"><span class="k">GPU shared</span><span'+(sharedCls?' style="color:var(--amber)"':'')+'>'+s.gpu.sharedGiB+' / 8 GiB alarm</span></div><div class="bar '+sharedCls+'"><i style="width:'+Math.min(100,s.gpu.sharedGiB/8*100)+'%"></i></div>'+
+       '<div class="mut" style="margin-top:6px">'+(haveCarve?'GPU capacity from driver registry (portable across boxes)':'machine total: '+s.machineTotalRamGiB+' GiB unified')+'</div>')
+    : '<div class="v-warn" style="margin-top:10px">GPU memory counters unavailable'+(s.gpu&&s.gpu.error?': '+esc(s.gpu.error):'')+'; no usage value is asserted</div>';
   document.getElementById('sys-memory').innerHTML=
     '<div class="row"><span class="k">Windows pool</span><span class="'+(winPct>=95?'v-bad':(winPct>=80?'v-warn':''))+'">'+s.ram.usedGiB+' / '+s.ram.totalGiB+' GiB</span></div><div class="bar '+bc(winPct)+'"><i style="width:'+winPct+'%"></i></div>'+
-    '<div class="row" style="margin-top:10px"><span class="k">GPU carveout</span><span class="'+(gpuPct>=95?'v-bad':(gpuPct>=80?'v-warn':''))+'">'+s.gpu.dedicatedGiB+(haveCarve?' / '+s.gpu.carveoutGiB+' GiB':' GiB (capacity unknown)')+'</span></div>'+(haveCarve?'<div class="bar '+bc(gpuPct)+'"><i style="width:'+gpuPct+'%"></i></div>':'')+
-    '<div class="row" style="margin-top:10px"><span class="k">GPU shared</span><span'+(sharedCls?' style="color:var(--amber)"':'')+'>'+s.gpu.sharedGiB+' / 8 GiB alarm</span></div><div class="bar '+sharedCls+'"><i style="width:'+Math.min(100,s.gpu.sharedGiB/8*100)+'%"></i></div>'+
-    '<div class="mut" style="margin-top:6px">'+(haveCarve?'GPU capacity from driver registry (portable across boxes)':'machine total: '+s.machineTotalRamGiB+' GiB unified')+'</div>';
+    gpuSystem;
   var diskPct=s.disk.ok?Math.round(s.disk.usedGB/s.disk.totalGB*100):0;
   var diskCls=!s.disk.ok?'':(s.disk.freeGB<50?'red':(s.disk.freeGB<150?'amber':''));
   document.getElementById('sys-disk').innerHTML=s.disk.ok?
@@ -2199,23 +2851,30 @@ function renderSystem(s){
     '<div class="row"><span class="k">node</span><span>'+esc(s.node)+'</span></div>';
   document.getElementById('sys-versions').innerHTML=vv;
   var val=s.validation;
-  document.getElementById('sys-validate').innerHTML=val?
-    ('<div class="row"><span class="k">last run</span><span>'+fmtStamp(val.when)+'</span></div>'+
-     '<div class="row"><span class="k">result</span><span'+(val.ok?' style="color:var(--green)"':' style="color:var(--red)"')+'>'+(val.ok?'ok':'issues found')+'</span></div>'+
-     (val.warnings&&val.warnings.length?'<div class="mut" style="margin-top:6px">'+val.warnings.map(esc).join('<br>')+'</div>':''))
-    : '<div class="mut">never run</div>';
+  var freshness=val&&val.freshness||{state:'never',ageMs:null};
+  if(!val||freshness.state==='never'){
+    document.getElementById('sys-validate').innerHTML='<div class="v-warn">never run &mdash; status remains non-nominal until configuration is validated</div>';
+  }else{
+    document.getElementById('sys-validate').innerHTML=
+      '<div class="row"><span class="k">last run</span><span>'+fmtStamp(val.when)+'</span></div>'+
+      '<div class="row"><span class="k">freshness</span><span'+(freshness.state==='stale'?' style="color:var(--amber)"':'')+'>'+esc(freshness.state)+(freshness.ageMs!=null?' &middot; '+fmtDur(freshness.ageMs)+' old':'')+'</span></div>'+
+      '<div class="row"><span class="k">result</span><span'+(val.ok?' style="color:var(--green)"':' style="color:var(--red)"')+'>'+(val.ok?'ok':'issues found')+'</span></div>'+
+      (val.warnings&&val.warnings.length?'<div class="mut" style="margin-top:6px">'+val.warnings.map(esc).join('<br>')+'</div>':'');
+  }
 }
 async function validateConfig(){
   document.getElementById('sys-validate').innerHTML='<div class="mut">running &mdash; this dumps the full config, can take up to 2 minutes&hellip;</div>';
   try{
-    var r=await (await postAction('/api/validate-config')).json();
+    var response=await postAction('/api/validate-config');
+    var r=await response.json().catch(function(){return {ok:false,warnings:['Mission Control returned a non-JSON validation response']};});
+    if(!response.ok) throw new Error((r.warnings||[]).join('; ')||('HTTP '+response.status));
     renderSystem(lastStatus||{services:{},ram:{},gpu:{},disk:{}});
     document.getElementById('sys-validate').innerHTML=
       '<div class="row"><span class="k">last run</span><span>'+fmtStamp(r.when)+'</span></div>'+
       '<div class="row"><span class="k">result</span><span'+(r.ok?' style="color:var(--green)"':' style="color:var(--red)"')+'>'+(r.ok?'ok':'issues found')+'</span></div>'+
       (r.warnings&&r.warnings.length?'<div class="mut" style="margin-top:6px">'+r.warnings.map(esc).join('<br>')+'</div>':'');
     refreshStatus();
-  }catch(e){ document.getElementById('sys-validate').innerHTML='<div class="mut">validation request failed</div>' }
+  }catch(e){ document.getElementById('sys-validate').innerHTML='<div style="color:var(--red)">validation request failed: '+esc(String((e&&e.message)||e))+'</div>' }
 }
 async function loadMemoryGraph(){
   try{
@@ -2223,13 +2882,20 @@ async function loadMemoryGraph(){
     if(!g.ok){ document.getElementById('sys-memgraph').innerHTML='<div class="mut">memory graph '+esc(g.error||'unavailable')+' &mdash; '+esc(g.file||'')+'</div>'; return }
     var html='<div class="mut" style="margin-bottom:8px">'+g.entities.length+'/'+g.tripwire+' entities (upgrade tripwire) \\u00b7 '+g.relationCount+' relations</div>';
     html+=g.entities.map(function(e,i){
-      return '<div class="row clickable" onclick="toggleObs('+i+')"><span>'+esc(e.name)+' <span class="mut">['+esc(e.entityType)+']</span></span><span class="k">'+e.observations.length+' obs</span></div>'+
+      return '<button type="button" class="row clickable memory-row" aria-expanded="false" aria-controls="obs-'+i+'" onclick="toggleObs('+i+',this)"><span>'+esc(e.name)+' <span class="mut">['+esc(e.entityType)+']</span></span><span class="k">'+e.observations.length+' obs</span></button>'+
         '<div id="obs-'+i+'" class="detail" style="display:none">'+e.observations.map(function(o){return '<div style="margin-bottom:4px">'+esc(o)+'</div>'}).join('')+'</div>';
     }).join('');
     document.getElementById('sys-memgraph').innerHTML=html;
   }catch(e){ document.getElementById('sys-memgraph').innerHTML='<div class="mut">memory graph read failed</div>' }
 }
-function toggleObs(i){ var el=document.getElementById('obs-'+i); if(el) el.style.display=(el.style.display==='none'?'block':'none') }
+function toggleObs(i,button){
+  var el=document.getElementById('obs-'+i);
+  if(el){
+    var open=el.style.display==='none';
+    el.style.display=open?'block':'none';
+    if(button) button.setAttribute('aria-expanded',open?'true':'false');
+  }
+}
 async function loadLogtail(raw){
   try{
     var r=await (await fetch('/api/logtail'+(raw?'?raw=1':''))).json();
@@ -2292,7 +2958,63 @@ var mg={svg:null,viewport:null,nodes:[],edges:[],byId:{},tx:0,ty:0,k:1,w:800,h:5
   idealK:MG_IDEAL_K_CAP,didInitialFit:false,initialized:false};
 var mgSim={running:false,rafId:null,lowFrames:0,frames:0};
 
+function memoryVersionKey(memory){
+  memory=memory||{};
+  return JSON.stringify([memory.file||null,memory.mtimeMs==null?null:memory.mtimeMs,memory.ok===true,memory.error||null]);
+}
+function refreshMemoryGraphIfChanged(memory){
+  if(!mg.loading&&mg.loadedVersion!==memoryVersionKey(memory)) return loadMemoryGraphTab();
+}
+function renderMemoryStatus(memory){
+  var el=document.getElementById('mg-health');
+  if(!el) return;
+  memory=memory||{};
+  var writer=memory.writer||{},task=memory.snapshotTask||{},snapshots=memory.snapshots||{};
+  var storeText=memory.ok
+    ? 'available; '+memory.entities+' entities, '+memory.relations+' relations; file updated '+fmtStamp(memory.mtimeMs)
+    : (memory.error||'unavailable');
+  var writerText=writer.cacheState!=='current'
+    ? 'status '+(writer.cacheState||'unavailable')+(writer.error?': '+writer.error:'')
+    : (!writer.configured?'not configured':(writer.active?'active':'configured but inactive'));
+  var taskText=task.error||(!task.configured?'not configured':((task.state||'unknown state')+
+    '; last result '+(task.lastTaskResult==null?'unknown':task.lastTaskResult)+
+    '; last run '+fmtStamp(task.lastRunTime)+'; next run '+fmtStamp(task.nextRunTime)));
+  var snapshotText=snapshots.ok
+    ? snapshots.count+' retained; latest '+fmtStamp(snapshots.lastSnapshotAt)+(snapshots.overdue?'; overdue':'; on schedule')
+    : (snapshots.error||'unavailable');
+  el.innerHTML='<div class="row"><span class="k">Memory file</span><span>'+esc(storeText)+'</span></div>'+
+    '<div class="row"><span class="k">DSH memory writer</span><span>'+esc(writerText)+'</span></div>'+
+    '<div class="row"><span class="k">HALO Memory Snapshot task</span><span>'+esc(taskText)+'</span></div>'+
+    '<div class="row"><span class="k">Recovery snapshots</span><span>'+esc(snapshotText)+'</span></div>'+
+    '<div class="mut" style="margin-top:6px">Checked every 5 seconds. The graph refreshes when its backing file changes; unchanged views keep their layout and selection.</div>';
+}
+
+function clearMemoryGraphState(){
+  mgStopSim();
+  mg.nodes=[];
+  mg.edges=[];
+  mg.byId={};
+  mg.selected=null;
+  mg.hoverNode=null;
+  mg.hoverEdge=null;
+  mg.dragNode=null;
+  mg.initialized=false;
+  mg.loadedVersion=null;
+  mg.graphStatus='';
+  mg.svg=null;
+  mg.viewport=null;
+  var canvas=document.getElementById('mg-canvas');
+  var legend=document.getElementById('mg-legend');
+  var detail=document.getElementById('mg-detail');
+  if(canvas) canvas.innerHTML='';
+  if(legend) legend.innerHTML='';
+  if(detail) detail.innerHTML='<div class="mut">No graph details are available.</div>';
+}
+
 async function loadMemoryGraphTab(){
+  if(mg.loading) return;
+  mg.loading=true;
+  try{
   var statusEl=document.getElementById('mg-status');
   var headerEl=document.getElementById('mg-header');
   var canvas=document.getElementById('mg-canvas');
@@ -2304,17 +3026,21 @@ async function loadMemoryGraphTab(){
     if(!resp.ok) throw new Error('http '+resp.status);
     g=await resp.json();
   }catch(e){
+    clearMemoryGraphState();
     headerEl.textContent='Memory Graph \\u2014 unavailable';
     statusEl.innerHTML='<span style="color:var(--red)">degraded: could not reach /api/memory-graph (dsh/mission-control unreachable). No graph is shown \\u2014 this is not a fake/empty render.</span>';
-    canvas.innerHTML='';
-    legendEl.innerHTML='';
-    document.getElementById('mg-detail').innerHTML='<div class="mut">Click a node to see its details.</div>';
     return;
   }
   if(!g.ok){
+    clearMemoryGraphState();
+    mg.loadedVersion=memoryVersionKey(g);
     headerEl.textContent='Memory Graph \u2014 '+(g.error||'unavailable');
-    statusEl.textContent='No graph is shown because the backing memory file is not available.';
-    canvas.innerHTML=''; legendEl.innerHTML='';
+    statusEl.textContent='No graph is shown: '+(g.error||'the backing memory file is unavailable')+'.';
+    return;
+  }
+  var version=memoryVersionKey(g);
+  if(mg.initialized&&mg.loadedVersion===version){
+    statusEl.textContent=mg.graphStatus||'';
     return;
   }
   var entities=g.entities||[];
@@ -2345,12 +3071,15 @@ async function loadMemoryGraphTab(){
   mgApplyHighlight();
   mgStartSim();
   mg.initialized=true;
+  mg.loadedVersion=version;
+  mg.graphStatus=statusEl.textContent;
   document.getElementById('mg-detail').innerHTML='<div class="mut">Click a node to see its details.</div>';
   // Self-correct the sizing trap: if the tab was hidden (clientWidth/Height
   // 0) when this ran, the canvas fell back to 800x500. A frame later, once
   // the browser has actually painted the now-active tab, re-measure and
   // re-fit if the real size differs.
   requestAnimationFrame(function(){ mgOnTabActivated(); });
+  }finally{mg.loading=false;}
 }
 
 // Re-entry point every time the Memory tab is shown (nav click or
@@ -2373,6 +3102,10 @@ function mgOnTabActivated(){
   if(Math.abs(w-mg.w)>4||Math.abs(h-mg.h)>4){
     mg.w=w; mg.h=h;
     if(mg.svg) mg.svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    // Resizing moves nodes during the next simulation. Fit now for an
+    // immediate view, then fit their settled positions instead of keeping
+    // a transform anchored to the old desktop coordinates.
+    mg.didInitialFit=false;
     mgFitToView();
     mgStartSim(); // let it glide to the new center
   }
@@ -2549,6 +3282,9 @@ function buildMemoryGraphElements(){
 
   mg.nodes.forEach(function(node){
     var grp=document.createElementNS(MG_NS,'g');
+    grp.setAttribute('tabindex','0');
+    grp.setAttribute('role','button');
+    grp.setAttribute('aria-label','Open memory entity '+node.name);
     grp.style.cursor='pointer';
     grp.style.transition='opacity .12s';
     var circle=document.createElementNS(MG_NS,'circle');
@@ -2561,6 +3297,13 @@ function buildMemoryGraphElements(){
     nodesGroup.appendChild(grp);
     node.el=grp; node.circleEl=circle;
     grp.addEventListener('mousedown', function(ev){ mgStartNodeDrag(ev,node); });
+    grp.addEventListener('keydown', function(ev){
+      if(ev.key==='Enter'||ev.key===' '){
+        ev.preventDefault();
+        if(mg.selected===node.id) deselectMemoryNode();
+        else selectMemoryNode(node.id);
+      }
+    });
     grp.addEventListener('mouseenter', function(ev){ mg.hoverNode=node; mg.hoverEdge=null; mgApplyHighlight(); mgShowTooltip(mgNodeTooltipText(node),ev); });
     grp.addEventListener('mousemove', function(ev){ if(mg.hoverNode===node) mgMoveTooltip(ev); });
     grp.addEventListener('mouseleave', function(){ if(mg.hoverNode===node){ mg.hoverNode=null; mgApplyHighlight(); mgHideTooltip(); } });
@@ -2809,6 +3552,10 @@ async function refreshStatus(){
     applyLoaderLabels(s);
     if(currentTab==='overview') renderOverview(s);
     if(currentTab==='system') renderSystem(s);
+    if(currentTab==='memory'){
+      renderMemoryStatus(s.memory);
+      await refreshMemoryGraphIfChanged(s.memory);
+    }
   }catch(e){ document.getElementById('stamp').textContent='status fetch failed' }
 }
 // Activate the initial tab only after every later global (notably
@@ -3031,7 +3778,7 @@ function buildReasoningRows({
   const configuredEffort = describeConfiguredReasoningEffort(route);
   const currentContract = resolveCurrentRouteReasoning(route, definitions);
   return [
-    { label: 'Current DSH default model', value: routeName, source: settingsSource },
+    { label: 'Configured DSH route', value: routeName, source: settingsSource },
     {
       label: 'Configured DSH reasoning effort',
       value: configuredEffort.value + ' — ' + configuredEffort.basis,
@@ -3114,6 +3861,7 @@ function settingsData(file = SETTINGS_FILE) {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://127.0.0.1');
+    if (url.pathname.startsWith('/api/')) res.setHeader('cache-control', 'no-store');
     if (req.method === 'GET' && url.pathname === '/') {
       // no-store: the app ships inline in this file — a cached copy silently
       // runs stale UI against a newer server after every MC update.
@@ -3134,8 +3882,7 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/api/plugins') {
       const dshUp = await tcpCheck(3080);
-      if (!dshUp) { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify({ error: true, entries: [], summary: null })); return; }
-      const slow = await slowPulls();
+      const slow = dshUp ? await slowPulls() : slowCacheView(Date.now(), 'DSH port unavailable');
       const overrides = cordisOverrideIds();
       const rawEntries = slow.pluginEntries || [];
       const moduleCounts = new Map();
@@ -3164,7 +3911,12 @@ const server = http.createServer(async (req, res) => {
         };
       }).sort((a, b) => bucketRank(a.bucket, a.stuck) - bucketRank(b.bucket, b.stuck) || a.entryId.localeCompare(b.entryId));
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ error: false, entries, summary: slow.pluginSummary }));
+      res.end(JSON.stringify({
+        error: !slow.pluginEntries, entries,
+        summary: slow.pluginSummary ? { ...slow.pluginSummary, stale: slow.stale, cacheState: slow.state } : null,
+        stale: slow.stale, cacheState: slow.state, sampledAt: slow.sampledAt || null,
+        sourceAgeMs: slow.ageMs, refreshError: slow.error,
+      }));
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/sessions') {
@@ -3177,9 +3929,9 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/memory-graph') {
-      const { ok, file, error, entities, relations, relationCount } = parseMemoryFile();
+      const graph = parseMemoryFile(MEMORY_FILE);
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ ok, file, error: error || null, entities, relations, relationCount, tripwire: MEMORY_ENTITY_TRIPWIRE }));
+      res.end(JSON.stringify({ ...graph, error: graph.error || null, tripwire: MEMORY_ENTITY_TRIPWIRE }));
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/history') {
@@ -3191,12 +3943,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/api/logtail') {
       try {
-        const months = fs.readdirSync(LMSTUDIO_LOGS).filter(d => /^\d{4}-\d{2}$/.test(d)).sort();
-        if (!months.length) throw new Error('no month dirs');
-        const monthDir = path.join(LMSTUDIO_LOGS, months[months.length - 1]);
-        const files = fs.readdirSync(monthDir).filter(f => f.endsWith('.log')).sort();
-        if (!files.length) throw new Error('no log files');
-        const file = path.join(monthDir, files[files.length - 1]);
+        const file = selectNewestLogFile(LMSTUDIO_LOGS);
+        if (!file) throw new Error('no log files');
         const all = fs.readFileSync(file, 'utf8').split('\n');
         // The raw tail is ~90% LMSAuthenticator polling chatter (getLoadConfig /
         // getModelInfo / getInstanceProcessingState with long instance hashes),
@@ -3207,7 +3955,7 @@ const server = http.createServer(async (req, res) => {
         const kept = raw ? all : all.filter(l => l.trim() && !NOISE.test(l));
         const lines = kept.slice(-80);
         res.writeHead(200, { 'content-type': 'application/json' });
-        res.end(JSON.stringify({ error: false, file, lines, filtered: !raw, dropped: raw ? 0 : all.filter(l => l.trim()).length - kept.length }));
+        res.end(JSON.stringify({ error: false, file, fileMtimeMs: fs.statSync(file).mtimeMs, lines, filtered: !raw, dropped: raw ? 0 : all.filter(l => l.trim()).length - kept.length }));
       } catch {
         res.writeHead(200, { 'content-type': 'application/json' });
         res.end(JSON.stringify({ error: true, file: null, lines: [] }));
@@ -3224,7 +3972,7 @@ const server = http.createServer(async (req, res) => {
         // node <pnpm.mjs> dlx ... -- shell-free, avoids the .cmd spawn EINVAL.
         const { stdout, stderr } = await safeExecFile('node', [PNPM_MJS, 'dlx', '@deepseek-ai/dsh@' + DSH_VERSION_PIN, 'web', '--dump-config'], { timeout: 300000, maxBuffer: 16 * 1024 * 1024 });
         const combined = `${stdout}\n${stderr}`;
-        const warnings = combined.split('\n').filter(l => /unmatched|warn|not found|error/i.test(l)).map(l => l.trim()).filter(Boolean).slice(0, 50);
+        const warnings = parseValidationDiagnostics(combined);
         result = { when: Date.now(), ok: warnings.length === 0, warnings };
       } catch (e) {
         result = { when: Date.now(), ok: false, warnings: [String(e.message || e).slice(0, 500)] };
@@ -3265,8 +4013,16 @@ const server = http.createServer(async (req, res) => {
       }
       const ctxN = Number.isFinite(ctx) && ctx > 0 ? Math.min(1048576, Math.round(ctx)) : 32768;
       // No shell: args are an argv vector, never concatenated into a command line.
-      safeSpawn('lms', ['load', String(modelPath), '--identifier', String(modelKey), '--context-length', String(ctxN), '-y'], { detached: true, stdio: 'ignore' }).unref();
-      res.writeHead(200); res.end('ok'); return;
+      try {
+        await runLmsMutation(
+          ['load', String(modelPath), '--identifier', String(modelKey), '--context-length', String(ctxN), '-y'],
+          String(modelKey), true, 10 * 60 * 1000,
+        );
+        res.writeHead(200); res.end(`loaded and corroborated: ${modelKey}`); return;
+      } catch (error) {
+        console.error('[mission-control] model load failed:', error);
+        res.writeHead(502); res.end('model load failed or residency could not be corroborated; see the Mission Control log'); return;
+      }
     }
     if (req.method === 'POST' && url.pathname === '/api/action/unload-model') {
       if (!actionAuthorized(req)) { res.writeHead(403); res.end('unauthorized: missing or invalid action token'); return; }
@@ -3285,8 +4041,13 @@ const server = http.createServer(async (req, res) => {
       if (target.deviceIdentifier != null) {
         res.writeHead(403); res.end('refused: model runs on a remote LM Link device — unload it from that device'); return;
       }
-      safeSpawn('lms', ['unload', String(identifier)], { detached: true, stdio: 'ignore' }).unref();
-      res.writeHead(200); res.end('ok'); return;
+      try {
+        await runLmsMutation(['unload', String(identifier)], String(identifier), false, 60000);
+        res.writeHead(200); res.end(`unloaded and corroborated: ${identifier}`); return;
+      } catch (error) {
+        console.error('[mission-control] model unload failed:', error);
+        res.writeHead(502); res.end('model unload failed or residency could not be corroborated; see the Mission Control log'); return;
+      }
     }
     // Stop ONE session. On 2026-08-20 the only way to end a runaway was to
     // kill the whole harness process from a shell, which also ends every other
@@ -3370,7 +4131,13 @@ const server = http.createServer(async (req, res) => {
       // /api/action/constructor and /api/action/hasOwnProperty resolved to
       // functions and returned 200 (QA3). Restrict to declared actions.
       if (Object.prototype.hasOwnProperty.call(ACTIONS, a) && typeof ACTIONS[a] === 'function') {
-        ACTIONS[a](); res.writeHead(200); res.end('ok'); return;
+        try {
+          await ACTIONS[a]();
+          res.writeHead(200); res.end(a === 'start-cockpit' ? 'start request spawned' : 'action completed and corroborated'); return;
+        } catch (error) {
+          console.error(`[mission-control] action ${a} failed:`, error);
+          res.writeHead(502); res.end('action failed; see the Mission Control log'); return;
+        }
       }
       res.writeHead(404); res.end('unknown action'); return;
     }

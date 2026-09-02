@@ -5,7 +5,9 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const missionControlFile = path.join(here, '..', 'mission-control.mjs');
+const missionControlFile = process.env.HALO_MC_SOURCE_UNDER_TEST
+  ? path.resolve(process.env.HALO_MC_SOURCE_UNDER_TEST)
+  : path.join(here, '..', 'mission-control.mjs');
 const source = fs.readFileSync(missionControlFile, 'utf8');
 
 function contractFunctions() {
@@ -127,7 +129,7 @@ customFields:
     workerSource: 'worker.yaml',
   });
   assert.deepEqual(rows.slice(0, 3).map(row => [row.label, row.value]), [
-    ['Current DSH default model', 'lmstudio/unsloth/qwen3.8-27b'],
+    ['Configured DSH route', 'lmstudio/unsloth/qwen3.8-27b'],
     ['Configured DSH reasoning effort', 'none — adapter/provider resolves at request time'],
     ['Current model reasoning contract', 'provider-owned — unknown from static DSH configuration; no exact alias contract is declared for this route'],
   ]);
