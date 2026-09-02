@@ -1,0 +1,31 @@
+UTC 2026-09-02T18:05:31.272Z
+Command: C:\Program Files\nodejs\node.exe --test filter-models.test.mjs component.test.mjs default-directory.test.mjs
+✔ baseline: all provider rows remain available and routing uses exact opaque IDs (5.4451ms)
+✔ search filters the actual component and does not change selection until a row is chosen (1.6366ms)
+✔ no-match state is explicit and clearing restores the full catalog (1.834ms)
+✔ keyboard arrows from search focus first and last visible model without selecting (0.9954ms)
+✔ search does not hide load errors or failures and does not rewrite current reasoning (1.0551ms)
+✔ long labels retain provider and authentication details in the full row tooltip (0.8981ms)
+✔ a root opening picker exists before a session and disappears once the session picker takes over (0.8751ms)
+✔ opening picker reads the complete catalog and persisted default without creating a session (1.731ms)
+✔ selection persists exact route for the next session and a fresh controller after restart (0.3455ms)
+✔ reasoning effort is persisted only when explicitly selected (0.1445ms)
+✔ failed persistence preserves the old selection and exposes an actionable error (0.1764ms)
+✔ failed catalog refresh retains last good catalog and current selection (0.1998ms)
+✔ missing default leaves every catalog choice available so the user can repair it (0.2327ms)
+✔ a late initial load cannot overwrite a newer saved route (0.2933ms)
+✔ empty search preserves every model, ordering and identity (0.5987ms)
+✔ matches provider label, model ID and name case-insensitively across words (0.5389ms)
+✔ provider ID and descriptions are searchable without mutating source (0.6085ms)
+✔ literal hostile and absent search terms return no matches, not regex or markup (0.1255ms)
+✔ a large catalog remains complete; search has no hidden provider cap (1.6434ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.8495
+
+Exit 0

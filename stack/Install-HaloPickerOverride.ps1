@@ -17,6 +17,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+if ([string]::IsNullOrWhiteSpace($RollbackFrom) -and (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'provider-integration\README.md'))) {
+    throw 'This legacy single-picker installer predates the September 2 three-package promotion. Use provider-integration/README.md; refusing to downgrade the current stack.'
+}
 if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
     $RepoRoot = Split-Path $PSScriptRoot -Parent
 }

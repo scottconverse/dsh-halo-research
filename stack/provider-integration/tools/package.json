@@ -1,0 +1,10 @@
+{
+  "name": "halo-development-provider-tools",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Development-only pinned provider evaluation tools",
+  "dependencies": {
+    "omniroute": "3.8.50",
+    "yaml": "2.8.3"
+  }
+}

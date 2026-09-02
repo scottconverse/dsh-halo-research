@@ -20,6 +20,18 @@ $dlxArgs = @('dlx')
 foreach ($package in $allowedBuilds) { $dlxArgs += "--allow-build=$package" }
 $dlxArgs += @($DshVer, 'web', '--no-open')
 
+# The provider is independently owned; its failure must not take local/native
+# CLI coding offline. Never print its credential or copy user CLI auth files.
+try {
+    & (Join-Path $PSScriptRoot 'provider-integration\Start-Provider.ps1') | Out-Null
+    $credentialFile = Join-Path $env:USERPROFILE '.dsh\provider-runtime\credentials.json'
+    if (Test-Path -LiteralPath $credentialFile) {
+        $providerCredential = Get-Content -LiteralPath $credentialFile -Raw | ConvertFrom-Json
+        if ($providerCredential.origin -ne 'http://127.0.0.1:20130') { throw 'Provider credential origin mismatch' }
+        $env:HALO_PROVIDER_KEY = $providerCredential.apiKey
+    }
+} catch { Write-Warning "Halo cloud router startup needs attention: $($_.Exception.Message). Local and native CLI routes remain available." }
+
 function Test-Health {
     try {
         $response = Invoke-WebRequest -Uri "http://localhost:$Port" -UseBasicParsing -TimeoutSec 5

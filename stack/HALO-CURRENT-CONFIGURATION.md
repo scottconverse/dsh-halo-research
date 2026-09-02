@@ -1,11 +1,66 @@
 # Halo stack — current installed configuration
 
-**Status:** accepted 35B planner / Q4_K_M worker baseline with the 2026-08-30
-autonomy repair deployed. Q6 remains an installed test candidate only.
+## Current provider promotion — September 2, 2026
 
-**Verified:** 2026-09-01 after the 64/64 reboot baseline, structural autonomy
-repair, 13/13 gate tests, accepted-route reconciliation, supervised-launcher
-parse, and the live model-picker first-click regression
+Production at **http://127.0.0.1:3080** now includes the development-tested
+native Claude Code and Codex model routes, searchable opening/session picker,
+native timing/token display, persistent model selection, and native-session
+continuity. DSH remains the daily cockpit; local tuned models remain the
+fresh-launch default. LM Studio and Mission Control were not restarted or
+retuned by this promotion.
+
+The live catalog exposes 32 LM Studio/local/LM Link entries, 3 Claude CLI
+aliases, 7 installed-Codex catalog models, and 2,705 OmniRoute catalog routes.
+Catalog presence is **not account entitlement or inference acceptance**.
+Native Claude/Codex use the existing signed-in CLI accounts; other cloud
+providers require connecting the relevant account/API key. OmniRoute is
+production-owned at **http://127.0.0.1:20130**, independent of development
+`:20129`. Runtime/state: `C:\Users\scott\.dsh\provider-runtime`.
+
+Profile-local overlays: picker `halo-dev-search.4`, conversation metrics
+`halo-native-metrics.2`, and API session selection `halo-selection.3`, all
+based on DSH `0.1.1-rc.2`. No global pnpm package was hand-edited.
+Native adapter source: `stack/provider-integration`; production receipts,
+thread mappings, and compaction archives: `C:\Users\scott\.dsh\native-cli`.
+DSH outer compaction creates an exact transcript archive/checkpoint while
+the native CLI retains and compacts its own thread. This is not an additional
+LLM-generated semantic summary. Changing routes starts a new native context
+with DSH history; interrupted jobs are not automatically resumed/retried.
+
+Research Gateway, reference memory, the local aliases, optional verification,
+and existing sessions are preserved. Native CLI choices execute their own
+tools; they do not secretly execute the DSH tool catalog or Halo verifier.
+See `HALO-PROVIDER-PROMOTION-2026-09-02.md` for evidence, limitations, operation,
+and rollback. Earlier counts and deployment claims below are dated history.
+
+**Mission Control launcher correction (2026-09-02):** `Halo Status.lnk` now
+reuses the verified running dashboard instead of launching a duplicate server.
+The Windows PowerShell `-File` default-path failure is also fixed. The live
+Mission Control server, DSH settings, models, and development deployment were
+not replaced or restarted. See `HALO-DSH-IMPLEMENTATION-2026-09-02.md`.
+
+**Status (2026-09-01 native-access correction):** Halo Orchestrator retains
+native tools; the verified-coder workflow is optional and inherits caller
+permissions. The 2026-08-30 capability restrictions below are superseded.
+See `HALO-DSH-IMPLEMENTATION-2026-09-01.md` for the current DSH deployment
+ledger and evidence boundaries. The native-access changes belong to the
+separate Gateway task and are preserved, not reimplemented here.
+
+**Evidence boundary:** older model/residency/picker measurements in this file
+are dated baseline evidence, not a fresh current-state inventory. The native
+access repair does not change model routes, contexts, or slots. Its gate suite
+was reported as 16/16 by that task; this picker/monitoring task did not rerun
+or strengthen that autonomy claim.
+
+**Current startup (2026-09-01 evening):** a fresh cockpit launch selects the
+tuned `lmstudio/halo/qwen3.6-35b-a3b` default and preloads that brain plus
+`halo/qwen3-coder-30b-a3b-q4km`. Both were observed resident at Q4_K_M, 32768
+context, one slot, and no idle TTL. Reopening a running cockpit refreshes the
+catalog without resetting selection or residency. The picker currently has
+32 saved choices, including API-discovered local and LM Link models. This
+is a catalog count, not 32 independent files or 32 tested inference routes.
+Full native tools and permissions remain unchanged. See
+`HALO-STARTUP-AND-BIONIC-2026-09-01.md` for the new evidence and limitations.
 
 **DSH:** `@deepseek-ai/dsh@0.1.1-rc.2`
 
@@ -19,10 +74,11 @@ choices. Historical files remain evidence, not current configuration.
 
 ## Evidence correction — 2026-08-30
 
-The daily 35B/Q4_K_M baseline below is the accepted operating configuration.
+At that date, the daily 35B/Q4_K_M baseline below was the accepted configuration.
 The Q6 worker and persistent-memory audition remain preserved as unfinished
-experiments, but neither replaces the accepted route. The live root is restored
-to the 35B and `subagent_coder` is restored to Q4_K_M.
+experiments, but neither replaced that baseline. The root was restored to the
+35B then; the current default is recorded above. The optional `subagent_coder`
+route remains Q4_K_M.
 
 Prior Hardgate/canary results were actively shaped by Codex through prompts,
 roles, tool restrictions, acceptance criteria, and retry decisions. They prove
@@ -40,9 +96,12 @@ tgz under `stack\packages`. For a current model with no reasoning metadata, the
 first click now displays the full model-radio list directly. Models that expose
 reasoning metadata retain DSH's Model/Effort root menu. The active cockpit
 served the reviewed client SHA-256
-`ADD6028CF8ED2256E5A05D1B98B24B97A76F93EAD1800D87A6EFDE194BBA3D82`
-at revision `181d51cad54e`; one read-only UI check exposed all 12 models without
-the intermediate row and preserved the checked model.
+`8AD89CED1EB23C241C82E0B3702359696827920AD99F37DE2AA568095533E131`
+after today's deployment. The HTTP-served and installed bytes match. A live
+browser check exposed all 12 choices, changed the selection to the tuned 35B,
+verified its label and checked radio, then restored the original raw 27B
+selection. No generation prompt was submitted for this UI check. The older
+`ADD6028C...`/`181d51cad54e` identity is superseded deployment evidence.
 
 The canonical profile dependency is `stack\web-profile.package.json`. The
 installer `stack\Install-HaloPickerOverride.ps1` uses an offline,
@@ -54,6 +113,11 @@ returns the exact `-RollbackFrom` command. Installation and rollback each
 require a separate, ownership-checked DSH-cockpit-only restart; they do not
 restart LM Studio, the Research Gateway, Mission Control, or Ollama.
 
+The alternate-DSH-home install and second-run no-op were also tested in a
+disposable directory without changing the real profile. Same-version repairs
+remove only the picker dependency before adding the pinned archive, so pnpm
+cannot silently retain an older bundle. Failed installs retain rollback evidence.
+
 ## 1. Source of truth and copy policy
 
 - Reproducible stack: `C:\Users\scott\Desktop\Code\dsh-halo-research\stack`
@@ -62,7 +126,7 @@ restart LM Studio, the Research Gateway, Mission Control, or Ollama.
 - Scott's required readable copy: `C:\Users\scott\Desktop\Halo Stack Research`
 - Recovery snapshot: `C:\Users\scott\Desktop\Halo Stack Research\Current Halo Configuration`
 - Governing current specification:
-  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.4.md`
+  `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Spec-v3.5.md`
 - Complete historical specification through v3.1:
   `C:\Users\scott\Desktop\Code\dsh-halo-research\DSH-Strix-Halo-Report-v3.0.md`
 
@@ -85,7 +149,7 @@ resident so the planner/worker loop does not pay a reload on every delegation.
 If a future configuration cannot remain fully resident without material shared
 memory or paging, serialized loading is the fallback before changing VGM again.
 
-## 3. Current topology
+## 3. Accepted baseline topology (current selected route is recorded above)
 
 | Layer | Current component | Purpose |
 |:--|:--|:--|
@@ -95,8 +159,8 @@ memory or paging, serialized loading is the fallback before changing VGM again.
 | Model server | LM Studio on `:1234` | Local OpenAI-compatible inference |
 | Gate | Halo Verified Coder DSH plugin | Isolated staging, verification, promotion, receipts |
 | Cloud specialists | Native Codex and Claude subagents | Optional subscription-backed help |
-| Public web | Anonymous Exa MCP | Search and fetch without a DeepSeek key |
-| Reddit | Installed `reddit-search` skill | Anonymous RSS-backed Reddit research |
+| Public web | Local Halo Research Gateway 0.2.0 on `:8765` | Shared search/fetch/crawl/research tools |
+| Reddit | Gateway Reddit tools | Shared anonymous pacing and cache |
 | Monitoring | Mission Control on `:3090` | Models, memory, services, gate ledger |
 
 ## 4. Daily model pair
@@ -140,21 +204,19 @@ rollback option.
 
 ### Residency
 
-The current default is **dual resident, serialized generation**:
+The accepted daily-pair operating pattern is **dual resident, serialized generation**:
 
 1. The 35B plans and calls `subagent_coder`.
-2. The Q4_K_M Coder implements one bounded unit in gate-owned staging with only
-   `read`, `write`, `edit`, `glob`, `grep`, and `pwsh` available.
+2. When selected, the Q4_K_M Coder implements a bounded unit in gate-owned
+   staging with the native tool catalog and the caller's permission scope.
 3. The verifier decides PASS or FAIL and promotes only PASS.
-4. The already-resident 35B reviews a PASS with read-only tools or reports a
-   FAIL and stops. It cannot retry the gate or directly mutate around the
-   verdict in the same unit.
+4. The orchestrator reports the actual receipt and continues authorized work.
+   New changes need fresh verification; a failed receipt cannot be called PASS.
 
-The strict Halo Build preset now denies root `write`, `edit`, shell, generic
-subagent, Codex/Claude Build, workflow, and Ralph implementation calls from the
-start of the unit—not merely after a verdict. The root can inspect, run the
-read-only `halo_preflight`, define acceptance, and invoke the gated local worker.
-Use a different preset for explicitly requested direct/full-access work.
+Halo Orchestrator supports direct `write`, `edit`, shell, generic subagents,
+Codex/Claude Build, workflows, and Ralph before and after gate calls. There is
+no preset-switch requirement for native access. The model picker remains
+operator-controlled; the model measurements here describe the earlier baseline.
 
 The 2026-08-29 live canary ended with both models resident, idle, context
 32,768, and `parallel: 1`. Sequential swapping is now a fallback, not the
@@ -184,7 +246,8 @@ are in `HALO-PARALLEL-SLOT-TEST-2026-08-30.md` and
 
 **Installed daily profile:** both the 35B planner and 30B worker remain at 32K
 and `parallel=1`. The planner issues one gated implementation unit and waits for
-its verdict. This is the only accepted and deployed profile.
+its verdict. This is the accepted tuning profile; raw-model selections can use
+different load defaults.
 
 **Proposed two-worker fan-out profile:** not installed and not accepted yet. If
 Halo later needs two genuinely independent coding units at once, leave the
@@ -267,6 +330,24 @@ and sessions updated in the previous 15 minutes; historical fill remains on the
 Sessions tab and does not keep the whole dashboard red. A missing memory graph
 is reported as not configured, never as zero entities.
 
+The 2026-09-01 final Mission Control build is deployed with source SHA-256
+`45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE`.
+It passed 118/118 combined tests, 83/83 installer checks, and 199 live checks
+bound to its exact install receipt. The real memory node, writer/task/snapshot
+status, unchanged-refresh preservation, and narrow-width graph fitting were
+checked in the browser. Current deployment and recovery evidence is in
+`HALO-DSH-IMPLEMENTATION-2026-09-01.md`.
+
+After Scott approved UAC, the replacement `HALO Memory Snapshot` task was
+registered at 20:47 MDT on 2026-09-01. It runs the canonical snapshot script
+as Scott with Interactive/Limited privileges, hourly plus a startup trigger,
+missed-run handling, three five-minute retries, no overlapping runs, a
+ten-minute execution limit, and 168-snapshot retention. The real Task Scheduler
+run at 20:49 completed with result 0 and created a byte-identical snapshot of
+the source memory file. Startup/retry behavior is definition-verified, not a
+claim that a reboot or injected failure was tested. Before/after definitions
+and first-run proof are preserved with the dated implementation evidence.
+
 ## 7. Verified Coder gate
 
 The current `subagent_coder` is the Halo-owned DSH composite in
@@ -274,11 +355,9 @@ The current `subagent_coder` is the Halo-owned DSH composite in
 
 - a detached staging worktree;
 - explicit editable and protected path lists;
-- a synthetic `workspace-write` parent;
-- the native DSH preset composition copied into that parent, narrowed by DSH's
-  native child tool filter to `read`, `write`, `edit`, `glob`, `grep`, and
-  `pwsh` only;
-- a direct-child depth cap of 1;
+- a synthetic staging parent with the caller's explicit permission scope;
+- the native DSH preset composition without a gate-specific child tool filter
+  or delegation-depth cap;
 - at most two worker rounds;
 - a gate-owned `.halo-scratch` directory for temporary fixtures and pytest
   basetemp, excluded from diffs and promotion;
@@ -287,18 +366,11 @@ The current `subagent_coder` is the Halo-owned DSH composite in
 - compare-and-swap promotion;
 - post-promotion verification and rollback;
 - fail-closed timeout/crash behavior;
-- `update_goal(action=complete)` denial when the last armed verdict is not
-  PASS;
-- denial of a second gate call or parent `write`/`edit`/shell mutation after
-  the unit's verdict, whether PASS or FAIL;
-- denial of root mutation and ungated implementation children before the gate;
 - a read-only `halo_preflight` that checks the actual Git, Node, Python,
   package-manager, Docker CLI, and Docker-daemon state;
 - non-Git greenfield support through gate-owned `.halo-acceptance` files,
   written before the worker starts, protected from it, verified in isolated
   Git worktrees, and never promoted into the user's project;
-- worker shell guards that reject unbounded recursive directory enumeration
-  and foreground development servers;
 - structured receipts under
   `C:\Users\scott\AppData\Local\HaloGate\runs`.
 
@@ -310,10 +382,11 @@ parent reported PASS. Receipt:
 
 `C:\Users\scott\AppData\Local\HaloGate\runs\2026-08-30T01-16-38-059Z-2fdc1f28\verdict.json`
 
-The repaired plugin's zero-model suite passes 13/13, including Git and
-greenfield promotion, greenfield acceptance-test tampering, scratch
-containment, planner mutation/bypass locks, worker shell guards,
-protected-test tampering, launcher evidence, and verifier crash/timeout cases.
+The corrected plugin's zero-model suite passes 16/16, including existing
+promotion/tampering/crash/timeout checks and native-access regressions before
+and after PASS/FAILED. Staging is not a security sandbox: a full-access worker
+can access the rest of the machine. The receipt is evidence for the checked
+changes, not a tamper-proof guarantee against an agent with that authority.
 
 A fresh real-repository guided Halo proof then ran under a Codex-designed
 brief, role split, tool boundary, verifier, and retry policy:
@@ -342,9 +415,11 @@ decision. Full evidence is in `HALO-IMPROVEMENT-BASELINE-2026-08-30.md`.
 ## 8. Permissions and behavior modes
 
 New Halo sessions default to DSH `danger-full-access` with approval policy
-`never`, matching Scott's requested machine access. The gate intentionally
-narrows its local worker staging parent to `workspace-write`; the worker does
-not receive the cockpit's unrestricted live-workspace authority.
+`never`, matching Scott's requested machine access. The gate now preserves
+that scope for its worker. If the operator explicitly selects a narrower
+session policy, it is inherited instead; the plugin does not override it.
+Available capabilities do not authorize unrelated actions. The separately
+named Claude Plan provider remains a planning-mode option, not Claude Build.
 
 Permission mode, model selection, and agent behavior are different controls:
 
@@ -357,15 +432,15 @@ Permission mode, model selection, and agent behavior are different controls:
 
 Enabled in Halo:
 
-- `mcp__exa__web_search_exa`
-- `mcp__exa__web_fetch_exa`
+- the sixteen `mcp__halo_research__*` tools from the local 0.2.0 Gateway
 - normal filesystem, PowerShell, Git, and GitHub tooling
 - installed `reddit-search` skill
 
 Anonymous Exa has a hosted free quota and may return a rate-limit error. It is
 not equivalent to an unlimited research service. The bundled DeepSeek-keyed
-web tool and unsafe unrestricted direct fetch remain disabled. The planned
-Halo Research Gateway is not deployed yet.
+web tool remains disabled without a key; native shell/network capability is
+available. Gateway authentication, real actions, imported-profile sessions,
+and paid-provider positive-path acceptance still require separate evidence.
 
 ## 10. Operator procedure
 
@@ -381,19 +456,32 @@ The launcher is idempotent. It starts a hidden, bounded supervisor which
 supplies the local dummy LM Studio credential, sets DSH
 `danger-full-access`, preserves stdout/stderr, writes child/supervisor PID and
 health metadata, captures the exit code, and performs at most one restart.
-Evidence is under `C:\Users\scott\.dsh\logs`. LM Studio must already be
-running.
+Evidence is under `C:\Users\scott\.dsh\logs`. The startup helper requests
+`lms server start` if the local API is unavailable. The observed successful
+path used Bionic as the runtime host; a completely stopped runtime/daemon
+has not been tested in this change. LM Studio and Bionic must not be launched
+simultaneously. Bionic can serve local models to DSH while its own cloud UI
+remains available.
+
+The launcher waits for the settings plugin (not merely an HTTP page), then
+refreshes all advertised LLM choices without erasing custom/offline entries.
+On fresh DSH start it preloads the pair sequentially and verifies actual
+resident quant/context/slots. It does not unload or lock out other models.
+Raw/remote choices retain provider-owned load settings; catalog discovery
+does not prove their loaded context, tool support, or hardware fit. The 32K
+catalog declaration must be matched to the runtime when using those routes.
+Catalog discovery is on launcher invocation, not a continuous background poll.
 
 For a normal build, open a new Halo Orchestrator task, describe the software
-work, and let the 35B delegate implementation through `subagent_coder`. Select
-a raw picker model only when intentionally bypassing the orchestrated
-planner/worker/gate flow.
+work. The selected model may implement directly or use `subagent_coder` for
+verified staging. Both paths are available in this preset; neither silently
+changes the selected model or authorizes unrelated work.
 
 ## 11. Recovery and evidence
 
 - Pre-change backup: `C:\Users\scott\.dsh\backups\halo-96gb-20260829-182512`
 - Runtime evidence: `HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md`
-- Autonomous coding evidence:
+- Guided coding evidence (not unassisted autonomy):
   `HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md`
 - Improvement and candidate-audition evidence:
   `HALO-IMPROVEMENT-BASELINE-2026-08-30.md`
@@ -421,8 +509,9 @@ validate DSH and LM Studio after restoration.
   inference merely because `lms ps` says `idle`; wait for `lms load` to report
   success.
 - Exa's anonymous hosted quota is finite.
-- The Halo Research Gateway remains a specification/partial project, not a
-  deployed DSH service.
+- The Halo Research Gateway is deployed at 0.2.0, but that is not proof of
+  complete v1.5 acceptance. The separate Gateway task owns research acceptance
+  and outstanding provider/browser checks; this DSH repair does not certify it.
 - Full worker prefill is materially slower than a tiny direct completion
   because it includes the coding system prompt and tool schemas; the live
   verified canary completed in about 49 seconds after the final composition

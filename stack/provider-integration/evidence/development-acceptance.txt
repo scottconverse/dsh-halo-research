@@ -1,0 +1,207 @@
+{
+  "started": "2026-09-02T21:43:10.211Z",
+  "finished": "2026-09-02T21:43:14.583Z",
+  "node": "v24.20.0",
+  "command": [
+    "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-dev\\.runtime\\node\\node-v24.20.0-win-x64\\node.exe",
+    "--test",
+    "dev/config-build.test.mjs",
+    "dev/configure-provider.test.mjs",
+    "dev/dev-isolation.test.mjs",
+    "dev/provider-launch.test.mjs",
+    "dev/catalog.test.mjs",
+    "dev/enrich-catalog.test.mjs",
+    "dev/picker/filter-models.test.mjs",
+    "dev/picker/component.test.mjs",
+    "dev/picker/default-directory.test.mjs",
+    "dev/cli-provider.test.mjs",
+    "dev/cli-runtime.test.mjs",
+    "dev/cli-metrics.test.mjs",
+    "dev/conversation-metrics/patch.test.mjs",
+    "dev/native-continuity.test.mjs",
+    "dev/session-selection/store.test.mjs",
+    "stack/halo-verified-coder/test/plugin.test.mjs"
+  ],
+  "exit": 0,
+  "signal": null,
+  "error": null,
+  "tests": [
+    {
+      "file": "dev/config-build.test.mjs",
+      "sha256": "aa756eeb301fa2d0060a4b2cf48ecc0aa995e83ba0349bbb372dc0cf62fa4ad3"
+    },
+    {
+      "file": "dev/configure-provider.test.mjs",
+      "sha256": "23847d695c95ae34f34a9e9efc7b8f1791bcfaf09d1f99ecfbbb716595f0dafc"
+    },
+    {
+      "file": "dev/dev-isolation.test.mjs",
+      "sha256": "dce617dcc0ad4c173ff3e1d62cae3ceb4d26a8789b4c4225c939d013f721c73c"
+    },
+    {
+      "file": "dev/provider-launch.test.mjs",
+      "sha256": "fe5d2632450b64aada89879954ff156e55fac500cc4d73c6834a80dec170dc54"
+    },
+    {
+      "file": "dev/catalog.test.mjs",
+      "sha256": "96be37de0648ff296fb58d19f392926257e6941559d500a78da139078819ea29"
+    },
+    {
+      "file": "dev/enrich-catalog.test.mjs",
+      "sha256": "dc3b19166e7e8fb1a12baebd1b5c8b3a3be2dc652a41f087651fd9e00f69b7f8"
+    },
+    {
+      "file": "dev/picker/filter-models.test.mjs",
+      "sha256": "02cae6a4883a5c607cb03e0fe2f89d70fd0695a8dfd91c31bd761069b6be187e"
+    },
+    {
+      "file": "dev/picker/component.test.mjs",
+      "sha256": "d3059e21c4f62060bbff2125034667815e97d6f643008e6f359accc43f8de952"
+    },
+    {
+      "file": "dev/picker/default-directory.test.mjs",
+      "sha256": "b9a7776cd3bb74b17609507b06e4b4a642ced2bd2ebaa334177bd6230f07cbe5"
+    },
+    {
+      "file": "dev/cli-provider.test.mjs",
+      "sha256": "be97e7e4156b8c12295cbdf4e073e267fcace71287520496a5424f1ff520076d"
+    },
+    {
+      "file": "dev/cli-runtime.test.mjs",
+      "sha256": "f749b3c48e00f7222a6db5df3bf8169e28997061d2e0a4c0bfd5c9d3548f7d15"
+    },
+    {
+      "file": "dev/cli-metrics.test.mjs",
+      "sha256": "bba8af2b6ef4a3fb6b9835c1494a1bd5d0ec347c2589a17ab42db69ed1a7d00a"
+    },
+    {
+      "file": "dev/conversation-metrics/patch.test.mjs",
+      "sha256": "8786d8f506a33c89fc7641f0ff1e4be20b348637aa7771e008b33191c1a789eb"
+    },
+    {
+      "file": "dev/native-continuity.test.mjs",
+      "sha256": "73a28cb146362abc20101119abfd30345197247f6171b98f24740596550a1d45"
+    },
+    {
+      "file": "dev/session-selection/store.test.mjs",
+      "sha256": "53d4566669f3af1e8e1ecf434cfb4209d8160fd501b06de496a58bbf533bebd8"
+    },
+    {
+      "file": "stack/halo-verified-coder/test/plugin.test.mjs",
+      "sha256": "6c97d5714a4322dc690a65ddd56538e8d14a8f68e2989eb896a20cb851d70437"
+    }
+  ]
+}
+✔ routes preserve slash-containing model identifiers and name unavailable accounts honestly (1.246ms)
+✔ connected routes are labeled without claiming live acceptance; unknown context is explicit (0.1816ms)
+✔ invalid and duplicate rows do not poison the picker (0.1305ms)
+✔ catalog-declared cloud context stays usable but visibly unverified (1.033ms)
+✔ Codex input includes cache; reasoning is a subset of output, not extra tokens (2.3272ms)
+✔ resumed Codex counters subtract the persisted cumulative baseline; resets are unknown (0.2818ms)
+✔ Claude sums only terminal input categories, never helper modelUsage or assistant usage (0.1502ms)
+✔ missing terminal usage and failed runs are unknown, not zero (0.1258ms)
+✔ reported zero is preserved, missing optional counters remain unknown (0.126ms)
+✔ invalid and impossible counters do not become believable totals (0.2003ms)
+✔ duplicate terminals are not summed and failed processes mark available usage partial (0.1211ms)
+✔ monotonic runtime is preferred; banner and activity do not count as first model message (0.1183ms)
+✔ session index excludes auxiliaries and exposes only structured counters, not raw prompts/results (0.3205ms)
+✔ metrics endpoint is read-only, origin checked and contains no raw native output (0.5763ms)
+✔ exact custom model passes through and retries never repeat partial coding work (4.0992ms)
+✔ unknown session cannot launch in an accidental default workspace (0.4126ms)
+✔ history is marked as history and latest request separately; native CLI owns tools (0.3496ms)
+✔ CLI tool events are visible text, never executable DSH tool-call blocks (0.594ms)
+✔ timeout preserves failure and is not completion (0.3486ms)
+✔ pre-aborted calls never spawn (0.306ms)
+✔ auxiliary calls are explicitly text synthesis, not another coding request (0.4474ms)
+✔ image content is refused visibly rather than silently discarded (2.1139ms)
+✔ closing the DSH stream cancels its owned CLI even without external abort (0.7341ms)
+✔ Codex reasoning choices come from installed CLI metadata, not invented labels (0.9434ms)
+✔ return while next is pending immediately cancels the native worker (4.0514ms)
+✔ local title extracts user text, not the DSH title-generation instruction (0.4053ms)
+✔ closing a pending stream still persists cancelled native accounting exactly once (0.3577ms)
+✔ event timestamps and run duration use an injected monotonic clock (5.0508ms)
+✔ Claude native result, original stdin, normal homes, no API keys and no restricted tool list (1.968ms)
+✔ Codex events preserve raw records and terminal final; no shell and full native access (1.0003ms)
+✔ split UTF8 and last line without newline are parsed intact (2.05ms)
+✔ nonzero exit cannot be masked by success event; ordinary auth prose is not an auth failure (1.0354ms)
+✔ authentication error is classified distinctly (0.6348ms)
+✔ explicit refusal is not completion (0.7956ms)
+✔ empty/malformed output and Codex turn.failed fail closed (1.6748ms)
+✔ already cancelled request spawns nothing (0.4551ms)
+✔ timeout kills only owned PID tree and returns timeout (20.8223ms)
+✔ mid-run cancellation stops owned process (1.4314ms)
+✔ spawn failure and stdin errors return failure rather than hanging (0.9294ms)
+✔ native discovery uses existing user binary and never a shell shim (0.3248ms)
+✔ official subscription children discard inherited token, base URL and backend redirects (0.1673ms)
+✔ Claude auxiliary requests disable tools; Codex auxiliary explicitly unsupported (0.7326ms)
+✔ status probe returns only login method, never raw account/key status (0.7813ms)
+✔ Codex probe categorizes API login without returning key fragments (0.4825ms)
+✔ native resumable turns use exact IDs and retain persistence without shell or weaker permissions (1.2117ms)
+✔ a mismatched resumed thread fails instead of silently replacing context (0.5891ms)
+✔ development names local provider explicitly while preserving both choices and actual context (1.5048ms)
+✔ gateway choices are additive, not a replacement for local models (0.2089ms)
+✔ native access stays intact and input is unchanged (0.1291ms)
+✔ runtime credentials are references not embedded values (0.9743ms)
+✔ bootstrap verifies no cloud destination before key creation and never invokes providers (33.777ms)
+✔ a configured cloud sync destination stops before gateway key creation (1.7426ms)
+✔ an existing password without the isolated credential is not overwritten (1.5233ms)
+✔ error responses never echo a provider response containing secrets (0.8732ms)
+✔ Gemini family counts only its installed provider alias, never Grok Build gc or guessed aliases (3.8378ms)
+✔ actual compiled native per-message timing is unavailable while local timing is preserved (3.137ms)
+✔ unsupported or already-patched upstream bundle fails loudly (2.1288ms)
+✔ actual final-node builder uses durable provider identity, not the picker or optional requestConfig (1.9419ms)
+✔ launch plan isolates state, workspace, logs and package while preserving full native access (498.4238ms)
+✔ production and shared-service ports cannot be selected (1763.8874ms)
+✔ occupied port is refused without starting any DSH process (394.274ms)
+✔ excludes explicit specialty models only, never entire providers or unknown models (1.6739ms)
+✔ cloud context remains declared and unverified; local observed context wins (1.1325ms)
+✔ keeps slash model IDs intact, joins declared provider aliases, and adds rich-only entries (0.2207ms)
+✔ unknown or invalid contexts stay unknown rather than acquiring a generic default (0.1615ms)
+✔ does not mutate inputs and keeps a transparent exclusion receipt (0.1924ms)
+✔ deduplicates exact models and preserves unknown classification even with image output metadata (0.1328ms)
+✔ successful next turn resumes exact native thread with only new request, including after restart (24.8534ms)
+✔ provider, model, workspace, branch and edited history do not inherit a future native thread (90.4763ms)
+✔ failed native work is not automatically retried and does not become a ready checkpoint (27.1632ms)
+✔ DSH checkpoint preserves an exact archive and resumes native context without replay (27.7223ms)
+✔ concurrent turns in the same DSH session cannot share a native thread (4.8336ms)
+✔ checkpoint does not discard repeated user wording or multiple newly queued messages (30.7255ms)
+✔ native footer keeps ordinary local sessions on the original stats component (5.8769ms)
+✔ native footer never calls transport time decode time and never shows another session receipt (17.6157ms)
+✔ baseline: all provider rows remain available and routing uses exact opaque IDs (4.4713ms)
+✔ search filters the actual component and does not change selection until a row is chosen (3.1085ms)
+✔ no-match state is explicit and clearing restores the full catalog (1.8866ms)
+✔ keyboard arrows from search focus first and last visible model without selecting (1.7164ms)
+✔ search does not hide load errors or failures and does not rewrite current reasoning (1.7638ms)
+✔ long labels retain provider and authentication details in the full row tooltip (1.47ms)
+✔ a root opening picker exists before a session and disappears once the session picker takes over (1.3265ms)
+✔ opening picker reads the complete catalog and persisted default without creating a session (3.1337ms)
+✔ selection persists exact route for the next session and a fresh controller after restart (0.4001ms)
+✔ reasoning effort is persisted only when explicitly selected (0.2701ms)
+✔ failed persistence preserves the old selection and exposes an actionable error (0.2949ms)
+✔ failed catalog refresh retains last good catalog and current selection (0.2842ms)
+✔ missing default leaves every catalog choice available so the user can repair it (0.3086ms)
+✔ a late initial load cannot overwrite a newer saved route (0.2279ms)
+✔ empty search preserves every model, ordering and identity (1.7965ms)
+✔ matches provider label, model ID and name case-insensitively across words (0.8731ms)
+✔ provider ID and descriptions are searchable without mutating source (0.2206ms)
+✔ literal hostile and absent search terms return no matches, not regex or markup (0.2852ms)
+✔ a large catalog remains complete; search has no hidden provider cap (2.4921ms)
+✔ plan isolates state, ports and startup arguments without starting a server (649.3712ms)
+✔ inherited credentials and production routing are not passed to development (612.8698ms)
+✔ an occupied port is refused without touching the existing listener (652.2653ms)
+✔ invalid ports fail before a server can start (587.0645ms)
+✔ exact per-session selection persists independently of global default and rejects corrupt state (38.1926ms)
+✔ actual compiled getter restores saved selection and setter commits before publishing (4.4118ms)
+✔ DSH wrapper preserves native tools and caller policy (danger-full-access, PASS) (1131.8758ms)
+✔ DSH wrapper preserves native tools and caller policy (danger-full-access, FAILED) (1188.8002ms)
+✔ DSH wrapper preserves native tools and caller policy (workspace-write, PASS) (871.1361ms)
+✔ DSH wrapper preserves native tools and caller policy (undefined, PASS) (876.711ms)
+✔ planner and worker retain native tools without gate-specific command denials (0.5291ms)
+ℹ tests 105
+ℹ suites 0
+ℹ pass 105
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4318.0641

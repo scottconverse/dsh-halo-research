@@ -1,0 +1,45 @@
+{
+  "started": "2026-09-02T21:53:19.471Z",
+  "finished": "2026-09-02T21:53:19.797Z",
+  "node": "v24.20.0",
+  "exit": 0,
+  "error": null,
+  "tests": [
+    {
+      "file": "cli-provider.test.mjs",
+      "sha256": "be97e7e4156b8c12295cbdf4e073e267fcace71287520496a5424f1ff520076d"
+    },
+    {
+      "file": "cli-runtime.test.mjs",
+      "sha256": "f749b3c48e00f7222a6db5df3bf8169e28997061d2e0a4c0bfd5c9d3548f7d15"
+    },
+    {
+      "file": "cli-metrics.test.mjs",
+      "sha256": "bba8af2b6ef4a3fb6b9835c1494a1bd5d0ec347c2589a17ab42db69ed1a7d00a"
+    },
+    {
+      "file": "native-continuity.test.mjs",
+      "sha256": "73a28cb146362abc20101119abfd30345197247f6171b98f24740596550a1d45"
+    },
+    {
+      "file": "session-selection/store.test.mjs",
+      "sha256": "53d4566669f3af1e8e1ecf434cfb4209d8160fd501b06de496a58bbf533bebd8"
+    },
+    {
+      "file": "picker/filter-models.test.mjs",
+      "sha256": "02cae6a4883a5c607cb03e0fe2f89d70fd0695a8dfd91c31bd761069b6be187e"
+    },
+    {
+      "file": "picker/component.test.mjs",
+      "sha256": "d3059e21c4f62060bbff2125034667815e97d6f643008e6f359accc43f8de952"
+    },
+    {
+      "file": "picker/default-directory.test.mjs",
+      "sha256": "b9a7776cd3bb74b17609507b06e4b4a642ced2bd2ebaa334177bd6230f07cbe5"
+    },
+    {
+      "file": "conversation-metrics/patch.test.mjs",
+      "sha256": "8786d8f506a33c89fc7641f0ff1e4be20b348637aa7771e008b33191c1a789eb"
+    }
+  ]
+}

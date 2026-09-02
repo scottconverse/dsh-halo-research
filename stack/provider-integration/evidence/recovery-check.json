@@ -1,0 +1,50 @@
+{
+  "captured": "2026-09-02T21:52:30.411Z",
+  "scratch": "C:\\Users\\scott\\AppData\\Local\\Temp\\halo-rollback-proof-sXzU4S",
+  "rows": [
+    {
+      "target": "C:\\Users\\scott\\.dsh\\settings.yaml",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\settings.yaml",
+      "sha256": "b02cf6f88c814a95a287577ecffcc748bd44cf4c1605c72212f6ae6a28a86f28",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\.dsh\\profiles\\web\\package.json",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\profiles\\web\\package.json",
+      "sha256": "188a96939f34b549c974a18066fcfdc41030b726ed3fbbe958446958161569d1",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\.dsh\\profiles\\web\\pnpm-lock.yaml",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\profiles\\web\\pnpm-lock.yaml",
+      "sha256": "4e7aaab133a600fdca17e018b9cdb027b384ac5224a8b57aacbf6921729f5c39",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\.dsh\\profiles\\web\\pnpm-workspace.yaml",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\profiles\\web\\pnpm-workspace.yaml",
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\.dsh\\profiles\\web\\cordis.patch.yml",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\profiles\\web\\cordis.patch.yml",
+      "sha256": "985982886513f3242655591e60d7c36386bbf3ec543e4e3546f2d023f7465d47",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\Run-HaloCockpit.ps1",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\stack\\Run-HaloCockpit.ps1",
+      "sha256": "d864b3b107551ae3aeb5d806018294323d8240c4bd05dc43ea53edb825bc1d62",
+      "copyVerified": true
+    },
+    {
+      "target": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\Launch-Status.ps1",
+      "backup": "C:\\Users\\scott\\.dsh\\backups\\native-provider-promotion-20260902\\stack\\mission-control\\Launch-Status.ps1",
+      "sha256": "38de900a9ad7500905d0b6b71f3c08842acbb22bc653efd615e35f8fa7aa0b3a",
+      "copyVerified": true
+    }
+  ],
+  "liveRollbackPerformed": false,
+  "pass": true
+}

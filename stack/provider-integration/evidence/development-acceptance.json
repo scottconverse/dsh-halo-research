@@ -1,0 +1,94 @@
+{
+  "started": "2026-09-02T21:43:10.211Z",
+  "finished": "2026-09-02T21:43:14.583Z",
+  "node": "v24.20.0",
+  "command": [
+    "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-dev\\.runtime\\node\\node-v24.20.0-win-x64\\node.exe",
+    "--test",
+    "dev/config-build.test.mjs",
+    "dev/configure-provider.test.mjs",
+    "dev/dev-isolation.test.mjs",
+    "dev/provider-launch.test.mjs",
+    "dev/catalog.test.mjs",
+    "dev/enrich-catalog.test.mjs",
+    "dev/picker/filter-models.test.mjs",
+    "dev/picker/component.test.mjs",
+    "dev/picker/default-directory.test.mjs",
+    "dev/cli-provider.test.mjs",
+    "dev/cli-runtime.test.mjs",
+    "dev/cli-metrics.test.mjs",
+    "dev/conversation-metrics/patch.test.mjs",
+    "dev/native-continuity.test.mjs",
+    "dev/session-selection/store.test.mjs",
+    "stack/halo-verified-coder/test/plugin.test.mjs"
+  ],
+  "exit": 0,
+  "signal": null,
+  "error": null,
+  "tests": [
+    {
+      "file": "dev/config-build.test.mjs",
+      "sha256": "aa756eeb301fa2d0060a4b2cf48ecc0aa995e83ba0349bbb372dc0cf62fa4ad3"
+    },
+    {
+      "file": "dev/configure-provider.test.mjs",
+      "sha256": "23847d695c95ae34f34a9e9efc7b8f1791bcfaf09d1f99ecfbbb716595f0dafc"
+    },
+    {
+      "file": "dev/dev-isolation.test.mjs",
+      "sha256": "dce617dcc0ad4c173ff3e1d62cae3ceb4d26a8789b4c4225c939d013f721c73c"
+    },
+    {
+      "file": "dev/provider-launch.test.mjs",
+      "sha256": "fe5d2632450b64aada89879954ff156e55fac500cc4d73c6834a80dec170dc54"
+    },
+    {
+      "file": "dev/catalog.test.mjs",
+      "sha256": "96be37de0648ff296fb58d19f392926257e6941559d500a78da139078819ea29"
+    },
+    {
+      "file": "dev/enrich-catalog.test.mjs",
+      "sha256": "dc3b19166e7e8fb1a12baebd1b5c8b3a3be2dc652a41f087651fd9e00f69b7f8"
+    },
+    {
+      "file": "dev/picker/filter-models.test.mjs",
+      "sha256": "02cae6a4883a5c607cb03e0fe2f89d70fd0695a8dfd91c31bd761069b6be187e"
+    },
+    {
+      "file": "dev/picker/component.test.mjs",
+      "sha256": "d3059e21c4f62060bbff2125034667815e97d6f643008e6f359accc43f8de952"
+    },
+    {
+      "file": "dev/picker/default-directory.test.mjs",
+      "sha256": "b9a7776cd3bb74b17609507b06e4b4a642ced2bd2ebaa334177bd6230f07cbe5"
+    },
+    {
+      "file": "dev/cli-provider.test.mjs",
+      "sha256": "be97e7e4156b8c12295cbdf4e073e267fcace71287520496a5424f1ff520076d"
+    },
+    {
+      "file": "dev/cli-runtime.test.mjs",
+      "sha256": "f749b3c48e00f7222a6db5df3bf8169e28997061d2e0a4c0bfd5c9d3548f7d15"
+    },
+    {
+      "file": "dev/cli-metrics.test.mjs",
+      "sha256": "bba8af2b6ef4a3fb6b9835c1494a1bd5d0ec347c2589a17ab42db69ed1a7d00a"
+    },
+    {
+      "file": "dev/conversation-metrics/patch.test.mjs",
+      "sha256": "8786d8f506a33c89fc7641f0ff1e4be20b348637aa7771e008b33191c1a789eb"
+    },
+    {
+      "file": "dev/native-continuity.test.mjs",
+      "sha256": "73a28cb146362abc20101119abfd30345197247f6171b98f24740596550a1d45"
+    },
+    {
+      "file": "dev/session-selection/store.test.mjs",
+      "sha256": "53d4566669f3af1e8e1ecf434cfb4209d8160fd501b06de496a58bbf533bebd8"
+    },
+    {
+      "file": "stack/halo-verified-coder/test/plugin.test.mjs",
+      "sha256": "6c97d5714a4322dc690a65ddd56538e8d14a8f68e2989eb896a20cb851d70437"
+    }
+  ]
+}

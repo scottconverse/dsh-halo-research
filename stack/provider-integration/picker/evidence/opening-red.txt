@@ -1,0 +1,142 @@
+UTC 2026-09-02T17:59:19.036Z
+Command: C:\Program Files\nodejs\node.exe --test filter-models.test.mjs component.test.mjs default-directory.test.mjs
+✔ baseline: all provider rows remain available and routing uses exact opaque IDs (4.1463ms)
+✔ search filters the actual component and does not change selection until a row is chosen (1.0822ms)
+✔ no-match state is explicit and clearing restores the full catalog (1.0881ms)
+✔ keyboard arrows from search focus first and last visible model without selecting (0.9429ms)
+✔ search does not hide load errors or failures and does not rewrite current reasoning (0.8505ms)
+✔ long labels retain provider and authentication details in the full row tooltip (0.7626ms)
+✖ a root opening picker exists before a session and disappears once the session picker takes over (0.8633ms)
+✖ opening picker reads the complete catalog and persisted default without creating a session (1.4574ms)
+✖ selection persists exact route for the next session and a fresh controller after restart (0.7508ms)
+✖ reasoning effort is persisted only when explicitly selected (0.1307ms)
+✖ failed persistence preserves the old selection and exposes an actionable error (0.1644ms)
+✖ failed catalog refresh retains last good catalog and current selection (0.1222ms)
+✔ empty search preserves every model, ordering and identity (0.542ms)
+✔ matches provider label, model ID and name case-insensitively across words (0.518ms)
+✔ provider ID and descriptions are searchable without mutating source (0.6066ms)
+✔ literal hostile and absent search terms return no matches, not regex or markup (0.1234ms)
+✔ a large catalog remains complete; search has no hidden provider cap (1.5292ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 11
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.7041
+
+✖ failing tests:
+
+test at component.test.mjs:85:1
+✖ a root opening picker exists before a session and disappears once the session picker takes over (0.8633ms)
+  AssertionError [ERR_ASSERTION]: Opening screen requires an additive root picker
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/component.test.mjs:87:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at default-directory.test.mjs:23:1
+✖ opening picker reads the complete catalog and persisted default without creating a session (1.4574ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + null
+  - {
+  -   model: 'local/brain',
+  -   provider: 'lmstudio',
+  -   reasoningEffort: 'high'
+  - }
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/default-directory.test.mjs:27:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { provider: 'lmstudio', model: 'local/brain', reasoningEffort: 'high' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at default-directory.test.mjs:31:1
+✖ selection persists exact route for the next session and a fresh controller after restart (0.7508ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/default-directory.test.mjs:36:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at default-directory.test.mjs:44:1
+✖ reasoning effort is persisted only when explicitly selected (0.1307ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/default-directory.test.mjs:49:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at default-directory.test.mjs:52:1
+✖ failed persistence preserves the old selection and exposes an actionable error (0.1644ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + null
+  - 'Settings file is locked'
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/default-directory.test.mjs:60:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'Settings file is locked',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at default-directory.test.mjs:62:1
+✖ failed catalog refresh retains last good catalog and current selection (0.1222ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 3
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/default-directory.test.mjs:68:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+Exit 1

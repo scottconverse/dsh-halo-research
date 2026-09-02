@@ -1,0 +1,40 @@
+Command: node --test --test-name-pattern='long labels' component.test.mjs
+Working directory: C:\Users\scott\Desktop\Code\dsh-halo-dev\dev\picker
+Before search.2 change, on the search.1 built artifact:
+
+✖ long labels retain provider and authentication details in the full row tooltip (4.5644ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 74.602
+
+✖ failing tests:
+
+test at component.test.mjs:74:1
+✖ long labels retain provider and authentication details in the full row tooltip (4.5644ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'Claude Opus unusually long model label with provider and account suffix'
+  - 'Gateway cloud\n' +
+  -   'Claude Opus unusually long model label with provider and account suffix\n' +
+  -   'Anthropic: account not connected; sign in to use this route'
+
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-dev/dev/picker/component.test.mjs:81:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Claude Opus unusually long model label with provider and account suffix',
+    expected: 'Gateway cloud\nClaude Opus unusually long model label with provider and account suffix\nAnthropic: account not connected; sign in to use this route',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+Exit 1

@@ -1,0 +1,22 @@
+// Reproducible development-only package overlay. Never edit pnpm hardlinks.
+import fs from 'node:fs';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import {patchNativeTiming} from './patch.mjs';
+const here=path.dirname(fileURLToPath(import.meta.url));
+const source=path.resolve(here,'../dsh-tools/node_modules/.pnpm/@deepseek-ai+dsh-client-ui-_3b52d06bbf0151d0a78c1aebb65025e1/node_modules/@deepseek-ai/dsh-client-ui-conversation');
+const target=path.join(here,'package');
+const manifest=JSON.parse(fs.readFileSync(path.join(source,'package.json'),'utf8'));
+if(manifest.version!=='0.1.1-rc.2')throw Error('Review overlay against the new DSH version');
+const original=fs.readFileSync(path.join(source,'lib/client.js'),'utf8');
+if(createHash('sha256').update(original).digest('hex')!=='fe448ef7e0b1f3e7713dadfc7eff56b9f80d103a2111dfe69c1735ffd0196d61')throw Error('Upstream bundle changed; re-review the native timing patch');
+const patched=patchNativeTiming(original);
+fs.mkdirSync(target,{recursive:true});
+fs.cpSync(path.join(source,'lib'),path.join(target,'lib'),{recursive:true});
+fs.copyFileSync(path.join(source,'LICENSE'),path.join(target,'LICENSE'));
+fs.writeFileSync(path.join(target,'lib/client.js'),patched);
+fs.writeFileSync(path.join(target,'package.json'),JSON.stringify({...manifest,version:'0.1.1-rc.2-halo-native-metrics.2'},null,2)+'\n');
+const hash=x=>createHash('sha256').update(x).digest('hex');
+fs.writeFileSync(path.join(here,'build-evidence.json'),JSON.stringify({source,upstreamVersion:manifest.version,originalSha256:hash(original),patchedSha256:hash(patched)},null,2)+'\n');
+console.log('Built development conversation timing overlay');

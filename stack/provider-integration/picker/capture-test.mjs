@@ -1,0 +1,10 @@
+import { spawnSync } from 'node:child_process';
+import { writeFileSync } from 'node:fs';
+const label = process.argv[2];
+if (!['red', 'green', 'baseline', 'opening-red', 'opening-green'].includes(label)) throw new Error('Expected evidence label');
+const args = ['--test', ...(label === 'baseline' ? ['--test-name-pattern=baseline', 'component.test.mjs'] : ['filter-models.test.mjs', 'component.test.mjs', ...(label.startsWith('opening-') ? ['default-directory.test.mjs'] : [])])];
+const result = spawnSync(process.execPath, args, { cwd: new URL('.', import.meta.url), encoding: 'utf8' });
+const evidence = `UTC ${new Date().toISOString()}\nCommand: ${process.execPath} ${args.join(' ')}\n${result.stdout}${result.stderr}\nExit ${result.status}\n`;
+writeFileSync(new URL(`evidence/${label}.txt`, import.meta.url), evidence);
+console.log(evidence);
+process.exitCode = result.status;

@@ -1,4 +1,9 @@
 upstream/
+/stack/provider-integration/tools/node_modules/
+/stack/provider-integration/dsh-tools/node_modules/
+/stack/provider-integration/**/package/
+# Release archives live in stack/packages, not duplicated build history.
+/stack/provider-integration/**/*.tgz
 evidence/yt/*.vtt
 *.pyc
 __pycache__/

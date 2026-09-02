@@ -1,0 +1,114 @@
+{
+  "captured": "2026-09-02T21:52:27.188Z",
+  "health": [
+    {
+      "url": "http://127.0.0.1:3080",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3090/api/status",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:1234/v1/models",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:20130/api/settings/require-login",
+      "status": 200
+    }
+  ],
+  "checks": {
+    "settingsAdditiveOnly": true,
+    "originalProfileRetained": true
+  },
+  "hashes": [
+    {
+      "file": "halo-settings.yaml",
+      "sha256": "788778116ef982ab7d85976896ab5ed96c7ff45168355108a19dc3f6e566463d",
+      "matchesInstalled": true
+    },
+    {
+      "file": "web-profile.package.json",
+      "sha256": "0fd351b68a7b1bd4c1b654d40a57eae4e03e3c187c32fa9ee2aad8764e3e8e72",
+      "matchesInstalled": true
+    },
+    {
+      "file": "web-cockpit.patch.yml",
+      "sha256": "78541c3ef17ac46726a4b797e4bd887bb2df9dda5fa749e46fe07de3ed699549",
+      "matchesInstalled": true
+    },
+    {
+      "file": "mission-control/mission-control.mjs",
+      "sha256": "45d40a25c0a4efb06daa0c549d08e92bd7384508bf5d3b75754b74bd31cee1ee",
+      "matchesInstalled": true
+    },
+    {
+      "file": "provider-integration/cli-provider.mjs",
+      "sha256": "42bc20aef8f79b440b55d69296871d18932c43e14d5d16dd5f392ac419ee9c27"
+    },
+    {
+      "file": "provider-integration/cli-runtime.mjs",
+      "sha256": "5224bdf2f8edab6b40a3771069e605feb9f4e93071a9b9104c49e35b34313138"
+    },
+    {
+      "file": "provider-integration/cli-metrics.mjs",
+      "sha256": "83ad8e7bd2bbadba63c5173f1bb638e951ad94e177968de24758bd7904f4e4aa"
+    },
+    {
+      "file": "provider-integration/native-continuity.mjs",
+      "sha256": "59df00fab730cae780ff5690951b111824003362ea0977a3e482698ec462b7c7"
+    },
+    {
+      "file": "provider-integration/Start-Provider.ps1",
+      "sha256": "c665bbb280a79d7a6fc63b6122a6e2055bf78d86ea6bcb8ef44e9143116c9277"
+    },
+    {
+      "file": "packages/deepseek-ai-dsh-client-ui-conversation-0.1.1-rc.2-halo-native-metrics.2.tgz",
+      "sha256": "2a69e28595995e6b252a1b3606ea9a15f0d52b43cb67992668d192139c4d5ec4"
+    },
+    {
+      "file": "packages/deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.4.tgz",
+      "sha256": "a2718b807d37b00ae1b2c0c4e56463f214e9b44c47eaa801deda700404b7caf7"
+    },
+    {
+      "file": "packages/deepseek-ai-dsh-host-apiproxy-0.1.1-rc.2-halo-selection.3.tgz",
+      "sha256": "d898033bb8425b041cce6c623a11f476fd10525eaaf0a7831a46b572ee3fc5ba"
+    }
+  ],
+  "sessions": {
+    "before": 116,
+    "current": 118,
+    "missing": [],
+    "running": 0
+  },
+  "default": {
+    "provider": "lmstudio",
+    "model": "halo/qwen3.6-35b-a3b"
+  },
+  "catalog": [
+    {
+      "id": "claude-cli",
+      "count": 3
+    },
+    {
+      "id": "codex-cli",
+      "count": 7
+    },
+    {
+      "id": "lmstudio",
+      "count": 32
+    },
+    {
+      "id": "omniroute",
+      "count": 2705
+    }
+  ],
+  "catalogFailures": [],
+  "runtime": {
+    "node": "C:\\Users\\scott\\.dsh\\provider-runtime\\node.exe",
+    "nodeSha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
+    "omniroute": "3.8.50"
+  },
+  "pass": true
+}

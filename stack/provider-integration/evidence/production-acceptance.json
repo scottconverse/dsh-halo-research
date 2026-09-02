@@ -1,0 +1,185 @@
+{
+  "started": "2026-09-02T21:31:34.788Z",
+  "existingSessions": 116,
+  "missingSessions": [],
+  "catalog": [
+    {
+      "id": "claude-cli",
+      "count": 3
+    },
+    {
+      "id": "codex-cli",
+      "count": 7
+    },
+    {
+      "id": "lmstudio",
+      "count": 32
+    },
+    {
+      "id": "omniroute",
+      "count": 2705
+    }
+  ],
+  "catalogFailures": [],
+  "runs": [
+    {
+      "provider": "claude-cli",
+      "model": "sonnet",
+      "sessionId": "session-02644d82-fe70-4a8b-ae6d-15e76ce904d3",
+      "turns": [
+        {
+          "id": "1788384705281-1955e24b-ae27-41e9-9973-23b017c5edcd.json",
+          "version": 1,
+          "provider": "claude-cli",
+          "model": "sonnet",
+          "status": "completed",
+          "started": "2026-09-02T21:31:35.416Z",
+          "finished": "2026-09-02T21:31:45.281Z",
+          "wallMs": 9861.7255,
+          "timingSource": "monotonic-process",
+          "firstModelMessageMs": 4686.9667000000045,
+          "ttftMs": null,
+          "decodeTokensPerSecond": null,
+          "tokens": {
+            "input": 46461,
+            "uncachedInput": 2,
+            "cacheRead": 29278,
+            "cacheWrite": 17181,
+            "output": 104,
+            "reasoning": null
+          },
+          "usageCoverage": "terminal-aggregate"
+        },
+        {
+          "id": "1788384713711-c834c9b1-c45f-468f-94c7-b98b22814ea7.json",
+          "version": 1,
+          "provider": "claude-cli",
+          "model": "sonnet",
+          "status": "completed",
+          "started": "2026-09-02T21:31:45.550Z",
+          "finished": "2026-09-02T21:31:53.711Z",
+          "wallMs": 8159.598100000003,
+          "timingSource": "monotonic-process",
+          "firstModelMessageMs": 2699.782600000006,
+          "ttftMs": null,
+          "decodeTokensPerSecond": null,
+          "tokens": {
+            "input": 46635,
+            "uncachedInput": 2,
+            "cacheRead": 46459,
+            "cacheWrite": 174,
+            "output": 10,
+            "reasoning": null
+          },
+          "usageCoverage": "terminal-aggregate"
+        }
+      ],
+      "proof": [
+        {
+          "continuity": {
+            "resumed": false,
+            "nativeThreadId": "36bff8d9-9ec3-41df-b5b8-6c2251004fa3",
+            "promptChars": 12258
+          },
+          "final": "ACK"
+        },
+        {
+          "continuity": {
+            "resumed": true,
+            "resumeId": "36bff8d9-9ec3-41df-b5b8-6c2251004fa3",
+            "nativeThreadId": "36bff8d9-9ec3-41df-b5b8-6c2251004fa3",
+            "promptChars": 197
+          },
+          "final": "ORBIT-41973"
+        }
+      ],
+      "pass": true
+    },
+    {
+      "provider": "codex-cli",
+      "model": "gpt-5.6-terra",
+      "sessionId": "session-102944b2-1ffb-400f-938e-25fc3dd85fc1",
+      "turns": [
+        {
+          "id": "1788384720309-acb5c225-63db-43d4-a071-3d441c28c6fb.json",
+          "version": 1,
+          "provider": "codex-cli",
+          "model": "gpt-5.6-terra",
+          "status": "completed",
+          "started": "2026-09-02T21:31:54.327Z",
+          "finished": "2026-09-02T21:32:00.309Z",
+          "wallMs": 5979.795799999993,
+          "timingSource": "monotonic-process",
+          "firstModelMessageMs": 4784.978299999988,
+          "ttftMs": null,
+          "decodeTokensPerSecond": null,
+          "tokens": {
+            "input": 27369,
+            "uncachedInput": 27369,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "output": 5,
+            "reasoning": 0
+          },
+          "usageCoverage": "terminal-aggregate"
+        },
+        {
+          "id": "1788384726932-c8d5ecc5-95d5-4a50-b90b-a9a7f77633a7.json",
+          "version": 1,
+          "provider": "codex-cli",
+          "model": "gpt-5.6-terra",
+          "status": "completed",
+          "started": "2026-09-02T21:32:01.328Z",
+          "finished": "2026-09-02T21:32:06.932Z",
+          "wallMs": 5602.246400000004,
+          "timingSource": "monotonic-process",
+          "firstModelMessageMs": 4475.989399999991,
+          "ttftMs": null,
+          "decodeTokensPerSecond": null,
+          "tokens": {
+            "input": 27184,
+            "uncachedInput": 816,
+            "cacheRead": 26368,
+            "cacheWrite": 0,
+            "output": 28,
+            "reasoning": 17
+          },
+          "usageCoverage": "terminal-aggregate"
+        }
+      ],
+      "proof": [
+        {
+          "continuity": {
+            "resumed": false,
+            "nativeThreadId": "01a06409-2143-7722-b290-4bda5fde2ae2",
+            "promptChars": 12264
+          },
+          "final": "ACK"
+        },
+        {
+          "continuity": {
+            "resumed": true,
+            "resumeId": "01a06409-2143-7722-b290-4bda5fde2ae2",
+            "priorUsage": {
+              "input_tokens": 27369,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 5,
+              "reasoning_output_tokens": 0
+            },
+            "nativeThreadId": "01a06409-2143-7722-b290-4bda5fde2ae2",
+            "promptChars": 197
+          },
+          "final": "ORBIT-41973"
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "defaultRestored": {
+    "provider": "lmstudio",
+    "model": "halo/qwen3.6-35b-a3b"
+  },
+  "finished": "2026-09-02T21:32:07.697Z",
+  "pass": true
+}
