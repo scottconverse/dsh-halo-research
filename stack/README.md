@@ -1,5 +1,25 @@
 # Halo — the standing DSH stack
 
+## Current operation — 2026-09-01
+
+Use `Launch-Halo.ps1` (or the Halo Cockpit desktop shortcut) with LM Studio
+running. The installed `halo-orchestrator` preset supports native shell/file
+tools and the configured Codex, Claude, generic subagent, workflow, and Ralph
+lanes. `subagent_coder` is an optional staged verification/promotion workflow;
+it does not impose a root tool lock or narrow the worker's native permissions.
+The local Halo Research Gateway 0.2.0 supplies research tools at `:8765`.
+
+The mandatory `Gate-Build.ps1` route and model/residency descriptions below
+are retained historical notes, **not current operating instructions**.
+Current sources:
+
+- [Current configuration](HALO-CURRENT-CONFIGURATION.md)
+- [Operator guide](HALO-STACK-GUIDE.md)
+- [Native-access repair and audit](HALO-NATIVE-ACCESS-REPAIR-2026-09-01.md)
+- [Optional verified-coder workflow](halo-verified-coder/README.md)
+
+## Historical configuration (superseded)
+
 Two tuned model lanes on LM Studio `:1234`, with only the active local model
 resident at a time, one harness, and one external gate.
 

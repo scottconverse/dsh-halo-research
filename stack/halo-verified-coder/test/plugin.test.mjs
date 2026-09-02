@@ -18,7 +18,12 @@ async function fixtureRepo() {
   return root
 }
 
-test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async () => {
+for (const { mode, expected } of [
+  { mode: 'danger-full-access', expected: 'PASS' },
+  { mode: 'danger-full-access', expected: 'FAILED' },
+  { mode: 'workspace-write', expected: 'PASS' },
+  { mode: undefined, expected: 'PASS' },
+]) test(`DSH wrapper preserves native tools and caller policy (${mode}, ${expected})`, async () => {
   const repo = await fixtureRepo()
   const runRoot = join(repo, '..', `halo-plugin-runs-${Date.now()}`)
   let registered
@@ -48,7 +53,7 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
     subagents: {
       async start(_provider, request) {
         spawnRequest = request
-        await writeFile(join(request.parent.session.header.cwd, 'src', 'value.txt'), 'good\n')
+        await writeFile(join(request.parent.session.header.cwd, 'src', 'value.txt'), expected === 'PASS' ? 'good\n' : 'still bad\n')
         return { result: Promise.resolve({ stopReason: 'completed', output: [{ type: 'text', text: 'worker done' }] }), async dispose() {} }
       },
     },
@@ -61,6 +66,7 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
   ])
   const cockpitCtx = {
     get(name) {
+      if (name === 'sandboxPolicy') return { overrideOf() { return mode } }
       if (name !== 'agentPresets') return undefined
       return { composedPreset(ctx) { assert.equal(ctx, cockpitCtx); return 'halo-orchestrator' } }
     },
@@ -71,27 +77,26 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
       description: 'fixture change', prompt: 'fix it', editable_paths: ['src'], protected_paths: ['tests'],
       verify_executable: process.execPath, verify_args: ['tests/verify.mjs'],
     }, { agent: cockpit, signal: new AbortController().signal })
-    assert.equal(result.status, 'PASS', JSON.stringify(result))
+    assert.equal(result.status, expected, JSON.stringify(result))
     assert.notEqual(setupOptions.meta.cwd, repo)
     assert.equal(setupOptions.meta.agentPreset, 'halo-orchestrator')
     assert.equal(composedFrom.parentCtx, cockpitCtx)
     assert.equal(spawnRequest.parent.session.header.cwd, setupOptions.meta.cwd)
-    assert.deepEqual(spawnRequest.parent.events, [{ type: 'sandbox/mode', value: { mode: 'workspace-write' } }])
+    assert.deepEqual(spawnRequest.parent.events, mode === undefined ? [] : [{ type: 'sandbox/mode', value: { mode, source: 'delegation' } }])
     assert.equal(spawnRequest.agentOptions.model, 'halo/qwen3-coder-30b-a3b-q4km')
-    assert.equal(spawnRequest.maxDepth, 1)
-    assert.deepEqual(spawnRequest.toolFilter, {
-      allow: ['read', 'write', 'edit', 'glob', 'grep', 'pwsh'],
-    })
+    assert.equal(spawnRequest.maxDepth, undefined, 'the gate must not add its own delegation cap')
+    assert.equal(spawnRequest.toolFilter, undefined, 'the worker inherits the native tool catalog')
     assert.match(spawnRequest.persona, /implementation worker/i)
     assert.match(spawnRequest.prompt[0].text, /\.halo-scratch/)
-    assert.equal(await readFile(join(repo, 'src', 'value.txt'), 'utf8'), 'good\n')
-    const decision = await listeners.get('tools/pre-execute')({ name: 'update_goal', arguments: { action: 'complete' }, agent: cockpit }, async () => ({ kind: 'allow' }))
+    assert.equal(await readFile(join(repo, 'src', 'value.txt'), 'utf8'), expected === 'PASS' ? 'good\n' : 'bad\n')
+    const policy = listeners.get('tools/pre-execute') ?? ((_exec, next) => next())
+    const decision = await policy({ name: 'update_goal', arguments: { action: 'complete' }, agent: cockpit }, async () => ({ kind: 'allow' }))
     assert.deepEqual(decision, { kind: 'allow' })
-    for (const name of ['subagent_coder', 'edit', 'write', 'pwsh']) {
-      const blocked = await listeners.get('tools/pre-execute')({ name, arguments: {}, agent: cockpit }, async () => ({ kind: 'allow' }))
-      assert.equal(blocked.kind, 'deny', `${name} should be locked after the gate verdict`)
+    for (const name of ['subagent_coder', 'edit', 'write', 'pwsh', 'bash', 'subagent', 'subagent_fork', 'subagent_codex', 'subagent_claude_build', 'workflow', 'ralph']) {
+      const decision = await policy({ name, arguments: {}, agent: cockpit }, async () => ({ kind: 'allow' }))
+      assert.equal(decision.kind, 'allow', `${name} must remain available after ${expected}`)
     }
-    const readOnly = await listeners.get('tools/pre-execute')({ name: 'read', arguments: {}, agent: cockpit }, async () => ({ kind: 'allow' }))
+    const readOnly = await policy({ name: 'read', arguments: {}, agent: cockpit }, async () => ({ kind: 'allow' }))
     assert.deepEqual(readOnly, { kind: 'allow' })
   } finally {
     await rm(repo, { recursive: true, force: true })
@@ -99,7 +104,7 @@ test('DSH wrapper supplies a synthetic workspace-write parent to spawn', async (
   }
 })
 
-test('planner cannot mutate directly and worker shell guard blocks runaway command shapes', async () => {
+test('planner and worker retain native tools without gate-specific command denials', async () => {
   const listeners = new Map()
   const ctx = {
     on(name, callback) { listeners.set(name, callback) },
@@ -108,22 +113,22 @@ test('planner cannot mutate directly and worker shell guard blocks runaway comma
     subagents: {},
   }
   apply(ctx, { runRoot: 'C:\\HaloGate\\runs' })
-  const policy = listeners.get('tools/pre-execute')
+  const policy = listeners.get('tools/pre-execute') ?? ((_exec, next) => next())
   const planner = { session: { header: { cwd: 'C:\\Users\\scott\\project' } } }
   const worker = { session: { header: { cwd: 'C:\\HaloGate\\runs\\one\\stage' } } }
   const allow = async () => ({ kind: 'allow' })
   for (const name of ['write', 'edit', 'pwsh', 'bash', 'subagent', 'subagent_codex', 'subagent_claude_build', 'workflow', 'ralph']) {
     const decision = await policy({ name, arguments: { command: 'Write-Output ok' }, agent: planner }, allow)
-    assert.equal(decision.kind, 'deny', `${name} must be denied to the planner`)
+    assert.equal(decision.kind, 'allow', `${name} must remain available to the planner`)
   }
   const recurse = await policy({
     name: 'pwsh', arguments: { command: 'Get-ChildItem -Recurse' }, agent: worker,
   }, allow)
-  assert.equal(recurse.kind, 'deny')
+  assert.equal(recurse.kind, 'allow')
   const foregroundServer = await policy({
     name: 'pwsh', arguments: { command: 'npm run dev', run_in_background: false }, agent: worker,
   }, allow)
-  assert.equal(foregroundServer.kind, 'deny')
+  assert.equal(foregroundServer.kind, 'allow')
   const backgroundServer = await policy({
     name: 'pwsh', arguments: { command: 'npm run dev', run_in_background: true }, agent: worker,
   }, allow)

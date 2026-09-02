@@ -1,20 +1,13 @@
-import { join, resolve, sep } from 'node:path'
+import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { runGatedUnit, runProcess } from './gate-core.mjs'
 
 export const name = 'halo-verified-coder'
 export const inject = ['tools', 'subagents', 'agents']
 
-const verdictByAgent = new WeakMap()
-const workerToolFilter = { allow: ['read', 'write', 'edit', 'glob', 'grep', 'pwsh'] }
-const parentMutationTools = new Set(['subagent_coder', 'write', 'edit', 'pwsh', 'bash'])
-const directMutationTools = new Set([
-  'write', 'edit', 'pwsh', 'bash',
-  'subagent', 'subagent_fork', 'subagent_codex', 'subagent_claude_build',
-  'workflow', 'ralph',
-])
 const workerPersona = `You are the Halo implementation worker. Implement the supplied bounded unit directly and concisely.
-Use only the files and commands needed for that unit. Do not create plans, goals, subagents, or repository-root test fixtures.
+You retain the native tool catalog and the caller's available machine access. Stay within the requested task;
+available capabilities do not authorize unrelated actions. Use planning, research, delegation, and background jobs when useful.
 Put every temporary file under the supplied .halo-scratch directory. Run the named verification command when practical,
 then report the files changed and observed command output. Never claim the gate passed; the mechanical verifier decides.`
 
@@ -27,38 +20,6 @@ export function apply(ctx, config = {}) {
   const model = config.model ?? 'halo/qwen3-coder-30b-a3b-q4km'
   const runRoot = config.runRoot ?? join(process.env.LOCALAPPDATA ?? process.cwd(), 'HaloGate', 'runs')
   const verifyTimeoutMs = config.verifyTimeoutMs ?? 180_000
-  const normalizedRunRoot = `${resolve(runRoot).toLowerCase()}${sep}`
-
-  function isGateWorkspace(agent) {
-    const cwd = agent?.session?.header?.cwd
-    return typeof cwd === 'string' && `${resolve(cwd).toLowerCase()}${sep}`.startsWith(normalizedRunRoot)
-  }
-
-  ctx.on('tools/pre-execute', async (exec, next) => {
-    if (!exec.agent) return next()
-    if (!isGateWorkspace(exec.agent) && directMutationTools.has(exec.name)) {
-      return { kind: 'deny', reason: 'Halo Build is planner-led: direct mutation and ungated implementation children are disabled. Use halo_preflight, inspect with read/search tools, then call subagent_coder once. Use another preset for explicitly requested direct/full-access work.' }
-    }
-    if (isGateWorkspace(exec.agent) && exec.name === 'pwsh') {
-      const command = String(exec.arguments?.command ?? '')
-      if (/\b(?:Get-ChildItem|gci|dir)\b[^\r\n]*\s-Recurse\b/i.test(command)) {
-        return { kind: 'deny', reason: 'Unbounded recursive enumeration is disabled in Halo workers. Use rg --files with explicit exclusions or target a bounded directory.' }
-      }
-      const startsServer = /\b(?:npm|pnpm|yarn)\s+(?:run\s+)?(?:dev|start|serve)\b|\bpython(?:\.exe)?\s+-m\s+http\.server\b|\bnode(?:\.exe)?\s+\S*(?:server|serve)\S*\b/i.test(command)
-      if (startsServer && exec.arguments?.run_in_background !== true) {
-        return { kind: 'deny', reason: 'Foreground server commands are disabled in Halo workers. Set run_in_background=true and inspect the bounded job output.' }
-      }
-    }
-    const verdict = verdictByAgent.get(exec.agent)
-    if (verdict?.armed && parentMutationTools.has(exec.name)) {
-      return { kind: 'deny', reason: `Halo coding unit is closed after its single gate call (${verdict.status}). Start a new bounded unit instead of retrying or editing around the verdict. Evidence: ${verdict.auditPath ?? 'pending'}` }
-    }
-    if (exec.name !== 'update_goal' || exec.arguments?.action !== 'complete') return next()
-    if (verdict?.armed && verdict.status !== 'PASS') {
-      return { kind: 'deny', reason: `Halo verification gate refuses completion: last verdict is ${verdict.status}. Evidence: ${verdict.auditPath ?? 'unavailable'}` }
-    }
-    return next()
-  })
 
   ctx.tools.register({
     name: 'halo_preflight',
@@ -128,7 +89,9 @@ export function apply(ctx, config = {}) {
     async execute(args, exec) {
       const parent = exec.agent
       if (!parent) throw new Error('subagent_coder requires a calling agent')
-      verdictByAgent.set(parent, { armed: true, status: 'RUNNING' })
+      // Capture the caller's explicit policy before the first await, as DSH's
+      // native delegation does. Staging is a working directory, not a sandbox.
+      const sandboxMode = parent.ctx?.get?.('sandboxPolicy')?.overrideOf(parent.session)
       const repo = parent.session.header.cwd
       const result = await runGatedUnit({
         repo,
@@ -155,7 +118,9 @@ export function apply(ctx, config = {}) {
               // the real cockpit preset before using it as the worker parent,
               // exactly as DSH's native in-process child driver does.
               agentCtx.get?.('agentPresets')?.composeFrom(agentCtx, parent.ctx)
-              agentCtx.agent.session.append('sandbox/mode', { mode: 'workspace-write' })
+              if (sandboxMode !== undefined) {
+                agentCtx.agent.session.append('sandbox/mode', { mode: sandboxMode, source: 'delegation' })
+              }
             },
           })
           let run
@@ -167,10 +132,6 @@ export function apply(ctx, config = {}) {
               parent: staging.agent,
               agentOptions: { provider: 'lmstudio', model, maxTokens: 8192 },
               persona: workerPersona,
-              toolFilter: workerToolFilter,
-              // DSH numbers the direct child at depth 1. The absolute cap must
-              // therefore be 1 for this one worker launch.
-              maxDepth: 1,
               signal: exec.signal,
             })
             const terminal = await run.result
@@ -182,7 +143,6 @@ export function apply(ctx, config = {}) {
           }
         },
       })
-      verdictByAgent.set(parent, { armed: true, status: result.status, auditPath: result.auditPath })
       return result
     },
   })
