@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string] $CanonicalSource = (Join-Path $PSScriptRoot 'mission-control.mjs'),
+    [string] $CanonicalSource,
     [string] $InstalledCopy = (Join-Path $env:USERPROFILE '.dsh\mission-control\mission-control.mjs'),
     [string] $HealthUri = 'http://127.0.0.1:3090/api/status',
     [string] $BrowserUri = 'http://localhost:3090',
@@ -11,6 +11,12 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+
+# Windows PowerShell -File can evaluate parameter defaults before PSScriptRoot
+# is populated. Resolve the script-relative default in the script body instead.
+if (-not $CanonicalSource) {
+    $CanonicalSource = Join-Path $PSScriptRoot 'mission-control.mjs'
+}
 
 function Get-Sha256([string] $Path) {
     return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash
@@ -44,6 +50,40 @@ if ($installedHash -ne $canonicalHash) {
 Assert-LoopbackHttpUri $HealthUri 'HealthUri'
 if (-not $NoBrowser) {
     Assert-LoopbackHttpUri $BrowserUri 'BrowserUri'
+}
+
+# Reopening the desktop shortcut must reuse an already-running installed build.
+# Never start a duplicate or stop the existing process just to open its page.
+$existingResponse = $null
+try {
+    $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $HealthTimeoutSeconds
+} catch { } # An unavailable service proceeds to the normal cold-start path.
+if ($null -ne $existingResponse) {
+    for ($sample = 0; $sample -lt 2; $sample++) {
+        if ($sample -gt 0) {
+            Start-Sleep -Milliseconds 200
+            $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $HealthTimeoutSeconds
+        }
+        $existingStatus = $existingResponse.Content | ConvertFrom-Json
+        $existingSource = [IO.Path]::GetFullPath([string] $existingStatus.build.sourceFile)
+        $existingHash = [string] $existingStatus.build.sourceSha256
+        if ($existingResponse.StatusCode -ne 200 -or
+            -not [StringComparer]::OrdinalIgnoreCase.Equals($existingSource, $installedPath) -or
+            -not [StringComparer]::OrdinalIgnoreCase.Equals($existingHash, $installedHash)) {
+            throw 'Existing Mission Control health build identity mismatch. No process was started or stopped.'
+        }
+    }
+    if (-not $NoBrowser) { Start-Process $BrowserUri }
+    [pscustomobject]@{
+        Started = $false
+        Healthy = $true
+        InstalledCopy = $installedPath
+        Sha256 = $installedHash
+        ProcessId = $null # Health identity does not report the process ID.
+        HealthUri = $HealthUri
+        BrowserOpened = (-not $NoBrowser)
+    }
+    return
 }
 
 $node = (Get-Command node -ErrorAction Stop).Source

@@ -70,11 +70,17 @@ verified.
 
 ## Launch and live acceptance
 
-`Launch-Status.ps1` starts the installed copy, not a convenient copy in another
-folder. It requires the canonical and installed hashes to agree, starts the
-process hidden, and requires two health observations with the expected source
-path and SHA-256. `-NoBrowser` suppresses opening a browser; it does not suppress
-health verification. This launcher does not restart DSH, LM Studio, or Ollama.
+`Launch-Status.ps1` uses the installed copy, not a convenient copy in another
+folder. It requires the canonical and installed hashes to agree. If that build
+is already serving, it verifies two health observations and opens its browser
+page without starting a duplicate. Otherwise it starts the installed process
+hidden and verifies its health. Existing-service checks use the configured
+health timeout (30 seconds by default), not a two-second startup assumption.
+`-NoBrowser` suppresses opening a browser; it does not suppress health verification.
+On reuse, `Started` is false and `ProcessId` is null because the HTTP health
+identity does not report a PID. The default canonical path is resolved in the
+script body for compatibility with the desktop shortcut's Windows PowerShell
+5.1 `-File` invocation. This launcher does not restart DSH, LM Studio, or Ollama.
 
 After launch, use `Test-HaloMissionControlLive.ps1` under PowerShell 7 with
 these explicitly supplied inputs:
