@@ -6,13 +6,14 @@ ui-onboarding:
 permission:
   defaultPreset: danger-full-access
 
-# Halo local-model catalog. Only complete LLMs physically stored on HALO are
-# listed: remote LM Link entries, embeddings, vision projections, draft/MTP
-# components, and incomplete downloads are intentionally excluded.
+# Launch-Halo refreshes all API-advertised LLM choices, including LM Link,
+# without deleting custom/offline entries. Embeddings are not chat models.
+# Discovery is not acceptance testing; raw/remote load settings remain owned
+# by LM Studio. Only the tuned aliases have a verified 32K/one-slot envelope.
 llm-pi-ai:
   providers:
     lmstudio:
-      displayName: LM Studio (HALO local)
+      displayName: LM Studio (local + LM Link)
       # LM Studio ignores this value, but the OpenAI-compatible client requires
       # a non-empty credential. Launch-Halo.ps1 supplies the local dummy `x`.
       apiKeyEnv: LMSTUDIO_API_KEY
@@ -22,16 +23,9 @@ llm-pi-ai:
       defaultContextWindow: 32768
       defaultMaxTokens: 8192
       models:
-        # Halo-owned virtual model identities bake the measured LM Studio load
-        # envelope into API/JIT loads. Raw on-disk models remain selectable
-        # below for explicit experiments, but the standing lanes use these.
         - id: halo/qwen3.8-27b
           name: Halo Qwen3.8 27B Q5_K_XL (tuned cockpit)
           contextWindow: 32768
-          # LM Studio reports this exact alias as boolean reasoning only:
-          # allowed_options=[on], default=on. DSH's pi-ai profile can expose
-          # canonical effort levels, but cannot honestly label boolean "on".
-          # Omitting the selector preserves LM Studio's real provider default.
         - id: halo/qwen3-coder-30b-a3b
           name: Halo Qwen3 Coder 30B-A3B Q4_K_S (tuned worker)
           contextWindow: 32768
@@ -47,8 +41,6 @@ llm-pi-ai:
         - id: unsloth/qwen3.8-27b
           name: Qwen3.8 27B Q5_K_XL (raw local model)
           contextWindow: 32768
-          # The raw Q5_K_XL route also advertises on/off rather than graded
-          # effort. Leave reasoning provider-owned instead of inventing levels.
         - id: unsloth/qwen3-coder-30b-a3b-instruct
           name: Qwen3 Coder 30B-A3B Q4_K_S (raw local model)
           contextWindow: 32768
@@ -66,6 +58,66 @@ llm-pi-ai:
           contextWindow: 32768
         - id: qwen/qwen3.6-35b-a3b
           name: Qwen3.6 35B-A3B Q4_K_M
+          contextWindow: 32768
+        - id: qwen3-coder-30b-a3b-q6k-weights
+          name: Qwen3 Coder 30B A3B Instruct Q6_K [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3-coder-30b-a3b-instruct@q4_k_m
+          name: Qwen3 Coder 30B A3B Instruct Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3-coder-30b-a3b-instruct@q6_k
+          name: Qwen3 Coder 30B A3B Instruct Q6_K [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3.8-27b
+          name: Qwen3.8 27B UD Q5_K_XL [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen/qwen3.8-27b
+          name: Qwen3.8 27B Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: zai-org/glm-4.6v-flash
+          name: Glm 4.6v Flash Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen/qwen3.5-9b
+          name: Qwen3.5 9B Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: google/gemma-4-12b-qat
+          name: Gemma 4 12B QAT Q4_0 [LM Studio discovered]
+          contextWindow: 32768
+        - id: prism-ml/bonsai-27b
+          name: Bonsai 27B Q1_0 [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3-coder-30b-a3b-instruct
+          name: Qwen3 Coder 30B A3B Instruct Q4_K_S [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3.8-27b@q3_k_xl
+          name: Qwen3.8 27B UD Q3_K_XL [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen3.8-27b@q4_k_xl
+          name: Qwen3.8 27B UD Q4_K_XL [LM Studio discovered]
+          contextWindow: 32768
+        - id: ornith-1.0-9b
+          name: Ornith 1.0 9B Q8_0 [LM Studio discovered]
+          contextWindow: 32768
+        - id: gemma-4-12b-coder-fable5-composer2.5-v1
+          name: Gemma4 Coding Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: gemma-4-26b-a4b-it-qat@q4_k_xl
+          name: Gemma 4 26B A4B Instruct QAT UD Q4_K_XL [LM Studio discovered]
+          contextWindow: 32768
+        - id: gemma-4-26b-a4b-it-qat@?
+          name: Mtp Gemma 4 26B A4B Instruct [LM Studio discovered]
+          contextWindow: 32768
+        - id: gemma-4-12b-it-qat
+          name: Gemma 4 12B Instruct QAT UD Q4_K_XL [LM Studio discovered]
+          contextWindow: 32768
+        - id: granite-4.1-8b
+          name: Granite 4.1 8B Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: qwen/qwen3-14b
+          name: Qwen3 14B Q4_K_M [LM Studio discovered]
+          contextWindow: 32768
+        - id: ornith-1.0-35b-mtp-apex
+          name: Ornith 1.0 35B MTP APEX I Mini [LM Studio discovered]
           contextWindow: 32768
 
 # Hide the bundled DeepSeek API catalog. This machine has no DeepSeek API key;

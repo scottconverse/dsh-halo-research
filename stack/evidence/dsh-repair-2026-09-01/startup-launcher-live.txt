@@ -1,0 +1,6 @@
+2026-09-02T04:10:00.277Z Waiting for DSH settings plugin readiness (the HTML page can be ready first).
+2026-09-02T04:10:00.344Z Picker refreshed: 32 choices; existing entries and other providers preserved.
+2026-09-02T04:10:00.368Z New-session default: tuned 35B brain. Existing sessions were not modified.
+2026-09-02T04:10:00.844Z Already resident: halo/qwen3.6-35b-a3b; no duplicate load.
+2026-09-02T04:10:01.340Z Already resident: halo/qwen3-coder-30b-a3b-q4km; no duplicate load.
+2026-09-02T04:10:01.340Z {"catalogCount":32,"loaded":["halo/qwen3.6-35b-a3b","halo/qwen3-coder-30b-a3b-q4km"],"defaultSelected":true}

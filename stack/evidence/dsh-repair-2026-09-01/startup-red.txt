@@ -1,0 +1,201 @@
+✖ catalog adds remote and newly downloaded LLMs, not embedding models (3.3481ms)
+✔ catalog preserves all custom configuration and never mutates its inputs (0.2962ms)
+✖ new metadata does not mistake advertised maximum for loaded context (0.1064ms)
+✖ malformed or empty discovery cannot erase a saved catalog (0.154ms)
+✖ load arguments retain measured envelope and pin Q4_K_M variant, not picker choices (0.3242ms)
+✖ refresh-only uses revision-checked path edits and never loads or changes selection (0.1874ms)
+✖ cold startup selects tuned brain and loads both models sequentially (1.212ms)
+✔ already loaded tuned pair is not loaded again (0.096ms)
+✖ wrong resident configuration is reported without silently unloading it (0.2558ms)
+✖ API failure makes no settings writes or model requests (0.3049ms)
+✖ stale settings revision prevents model loading and default overwrite (0.1836ms)
+✖ load failure stops the second load and propagates error (0.1175ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 2
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 72.9569
+
+✖ failing tests:
+
+test at stack\startup\test\startup.test.mjs:27:1
+✖ catalog adds remote and newly downloaded LLMs, not embedding models (3.3481ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(result.some(m=>m.id==='remote/new-model'))
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:29:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:42:1
+✖ new metadata does not mistake advertised maximum for loaded context (0.1064ms)
+  AssertionError [ERR_ASSERTION]: discovered remote model must exist
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:44:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:48:1
+✖ malformed or empty discovery cannot erase a saved catalog (0.154ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:49:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /inventory/i,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:52:1
+✖ load arguments retain measured envelope and pin Q4_K_M variant, not picker choices (0.3242ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'halo/qwen3-coder-30b-a3b-q4km@q4_k_m'
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:54:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'halo/qwen3-coder-30b-a3b-q4km@q4_k_m',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:60:1
+✖ refresh-only uses revision-checked path edits and never loads or changes selection (0.1874ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:63:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:68:1
+✖ cold startup selects tuned brain and loads both models sequentially (1.212ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   {
+  -     identifier: 'halo-brain-35b',
+  -     modelKey: 'halo/qwen3.6-35b-a3b'
+  -   },
+  -   {
+  -     identifier: 'halo-coder-q4km',
+  -     modelKey: 'halo/qwen3-coder-30b-a3b-q4km'
+  -   }
+  - ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:70:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ { modelKey: 'halo/qwen3.6-35b-a3b', identifier: 'halo-brain-35b' }, { modelKey: 'halo/qwen3-coder-30b-a3b-q4km', identifier: 'halo-coder-q4km' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:79:1
+✖ wrong resident configuration is reported without silently unloading it (0.2558ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:81:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /parallel|envelope/i,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:84:1
+✖ API failure makes no settings writes or model requests (0.3049ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:86:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /offline/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:89:1
+✖ stale settings revision prevents model loading and default overwrite (0.1836ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:91:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /revision/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at stack\startup\test\startup.test.mjs:94:1
+✖ load failure stops the second load and propagates error (0.1175ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/startup/test/startup.test.mjs:96:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /allocation/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

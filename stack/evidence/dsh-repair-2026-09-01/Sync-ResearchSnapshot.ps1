@@ -18,10 +18,14 @@ function Copy-Verified([string]$Source, [string]$Destination) {
     }
 }
 
-foreach ($name in @('HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-01.md')) {
+foreach ($name in @('HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-01.md','HALO-STARTUP-AND-BIONIC-2026-09-01.md')) {
     Copy-Verified (Join-Path $repo "stack\$name") (Join-Path $research $name)
     Copy-Verified (Join-Path $repo "stack\$name") (Join-Path $recovery $name)
 }
+Copy-Verified (Join-Path $repo 'stack\Launch-Halo.ps1') (Join-Path $recovery 'operations\Launch-Halo.ps1')
+Copy-Verified (Join-Path $repo 'stack\startup\halo-startup.mjs') (Join-Path $recovery 'operations\startup\halo-startup.mjs')
+Copy-Verified (Join-Path $repo 'stack\startup\test\startup.test.mjs') (Join-Path $recovery 'operations\startup\test\startup.test.mjs')
+Copy-Verified (Join-Path $repo 'stack\halo-settings.yaml') (Join-Path $recovery 'dsh\settings.yaml')
 Copy-Verified (Join-Path $repo 'stack\Install-HaloPickerOverride.ps1') (Join-Path $recovery 'operations\Install-HaloPickerOverride.ps1')
 Copy-Verified (Join-Path $repo 'stack\packages\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz') (Join-Path $recovery 'dsh\packages\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz')
 foreach ($name in @('package.json','pnpm-lock.yaml','pnpm-workspace.yaml')) {

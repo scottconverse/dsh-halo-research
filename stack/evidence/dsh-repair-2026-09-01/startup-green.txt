@@ -1,0 +1,30 @@
+✔ versioned picker archive is a standalone pnpm package with its license (57.7731ms)
+✔ installer pins the archive bytes and independently rejects malformed package shape (0.7333ms)
+✔ installer backup records enough identity to validate a restored picker package (0.0937ms)
+✔ installer honors an alternate DshHome by deriving the profile-local file dependency (0.1187ms)
+✔ repair replaces a same-version picker instead of retaining its stale installed bundle (0.0867ms)
+✔ startup waits for plugin routes after HTML readiness (1.1989ms)
+✔ readiness is bounded and does not retry authorization errors (0.3589ms)
+✔ catalog adds remote and newly downloaded LLMs, not embedding models (0.1799ms)
+✔ catalog preserves all custom configuration and never mutates its inputs (0.1382ms)
+✔ new metadata does not mistake advertised maximum for loaded context (0.1063ms)
+✔ malformed or empty discovery cannot erase a saved catalog (0.1607ms)
+✔ load uses CLI-compatible alias and retains measured envelope, not picker restrictions (0.0811ms)
+✔ refresh-only uses revision-checked path edits and never loads or changes selection (0.2815ms)
+✔ cold startup selects tuned brain and loads both models sequentially (0.2969ms)
+✔ already loaded tuned pair is not loaded again (0.2306ms)
+✔ wrong resident configuration is reported without silently unloading it (0.2533ms)
+✔ API failure makes no settings writes or model requests (0.1978ms)
+✔ stale settings revision prevents model loading and default overwrite (0.1376ms)
+✔ load failure stops the second load and propagates error (0.1907ms)
+✔ changed alias quant fails before loading any model (0.1232ms)
+✔ successful CLI exit without a resident model is not success (0.1373ms)
+✔ another model using the reserved identifier is not accepted as the tuned model (0.1001ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.3722

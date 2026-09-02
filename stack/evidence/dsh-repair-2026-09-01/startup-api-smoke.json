@@ -1,0 +1,54 @@
+[
+  {
+    "seconds": 1.4507759,
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY.",
+          "reasoning_content": "",
+          "tool_calls": []
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 17,
+      "completion_tokens": 3,
+      "total_tokens": 20,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "requested": "halo/qwen3.6-35b-a3b",
+    "returned": "halo-brain-35b"
+  },
+  {
+    "seconds": 0.1474082,
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY",
+          "reasoning_content": "",
+          "tool_calls": []
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 13,
+      "completion_tokens": 2,
+      "total_tokens": 15,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "requested": "halo/qwen3-coder-30b-a3b-q4km",
+    "returned": "halo-coder-q4km"
+  }
+]
