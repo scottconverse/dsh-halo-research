@@ -1,0 +1,12 @@
+✔ versioned picker archive is a standalone pnpm package with its license (48.7938ms)
+✔ installer pins the archive bytes and independently rejects malformed package shape (0.794ms)
+✔ installer backup records enough identity to validate a restored picker package (0.1131ms)
+✔ installer honors an alternate DshHome by deriving the profile-local file dependency (0.1232ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 114.8383

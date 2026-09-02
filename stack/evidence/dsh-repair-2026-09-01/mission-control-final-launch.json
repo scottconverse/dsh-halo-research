@@ -1,0 +1,9 @@
+{
+  "Started": true,
+  "Healthy": true,
+  "InstalledCopy": "C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs",
+  "Sha256": "45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE",
+  "ProcessId": 38916,
+  "HealthUri": "http://127.0.0.1:3090/api/status",
+  "BrowserOpened": false
+}

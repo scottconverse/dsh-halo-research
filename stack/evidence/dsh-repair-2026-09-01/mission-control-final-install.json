@@ -1,0 +1,43 @@
+{
+  "Action": "Installed",
+  "Source": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\mission-control.mjs",
+  "Destination": "C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs",
+  "Sha256": "45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE",
+  "RestartRequired": true,
+  "Backup": "C:\\Users\\scott\\.dsh\\mission-control\\backups\\mission-control-20260901-200659-415-7a6201a6.mjs",
+  "Receipt": "C:\\Users\\scott\\.dsh\\mission-control\\backups\\install-20260901-200659-415-7a6201a6.json",
+  "ReceiptSha256": "7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E",
+  "TestsRan": true,
+  "TestResult": "Passed",
+  "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs\"",
+  "ContractSuites": [
+    {
+      "Name": "reasoning-contract.test.mjs",
+      "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs",
+      "SuiteSha256": "76C03130960B82A440952588CFFE3212AC2E4C10380F0F71DCF1189D9D63CA76",
+      "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs\"",
+      "TestResult": "Passed"
+    },
+    {
+      "Name": "data-contract.test.mjs",
+      "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs",
+      "SuiteSha256": "828D2CDB1951FEFE03718AECA2A87BFE9A0EECF1489EAB1BEA077DFDD9B19680",
+      "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs\"",
+      "TestResult": "Passed"
+    },
+    {
+      "Name": "ui-contract.test.mjs",
+      "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs",
+      "SuiteSha256": "18C9E64A527309C1F15D67AA122E00881808B1B549FB6646C016093FB059EAC9",
+      "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs\"",
+      "TestResult": "Passed"
+    },
+    {
+      "Name": "installer-contract.test.mjs",
+      "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs",
+      "SuiteSha256": "3042F8E9D4949DB06F01E365114507587537155E68AF36048DC7D87311A720EB",
+      "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs\"",
+      "TestResult": "Passed"
+    }
+  ]
+}

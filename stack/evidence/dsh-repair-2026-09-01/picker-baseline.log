@@ -1,0 +1,238 @@
+✔ versioned picker archive is a standalone pnpm package with its license (50.2468ms)
+✔ installer pins the archive bytes and independently rejects malformed package shape (0.7626ms)
+✔ installer backup records enough identity to validate a restored picker package (0.0928ms)
+✖ installer honors an alternate DshHome by deriving the profile-local file dependency (1.5241ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 117.4977
+
+✖ failing tests:
+
+test at stack\mission-control\test\picker-package-contract.test.mjs:47:1
+✖ installer honors an alternate DshHome by deriving the profile-local file dependency (1.5241ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /GetRelativePath\(\$profileRoot,\s*\$artifactPath\)/. Input:
+  
+  '<#\n' +
+    "  Install or roll back the reviewed Halo model-picker package through DSH's\n" +
+    '  supported profile-local package-shadow seam. The reviewed tgz and its\n' +
+    '  browser bundle are immutable hash-pinned inputs.\n' +
+    '\n' +
+    "  This script never starts or stops a service and never manually edits pnpm's\n" +
+    '  global store; pnpm may use its normal content-addressed store. A successful\n' +
+    '  install or rollback must be followed by a separately ownership-checked\n' +
+    '  restart of the DSH cockpit only.\n' +
+    '#>\n' +
+    '[CmdletBinding()]\n' +
+    'param(\n' +
+    "    [string] $DshHome = (Join-Path $env:USERPROFILE '.dsh'),\n" +
+    "    [string] $RepoRoot = '',\n" +
+    "    [string] $RollbackFrom = '',\n" +
+    '    [switch] $ForceReinstall\n' +
+    ')\n' +
+    '\n' +
+    "$ErrorActionPreference = 'Stop'\n" +
+    'if ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n' +
+    '    $RepoRoot = Split-Path $PSScriptRoot -Parent\n' +
+    '}\n' +
+    '\n' +
+    'if ($ForceReinstall -and -not [string]::IsNullOrWhiteSpace($RollbackFrom)) {\n' +
+    "    throw '-ForceReinstall and -RollbackFrom cannot be used together'\n" +
+    '}\n' +
+    '\n' +
+    "$packageName = '@deepseek-ai/dsh-client-ui-model-selection'\n" +
+    "$packageVersion = '0.1.1-rc.2'\n" +
+    "$artifactName = 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz'\n" +
+    "$reviewedArtifactSha256 = '148C45AE84FF5539B3EB5509CA5A277544AC48FD91D4E56591E5218A0701BFB9'\n" +
+    "$reviewedClientSha256 = '8AD89CED1EB23C241C82E0B3702359696827920AD99F37DE2AA568095533E131'\n" +
+    "$reviewedIndexSha256 = '6879BA2C29E67B2AD0E0CAF8FEEEE9C62364D871F7664E10EFA7F14B4E216EB0'\n" +
+    "$reviewedInvariantSha256 = 'F3E07C900344FD01FFE798DA2E98FBD55381F2E4BD0FE7467D00CF81A3CAFF78'\n" +
+    "$sourceRoot = Join-Path $RepoRoot '_upstream\\deepseek-harness'\n" +
+    "$packageRoot = Join-Path $sourceRoot 'packages\\client\\ui-model-selection'\n" +
+    "$artifactRoot = Join-Path $PSScriptRoot 'packages'\n" +
+    '$artifactPath = Join-Path $artifactRoot $artifactName\n' +
+    "$profileRoot = Join-Path $DshHome 'profiles\\web'\n" +
+    "$canonicalManifest = Join-Path $PSScriptRoot 'web-profile.package.json'\n" +
+    "$liveManifest = Join-Path $profileRoot 'package.json'\n" +
+    "$liveLock = Join-Path $profileRoot 'pnpm-lock.yaml'\n" +
+    '$installedManifest = Join-Path $profileRoot "node_modules\\$packageName\\package.json"\n' +
+    '$installedClient = Join-Path $profileRoot "node_modules\\$packageName\\lib\\client.js"\n' +
+    '$installedIndex = Join-Path $profileRoot "node_modules\\$packageName\\lib\\index.js"\n' +
+    '$installedInvariant = Join-Path $profileRoot "node_modules\\$packageName\\lib\\invariant.js"\n' +
+    "$backupsRoot = Join-Path $DshHome 'backups'\n" +
+    "$pnpmCmd = Join-Path (Split-Path (Get-Command pnpm -ErrorAction Stop).Source -Parent) 'pnpm.cmd'\n" +
+    '$tarCmd = (Get-Command tar.exe -ErrorAction Stop).Source\n' +
+    '\n' +
+    'function Normalize-FileDependency([string] $Value) {\n' +
+    "    return (($Value -replace '\\\\', '/').TrimEnd('/'))\n" +
+    '}\n' +
+    '\n' +
+    'function Assert-Hash([string] $Path, [string] $Expected, [string] $Label) {\n' +
+    '    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {\n' +
+    '        throw "$Label is missing: $Path"\n' +
+    '    }\n' +
+    '    $actual = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash\n' +
+    '    if ($actual -ne $Expected) {\n' +
+    '        throw "$Label hash $actual does not match reviewed hash $Expected"\n' +
+    '    }\n' +
+    '    return $actual\n' +
+    '}\n' +
+    '\n' +
+    'function Get-Sha512Integrity([string] $Path) {\n' +
+    '    $sha512 = [Security.Cryptography.SHA512]::Create()\n' +
+    '    try {\n' +
+    '        $stream = [IO.File]::OpenRead($Path)\n' +
+    '        try {\n' +
+    "            return 'sha512-' + [Convert]::ToBase64String($sha512.ComputeHash($stream))\n" +
+    '        } finally {\n' +
+    '            $stream.Dispose()\n' +
+    '        }\n' +
+    '    } finally {\n' +
+    '        $sha512.Dispose()\n' +
+    '    }\n' +
+    '}\n' +
+    '\n' +
+    'function Assert-ReviewedManifest([string] $Path, [string] $Label) {\n' +
+    '    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {\n' +
+    '        throw "$Label is missing: $Path"\n' +
+    '    }\n' +
+    '    $identity = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json\n' +
+    '    if ($identity.name -ne $packageName -or\n' +
+    '        $identity.version -ne $packageVersion -or\n' +
+    "        $identity.type -ne 'module' -or\n" +
+    "        $identity.main -ne 'lib/index.js' -or\n" +
+    "        $identity.exports.'./client'.default -ne './lib/client.js' -or\n" +
+    "        $identity.dsh.client.platform -ne 'web') {\n" +
+    '        throw "$Label does not match the reviewed picker runtime contract: $Path"\n' +
+    '    }\n' +
+    '}\n' +
+    '\n' +
+    'function Assert-ReviewedInstalledPackage {\n' +
+    "    Assert-ReviewedManifest -Path $installedManifest -Label 'Installed picker manifest'\n" +
+    "    Assert-Hash -Path $installedClient -Expected $reviewedClientSha256 -Label 'Installed picker client' | Out-Null\n" +
+    "    Assert-Hash -Path $installedIndex -Expected $reviewedIndexSha256 -Label 'Installed picker index' | Out-Null\n" +
+    "    Assert-Hash -Path $installedInvariant -Expected $reviewedInvariantSha256 -Label 'Installed picker invariant' | Out-Null\n" +
+    '}\n' +
+    '\n' +
+    'function Assert-ReviewedLock([string] $DependencySpec) {\n' +
+    '    $lockText = Get-Content -LiteralPath $liveLock -Raw\n' +
+    '    $forwardSpec = Normalize-FileDependency $DependencySpec\n' +
+    "    $backwardSpec = $forwardSpec -replace '/', '\\'\n" +
+    '    $integrity = Get-Sha512Integrity $artifactPath\n' +
+    '    foreach ($needle in @(\n' +
+    '        "specifier: $backwardSpec",\n' +
+    '        "version: $forwardSpec",\n' +
+    `        "'$packageName@$forwardSpec':",\n` +
+    '        "integrity: $integrity",\n' +
+    '        "tarball: $forwardSpec"\n' +
+    '    )) {\n' +
+    '        if ($lockText.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) {\n' +
+    '            throw "DSH web profile lockfile is not bound to the reviewed picker artifact; missing: $needle"\n' +
+    '        }\n' +
+    '    }\n' +
+    '}\n' +
+    '\n' +
+    'function Remove-ScratchDirectory([string] $Path, [string] $ExpectedParent) {\n' +
+    '    $resolvedPath = [IO.Path]::GetFullPath($Path)\n' +
+    "    $resolvedParent = [IO.Path]::GetFullPath($ExpectedParent).TrimEnd('\\') + '\\'\n" +
+    '    if (-not $resolvedPath.StartsWith($resolvedParent, [StringComparison]::OrdinalIgnoreCase)) {\n' +
+    '        throw "Refusing to remove scratch path outside expected parent: $resolvedPath"\n' +
+    '    }\n' +
+    '    if (Test-Path -LiteralPath $resolvedPath) {\n' +
+    '        Remove-Item -LiteralPath $resolvedPath -Recurse -Force\n' +
+    '    }\n' +
+    '}\n' +
+    '\n' +
+    'function Assert-ReviewedArtifact([string] $Path) {\n' +
+    "    Assert-Hash -Path $Path -Expected $reviewedArtifactSha256 -Label 'Picker tgz' | Out-Null\n" +
+    "    $verifyRoot = Join-Path $artifactRoot ('verify-' + [guid]::NewGuid().ToString('N'))\n" +
+    '    New-Item -ItemType Directory -Path $verifyRoot | Out-Null\n' +
+    '    try {\n' +
+    '        & $tarCmd -xf $Path -C $verifyRoot\n' +
+    '        if ($LASTEXITCODE -ne 0) {\n' +
+    '            throw "Unable to inspect picker tgz $Path (tar exit $LASTEXITCODE)"\n' +
+    '        }\n' +
+    "        $packedManifest = Join-Path $verifyRoot 'package\\package.json'\n" +
+    "        $packedLicense = Join-Path $verifyRoot 'package\\LICENSE'\n" +
+    "        $packedClient = Join-Path $verifyRoot 'package\\lib\\client.js'\n" +
+    "        $packedIndex = Join-Path $verifyRoot 'package\\lib\\index.js'\n" +
+    "        $packedInvariant = Join-Path $verifyRoot 'package\\lib\\invariant.js'\n" +
+    '        if (-not (Test-Path -LiteralPath $packedLicense -PathType Leaf)) {\n' +
+    '            throw "Packed picker license is missing: $packedLicense"\n' +
+    '        }\n' +
+    '        $packedManifestText = Get-Content -LiteralPath $packedManifest -Raw\n' +
+    "        if ($packedManifestText.IndexOf('workspace:', [StringComparison]::OrdinalIgnoreCase) -ge 0) {\n" +
+    "            throw 'Packed picker manifest contains workspace: dependency ranges and is not standalone-installable'\n" +
+    '        }\n' +
+    "        Assert-ReviewedManifest -Path $packedManifest -Label 'Packed picker manifest'\n" +
+    "        Assert-Hash -Path $packedClient -Expected $reviewedClientSha256 -Label 'Packed picker client' | Out-Null\n" +
+    "        Assert-Hash -Path $packedIndex -Expected $reviewedIndexSha256 -Label 'Packed picker index' | Out-Null\n" +
+    "        Assert-Hash -Path $packedInvariant -Expected $reviewedInvariantSha256 -Label 'Packed picker invariant' | Out-Null\n" +
+    '    } finally {\n' +
+    '        Remove-ScratchDirectory -Path $verifyRoot -ExpectedParent $artifactRoot\n' +
+    '    }\n' +
+    '}\n' +
+    '\n' +
+    'function New-ProfileBackup([string] $Label) {\n' +
+    '    foreach ($required in @($liveManifest, $liveLock)) {\n' +
+    '        if (-not (Test-Path -LiteralPath $required -PathType Leaf)) {\n' +
+    '            throw "Cannot create a complete profile backup; required file is missing: $required"\n' +
+    '        }\n' +
+    '    }\n' +
+    "    $stamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'\n" +
+    '    New-Item -ItemType Directory -Path $backupsRoot -Force | Out-Null\n' +
+    `    $backupRoot = Join-Path $backupsRoot ("halo-picker-$Label-$stamp-" + [guid]::NewGuid().ToString('N').Substring(0, 8))\n` +
+    '    New-Item -ItemType Directory -Path $backupRoot | Out-Null\n' +
+    "    $backupManifest = Join-Path $backupRoot 'package.json'\n" +
+    "    $backupLock = Join-Path $backupRoot 'pnpm-lock.yaml'\n" +
+    '    Copy-Item -LiteralPath $liveManifest -Destination $backupManifest\n' +
+    '    Copy-Item -LiteralPath $liveLock -Destination $backupLock\n' +
+    '\n' +
+    '    $manifestHash = (Get-FileHash -LiteralPath $liveManifest -Algorithm SHA256).Hash\n' +
+    '    $lockHash = (Get-FileHash -LiteralPath $liveLock -Algorithm SHA256).Hash\n' +
+    "    Assert-Hash -Path $backupManifest -Expected $manifestHash -Label 'Backed-up profile manifest' | Out-Null\n" +
+    "    Assert-Hash -Path $backupLock -Expected $lockHash -Label 'Backed-up profile lockfile' | Out-Null\n" +
+    '    [ordered]@{\n' +
+    '        schema = 1\n' +
+    "        createdUtc = (Get-Date).ToUniversalTime().ToString('o')\n" +
+    '        packageJsonSha256 = $manifestHash\n' +
+    '        pnpmLockSha256 = $lockHash\n' +
+    '        installedManifestSha256 = if (Test-Path -LiteralPath $installedManifest -PathType Leaf) {\n' +
+    '            (Get-FileHash -LiteralPath $installedManifest -Algorithm SHA256).Hash\n' +
+    '        } else { $null }\n' +
+    '        installedClientSha256 = if (Test-Path -LiteralPath $installedClient) {\n' +
+    '            (Get-FileHash -LiteralPath $installedClient -Algorithm SHA256).Hash\n' +
+    '        } else { $null }\n' +
+    '        installedIndexSha256 = if (Test-Path -LiteralPath $installedIndex -PathType Leaf) {\n' +
+    '            (Get-FileHash -LiteralPath $installedIndex -Algorithm SHA256).Hash\n' +
+    '        } else { $null }\n' +
+    '        installedInvariantSha256 = if (Test-Path -LiteralPath $installedInvariant -PathType Leaf) {\n' +
+    '            (Get-FileHash -LiteralPath $installedInvariant -Algorithm SHA256).Hash\n' +
+    '        } else { $null }\n' +
+    "    } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $backupRoot 'backup.json') -Encoding utf8\n" +
+    '    return $backupRoot\n' +
+    '}\n' +
+    '\n' +
+    'function Assert-Backup([string] $Path) {\n' +
+    '    $resolved = [IO.Path]::GetFullPath($Path)\n' +
+    "    $allowed = [IO.Path]::GetFullPath($backupsRoot).TrimEnd('\\') + '\\'\n" +
+    '    if (-not $resolved.StartsWith($all'... 7685 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/mission-control/test/picker-package-contract.test.mjs:48:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `<#\n  Install or roll back the reviewed Halo model-picker package through DSH's\n  supported profile-local package-shadow seam. The reviewed tgz and its\n  browser bundle are immutable hash-pinned inputs.\n\n  This script never starts or stops a service and never manually edits pnpm's\n  global store; pnpm may use its normal content-addressed store. A successful\n  install or rollback must be followed by a separately ownership-checked\n  restart of the DSH cockpit only.\n#>\n[CmdletBinding()]\nparam(\n    [string] $DshHome = (Join-Path $env:USERPROFILE '.dsh'),\n    [string] $RepoRoot = '',\n    [string] $RollbackFrom = '',\n    [switch] $ForceReinstall\n)\n\n$ErrorActionPreference = 'Stop'\nif ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n    $RepoRoot = Split-Path $PSScriptRoot -Parent\n}\n\nif ($ForceReinstall -and -not [string]::IsNullOrWhiteSpace($RollbackFrom)) {\n    throw '-ForceReinstall and -RollbackFrom cannot be used together'\n}\n\n$packageName = '@deepseek-ai/dsh-client-ui-model-selection'\n$packageVersion = '0.1.1-rc.2'\n$artifactName = 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz'\n$reviewedArtifactSha256 = '148C45AE84FF5539B3EB5509CA5A277544AC48FD91D4E56591E5218A0701BFB9'\n$reviewedClientSha256 = '8AD89CED1EB23C241C82E0B3702359696827920AD99F37DE2AA568095533E131'\n$reviewedIndexSha256 = '6879BA2C29E67B2AD0E0CAF8FEEEE9C62364D871F7664E10EFA7F14B4E216EB0'\n$reviewedInvariantSha256 = 'F3E07C900344FD01FFE798DA2E98FBD55381F2E4BD0FE7467D00CF81A3CAFF78'\n$sourceRoot = Join-Path $RepoRoot '_upstream\\deepseek-harness'\n$packageRoot = Join-Path $sourceRoot 'packages\\client\\ui-model-selection'\n$artifactRoot = Join-Path $PSScriptRoot 'packages'\n$artifactPath = Join-Path $artifactRoot $artifactName\n$profileRoot = Join-Path $DshHome 'profiles\\web'\n$canonicalManifest = Join-Path $PSScriptRoot 'web-profile.package.json'\n$liveManifest = Join-Path $profileRoot 'package.json'\n$liveLock = Join-Path $profileRoot 'pnpm-lock.yaml'\n$installedManifest = Join-Path $profileRoot "node_modules\\$packageName\\package.json"\n$installedClient = Join-Path $profileRoot "node_modules\\$packageName\\lib\\client.js"\n$installedIndex = Join-Path $profileRoot "node_modules\\$packageName\\lib\\index.js"\n$installedInvariant = Join-Path $profileRoot "node_modules\\$packageName\\lib\\invariant.js"\n$backupsRoot = Join-Path $DshHome 'backups'\n$pnpmCmd = Join-Path (Split-Path (Get-Command pnpm -ErrorAction Stop).Source -Parent) 'pnpm.cmd'\n$tarCmd = (Get-Command tar.exe -ErrorAction Stop).Source\n\nfunction Normalize-FileDependency([string] $Value) {\n    return (($Value -replace '\\\\', '/').TrimEnd('/'))\n}\n\nfunction Assert-Hash([string] $Path, [string] $Expected, [string] $Label) {\n    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {\n        throw "$Label is missing: $Path"\n    }\n    $actual = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash\n    if ($actual -ne $Expected) {\n        throw "$Label hash $actual does not match reviewed hash $Expected"\n    }\n    return $actual\n}\n\nfunction Get-Sha512Integrity([string] $Path) {\n    $sha512 = [Security.Cryptography.SHA512]::Create()\n    try {\n        $stream = [IO.File]::OpenRead($Path)\n        try {\n            return 'sha512-' + [Convert]::ToBase64String($sha512.ComputeHash($stream))\n        } finally {\n            $stream.Dispose()\n        }\n    } finally {\n        $sha512.Dispose()\n    }\n}\n\nfunction Assert-ReviewedManifest([string] $Path, [string] $Label) {\n    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {\n        throw "$Label is missing: $Path"\n    }\n    $identity = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json\n    if ($identity.name -ne $packageName -or\n        $identity.version -ne $packageVersion -or\n        $identity.type -ne 'module' -or\n        $identity.main -ne 'lib/index.js' -or\n        $identity.exports.'./client'.default -ne './lib/client.js' -or\n        $identity.dsh.client.platform -ne 'web') {\n        throw "$Label does not match the reviewed picker runtime contract: $Path"\n    }\n}\n\nfunction Assert-ReviewedInstalledPackage {\n    Assert-ReviewedManifest -Path $installedManifest -Label 'Installed picker manifest'\n    Assert-Hash -Path $installedClient -Expected $reviewedClientSha256 -Label 'Installed picker client' | Out-Null\n    Assert-Hash -Path $installedIndex -Expected $reviewedIndexSha256 -Label 'Installed picker index' | Out-Null\n    Assert-Hash -Path $installedInvariant -Expected $reviewedInvariantSha256 -Label 'Installed picker invariant' | Out-Null\n}\n\nfunction Assert-ReviewedLock([string] $DependencySpec) {\n    $lockText = Get-Content -LiteralPath $liveLock -Raw\n    $forwardSpec = Normalize-FileDependency $DependencySpec\n    $backwardSpec = $forwardSpec -replace '/', '\\'\n    $integrity = Get-Sha512Integrity $artifactPath\n    foreach ($needle in @(\n        "specifier: $backwardSpec",\n        "version: $forwardSpec",\n        "'$packageName@$forwardSpec':",\n        "integrity: $integrity",\n        "tarball: $forwardSpec"\n    )) {\n        if ($lockText.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) {\n            throw "DSH web profile lockfile is not bound to the reviewed picker artifact; missing: $needle"\n        }\n    }\n}\n\nfunction Remove-ScratchDirectory([string] $Path, [string] $ExpectedParent) {\n    $resolvedPath = [IO.Path]::GetFullPath($Path)\n    $resolvedParent = [IO.Path]::GetFullPath($ExpectedParent).TrimEnd('\\') + '\\'\n    if (-not $resolvedPath.StartsWith($resolvedParent, [StringComparison]::OrdinalIgnoreCase)) {\n        throw "Refusing to remove scratch path outside expected parent: $resolvedPath"\n    }\n    if (Test-Path -LiteralPath $resolvedPath) {\n        Remove-Item -LiteralPath $resolvedPath -Recurse -Force\n    }\n}\n\nfunction Assert-ReviewedArtifact([string] $Path) {\n    Assert-Hash -Path $Path -Expected $reviewedArtifactSha256 -Label 'Picker tgz' | Out-Null\n    $verifyRoot = Join-Path $artifactRoot ('verify-' + [guid]::NewGuid().ToString('N'))\n    New-Item -ItemType Directory -Path $verifyRoot | Out-Null\n    try {\n        & $tarCmd -xf $Path -C $verifyRoot\n        if ($LASTEXITCODE -ne 0) {\n            throw "Unable to inspect picker tgz $Path (tar exit $LASTEXITCODE)"\n        }\n        $packedManifest = Join-Path $verifyRoot 'package\\package.json'\n        $packedLicense = Join-Path $verifyRoot 'package\\LICENSE'\n        $packedClient = Join-Path $verifyRoot 'package\\lib\\client.js'\n        $packedIndex = Join-Path $verifyRoot 'package\\lib\\index.js'\n        $packedInvariant = Join-Path $verifyRoot 'package\\lib\\invariant.js'\n        if (-not (Test-Path -LiteralPath $packedLicense -PathType Leaf)) {\n            throw "Packed picker license is missing: $packedLicense"\n        }\n        $packedManifestText = Get-Content -LiteralPath $packedManifest -Raw\n        if ($packedManifestText.IndexOf('workspace:', [StringComparison]::OrdinalIgnoreCase) -ge 0) {\n            throw 'Packed picker manifest contains workspace: dependency ranges and is not standalone-installable'\n        }\n        Assert-ReviewedManifest -Path $packedManifest -Label 'Packed picker manifest'\n        Assert-Hash -Path $packedClient -Expected $reviewedClientSha256 -Label 'Packed picker client' | Out-Null\n        Assert-Hash -Path $packedIndex -Expected $reviewedIndexSha256 -Label 'Packed picker index' | Out-Null\n        Assert-Hash -Path $packedInvariant -Expected $reviewedInvariantSha256 -Label 'Packed picker invariant' | Out-Null\n    } finally {\n        Remove-ScratchDirectory -Path $verifyRoot -ExpectedParent $artifactRoot\n    }\n}\n\nfunction New-ProfileBackup([string] $Label) {\n    foreach ($required in @($liveManifest, $liveLock)) {\n        if (-not (Test-Path -LiteralPath $required -PathType Leaf)) {\n            throw "Cannot create a complete profile backup; required file is missing: $required"\n        }\n    }\n    $stamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'\n    New-Item -ItemType Directory -Path $backupsRoot -Force | Out-Null\n    $backupRoot = Join-Path $backupsRoot ("halo-picker-$Label-$stamp-" + [guid]::NewGuid().ToString('N').Substring(0, 8))\n    New-Item -ItemType Directory -Path $backupRoot | Out-Null\n    $backupManifest = Join-Path $backupRoot 'package.json'\n    $backupLock = Join-Path $backupRoot 'pnpm-lock.yaml'\n    Copy-Item -LiteralPath $liveManifest -Destination $backupManifest\n    Copy-Item -LiteralPath $liveLock -Destination $backupLock\n\n    $manifestHash = (Get-FileHash -LiteralPath $liveManifest -Algorithm SHA256).Hash\n    $lockHash = (Get-FileHash -LiteralPath $liveLock -Algorithm SHA256).Hash\n    Assert-Hash -Path $backupManifest -Expected $manifestHash -Label 'Backed-up profile manifest' | Out-Null\n    Assert-Hash -Path $backupLock -Expected $lockHash -Label 'Backed-up profile lockfile' | Out-Null\n    [ordered]@{\n        schema = 1\n        createdUtc = (Get-Date).ToUniversalTime().ToString('o')\n        packageJsonSha256 = $manifestHash\n        pnpmLockSha256 = $lockHash\n        installedManifestSha256 = if (Test-Path -LiteralPath $installedManifest -PathType Leaf) {\n            (Get-FileHash -LiteralPath $installedManifest -Algorithm SHA256).Hash\n        } else { $null }\n        installedClientSha256 = if (Test-Path -LiteralPath $installedClient) {\n            (Get-FileHash -LiteralPath $installedClient -Algorithm SHA256).Hash\n        } else { $null }\n        installedIndexSha256 = if (Test-Path -LiteralPath $installedIndex -PathType Leaf) {\n            (Get-FileHash -LiteralPath $installedIndex -Algorithm SHA256).Hash\n        } else { $null }\n        installedInvariantSha256 = if (Test-Path -LiteralPath $installedInvariant -PathType Leaf) {\n            (Get-FileHash -LiteralPath $installedInvariant -Algorithm SHA256).Hash\n        } else { $null }\n    } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $backupRoot 'backup.json') -Encoding utf8\n    return $backupRoot\n}\n\nfunction Assert-Backup([string] $Path) {\n    $resolved = [IO.Path]::GetFullPath($Path)\n    $allowed = [IO.Path]::GetFullPath($backupsRoot).TrimEnd('\\') + '\\'\n    if (-not $resolved.StartsWith($all`... 7685 more characters,
+    expected: /GetRelativePath\(\$profileRoot,\s*\$artifactPath\)/,
+    operator: 'match',
+    diff: 'simple'
+  }

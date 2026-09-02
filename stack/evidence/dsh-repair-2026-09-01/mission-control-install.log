@@ -1,0 +1,128 @@
+✔ DSH default route without an effort stays provider-owned (1.6166ms)
+✔ an explicit DSH effort is reported exactly rather than renamed (0.2138ms)
+✔ an omitted effort is configuration absence, not a claim about a future request (0.228ms)
+✔ LM Studio boolean enableThinking is the effective alias default (0.2159ms)
+✔ reasoning capability alone is not misreported as enabled (0.1722ms)
+✔ a non-reasoning model is reported as off (0.1489ms)
+✔ Halo configuration does not advertise fictional graded efforts (0.3854ms)
+✔ versioned daily aliases expose the effective boolean defaults honestly (1.4665ms)
+✔ raw current route remains provider-owned while daily aliases stay separately labeled (0.3419ms)
+✔ an exact current Halo alias resolves its boolean contract from that alias only (1.0554ms)
+✔ Mission Control installer records whether contract tests ran (0.2486ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.1035
+✔ malformed memory JSON fails closed instead of reporting a healthy graph (3.37ms)
+✔ unknown or structurally invalid memory records fail closed (1.6494ms)
+✔ duplicate entities and dangling relations fail closed instead of inflating the graph (1.6552ms)
+✔ the newest LM Studio log is selected by modification time, not lexical name (2.7328ms)
+✔ a completed-session decode rate is emitted once rather than repeated every minute (0.1878ms)
+✔ a repeated completed-run observation stays absent through history normalization (0.1379ms)
+✔ catalog residency joins never cross devices sharing a model path (0.4785ms)
+✔ catalog preserves distinct resident instances while not claiming weight-sharing aliases are loaded (5.9368ms)
+✔ catalog appends unmatched residents even when another device has the same catalog key (0.1948ms)
+✔ catalog cannot turn a failed resident query into an all-unloaded success (0.1611ms)
+✔ multiple resident instances do not inflate addressable catalog totals (0.1358ms)
+✔ Windows PowerShell snapshot task dates cross the JSON boundary as ISO strings (212.3808ms)
+✔ legacy repeated decode rows are hidden unless they carry run provenance (0.2066ms)
+✔ history retention is timestamp-based and covers the full seven-day UI range (0.1861ms)
+✔ GPU counter parsing fails closed instead of turning missing data into zero (0.4025ms)
+✔ file-backed account state exposes freshness instead of looking live forever (0.1167ms)
+✔ history downsampling preserves sparse completed-run observations (0.3349ms)
+✔ validation freshness distinguishes current, stale, and never-run evidence (0.1403ms)
+✔ configured DSH route is kept separate from resident model state (0.2686ms)
+✔ completed-run selection excludes sessions still running or claiming to run (0.0872ms)
+✔ role resolution refuses ambiguous identity matches and model state matching is exact (0.1023ms)
+✔ validation diagnostics are anchored and deduplicated (0.3012ms)
+✔ stall summary covers the complete supplied inventory (0.1807ms)
+✔ failed cache refresh is explicitly stale and disconnected mux data is not active (0.2326ms)
+✔ snapshot cadence comes from snapshot filenames, not copied file mtimes (1.8628ms)
+✔ backend routes wire the data contracts and disable API caching (0.2563ms)
+✔ operator UI labels completed-run throughput and configured routing explicitly (0.1815ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 302.8716
+✔ configured DSH route is distinct from exact resident Brain and Worker roles (1.2962ms)
+✔ resident Brain is never inferred by the absence of coder in its identifier (0.2623ms)
+✔ model actions report response-driven success and failure outcomes (0.6351ms)
+✔ destructive unloads confirm exact targets and huge-context loads warn explicitly (0.3826ms)
+✔ Unload Worker posts the exact confirmed resident identifier instead of a static alias action (0.2534ms)
+✔ model mutations are acknowledged only after subprocess exit and residency corroboration (0.207ms)
+✔ today activity labels disclose updated-session selection and cumulative counters (0.634ms)
+✔ a null TTL describes automatic unload policy rather than storage location (0.3606ms)
+✔ component-only catalog rows cannot expose standalone Load actions (0.4275ms)
+✔ a full language model with MTP in its name retains its Load action (0.9752ms)
+✔ Prefill last-run row is absent unless a real backend field feeds it (0.6017ms)
+✔ failed validation makes the watched status non-nominal (0.6492ms)
+✔ stale plugin inventory is visibly labeled as last-known (0.1667ms)
+✔ stale validation cannot keep the status strip nominal (0.3922ms)
+✔ route hazards and broken persistence cadence cannot keep watched lights green (0.5672ms)
+✔ overview uses server-proven completed runs and names the real hourly snapshot cadence (0.4057ms)
+✔ memory help text describes conditional writer and snapshot capabilities without promising absent services (0.1154ms)
+✔ the five-second status update refreshes Memory status and checks graph changes (10.224ms)
+✔ unchanged Memory refresh preserves graph layout and selection (0.5688ms)
+✔ Memory tab contains the promised writer, task, and snapshot status surface (0.056ms)
+✔ Memory graph refreshes for changed backing files but never overlaps a pending refresh (0.3874ms)
+✔ Memory status names degraded writer, failed task, and missing snapshots without claiming success (0.3307ms)
+✔ state-changing authorization requires a token and an exact Mission Control origin (0.2277ms)
+✔ unknown URL hashes fall back to Overview before any panel is hidden (0.1978ms)
+✔ memory API errors clear stale graph DOM, selection, data, and animation state (0.464ms)
+✔ tabs expose complete ARIA tablist, tab, and tabpanel relationships (0.3606ms)
+✔ clickable status, filter, row, and graph controls are keyboard operable (0.9458ms)
+✔ dynamic operator messages are announced to assistive technology (0.3403ms)
+✔ data-backed tabs render explicit initial loading and successful empty states (0.6746ms)
+✔ mobile tab overflow has a visible cue and keeps the active tab in view (0.1662ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.9636
+✔ installer fail-closes on every Mission Control contract suite (0.8534ms)
+✔ contract suites validate the exact Source selected for installation (0.8058ms)
+✔ SkipTests cannot install a changed or missing destination (0.2122ms)
+✔ receipt identifies tested source, suites, hashes, commands, and outcome (0.2332ms)
+✔ existing backup, staged hash, atomic move, and final hash gates remain (0.1444ms)
+✔ installer holds an exclusive transaction lock and CAS-checks immediately before promotion (0.1482ms)
+✔ changed destination cannot be installed with SkipTests (570.5809ms)
+✔ contract tests run against an explicitly selected Source before destination mutation (808.0226ms)
+✔ same-hash SkipTests remains a no-op and writes an honest verification receipt (601.9565ms)
+✔ changed destination installs tested bytes, preserves a verified backup, and emits a receipt (7203.6431ms)
+✔ every injected post-promotion failure restores the verified prior copy and removes success receipts (15732.964ms)
+✔ launcher refuses a missing or hash-mismatched installed copy before starting Node (1050.5466ms)
+✔ launcher starts the installed copy hidden, waits for health, and can suppress the browser (1410.4644ms)
+✔ launcher rejects a 200 health response from the wrong Mission Control build (1655.4844ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29103.4748
+
+Action          : Installed
+Source          : C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\mission-control.mjs
+Destination     : C:\Users\scott\.dsh\mission-control\mission-control.mjs
+Sha256          : D8F56BEBB98E9E2A447EE2C349BAA4DCF6F4DC5B09902642A242C405C5FCFCAA
+RestartRequired : True
+Backup          : C:\Users\scott\.dsh\mission-control\backups\mission-control-20260901-195603-567-d2a28fe3.mjs
+Receipt         : C:\Users\scott\.dsh\mission-control\backups\install-20260901-195603-567-d2a28fe3.json
+ReceiptSha256   : C18E464F59996924840643CD1F0E719104BF89BDAA4DAD66E36D45680D1FD141
+TestsRan        : True
+TestResult      : Passed
+TestCommand     : node --test "C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\test\reasoning-contract.test.mjs"; node --test "C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\test\data-contract.test.mjs"; node --test "C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\test\ui-contract.test.mjs"; node --test "C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\test\installer-contract.test.mjs"
+ContractSuites  : {System.Collections.Specialized.OrderedDictionary, System.Collections.Specialized.OrderedDictionary, System.Collections.Specialized.OrderedDictionary, System.Collections.Specialized.OrderedDictionary}
+

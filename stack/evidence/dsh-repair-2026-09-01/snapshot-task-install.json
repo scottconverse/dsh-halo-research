@@ -1,0 +1,9 @@
+{
+  "TaskName": "HALO Memory Snapshot",
+  "Registered": true,
+  "SnapshotScript": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\Snapshot-HaloMemory.ps1",
+  "Source": "C:\\Users\\scott\\.dsh\\memory\\memory.json",
+  "Destination": "C:\\Users\\scott\\.dsh\\memory\\snapshots",
+  "Retention": 168,
+  "RestartRequired": false
+}

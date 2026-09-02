@@ -1,0 +1,32 @@
+Disposable DshHome: C:\Users\scott\AppData\Local\Temp\halo-picker-integration-071fa85c9cb449d9b2c1cd1153df888a
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Progress: resolved 1, reused 0, downloaded 0, added 0
+[WARN] The metadata of @anthropic-ai/sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @anthropic-ai/claude-agent-sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @openai/codex is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of use-sync-external-store is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of react is missing the "time" field; skipping the minimumReleaseAge check for this package.
+info: @deepseek-ai/dsh-jobs@0.1.1-rc.2 is an optional dependency and failed compatibility check. Excluding it from installation.
+info: @deepseek-ai/cordis-plugin-include@1.0.7 is an optional dependency and failed compatibility check. Excluding it from installation.
+info: @deepseek-ai/dsh-sandbox@0.1.1-rc.2 is an optional dependency and failed compatibility check. Excluding it from installation.
+info: @deepseek-ai/dsh-sandbox-policy@0.1.1-rc.2 is an optional dependency and failed compatibility check. Excluding it from installation.
+info: @deepseek-ai/dsh-user-approval@0.1.1-rc.2 is an optional dependency and failed compatibility check. Excluding it from installation.
+info: @deepseek-ai/cordis-plugin-loader@1.0.3 is an optional dependency and failed compatibility check. Excluding it from installation.
+Progress: resolved 200, reused 0, downloaded 1, added 0
+Packages: +188
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\scott\AppData\Local\Temp\.pnpm-store\v11
+  Virtual store is at:             node_modules/.pnpm
+[ERR_PNPM_NO_OFFLINE_TARBALL] A package is missing from the store but cannot download it in offline mode. The missing package may be downloaded from https://registry.npmjs.org/clsx/-/clsx-2.1.1.tgz.
+
+This error happened while installing the dependencies of @deepseek-ai/dsh-client-ui-model-selection@0.1.1-rc.2
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+[ERR_PNPM_LOCKFILE_CONFIG_MISMATCH] Cannot proceed with the frozen installation. The current "settings.autoInstallPeers" configuration doesn't match the value found in the lockfile
+
+Update your lockfile using "pnpm install --no-frozen-lockfile"
+Exception: C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Install-HaloPickerOverride.ps1:239
+Line |
+ 239 |              throw "Offline frozen profile install failed with exit co …
+     |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Offline frozen profile install failed with exit code 1

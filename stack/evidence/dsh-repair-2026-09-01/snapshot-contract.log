@@ -1,0 +1,13 @@
+✔ snapshot script never fabricates an absent memory store (443.3016ms)
+✔ snapshot retention is bounded to 168 and ordered by canonical filenames (534.7387ms)
+✔ installer exposes an inert deterministic plan for the HALO Memory Snapshot task (481.5462ms)
+✔ installer definition is hourly, startup-resilient, idempotent, and never reboots (0.6456ms)
+✔ installation guide separates dry-run verification from explicit registration (0.159ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1527.7667

@@ -1,0 +1,6 @@
+Disposable DshHome: C:\Users\scott\AppData\Local\Temp\halo-picker-integration-bc53fe31fa7d40a0bfded4b4d6eef613
+Exception: C:\Users\scott\Desktop\Code\dsh-halo-research\stack\Install-HaloPickerOverride.ps1:239
+Line |
+ 239 |              throw "Offline frozen profile install failed with exit co …
+     |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Offline frozen profile install failed with exit code 1

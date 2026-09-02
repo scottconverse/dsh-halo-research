@@ -1,0 +1,27 @@
+Disposable DshHome: C:\Users\scott\AppData\Local\Temp\halo-picker-integration-7251e4f4323a45fc9b1071e15a81c83f
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Progress: resolved 1, reused 0, downloaded 0, added 0
+[WARN] The metadata of @anthropic-ai/sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @anthropic-ai/claude-agent-sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @openai/codex is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] Issues with peer dependencies found. Run "pnpm peers check" to list them.
+
+Packages: +109
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\scott\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 120, reused 106, downloaded 1, added 94
+Progress: resolved 120, reused 107, downloaded 1, added 105
+Progress: resolved 120, reused 107, downloaded 1, added 109
+Progress: resolved 120, reused 107, downloaded 1, added 109, done
+Done in 3.4s using pnpm v11.22.0
+{
+  "Passed": true,
+  "InstallAction": "Install",
+  "RepeatAction": "NoOp",
+  "Dependency": "file:..\\..\\..\\..\\..\\..\\Desktop\\Code\\dsh-halo-research\\stack\\packages\\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz",
+  "ArtifactSha256": "148C45AE84FF5539B3EB5509CA5A277544AC48FD91D4E56591E5218A0701BFB9",
+  "LiveProfileUnchanged": true,
+  "ScratchDirectory": "C:\\Users\\scott\\AppData\\Local\\Temp\\halo-picker-integration-7251e4f4323a45fc9b1071e15a81c83f"
+}

@@ -1,0 +1,22 @@
+{
+  "ObservedAt": "2026-09-01T20:14:42.9177463-06:00",
+  "Name": "HALO Memory Snapshot",
+  "State": "Ready",
+  "LastResult": 0,
+  "LastRun": "2026-09-01T19:50:19.0000000-06:00",
+  "NextRun": "2026-09-01T20:46:00.0000000-06:00",
+  "Actions": [
+    {
+      "Execute": "powershell.exe",
+      "Arguments": "-NoProfile -ExecutionPolicy Bypass -File C:\\Users\\scott\\.dsh\\mission-control\\Snapshot-HaloMemory.ps1",
+      "WorkingDirectory": null
+    }
+  ],
+  "Triggers": [
+    {
+      "Type": "MSFT_TaskTimeTrigger",
+      "StartBoundary": "2026-08-30T14:46:00",
+      "Interval": "PT1H"
+    }
+  ]
+}

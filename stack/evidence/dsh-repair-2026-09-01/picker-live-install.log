@@ -1,0 +1,19 @@
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Progress: resolved 1, reused 0, downloaded 0, added 0
+[WARN] The metadata of @anthropic-ai/claude-agent-sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @anthropic-ai/sdk is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] The metadata of @openai/codex is missing the "time" field; skipping the minimumReleaseAge check for this package.
+[WARN] Issues with peer dependencies found. Run "pnpm peers check" to list them.
+
+Packages: -12
+------------
+Progress: resolved 120, reused 7, downloaded 1, added 0, done
+Done in 833ms using pnpm v11.22.0
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 0, reused 1, downloaded 0, added 0
+Packages: -12
+------------
+Progress: resolved 0, reused 7, downloaded 0, added 0, done
+
+Done in 538ms using pnpm v11.22.0
