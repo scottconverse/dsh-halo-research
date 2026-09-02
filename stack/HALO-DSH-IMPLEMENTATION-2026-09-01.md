@@ -195,6 +195,9 @@ require the canonical repository layout, not the rearranged snapshot layout.
 
 The remaining operator decision is approval to replace the existing snapshot
 task. Do not erase the working old task or claim its replacement happened.
+The reboot handoff also requests a real local-Coder and planner-to-verifier
+canary; the UI/telemetry acceptance above does not satisfy that separate
+integration check. See the completion audit below.
 
 ## Local Git and shared-work boundary
 
@@ -212,3 +215,57 @@ they are saved and synchronized but deliberately left uncommitted with those
 owner-held changes. The PNPM database side files and supplied v3.5 specification
 are also not blindly staged. A dirty outer tree here is disclosed preservation,
 not a claim that all of its changes belong to this task.
+
+## Completion audit follow-up — 2026-09-01, after 20:22 MDT
+
+Re-ran the exact candidate-bound Mission Control acceptance against the live
+service: `CheckedAt=2026-09-02T02:22:12.3542477Z`, `Passed=true`,
+`Health=Healthy`, `CheckCount=199`. Source and receipt hashes still match the
+final candidate above. Rehashed all 173 recovery-manifest entries and counted
+173 actual files, with no missing or mismatched entries.
+
+### Fresh-conversation picker persistence — newly proved
+
+Used the actual browser picker in a new blank conversation, without submitting
+a prompt. Selected `halo/qwen3.6-35b-a3b`, then independently created an idle
+session through DSH's normal `session.create` API:
+
+- `session-682ad85f-b0e8-4a07-bccc-1d05f3211da8` inherited
+  `lmstudio/halo/qwen3.6-35b-a3b`; `routable=true`; all 12 configured choices
+  remained in its catalog.
+- Restored `lmstudio/unsloth/qwen3.8-27b` with the browser picker.
+- `session-56b71a42-2002-4e97-83fe-8316e1fd1dd9`, created afterward, inherited
+  the restored raw 27B default; `routable=true`.
+- Live `settings.yaml` before and after:
+  `024FF6130C605A0BE6B456ED8F0DCD1498DB64344FCD418C1EB083D71C00A805`.
+
+These were idle acceptance sessions, not model generations. This closes
+fresh-session/default propagation, not inference compatibility for all choices.
+
+### Why the explicit DSH restart was substituted
+
+The reboot handoff proposed a restart. For this exact client-only replacement,
+the supported module path and declaration were unchanged, the picker node-side
+`apply()` is empty, and DSH serves the browser bundle by reading its file on
+each request with `cache-control: no-cache` (`packages/client/modules/src/index.ts`).
+Fresh browser loading plus the accepted HTTP byte hash proves this deployment
+without interrupting DSH. The installer's `RestartRequired:true` is a
+conservative unconditional post-install flag, not a runtime stale-code result.
+This is a documented operational substitution, not a claimed performed restart
+or general proof that server-plugin changes never need one.
+
+### Still not completed
+
+1. Windows still has the older working hourly snapshot action, with
+   `StartWhenAvailable=false` and `RestartCount=0`. The replacement needs the
+   requested administrator approval, exact definition read-back, and a real
+   first-run result.
+2. Reboot-handoff step 12's real local-Coder call and prompt-only
+   planner-to-worker-to-verifier fixture remain unproven by this task. The
+   current native-access contract makes that workflow optional; it does not
+   remove the integration-test requirement. The other owner's 16-test gate
+   suite uses simulated worker changes, as its report explicitly discloses.
+
+No old tool restrictions, forced delegation, or sandbox narrowing should be
+restored to obtain this evidence. Any explicitly requested workflow canary must
+be labeled integration testing, not general unprompted coding autonomy.
