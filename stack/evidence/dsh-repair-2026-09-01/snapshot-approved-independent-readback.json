@@ -1,0 +1,27 @@
+{
+  "Passed": true,
+  "CheckedAt": "2026-09-01T20:53:05.3684369-06:00",
+  "Name": "HALO Memory Snapshot",
+  "Path": "\\",
+  "State": "Ready",
+  "PrincipalSid": "S-1-5-21-3472178502-1338021657-852595409-1002",
+  "RunLevel": "Limited",
+  "LogonType": "Interactive",
+  "Actions": [
+    {
+      "Execute": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+      "Arguments": "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\Snapshot-HaloMemory.ps1\" -Source \"C:\\Users\\scott\\.dsh\\memory\\memory.json\" -Destination \"C:\\Users\\scott\\.dsh\\memory\\snapshots\" -Keep 168",
+      "WorkingDirectory": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control"
+    }
+  ],
+  "Hourly": true,
+  "Startup": true,
+  "Enabled": true,
+  "StartWhenAvailable": true,
+  "MultipleInstances": "IgnoreNew",
+  "ExecutionTimeLimit": "PT10M",
+  "RestartCount": 3,
+  "RestartInterval": "PT5M",
+  "LastRunTime": "2026-09-01T20:49:06.0000000-06:00",
+  "LastTaskResult": 0
+}

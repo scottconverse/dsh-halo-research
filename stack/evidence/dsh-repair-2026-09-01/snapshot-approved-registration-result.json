@@ -1,0 +1,16 @@
+{
+  "Passed": true,
+  "CheckedAt": "2026-09-01T20:47:51.3047892-06:00",
+  "Identity": "HALO\\scott",
+  "InstallerSha256": "9236B903EAC2C5C4182108EB25DE868E396B2F1DA3D4807B76A2ADE6E31A979A",
+  "SnapshotSha256": "695055648F8B9B8484004CCBA3C8D59FAFE8D6DE2C6A1518CE1137D50587933C",
+  "Result": {
+    "TaskName": "HALO Memory Snapshot",
+    "Registered": true,
+    "SnapshotScript": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\Snapshot-HaloMemory.ps1",
+    "Source": "C:\\Users\\scott\\.dsh\\memory\\memory.json",
+    "Destination": "C:\\Users\\scott\\.dsh\\memory\\snapshots",
+    "Retention": 168,
+    "RestartRequired": false
+  }
+}

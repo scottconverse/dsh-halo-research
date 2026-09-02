@@ -1,0 +1,23 @@
+{
+  "Passed": true,
+  "StartedAt": "2026-09-01T20:49:06.6873355-06:00",
+  "CheckedAt": "2026-09-01T20:49:08.4885254-06:00",
+  "TaskName": "HALO Memory Snapshot",
+  "TaskState": "Ready",
+  "LastRunTime": "2026-09-01T20:49:06.0000000-06:00",
+  "LastTaskResult": 0,
+  "NextRunTime": "2026-09-01T21:00:00.0000000-06:00",
+  "SourceBeforeSha256": "D3245348C0E3E8BD2A0317C26A4C326340AFB0B05ACF93B25E1D06AE5037DC72",
+  "SourceAfterSha256": "D3245348C0E3E8BD2A0317C26A4C326340AFB0B05ACF93B25E1D06AE5037DC72",
+  "Snapshots": [
+    {
+      "Path": "C:\\Users\\scott\\.dsh\\memory\\snapshots\\memory-20260901-204907.json",
+      "Sha256": "D3245348C0E3E8BD2A0317C26A4C326340AFB0B05ACF93B25E1D06AE5037DC72",
+      "Bytes": 142
+    }
+  ],
+  "RunLevel": "Limited",
+  "StartWhenAvailable": true,
+  "RestartCount": 3,
+  "RebootPerformed": false
+}

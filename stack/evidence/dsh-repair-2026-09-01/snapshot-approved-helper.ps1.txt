@@ -1,0 +1,43 @@
+# One-shot operator-approved elevation helper. Only replaces HALO Memory Snapshot.
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+$evidence = Join-Path $PSScriptRoot 'snapshot-uac-20260901-2046'
+$installer = 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\Install-HaloMemorySnapshotTask.ps1'
+$snapshot = 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\mission-control\Snapshot-HaloMemory.ps1'
+$pwsh = 'C:\Program Files\PowerShell\7\pwsh.exe'
+New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+try {
+    if ([Security.Principal.WindowsIdentity]::GetCurrent().Name -ine 'HALO\scott') {
+        throw 'Approval must run as HALO\scott; refusing a different task principal.'
+    }
+    if ((Get-FileHash -LiteralPath $installer).Hash -ne '9236B903EAC2C5C4182108EB25DE868E396B2F1DA3D4807B76A2ADE6E31A979A') {
+        throw 'Installer changed after review.'
+    }
+    if ((Get-FileHash -LiteralPath $snapshot).Hash -ne '695055648F8B9B8484004CCBA3C8D59FAFE8D6DE2C6A1518CE1137D50587933C') {
+        throw 'Snapshot script changed after review.'
+    }
+    Import-Module ScheduledTasks -ErrorAction Stop
+    $before = Get-ScheduledTask -TaskName 'HALO Memory Snapshot' -TaskPath '\' -ErrorAction Stop
+    if ([string]$before.State -eq 'Running') { throw 'Existing snapshot is running; retry only after it finishes.' }
+    Export-ScheduledTask -TaskName 'HALO Memory Snapshot' -TaskPath '\' -ErrorAction Stop |
+        Set-Content -LiteralPath (Join-Path $evidence 'task-before.xml') -Encoding utf8
+    & $installer -PowerShellExecutable $pwsh -UserProfile 'C:\Users\scott' -PlanOnly |
+        Set-Content -LiteralPath (Join-Path $evidence 'plan.json') -Encoding utf8
+    $result = & $installer -PowerShellExecutable $pwsh -UserProfile 'C:\Users\scott'
+    if ($result.Registered -ne $true) { throw 'Installer did not confirm registration.' }
+    Export-ScheduledTask -TaskName 'HALO Memory Snapshot' -TaskPath '\' -ErrorAction Stop |
+        Set-Content -LiteralPath (Join-Path $evidence 'task-after.xml') -Encoding utf8
+    [pscustomobject]@{
+        Passed = $true
+        CheckedAt = (Get-Date).ToString('o')
+        Identity = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+        InstallerSha256 = (Get-FileHash -LiteralPath $installer).Hash
+        SnapshotSha256 = (Get-FileHash -LiteralPath $snapshot).Hash
+        Result = $result
+    } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $evidence 'registration-result.json') -Encoding utf8
+    exit 0
+} catch {
+    [pscustomobject]@{Passed=$false;CheckedAt=(Get-Date).ToString('o');Error=$_.Exception.ToString()} |
+        ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $evidence 'registration-error.json') -Encoding utf8
+    exit 1
+}

@@ -1,0 +1,1022 @@
+{
+  "CheckedAt": "2026-09-02T02:53:11.0895297Z",
+  "BaseUri": "http://127.0.0.1:3090",
+  "Passed": true,
+  "Health": "Healthy",
+  "Candidate": {
+    "SourceSha256": "45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE",
+    "InstalledCopy": "C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs",
+    "InstallReceipt": "C:\\Users\\scott\\.dsh\\mission-control\\backups\\install-20260901-200659-415-7a6201a6.json",
+    "ReceiptSha256": "7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E",
+    "ReceiptRecordedAt": "2026-09-02T02:06:59.6583603+00:00"
+  },
+  "Validation": {
+    "When": 1788317589258,
+    "Ok": true
+  },
+  "Memory": {
+    "File": "C:\\Users\\scott\\.dsh\\memory\\memory.json",
+    "Snapshot": "C:\\Users\\scott\\.dsh\\memory\\snapshots\\memory-20260901-204907.json",
+    "SnapshotSha256": "D3245348C0E3E8BD2A0317C26A4C326340AFB0B05ACF93B25E1D06AE5037DC72",
+    "WriterEntryId": "include:memory-mcp-reference",
+    "SnapshotTask": "HALO Memory Snapshot"
+  },
+  "CheckCount": 199,
+  "Checks": [
+    {
+      "Name": "Installed copy path is local and absolute",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Install receipt path is local and absolute",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\mission-control\\backups\\install-20260901-200659-415-7a6201a6.json"
+    },
+    {
+      "Name": "Installed copy exists",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Install receipt exists",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\mission-control\\backups\\install-20260901-200659-415-7a6201a6.json"
+    },
+    {
+      "Name": "Installed copy SHA-256 matches expected candidate",
+      "Passed": true,
+      "Detail": "expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; installed=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Install receipt SHA-256 matches expected receipt",
+      "Passed": true,
+      "Detail": "expected=7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E; receipt=7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E"
+    },
+    {
+      "Name": "Receipt schema identity is current",
+      "Passed": true,
+      "Detail": "SchemaVersion=1; ReceiptType=HaloMissionControlInstall"
+    },
+    {
+      "Name": "Receipt action is successful",
+      "Passed": true,
+      "Detail": "Action=Installed; expected=Installed or NoOp"
+    },
+    {
+      "Name": "Receipt destination path is local and absolute",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Receipt destination identifies installed copy",
+      "Passed": true,
+      "Detail": "receipt=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs; installed=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Receipt source SHA-256 matches expected candidate",
+      "Passed": true,
+      "Detail": "receipt=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Receipt installed SHA-256 matches expected candidate",
+      "Passed": true,
+      "Detail": "receipt=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Receipt aggregate SHA-256 matches expected candidate",
+      "Passed": true,
+      "Detail": "receipt=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Receipt syntax check passed",
+      "Passed": true,
+      "Detail": "result=Passed"
+    },
+    {
+      "Name": "Receipt syntax command recorded",
+      "Passed": true,
+      "Detail": "command=node --check \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\mission-control.mjs\""
+    },
+    {
+      "Name": "Receipt contract tests ran",
+      "Passed": true,
+      "Detail": "TestsRan=True"
+    },
+    {
+      "Name": "Receipt contract tests passed",
+      "Passed": true,
+      "Detail": "TestResult=Passed"
+    },
+    {
+      "Name": "Receipt aggregate test command recorded",
+      "Passed": true,
+      "Detail": "TestCommand=node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs\""
+    },
+    {
+      "Name": "Receipt timestamp is valid",
+      "Passed": true,
+      "Detail": "RecordedAt=09/02/2026 02:06:59"
+    },
+    {
+      "Name": "Receipt timestamp is not future",
+      "Passed": true,
+      "Detail": "RecordedAt=2026-09-02T02:06:59.6583603+00:00; now=2026-09-02T02:53:05.6928092+00:00"
+    },
+    {
+      "Name": "Receipt source path is local and absolute",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Receipt source exists",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Receipt source bytes match expected candidate",
+      "Passed": true,
+      "Detail": "source=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Receipt contract suite set is exact",
+      "Passed": true,
+      "Detail": "count=4; missing=; unexpected=; unique=4"
+    },
+    {
+      "Name": "Receipt suite path is local: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite path identity: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs; expectedDirectory=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test"
+    },
+    {
+      "Name": "Receipt suite passed: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestResult=Passed"
+    },
+    {
+      "Name": "Receipt suite command recorded: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestCommand=node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs\""
+    },
+    {
+      "Name": "Receipt suite exists: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\reasoning-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite hash current: reasoning-contract.test.mjs",
+      "Passed": true,
+      "Detail": "receipt=76C03130960B82A440952588CFFE3212AC2E4C10380F0F71DCF1189D9D63CA76; actual=76C03130960B82A440952588CFFE3212AC2E4C10380F0F71DCF1189D9D63CA76"
+    },
+    {
+      "Name": "Receipt suite path is local: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite path identity: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs; expectedDirectory=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test"
+    },
+    {
+      "Name": "Receipt suite passed: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestResult=Passed"
+    },
+    {
+      "Name": "Receipt suite command recorded: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestCommand=node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs\""
+    },
+    {
+      "Name": "Receipt suite exists: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\data-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite hash current: data-contract.test.mjs",
+      "Passed": true,
+      "Detail": "receipt=828D2CDB1951FEFE03718AECA2A87BFE9A0EECF1489EAB1BEA077DFDD9B19680; actual=828D2CDB1951FEFE03718AECA2A87BFE9A0EECF1489EAB1BEA077DFDD9B19680"
+    },
+    {
+      "Name": "Receipt suite path is local: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite path identity: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs; expectedDirectory=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test"
+    },
+    {
+      "Name": "Receipt suite passed: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestResult=Passed"
+    },
+    {
+      "Name": "Receipt suite command recorded: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestCommand=node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs\""
+    },
+    {
+      "Name": "Receipt suite exists: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\ui-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite hash current: ui-contract.test.mjs",
+      "Passed": true,
+      "Detail": "receipt=18C9E64A527309C1F15D67AA122E00881808B1B549FB6646C016093FB059EAC9; actual=18C9E64A527309C1F15D67AA122E00881808B1B549FB6646C016093FB059EAC9"
+    },
+    {
+      "Name": "Receipt suite path is local: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite path identity: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs; expectedDirectory=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test"
+    },
+    {
+      "Name": "Receipt suite passed: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestResult=Passed"
+    },
+    {
+      "Name": "Receipt suite command recorded: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "TestCommand=node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs\""
+    },
+    {
+      "Name": "Receipt suite exists: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\mission-control\\test\\installer-contract.test.mjs"
+    },
+    {
+      "Name": "Receipt suite hash current: installer-contract.test.mjs",
+      "Passed": true,
+      "Detail": "receipt=3042F8E9D4949DB06F01E365114507587537155E68AF36048DC7D87311A720EB; actual=3042F8E9D4949DB06F01E365114507587537155E68AF36048DC7D87311A720EB"
+    },
+    {
+      "Name": "HTTP /",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "HTML content type /",
+      "Passed": true,
+      "Detail": "Content-Type=text/html; charset=utf-8"
+    },
+    {
+      "Name": "Exactly one per-boot action token extracted from GET /",
+      "Passed": true,
+      "Detail": "actionTokenCount=1"
+    },
+    {
+      "Name": "HTTP /api/status",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/status",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/status",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "Runtime build source is installed copy",
+      "Passed": true,
+      "Detail": "runtime=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs; installed=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Runtime build SHA-256 is expected candidate",
+      "Passed": true,
+      "Detail": "runtime=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Unauthenticated validation rejected: Missing token",
+      "Passed": true,
+      "Detail": "status=403; expected=403"
+    },
+    {
+      "Name": "Unauthenticated validation rejected: Invalid token",
+      "Passed": true,
+      "Detail": "status=403; expected=403"
+    },
+    {
+      "Name": "Unauthenticated validation rejected: Lookalike origin",
+      "Passed": true,
+      "Detail": "status=403; expected=403"
+    },
+    {
+      "Name": "HTTP POST /api/validate-config",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store POST /api/validate-config",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type POST /api/validate-config",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "Live configuration validation passed",
+      "Passed": true,
+      "Detail": "warnings="
+    },
+    {
+      "Name": "Live configuration validation has no warnings",
+      "Passed": true,
+      "Detail": "warnings="
+    },
+    {
+      "Name": "Live validation numeric field: when",
+      "Passed": true,
+      "Detail": "field=when; value=1788317589258; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Live configuration validation is from this invocation",
+      "Passed": true,
+      "Detail": "when=1788317589258; started=1788317587778; finished=1788317589260"
+    },
+    {
+      "Name": "HTTP /api/status",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/status",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/status",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "Runtime build source remains installed copy after validation",
+      "Passed": true,
+      "Detail": "runtime=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs; installed=C:\\Users\\scott\\.dsh\\mission-control\\mission-control.mjs"
+    },
+    {
+      "Name": "Runtime build SHA-256 remains expected candidate after validation",
+      "Passed": true,
+      "Detail": "runtime=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "HTTP /api/catalog",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/catalog",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/catalog",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "HTTP /api/sessions?all=1",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/sessions?all=1",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/sessions?all=1",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "HTTP /api/plugins",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/plugins",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/plugins",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "HTTP /api/memory-graph",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/memory-graph",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/memory-graph",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "HTTP /api/history?hours=6",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/history?hours=6",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/history?hours=6",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "HTTP /api/settings",
+      "Passed": true,
+      "Detail": "status=200"
+    },
+    {
+      "Name": "No-store /api/settings",
+      "Passed": true,
+      "Detail": "Cache-Control=no-store"
+    },
+    {
+      "Name": "JSON content type /api/settings",
+      "Passed": true,
+      "Detail": "Content-Type=application/json"
+    },
+    {
+      "Name": "Runtime validation numeric field: when",
+      "Passed": true,
+      "Detail": "field=when; value=1788317589258; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Runtime validation matches this POST",
+      "Passed": true,
+      "Detail": "runtimeWhen=1788317589258; postedWhen=1788317589258; ok=True"
+    },
+    {
+      "Name": "Runtime validation freshness is current",
+      "Passed": true,
+      "Detail": "freshness=current; ageMs=432"
+    },
+    {
+      "Name": "Cockpit connection",
+      "Passed": true,
+      "Detail": "DSH :3080 is reachable"
+    },
+    {
+      "Name": "LM Studio connection",
+      "Passed": true,
+      "Detail": "LM Studio :1234 is reachable"
+    },
+    {
+      "Name": "lms CLI connection",
+      "Passed": true,
+      "Detail": "lms CLI returned model state"
+    },
+    {
+      "Name": "DSH session source",
+      "Passed": true,
+      "Detail": "source=dsh api"
+    },
+    {
+      "Name": "Resident model parity",
+      "Passed": true,
+      "Detail": "lms=; mission-control="
+    },
+    {
+      "Name": "Configured DSH route parity",
+      "Passed": true,
+      "Detail": "settings=lmstudio/unsloth/qwen3.8-27b; mission-control=lmstudio/unsloth/qwen3.8-27b"
+    },
+    {
+      "Name": "Route residency is Boolean",
+      "Passed": true,
+      "Detail": "resident=False"
+    },
+    {
+      "Name": "Route state explained",
+      "Passed": true,
+      "Detail": "resident=False; warning=configured route is not resident; its next request can load a separate model instance"
+    },
+    {
+      "Name": "Catalog available",
+      "Passed": true,
+      "Detail": "entries=21"
+    },
+    {
+      "Name": "Catalog resident identity parity",
+      "Passed": true,
+      "Detail": "every lms resident has a Boolean-loaded catalog row with matching identifier, resident key, origin, and device"
+    },
+    {
+      "Name": "Plugin response has non-error summary",
+      "Passed": true,
+      "Detail": "error=False; summaryPresent=True"
+    },
+    {
+      "Name": "Plugin cache is current",
+      "Passed": true,
+      "Detail": "cacheState=current; summaryCacheState=current"
+    },
+    {
+      "Name": "Plugin cache is not stale",
+      "Passed": true,
+      "Detail": "stale=False; summaryStale=False"
+    },
+    {
+      "Name": "Plugin refresh has no error",
+      "Passed": true,
+      "Detail": "refreshError="
+    },
+    {
+      "Name": "Plugin freshness numeric field: sourceAgeMs",
+      "Passed": true,
+      "Detail": "field=sourceAgeMs; value=2799; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin freshness numeric field: sampledAt",
+      "Passed": true,
+      "Detail": "field=sampledAt; value=1788317587661; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: total",
+      "Passed": true,
+      "Detail": "field=total; value=172; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: active",
+      "Passed": true,
+      "Detail": "field=active; value=143; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: disabled",
+      "Passed": true,
+      "Detail": "field=disabled; value=29; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: waiting",
+      "Passed": true,
+      "Detail": "field=waiting; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: transitioning",
+      "Passed": true,
+      "Detail": "field=transitioning; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: failed",
+      "Passed": true,
+      "Detail": "field=failed; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin summary numeric field: stuck",
+      "Passed": true,
+      "Detail": "field=stuck; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Plugin cache source age is current",
+      "Passed": true,
+      "Detail": "sourceAgeMs=2799; maximumMs=60000"
+    },
+    {
+      "Name": "Plugin cache timestamp is current",
+      "Passed": true,
+      "Detail": "sampledAt=1788317587661; clockAgeMs=3221; maximumMs=60000"
+    },
+    {
+      "Name": "Plugin inventory parity",
+      "Passed": true,
+      "Detail": "summary=172; entries=172"
+    },
+    {
+      "Name": "Plugin buckets complete",
+      "Passed": true,
+      "Detail": "buckets=172; total=172"
+    },
+    {
+      "Name": "Plugin bucket classification parity: active",
+      "Passed": true,
+      "Detail": "entries=143; summary=143"
+    },
+    {
+      "Name": "Plugin bucket classification parity: disabled",
+      "Passed": true,
+      "Detail": "entries=29; summary=29"
+    },
+    {
+      "Name": "Plugin bucket classification parity: waiting",
+      "Passed": true,
+      "Detail": "entries=0; summary=0"
+    },
+    {
+      "Name": "Plugin bucket classification parity: transitioning",
+      "Passed": true,
+      "Detail": "entries=0; summary=0"
+    },
+    {
+      "Name": "Plugin bucket classification parity: failed",
+      "Passed": true,
+      "Detail": "entries=0; summary=0"
+    },
+    {
+      "Name": "Plugin summary has no failed entries",
+      "Passed": true,
+      "Detail": "failed=0; failedList="
+    },
+    {
+      "Name": "Plugin summary has no stuck entries",
+      "Passed": true,
+      "Detail": "stuck=0; stuckList="
+    },
+    {
+      "Name": "Plugin entry IDs are unique and nonblank",
+      "Passed": true,
+      "Detail": "entries=172; unique=172"
+    },
+    {
+      "Name": "Session inventory available",
+      "Passed": true,
+      "Detail": "count=93"
+    },
+    {
+      "Name": "Stall inventory numeric field: inventoryCount",
+      "Passed": true,
+      "Detail": "field=inventoryCount; value=93; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Stall inventory numeric field: count",
+      "Passed": true,
+      "Detail": "field=count; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Stall inventory complete",
+      "Passed": true,
+      "Detail": "status=93; sessions=93"
+    },
+    {
+      "Name": "Memory store exists",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\memory\\memory.json"
+    },
+    {
+      "Name": "Memory store JSON records valid",
+      "Passed": true,
+      "Detail": "entities=1; relations=0; totalRecords=1"
+    },
+    {
+      "Name": "Memory status parsed",
+      "Passed": true,
+      "Detail": "ok=True; error="
+    },
+    {
+      "Name": "Memory graph parsed",
+      "Passed": true,
+      "Detail": "ok=True; error="
+    },
+    {
+      "Name": "Memory status file identity",
+      "Passed": true,
+      "Detail": "status=C:\\Users\\scott\\.dsh\\memory\\memory.json; expected=C:\\Users\\scott\\.dsh\\memory\\memory.json"
+    },
+    {
+      "Name": "Memory graph file identity",
+      "Passed": true,
+      "Detail": "graph=C:\\Users\\scott\\.dsh\\memory\\memory.json; expected=C:\\Users\\scott\\.dsh\\memory\\memory.json"
+    },
+    {
+      "Name": "Memory status numeric field: entities",
+      "Passed": true,
+      "Detail": "field=entities; value=1; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: relations",
+      "Passed": true,
+      "Detail": "field=relations; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: totalRecords",
+      "Passed": true,
+      "Detail": "field=totalRecords; value=1; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: invalidRecords",
+      "Passed": true,
+      "Detail": "field=invalidRecords; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: malformedRecords",
+      "Passed": true,
+      "Detail": "field=malformedRecords; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: duplicateEntities",
+      "Passed": true,
+      "Detail": "field=duplicateEntities; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status numeric field: danglingRelations",
+      "Passed": true,
+      "Detail": "field=danglingRelations; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory graph numeric field: relationCount",
+      "Passed": true,
+      "Detail": "field=relationCount; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory graph numeric field: invalidRecords",
+      "Passed": true,
+      "Detail": "field=invalidRecords; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory graph numeric field: malformedRecords",
+      "Passed": true,
+      "Detail": "field=malformedRecords; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory graph numeric field: duplicateEntities",
+      "Passed": true,
+      "Detail": "field=duplicateEntities; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory graph numeric field: danglingRelations",
+      "Passed": true,
+      "Detail": "field=danglingRelations; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory status records are valid",
+      "Passed": true,
+      "Detail": "{\"ok\":true,\"error\":null,\"file\":\"C:\\\\Users\\\\scott\\\\.dsh\\\\memory\\\\memory.json\",\"mtimeMs\":1788122917161.9854,\"entities\":1,\"relations\":0,\"totalRecords\":1,\"invalidRecords\":0,\"malformedRecords\":0,\"duplicateEntities\":0,\"danglingRelations\":0,\"tripwire\":50,\"writer\":{\"configured\":true,\"active\":true,\"entryId\":\"include:memory-mcp-reference\",\"cacheState\":\"current\",\"error\":null},\"snapshots\":{\"ok\":true,\"error\":null,\"count\":57,\"lastSnapshotAt\":\"2026-09-02T02:49:07Z\",\"nextExpectedAt\":\"2026-09-02T03:49:07Z\",\"ageMs\":242687,\"overdue\":false,\"file\":\"C:\\\\Users\\\\scott\\\\.dsh\\\\memory\\\\snapshots\\\\memory-20260901-204907.json\"},\"snapshotTask\":{\"taskName\":\"HALO Memory Snapshot\",\"configured\":true,\"state\":\"Ready\",\"lastRunTime\":\"2026-09-02T02:49:06Z\",\"nextRunTime\":\"2026-09-02T03:00:00Z\",\"lastTaskResult\":0,\"error\":null}}"
+    },
+    {
+      "Name": "Memory graph records are valid",
+      "Passed": true,
+      "Detail": "{\"ok\":true,\"file\":\"C:\\\\Users\\\\scott\\\\.dsh\\\\memory\\\\memory.json\",\"error\":null,\"entities\":[{\"name\":\"HALO-MEMORY-PROBE-20260830\",\"entityType\":\"validation\",\"observations\":[\"HALO-MEMORY-PROBE-20260830 = cobalt-kestrel\"]}],\"relations\":[],\"relationCount\":0,\"totalRecords\":1,\"invalidRecords\":0,\"malformedRecords\":0,\"duplicateEntities\":0,\"danglingRelations\":0,\"mtimeMs\":1788122917161.9854,\"tripwire\":50}"
+    },
+    {
+      "Name": "Memory entity parity",
+      "Passed": true,
+      "Detail": "status=1; graph=1"
+    },
+    {
+      "Name": "Memory relation parity",
+      "Passed": true,
+      "Detail": "status=0; graph=0"
+    },
+    {
+      "Name": "Memory store record count parity",
+      "Passed": true,
+      "Detail": "statusEntities=1; actualEntities=1; statusRelations=0; actualRelations=0; actualRecords=1"
+    },
+    {
+      "Name": "Memory writer configured",
+      "Passed": true,
+      "Detail": "configured=True; entryId=include:memory-mcp-reference"
+    },
+    {
+      "Name": "Memory writer active",
+      "Passed": true,
+      "Detail": "active=True; entryId=include:memory-mcp-reference"
+    },
+    {
+      "Name": "Memory writer cache current",
+      "Passed": true,
+      "Detail": "cacheState=current; error="
+    },
+    {
+      "Name": "Memory writer matches one plugin entry",
+      "Passed": true,
+      "Detail": "entryId=include:memory-mcp-reference; matches=1"
+    },
+    {
+      "Name": "Memory writer plugin entry active",
+      "Passed": true,
+      "Detail": "entryId=include:memory-mcp-reference; enabled=True; phase=active; bucket=active; stuck=False"
+    },
+    {
+      "Name": "Memory snapshot task identity",
+      "Passed": true,
+      "Detail": "taskName=HALO Memory Snapshot"
+    },
+    {
+      "Name": "Memory snapshot task configured",
+      "Passed": true,
+      "Detail": "configured=True; state=Ready"
+    },
+    {
+      "Name": "Memory snapshot task healthy",
+      "Passed": true,
+      "Detail": "state=Ready; error="
+    },
+    {
+      "Name": "Memory snapshot task numeric field: lastTaskResult",
+      "Passed": true,
+      "Detail": "field=lastTaskResult; value=0; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory snapshot task last result succeeded",
+      "Passed": true,
+      "Detail": "lastTaskResult=0"
+    },
+    {
+      "Name": "Memory snapshot task last-run time valid",
+      "Passed": true,
+      "Detail": "lastRunTime=09/02/2026 02:49:06"
+    },
+    {
+      "Name": "Memory snapshot task next-run time valid",
+      "Passed": true,
+      "Detail": "nextRunTime=09/02/2026 03:00:00"
+    },
+    {
+      "Name": "Memory snapshot numeric field: count",
+      "Passed": true,
+      "Detail": "field=count; value=57; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory snapshot numeric field: ageMs",
+      "Passed": true,
+      "Detail": "field=ageMs; value=242687; nonnegativeInteger=True"
+    },
+    {
+      "Name": "Memory snapshots available",
+      "Passed": true,
+      "Detail": "ok=True; count=57; error="
+    },
+    {
+      "Name": "Memory snapshot not overdue",
+      "Passed": true,
+      "Detail": "overdue=False; ageMs=242687"
+    },
+    {
+      "Name": "Memory snapshot fresh",
+      "Passed": true,
+      "Detail": "ageMs=242687; maximumMs=4500000"
+    },
+    {
+      "Name": "Memory snapshot directory identity",
+      "Passed": true,
+      "Detail": "snapshot=C:\\Users\\scott\\.dsh\\memory\\snapshots\\memory-20260901-204907.json; expectedDirectory=C:\\Users\\scott\\.dsh\\memory\\snapshots"
+    },
+    {
+      "Name": "Memory snapshot file exists",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\memory\\snapshots\\memory-20260901-204907.json"
+    },
+    {
+      "Name": "Memory snapshot file is nonempty",
+      "Passed": true,
+      "Detail": "path=C:\\Users\\scott\\.dsh\\memory\\snapshots\\memory-20260901-204907.json; bytes=142"
+    },
+    {
+      "Name": "Memory snapshot JSON records valid",
+      "Passed": true,
+      "Detail": "entities=1; relations=0; totalRecords=1"
+    },
+    {
+      "Name": "Memory snapshot filename canonical",
+      "Passed": true,
+      "Detail": "name=memory-20260901-204907.json"
+    },
+    {
+      "Name": "Memory snapshot reported time valid",
+      "Passed": true,
+      "Detail": "lastSnapshotAt=09/02/2026 02:49:07"
+    },
+    {
+      "Name": "Memory snapshot filename time corroborated",
+      "Passed": true,
+      "Detail": "reportedAt=2026-09-02T02:49:07.0000000+00:00; filenameAt=2026-09-01T20:49:07.0000000-06:00"
+    },
+    {
+      "Name": "Memory snapshot reported age corroborated",
+      "Passed": true,
+      "Detail": "reportedAgeMs=244064; payloadAgeMs=242687; differenceMs=1377"
+    },
+    {
+      "Name": "RAM numeric field: totalGiB",
+      "Passed": true,
+      "Detail": "field=totalGiB; value=63.8; nonnegativeInteger=False"
+    },
+    {
+      "Name": "RAM numeric field: freeGiB",
+      "Passed": true,
+      "Detail": "field=freeGiB; value=35.3; nonnegativeInteger=False"
+    },
+    {
+      "Name": "RAM numeric field: usedGiB",
+      "Passed": true,
+      "Detail": "field=usedGiB; value=28.4; nonnegativeInteger=False"
+    },
+    {
+      "Name": "RAM values sane",
+      "Passed": true,
+      "Detail": "{\"totalGiB\":63.8,\"freeGiB\":35.3,\"usedGiB\":28.4}"
+    },
+    {
+      "Name": "GPU numeric field: dedicatedGiB",
+      "Passed": true,
+      "Detail": "field=dedicatedGiB; value=3; nonnegativeInteger=False"
+    },
+    {
+      "Name": "GPU numeric field: sharedGiB",
+      "Passed": true,
+      "Detail": "field=sharedGiB; value=0.4; nonnegativeInteger=False"
+    },
+    {
+      "Name": "GPU sample numeric field: sampledAt",
+      "Passed": true,
+      "Detail": "field=sampledAt; value=1788317587661; nonnegativeInteger=True"
+    },
+    {
+      "Name": "GPU telemetry values healthy",
+      "Passed": true,
+      "Detail": "state=Healthy; dedicatedGiB=3; sharedGiB=0.4; error="
+    },
+    {
+      "Name": "GPU telemetry sample fresh",
+      "Passed": true,
+      "Detail": "state=Healthy; sampledAt=1788317587661; ageMs=3415; maximumMs=30000"
+    },
+    {
+      "Name": "Disk numeric field: totalGB",
+      "Passed": true,
+      "Detail": "field=totalGB; value=2046.2; nonnegativeInteger=False"
+    },
+    {
+      "Name": "Disk numeric field: freeGB",
+      "Passed": true,
+      "Detail": "field=freeGB; value=1090.3; nonnegativeInteger=False"
+    },
+    {
+      "Name": "Disk numeric field: usedGB",
+      "Passed": true,
+      "Detail": "field=usedGB; value=955.9; nonnegativeInteger=False"
+    },
+    {
+      "Name": "Disk values sane",
+      "Passed": true,
+      "Detail": "{\"ok\":true,\"usedGB\":955.9,\"freeGB\":1090.3,\"totalGB\":2046.2}"
+    },
+    {
+      "Name": "Validation freshness explicit",
+      "Passed": true,
+      "Detail": "{\"when\":1788317589258,\"ok\":true,\"warnings\":[],\"freshness\":{\"state\":\"current\",\"ageMs\":432}}"
+    },
+    {
+      "Name": "History response shaped",
+      "Passed": true,
+      "Detail": "rows=332"
+    },
+    {
+      "Name": "History decode provenance",
+      "Passed": true,
+      "Detail": "unproven=0"
+    },
+    {
+      "Name": "Settings response shaped",
+      "Passed": true,
+      "Detail": "rows=12"
+    },
+    {
+      "Name": "Installed copy unchanged during live acceptance",
+      "Passed": true,
+      "Detail": "expected=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE; actual=45D40A25C0A4EFB06DAA0C549D08E92BD7384508BF5D3B75754B74BD31CEE1EE"
+    },
+    {
+      "Name": "Install receipt unchanged during live acceptance",
+      "Passed": true,
+      "Detail": "expected=7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E; actual=7C35A43EA15DE18DB81E9E6A595168060A55FFEE18FBFACC5D52B3F8B3C51D2E"
+    }
+  ]
+}

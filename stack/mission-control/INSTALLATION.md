@@ -112,17 +112,20 @@ service or a browser walkthrough.
 
 `Install-HaloMemorySnapshotTask.ps1` is the canonical installer for the
 `HALO Memory Snapshot` scheduled task. It invokes `Snapshot-HaloMemory.ps1`
-hourly with an additional Windows-startup trigger once that replacement definition
-is successfully registered. Its Interactive principal requires the user session;
+hourly with an additional Windows-startup trigger. Its Interactive principal requires the user session;
 this is not proof of unattended pre-login operation. Missed-run handling is
 enabled. Overlapping runs are ignored and failed runs are retried
 three times. Retention is bounded to the newest 168 canonical snapshots.
 
-**Checkpoint:** the attempted replacement was denied by Windows without
-elevation. The existing hourly task works, but approval for the replacement is
-pending. This document describes the proposed installer contract, not proof
-that its startup/retry settings are already live. Read back the registered task
-and record its first successful run after approval.
+**Checkpoint, 2026-09-01 20:49 MDT:** after the earlier non-elevated attempt was
+denied, Scott approved UAC and the replacement was registered successfully.
+Independent read-back confirmed Scott's SID, Interactive/Limited principal,
+exact action, enabled hourly/startup triggers, missed-run handling, IgnoreNew,
+ten-minute limit, and three retries at five-minute intervals. A real
+Task Scheduler run returned result 0 and produced a snapshot matching the
+unchanged source hash. No partial-write files remained; 57 snapshots were
+present, below retention. Startup and retries are definition-verified only;
+no reboot or induced failure was performed.
 
 The snapshot script reads `%USERPROFILE%\.dsh\memory\memory.json` and writes to
 `%USERPROFILE%\.dsh\memory\snapshots`. If `memory.json` does not exist, the run

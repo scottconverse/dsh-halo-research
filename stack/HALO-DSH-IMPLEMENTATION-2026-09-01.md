@@ -7,7 +7,8 @@ belong to this work.
 
 **Result at 20:10 MDT:** picker and final Mission Control deployed and verified.
 Final deterministic suite: 118/118; final candidate-bound live acceptance: 199
-checks passed. Snapshot-task replacement remains pending administrator approval.
+checks passed. Snapshot-task replacement was subsequently approved and verified
+at 20:49 MDT; see the final addendum. The live worker/verifier canary remains open.
 
 ## Current state and authority
 
@@ -161,13 +162,16 @@ was cleared. No live memory records were added or altered to make this pass.
    regression reproduced negative screen coordinates; fitting after settling
    fixes it without resetting ordinary unchanged views.
 
-## Snapshot-task boundary — not finished
+## Snapshot-task boundary — earlier pending checkpoint, closed below
 
 The existing `HALO Memory Snapshot` task works, has an hourly trigger, and runs
 the older installed `Snapshot-HaloMemory.ps1`. Its pre-change XML is saved as
 `snapshot-task-before.xml`. The new installer/script are tested but their
 replacement task is **not registered**: Windows returned Access Denied.
 Administrator/UAC approval was requested and remains pending.
+
+This paragraph preserves the earlier checkpoint; the 20:49 MDT addendum below
+supersedes the pending status after Scott's approval.
 
 Do not call the new startup/retry/168-retention task policy deployed. The planned
 principal is Interactive, so an AtStartup trigger alone does not prove execution
@@ -193,8 +197,8 @@ manifest covering all files except itself. Keep the installer and its exact
 four test suites together. The picker contract's source-tree-relative paths
 require the canonical repository layout, not the rearranged snapshot layout.
 
-The remaining operator decision is approval to replace the existing snapshot
-task. Do not erase the working old task or claim its replacement happened.
+The snapshot replacement was approved and verified at 20:49 MDT, as recorded
+below. Preserve the old task definition and script for deliberate rollback.
 The reboot handoff also requests a real local-Coder and planner-to-verifier
 canary; the UI/telemetry acceptance above does not satisfy that separate
 integration check. See the completion audit below.
@@ -254,7 +258,7 @@ conservative unconditional post-install flag, not a runtime stale-code result.
 This is a documented operational substitution, not a claimed performed restart
 or general proof that server-plugin changes never need one.
 
-### Still not completed
+### Still not completed at the 20:22 checkpoint
 
 1. Windows still has the older working hourly snapshot action, with
    `StartWhenAvailable=false` and `RestartCount=0`. The replacement needs the
@@ -269,3 +273,49 @@ or general proof that server-plugin changes never need one.
 No old tool restrictions, forced delegation, or sandbox narrowing should be
 restored to obtain this evidence. Any explicitly requested workflow canary must
 be labeled integration testing, not general unprompted coding autonomy.
+
+## Snapshot-task approval and first-run proof — 2026-09-01 20:49 MDT
+
+Scott answered yes to the request to display UAC. The one-shot helper required
+the reviewed installer/snapshot hashes and the HALO\scott identity, preserved
+the prior task XML, and replaced only `\HALO Memory Snapshot`.
+
+- Registration recorded at `2026-09-01T20:47:51.3047892-06:00`.
+- Installer SHA-256:
+  `9236B903EAC2C5C4182108EB25DE868E396B2F1DA3D4807B76A2ADE6E31A979A`.
+- Snapshot script SHA-256:
+  `695055648F8B9B8484004CCBA3C8D59FAFE8D6DE2C6A1518CE1137D50587933C`.
+- Exact action: `C:\Program Files\PowerShell\7\pwsh.exe` invokes the canonical
+  `stack\mission-control\Snapshot-HaloMemory.ps1` with explicit source,
+  destination, and `-Keep 168`; working directory is the canonical Mission
+  Control folder. No broad live-directory copy or service restart occurred.
+- Independent Windows read-back: Scott's SID ends in `1002`, Interactive logon,
+  Limited run level, one expected action, enabled PT1H and Boot triggers,
+  StartWhenAvailable, IgnoreNew, PT10M execution limit, three retries at PT5M.
+
+Invoked `Start-ScheduledTask -TaskName 'HALO Memory Snapshot' -TaskPath '\'`
+once. Task Scheduler recorded a new run at `20:49:06`, returned result `0`,
+and settled to Ready. The resulting file was:
+
+`C:\Users\scott\.dsh\memory\snapshots\memory-20260901-204907.json`
+
+The snapshot and both before/after source hashes were identical:
+`D3245348C0E3E8BD2A0317C26A4C326340AFB0B05ACF93B25E1D06AE5037DC72`.
+There were 57 canonical snapshots and no `.writing-*` files. No snapshot was
+deleted during this run. The next hourly run was scheduled for 21:00 MDT.
+
+Evidence in `stack\evidence\dsh-repair-2026-09-01` uses the
+`snapshot-approved-` prefix: before/after XML, plan, registration result,
+first-run result, and independent read-back. Original captured XML retains its
+original bytes; `.recovery.xml` files are equivalent UTF-16 copies matching
+the XML declaration, validated by loading them from disk.
+
+Mission Control's exact-candidate live acceptance was rerun at
+`2026-09-02T02:53:11.0895297Z`: `Passed=true`, `Health=Healthy`,
+`CheckCount=199`. It identified this actual new snapshot and its matching hash.
+
+This closes the UAC/task-registration blocker. It proves the actual scheduled
+action and its output, not unattended pre-login startup or injected-failure
+retry behavior. No reboot, model generation, model configuration change,
+Gateway change, or Ollama operation was performed for this step. The remaining
+acceptance item is the separately coordinated local worker/verifier canary.

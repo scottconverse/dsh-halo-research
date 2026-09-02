@@ -30,7 +30,7 @@ foreach ($name in @('package.json','pnpm-lock.yaml','pnpm-workspace.yaml')) {
 foreach ($name in @('mission-control.mjs','Install-HaloMissionControl.ps1','Launch-Status.ps1','Snapshot-HaloMemory.ps1','Install-HaloMemorySnapshotTask.ps1','Test-HaloMissionControlLive.ps1','INSTALLATION.md')) {
     Copy-Verified (Join-Path $repo "stack\mission-control\$name") (Join-Path $recovery "mission-control\$name")
 }
-# Canonical snapshot replacement is pending; retain the actual old live script.
+# The registered task now uses canonical source; retain the unused old live script for rollback.
 Copy-Verified (Join-Path $live 'mission-control\Snapshot-HaloMemory.ps1') (Join-Path $recovery 'mission-control\previous-live\Snapshot-HaloMemory.ps1')
 foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repo 'stack\mission-control\test') -File -Filter '*.test.mjs') {
     if ($file.Name -eq 'picker-package-contract.test.mjs') { continue }
