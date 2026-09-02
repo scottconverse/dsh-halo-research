@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-02",
+  "canonicalRepository": "C:/Users/scott/Desktop/Code/dsh-halo-research",
+  "productionIntegrationCommit": "bb9fa12a",
+  "precedingScopedCommits": {
+    "nativeAccess": "fa72a0f1",
+    "planningAndHistoricalSpec": "1beaeacb",
+    "missionControl": "ee35c7b0"
+  },
+  "developmentRepository": "C:/Users/scott/Desktop/Code/dsh-halo-dev",
+  "developmentCommit": "7a8f98db2053fb5746704af8e4217581eb85e4e9",
+  "githubPushPerformed": false,
+  "browserCheck": {
+    "url": "http://localhost:3080",
+    "openingPickerPresent": true,
+    "defaultVisible": "Halo Qwen3.6 35B-A3B Q4_K_M (64/64 daily brain)",
+    "searchInput": "Search models and providers",
+    "claudeCodeSearchShowsNativeChoices": true,
+    "modelSelectionChanged": false,
+    "newGenerationStarted": false
+  },
+  "tests": {"development": "105/105", "canonicalSubset": "74/74", "productionNativeTwoTurnSmoke": "Claude and Codex PASS"},
+  "remainingUncommitted": "Only package-manager runtime cache files; no source/configuration work intentionally left uncommitted.",
+  "limits": [
+    "Catalog availability is not authentication or entitlement; upstream cloud accounts require connection.",
+    "Native checkpoint continuity is proven, not a forced near-limit native auto-compaction test.",
+    "Automatic survival of an app restart is not claimed; manual recovery was verified with the Gateway owner.",
+    "Final operator walkthrough and independent full audit were not performed."
+  ]
+}
