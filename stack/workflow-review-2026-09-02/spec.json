@@ -1,0 +1,66 @@
+{
+  "name": "halo-release-review",
+  "goal": "Reconcile the deployed Halo release claims with independent evidence and hand Scott a bounded operator walkthrough without changing production.",
+  "trigger": "Scott requested continuation with Workflowwright after production delivery on 2026-09-02.",
+  "isolation": "none",
+  "entry": "verify_evidence",
+  "budget": {"agent_calls": 2},
+  "nodes": [
+    {
+      "id": "verify_evidence",
+      "label": "Verify saved evidence and current health",
+      "kind": "code",
+      "detail": "Run Node verify-evidence.mjs with this directory as its output argument. Read test records, current source hashes, recovery hashes, Git ancestry and three HTTP health endpoints. Do not run new inference, alter services, or read credentials.",
+      "reads": ["../provider-integration/evidence", "../../Git history", "Research recovery manifest"],
+      "writes": ["evidence-check.json"],
+      "evidence": "evidence-check.json",
+      "max_attempts": 1,
+      "on_exhausted": "human"
+    },
+    {
+      "id": "independent_review",
+      "label": "Independent release-claim review",
+      "kind": "agent",
+      "backend": "codex",
+      "detail": "Existing independent subagent reviews the fixed release documents, evidence and pertinent source. Identify unsupported claims and at most three high-value operator gaps. Task is read-only; do not remove native tool permissions. Review can run alongside evidence collection, but reconciliation consumes both completed outputs.",
+      "reads": ["release documents and source", "saved acceptance receipts"],
+      "writes": ["independent-review.md"],
+      "evidence": "independent-review.md",
+      "max_attempts": 1,
+      "on_exhausted": "human"
+    },
+    {
+      "id": "reconcile",
+      "label": "Reconcile claims and rank walkthrough gaps",
+      "kind": "agent",
+      "backend": "codex",
+      "detail": "Parent combines the deterministic receipt and independent review. Distinguish historical test proof, current hashes, current health, native two-turn continuity, checkpoint behavior and untested operator outcomes. No automatic repair, rollout, regression campaign or provider login is authorized by a review failure.",
+      "reads": ["evidence-check.json", "independent-review.md"],
+      "writes": ["REVIEW.md"],
+      "evidence": "REVIEW.md",
+      "max_attempts": 1,
+      "on_exhausted": "human"
+    },
+    {
+      "id": "operator_handoff",
+      "label": "Scott chooses the next real-use check",
+      "kind": "human",
+      "detail": "Present the findings and offer startup/recovery, long-conversation continuity, or a specific connected provider as the next walkthrough. Record a decision only after Scott actually makes it; no fabricated acceptance or automatic restart.",
+      "reads": ["evidence-check.json", "independent-review.md", "REVIEW.md"]
+    }
+  ],
+  "edges": [
+    {"from":"verify_evidence","to":"independent_review","when":"pass","payload":"evidence-check.json"},
+    {"from":"verify_evidence","to":"operator_handoff","when":"fail","payload":"evidence-check.json"},
+    {"from":"independent_review","to":"reconcile","when":"pass","payload":"independent-review.md"},
+    {"from":"independent_review","to":"operator_handoff","when":"fail","payload":"independent-review.md"},
+    {"from":"reconcile","to":"operator_handoff","when":"pass","payload":"REVIEW.md"},
+    {"from":"reconcile","to":"operator_handoff","when":"fail","payload":"REVIEW.md"}
+  ],
+  "open_questions": [
+    "This is a Workflowwright critique reconstruction of the CURRENT review, not a claim that the earlier implementation used generated orchestration.",
+    "Agent-call and attempt limits describe this two-agent review plan; no scaffolded persistent runtime driver was installed. The parent performed one review dispatch and one reconciliation.",
+    "Which operator check does Scott want next? No walkthrough acceptance decision has been supplied.",
+    "Automatic service persistence, forced native near-limit compaction, and unconnected cloud-account entitlement remain outside the completed acceptance evidence."
+  ]
+}

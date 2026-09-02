@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>halo-release-review — workflow</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #fbfbfa; --panel: #ffffff; --ink: #1c1b1a; --muted: #6b6866;
+    --line: #e6e3e0; --accent: #7c5cff;
+    --code: #1d4ed8; --code-bg: #dbeafe;
+    --agent: #6d28d9; --agent-bg: #ede9fe;
+    --human: #b45309; --human-bg: #fef3c7;
+    --warn: #b91c1c; --warn-bg: #fee2e2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17161a; --panel: #201f24; --ink: #eceaf0; --muted: #9c98a6;
+      --line: #322f39; --accent: #a78bfa;
+      --code: #93c5fd; --code-bg: #1e3a5f;
+      --agent: #c4b5fd; --agent-bg: #3b2d63;
+      --human: #fcd34d; --human-bg: #4a3410;
+      --warn: #fca5a5; --warn-bg: #4a1d1d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 32px; }
+  h1 { font-size: 32px; margin: 0 0 6px; letter-spacing: -0.02em; }
+  .goal { font-size: 18px; color: var(--ink); margin: 0 0 18px; max-width: 68ch; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fact {
+    font-size: 13px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 12px; color: var(--muted);
+  }
+  .fact b { color: var(--ink); font-weight: 600; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.09em;
+       color: var(--muted); margin: 40px 0 14px; font-weight: 600; }
+  .panel { background: var(--panel); border: 1px solid var(--line);
+           border-radius: 14px; padding: 22px; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; font-size: 13px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); }
+  .swatch { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+  /* The diagram keeps a light card in both colour schemes: the SVG is drawn once at
+     generation time with a single theme, and a fixed light backing means it stays
+     legible rather than turning into dark-on-dark. */
+  .diagram { text-align: center; overflow-x: auto; background: #ffffff;
+             border-radius: 10px; padding: 18px 12px; }
+  .diagram svg { max-width: 100%; height: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th { text-align: left; font-size: 12px; text-transform: uppercase;
+       letter-spacing: 0.06em; color: var(--muted); font-weight: 600;
+       padding: 0 12px 10px; border-bottom: 1px solid var(--line); }
+  td { padding: 13px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+  .pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 9px;
+          border-radius: 6px; letter-spacing: 0.02em; white-space: nowrap; }
+  .k-code  { background: var(--code-bg);  color: var(--code); }
+  .k-agent { background: var(--agent-bg); color: var(--agent); }
+  .k-human { background: var(--human-bg); color: var(--human); }
+  .muted { color: var(--muted); }
+  .loop { color: var(--accent); font-weight: 600; }
+  .problems { background: var(--warn-bg); border-color: var(--warn); }
+  .problems li { margin-bottom: 8px; }
+  ul { margin: 0; padding-left: 20px; }
+  li { margin-bottom: 7px; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line);
+           font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>halo-release-review</h1>
+    <p class="goal">Reconcile the deployed Halo release claims with independent evidence and hand Scott a bounded operator walkthrough without changing production.</p>
+    <div class="facts">
+      <span class="fact"><b>Trigger</b> · Scott requested continuation with Workflowwright after production delivery on 2026-09-02.</span>
+      <span class="fact"><b>Isolation</b> · none</span>
+      <span class="fact"><b>Nodes</b> · 1 code, 2 agent, 1 human</span>
+    </div>
+  </header>
+
+  
+
+  <h2>Diagram</h2>
+  <div class="panel">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--code-bg);border:1px solid var(--code)"></i> Code — deterministic, free, same every time</span>
+      <span><i class="swatch" style="background:var(--agent-bg);border:1px solid var(--agent)"></i> Agent — judgment, costs tokens, varies</span>
+      <span><i class="swatch" style="background:var(--human-bg);border:1px solid var(--human)"></i> Human — scarce, highest judgment</span>
+    </div>
+    <div class="diagram"><div class="mermaid">flowchart TD
+    verify_evidence[&quot;Verify saved evidence and current health&lt;br/&gt;proves: evidence-check.json&quot;]
+    independent_review(&quot;Independent release-claim review&lt;br/&gt;proves: independent-review.md&quot;)
+    reconcile(&quot;Reconcile claims and rank walkthrough gaps&lt;br/&gt;proves: REVIEW.md&quot;)
+    operator_handoff{{&quot;Scott chooses the next real-use check&quot;}}
+
+    verify_evidence -- &quot;pass: evidence-check.json&quot; --&gt; independent_review
+    verify_evidence -- &quot;fail: evidence-check.json&quot; --&gt; operator_handoff
+    independent_review -- &quot;pass: independent-review.md&quot; --&gt; reconcile
+    independent_review -- &quot;fail: independent-review.md&quot; --&gt; operator_handoff
+    reconcile -- &quot;pass: REVIEW.md&quot; --&gt; operator_handoff
+    reconcile -- &quot;fail: REVIEW.md&quot; --&gt; operator_handoff
+
+    classDef code fill:#dbeafe,stroke:#1d4ed8,stroke-width:1px,color:#0b2a6b;
+    classDef agent fill:#ede9fe,stroke:#6d28d9,stroke-width:1px,color:#3b0764;
+    classDef human fill:#fef3c7,stroke:#b45309,stroke-width:1px,color:#4a2606;
+    class verify_evidence code;
+    class independent_review,reconcile agent;
+    class operator_handoff human;
+</div></div>
+  </div>
+
+  <h2>Nodes</h2>
+  <div class="panel"><table>
+    <thead><tr><th>Node</th><th>Who</th><th>What it does</th><th>Model</th><th>Retries</th></tr></thead>
+    <tbody><tr><td><code>verify_evidence</code><br><span class='muted'>Verify saved evidence and current health</span></td><td><span class='pill k-code'>Code</span></td><td>Run Node verify-evidence.mjs with this directory as its output argument. Read test records, current source hashes, recovery hashes, Git ancestry and three HTTP health endpoints. Do not run new inference, alter services, or read credentials.</td><td><code>&mdash;</code></td><td><span class="muted">&mdash;</span></td></tr><tr><td><code>independent_review</code><br><span class='muted'>Independent release-claim review</span></td><td><span class='pill k-agent'>Agent</span></td><td>Existing independent subagent reviews the fixed release documents, evidence and pertinent source. Identify unsupported claims and at most three high-value operator gaps. Task is read-only; do not remove native tool permissions. Review can run alongside evidence collection, but reconciliation consumes both completed outputs.</td><td><code>default</code></td><td><span class="muted">&mdash;</span></td></tr><tr><td><code>reconcile</code><br><span class='muted'>Reconcile claims and rank walkthrough gaps</span></td><td><span class='pill k-agent'>Agent</span></td><td>Parent combines the deterministic receipt and independent review. Distinguish historical test proof, current hashes, current health, native two-turn continuity, checkpoint behavior and untested operator outcomes. No automatic repair, rollout, regression campaign or provider login is authorized by a review failure.</td><td><code>default</code></td><td><span class="muted">&mdash;</span></td></tr><tr><td><code>operator_handoff</code><br><span class='muted'>Scott chooses the next real-use check</span></td><td><span class='pill k-human'>Human</span></td><td>Present the findings and offer startup/recovery, long-conversation continuity, or a specific connected provider as the next walkthrough. Record a decision only after Scott actually makes it; no fabricated acceptance or automatic restart.</td><td><code>&mdash;</code></td><td><span class="muted">&mdash;</span></td></tr></tbody>
+  </table></div>
+
+  <h2>Flow</h2>
+  <div class="panel"><table>
+    <thead><tr><th>From</th><th>Condition</th><th>Carries</th><th>To</th></tr></thead>
+    <tbody><tr><td><code>verify_evidence</code></td><td>pass</td><td><code>evidence-check.json</code></td><td><code>independent_review</code></td></tr><tr><td><code>verify_evidence</code></td><td>fail</td><td><code>evidence-check.json</code></td><td><code>operator_handoff</code></td></tr><tr><td><code>independent_review</code></td><td>pass</td><td><code>independent-review.md</code></td><td><code>reconcile</code></td></tr><tr><td><code>independent_review</code></td><td>fail</td><td><code>independent-review.md</code></td><td><code>operator_handoff</code></td></tr><tr><td><code>reconcile</code></td><td>pass</td><td><code>REVIEW.md</code></td><td><code>operator_handoff</code></td></tr><tr><td><code>reconcile</code></td><td>fail</td><td><code>REVIEW.md</code></td><td><code>operator_handoff</code></td></tr></tbody>
+  </table></div>
+
+  <h2>Open questions</h2><div class="panel"><ul><li>This is a Workflowwright critique reconstruction of the CURRENT review, not a claim that the earlier implementation used generated orchestration.</li><li>Agent-call and attempt limits describe this two-agent review plan; no scaffolded persistent runtime driver was installed. The parent performed one review dispatch and one reconciliation.</li><li>Which operator check does Scott want next? No walkthrough acceptance decision has been supplied.</li><li>Automatic service persistence, forced native near-limit compaction, and unconnected cloud-account entitlement remain outside the completed acceptance evidence.</li></ul></div>
+
+  <footer>
+    Generated from <code>spec.json</code>. The diagram, this table, and the scaffold
+    are all compiled from that one file — edit the spec and re-render rather than editing
+    any output by hand, or they will drift.
+  </footer>
+</div>
+<script>mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default',flowchart:{curve:'basis',useMaxWidth:true,htmlLabels:false,padding:10}});</script>
+</body>
+</html>

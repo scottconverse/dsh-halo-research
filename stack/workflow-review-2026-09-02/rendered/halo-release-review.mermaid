@@ -1,0 +1,19 @@
+flowchart TD
+    verify_evidence["Verify saved evidence and current health<br/>proves: evidence-check.json"]
+    independent_review("Independent release-claim review<br/>proves: independent-review.md")
+    reconcile("Reconcile claims and rank walkthrough gaps<br/>proves: REVIEW.md")
+    operator_handoff{{"Scott chooses the next real-use check"}}
+
+    verify_evidence -- "pass: evidence-check.json" --> independent_review
+    verify_evidence -- "fail: evidence-check.json" --> operator_handoff
+    independent_review -- "pass: independent-review.md" --> reconcile
+    independent_review -- "fail: independent-review.md" --> operator_handoff
+    reconcile -- "pass: REVIEW.md" --> operator_handoff
+    reconcile -- "fail: REVIEW.md" --> operator_handoff
+
+    classDef code fill:#dbeafe,stroke:#1d4ed8,stroke-width:1px,color:#0b2a6b;
+    classDef agent fill:#ede9fe,stroke:#6d28d9,stroke-width:1px,color:#3b0764;
+    classDef human fill:#fef3c7,stroke:#b45309,stroke-width:1px,color:#4a2606;
+    class verify_evidence code;
+    class independent_review,reconcile agent;
+    class operator_handoff human;
