@@ -28,8 +28,8 @@ if ($ForceReinstall -and -not [string]::IsNullOrWhiteSpace($RollbackFrom)) {
 $packageName = '@deepseek-ai/dsh-client-ui-model-selection'
 $packageVersion = '0.1.1-rc.2'
 $artifactName = 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz'
-$reviewedArtifactSha256 = 'BD1A3AC7F8BD61B23CD4254FD73E538BC55101DE75AD6B599FB5F99CF9AEEF0A'
-$reviewedClientSha256 = 'ADD6028CF8ED2256E5A05D1B98B24B97A76F93EAD1800D87A6EFDE194BBA3D82'
+$reviewedArtifactSha256 = '148C45AE84FF5539B3EB5509CA5A277544AC48FD91D4E56591E5218A0701BFB9'
+$reviewedClientSha256 = '8AD89CED1EB23C241C82E0B3702359696827920AD99F37DE2AA568095533E131'
 $reviewedIndexSha256 = '6879BA2C29E67B2AD0E0CAF8FEEEE9C62364D871F7664E10EFA7F14B4E216EB0'
 $reviewedInvariantSha256 = 'F3E07C900344FD01FFE798DA2E98FBD55381F2E4BD0FE7467D00CF81A3CAFF78'
 $sourceRoot = Join-Path $RepoRoot '_upstream\deepseek-harness'
@@ -138,9 +138,17 @@ function Assert-ReviewedArtifact([string] $Path) {
             throw "Unable to inspect picker tgz $Path (tar exit $LASTEXITCODE)"
         }
         $packedManifest = Join-Path $verifyRoot 'package\package.json'
+        $packedLicense = Join-Path $verifyRoot 'package\LICENSE'
         $packedClient = Join-Path $verifyRoot 'package\lib\client.js'
         $packedIndex = Join-Path $verifyRoot 'package\lib\index.js'
         $packedInvariant = Join-Path $verifyRoot 'package\lib\invariant.js'
+        if (-not (Test-Path -LiteralPath $packedLicense -PathType Leaf)) {
+            throw "Packed picker license is missing: $packedLicense"
+        }
+        $packedManifestText = Get-Content -LiteralPath $packedManifest -Raw
+        if ($packedManifestText.IndexOf('workspace:', [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            throw 'Packed picker manifest contains workspace: dependency ranges and is not standalone-installable'
+        }
         Assert-ReviewedManifest -Path $packedManifest -Label 'Packed picker manifest'
         Assert-Hash -Path $packedClient -Expected $reviewedClientSha256 -Label 'Packed picker client' | Out-Null
         Assert-Hash -Path $packedIndex -Expected $reviewedIndexSha256 -Label 'Packed picker index' | Out-Null
@@ -174,8 +182,17 @@ function New-ProfileBackup([string] $Label) {
         createdUtc = (Get-Date).ToUniversalTime().ToString('o')
         packageJsonSha256 = $manifestHash
         pnpmLockSha256 = $lockHash
+        installedManifestSha256 = if (Test-Path -LiteralPath $installedManifest -PathType Leaf) {
+            (Get-FileHash -LiteralPath $installedManifest -Algorithm SHA256).Hash
+        } else { $null }
         installedClientSha256 = if (Test-Path -LiteralPath $installedClient) {
             (Get-FileHash -LiteralPath $installedClient -Algorithm SHA256).Hash
+        } else { $null }
+        installedIndexSha256 = if (Test-Path -LiteralPath $installedIndex -PathType Leaf) {
+            (Get-FileHash -LiteralPath $installedIndex -Algorithm SHA256).Hash
+        } else { $null }
+        installedInvariantSha256 = if (Test-Path -LiteralPath $installedInvariant -PathType Leaf) {
+            (Get-FileHash -LiteralPath $installedInvariant -Algorithm SHA256).Hash
         } else { $null }
     } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $backupRoot 'backup.json') -Encoding utf8
     return $backupRoot
@@ -199,6 +216,19 @@ function Restore-ProfileBackup([object] $Backup) {
     Copy-Item -LiteralPath (Join-Path $Backup.Path 'pnpm-lock.yaml') -Destination $liveLock -Force
     Assert-Hash -Path $liveManifest -Expected $Backup.Metadata.packageJsonSha256 -Label 'Restored profile manifest' | Out-Null
     Assert-Hash -Path $liveLock -Expected $Backup.Metadata.pnpmLockSha256 -Label 'Restored profile lockfile' | Out-Null
+}
+
+function Assert-InstalledPackageMatchesBackup([object] $Metadata, [string] $Label) {
+    foreach ($identity in @(
+        [pscustomobject]@{ Path = $installedManifest; Hash = $Metadata.installedManifestSha256; Name = 'manifest' },
+        [pscustomobject]@{ Path = $installedClient; Hash = $Metadata.installedClientSha256; Name = 'client' },
+        [pscustomobject]@{ Path = $installedIndex; Hash = $Metadata.installedIndexSha256; Name = 'index' },
+        [pscustomobject]@{ Path = $installedInvariant; Hash = $Metadata.installedInvariantSha256; Name = 'invariant' }
+    )) {
+        if (-not [string]::IsNullOrWhiteSpace([string] $identity.Hash)) {
+            Assert-Hash -Path $identity.Path -Expected $identity.Hash -Label "$Label installed picker $($identity.Name)" | Out-Null
+        }
+    }
 }
 
 function Invoke-OfflineFrozenInstall {
@@ -227,14 +257,13 @@ if (-not [string]::IsNullOrWhiteSpace($RollbackFrom)) {
         Invoke-OfflineFrozenInstall
         Assert-Hash -Path $liveManifest -Expected $rollback.Metadata.packageJsonSha256 -Label 'Rolled-back profile manifest' | Out-Null
         Assert-Hash -Path $liveLock -Expected $rollback.Metadata.pnpmLockSha256 -Label 'Rolled-back profile lockfile' | Out-Null
-        if ($null -ne $rollback.Metadata.installedClientSha256) {
-            Assert-Hash -Path $installedClient -Expected $rollback.Metadata.installedClientSha256 -Label 'Rolled-back installed picker client' | Out-Null
-        }
+        Assert-InstalledPackageMatchesBackup -Metadata $rollback.Metadata -Label 'Rolled-back'
     } catch {
         $rollbackError = $_.Exception.Message
         $safety = Assert-Backup -Path $safetyBackup
         Restore-ProfileBackup -Backup $safety
         Invoke-OfflineFrozenInstall
+        Assert-InstalledPackageMatchesBackup -Metadata $safety.Metadata -Label 'Restored pre-rollback'
         throw "Picker rollback failed; the pre-rollback profile was restored. Original error: $rollbackError"
     }
     [pscustomobject]@{
@@ -255,14 +284,18 @@ foreach ($required in @($sourceRoot, $packageRoot, $canonicalManifest, $tarCmd))
 
 $canonical = Get-Content -LiteralPath $canonicalManifest -Raw | ConvertFrom-Json
 $live = Get-Content -LiteralPath $liveManifest -Raw | ConvertFrom-Json
-$expectedSpec = $canonical.dependencies.$packageName
-if ([string]::IsNullOrWhiteSpace($expectedSpec) -or -not $expectedSpec.StartsWith('file:', [StringComparison]::OrdinalIgnoreCase)) {
+$canonicalSpec = $canonical.dependencies.$packageName
+if ([string]::IsNullOrWhiteSpace($canonicalSpec) -or -not $canonicalSpec.StartsWith('file:', [StringComparison]::OrdinalIgnoreCase)) {
     throw "Canonical picker dependency must be a file: reference"
 }
-$expectedArtifactPath = [IO.Path]::GetFullPath((Join-Path $profileRoot (($expectedSpec.Substring(5)) -replace '/', '\')))
+$defaultProfileRoot = Join-Path (Join-Path $env:USERPROFILE '.dsh') 'profiles\web'
+$expectedArtifactPath = [IO.Path]::GetFullPath((Join-Path $defaultProfileRoot (($canonicalSpec.Substring(5)) -replace '/', '\')))
 if ($expectedArtifactPath -ne [IO.Path]::GetFullPath($artifactPath)) {
-    throw "Canonical profile dependency does not point at the reviewed artifact: $expectedSpec"
+    throw "Canonical profile dependency does not point at the reviewed artifact: $canonicalSpec"
 }
+# The canonical manifest describes the normal live home; an explicitly selected
+# DshHome needs its own relative dependency to the same reviewed archive.
+$expectedSpec = 'file:' + (Normalize-FileDependency ([IO.Path]::GetRelativePath($profileRoot, $artifactPath)))
 foreach ($dependency in @('@deepseek-ai/dsh-subagent-claude-code', '@deepseek-ai/dsh-subagent-codex')) {
     if ($live.dependencies.$dependency -ne $canonical.dependencies.$dependency) {
         throw "Live profile dependency drift for $dependency; refusing to overwrite it"
@@ -301,6 +334,15 @@ $backupRoot = New-ProfileBackup -Label 'before-install'
 try {
     Push-Location $profileRoot
     try {
+        # pnpm may retain a same-name/version hoisted package after a local
+        # archive changes. Remove just the picker using pnpm before re-adding
+        # it; do not force every dependency or edit the content-addressed store.
+        if (Test-Path -LiteralPath $installedManifest -PathType Leaf) {
+            & $pnpmCmd --config.offline=true --config.ignore-scripts=true remove $packageName
+            if ($LASTEXITCODE -ne 0) {
+                throw "Offline picker removal failed with exit code $LASTEXITCODE"
+            }
+        }
         & $pnpmCmd add --offline --ignore-scripts --save-exact "$packageName@$expectedSpec"
         if ($LASTEXITCODE -ne 0) {
             throw "Offline profile install failed with exit code $LASTEXITCODE"
@@ -320,6 +362,7 @@ try {
     $backup = Assert-Backup -Path $backupRoot
     Restore-ProfileBackup -Backup $backup
     Invoke-OfflineFrozenInstall
+    Assert-InstalledPackageMatchesBackup -Metadata $backup.Metadata -Label 'Restored pre-install'
     throw "Picker installation failed; the byte-for-byte manifest and lockfile backup was restored. Original error: $installError"
 }
 
