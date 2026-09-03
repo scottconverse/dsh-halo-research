@@ -194,6 +194,12 @@
     - id: compaction-basic
       name: '@deepseek-ai/dsh-compaction-basic'
 
+    # Reconstructs source, cursor, coverage, and explicit budget state from
+    # durable Halo Research Gateway envelopes after compaction. Prose summaries
+    # remain navigation aids; this deterministic ledger is the evidence truth.
+    - id: halo-research-state
+      name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-research-state/index.mjs?v=2'
+
     - id: command-compact
       name: '@deepseek-ai/dsh-command-compact'
 

@@ -1,7 +1,7 @@
 # Current Halo configuration recovery snapshot
 
-Updated: 2026-08-30 after the 64/64 reboot validation, Revision 3.3,
-parallel-review reconciliation, and the Mission Control truth-source audit
+Updated: 2026-09-03 after the verified DSH research-state deployment and live
+bounded research-workflow acceptance
 
 Start with `HALO-CURRENT-CONFIGURATION.md`. It explains the installed system,
 the model lifecycle, tools, permissions, web access, operating procedure,
@@ -17,10 +17,13 @@ configuration. The executable canonical files remain under:
 - `dsh\settings.yaml`: curated local model catalog, four Halo aliases, default
   35B-A3B route, local dummy-credential binding, full-access default, and
   removal of DeepSeek API-only catalog entries.
-- `dsh\profile-web`: DSH web-profile package/lock and the active host-plane
-  configuration for Codex, Claude, and anonymous Exa MCP.
+- `dsh\profile-web`: DSH web-profile package/lock and active host-plane
+  configuration.
 - `dsh\halo-orchestrator`: the installed Halo preset and complete agent-plane
-  composition, including the foreground tuned Coder lane.
+  composition, including the foreground tuned Coder lane and verified research
+  state service.
+- `dsh\halo-research-state`: the complete DSH research ledger, budget/final
+  gates, acceptance verifier, tests, and operation/rollback guide.
 - `lm-studio\settings.json`: current LM Studio JIT, replacement, TTL, and
   default-context settings.
 - `lm-studio\models\halo`: the Halo-owned definitions for the dual-resident
@@ -61,6 +64,8 @@ configuration. The executable canonical files remain under:
   reconciliation, local-versus-fleet catalog repair, current Brain/Worker role
   repair, recent-context scope, explicit unavailable-memory state, disk-probe
   hardening, and the preserved/paired uncensored-Qwen vision projector.
+- `HALO-DSH-IMPLEMENTATION-2026-09-03.md`: the compaction-integrity repair,
+  strict verifier, live workflow acceptance, evidence boundaries, and rollback.
 
 `MANIFEST-SHA256.txt` records every other file in this snapshot. Restore must
 not be performed blindly: compare paths and versions, preserve user work,

@@ -1,5 +1,21 @@
 # The Halo Stack — operator guide
 
+## September 3: verified long-form research in DSH
+
+Halo Orchestrator now preserves an authoritative ledger of successful Halo
+Research Gateway calls across DSH's automatic compaction. Ask for a research
+budget and output contract in the prompt (for example, maximum calls, minutes,
+words, required URLs, and citation placement). DSH enforces explicit call/time
+limits, preserves real source parts and exact continuation cursors, and asks the
+same turn to revise a non-compliant final answer without making more research
+calls. Model-written summaries are not evidence that a source or page was read.
+
+The live acceptance completed discovery, three source reads, continuation,
+comparison, and a cited answer in 8 calls and 128,443 ms, with two automatic
+compactions. It disclosed unread continuations rather than claiming complete
+coverage. See `HALO-DSH-IMPLEMENTATION-2026-09-03.md`. This does not certify all
+Gateway providers or remove the need to review important source claims.
+
 ## September 2: local and cloud models in the production picker
 
 - Open the usual **Halo Cockpit** shortcut or **http://127.0.0.1:3080**.
@@ -216,10 +232,14 @@ They are not LM Studio picker models.
 ## Web research
 
 Halo exposes the local Halo Research Gateway 0.2.0 at `127.0.0.1:8765`.
-It supplies sixteen research/action tools, including shared anonymous search
-and Reddit pacing. Anonymous providers remain rate-limited. Installed tools
-are not proof that authenticated, imported-profile, or paid-provider paths
-have passed live acceptance; see the repair audit.
+It supplies research-only tools for web discovery and retrieval, crawling,
+documents, GitHub evidence, transcripts, communities, and bounded research
+jobs, including shared anonymous search and Reddit pacing. The DSH
+`halo-research-state` plugin preserves successful Gateway evidence through
+compaction and enforces explicit research/output budgets. Anonymous providers
+remain rate-limited. Installed tools and the bounded 2026-09-03 workflow pass
+are not proof that every authenticated, imported-profile, or paid-provider path
+has passed live acceptance.
 
 ## Heavy-work rule
 
@@ -248,7 +268,10 @@ Sandbox or model process.
 ## Key files
 
 - Current full configuration: `stack\HALO-CURRENT-CONFIGURATION.md`
-- Current deployment evidence: `stack\HALO-DSH-IMPLEMENTATION-2026-09-01.md`
+- Verified research workflow evidence:
+  `stack\HALO-DSH-IMPLEMENTATION-2026-09-03.md`
+- Native-access deployment evidence:
+  `stack\HALO-DSH-IMPLEMENTATION-2026-09-01.md`
 - Takeover and evidence correction:
   `stack\HALO-TAKEOVER-HANDOFF-2026-08-30.md`
 - Runtime evidence: `stack\HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md`
@@ -265,6 +288,8 @@ Sandbox or model process.
   `stack\HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md`
 - DSH catalog: `stack\halo-settings.yaml`
 - Halo preset: `stack\halo-orchestrator\agent.cordis.yml`
+- Research-state plugin: `stack\halo-research-state\index.mjs`
+- Research-state operation/tests: `stack\halo-research-state\README.md`
 - Gate plugin: `stack\halo-verified-coder\index.mjs`
 - Gate engine: `stack\halo-verified-coder\gate-core.mjs`
 - Model aliases: `stack\lmstudio-models\halo\...\model.yaml`

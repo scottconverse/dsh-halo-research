@@ -33,6 +33,19 @@ tools; they do not secretly execute the DSH tool catalog or Halo verifier.
 See `HALO-PROVIDER-PROMOTION-2026-09-02.md` for evidence, limitations, operation,
 and rollback. Earlier counts and deployment claims below are dated history.
 
+**Verified DSH research workflow (2026-09-03):** Halo Orchestrator now mounts
+`stack\halo-research-state`. It rebuilds research state from successful,
+durable `mcp__halo_research__*` calls and Gateway results after automatic DSH
+compaction; model-written summaries cannot establish which sources or pages
+were read, whether coverage is complete, what cursor remains, or how many
+research calls ran. Explicit call/time budgets are enforced, and the requested
+final-answer word/citation/coverage contract is checked before completion. The
+live bounded workflow passed with 8/12 research calls, 128,443 ms of a six-minute
+budget, three required sources, real continuation reads, two compactions, and a
+139-word cited answer. See `HALO-DSH-IMPLEMENTATION-2026-09-03.md` and
+`halo-research-state\README.md`. This is workflow acceptance, not certification
+of every Gateway provider or arbitrary factual claim.
+
 **Mission Control launcher correction (2026-09-02):** `Halo Status.lnk` now
 reuses the verified running dashboard instead of launching a duplicate server.
 The Windows PowerShell `-File` default-path failure is also fixed. The live
@@ -428,18 +441,19 @@ Permission mode, model selection, and agent behavior are different controls:
 - Standard/Plan and other modes control behavior and tool usage;
 - the verified Coder is Standard-derived, not the shipped PTC/Code preset.
 
-## 9. Web, GitHub, and Reddit
+## 9. Research tools
 
-Enabled in Halo:
+Enabled for Halo research:
 
-- the sixteen `mcp__halo_research__*` tools from the local 0.2.0 Gateway
-- normal filesystem, PowerShell, Git, and GitHub tooling
+- the research-only `mcp__halo_research__*` tools from the local 0.2.0 Gateway
+- DSH's verified research ledger, explicit-budget gate, and final-answer gate
 - installed `reddit-search` skill
 
 Anonymous Exa has a hosted free quota and may return a rate-limit error. It is
 not equivalent to an unlimited research service. The bundled DeepSeek-keyed
 web tool remains disabled without a key; native shell/network capability is
-available. Gateway authentication, real actions, imported-profile sessions,
+available for tasks that authorize it, but it is not part of the Gateway's
+research-only product scope. Authenticated research, imported-profile sessions,
 and paid-provider positive-path acceptance still require separate evidence.
 
 ## 10. Operator procedure
@@ -489,6 +503,10 @@ changes the selected model or authorizes unrelated work.
   `HALO-AUTONOMY-REPAIR-2026-08-30.md`
 - Parallel-slot correction and outside-review reconciliation:
   `HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md`
+- Verified DSH research workflow, live acceptance, and rollback:
+  `HALO-DSH-IMPLEMENTATION-2026-09-03.md`
+- Research-state plugin operation and verification:
+  `halo-research-state\README.md`
 - Recovery snapshot manifest:
   `C:\Users\scott\Desktop\Halo Stack Research\Current Halo Configuration\MANIFEST-SHA256.txt`
 
@@ -509,9 +527,11 @@ validate DSH and LM Studio after restoration.
   inference merely because `lms ps` says `idle`; wait for `lms load` to report
   success.
 - Exa's anonymous hosted quota is finite.
-- The Halo Research Gateway is deployed at 0.2.0, but that is not proof of
-  complete v1.5 acceptance. The separate Gateway task owns research acceptance
-  and outstanding provider/browser checks; this DSH repair does not certify it.
+- The Halo Research Gateway is deployed at 0.2.0. The 2026-09-03 live run proves
+  one bounded DSH discovery/read/pagination/comparison/final workflow against
+  saved evidence. It does not prove every Gateway tool/provider, authenticated
+  or imported-profile path, paid provider, arbitrary semantic claim, or long
+  soak. The separate Gateway task owns that broader acceptance.
 - Full worker prefill is materially slower than a tiny direct completion
   because it includes the coding system prompt and tool schemas; the live
   verified canary completed in about 49 seconds after the final composition

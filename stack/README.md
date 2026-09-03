@@ -1,13 +1,16 @@
 # Halo — the standing DSH stack
 
-## Current operation — 2026-09-01
+## Current operation — 2026-09-03
 
 Use `Launch-Halo.ps1` (or the Halo Cockpit desktop shortcut) with LM Studio
 running. The installed `halo-orchestrator` preset supports native shell/file
 tools and the configured Codex, Claude, generic subagent, workflow, and Ralph
 lanes. `subagent_coder` is an optional staged verification/promotion workflow;
 it does not impose a root tool lock or narrow the worker's native permissions.
-The local Halo Research Gateway 0.2.0 supplies research tools at `:8765`.
+The local Halo Research Gateway 0.2.0 supplies research-only tools at `:8765`.
+The installed `halo-research-state` plugin preserves real Gateway evidence
+through automatic DSH compaction, enforces explicit research budgets, and
+checks requested final-answer citation and coverage contracts.
 
 The mandatory `Gate-Build.ps1` route and model/residency descriptions below
 are retained historical notes, **not current operating instructions**.
@@ -17,6 +20,8 @@ Current sources:
 - [Operator guide](HALO-STACK-GUIDE.md)
 - [Native-access repair and audit](HALO-NATIVE-ACCESS-REPAIR-2026-09-01.md)
 - [Optional verified-coder workflow](halo-verified-coder/README.md)
+- [Verified research workflow](HALO-DSH-IMPLEMENTATION-2026-09-03.md)
+- [Research-state plugin](halo-research-state/README.md)
 
 ## Historical configuration (superseded)
 
@@ -113,14 +118,20 @@ rule can never count as complete. Use for debugging and config checks only.
 
 ## Web research
 
-The bundled DeepSeek-keyed search provider remains disabled. The web profile
-connects DSH to OpenCode's anonymous Exa MCP endpoint instead and exposes:
+Use the local `mcp__halo_research__*` tools exposed by Halo Research Gateway
+0.2.0. They cover discovery, retrieval, crawling, documents, GitHub evidence,
+transcripts, communities, Reddit, and bounded multi-source research. The
+Gateway is research-only; sending email, posting to GitHub, purchasing, or
+other consequential actions are not part of this product surface.
 
-- `mcp__exa__web_search_exa` for public-web discovery;
-- `mcp__exa__web_fetch_exa` for full-page retrieval of selected URLs.
+For long DSH turns, `halo-research-state` reconstructs an authoritative ledger
+from successful Gateway envelopes. It retains actual URLs, returned source
+parts, exact continuation cursors, warnings, and bounded excerpts after
+compaction. A model summary cannot prove a read or complete coverage. Explicit
+call/time budgets are denied when exhausted, and a requested word/citation/
+coverage contract is checked before the final answer is allowed to complete.
 
-Neither requires a DeepSeek key, Exa key, or account. The installed
-`reddit-search` skill under `C:\Users\scott\.agents\skills` supplies the
-machine-wide pacing and RSS workflow for Reddit. DSH's bundled direct HTTP
-fetch provider is deliberately not enabled because its own rc.2 documentation
-states that private-address and DNS-rebinding protection are deferred.
+Anonymous providers still have finite quotas. The bounded live workflow passed
+on 2026-09-03, but authenticated, imported-profile, paid-provider, and broad
+provider acceptance require their own evidence. The bundled DeepSeek-keyed web
+tool remains disabled without a key.
