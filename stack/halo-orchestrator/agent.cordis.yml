@@ -198,7 +198,7 @@
     # durable Halo Research Gateway envelopes after compaction. Prose summaries
     # remain navigation aids; this deterministic ledger is the evidence truth.
     - id: halo-research-state
-      name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-research-state/index.mjs?v=2'
+      name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-research-state/index.mjs?v=7'
 
     - id: command-compact
       name: '@deepseek-ai/dsh-command-compact'
