@@ -1,0 +1,22 @@
+{
+  "name": "dsh-profile-web",
+  "private": true,
+  "dependencies": {
+    "@deepseek-ai/dsh-client-ui-model-selection": "file:C:/Users/scott/Desktop/Code/dsh-halo-research/stack/packages/deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.4.tgz",
+    "@deepseek-ai/dsh-subagent-claude-code": "0.1.1-rc.2",
+    "@deepseek-ai/dsh-subagent-codex": "0.1.1-rc.2",
+    "@deepseek-ai/dsh-client-ui-conversation": "file:C:/Users/scott/Desktop/Code/dsh-halo-research/stack/packages/deepseek-ai-dsh-client-ui-conversation-0.1.1-rc.2-halo-native-metrics.2.tgz",
+    "@deepseek-ai/dsh-host-apiproxy": "file:C:/Users/scott/Desktop/Code/dsh-halo-research/stack/packages/deepseek-ai-dsh-host-apiproxy-0.1.1-rc.2-halo-selection.3.tgz",
+    "@deepseek-ai/dsh-halo-routing-ui": "link:C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-router-production/release-0.3.0/halo-routing/ui"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "@deepseek-ai/dsh-subagent-claude-code",
+        "@deepseek-ai/dsh-subagent-codex"
+      ]
+    }
+  }
+}

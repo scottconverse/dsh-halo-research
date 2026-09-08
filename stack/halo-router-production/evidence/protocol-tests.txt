@@ -1,0 +1,1 @@
+acceptance-client self-test: 5 passed

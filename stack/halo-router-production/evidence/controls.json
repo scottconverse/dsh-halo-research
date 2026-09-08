@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "defaults": {
+    "mode": "automatic",
+    "scope": "local-first",
+    "planner": null,
+    "worker": null
+  },
+  "sessions": {
+    "halo-acceptance-69fc30be-cc1d-435e-b681-598bbec1675d-eaad35d1-6e2e-40ef-af3c-7ba18ed273d3": {
+      "settings": {
+        "mode": "automatic",
+        "planner": null
+      },
+      "acceptedPin": "null"
+    },
+    "halo-acceptance-9e133d23-1109-4149-8f97-4853961bffa0-061957ed-b1f5-4ad9-b31a-33db2642acd3": {
+      "settings": {
+        "mode": "manual",
+        "planner": null
+      }
+    },
+    "halo-acceptance-50bd497e-74d0-4df5-8ee3-58443c352f71-8a3f4643-83ad-4679-9057-2ab299a38d02": {
+      "settings": {
+        "mode": "automatic",
+        "worker": null
+      },
+      "acceptedPin": "null"
+    }
+  }
+}

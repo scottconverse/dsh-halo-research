@@ -52,7 +52,7 @@ for ($attempt = 0; $attempt -le $MaxRestarts; $attempt++) {
     $env:LMSTUDIO_API_KEY = 'x'
     $env:DSH_PERMISSION_MODE = 'danger-full-access'
     Remove-Item Env:DSH_TOOLS_MODE -EA SilentlyContinue
-    Remove-Item Env:DSH_HOME -EA SilentlyContinue
+    $env:DSH_HOME = Join-Path $env:USERPROFILE '.dsh'
     $startedAt = Get-Date
     $process = Start-Process -FilePath $pnpmCmd -ArgumentList $dlxArgs `
         -WorkingDirectory $WorkRoot -WindowStyle Hidden -PassThru `

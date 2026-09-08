@@ -1,0 +1,11 @@
+
+- insert:
+    - id: halo-routing
+      name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-router-production/release-0.3.0/halo-routing/index.mjs
+      config:
+        home: C:/Users/scott/.dsh
+        gateRoot: C:/Users/scott/AppData/Local/HaloGate/runs
+    - id: halo-policy-deterministic
+      name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-router-production/release-0.3.0/halo-policy-deterministic/index.mjs
+    - id: halo-routing-ui
+      name: '@deepseek-ai/dsh-halo-routing-ui'

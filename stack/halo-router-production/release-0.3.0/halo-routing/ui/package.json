@@ -1,0 +1,23 @@
+{
+  "name": "@deepseek-ai/dsh-halo-routing-ui",
+  "private": true,
+  "type": "module",
+  "version": "0.3.0-dev",
+  "main": "host.mjs",
+  "exports": {
+    ".": "./host.mjs",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-api-remotes"
+      ]
+    }
+  },
+  "license": "Apache-2.0"
+}

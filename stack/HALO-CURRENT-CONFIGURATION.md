@@ -1,5 +1,29 @@
 # Halo stack — current installed configuration
 
+## September 8 production promotion — CURRENT
+
+Halo Router 0.3.0 is now installed in production DSH at **http://127.0.0.1:3080**.
+The desktop Halo launcher remains the entry point. It refreshes the unrestricted
+catalog and warms the tuned 35B/Q4_K_M coder pair at 32K, parallel=1. The Router
+button is present both before a conversation and inside conversations. Defaults
+are **Automatic / Local first**, with no planner or worker override. Auto may
+choose the qualified Q4_K_M coder for a root turn; warming the 35B is not a promise
+that Auto selects it. Manual uses the native picker; selecting there cancels Auto
+for that conversation. Unknown routes remain manually available.
+
+The tested DEV qualifications were imported with provenance, not regenerated or
+presented as new production qualifications. Production acceptance passed a local
+Auto turn, a Claude Sonnet Manual turn, and an independent local coding gate.
+The frozen production modules are in `halo-router-production/release-0.3.0`;
+future edits to DEV source do not alter those modules. DSH remains 0.1.1-rc.2.
+The dead required Gateway connection was disabled because it prevented startup;
+the Gateway was not started or rebuilt. No permissions or other providers were
+narrowed. DEV stays separate on 3085. Sessions and credentials were not replaced.
+
+See [production acceptance and rollback](HALO-ROUTER-PRODUCTION-2026-09-08.md).
+**Earlier sections below are dated historical snapshots. Their DEV-only status
+statements are superseded by this production update.**
+
 ## September 8 audit-fix update (DEV only)
 
 The three Router audit defects are repaired: current message modality/context

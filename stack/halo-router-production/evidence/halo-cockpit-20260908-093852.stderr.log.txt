@@ -1,0 +1,43 @@
+Knowledge Graph MCP Server running on stdio
+file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/dsh-app-boot/0.1.1-rc.2/7a046c2d1471d3ffabc21dff15a4b905136a7389626a927aa0e074e7de00c506/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1187
+		throw new Error(`${binName}: ${stage}: ${detail}${stack}`, { cause });
+		      ^
+
+Error: dsh: plugin tree failed to load: failed to apply loader entry include (cordis:include): failed to apply loader entry mcp-halo-research (@deepseek-ai/dsh-mcp-client): mcp-client(halo_research): initial connection or tool synchronization failed
+Error: connect ECONNREFUSED 127.0.0.1:8765
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+    at boot (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/dsh-app-boot/0.1.1-rc.2/7a046c2d1471d3ffabc21dff15a4b905136a7389626a927aa0e074e7de00c506/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1187:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async runProfile (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/dsh/0.1.1-rc.2/99eaecddb727489970c7959f34aea58b809e2a3e8051e9065edba73b520f0696/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:247:14)
+    at async file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/dsh/0.1.1-rc.2/99eaecddb727489970c7959f34aea58b809e2a3e8051e9065edba73b520f0696/node_modules/@deepseek-ai/dsh/lib/bin.js:133:3 {
+  [cause]: Error: failed to apply loader entry include (cordis:include): failed to apply loader entry mcp-halo-research (@deepseek-ai/dsh-mcp-client): mcp-client(halo_research): initial connection or tool synchronization failed
+      at updateError (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:309:9)
+      at Entry._init (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:529:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    [cause]: Error: failed to apply loader entry mcp-halo-research (@deepseek-ai/dsh-mcp-client): mcp-client(halo_research): initial connection or tool synchronization failed
+        at updateError (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:309:9)
+        at Entry._init (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:529:10)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+      [cause]: Error: mcp-client(halo_research): initial connection or tool synchronization failed
+          at Object.apply [as callback] (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/dsh-mcp-client/0.1.1-rc.2/c887f7fcd3b8a2f37cea194184cf03feb451ec4a59df604cf00e72235c6ed4bf/node_modules/@deepseek-ai/dsh-mcp-client/lib/index.js:782:67)
+          at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at async Fiber._reload (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis/4.0.2/c75c6c12069e0b3bbca88db2871a1a3e7e74edb36801736b11e3734607b9fe04/node_modules/@deepseek-ai/cordis/lib/index.js:1355:5)
+          at async Fiber.await (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis/4.0.2/c75c6c12069e0b3bbca88db2871a1a3e7e74edb36801736b11e3734607b9fe04/node_modules/@deepseek-ai/cordis/lib/index.js:1399:24)
+          at async Entry._start (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:538:4)
+          at async Entry._init (file:///C:/Users/scott/AppData/Local/pnpm/store/v11/links/@deepseek-ai/cordis-plugin-loader/1.0.3/2817a26badd1678120e38ab0abca353474edf5a4142e0ce7b1214106dadeab39/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:527:4) {
+        [cause]: [TypeError: fetch failed] {
+          [cause]: Error: connect ECONNREFUSED 127.0.0.1:8765
+              at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16) {
+            errno: -4078,
+            code: 'ECONNREFUSED',
+            syscall: 'connect',
+            address: '127.0.0.1',
+            port: 8765
+          }
+        }
+      }
+    }
+  }
+}
+
+Node.js v25.9.0

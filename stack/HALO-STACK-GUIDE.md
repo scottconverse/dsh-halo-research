@@ -1,5 +1,19 @@
 # The Halo Stack — operator guide
 
+## Current: production Router 0.3.0, September 8
+
+Open **http://127.0.0.1:3080** or use the Halo desktop launcher. Click **Router**
+for Auto/Manual, Local first/Local only, and searchable planner/worker overrides.
+Production defaults are Auto / Local first. To pick the model yourself, use
+Manual or select a model in DSH's normal picker (which cancels Auto for that
+conversation). Catalog membership does not establish account entitlement.
+The tuned pair still warms on a fresh cockpit launch; Auto can select a different
+qualified route. No new qualifications were added in this promotion.
+
+Deployment, evidence, limitations and recovery:
+[production runbook](HALO-ROUTER-PRODUCTION-2026-09-08.md).
+Earlier dated DEV-only descriptions below are historical, not current status.
+
 ## September 8 audit-fix note
 
 Router controls now wait for the current conversation's settings before allowing

@@ -1,15 +1,13 @@
 /* DEV-only Typert bridge for the parent-provided ctx.haloRouting API. */
 import path from 'node:path'
+import { realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 
-// This file is loaded by absolute file URL from the DEV profile patch, so its
-// own directory has no package ancestor. Anchor resolution at the DEV web
-// profile to reuse the exact pinned DSH Typert runtime already installed there.
+// Reuse the running DSH entry's exact Typert module, independent of HOME layout.
 const devHome = process.env.DSH_HOME
 if (!devHome) throw new Error('Halo Router DEV remote requires DSH_HOME')
-const rootRequire = createRequire(path.join(devHome, '..', 'package.json'))
-const devRequire = createRequire(rootRequire.resolve('@deepseek-ai/dsh/package.json'))
+const devRequire = createRequire(realpathSync(path.resolve(process.argv[1])))
 const { Remote, TypertRemoteService } = await import(pathToFileURL(devRequire.resolve('@deepseek-ai/dsh-typert-protocol')))
 
 const __runInitializers = (thisArg, initializers) => {

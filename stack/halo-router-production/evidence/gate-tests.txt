@@ -1,0 +1,27 @@
+✔ opt-in routing resolves before each worker and explicitly applies the selected model (1451.7588ms)
+✔ routing failure falls back to the original explicit worker selection (1425.0844ms)
+✔ local-only refusal prevents the worker instead of bypassing the operator constraint (953.9852ms)
+✔ path policy rejects traversal and recognizes directory boundaries (1.3759ms)
+✔ tree snapshots detect edits, deletions, and additions (15.2988ms)
+✔ process runner preserves stdout and stderr separately (131.8045ms)
+✔ process timeout is fail-closed (97.1812ms)
+✔ honest worker verifies and promotes (1330.0001ms)
+✔ gate-owned scratch files are ignored and never promoted (1404.5374ms)
+✔ protected-test rewrite is caught and never promoted (903.498ms)
+✔ verifier launch crash is a failure, never a pass (1374.1259ms)
+✔ greenfield workspace uses gate-owned acceptance files and promotes only implementation files (1682.635ms)
+✔ greenfield worker cannot rewrite gate-owned acceptance files (1670.8539ms)
+✔ cockpit launcher preserves stdout, stderr, pid, and exit evidence (3.8467ms)
+✔ DSH wrapper preserves native tools and caller policy (danger-full-access, PASS) (1443.953ms)
+✔ DSH wrapper preserves native tools and caller policy (danger-full-access, FAILED) (1753.0239ms)
+✔ DSH wrapper preserves native tools and caller policy (workspace-write, PASS) (1351.6458ms)
+✔ DSH wrapper preserves native tools and caller policy (undefined, PASS) (1342.5334ms)
+✔ planner and worker retain native tools without gate-specific command denials (0.4397ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8828.1002
