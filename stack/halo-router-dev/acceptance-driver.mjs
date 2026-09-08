@@ -69,6 +69,12 @@ export function qualificationResultPayloads(targetIds, { action, completed = fal
   return targetIds.map(sessionId => ({ sessionId, completed: sessionId === completedSessionId }))
 }
 
+export async function applyRoutingSettings(routing, sessionId, settings) {
+  if (settings === undefined) return undefined
+  if (typeof routing?.configure !== 'function') throw new Error('haloRouting.configure is unavailable')
+  return await routing.configure({ sessionId, settings: jsonClone(settings) })
+}
+
 async function atomicJson(file, value) {
   const temporary = `${file}.${process.pid}.${randomUUID()}.tmp`
   await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, { encoding: 'utf8', flag: 'wx' })
@@ -82,7 +88,11 @@ async function validateRequest(input) {
   if (!ACTIONS.has(input.action)) throw new Error(`action must be one of: ${[...ACTIONS].join(', ')}`)
   const timeoutMs = input.timeoutMs ?? DEFAULT_TIMEOUT_MS
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > MAX_TIMEOUT_MS) throw new Error(`timeoutMs must be an integer from 1 through ${MAX_TIMEOUT_MS}`)
+  if (input.routingSettings !== undefined && (!input.routingSettings || typeof input.routingSettings !== 'object' || Array.isArray(input.routingSettings))) {
+    throw new Error('routingSettings must be an object')
+  }
   if (input.action === 'recommend') {
+    if (input.routingSettings !== undefined) throw new Error('routingSettings requires an agent action')
     if (!input.workload || typeof input.workload !== 'object' || Array.isArray(input.workload)) throw new Error('recommend requires a workload object')
     return { ...input, schemaVersion: SCHEMA_VERSION, timeoutMs }
   }
@@ -285,7 +295,7 @@ async function runVerifiedCoder(ctx, parent, request, signal) {
   }
 }
 
-async function routingEvidence(home, sessionIds, signal, { expectQualification = false } = {}) {
+async function routingEvidence(home, sessionIds, signal, { expectQualification = false, expectOutcome = false } = {}) {
   const file = path.join(home, 'halo-routing', 'records.json')
   const wanted = new Set(sessionIds)
   const deadline = Date.now() + ROUTING_SETTLE_MS
@@ -298,7 +308,8 @@ async function routingEvidence(home, sessionIds, signal, { expectQualification =
       matched = records.filter(row => ids.has(row?.observationId))
       const hasTerminal = matched.some(row => row.kind === 'measurement' && row.executionProfileObservation?.phase === 'post-terminal')
       const hasQualification = matched.some(row => row.kind === 'qualification')
-      if (hasTerminal && (!expectQualification || hasQualification)) break
+      const hasOutcome=matched.some(row=>row.kind==='outcome')
+      if (hasTerminal && (!expectQualification || hasQualification) && (!expectOutcome || hasOutcome)) break
     } catch {}
     await sleep(POLL_MS)
   }
@@ -326,6 +337,7 @@ async function executeRequest(ctx, home, raw) {
   let capture
   let qualificationSignals
   let actionResult
+  let routingConfiguration
   const controller = new AbortController()
   let timer
   try {
@@ -346,6 +358,7 @@ async function executeRequest(ctx, home, raw) {
       }
     }
     parent = await createParent(ctx, request, controller.signal)
+    routingConfiguration = await applyRoutingSettings(ctx.haloRouting ?? ctx.get?.('haloRouting'), parent.agent.id, request.routingSettings)
     capture = startTranscriptCapture(ctx, parent)
     qualificationSignals = startQualificationSignals(ctx, parent, request)
     if (request.action === 'root-turn') {
@@ -363,7 +376,7 @@ async function executeRequest(ctx, home, raw) {
 
     const transcripts = capture.snapshot()
     const sessionIds = transcripts.map(item => item.sessionId)
-    const routing = await routingEvidence(home, sessionIds, controller.signal, { expectQualification: Boolean(request.qualification) })
+    const routing = await routingEvidence(home, sessionIds, controller.signal, { expectQualification: Boolean(request.qualification), expectOutcome:request.action==='verified-coder' })
     const verification = verifyText(actionResult.finalText, request.verifier)
     const qualificationRecords = routing.records.filter(row => row.kind === 'qualification')
     const acceptance = qualificationAcceptance(Boolean(request.qualification), qualificationRecords)
@@ -382,6 +395,10 @@ async function executeRequest(ctx, home, raw) {
       terminal: actionResult.terminal,
       ...(actionResult.childSessionId ? { childSessionId: actionResult.childSessionId } : {}),
       ...(actionResult.tool ? { tool: actionResult.tool } : {}),
+      ...(request.routingSettings === undefined ? {} : {
+        routingSettings: jsonClone(request.routingSettings),
+        routingConfiguration: jsonClone(routingConfiguration),
+      }),
       transcripts,
       routing,
       qualificationRecords,
@@ -471,9 +488,10 @@ export async function apply(ctx, config = {}) {
     }
   }
 
-  const interval = setInterval(() => ctx.agents.withoutInitiator(() => pump().catch(error => ctx.logger.error(error))), config.pollMs ?? POLL_MS)
+  const tick=()=>{if(closed||!ctx.get('agents'))return;try{ctx.get('agents').withoutInitiator(()=>pump().catch(error=>ctx.logger.error(error)))}catch(error){if(!closed)ctx.logger.error(error)}}
+  const interval = setInterval(tick, config.pollMs ?? POLL_MS)
   interval.unref()
-  queueMicrotask(() => ctx.agents.withoutInitiator(() => pump().catch(error => ctx.logger.error(error))))
+  queueMicrotask(tick)
   ctx.effect(() => async () => {
     closed = true
     clearInterval(interval)

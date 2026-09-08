@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
 export const stableId=(...parts)=>createHash('sha256').update(JSON.stringify(parts)).digest('hex');
-const labels=['role','requiredTier','requiredContextWindow','requiredCapabilities','taskKind','riskClass','contextClass'];
+const labels=['role','requiredTier','requiredContextWindow','requiredCapabilities','taskKind','riskClass','contextClass','localOnly'];
 export function workloadLabels(input={}){return Object.fromEntries(labels.filter(k=>input[k]!==undefined).map(k=>[k,structuredClone(input[k])]));}
 /** Independent policy registry. Never performs an actual model selection. */
 export function createRouting({ledger,candidates=()=>[],qualifications=()=>[],emit=()=>{},validateOutcome=async()=>false,policyTimeoutMs=150}){
@@ -22,7 +22,7 @@ export function createRouting({ledger,candidates=()=>[],qualifications=()=>[],em
    const policy=policies.values().next().value;if(!policy)return null;
    let timer;
    try{
-    const result=await Promise.race([Promise.resolve().then(()=>policy.recommend({workload:workloadLabels(workload),candidates:structuredClone(candidates(workload)),qualifications:structuredClone(qualifications()),policy:policy.config??{}})),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Policy timeout')),policyTimeoutMs);})]);
+const result=await Promise.race([Promise.resolve().then(()=>policy.recommend({workload:workloadLabels(workload),candidates:structuredClone(candidates(workload).filter(c=>!workload.localOnly||c.locality==='local')),qualifications:structuredClone(qualifications()),policy:policy.config??{}})),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Policy timeout')),policyTimeoutMs);})]);
     return result?{...result,policyId:policy.id,policyVersion:policy.version,policyConfigDigest:stableId(policy.config??{}),authority:'none'}:null;
    }catch{stats.policyErrors++;return null;}finally{clearTimeout(timer);}
   },

@@ -47,7 +47,7 @@ async function main(argv) {
   const requestFile = argv[0]
   if (!requestFile) throw new Error('usage: node acceptance-client.mjs <request.json> [--timeout-ms <milliseconds>]')
   if (requestFile === '--self-test') {
-    const { qualificationAcceptance, qualificationResultPayloads, qualificationStartPayload } = await import('./acceptance-driver.mjs')
+    const { applyRoutingSettings, qualificationAcceptance, qualificationResultPayloads, qualificationStartPayload } = await import('./acceptance-driver.mjs')
     assert.equal(qualificationAcceptance(true, []).status, 'acceptance-failed')
     assert.deepEqual(
       qualificationStartPayload({ sessionId: 'child', role: 'structured_write', prompt: 'fixture', cwd: 'C:\\stage', action: 'verified-coder', verificationCwd: 'C:\\fixture' }),
@@ -64,7 +64,20 @@ async function main(argv) {
         { sessionId: 'retry-worker-2', completed: true },
       ],
     )
-    process.stdout.write('acceptance-client self-test: 4 passed\n')
+    const configureCalls = []
+    const routingStatus = await applyRoutingSettings({
+      async configure(payload) {
+        configureCalls.push(payload)
+        return { settings: payload.settings, sessionId: payload.sessionId }
+      },
+    }, 'acceptance-parent', { mode: 'automatic', worker: 'codex-cli/codex' })
+    assert.deepEqual(configureCalls, [{
+      sessionId: 'acceptance-parent', settings: { mode: 'automatic', worker: 'codex-cli/codex' },
+    }])
+    assert.deepEqual(routingStatus, {
+      settings: { mode: 'automatic', worker: 'codex-cli/codex' }, sessionId: 'acceptance-parent',
+    })
+    process.stdout.write('acceptance-client self-test: 5 passed\n')
     return
   }
   const timeoutIndex = argv.indexOf('--timeout-ms')

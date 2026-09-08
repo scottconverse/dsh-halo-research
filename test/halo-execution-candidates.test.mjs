@@ -14,3 +14,15 @@ test('current runtime and exact observed tool/reasoning profile feed donor ident
  assert.notEqual(changed[0].executionFingerprint,profile.fingerprint);
  assert.equal(executionCandidates([candidate],[],new Map())[0].executionFingerprint,undefined);
 });
+test('an active request projects the exact current tool schema instead of the historical schema',()=>{
+ const candidate={candidateId:'lmstudio/a',provider:'lmstudio',model:'a',executionClass:'lmstudio',contextWindow:32768};
+ const live={contextWindow:32768,parallelSlots:1,quantization:'Q4_K_M'};
+ const historicalTools=[{name:'read',parameters:{type:'object'}}];
+ const currentTools=[{name:'write',parameters:{type:'object',required:['path']}}];
+ const historical=deriveProfile({...candidate,reasoningMode:'off',tools:historicalTools},live);
+ const rows=[{kind:'measurement',sequence:1,executionProfileObservation:{phase:'post-terminal',profile:historical}}];
+ const projected=executionCandidates([candidate],rows,new Map([['a',live]]),{tools:currentTools})[0];
+ const expected=deriveProfile({...candidate,reasoningMode:'off',tools:currentTools},live);
+ assert.equal(projected.executionFingerprint,expected.fingerprint);
+ assert.notEqual(projected.executionFingerprint,historical.fingerprint);
+});

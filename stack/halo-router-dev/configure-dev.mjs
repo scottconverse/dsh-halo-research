@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile, stat } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, stat, symlink, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -27,6 +27,17 @@ const devGateRuns = quotePath(path.resolve(paths.gateRuns));
 const routingPlugin = yamlPath(path.resolve(path.join(devRoot, '..', 'halo-routing', 'index.mjs')));
 const policyPlugin = yamlPath(path.resolve(path.join(devRoot, '..', 'halo-policy-deterministic', 'index.mjs')));
 const workerPlugin = yamlPath(path.resolve(path.join(devRoot, '..', 'halo-verified-coder-dev', 'index.mjs')));
+const uiName='@deepseek-ai/dsh-halo-routing-ui';
+const uiRoot=path.resolve(devRoot,'../halo-routing/ui');
+const uiDependency='link:'+yamlPath(uiRoot);
+function originalDependencies(pkg){const dependencies={...pkg.dependencies};if(dependencies[uiName]!==undefined&&dependencies[uiName]!==uiDependency)throw Error('Unexpected DEV UI dependency');delete dependencies[uiName];return dependencies;}
+async function wireUi(){
+ const link=path.join(devHome,'profiles/web/node_modules',uiName);
+ await mkdir(path.dirname(link),{recursive:true});
+ try{if(path.resolve(await realpath(link))!==uiRoot)throw Error('Existing UI module link points elsewhere');}catch(e){if(e.code!=='ENOENT')throw e;await symlink(uiRoot,link,'junction');}
+ const pkg=JSON.parse(await readFile(profilePackage,'utf8'));
+ if(pkg.dependencies[uiName]!==uiDependency){pkg.dependencies[uiName]=uiDependency;await writeFile(profilePackage,JSON.stringify(pkg,null,2)+'\n');}
+}
 
 async function replaceOnce(file, source, target) {
   const before = await readFile(file, 'utf8');
@@ -60,8 +71,12 @@ async function writeHomePatch() {
     '    - id: halo-policy-deterministic',
     `      name: file:///${policyPlugin}`,
     '',
+    '    - id: halo-routing-ui',
+    `      name: '${uiName}'`,
+    '',
   ].join('\n');
-  await writeFile(homePatch, text);
+  const acceptance = process.argv.includes('--acceptance') ? `\n    - id: halo-router-acceptance\n      name: file:///${yamlPath(path.join(devRoot,'acceptance-driver.mjs'))}\n      config:\n        home: ${yamlPath(devHome)}\n` : '';
+  await writeFile(homePatch, text + acceptance);
 }
 
 async function configure() {
@@ -77,20 +92,25 @@ async function configure() {
   await replaceOnce(webPatch, "MEMORY_FILE_PATH: 'C:\\Users\\scott\\.dsh\\memory\\memory.json'", `MEMORY_FILE_PATH: '${devMemory}/memory.json'`);
   await replaceOnce(webPatch, 'dataRoot: C:/Users/scott/.dsh/native-cli', `dataRoot: ${devNativeCli}`);
   await disableGateway();
+  await wireUi();
   await writeHomePatch();
   await replaceOnce(preset, 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-verified-coder/index.mjs?v=10', `file:///${workerPlugin}`);
   await replaceOnce(preset, "runRoot: 'C:\\Users\\scott\\AppData\\Local\\HaloGate\\runs'", `runRoot: '${devGateRuns}'`);
+  const presetText = await readFile(preset, 'utf8');
+  if (!presetText.includes('        routing: true')) {
+    await writeFile(preset, presetText.replace(`        runRoot: '${devGateRuns}'`, `        routing: true\n        runRoot: '${devGateRuns}'`));
+  }
 
   await writeFile(presetManifest, [
     'name: Halo Router DEV',
-    'description: Disposable Halo Router shadow-observation development profile.',
+    'description: Halo Router DEV — human-controlled automatic planner and worker routing.',
     'order: 1',
     '',
   ].join('\n'));
 
   const devPackage = JSON.parse(await readFile(profilePackage, 'utf8'));
   const productionPackage = JSON.parse(await readFile(productionProfilePackage, 'utf8'));
-  if (JSON.stringify(devPackage.dependencies) !== JSON.stringify(productionPackage.dependencies)) {
+  if (JSON.stringify(originalDependencies(devPackage)) !== JSON.stringify(productionPackage.dependencies)) {
     throw new Error('DEV profile native/custom dependency coordinates differ from production');
   }
   if (JSON.stringify(devPackage.dsh) !== JSON.stringify(productionPackage.dsh)) {
@@ -124,7 +144,7 @@ async function check() {
   if (!manifestText.includes('name: Halo Router DEV')) throw new Error('DEV branding is missing');
   const devPackage = JSON.parse(devText);
   const productionPackage = JSON.parse(productionText);
-  if (JSON.stringify(devPackage.dependencies) !== JSON.stringify(productionPackage.dependencies) || JSON.stringify(devPackage.dsh) !== JSON.stringify(productionPackage.dsh)) {
+  if (JSON.stringify(originalDependencies(devPackage)) !== JSON.stringify(productionPackage.dependencies) || JSON.stringify(devPackage.dsh) !== JSON.stringify(productionPackage.dsh)) {
     throw new Error('DEV package coordinates do not match production');
   }
   console.log(JSON.stringify({ checked: files.length, productionWritablePathsAbsent: true, gatewayDisabled: true, packageCoordinatesMatch: true }));

@@ -18,7 +18,10 @@ function textOf(output) {
 
 export function apply(ctx, config = {}) {
   const provider = config.provider ?? 'spawn'
+  const workerProvider = config.workerProvider ?? 'lmstudio'
   const model = config.model ?? 'halo/qwen3-coder-30b-a3b-q4km'
+  const reasoningEffort = config.reasoningEffort
+  const routingEnabled = config.routing === true
   const runRoot = config.runRoot ?? join(process.env.LOCALAPPDATA ?? process.cwd(), 'HaloGate', 'runs')
   const verifyTimeoutMs = config.verifyTimeoutMs ?? 180_000
 
@@ -128,15 +131,56 @@ export function apply(ctx, config = {}) {
           let run
           try {
             const repair = feedback ? `\n\nPrevious gate failure to repair:\n${feedback}` : ''
+            const originalSelection = {
+              provider: workerProvider,
+              model,
+              ...(reasoningEffort === undefined ? {} : { reasoningEffort }),
+            }
+            const routing = ctx.get?.('haloRouting')
+            let decision = originalSelection
+            if (routingEnabled && typeof routing?.resolve === 'function') {
+              try {
+                const resolved = await routing.resolve({
+                  sessionId: parent.session.id,
+                  executionSessionId: staging.agent.id,
+                  role: 'structured_write',
+                  ...originalSelection,
+                })
+                if (
+                  typeof resolved?.provider === 'string' && resolved.provider.trim() !== ''
+                  && typeof resolved?.model === 'string' && resolved.model.trim() !== ''
+                  && (resolved.reasoningEffort === undefined || typeof resolved.reasoningEffort === 'string')
+                ) decision = resolved
+              } catch (error) {
+                if (error?.code === 'HALO_LOCAL_ONLY') throw error
+              }
+            }
+            const workerSelection = {
+              provider: decision.provider,
+              model: decision.model,
+              ...(decision.reasoningEffort === undefined ? {} : { reasoningEffort: decision.reasoningEffort }),
+            }
             run = await ctx.subagents.start(provider, {
               label: `${args.description} (gate round ${round})`,
               prompt: [{ type: 'text', text: `${args.prompt}\n\nWork only in ${stage}. You may change only: ${args.editable_paths.join(', ')}. Never change protected paths: ${args.protected_paths.join(', ')}. Put all temporary fixtures, generated samples, and test scratch under ${scratch}; for pytest add --basetemp ${join(scratch, 'pytest')}. Do not create any temporary file elsewhere in the repository. Run the named verification command when practical, but do not claim the unit is complete; the mechanical gate decides that.${repair}` }],
               parent: staging.agent,
-              agentOptions: { provider: 'lmstudio', model, maxTokens: 8192 },
+              agentOptions: { ...workerSelection, maxTokens: 8192 },
               persona: workerPersona,
               signal: exec.signal,
             })
-            routingBindings.push({ sessionId: run.id, round })
+            routingBindings.push({
+              sessionId: run.id,
+              round,
+              ...(decision.decisionId === undefined ? {} : {
+                decisionId: decision.decisionId,
+                resolutionSessionId: parent.session.id,
+                executionSessionId: staging.agent.id,
+                reason: decision.reason,
+              }),
+            })
+            if (decision.decisionId !== undefined && typeof routing?.bindWorkerDecision === 'function') {
+              try { await routing.bindWorkerDecision(decision.decisionId, run.id) } catch {}
+            }
             const terminal = await run.result
             if (terminal.stopReason !== 'completed') throw new Error(`worker stop reason: ${terminal.stopReason}; ${terminal.diagnostic ?? ''}`)
             return textOf(terminal.output)

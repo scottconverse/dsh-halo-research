@@ -1,4 +1,4 @@
-import {readFile,writeFile,mkdir,realpath} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,realpath,rename} from 'node:fs/promises';
 import path from 'node:path';
 import {performance} from 'node:perf_hooks';
 import {openLedger} from './ledger.mjs';
@@ -6,6 +6,10 @@ import {createRouting,stableId} from './core.mjs';
 import {deriveProfile} from './profile.mjs';
 import {census,localRuntime,enrichLocal,residentOrigins} from './catalog.mjs';
 import {executionCandidates} from './execution-candidates.mjs';
+import {createControl} from './control.mjs';
+import {originalRoute,applyRoute} from './request-route.mjs';
+import {createWorkerRoutes} from './worker-route.mjs';
+import {toDonorCandidate,currentQualification} from '../halo-policy-deterministic/donor-adapter.mjs';
 import {readNativeQualificationResult} from './native-qualification.mjs';
 import {buildQualificationReceipt,ANALYSIS_FIXTURE,BENCHMARK_FIXTURE,STRUCTURED_WRITE_FIXTURE,verifyStructuredWriteFixture} from './qualification.mjs';
 export const name='dsh-halo-routing';
@@ -21,11 +25,31 @@ export async function apply(ctx,config={}){
  let exportedCount=-1;
  const sessions=new Map();const steps=new Map();const pins=new Map();const attempts=new Map();const latest=new Map();const active=new Map();const qualificationTests=new Map();const qualificationText=new Map();const observedLatency=[];let workChain=Promise.resolve();let exportChain=Promise.resolve();
  for(const row of ledger.values())if(row.kind==='observation'){const key=stableId(row.sessionId,row.turnId,row.step);attempts.set(key,Math.max(attempts.get(key)??0,(row.attempt??0)+1));}
- const routing=createRouting({ledger,candidates:()=>executionCandidates(catalog.candidates,ledger.values(),runtime),qualifications:()=>ledger.values().filter(r=>r.kind==='qualification'),emit:(event,payload)=>{try{ctx.emit(event,payload);}catch{}},validateOutcome:async o=>{
+ const routing=createRouting({ledger,candidates:workload=>executionCandidates(catalog.candidates,ledger.values(),runtime,Object.hasOwn(workload??{},'executionTools')?{tools:workload.executionTools}:{}),qualifications:()=>ledger.values().filter(r=>r.kind==='qualification'),emit:(event,payload)=>{try{ctx.emit(event,payload);}catch{}},validateOutcome:async o=>{
   try{const resolved=await realpath(o.receiptPath);const rel=path.relative(await realpath(gateRoot),resolved);if(rel.startsWith('..')||path.isAbsolute(rel)||path.basename(resolved)!=='verdict.json')return false;
    const bytes=await readFile(resolved);const audit=JSON.parse(bytes);return stableId(bytes.toString('utf8'))===o.receiptId&&audit.rounds?.some(r=>r.round===o.round&&((o.result==='pass'&&r.state==='VERIFIED')||(o.result==='fail'&&r.state!=='VERIFIED')));
   }catch{return false;}
  }});
+ const controlsFile=path.join(output,'controls.json');
+ const currentCandidates=input=>executionCandidates(catalog.candidates,ledger.values(),runtime,Object.hasOwn(input??{},'executionTools')?{tools:input.executionTools}:{});
+ const readPin=async id=>{if(!id)return null;await scanPin(id);return pins.get(id)??null;};
+ const control=await createControl({
+  read:async()=>{try{return JSON.parse(await readFile(controlsFile,'utf8'));}catch(e){if(e.code==='ENOENT')return null;throw e;}},
+  write:async state=>{const temp=controlsFile+'.tmp';await writeFile(temp,JSON.stringify(state,null,2)+'\n');await rename(temp,controlsFile);},
+  candidates:currentCandidates,recommend:routing.api.recommend,readPin,
+  record:row=>ledger.append(row.decisionId,row),recent:ledger.values().filter(r=>r.kind==='route-decision'),
+ });
+ function status({sessionId}={}){
+  const qs=ledger.values().filter(r=>r.kind==='qualification');
+  const candidates=currentCandidates().map(c=>{
+   let qualification={analysis:'unknown',structured_write:'unknown'};
+   if(c.executionFingerprint)for(const role of Object.keys(qualification)){const donor=toDonorCandidate(c,role);if(currentQualification(donor,qs,role)&&(role!=='structured_write'||currentQualification(donor,qs,'benchmark')))qualification[role]='pass';}
+   return {candidateId:c.candidateId,provider:c.provider,model:c.model,label:c.name??c.model,locality:c.locality,catalogState:c.catalogState,qualification};
+  });
+  return {...control.status(sessionId),candidates,policies:routing.api.listPolicies(),updatedAt:new Date().toISOString()};
+ }
+ const workerRoutes=createWorkerRoutes({ledger,resolve:control.resolve});
+ Object.assign(routing.api,{status,configure:async payload=>{await control.configure(payload);return status(payload);},resolve:async input=>{try{return await(input.role==='structured_write'&&input.executionSessionId?workerRoutes.stage(input):control.resolve(input));}catch(error){control.assertAllowed(input);throw error;}},bindWorkerDecision:workerRoutes.bind});
  ctx.provide('haloRouting',routing.api);
  const queue=(work)=>{if(closed||queued>=(config.queueLimit??256)){dropped++;return;}queued++;workChain=workChain.then(()=>new Promise(resolve=>setImmediate(resolve))).then(work).catch(()=>{routing.stats.observerErrors++;}).finally(()=>{queued--;});};
  async function refresh(){
@@ -69,11 +93,27 @@ export async function apply(ctx,config={}){
   qualificationTests.delete(payload.sessionId);qualificationText.delete(payload.sessionId);await exportRecords();
  });},{global:true});
  async function scanPin(sessionId){try{const p=path.join(devHome,'model-selections',stableIdFromString(sessionId)+'.json');const row=JSON.parse(await readFile(p,'utf8'));pins.set(sessionId,row);}catch(e){if(e.code==='ENOENT')pins.set(sessionId,null);}}
+ const assembledTools=new Map();
+ ctx.on('system-prompt/assemble',async(assembly,context,next)=>{
+  const result=await next();
+  if(context.agent?.session?.id)assembledTools.set(context.agent.session.id,result.tools);
+  return result;
+ },{global:true,prepend:true});
  ctx.on('agent/request',async(payload,next)=>{
   // next belongs to DSH. Never catch it or call it twice.
-  const resolved=await next();const start=performance.now();
-  try{const id=payload.agent.session.id;sessions.set(id,payload.agent.session);steps.set(id,{turnId:payload.turn,step:payload.step});queue(()=>scanPin(id));}catch{routing.stats.observerErrors++;}
-  observedLatency.push(performance.now()-start);if(observedLatency.length>1000)observedLatency.shift();return resolved;
+  const resolved=await next();const start=performance.now();let selected=resolved;
+  try{const id=payload.agent.session.id;sessions.set(id,payload.agent.session);steps.set(id,{turnId:payload.turn,step:payload.step});
+   const workerPlan=workerRoutes.lookup(payload.agent.session.header?.parentSession);
+   if(workerPlan){
+    const route=await workerRoutes.dispatch(workerPlan,{workerSessionId:id,executionTools:assembledTools.get(id)});
+    selected=applyRoute(resolved,route);
+   }else if(!payload.agent.session.header?.parentSession&&!qualificationTests.has(id)){
+    const pin=await readPin(id);const original=originalRoute(resolved,pin??payload.agent.options);
+    const route=await control.resolve({sessionId:id,role:'analysis',...original,executionTools:assembledTools.get(id)});
+    selected=applyRoute(resolved,route);
+   }else queue(()=>scanPin(id));
+  }catch(error){if(error.code==='HALO_LOCAL_ONLY')throw error;const plan=workerRoutes.lookup(payload.agent.session.header?.parentSession);control.assertAllowed({sessionId:plan?.input.sessionId??payload.agent.session.id,provider:resolved.provider,model:resolved.model});routing.stats.observerErrors++;}
+  observedLatency.push(performance.now()-start);if(observedLatency.length>1000)observedLatency.shift();return selected;
  },{global:true,prepend:true});
  ctx.on('session/event',(session,event)=>{try{
   sessions.set(session.id,session);if(event.type==='step/start')steps.set(session.id,{turnId:event.data.turn,step:event.data.step});
@@ -129,7 +169,7 @@ export async function apply(ctx,config={}){
    await routing.api.recordOutcome({observationId:observed.observationId,executionFingerprint:observed.outcomeFingerprint,receiptId:stableId(bytes),receiptPath:payload.receiptPath,round:binding.round,role:'worker',verifierVersion:'halo-verified-coder/378d95b',result:round.state==='VERIFIED'?'pass':'fail',timestamp:new Date().toISOString()});
   }await exportRecords();
  });},{global:true});
- function exportRecords(){const task=exportChain.then(async()=>{await ledger.flush();const values=ledger.values();if(values.length!==exportedCount){await writeFile(path.join(output,'records.json'),JSON.stringify(values,null,2)+'\n');exportedCount=values.length;}const sorted=[...observedLatency].sort((a,b)=>a-b);await writeFile(path.join(output,'status.json'),JSON.stringify({updatedAt:new Date().toISOString(),mode:'shadow',authority:'none',records:values.length,policies:routing.api.listPolicies(),queueDropped:dropped,storage:ledger.stats,errors:routing.stats,listenerP95Ms:sorted[Math.floor(sorted.length*.95)]??0,listenerMaxMs:sorted.at(-1)??0},null,2)+'\n');});exportChain=task.catch(()=>{});return task;}
+function exportRecords(){const task=exportChain.then(async()=>{await ledger.flush();const values=ledger.values();if(values.length!==exportedCount){await writeFile(path.join(output,'records.json'),JSON.stringify(values,null,2)+'\n');exportedCount=values.length;}const sorted=[...observedLatency].sort((a,b)=>a-b);await writeFile(path.join(output,'status.json'),JSON.stringify({updatedAt:new Date().toISOString(),mode:control.status().settings.mode,authority:'operator-controlled',records:values.length,policies:routing.api.listPolicies(),queueDropped:dropped,storage:ledger.stats,errors:routing.stats,listenerP95Ms:sorted[Math.floor(sorted.length*.95)]??0,listenerMaxMs:sorted.at(-1)??0},null,2)+'\n');});exportChain=task.catch(()=>{});return task;}
  const exportTimer=setInterval(()=>exportRecords().catch(()=>{}),5000);exportTimer.unref();
  ctx.effect(()=>async()=>{closed=true;clearInterval(refreshTimer);clearInterval(exportTimer);await workChain;await exportRecords();await ledger.close();});
 }
