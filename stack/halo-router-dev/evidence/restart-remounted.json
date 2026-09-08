@@ -1,0 +1,16 @@
+{
+  "stage": "remounted",
+  "at": "2026-09-08T01:35:26.907Z",
+  "observationIds": [
+    "0c421d201a8881397d769616906293d9960e9c33efcf68bf000625a1c18959ba",
+    "14205d7414c784b60fef1e9ed38bfbaa1fad2a3ea04f9359467aa13bda5fdc7c",
+    "374a97b289454fa40d23b364efce40a98249c1f22afb395f16d1ee23f111e558",
+    "a8932b98edc455b934cd170656f43334b917e0d5e78c66cceabb48f491257d45",
+    "d9057046139b2c7974b591a21e1331f6e8cddc7f5cd12a2293efbf13ad416a84",
+    "f07b0463ad696e7f1c7c2d9eb3301168ac44e43e0bb453ae2c2055c5c0efcc80"
+  ],
+  "sessionId": "session-872f6876-77f9-4897-ab9c-d72695dd25db",
+  "historyHasResponse": true,
+  "pickerCount": 2747,
+  "pass": true
+}

@@ -1,0 +1,6 @@
+home/
+node_modules/
+runtime/
+workspaces/
+evidence/private/
+*.log

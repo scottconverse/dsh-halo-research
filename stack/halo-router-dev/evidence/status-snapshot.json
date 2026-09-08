@@ -1,0 +1,26 @@
+{
+  "updatedAt": "2026-09-08T01:40:41.580Z",
+  "mode": "shadow",
+  "authority": "none",
+  "records": 19,
+  "policies": [
+    {
+      "id": "dsh-halo-policy-deterministic",
+      "version": "0.1.0",
+      "authority": "none"
+    }
+  ],
+  "queueDropped": 0,
+  "storage": {
+    "written": 0,
+    "duplicates": 0,
+    "dropped": 0,
+    "errors": 0
+  },
+  "errors": {
+    "policyErrors": 0,
+    "observerErrors": 0
+  },
+  "listenerP95Ms": 0,
+  "listenerMaxMs": 0
+}

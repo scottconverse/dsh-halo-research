@@ -1,0 +1,476 @@
+{
+  "createdAt": "2026-09-08T00:53:09.830Z",
+  "repo": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research",
+  "head": "378d95bc5e15d95424d851da95e6d0ae2ce9fdf7",
+  "initialStatus": "?? DSH-HALO-PLUGIN-REUSE-RESEARCH-2026-09-03.md\n?? stack/HALO-ROUTER-REAUDIT-2026-09-07.md\n?? stack/halo-router-dev/\n",
+  "files": [
+    {
+      "path": "C:\\Users\\scott\\.dsh\\.agent-presets\\halo-orchestrator\\agent.cordis.yml",
+      "sha256": "1b6075ff4f8ff7e87e6324cabf7512558fd180e85e9260459f36f15cde9963f8"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\.agent-presets\\halo-orchestrator\\preset.yml",
+      "sha256": "33115afa070d6397efadc7f187b841a0931778026d2a5a55d2e69ae4d3a8a4c0"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\cordis.patch.yml",
+      "sha256": "78541c3ef17ac46726a4b797e4bd887bb2df9dda5fa749e46fe07de3ed699549"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\cordis.patch.yml.bak-20260825",
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\cordis.yml",
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\package.json",
+      "sha256": "0fd351b68a7b1bd4c1b654d40a57eae4e03e3c187c32fa9ee2aad8764e3e8e72"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\pnpm-lock.yaml",
+      "sha256": "a74e22bf77ccd929868060cddfb847fc4ac06072b170fde6b9bf004b1d84b66f"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\profiles\\web\\pnpm-workspace.yaml",
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba"
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh\\settings.yaml",
+      "sha256": "788778116ef982ab7d85976896ab5ed96c7ff45168355108a19dc3f6e566463d"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3-coder-30b-a3b-q4km\\model.yaml",
+      "sha256": "96c4bacc6e5e63d36846263c6367cd6100f457bce5aa54d81994283fac196264"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3-coder-30b-a3b-q6k\\model.yaml",
+      "sha256": "2147132c6d6bce16d884d33fce55efd228ef41adf720f12e55294ea860180dec"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3-coder-30b-a3b\\manifest.json",
+      "sha256": "8773cae94baf5072cd279e1905c1165bd91897fbc591f3af24806918f5105420"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3-coder-30b-a3b\\model.yaml",
+      "sha256": "fee288929cf0ac7934818e4ad0faecd5c1f522d14d591d19626c79f1f7518b8a"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3.6-35b-a3b\\model.yaml",
+      "sha256": "b3bbd625cd0278aca3ffe8b4d22ceb5511e6cbe4bd2a9f35f957ab209e9a1e8c"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3.8-27b\\manifest.json",
+      "sha256": "269cf42bdc567b48b5bdd71f0a0f204c744dbd12c428bae478ef422631af7aa8"
+    },
+    {
+      "path": "C:\\Users\\scott\\.lmstudio\\hub\\models\\halo\\qwen3.8-27b\\model.yaml",
+      "sha256": "07cc7428e3d3e9e4f68c6e0bc07583cb4f0c344a2423f86f5f6873d258f6dec7"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\Run-HaloCockpit.ps1",
+      "sha256": "0d86336fc42d567e1382a7b25a7fc45609e8ce1973bb511e032b9549136594f0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-orchestrator\\agent.cordis.yml",
+      "sha256": "1b6075ff4f8ff7e87e6324cabf7512558fd180e85e9260459f36f15cde9963f8"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-orchestrator\\preset.yml",
+      "sha256": "33115afa070d6397efadc7f187b841a0931778026d2a5a55d2e69ae4d3a8a4c0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\README.md",
+      "sha256": "05415f66ddea71aca9370a112988b7a9be4591116a3e97fcb3b1d6aa89b71659"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\gate-core.mjs",
+      "sha256": "8447237ce13ba696e9f90cd5823bb152d072723211e20f9c8e0d5c0db94d77f7"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\index.mjs",
+      "sha256": "a1f0e55c2b80214089b4af99a43d77d27cabbc6f1509eb09662e5a846fdf8fdd"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\package.json",
+      "sha256": "d9d114cf30fc341b32c8baec2224957d46f43f483367cd23f7a049db73e3a47c"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\test\\gate-core.test.mjs",
+      "sha256": "1559281c4030f7626b83933c96dafe9e6d8d42eeeabd3d4cbac6b8595100ac2a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\test\\launcher-contract.test.mjs",
+      "sha256": "c7c16356a459aac0b86530d7673bc6b8a776aea6361441a408dea6689e432559"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-verified-coder\\test\\plugin.test.mjs",
+      "sha256": "6c97d5714a4322dc690a65ddd56538e8d14a8f68e2989eb896a20cb851d70437"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\README.md",
+      "sha256": "94d3d52c9720b6048de7be043d42e397dbe5d5520ba943280ae12863d57ddf50"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\Restart-Cockpit.ps1",
+      "sha256": "27e7cf220c6f8e7950d8b8b3bf7b2c229d01a7f51fa39d7086434b363004733c"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\Start-DevProvider.ps1",
+      "sha256": "34235c724e548cd6307f478bc0e2ad13b476eb3269cc093c663faa27af812cec"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\Start-Provider.ps1",
+      "sha256": "c665bbb280a79d7a6fc63b6122a6e2055bf78d86ea6bcb8ef44e9143116c9277"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\Sync-Recovery.ps1",
+      "sha256": "45d4b267a332b1d6d9216e32f599516bc540827c35f8d8753704520fbfc76685"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\accept-production.mjs",
+      "sha256": "8795c7ceb90305c92fdd69e1f4d30dc724cf2d6e8d90e3b7778cbdc2f3f1709c"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\capture-release.mjs",
+      "sha256": "24aa8d83adb3964ecf518923fcab772a5ca0fc4c548644682899e3350de21855"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\capture-tests.mjs",
+      "sha256": "e539c5627ed7d34a01d538e9e987ac9d60a468d4494f0927d033ff93c64e51d2"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\catalog.mjs",
+      "sha256": "7ceba885fba6dfa78846247bfddc8034d6d2221a48792005fdc115d15ddb2de2"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-metrics.mjs",
+      "sha256": "83ad8e7bd2bbadba63c5173f1bb638e951ad94e177968de24758bd7904f4e4aa"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-metrics.test.mjs",
+      "sha256": "bba8af2b6ef4a3fb6b9835c1494a1bd5d0ec347c2589a17ab42db69ed1a7d00a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-provider.mjs",
+      "sha256": "42bc20aef8f79b440b55d69296871d18932c43e14d5d16dd5f392ac419ee9c27"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-provider.test.mjs",
+      "sha256": "be97e7e4156b8c12295cbdf4e073e267fcace71287520496a5424f1ff520076d"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-runtime.mjs",
+      "sha256": "5224bdf2f8edab6b40a3771069e605feb9f4e93071a9b9104c49e35b34313138"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\cli-runtime.test.mjs",
+      "sha256": "f749b3c48e00f7222a6db5df3bf8169e28997061d2e0a4c0bfd5c9d3548f7d15"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\config-build.mjs",
+      "sha256": "09c04b6e6b5baf18fe1464be46ff67fd1b9a30209d4cc413d0d62f280664981a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\configure-production.mjs",
+      "sha256": "37257df6f1dec8942aca29bf87b3ba80623f256e861aada3251f1a22351e18aa"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\configure-provider.mjs",
+      "sha256": "07457036900b7e21b55d2b84639276b044d7abe68aaa3f2cc4e9abec4ff78db4"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\build-evidence.json",
+      "sha256": "ff3a2d176c2ae1a1402a4ad7783414b4e2ad89fe3e3a0c5a4e3ea6cb0590ed0b"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\build.mjs",
+      "sha256": "903caa6cc18256de69ca20cda8c3fc06157e03643d187115f3750a4e42568f11"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\deepseek-ai-dsh-client-ui-conversation-0.1.1-rc.2-halo-native-metrics.1.tgz",
+      "sha256": "f213b2f2cac932a82bc0b445e7adad3ea6a6b642dd1d7158b985a4cf5c8b9d95"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\deepseek-ai-dsh-client-ui-conversation-0.1.1-rc.2-halo-native-metrics.2.tgz",
+      "sha256": "2a69e28595995e6b252a1b3606ea9a15f0d52b43cb67992668d192139c4d5ec4"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\patch.mjs",
+      "sha256": "b63eb037d25473f79207f7f3d0ef6ecbefc4042db4271718a4bdbebc83e0bba9"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\conversation-metrics\\patch.test.mjs",
+      "sha256": "8786d8f506a33c89fc7641f0ff1e4be20b348637aa7771e008b33191c1a789eb"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\dsh-tools\\package.json",
+      "sha256": "15694a232fe7a31ddb6bb1bf6964e434b70beba360727a387ed42d0a73ad0b71"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\dsh-tools\\pnpm-lock.yaml",
+      "sha256": "29cdb37d954c46c02f94a50ef7cefc0d2e9246046b29329ea2a836ea02c0e41f"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\enrich-catalog.mjs",
+      "sha256": "287dcc87a6720515e03ecae46570ee644d6de6ea3d6275b8c8777d47f08cf5c0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\canonical-acceptance.json",
+      "sha256": "22f50dbe3992001a551ec07710a9e50d29455f8bbaea5cc2994421b5a77d338f"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\canonical-acceptance.txt",
+      "sha256": "500030bd3d3d1fd2f5dd28f68f641fddb0e5e4826139ac267259de68f2c33067"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\delivery.json",
+      "sha256": "85a198cbc0bf4c6a2b131c32c919d21ae3c874c6df506f62f50ec8ef3869f595"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\development-acceptance.json",
+      "sha256": "a1be424862f683d8eeca182400993dec4b8df63b7283d8f5e1353efb24378f41"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\development-acceptance.txt",
+      "sha256": "2f0db0f23f0dc7b1d0cafde47e08e8e14fd2a2f9045c527aaedbf98aaf735e5b"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\production-acceptance.json",
+      "sha256": "b8c874e1dc3d47313bf9774c69cdfe127a3dad67c2a9eb2cb3286fb961a5d1d5"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\recovery-check.json",
+      "sha256": "40724b52aeea610519a581a2b61e27378ccdb1619f14c405058414844a6ebeec"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\evidence\\release-state.json",
+      "sha256": "3de5b242cd027c969fcd4ecad9bd72d3935f85f61a15ca097ce974bce14219e3"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\native-continuity.mjs",
+      "sha256": "59df00fab730cae780ff5690951b111824003362ea0977a3e482698ec462b7c7"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\native-continuity.test.mjs",
+      "sha256": "73a28cb146362abc20101119abfd30345197247f6171b98f24740596550a1d45"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\README.md",
+      "sha256": "fdf3913cf47b2b10018b413db7a275a040de012ad651e804b20bf2310868941a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\build.mjs",
+      "sha256": "8a20624529e0d16f1e1b5a42b045999e19c73e7ed317ac13926ff237aa5058d2"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\capture-test.mjs",
+      "sha256": "b0819653970f8065c9d34a13a14a0ed15faa9f75e66eae52d95f58c4d78e7440"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\component-harness.mjs",
+      "sha256": "5ae86b066753e239f45208203600ff5b76ecba9e797813c698e62314b9cbecd2"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\component.test.mjs",
+      "sha256": "d3059e21c4f62060bbff2125034667815e97d6f643008e6f359accc43f8de952"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.1.tgz",
+      "sha256": "281dd69999d7eb24be1e775de538b9586dddf6ff95265919434fcab46aa39e1b"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.2.tgz",
+      "sha256": "869637fa19d8a989cdb5fe72ac62d142882a5986d8f504c316915096e035b177"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.3.tgz",
+      "sha256": "e5b29c41d057bc0dcc299c036251b5fc1ee912971de0516c8acf06721cab12fc"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2-halo-dev-search.4.tgz",
+      "sha256": "a2718b807d37b00ae1b2c0c4e56463f214e9b44c47eaa801deda700404b7caf7"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\default-directory.test.mjs",
+      "sha256": "b9a7776cd3bb74b17609507b06e4b4a642ced2bd2ebaa334177bd6230f07cbe5"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\evidence\\clipping-red.txt",
+      "sha256": "98ad7110d809c4225cb97f9918e960b8de22bdc99e4fda04eef58cc35f05c498"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\evidence\\green.txt",
+      "sha256": "e570779998b48657cb6617dd0524db56e5f8bd825b925d3a18949faade5cb647"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\evidence\\opening-green.txt",
+      "sha256": "ebdc4629472c761f19588ba69c8092c0331fc352aa8874b77e7eb99ab2c7b4ab"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\evidence\\opening-red.txt",
+      "sha256": "7038268ea724654cd7262a896063c4dc4ca7d9e46b527e3e51898e274c3fda71"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\evidence\\red.txt",
+      "sha256": "9c42c28ffa78b3d5b8f54421522079cb8c1be47b45e7384cfd0b000bf89e68f0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\filter-models.test.mjs",
+      "sha256": "02cae6a4883a5c607cb03e0fe2f89d70fd0695a8dfd91c31bd761069b6be187e"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package.json",
+      "sha256": "ea975952e9964dbd4d89390488b42291e9cf709957ea16f3f2df48193ffaea14"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\LICENSE",
+      "sha256": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\client.js",
+      "sha256": "48288c4daf504c54cca3438b538b31d4e46aaab03533d24ae5453c7b7dc46b01"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\index.js",
+      "sha256": "6879ba2c29e67b2ad0e0caf8feeee9c62364d871f7664e10efa7f14b4e216eb0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\invariant.js",
+      "sha256": "f3e07c900344fd01ffe798da2e98fbd55381f2e4bd0fe7467d00cf81a3caff78"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\ModelSelect.d.ts",
+      "sha256": "1345163b7b926524a626d2125f13d59dadba2f49fa205cc32875d6352c82ea01"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\directory.d.ts",
+      "sha256": "cec50942031c619264bd53864858fe1fc734a4d222d6a9f3cfe05cc101cd19b7"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\index.d.ts",
+      "sha256": "5979af55ba91efffbf48522bba3b1f9569102e6b12a259eb3ca8b5c2fd886621"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\locales.d.ts",
+      "sha256": "3d7a680814ce4a04211b200f2cc03994663c51a481a0f633093c6cdf5c44f448"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\service.d.ts",
+      "sha256": "ccf592cf4c534f024dc88362b3420ef632efc1b8f1517983f9699494ef1d5702"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\client\\slots.d.ts",
+      "sha256": "7751c27c0d6eb2dfe9cd405cfda44db5420a4c74a3c11b8317af52f769223bfa"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\index.d.ts",
+      "sha256": "626f7ac97f39ab76a361db8495a1e36f2e44442bfee1e63474f23f3e7052e1a6"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\lib\\types\\invariant.d.ts",
+      "sha256": "3cd954eddad50afe531dfdf62db66f3c7f8ca2ce3fadb4bfd21792b8bcfce149"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\package\\package.json",
+      "sha256": "680190a7ad98ede483caa0c0a8adf0fa3972edc00ae3ab77aab984e136b96c0e"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\ModelSelect.module.css",
+      "sha256": "6f40c538dedc5583fef580dec618db633bf42f3e053c0f9384a349c90af28fc9"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\ModelSelect.tsx",
+      "sha256": "e0abf02fea50912aa7e471d3cd556c770c29760a1768cf3640f1407d59b9624c"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\NativeMetrics.tsx",
+      "sha256": "fbae1710db0067f13efc2a5d72729afc12fbac292656f5d0e5f9a8134fd7a78a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\OpeningModelSelect.tsx",
+      "sha256": "b720c2a475abc55a339ed5fc8d409180b471f6408a2812bc205394600434c6a0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\default-directory.mjs",
+      "sha256": "b934c5dbbc0c6bd424e1a983bfd3687a42d831eb055249071b333836964c80a5"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\directory.ts",
+      "sha256": "dfaf003099e536bd6863972850270e798ba80fd794d376776b78a8047ef2ef51"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\filter-models.mjs",
+      "sha256": "040f070891b2ac677097b17e1b99d11d055218db59c164e004eb6f034986fb15"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\index.ts",
+      "sha256": "21d9741f8ee53fe47caac923d30fbef20f492f171311a9722d468c8d3b56a62b"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\locales.ts",
+      "sha256": "8e77f1f2689a05e0f7d865af5b039753f31a4a9a31abbf75765eb93fc0a22925"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\service.ts",
+      "sha256": "e80fd1e06ef0753360294373b69ef71024f800cc1b242da7590c11c8980fb880"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\source\\client\\slots.ts",
+      "sha256": "c9412303392b05f405596d16fd40595289aab0247c44f85eb31f12ce7b7352e8"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\tests-upstream\\browser-plugin.client.spec.ts",
+      "sha256": "f7ca40310ea4c92ac7e5448def5a589d16b42be59ca3abaa34ff5096d6ff769e"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\picker\\tests-upstream\\model-select.client.spec.tsx",
+      "sha256": "74044f58e3bf03d0dd0b9713fd31ef853c33d873192a8f5fb403900771a01c59"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\prepare-production.mjs",
+      "sha256": "b1a7d9d317bc3e353eb907df9aef2d9f26ef1446020a4b4f76c639381808a89f"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\reconcile-catalog-labels.mjs",
+      "sha256": "e9d2e0f6bb3ceb016d1c298a26f63c9ecd57a03a5372b78fb52ab9ed3e3f3683"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\build.mjs",
+      "sha256": "49fcd6e4ca89461af44ee18c06a2c993a4a5cafb606d9a55fb353dd4be890e7a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\deepseek-ai-dsh-host-apiproxy-0.1.1-rc.2-halo-selection.1.tgz",
+      "sha256": "36371b89a711abf2b153c5047c82f9b580d16bdc9467eb127460c67623e42ace"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\deepseek-ai-dsh-host-apiproxy-0.1.1-rc.2-halo-selection.2.tgz",
+      "sha256": "6bfe695975d2a2c643023db9c3339c87cbf60b9fbf7996f1a0176ed8e4a43ed5"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\deepseek-ai-dsh-host-apiproxy-0.1.1-rc.2-halo-selection.3.tgz",
+      "sha256": "d898033bb8425b041cce6c623a11f476fd10525eaaf0a7831a46b572ee3fc5ba"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\patch.mjs",
+      "sha256": "484198ab23e2658929f9d155f009e16e681da0ac59d735466200a6327dd358d0"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\store.mjs",
+      "sha256": "ffe044ddf6e7a0304ba02d8402863fd3d8d6edd609614bbc225bb3ea5637ef91"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\session-selection\\store.test.mjs",
+      "sha256": "53d4566669f3af1e8e1ecf434cfb4209d8160fd501b06de496a58bbf533bebd8"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\tools\\package-lock.json",
+      "sha256": "249ba59d5d70243f223f8600cdcbf8638203583517c3cc0a47d2cb50d4c89c1a"
+    },
+    {
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\provider-integration\\tools\\package.json",
+      "sha256": "42b2d4cfdd44307e1e3efc7ee1fbe0066f5aee5650bc1abb262936b153a41677"
+    }
+  ]
+}

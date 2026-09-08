@@ -1,0 +1,45 @@
+✔ recommends a capable local candidate without route authority (1.2906ms)
+✔ prefers local execution independently of billing and input order (6.3768ms)
+✔ keeps unknown qualification, tier, context, availability, and entitlement non-gating in shadow (0.198ms)
+✔ treats registered catalog membership as unknown entitlement (0.0968ms)
+✔ accepts subscription billing as distinct from local and marginal paid cost (0.1088ms)
+✔ rejects only proven constraint failures and returns reasons for every candidate (0.2314ms)
+✔ uses tightest known tier fit before unknown tier, then candidateId (0.1025ms)
+✔ does not mutate inputs or echo prompt content and rejects duplicate identities (0.3819ms)
+✔ registers one authority-free policy through haloRouting (0.3938ms)
+✔ census preserves registered routes and resolves exact context, modalities, and reasoning metadata (2.8948ms)
+✔ local enrichment records an exact singleton instance without turning catalog facts into active config (0.246ms)
+✔ unresolved metadata remains unknown and a failed provider catalog remains visible (0.4537ms)
+✔ native subagent provider discovery uses list and getProvider without inventing a model catalog (0.4475ms)
+✔ cold and multi-instance aliases are classified without selecting an arbitrary runtime configuration (0.1657ms)
+✔ local runtime fetches only the catalog endpoint with a bounded signal (0.3207ms)
+✔ resident origins use only lms ps deviceIdentifier and preserve no provider-wide locality claim (0.3342ms)
+✔ a slow catalog lookup is bounded and leaves the provider route observable (26.0302ms)
+✔ availability changes only when adapter metadata explicitly supplies a boolean (0.3801ms)
+✔ keeps the full picker universe while marking only exact OmniRoute generated connect-account labels catalog-only (0.2686ms)
+✔ policy accepts the census candidate contract with availability explicitly unknown (0.6228ms)
+✔ no policy, disposed policy and broken policy all defer; no routing authority (1.1034ms)
+✔ a pending policy is time bounded and cannot receive prompt contents (36.1585ms)
+✔ outcomes require measured profile and independently validated exact binding (0.5845ms)
+✔ verifier crash is not a pass (0.1619ms)
+✔ recommendation and measurement dedup leave immutable observation (1.1155ms)
+✔ derives an execution profile from observed local runtime data (1.4142ms)
+✔ fingerprint is stable under shuffled schema/load-config keys and tool order (5.6192ms)
+✔ every shipped execution identity field mutates the fingerprint (1.2228ms)
+✔ volatile residency and performance values do not alter the fingerprint (0.2238ms)
+✔ cloud identities remain distinct while context metadata remains declared rather than runtime actual (0.1533ms)
+✔ requested local alias settings never overwrite observed runtime fields or its fingerprint (0.1487ms)
+✔ declared local context never becomes a loaded-instance observation (0.1042ms)
+✔ reasoning provider-default and explicit off are different execution identities (0.1129ms)
+✔ unverified runtime selection is never treated as an instance identity (0.2274ms)
+✔ only instance-verified runtime values enter identity (0.1745ms)
+✔ tool arguments and prompts are omitted while schema changes alter only the digest (0.2138ms)
+✔ local profile fields distinguish missing from explicit unknown (0.13ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 189.438

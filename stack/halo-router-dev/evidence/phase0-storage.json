@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-08T01:06:57.966Z",
+  "storage": "published DSH JsonStorageBackend",
+  "duplicateAppends": 20,
+  "durableWrites": 1,
+  "reopenPreserved": true,
+  "monotonicSequence": true,
+  "hostProjectionState": 1,
+  "projectionWritesSession": false,
+  "hostProjectionAbsentFromClientSnapshot": true,
+  "decision": "Use plugin KV for independent durable observations. No session projection needed in 0.1.0."
+}

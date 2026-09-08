@@ -1,5 +1,25 @@
 # Halo stack — current installed configuration
 
+## September 7, 2026 — separate Halo Router DEV (not production promotion)
+
+The shadow-only Router 0.1.0 experiment runs at **http://127.0.0.1:3085**,
+with the **Halo Router DEV** preset and its own DSH home under
+`stack\halo-router-dev\home`. Production runtime/configuration remains unchanged;
+its observed listener today is `127.0.0.1:3000`. The `3080` addresses below
+belong to earlier dated deployments, not this DEV instance.
+
+The full picker remains available. DEV's fresh-session default is the existing
+`lmstudio / halo/qwen3.6-35b-a3b`; the router never selects or loads a model.
+No production aliases, access settings, services or credentials were changed.
+DEV shares the existing LM Studio/OmniRoute endpoints and native signed-in
+accounts, but stores sessions, native conversation state and gate runs separately.
+
+Two native plugins observe and recommend with `authority: none`. The Gateway is
+excluded from DEV. Local, Claude and Codex transport checks passed; automatic
+routing and organic worker qualification are **not** established. Instructions:
+[DEV runbook](halo-router-dev/README.md). Full evidence and limits:
+[September 7 implementation](HALO-DSH-IMPLEMENTATION-2026-09-07.md).
+
 ## Current provider promotion — September 2, 2026
 
 Production at **http://127.0.0.1:3080** now includes the development-tested

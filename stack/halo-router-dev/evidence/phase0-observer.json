@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-08T01:33:03.714Z",
+  "finalModelUnchanged": true,
+  "sameStreamObject": true,
+  "nextCalls": 1,
+  "pinObserved": true,
+  "promptAndOutputOmitted": true,
+  "usageObserved": true,
+  "sessionUntouched": true,
+  "listenerMaxMs": 0.05220000000002756,
+  "recordKinds": [
+    "observation",
+    "measurement"
+  ]
+}

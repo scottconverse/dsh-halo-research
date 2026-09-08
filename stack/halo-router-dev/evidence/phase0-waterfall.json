@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-08T00:57:35.160Z",
+  "dsh": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\node_modules\\.pnpm\\@deepseek-ai+dsh-agent@0.1._7f19a14c64a0e819dcb19c33a25e3d9b\\node_modules\\@deepseek-ai\\dsh-agent\\lib\\index.js",
+  "cordis": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\node_modules\\.pnpm\\@deepseek-ai+cordis@4.0.2_@_4abe98197ded15ace7cf291156f5191a\\node_modules\\@deepseek-ai\\cordis\\lib\\index.js",
+  "records": [
+    {
+      "pin": false,
+      "observerFirst": false,
+      "observed": "default",
+      "actual": "default",
+      "delegated": 1
+    },
+    {
+      "pin": false,
+      "observerFirst": true,
+      "observed": "default",
+      "actual": "default",
+      "delegated": 1
+    },
+    {
+      "pin": true,
+      "observerFirst": false,
+      "observed": "default",
+      "actual": "explicit",
+      "delegated": 1
+    },
+    {
+      "pin": true,
+      "observerFirst": true,
+      "observed": "explicit",
+      "actual": "explicit",
+      "delegated": 1
+    }
+  ],
+  "downstreamCalledOnce": true,
+  "observerFailureIsolated": true,
+  "downstreamFailurePreserved": true
+}

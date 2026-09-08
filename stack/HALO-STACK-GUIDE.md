@@ -1,5 +1,18 @@
 # The Halo Stack — operator guide
 
+## September 7: optional Router DEV experiment
+
+Use **http://127.0.0.1:3085**, preset **Halo Router DEV**, for shadow routing
+observations. This is separate from production; it does not switch your models.
+Choose models normally. DEV has full access, not a filesystem sandbox, so use a
+development worktree for experimental coding. Its own session/receipt records
+are separate, while existing model services and signed-in accounts are shared.
+
+Start/stop scripts and record-reading instructions are in
+[the Router DEV runbook](halo-router-dev/README.md). Production is not promoted.
+The Research Gateway is excluded from this DEV experiment; historical Gateway
+sections below are not a claim that the Router depends on it or repairs it.
+
 ## September 3: verified long-form research in DSH
 
 Halo Orchestrator now preserves an authoritative ledger of successful Halo

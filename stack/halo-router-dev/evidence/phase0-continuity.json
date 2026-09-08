@@ -1,0 +1,29 @@
+{
+  "pass": true,
+  "at": "2026-09-08T01:33:03.829Z",
+  "sessionPackage": "@deepseek-ai/dsh-session@0.1.1-rc.2",
+  "persistencePackage": "@deepseek-ai/dsh-session-persistence@0.1.1-rc.2",
+  "persistenceMode": "DEV JSON artifact + published Session.fromRestore/SessionStore.prepare seam",
+  "modelGeneration": false,
+  "observationDoesNotAppend": true,
+  "initialEvents": 13,
+  "surfaceBeforeCompaction": [
+    3,
+    4
+  ],
+  "surfaceAfterCompaction": [
+    11
+  ],
+  "replayEventCount": 14,
+  "replaySurface": [
+    11
+  ],
+  "observerMounts": [
+    7,
+    1,
+    4
+  ],
+  "remountNoDuplicateDelivery": true,
+  "modelConfigUnchanged": true,
+  "artifact": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\home\\evidence\\phase0-continuity-session.json"
+}
