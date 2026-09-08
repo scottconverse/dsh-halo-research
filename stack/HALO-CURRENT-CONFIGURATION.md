@@ -1,31 +1,64 @@
 # Halo stack — current installed configuration
 
-## September 7 late update — direct donor reuse in DEV 0.2.0
+## September 8 update — active human Router DEV 0.3.0
 
-The same separate port 3085 DEV now uses the actual pinned DevHarmonics selector,
-original qualification checks and Codex Factory lineage tests. Exact role and
-benchmark receipts gate shadow recommendations; they do not gate the operator's
-picker or change production. Codex is executing the acceptance tests. Source,
-failures and final evidence: [direct reuse record](HALO-ROUTER-DIRECT-REUSE-2026-09-07.md).
-Earlier 0.1.0 statements below describe the superseded development policy.
+The separate **Halo Router DEV** at **http://127.0.0.1:3085** now has a native
+Router button on the opening screen and in conversations. Manual is the default
+and preserves DSH's native model picker and existing verified-coder worker. A
+human can enable per-conversation Auto, select Local first or Local only, and set
+searchable planner/worker overrides across the 2,747 discoverable routes. Those
+routes are catalog entries, not proof that an account is connected or entitled.
 
-## September 7, 2026 — separate Halo Router DEV (not production promotion)
+Auto uses the pinned DevHarmonics policy and exact current qualification. The
+current exact-qualified set is the local Q4_K_M worker, Claude Sonnet, and Codex
+`gpt-5.6-sol`; other routes remain manually selectable and unknown until proven.
+Planner routing binds the current assembled tools, and worker selection is
+deferred until the actual child and its tool schema exist. Changing DSH's native
+picker cancels Auto for that conversation. Local first/Local only describe the
+model/network route, not permission to use web or network tools.
 
-The shadow-only Router 0.1.0 experiment runs at **http://127.0.0.1:3085**,
-with the **Halo Router DEV** preset and its own DSH home under
+Live bounded evidence covers Root Auto to local, Root Manual preservation, a
+Codex planner override, an actual local gated child PASS, and an actual Codex
+gated child PASS in 42.3 seconds. The first local qualification script read the
+observer export before its settle point and produced a preserved false failure;
+the settle check was corrected, so that first script must not be described as an
+all-green receipt run.
+
+The Router does not manage model residency or processes and adds no adaptive
+scoring, automatic retry, or new failover mechanism. Its host service, UI link,
+records, and controls are installed only in the separate DEV profile by
+`halo-router-dev\configure-dev.mjs`. Production packages, configuration, picker,
+sessions, services, models, and accounts remain unchanged. Operation and recovery:
+[DEV runbook](halo-router-dev/README.md). Direct donor source and qualification
+evidence: [direct reuse record](HALO-ROUTER-DIRECT-REUSE-2026-09-07.md).
+
+## September 7 late update — direct donor reuse in DEV 0.2.0 (superseded status)
+
+The same separate port 3085 DEV introduced the actual pinned DevHarmonics
+selector, original qualification checks, and Codex Factory lineage tests. Its
+shadow-only operating status was superseded by the human-controlled 0.3.0 update
+above; its source and evidence remain valid historical inputs.
+
+## September 7, 2026 — initial shadow Router DEV (historical)
+
+The shadow-only Router 0.1.0 experiment was first deployed at
+**http://127.0.0.1:3085**, with the **Halo Router DEV** preset and its own DSH home under
 `stack\halo-router-dev\home`. Production runtime/configuration remains unchanged;
 its observed listener today is `127.0.0.1:3000`. The `3080` addresses below
 belong to earlier dated deployments, not this DEV instance.
 
-The full picker remains available. DEV's fresh-session default is the existing
-`lmstudio / halo/qwen3.6-35b-a3b`; the router never selects or loads a model.
+The full picker remained available. At that stage DEV's fresh-session default was
+the existing `lmstudio / halo/qwen3.6-35b-a3b`; Router 0.1.0 never selected or
+loaded a model. Router 0.3.0 can now select a route only after a human enables
+Auto, as documented above, and still never loads a model.
 No production aliases, access settings, services or credentials were changed.
 DEV shares the existing LM Studio/OmniRoute endpoints and native signed-in
 accounts, but stores sessions, native conversation state and gate runs separately.
 
-Two native plugins observe and recommend with `authority: none`. The Gateway is
-excluded from DEV. Local, Claude and Codex transport checks passed; automatic
-routing and organic worker qualification are **not** established. Instructions:
+At that stage two native plugins observed and recommended with `authority: none`.
+The Gateway was excluded from DEV. Local, Claude and Codex transport checks
+passed, while automatic routing and organic worker qualification had not yet been
+established. The current active evidence boundary is recorded above. Instructions:
 [DEV runbook](halo-router-dev/README.md). Full evidence and limits:
 [September 7 implementation](HALO-DSH-IMPLEMENTATION-2026-09-07.md).
 

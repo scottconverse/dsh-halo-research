@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-09-08T05:10:20.952Z",
+  "capturedAt": "2026-09-08T06:19:36.838Z",
   "providers": [
     {
       "id": "deepseek-official",
@@ -517,7 +517,7 @@
       },
       "qualificationState": "unknown",
       "localitySource": "lms ps --json/deviceIdentifier",
-      "localityObservedAt": "2026-09-08T05:10:21.277Z"
+      "localityObservedAt": "2026-09-08T06:19:37.186Z"
     },
     {
       "candidateId": "lmstudio/halo/qwen3-coder-30b-a3b-q6k",

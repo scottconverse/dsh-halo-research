@@ -1,25 +1,53 @@
 # The Halo Stack — operator guide
 
-## September 7 late update: Router DEV 0.2.0
+## September 8: active human Router DEV 0.3.0
 
-The port 3085 experiment now reuses DevHarmonics' actual selector and original
-qualification checks, with Factory lineage tests. It remains shadow-only and
-does not alter your chosen models or production. Codex owns and runs its tests;
-ordinary operator use is not a substitute for acceptance testing. See the
+Use **http://127.0.0.1:3085** with the **Halo Router DEV** preset. The **Router**
+button appears on the opening screen and in an open conversation.
+
+- Leave **Manual** selected to keep DSH's native model picker and the existing
+  verified-coder worker unchanged. Manual is the default.
+- Choose **Auto** to allow the pinned, deterministic donor policy to apply an
+  exact-qualified planner or worker route for that conversation. A later native
+  picker change cancels Auto; the picker remains the human authority.
+- **Local first** prefers an eligible local model. **Local only** refuses a
+  remote model route. These settings control the provider/model network route;
+  they do not disable web research, network tools, native tools, or permissions.
+- Planner and worker overrides are Auto-only and searchable across all 2,747
+  discoverable routes. A route is not an account: catalog presence does not prove
+  credentials, entitlement, availability, or qualification.
+
+Only three models currently have the exact analysis, benchmark, and
+structured-write evidence needed for automatic donor selection: the local
+Q4_K_M worker, Claude Sonnet, and Codex `gpt-5.6-sol`. All other routes remain
+available through Manual or an explicit human override and display as unknown or
+not currently qualified.
+
+The resolver binds the current assembled DSH tools before a planner dispatch.
+For verified coding it waits for the real child and its assembled tools before
+applying the worker route. The bounded live checks passed Root Auto to local,
+Root Manual preservation, a Codex planner override, a local gated child, and a
+Codex gated child in 42.3 seconds. A first local qualification script produced a
+preserved false failure by reading the observer export before its settle point;
+the settle check was corrected, so that first script is not an all-green receipt.
+
+Router DEV does not load/unload models, manage residency, change accounts, learn
+adaptive scores, retry failed providers, or add another failover system. Its
+native UI is a DEV-profile linked package installed by `configure-dev.mjs`; no
+production package or configuration loads it. DEV still has full access, not a
+filesystem sandbox, so use a development worktree for experimental coding. Its
+session/receipt/control records are separate, while existing model services and
+signed-in accounts are shared.
+
+Start/stop, record-reading, rollback, module-identity repair, and reconstruction
+instructions are in [the Router DEV runbook](halo-router-dev/README.md).
+Production is unchanged. The Research Gateway is excluded from this DEV feature;
+historical Gateway sections below do not mean the Router depends on or repairs it.
+
+The September 7 shadow-only 0.1.0/0.2.0 status is superseded. Its pinned donor
+source, qualification receipts, failures, and lineage tests remain historical
+evidence in the
 [direct reuse and acceptance report](HALO-ROUTER-DIRECT-REUSE-2026-09-07.md).
-
-## September 7: optional Router DEV experiment
-
-Use **http://127.0.0.1:3085**, preset **Halo Router DEV**, for shadow routing
-observations. This is separate from production; it does not switch your models.
-Choose models normally. DEV has full access, not a filesystem sandbox, so use a
-development worktree for experimental coding. Its own session/receipt records
-are separate, while existing model services and signed-in accounts are shared.
-
-Start/stop scripts and record-reading instructions are in
-[the Router DEV runbook](halo-router-dev/README.md). Production is not promoted.
-The Research Gateway is excluded from this DEV experiment; historical Gateway
-sections below are not a claim that the Router depends on it or repairs it.
 
 ## September 3: verified long-form research in DSH
 
