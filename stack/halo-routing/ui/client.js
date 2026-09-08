@@ -51,10 +51,10 @@ window.__ModuleLoader__.load({
       if (!value.settings || typeof value.settings !== "object" || Array.isArray(value.settings)) {
         throw new TypeError("settings must be an object");
       }
-      if (! ["automatic", "manual"].includes(value.settings.mode)) {
+      if (value.settings.mode !== undefined && ! ["automatic", "manual"].includes(value.settings.mode)) {
         throw new TypeError("settings.mode is invalid");
       }
-      if (! ["local-first", "local-only"].includes(value.settings.scope)) {
+      if (value.settings.scope !== undefined && ! ["local-first", "local-only"].includes(value.settings.scope)) {
         throw new TypeError("settings.scope is invalid");
       }
       for (const role of ["planner", "worker"]) {
@@ -316,14 +316,24 @@ window.__ModuleLoader__.load({
       const [plannerSearch, setPlannerSearch] = useState("");
       const [workerSearch, setWorkerSearch] = useState("");
       const [, bumpSessionRevision] = useState(0);
-      const loadedRef = useRef(false);
       const triggerRef = useRef(null);
       const sessionId = currentSessionId(sessions);
+      // A session generation plus request sequence rejects both cross-session
+      // replies (including A -> B -> A) and pre-save polling responses.
+      const requestRef = useRef({ sessionId, sequence: 0, ready: Boolean(snapshot), saving: false });
+      if (requestRef.current.sessionId !== sessionId) {
+        requestRef.current = { sessionId, sequence: requestRef.current.sequence + 1, ready: false, saving: false };
+      }
+      const currentSnapshot = requestRef.current.ready ? snapshot : null;
       const visibleHere = placement === "header" ? Boolean(sessionId) : !sessionId;
       const api = remote?.haloRouting;
 
       const load = useCallback(async (background = false) => {
-        if (!background || !loadedRef.current) setPhase("loading");
+        const owner = requestRef.current;
+        if (owner.sessionId !== sessionId || currentSessionId(sessions) !== sessionId || owner.saving) return;
+        const sequence = ++owner.sequence;
+        const isCurrent = () => requestRef.current === owner && owner.sequence === sequence && currentSessionId(sessions) === sessionId;
+        if (!background || !owner.ready) setPhase("loading");
         if (!background) setError(null);
         try {
           if (typeof api?.status !== "function") {
@@ -331,23 +341,28 @@ window.__ModuleLoader__.load({
           }
           const request = sessionId ? { sessionId } : {};
           const nextSnapshot = remoteValue(await api.status(request));
+          if (!isCurrent()) return;
           setSnapshot(nextSnapshot);
-          loadedRef.current = true;
+          owner.ready = true;
           setPhase("ready");
           if (background) setError((current) => current?.kind === "load" ? null : current);
         } catch (cause) {
-          if (!loadedRef.current) setPhase("error");
+          if (!isCurrent()) return;
+          if (!owner.ready) setPhase("error");
           setError((current) => current?.kind === "save"
             ? current
             : { kind: "load", message: failureMessage(cause) });
         }
-      }, [api, sessionId]);
+      }, [api, sessionId, sessions]);
 
       useEffect(() => {
         if (!visibleHere) return undefined;
+        setError(null);
+        setSaving(false);
         void load();
         const timer = setInterval(() => void load(true), POLL_MS);
-        return () => clearInterval(timer);
+        const owner = requestRef.current;
+        return () => { clearInterval(timer); owner.sequence += 1; };
       }, [load, visibleHere]);
 
       useEffect(() => {
@@ -370,32 +385,39 @@ window.__ModuleLoader__.load({
         return () => window.removeEventListener("keydown", onKeyDown);
       }, [open]);
 
-      const candidates = snapshot?.candidates || [];
-      const settings = snapshot?.settings || {};
-      const recent = snapshot?.recent || [];
+      const candidates = currentSnapshot?.candidates || [];
+      const settings = currentSnapshot?.settings || {};
+      const recent = currentSnapshot?.recent || [];
       const latestDecision = recent[0];
       const olderDecisions = recent.slice(1, 7);
-      const defaults = snapshot?.defaults;
-      const sessionSpecific = snapshot?.sessionspecific ?? snapshot?.sessionSpecific;
-      const badge = routerBadge(snapshot, phase);
+      const defaults = currentSnapshot?.defaults;
+      const sessionSpecific = currentSnapshot?.sessionspecific ?? currentSnapshot?.sessionSpecific;
+      const badge = routerBadge(currentSnapshot, phase);
 
       const configure = useCallback(async (patch) => {
-        if (typeof api?.configure !== "function" || !snapshot) return;
+        const owner = requestRef.current;
+        if (typeof api?.configure !== "function" || !owner.ready || owner.saving || owner.sessionId !== sessionId || currentSessionId(sessions) !== sessionId) return;
+        const sequence = ++owner.sequence;
+        const isCurrent = () => requestRef.current === owner && owner.sequence === sequence && currentSessionId(sessions) === sessionId;
+        owner.saving = true;
         setSaving(true);
         setError(null);
         try {
-          const nextSettings = { ...settings, ...patch };
           const request = {
             ...(sessionId ? { sessionId } : {}),
-            settings: nextSettings,
+            settings: patch,
           };
-          setSnapshot(remoteValue(await api.configure(request)));
+          const nextSnapshot = remoteValue(await api.configure(request));
+          if (!isCurrent()) return;
+          setSnapshot(nextSnapshot);
+          setPhase("ready");
         } catch (cause) {
+          if (!isCurrent()) return;
           setError({ kind: "save", message: failureMessage(cause) });
         } finally {
-          setSaving(false);
+          if (isCurrent()) { owner.saving = false; setSaving(false); }
         }
-      }, [api, sessionId, settings, snapshot]);
+      }, [api, sessionId, sessions]);
 
       const roleCandidates = useMemo(() => ({
         planner: visibleCandidates(candidates, plannerSearch, settings.planner),
@@ -412,7 +434,7 @@ window.__ModuleLoader__.load({
         [candidates],
       );
 
-      const summary = snapshot
+      const summary = currentSnapshot
         ? `${badge} · ${settings.scope === "local-only" ? "Local only" : "Local first"}`
         : phase === "error" ? "Router status unavailable" : "Loading router status…";
 
@@ -444,7 +466,7 @@ window.__ModuleLoader__.load({
               h("div", { style: { ...styles.muted, marginTop: 4 } }, summary),
             ),
             h("div", { style: { display: "flex", gap: 6 } },
-              h("button", { type: "button", style: styles.action, onClick: () => void load(), disabled: phase === "loading" }, "Refresh"),
+              h("button", { type: "button", style: styles.action, onClick: () => void load(), disabled: phase === "loading" || saving }, "Refresh"),
               h("button", {
                 type: "button",
                 style: styles.action,
@@ -458,7 +480,7 @@ window.__ModuleLoader__.load({
           ),
           phase === "loading" && h("p", { style: { ...styles.muted, margin: "14px 0 0" }, role: "status" }, "Loading router status…"),
           error && h("div", { style: styles.error, role: "alert" }, error.message),
-          phase === "ready" && snapshot && h(
+          phase === "ready" && currentSnapshot && h(
             React.Fragment,
             null,
             h("div", { style: styles.card },

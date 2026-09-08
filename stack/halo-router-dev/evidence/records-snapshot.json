@@ -1,7 +1,7 @@
 {
   "format": "gzip-json",
   "file": "records-snapshot.json.gz",
-  "uncompressedBytes": 62407568,
-  "sha256": "34fd6eada462d68dc66af12ad8171bf3660e0a0ce01ac9111c7febb6728f4e8d",
-  "records": 226
+  "uncompressedBytes": 67713034,
+  "sha256": "f95c5f1ab7b7ff55bbe8bab6f16b8dc60f853578bd238b846375e3937b657a26",
+  "records": 287
 }

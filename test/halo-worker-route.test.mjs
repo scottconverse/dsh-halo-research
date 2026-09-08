@@ -35,8 +35,9 @@ test('dispatch binds exact child tools and human settings to the actual worker d
  const staged=await routes.stage(request);const plan=routes.lookup(request.executionSessionId);
  await routes.bind(staged.decisionId,'worker-child');
  const tools=[{name:'write_file',parameters:{type:'object',required:['path']}}];
- const actual=await routes.dispatch(plan,{workerSessionId:'worker-child',executionTools:tools});
- assert.deepEqual(received,{sessionId:'human-root',role:'structured_write',provider:'claude-cli',model:'sonnet',reasoningEffort:'high',executionSessionId:'worker-child',executionTools:tools});
+ const requirements={requiredCapabilities:['text','image'],requiredContextWindow:42000,requirementsKnown:true};
+ const actual=await routes.dispatch(plan,{workerSessionId:'worker-child',executionTools:tools,requirements});
+ assert.deepEqual(received,{sessionId:'human-root',role:'structured_write',provider:'claude-cli',model:'sonnet',reasoningEffort:'high',executionSessionId:'worker-child',executionTools:tools,...requirements});
  assert.equal(actual.provider,'lmstudio');
  assert.equal(actual.model,'local-worker');
  assert.equal(ledger.rows.some(row=>row.kind==='worker-route-child-link'&&row.reservationId===staged.decisionId&&row.workerSessionId==='worker-child'),true);
@@ -48,4 +49,13 @@ test('persisted plans are available by staging session after a cold recreation',
  const staged=await first.stage(request);
  const reopened=createWorkerRoutes({ledger,resolve:async()=>null});
  assert.equal(reopened.lookup(request.executionSessionId).reservationId,staged.decisionId);
+});
+
+for(const failure of ['false','throw'])test(`worker link ${failure} leaves a valid selected route intact`,async()=>{
+ const ledger=memoryLedger();const append=ledger.append.bind(ledger);
+ ledger.append=async(id,row)=>{if(row.kind==='worker-route-link'){if(failure==='throw')throw Error('disk unavailable');return false;}return append(id,row);};
+ const routes=createWorkerRoutes({ledger,resolve:async()=>({provider:'lmstudio',model:'chosen',decisionId:'d'})});
+ await routes.stage(request);let actual,error;
+ try{actual=await routes.dispatch(routes.lookup(request.executionSessionId),{workerSessionId:'child',executionTools:[]})}catch(e){error=e}
+ assert.equal(error,undefined,'optional evidence must not cause caller fallback');assert.equal(actual.model,'chosen');
 });

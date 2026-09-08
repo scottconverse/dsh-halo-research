@@ -26,7 +26,7 @@ await writeFile(path.join(evidence,'records-snapshot.json'),JSON.stringify({form
 await mkdir(bundle,{recursive:true});
 const selected=[];
 for(const directory of ['stack/halo-router-dev','stack/halo-routing','stack/halo-policy-deterministic','stack/halo-verified-coder-dev','test'])selected.push(...await files(path.join(repo,directory)));
-for(const name of ['HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md','HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-07.md','HALO-ROUTER-REAUDIT-2026-09-07.md','HALO-ROUTER-DIRECT-REUSE-2026-09-07.md']){
+for(const name of ['audit-lite-halo-router-2026-09-08.md','audit-lite-halo-router-recheck-2026-09-08.md','HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md','HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-07.md','HALO-ROUTER-REAUDIT-2026-09-07.md','HALO-ROUTER-DIRECT-REUSE-2026-09-07.md']){
  const source=path.join(repo,'stack',name);selected.push(source);await copyFile(source,path.join(research,name));await copyFile(source,path.join(recovery,name));
 }
 await copyFile(path.join(dev,'HALOROUTERSPECv0.3.md'),path.join(research,'HALOROUTERSPECv0.3.md'));
@@ -44,7 +44,7 @@ await writeFile(path.join(bundle,'MANIFEST-SHA256.txt'),'# Halo Router DEV 0.3.0
 const parentManifest=path.join(recovery,'MANIFEST-SHA256.txt');
 const old=(await readFile(parentManifest,'utf8')).split(/\r?\n/).filter(Boolean);
 const replacement=new Map();
-for(const name of ['HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md','HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-07.md','HALO-ROUTER-REAUDIT-2026-09-07.md','HALO-ROUTER-DIRECT-REUSE-2026-09-07.md'])replacement.set(name,createHash('sha256').update(await readFile(path.join(recovery,name))).digest('hex'));
+for(const name of ['audit-lite-halo-router-2026-09-08.md','audit-lite-halo-router-recheck-2026-09-08.md','HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md','HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-DSH-IMPLEMENTATION-2026-09-07.md','HALO-ROUTER-REAUDIT-2026-09-07.md','HALO-ROUTER-DIRECT-REUSE-2026-09-07.md'])replacement.set(name,createHash('sha256').update(await readFile(path.join(recovery,name))).digest('hex'));
 for(const source of await files(bundle)){const relative=path.relative(recovery,source);replacement.set(relative,createHash('sha256').update(await readFile(source)).digest('hex'));}
 const kept=old.filter(line=>{const match=/^[a-fA-F0-9]{64}\s+(.+)$/.exec(line);return !match||!replacement.has(match[1]);});
 await writeFile(parentManifest,kept.join('\n')+'\n# DEV-only addition '+new Date().toISOString()+'\n'+[...replacement].map(([p,hash])=>`${hash}  ${p}`).join('\n')+'\n');

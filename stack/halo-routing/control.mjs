@@ -43,10 +43,14 @@ export async function createControl({read=async()=>null,write=async()=>{},candid
    let selected;
    if(override){selected=available.find(c=>c.candidateId===override);if(!selected)throw Error('The operator-selected route is no longer in the catalog. Choose another model in Router.');statusCode='override';reason='Operator-selected role override; qualification is not implied.';}
    else {
-    evaluation=await recommend({role,requiredTier:input.requiredTier??'economy',requiredCapabilities:['text'],localOnly:settings.scope==='local-only',...(input.requiredContextWindow?{requiredContextWindow:input.requiredContextWindow}:{}),...Object.prototype.hasOwnProperty.call(input,'executionTools')?{executionTools:input.executionTools}:{}});
+    const requiredCapabilities=input.requiredCapabilities??['text'];
+    evaluation=input.requirementsKnown===false?null:await recommend({role,requiredTier:input.requiredTier??'economy',requiredCapabilities,localOnly:settings.scope==='local-only',...(input.requiredContextWindow?{requiredContextWindow:input.requiredContextWindow}:{}),...Object.prototype.hasOwnProperty.call(input,'executionTools')?{executionTools:input.executionTools}:{}});
     selected=available.find(c=>c.candidateId===evaluation?.recommendedCandidateId);
+    const actualContext=selected?.executionProfile?.actual?.contextWindow;
+    const capacity=actualContext?.state==='observed'?Math.min(actualContext.value,selected.contextWindow??Infinity):selected?.contextWindow;
+    if(selected&&(requiredCapabilities.some(cap=>cap!=='text'&&!(selected.capabilities??[]).includes(cap))||(input.requiredContextWindow&&(!Number.isFinite(capacity)||capacity<input.requiredContextWindow))))selected=undefined;
     if(selected){statusCode='selected';reason=(evaluation.evaluations?.find(e=>e.candidateId===selected.candidateId)?.reasons??[]).filter(r=>r.kind==='support').map(r=>r.message).join(' ')||'Selected by the qualified local-first donor policy.';}
-    else {statusCode='fallback';reason='No qualified candidate is currently available for this role. Keeping the DSH-selected model; no qualification is implied.';}
+    else {statusCode='fallback';reason='No qualified candidate with confirmed request requirements is currently available for this role. Keeping the DSH-selected model; no qualification is implied.';}
    }
    if(selected){const effort=selected.executionProfile?.reasoningMode;target={provider:selected.provider,model:selected.model,...effort?.state==='observed'?{reasoningEffort:effort.value}:{}};}
   }
@@ -54,9 +58,10 @@ export async function createControl({read=async()=>null,write=async()=>{},candid
    const error=new Error('Local-only routing found no eligible local model. Choose a local override or switch Router to Local first.');error.code='HALO_LOCAL_ONLY';throw error;
   }
   const decision={kind:'route-decision',decisionId:randomUUID(),timestamp:new Date().toISOString(),sessionId,...input.executionSessionId?{workerSessionId:input.executionSessionId}:{},role,mode:settings.mode,scope:settings.scope,status:statusCode,from:original,to:target,reason,policyId:evaluation?.policyId??null,executionFingerprint:available.find(c=>c.provider===target.provider&&c.model===target.model)?.executionFingerprint??null};
+  decision.requestRequirements={capabilities:input.requiredCapabilities??['text'],known:input.requirementsKnown!==false,contextWindow:input.requiredContextWindow??null};
   decisions.push(decision);if(decisions.length>100)decisions.shift();
   // Evidence failure must not prevent a route or retry a generation.
-  Promise.resolve(record(decision)).catch(()=>{});
+  Promise.resolve().then(()=>record(decision)).catch(()=>{});
   return {...target,decisionId:decision.decisionId,reason};
  }
  return {configure,status,resolve,assertAllowed,bindWorkerDecision(decisionId,workerSessionId){const d=decisions.find(d=>d.decisionId===decisionId);if(d)d.workerSessionId=workerSessionId;}};

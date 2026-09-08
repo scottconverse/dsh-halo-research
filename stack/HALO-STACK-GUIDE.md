@@ -1,5 +1,15 @@
 # The Halo Stack — operator guide
 
+## September 8 audit-fix note
+
+Router controls now wait for the current conversation's settings before allowing
+edits; a late response from another conversation cannot overwrite them. A change
+saves only that field. Automatic selection respects the current DSH message
+modalities and available context estimate, while explicit model choices remain
+yours. Evidence-write failures do not silently switch an already-selected worker.
+These fixes are DEV-only. The delivered DEV defaults are Auto / Local first;
+fresh installs default to Manual. See `audit-lite-halo-router-recheck-2026-09-08.md`.
+
 ## September 8: active human Router DEV 0.3.0
 
 Use **http://127.0.0.1:3085** with the **Halo Router DEV** preset. The **Router**

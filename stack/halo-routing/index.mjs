@@ -7,7 +7,7 @@ import {deriveProfile} from './profile.mjs';
 import {census,localRuntime,enrichLocal,residentOrigins} from './catalog.mjs';
 import {executionCandidates} from './execution-candidates.mjs';
 import {createControl} from './control.mjs';
-import {originalRoute,applyRoute} from './request-route.mjs';
+import {originalRoute,applyRoute,requestRequirements} from './request-route.mjs';
 import {createWorkerRoutes} from './worker-route.mjs';
 import {toDonorCandidate,currentQualification} from '../halo-policy-deterministic/donor-adapter.mjs';
 import {readNativeQualificationResult} from './native-qualification.mjs';
@@ -105,11 +105,11 @@ export async function apply(ctx,config={}){
   try{const id=payload.agent.session.id;sessions.set(id,payload.agent.session);steps.set(id,{turnId:payload.turn,step:payload.step});
    const workerPlan=workerRoutes.lookup(payload.agent.session.header?.parentSession);
    if(workerPlan){
-    const route=await workerRoutes.dispatch(workerPlan,{workerSessionId:id,executionTools:assembledTools.get(id)});
+    const route=await workerRoutes.dispatch(workerPlan,{workerSessionId:id,executionTools:assembledTools.get(id),requirements:requestRequirements(payload.agent.session,ctx.get('tokenMeter'),resolved.maxTokens)});
     selected=applyRoute(resolved,route);
    }else if(!payload.agent.session.header?.parentSession&&!qualificationTests.has(id)){
     const pin=await readPin(id);const original=originalRoute(resolved,pin??payload.agent.options);
-    const route=await control.resolve({sessionId:id,role:'analysis',...original,executionTools:assembledTools.get(id)});
+    const route=await control.resolve({sessionId:id,role:'analysis',...original,executionTools:assembledTools.get(id),...requestRequirements(payload.agent.session,ctx.get('tokenMeter'),resolved.maxTokens)});
     selected=applyRoute(resolved,route);
    }else queue(()=>scanPin(id));
   }catch(error){if(error.code==='HALO_LOCAL_ONLY')throw error;const plan=workerRoutes.lookup(payload.agent.session.header?.parentSession);control.assertAllowed({sessionId:plan?.input.sessionId??payload.agent.session.id,provider:resolved.provider,model:resolved.model});routing.stats.observerErrors++;}

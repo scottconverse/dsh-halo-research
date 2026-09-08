@@ -1,5 +1,15 @@
 # Halo stack — current installed configuration
 
+## September 8 audit-fix update (DEV only)
+
+The three Router audit defects are repaired: current message modality/context
+requirements reach automatic selection; session controls reject obsolete replies
+and save field-level patches; optional evidence writes cannot change a selected
+worker route. Native picker authority, tools and production configuration are
+unchanged. Fresh installs default to Manual; this delivered DEV remains Auto /
+Local first. See `audit-lite-halo-router-recheck-2026-09-08.md` for the scoped
+recheck, tests and live evidence, including preserved failed smoke evidence.
+
 ## September 8 update — active human Router DEV 0.3.0
 
 The separate **Halo Router DEV** at **http://127.0.0.1:3085** now has a native

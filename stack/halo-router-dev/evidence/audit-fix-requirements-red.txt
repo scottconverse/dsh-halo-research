@@ -1,0 +1,118 @@
+Command: node --test test/halo-request-requirements.test.mjs
+✖ uses current DSH projection including images nested in tool results (1.2883ms)
+✖ missing projection and unrecognized future blocks do not become text-only certainty (0.1863ms)
+✖ known plain text works without meter and no content is returned to the policy (0.1805ms)
+✖ broken meter does not lose known image requirements (0.1364ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.5732
+
+✖ failing tests:
+
+test at test\halo-request-requirements.test.mjs:4:1
+✖ uses current DSH projection including images nested in tool results (1.2883ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      requiredCapabilities: [
+        'text',
+  -     'image'
+      ],
+  -   requiredContextWindow: 29192,
+  -   requirementsKnown: true
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-request-requirements.test.mjs:7:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { requiredCapabilities: [ 'text' ] },
+    expected: { requiredCapabilities: [ 'text', 'image' ], requirementsKnown: true, requiredContextWindow: 29192 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-request-requirements.test.mjs:9:1
+✖ missing projection and unrecognized future blocks do not become text-only certainty (0.1863ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - false
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-request-requirements.test.mjs:10:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-request-requirements.test.mjs:13:1
+✖ known plain text works without meter and no content is returned to the policy (0.1805ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      requiredCapabilities: [
+        'text'
+      ],
+  -   requirementsKnown: true
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-request-requirements.test.mjs:15:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { requiredCapabilities: [ 'text' ] },
+    expected: { requiredCapabilities: [ 'text' ], requirementsKnown: true },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-request-requirements.test.mjs:18:1
+✖ broken meter does not lose known image requirements (0.1364ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'text',
+  -   'image'
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-request-requirements.test.mjs:20:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'text' ],
+    expected: [ 'text', 'image' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+

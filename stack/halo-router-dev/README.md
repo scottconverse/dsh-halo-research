@@ -28,6 +28,18 @@ The six older sessions named `HALO ROUTER DEV — ... integration check` are del
 
 ## Router controls
 
+September 8 audit fixes: Auto carries the current DSH message modalities and
+available token-meter context estimate into selection. Unknown content keeps the
+DSH route; an automatic replacement must have confirmed image support when needed
+and sufficient known context (observed loaded context takes precedence over a
+larger catalog limit). Explicit human overrides remain explicit choices. DSH owns
+compaction and exact provider validation; this is not a new tokenizer.
+
+Session controls now discard stale status/save responses, show controls only after
+the current session's snapshot arrives, and save only the field you changed.
+Optional decision/link evidence failures no longer change an already-selected
+worker route. The original audit and its closure report remain in `stack/`.
+
 - **Manual** is the default. DSH keeps the model and reasoning choice from its
   native picker, and the verified-coder worker remains unchanged.
 - **Auto** lets the pinned donor policy choose separately for the planner and

@@ -10,7 +10,7 @@ async function loadClient(React) {
   const context = {
     clearInterval() {},
     console,
-    setInterval() { return 1; },
+    setInterval(fn) { React.__timers?.push(fn); return 1; },
     window: {
       addEventListener() {},
       removeEventListener() {},
@@ -120,4 +120,98 @@ test('shows the latest selection compactly with human role labels and full reaso
   assert.ok(disclosures.length >= 2);
   assert.ok(disclosures.every((disclosure) => disclosure.props.open === undefined));
   assert.ok(textContent(disclosures[0]).includes(longReason));
+});
+
+// A hook lifecycle renderer: state/ref identity, dependency comparison, effect
+// cleanup and post-render effects match the React contracts used by this client.
+function lifecycleHarness() {
+  const slots = []; let cursor = 0; let dirty = false; let effects = []; let render;
+  const same = (a, b) => a && b && a.length === b.length && a.every((x, i) => Object.is(x, b[i]));
+  const React = {
+    __timers: [],
+    Fragment: Symbol('Fragment'), createElement: (type, props, ...children) => ({type, props: props || {}, children}),
+    useState(initial) { const i = cursor++; slots[i] ??= {value: initial}; return [slots[i].value, (v) => { slots[i].value = typeof v === 'function' ? v(slots[i].value) : v; dirty = true; }]; },
+    useRef(value) { const i = cursor++; slots[i] ??= {current: value}; return slots[i]; },
+    useMemo(factory, deps) { const i = cursor++; if (!slots[i] || !same(slots[i].deps, deps)) slots[i] = {deps, value: factory()}; return slots[i].value; },
+    useCallback(fn, deps) { return React.useMemo(() => fn, deps); },
+    useEffect(fn, deps) { const i = cursor++; if (!slots[i] || !same(slots[i].deps, deps)) { const old = slots[i]; slots[i] = {deps}; effects.push(() => { old?.cleanup?.(); slots[i].cleanup = fn(); }); } },
+  };
+  return {React, mount(fn) { render = fn; return this.flush(); }, flush() { do { dirty = false; cursor = 0; this.tree = render(); const pending = effects; effects = []; pending.forEach(fn => fn()); } while (dirty); return this.tree; }};
+}
+const deferred = () => { let resolve, reject; const promise = new Promise((a, b) => { resolve = a; reject = b; }); return {promise, resolve, reject}; };
+const uiSnapshot = (mode = 'automatic', worker = null) => ({version: '0.3.0', settings: {mode, scope: 'local-first', worker, planner: null}, defaults: {}, candidates: [], recent: []});
+async function raceFixture() {
+  const hooks = lifecycleHarness(); const client = await loadClient(hooks.React);
+  let id = 'A'; const listeners = new Set(); const loads = [], saves = [];
+  const api = {status(request) { const d = deferred(); loads.push({request, ...d}); return d.promise; }, configure(request) { const d = deferred(); saves.push({request, ...d}); return d.promise; }};
+  const sessions = {list: {getSnapshot: () => ({current: id}), subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); }}};
+  hooks.mount(() => client.RouterOverlay({remote: {haloRouting: api}, sessions, placement: 'header'}));
+  const settle = async () => { await Promise.resolve(); await Promise.resolve(); hooks.flush(); };
+  const field = (name) => elements(hooks.tree, 'select').find(x => x.props.id === name);
+  const click = (label) => elements(hooks.tree, 'button').find(x => textContent(x) === label).props.onClick();
+  elements(hooks.tree, 'button')[0].props.onClick(); hooks.flush();
+  return {hooks, loads, saves, settle, field, click, poll() { hooks.React.__timers.at(-1)(); hooks.flush(); }, switchTo(next) { id = next; listeners.forEach(fn => fn()); hooks.flush(); }};
+}
+
+test('session switch hides stale controls and ignores late status and save responses', async () => {
+  const f = await raceFixture(); f.loads[0].resolve(uiSnapshot('automatic', 'worker-A')); await f.settle();
+  f.field('halo-router-mode').props.onChange({target: {value: 'manual'}}); f.hooks.flush();
+  f.switchTo('B');
+  assert.ok(!f.field('halo-router-mode') || f.field('halo-router-mode').props.disabled, 'A controls must not be usable while B is loading');
+  f.loads.at(-1).resolve(uiSnapshot('manual', 'worker-B')); await f.settle();
+  f.saves[0].resolve(uiSnapshot('manual', 'worker-A')); await f.settle();
+  assert.equal(f.field('halo-router-worker').props.value, 'worker-B', 'late A save must not overwrite B');
+  f.field('halo-router-mode').props.onChange({target: {value: 'automatic'}}); await f.settle();
+  assert.deepEqual(JSON.parse(JSON.stringify(f.saves.at(-1).request)), {sessionId: 'B', settings: {mode: 'automatic'}}, 'save only the edited field, not a stale whole snapshot');
+});
+
+test('older load failures and responses cannot overwrite a newer save', async () => {
+  const f = await raceFixture(); f.loads[0].resolve(uiSnapshot()); await f.settle();
+  f.poll(); const oldLoad = f.loads.at(-1);
+  f.field('halo-router-mode').props.onChange({target: {value: 'manual'}});
+  f.hooks.flush(); f.saves[0].resolve(uiSnapshot('manual')); await f.settle();
+  oldLoad.reject(new Error('stale polling failure')); await f.settle();
+  assert.equal(f.field('halo-router-mode').props.value, 'manual');
+  assert.doesNotMatch(textContent(f.hooks.tree), /stale polling failure/);
+  assert.equal(elements(f.hooks.tree, 'div').filter(x => x.props.role === 'alert').length, 0, 'obsolete polling errors must not replace a successful save');
+});
+
+test('late status response from an earlier visit cannot overwrite a return to that session', async () => {
+  const f = await raceFixture(); const firstA = f.loads[0]; f.switchTo('B'); f.switchTo('A');
+  f.loads.at(-1).resolve(uiSnapshot('manual', 'new-A')); await f.settle();
+  firstA.resolve(uiSnapshot('automatic', 'old-A')); await f.settle();
+  assert.equal(f.field('halo-router-worker').props.value, 'new-A');
+});
+
+test('polls and queued duplicate edits are suppressed during save; late poll success stays obsolete', async () => {
+  const f = await raceFixture(); f.loads[0].resolve(uiSnapshot()); await f.settle();
+  f.poll(); const poll = f.loads.at(-1); const edit = f.field('halo-router-mode').props.onChange;
+  edit({target: {value: 'manual'}}); edit({target: {value: 'automatic'}}); f.hooks.flush();
+  const count = f.loads.length; f.poll();
+  assert.equal(f.loads.length, count, 'poll cannot race an in-flight save');
+  assert.equal(f.saves.length, 1, 'queued duplicate edits cannot race the first save');
+  f.saves[0].resolve(uiSnapshot('manual')); await f.settle();
+  poll.resolve(uiSnapshot('automatic')); await f.settle();
+  assert.equal(f.field('halo-router-mode').props.value, 'manual');
+});
+
+test('late save failure from the old session cannot show an error in the new session', async () => {
+  const f = await raceFixture(); f.loads[0].resolve(uiSnapshot()); await f.settle();
+  f.field('halo-router-mode').props.onChange({target: {value: 'manual'}}); f.hooks.flush(); f.switchTo('B');
+  f.loads.at(-1).resolve(uiSnapshot()); await f.settle();
+  f.saves[0].reject(new Error('old session save failed')); await f.settle();
+  assert.equal(elements(f.hooks.tree, 'div').filter(x => x.props.role === 'alert').length, 0);
+  assert.equal(f.field('halo-router-mode').props.disabled, false);
+});
+
+test('the actual remote configure codec permits a single-field patch and rejects an invalid field', async () => {
+  const client = await loadClient(reactHarness()); let descriptors;
+  const remote = {$mount: async (definition) => { descriptors = definition.descriptors; return () => {}; }};
+  const effects = [];
+  client.apply({effect(fn) { effects.push(fn()); }, get() { return remote; }, inject() {}});
+  await Promise.all(effects);
+  const codec = descriptors.find(x => x.method === 'configure').parameters[0].codec.schema;
+  assert.deepEqual(codec.parse({sessionId: 'B', settings: {mode: 'manual'}}), {sessionId: 'B', settings: {mode: 'manual'}});
+  assert.deepEqual(codec.parse({settings: {worker: null}}), {settings: {worker: null}});
+  assert.throws(() => codec.parse({settings: {scope: 'remote-only'}}), /scope is invalid/);
 });

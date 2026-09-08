@@ -33,14 +33,17 @@ export function createWorkerRoutes({ledger,resolve}={}){
   const row={kind:'worker-route-child-link',reservationId,workerSessionId,timestamp:new Date().toISOString()};
   await append(stableId('worker-route-child-link',reservationId,workerSessionId),row);return copy(row);
  }
- async function dispatch(plan,{workerSessionId,executionTools}={}){
+ async function dispatch(plan,{workerSessionId,executionTools,requirements={}}={}){
   const reservationId=nonempty(plan?.reservationId,'plan.reservationId');nonempty(workerSessionId,'workerSessionId');
   const current=byReservation.get(reservationId);if(!current)throw Error('Unknown worker route reservation');
   if(!Array.isArray(executionTools))throw Error('worker dispatch requires exact assembled executionTools');
-  const route=await resolve({...copy(current.input),executionSessionId:workerSessionId,executionTools:copy(executionTools)});
+  const route=await resolve({...copy(current.input),...copy(requirements),executionSessionId:workerSessionId,executionTools:copy(executionTools)});
   nonempty(route?.decisionId,'route.decisionId');
   const link={kind:'worker-route-link',reservationId,workerSessionId,actualDecisionId:route.decisionId,timestamp:new Date().toISOString()};
-  await append(stableId('worker-route-link',reservationId,workerSessionId,route.decisionId),link);return route;
+  // Correlation storage is diagnostic once selection has succeeded. It must
+  // neither delay dispatch nor make the caller silently use a different model.
+  Promise.resolve().then(()=>append(stableId('worker-route-link',reservationId,workerSessionId,route.decisionId),link)).catch(()=>{});
+  return route;
  }
  return {stage,lookup,dispatch,bind};
 }

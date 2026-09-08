@@ -1,0 +1,177 @@
+Command: node --test test/halo-control.test.mjs test/halo-worker-route.test.mjs
+Exit: 1
+✔ automatic mode changes actual route and emits a human readable decision (1.8054ms)
+✔ manual preserves route; per-session controls do not affect other sessions (0.1978ms)
+✔ operator worker override uses full catalog without claiming qualification (0.2217ms)
+✔ a changed ordinary picker pin overrides automatic routing (0.2117ms)
+✔ no qualified candidate falls back visibly, while local-only never leaks to cloud (0.8986ms)
+✔ local-only requests candidate filtering from the existing donor rather than selecting a remote route (0.1788ms)
+✔ automatic routing forwards the exact current tools to candidate projection (0.3778ms)
+✔ local-only cannot leak a remote manual selection (0.2308ms)
+✔ a picker pin cancels inherited default Auto persistently for that session (0.1718ms)
+✔ configuration rejects invalid and nonexistent routes; persist failure leaves previous state intact (0.2561ms)
+✔ persisted defaults and session settings survive restart (0.135ms)
+✖ request image and context requirements reach the policy unchanged (0.974ms)
+✖ automatic selection cannot downgrade an image request to unknown or text-only capability (0.2033ms)
+✖ unknown request content preserves the DSH route instead of guessing text-only (0.1686ms)
+✖ synchronous decision evidence failure cannot change the selected route (0.2184ms)
+✔ worker staging persists a plan but defers resolution and returns the original route (1.9064ms)
+✔ dispatch binds exact child tools and human settings to the actual worker decision (0.6803ms)
+✔ persisted plans are available by staging session after a cold recreation (0.1298ms)
+✖ worker link false leaves a valid selected route intact (0.8198ms)
+✖ worker link throw leaves a valid selected route intact (0.2656ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 14
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106.0045
+
+✖ failing tests:
+
+test at test\halo-control.test.mjs:19:1
+✖ request image and context requirements reach the policy unchanged (0.974ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'text',
+  -   'image'
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:23:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'text' ],
+    expected: [ 'text', 'image' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-control.test.mjs:25:1
+✖ automatic selection cannot downgrade an image request to unknown or text-only capability (0.2033ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'local' !== 'cloud'
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:28:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'local',
+    expected: 'cloud',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-control.test.mjs:30:1
+✖ unknown request content preserves the DSH route instead of guessing text-only (0.1686ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'local' !== 'cloud'
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:32:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'local',
+    expected: 'cloud',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-control.test.mjs:34:1
+✖ synchronous decision evidence failure cannot change the selected route (0.2184ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: disk unavailable
+  +     at record (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:35:46)
+  +     at Object.resolve (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/control.mjs:59:19)
+  +     at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:36:30)
+  +     at async Test.run (node:internal/test_runner/test:1208:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:37:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: disk unavailable
+        at record (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:35:46)
+        at Object.resolve (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/control.mjs:59:19)
+        at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-control.test.mjs:36:30)
+        at async Test.run (node:internal/test_runner/test:1208:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:831:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-worker-route.test.mjs:53:40
+✖ worker link false leaves a valid selected route intact (0.8198ms)
+  AssertionError [ERR_ASSERTION]: optional evidence must not cause caller fallback
+  + actual - expected
+  
+  + Error: worker route evidence was not appended: worker-route-link
+  +     at append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:20:70)
+  +     at async Object.dispatch (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:43:3)
+  +     at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:58:13)
+  +     at async Test.run (node:internal/test_runner/test:1208:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:59:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: worker route evidence was not appended: worker-route-link
+        at append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:20:70)
+        at async Object.dispatch (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:43:3)
+        at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:58:13)
+        at async Test.run (node:internal/test_runner/test:1208:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:831:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\halo-worker-route.test.mjs:53:40
+✖ worker link throw leaves a valid selected route intact (0.2656ms)
+  AssertionError [ERR_ASSERTION]: optional evidence must not cause caller fallback
+  + actual - expected
+  
+  + Error: disk unavailable
+  +     at ledger.append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:55:94)
+  +     at append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:20:49)
+  +     at Object.dispatch (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:43:9)
+  +     at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:58:13)
+  +     at async Test.run (node:internal/test_runner/test:1208:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:59:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: disk unavailable
+        at ledger.append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:55:94)
+        at append (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:20:49)
+        at Object.dispatch (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/halo-routing/worker-route.mjs:43:9)
+        at async TestContext.<anonymous> (file:///C:/Users/scott/Desktop/Code/dsh-halo-research/test/halo-worker-route.test.mjs:58:13)
+        at async Test.run (node:internal/test_runner/test:1208:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:831:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+

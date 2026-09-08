@@ -15,3 +15,38 @@ test('local-only cannot leak a remote manual selection',async()=>{const{control}
 test('a picker pin cancels inherited default Auto persistently for that session',async()=>{let pin={provider:'cloud',model:'b'};const{control}=await setup({readPin:async()=>pin});await control.configure({settings:{mode:'automatic'}});assert.equal((await control.resolve(input)).provider,'cloud');assert.equal(control.status('s').settings.mode,'manual');pin=null;assert.equal((await control.resolve(input)).provider,'cloud');assert.equal(control.status('s').settings.mode,'manual');});
 test('configuration rejects invalid and nonexistent routes; persist failure leaves previous state intact',async()=>{const{control}=await setup({write:async()=>{throw Error('disk full')}});await assert.rejects(()=>control.configure({settings:{mode:'bogus'}}),/mode/);await assert.rejects(()=>control.configure({settings:{planner:'missing'}}),/catalog/);await assert.rejects(()=>control.configure({settings:{mode:'automatic'}}),/disk full/);assert.equal(control.status().settings.mode,'manual');});
 test('persisted defaults and session settings survive restart',async()=>{let saved;const opts={read:async()=>saved,write:async v=>{saved=v},candidates:()=>catalog};const a=await createControl(opts);await a.configure({settings:{mode:'automatic'}});await a.configure({sessionId:'s',settings:{mode:'manual'}});const b=await createControl(opts);assert.equal(b.status().settings.mode,'automatic');assert.equal(b.status('s').settings.mode,'manual');});
+
+test('request image and context requirements reach the policy unchanged',async()=>{
+ let seen;const {control}=await setup({recommend:async w=>{seen=w;return null;}});
+ await control.configure({settings:{mode:'automatic'}});
+ await control.resolve({...input,requiredCapabilities:['text','image'],requiredContextWindow:48000});
+ assert.deepEqual(seen.requiredCapabilities,['text','image']);assert.equal(seen.requiredContextWindow,48000);
+});
+test('automatic selection cannot downgrade an image request to unknown or text-only capability',async()=>{
+ const {control}=await setup();await control.configure({settings:{mode:'automatic'}});
+ const actual=await control.resolve({...input,requiredCapabilities:['text','image']});
+ assert.equal(actual.provider,'cloud');assert.match(actual.reason,/requirement|capabilit/i);
+});
+test('unknown request content preserves the DSH route instead of guessing text-only',async()=>{
+ const {control}=await setup();await control.configure({settings:{mode:'automatic'}});
+ assert.equal((await control.resolve({...input,requirementsKnown:false})).provider,'cloud');
+});
+test('synchronous decision evidence failure cannot change the selected route',async()=>{
+ const {control}=await setup({record(){throw Error('disk unavailable')}});await control.configure({settings:{mode:'automatic'}});
+ let actual,error;try{actual=await control.resolve(input)}catch(e){error=e}
+ assert.equal(error,undefined);assert.equal(actual.provider,'local');
+});
+
+test('automatic selection checks context capacity and retains a fitting candidate',async()=>{
+ for(const contextWindow of [undefined,32000,64000]){
+  const {control}=await setup({candidates:()=>catalog.map(c=>({...c,contextWindow}))});
+  await control.configure({settings:{mode:'automatic'}});
+  assert.equal((await control.resolve({...input,requiredContextWindow:48000})).provider,contextWindow===64000?'local':'cloud');
+ }
+});
+
+test('observed loaded context is not inflated by a larger catalog declaration',async()=>{
+ const {control}=await setup({candidates:()=>catalog.map(c=>({...c,contextWindow:262144,executionProfile:{actual:{contextWindow:{state:'observed',value:32768}}}}))});
+ await control.configure({settings:{mode:'automatic'}});
+ assert.equal((await control.resolve({...input,requiredContextWindow:48000})).provider,'cloud');
+});
