@@ -1,5 +1,13 @@
 # The Halo Stack — operator guide
 
+## September 7 late update: Router DEV 0.2.0
+
+The port 3085 experiment now reuses DevHarmonics' actual selector and original
+qualification checks, with Factory lineage tests. It remains shadow-only and
+does not alter your chosen models or production. Codex owns and runs its tests;
+ordinary operator use is not a substitute for acceptance testing. See the
+[direct reuse and acceptance report](HALO-ROUTER-DIRECT-REUSE-2026-09-07.md).
+
 ## September 7: optional Router DEV experiment
 
 Use **http://127.0.0.1:3085**, preset **Halo Router DEV**, for shadow routing

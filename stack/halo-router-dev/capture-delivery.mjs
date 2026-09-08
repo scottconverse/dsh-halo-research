@@ -2,6 +2,7 @@
 import {readFile,writeFile,readdir,mkdir,copyFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {gzipSync} from 'node:zlib';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const dev=path.dirname(fileURLToPath(import.meta.url)),repo=path.resolve(dev,'../..');
@@ -16,7 +17,11 @@ await writeFile(path.join(evidence,'acceptance-protocol-tests.txt'),execFileSync
 const verification=JSON.parse(execFileSync(process.execPath,['prepare.mjs','--verify'],{cwd:dev,encoding:'utf8'}));
 if(verification.changed.length)throw Error('Production differs; stop delivery');
 await writeFile(path.join(evidence,'production-final.json'),JSON.stringify({at:new Date().toISOString(),...verification},null,2)+'\n');
-for(const name of ['candidate-reconciliation.json','records.json','status.json'])await copyFile(path.join(dev,'home/halo-routing',name),path.join(evidence,name==='candidate-reconciliation.json'?name:name.replace('.json','-snapshot.json')));
+for(const name of ['candidate-reconciliation.json','status.json'])await copyFile(path.join(dev,'home/halo-routing',name),path.join(evidence,name==='candidate-reconciliation.json'?name:name.replace('.json','-snapshot.json')));
+// Preserve every record without committing a million lines of repeated catalogs.
+const rawRecords=await readFile(path.join(dev,'home/halo-routing/records.json'));
+await writeFile(path.join(evidence,'records-snapshot.json.gz'),gzipSync(rawRecords));
+await writeFile(path.join(evidence,'records-snapshot.json'),JSON.stringify({format:'gzip-json',file:'records-snapshot.json.gz',uncompressedBytes:rawRecords.length,sha256:createHash('sha256').update(rawRecords).digest('hex'),records:JSON.parse(rawRecords).length},null,2)+'\n');
 await mkdir(bundle,{recursive:true});
 const selected=[];
 for(const directory of ['stack/halo-router-dev','stack/halo-routing','stack/halo-policy-deterministic','stack/halo-verified-coder-dev','test'])selected.push(...await files(path.join(repo,directory)));

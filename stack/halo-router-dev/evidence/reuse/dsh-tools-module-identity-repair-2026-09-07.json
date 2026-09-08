@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "dev-dsh-module-identity-repair",
+  "scope": "stack/halo-router-dev/home/profiles/web only",
+  "sourceFailureReceipt": "home/acceptance/outbox/187b2bba-091d-40e3-824e-0a140334d318.json",
+  "observedFailure": "Cannot read properties of undefined (reading 'prepare')",
+  "cause": "The profile-local ToolRuntime and installation-owned agent loop imported distinct physical @deepseek-ai/dsh-tools modules whose module-local TOOL_RUNTIME_SCHEDULER Symbols were unequal.",
+  "before": {
+    "observedAt": "2026-09-08T04:52:40.439Z",
+    "checkExitCode": 1,
+    "version": "0.1.1-rc.2",
+    "agentLoopPackage": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\node_modules\\.pnpm\\@deepseek-ai+dsh-agent-loop_f64f522e6c47e067f272158f26294e4c\\node_modules\\@deepseek-ai\\dsh-agent-loop\\package.json",
+    "agentLoopToolsRealpath": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\node_modules\\.pnpm\\@deepseek-ai+dsh-tools@0.1._f403aca7a0b01d4e1d9cdab4e4f05c5d\\node_modules\\@deepseek-ai\\dsh-tools",
+    "profileToolsRealpath": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\home\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-tools",
+    "schedulerSymbolEqual": false
+  },
+  "repair": {
+    "observedAt": "2026-09-08T04:52:46.802Z",
+    "exitCode": 0,
+    "changed": true,
+    "activePath": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\home\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-tools",
+    "backupPath": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\home\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-tools.halo-dev-original",
+    "activeRealpath": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\halo-router-dev\\node_modules\\.pnpm\\@deepseek-ai+dsh-tools@0.1._f403aca7a0b01d4e1d9cdab4e4f05c5d\\node_modules\\@deepseek-ai\\dsh-tools",
+    "schedulerSymbolEqual": true,
+    "changedPackages": [
+      "@deepseek-ai/dsh-tools"
+    ]
+  },
+  "postRepairCheck": {
+    "observedAt": "2026-09-08T04:53:05.050Z",
+    "exitCode": 0,
+    "schedulerSymbolEqual": true
+  },
+  "reportedOnlySymbolBearingDuplicates": [
+    "@deepseek-ai/dsh-api-remotes",
+    "@deepseek-ai/dsh-client-ui-conversation"
+  ],
+  "productionChanged": false,
+  "sharedPackageBytesChanged": false,
+  "modelRunDuringRepair": false,
+  "liveWorkerRetest": "pending DEV restart"
+}

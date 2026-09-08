@@ -1,0 +1,122 @@
+{
+  "at": "2026-09-08T05:06:03.861Z",
+  "stage": "before",
+  "pass": true,
+  "qualifications": 9,
+  "runs": [
+    {
+      "mode": "local",
+      "requestId": "6f5f9773-a177-45a8-adfb-a953580460bb",
+      "durationMs": 2828,
+      "qualifications": [
+        {
+          "role": "analysis",
+          "passed": true,
+          "executionFingerprint": "5c7e1fe94d7dd4d01cd0a41c248074d702a8a32c2d9717bbe234b6e1d7761539"
+        }
+      ]
+    },
+    {
+      "mode": "local",
+      "requestId": "8f94bae9-caf0-4379-bada-260a6377ea50",
+      "durationMs": 1492,
+      "qualifications": [
+        {
+          "role": "benchmark",
+          "passed": true,
+          "executionFingerprint": "5c7e1fe94d7dd4d01cd0a41c248074d702a8a32c2d9717bbe234b6e1d7761539"
+        }
+      ]
+    },
+    {
+      "mode": "claude",
+      "requestId": "4a085313-bf47-44b6-99ae-669396bf5c67",
+      "durationMs": 36100,
+      "qualifications": [
+        {
+          "role": "analysis",
+          "passed": true,
+          "executionFingerprint": "c8f2b2b41f31d7dc21c473090669e5fef9278ef5be8fea7a71cc68d995e24383"
+        }
+      ]
+    },
+    {
+      "mode": "claude",
+      "requestId": "f0f7277a-bcf1-48a2-b3db-d841f10bc192",
+      "durationMs": 8879,
+      "qualifications": [
+        {
+          "role": "benchmark",
+          "passed": true,
+          "executionFingerprint": "c8f2b2b41f31d7dc21c473090669e5fef9278ef5be8fea7a71cc68d995e24383"
+        }
+      ]
+    },
+    {
+      "mode": "codex",
+      "requestId": "cd241db1-3ded-4e0c-b3fd-45fe1928e635",
+      "durationMs": 11111,
+      "qualifications": [
+        {
+          "role": "analysis",
+          "passed": true,
+          "executionFingerprint": "d30d81b29cc39c449ee6f43ee002ab9113507f41c97371957e73079a61d35d0b"
+        }
+      ]
+    },
+    {
+      "mode": "codex",
+      "requestId": "ef213169-e3bc-4be3-a99d-f26fd8ed14c3",
+      "durationMs": 7191,
+      "qualifications": [
+        {
+          "role": "benchmark",
+          "passed": true,
+          "executionFingerprint": "d30d81b29cc39c449ee6f43ee002ab9113507f41c97371957e73079a61d35d0b"
+        }
+      ]
+    },
+    {
+      "mode": "gate",
+      "requestId": "2353e280-64fa-4a74-8c36-21174de3b109",
+      "durationMs": 16598,
+      "qualifications": [
+        {
+          "role": "structured_write",
+          "passed": true,
+          "executionFingerprint": "5c7e1fe94d7dd4d01cd0a41c248074d702a8a32c2d9717bbe234b6e1d7761539"
+        }
+      ]
+    },
+    {
+      "mode": "write-claude",
+      "requestId": "482b6813-0c42-486a-9a2d-4b7192590209",
+      "durationMs": 25505,
+      "qualifications": [
+        {
+          "role": "structured_write",
+          "passed": true,
+          "executionFingerprint": "c8f2b2b41f31d7dc21c473090669e5fef9278ef5be8fea7a71cc68d995e24383"
+        }
+      ]
+    },
+    {
+      "mode": "write-codex",
+      "requestId": "ce3912fa-75fb-40f3-bf40-dc6fd4aa80cb",
+      "durationMs": 38923,
+      "qualifications": [
+        {
+          "role": "structured_write",
+          "passed": true,
+          "executionFingerprint": "d30d81b29cc39c449ee6f43ee002ab9113507f41c97371957e73079a61d35d0b"
+        }
+      ]
+    }
+  ],
+  "decisions": {
+    "analysis": "lmstudio/halo/qwen3-coder-30b-a3b-q4km",
+    "structured_write": "lmstudio/halo/qwen3-coder-30b-a3b-q4km"
+  },
+  "qualificationHash": "c3dc488c36f312ac7dbf889496a6ceb66ac4f8a348ab454daafdf1dd739f2c87",
+  "pickerCount": 2747
+}

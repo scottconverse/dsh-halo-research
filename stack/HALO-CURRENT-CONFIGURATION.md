@@ -1,5 +1,14 @@
 # Halo stack — current installed configuration
 
+## September 7 late update — direct donor reuse in DEV 0.2.0
+
+The same separate port 3085 DEV now uses the actual pinned DevHarmonics selector,
+original qualification checks and Codex Factory lineage tests. Exact role and
+benchmark receipts gate shadow recommendations; they do not gate the operator's
+picker or change production. Codex is executing the acceptance tests. Source,
+failures and final evidence: [direct reuse record](HALO-ROUTER-DIRECT-REUSE-2026-09-07.md).
+Earlier 0.1.0 statements below describe the superseded development policy.
+
 ## September 7, 2026 — separate Halo Router DEV (not production promotion)
 
 The shadow-only Router 0.1.0 experiment runs at **http://127.0.0.1:3085**,

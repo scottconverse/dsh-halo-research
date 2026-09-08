@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-09-08T01:40:41.580Z",
+  "updatedAt": "2026-09-08T05:11:06.270Z",
   "mode": "shadow",
   "authority": "none",
-  "records": 19,
+  "records": 137,
   "policies": [
     {
       "id": "dsh-halo-policy-deterministic",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "authority": "none"
     }
   ],
