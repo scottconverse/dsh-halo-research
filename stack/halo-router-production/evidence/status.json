@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-08T15:51:10.242Z",
+  "updatedAt": "2026-09-08T17:40:33.309Z",
   "mode": "automatic",
   "authority": "operator-controlled",
-  "records": 325,
+  "records": 338,
   "policies": [
     {
       "id": "dsh-halo-policy-deterministic",
@@ -12,7 +12,7 @@
   ],
   "queueDropped": 0,
   "storage": {
-    "written": 38,
+    "written": 51,
     "duplicates": 0,
     "dropped": 0,
     "errors": 0

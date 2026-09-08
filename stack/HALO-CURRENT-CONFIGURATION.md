@@ -1,5 +1,15 @@
 # Halo stack — current installed configuration
 
+## September 8 Gateway reconnection — CURRENT
+
+Production DSH's `mcp-halo-research` connection is enabled against Gateway 0.3.0
+at `http://127.0.0.1:8765/mcp`. Startup failure is nonfatal: an unavailable Gateway
+must not take down the cockpit. A fresh local 35B DSH turn successfully called
+Gateway search and fetch and returned a sourced answer. Model settings, router
+defaults, native picker and verified-coder preset were preserved. This supersedes
+the disabled-Gateway status in the earlier promotion record below.
+Evidence: [reconnection record](HALO-GATEWAY-RECONNECTED-2026-09-08.md).
+
 ## September 8 production promotion — CURRENT
 
 Halo Router 0.3.0 is now installed in production DSH at **http://127.0.0.1:3080**.

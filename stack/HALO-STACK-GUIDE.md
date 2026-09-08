@@ -1,5 +1,13 @@
 # The Halo Stack — operator guide
 
+## Gateway reconnected, September 8
+
+DSH can again use the Halo Research Gateway's search/read tools. Ask normally in
+the cockpit; a local 35B turn was verified calling Gateway search and fetch.
+The Gateway console is http://127.0.0.1:8765/operator. If the Gateway is unavailable,
+the cockpit still opens; do not mistake that for working research tools.
+This replaces the earlier disabled-connection status.
+
 ## Current: production Router 0.3.0, September 8
 
 Open **http://127.0.0.1:3080** or use the Halo desktop launcher. Click **Router**

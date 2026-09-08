@@ -29,13 +29,13 @@ async function copy(source,relative){const dest=path.join(bundle,relative);await
 for(const f of await files(root))await copy(f,path.relative(repo,f));
 for(const relative of configFiles)await copy(path.join(home,relative),path.join('production-home',relative));
 for(const name of ['Launch-Halo.ps1','Run-HaloCockpit.ps1'])await copy(path.join(repo,'stack',name),path.join('stack',name));
-for(const name of ['HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-ROUTER-PRODUCTION-2026-09-08.md']){
+for(const name of ['HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-ROUTER-PRODUCTION-2026-09-08.md','HALO-GATEWAY-RECONNECTED-2026-09-08.md']){
  const source=path.join(repo,'stack',name);await copy(source,path.join('stack',name));await copyFile(source,path.join(research,name));await copyFile(source,path.join(recovery,name));
 }
 await writeFile(path.join(bundle,'MANIFEST-SHA256.txt'),manifest.sort().join('\n')+'\n');
 const parent=path.join(recovery,'MANIFEST-SHA256.txt'),replace=new Map();
 for(const f of await files(bundle))replace.set(path.relative(recovery,f),hash(await readFile(f)));
-for(const name of ['HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-ROUTER-PRODUCTION-2026-09-08.md'])replace.set(name,hash(await readFile(path.join(recovery,name))));
+for(const name of ['HALO-CURRENT-CONFIGURATION.md','HALO-STACK-GUIDE.md','HALO-ROUTER-PRODUCTION-2026-09-08.md','HALO-GATEWAY-RECONNECTED-2026-09-08.md'])replace.set(name,hash(await readFile(path.join(recovery,name))));
 const old=(await readFile(parent,'utf8')).split(/\r?\n/).filter(line=>{const m=/^[a-fA-F0-9]{64}\s+(.+)$/.exec(line);return line&&(!m||!replace.has(m[1]));});
 await writeFile(parent,old.join('\n')+'\n# Production promotion '+new Date().toISOString()+'\n'+[...replace].map(([p,h])=>h+'  '+p).join('\n')+'\n');
 console.log(JSON.stringify({bundle,verifiedCopies:manifest.length,at:new Date().toISOString()}));

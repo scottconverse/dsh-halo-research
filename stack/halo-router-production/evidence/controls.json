@@ -26,6 +26,11 @@
         "worker": null
       },
       "acceptedPin": "null"
+    },
+    "halo-acceptance-8421af6c-295e-4185-bb97-ee669ab6db3d-909659c6-e237-42c2-8090-b74c2c38fc67": {
+      "settings": {
+        "mode": "manual"
+      }
     }
   }
 }

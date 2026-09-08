@@ -30,17 +30,16 @@
 
     # One machine-wide localhost research service. It owns anonymous Exa/DDGS,
     # direct fetch, Reddit pacing, Crawl4AI, cache, citations, jobs, local
-    # allow-listed targets, and approved action receipts. Keeping DSH behind
+    # allow-listed targets, and bounded research jobs. Keeping DSH behind
     # this seam prevents each session from bypassing shared budgets.
     - id: mcp-halo-research
-      disabled: true
       name: '@deepseek-ai/dsh-mcp-client'
       config:
         serverName: halo_research
         transport: streamable-http
         url: http://127.0.0.1:8765/mcp
         toolCallTimeoutMs: 120000
-        failOnStartupError: true
+        failOnStartupError: false
 
     # Local, account-free persistent knowledge graph. The pinned server owns
     # the JSONL file; Mission Control reads the same file without inventing a

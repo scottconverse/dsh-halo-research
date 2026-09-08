@@ -1,5 +1,12 @@
 # Halo Router 0.3.0 — production deployment and rollback
 
+Later same-day update: the Gateway is now running and its DSH connection has
+been re-enabled with nonfatal startup behavior, at Scott's request. See
+[the reconnection evidence](HALO-GATEWAY-RECONNECTED-2026-09-08.md). The disabled
+Gateway references below describe the earlier promotion. Router rollback retains
+the current independent Gateway setting; the original manifest was backed up
+before amending that target's expected hash.
+
 Date: 2026-09-08. Scope: Scott's approved items 1 and 2 only: production promotion,
 short acceptance, configuration/Git/Research recovery records. No new qualification
 campaign, Gateway work, runtime tuning, model installation or architecture work.
