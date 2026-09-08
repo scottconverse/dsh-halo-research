@@ -10,5 +10,6 @@ for(const observation of rows.filter(r=>r.kind==='observation').slice(-limit)){
  const recommendation=rows.find(r=>r.kind==='recommendation'&&r.observationId===observation.observationId);
  const evaluation=evaluations.get(recommendation?.evaluationId)??recommendation;
  const measurement=rows.find(r=>r.kind==='measurement'&&r.observationId===observation.observationId);
- console.log(JSON.stringify({observationId:observation.observationId,sessionId:observation.sessionId,actual:observation.actual,selectionSource:observation.selectionSource,qualificationState:'unknown',recommendation:evaluation??'unavailable',measurement:measurement??'unavailable',outcomes:rows.filter(r=>r.kind==='outcome'&&r.observationId===observation.observationId)},null,2));
+ const qualifications=rows.filter(r=>r.kind==='qualification'&&r.observationId===observation.observationId);
+ console.log(JSON.stringify({observationId:observation.observationId,sessionId:observation.sessionId,actual:observation.actual,selectionSource:observation.selectionSource,qualificationState:qualifications.length?(qualifications.at(-1).passed?'pass':'fail'):'unknown',qualifications,recommendation:evaluation??'unavailable',measurement:measurement??'unavailable',outcomes:rows.filter(r=>r.kind==='outcome'&&r.observationId===observation.observationId)},null,2));
 }

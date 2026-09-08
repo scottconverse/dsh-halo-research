@@ -1,12 +1,29 @@
+import {
+  QUALIFICATION_HARNESSES,
+  TIER_RANK,
+  currentQualification,
+  selectCandidate,
+  tierFit,
+  toDonorCandidate,
+} from "./donor-adapter.mjs";
+
+export {
+  DSH_RUNTIME_VERSION,
+  QUALIFICATION_HARNESSES,
+  TIER_RANK,
+  candidateFingerprint,
+  currentQualification,
+  inferLocalTier,
+  selectCandidate,
+  tierFit,
+  toDonorCandidate,
+} from "./donor-adapter.mjs";
+
 export const name = "dsh-halo-policy-deterministic";
 export const inject = Object.freeze(["haloRouting"]);
 export const POLICY_ID = name;
-export const POLICY_VERSION = "0.1.0";
+export const POLICY_VERSION = "0.2.0";
 
-const TIER_RANK = Object.freeze({ economy: 1, standard: 2, premium: 3 });
-const LOCALITIES = new Set(["local", "remote", "unknown"]);
-const BILLING_STATES = new Set(["free", "paid", "subscription", "unknown"]);
-const QUALIFICATION_STATES = new Set(["unknown", "pass", "fail"]);
 const CATALOG_REJECTIONS = new Set([
   "catalog-only",
   "configured-unavailable",
@@ -21,14 +38,24 @@ function assertNonemptyString(value, field) {
   }
 }
 
+function uniqueStrings(value, field) {
+  if (value === undefined) return [];
+  if (!Array.isArray(value) || value.some((item) => typeof item !== "string" || !item.trim())) {
+    throw new TypeError(`${field} must be an array of nonempty strings`);
+  }
+  return [...new Set(value)];
+}
+
 function normalizePolicyConfig(config = {}) {
   if (config === null || typeof config !== "object" || Array.isArray(config)) {
     throw new TypeError("policy config must be an object");
   }
-  if (config.preferLocal !== undefined && typeof config.preferLocal !== "boolean") {
-    throw new TypeError("policy.preferLocal must be a boolean when supplied");
+  if (config.preferLocal !== undefined && config.preferLocal !== true) {
+    throw new TypeError("policy.preferLocal cannot disable the pinned donor's free-local-first selector");
   }
-  return Object.freeze({ preferLocal: config.preferLocal ?? true });
+  return Object.freeze({
+    excludedCandidateIds: Object.freeze(uniqueStrings(config.excludedCandidateIds, "policy.excludedCandidateIds")),
+  });
 }
 
 function validateWorkload(workload) {
@@ -36,11 +63,10 @@ function validateWorkload(workload) {
     throw new TypeError("workload must be an object");
   }
   assertNonemptyString(workload.role, "workload.role");
-  if (workload.requiredCapabilities !== undefined
-    && (!Array.isArray(workload.requiredCapabilities)
-      || workload.requiredCapabilities.some((item) => typeof item !== "string" || !item.trim()))) {
-    throw new TypeError("workload.requiredCapabilities must be an array of nonempty strings");
+  if (!(workload.role in QUALIFICATION_HARNESSES)) {
+    throw new TypeError(`Unknown qualification role: ${workload.role}`);
   }
+  uniqueStrings(workload.requiredCapabilities, "workload.requiredCapabilities");
   if (workload.requiredTier !== undefined && !(workload.requiredTier in TIER_RANK)) {
     throw new TypeError(`Unsupported workload.requiredTier: ${workload.requiredTier}`);
   }
@@ -54,21 +80,15 @@ function validateCandidate(candidate, index) {
   if (candidate === null || typeof candidate !== "object" || Array.isArray(candidate)) {
     throw new TypeError(`candidates[${index}] must be an object`);
   }
-  for (const field of ["candidateId", "provider", "model", "executionClass", "catalogState"]) {
+  for (const field of ["candidateId", "provider", "model"]) {
     assertNonemptyString(candidate[field], `candidates[${index}].${field}`);
   }
-  if (!LOCALITIES.has(candidate.locality)) {
-    throw new TypeError(`Unsupported candidates[${index}].locality: ${candidate.locality}`);
+  if (candidate.available !== undefined && candidate.available !== null
+    && typeof candidate.available !== "boolean") {
+    throw new TypeError(`candidates[${index}].available must be boolean, null, or omitted`);
   }
-  if (!BILLING_STATES.has(candidate.billing)) {
-    throw new TypeError(`Unsupported candidates[${index}].billing: ${candidate.billing}`);
-  }
-  if (candidate.available !== null && typeof candidate.available !== "boolean") {
-    throw new TypeError(`candidates[${index}].available must be boolean or null`);
-  }
-  if (!Array.isArray(candidate.capabilities)
-    || candidate.capabilities.some((item) => typeof item !== "string" || !item.trim())) {
-    throw new TypeError(`candidates[${index}].capabilities must be an array of nonempty strings`);
+  if (candidate.capabilities !== undefined) {
+    uniqueStrings(candidate.capabilities, `candidates[${index}].capabilities`);
   }
   if (candidate.tier !== undefined && !(candidate.tier in TIER_RANK)) {
     throw new TypeError(`Unsupported candidates[${index}].tier: ${candidate.tier}`);
@@ -77,140 +97,83 @@ function validateCandidate(candidate, index) {
     && (!Number.isSafeInteger(candidate.contextWindow) || candidate.contextWindow <= 0)) {
     throw new TypeError(`candidates[${index}].contextWindow must be a positive safe integer`);
   }
-  if (!QUALIFICATION_STATES.has(candidate.qualificationState)) {
-    throw new TypeError(`Unsupported candidates[${index}].qualificationState: ${candidate.qualificationState}`);
-  }
 }
 
-function makeReason(code, kind, message) {
+function validateQualifications(qualifications) {
+  if (!Array.isArray(qualifications)) throw new TypeError("qualifications must be an array");
+  qualifications.forEach((record, index) => {
+    if (record === null || typeof record !== "object" || Array.isArray(record)) {
+      throw new TypeError(`qualifications[${index}] must be an object`);
+    }
+  });
+}
+
+function reason(code, kind, message) {
   return { code, kind, message };
 }
 
-function evaluateCandidate(candidate, workload) {
+function candidateEvaluation(candidate, donor, workload, qualifications, explicitlyExcluded) {
   const reasons = [];
   let rejected = false;
   const reject = (code, message) => {
     rejected = true;
-    reasons.push(makeReason(code, "reject", message));
+    reasons.push(reason(code, "reject", message));
   };
-  const support = (code, message) => reasons.push(makeReason(code, "support", message));
-  const caveat = (code, message) => reasons.push(makeReason(code, "caveat", message));
+  const support = (code, message) => reasons.push(reason(code, "support", message));
+  const caveat = (code, message) => reasons.push(reason(code, "caveat", message));
 
+  if (!donor) {
+    reject("EXECUTION_FINGERPRINT_MISSING", "No current execution-profile fingerprint is available for donor qualification.");
+  }
+  if (explicitlyExcluded) reject("EXPLICITLY_EXCLUDED", "The caller excluded this candidate from this recommendation.");
   if (candidate.available === false) {
-    reject("KNOWN_UNAVAILABLE", "The candidate is known to be unavailable.");
-  } else if (candidate.available === null) {
-    caveat("AVAILABILITY_UNKNOWN", "Current availability is unknown and is non-gating in shadow.");
+    reject("KNOWN_UNAVAILABLE", "The supplied snapshot proves the candidate unavailable.");
+  } else if (candidate.available !== true) {
+    caveat("AVAILABILITY_UNKNOWN", "Current availability is unknown; donor qualification remains the admission gate.");
   } else {
     support("AVAILABLE", "The supplied snapshot reports the candidate available.");
   }
 
-  const catalogState = candidate.catalogState.toLowerCase();
-  if (catalogState === "catalog-only") {
-    reject("CATALOG_ONLY", "Catalog membership does not prove entitlement or executable access.");
-  } else if (CATALOG_REJECTIONS.has(catalogState)) {
-    reject("CATALOG_UNAVAILABLE", `Catalog state '${candidate.catalogState}' proves the candidate unavailable.`);
-  } else if (catalogState === "unknown" || catalogState === "registered") {
-    const membershipNote = catalogState === "registered"
-      ? " Catalog registration alone does not prove executable access."
-      : "";
-    caveat(
-      "ENTITLEMENT_UNKNOWN",
-      `Authentication, quota, or entitlement is unknown and is non-gating in shadow.${membershipNote}`,
-    );
-  } else if (catalogState === "available") {
-    support("CATALOG_AVAILABLE", "The supplied catalog state reports executable access.");
-  } else {
-    caveat(
-      "CATALOG_STATE_UNRECOGNIZED",
-      `Catalog state '${candidate.catalogState}' is not recognized and is non-gating in shadow.`,
-    );
+  const catalogState = String(candidate.catalogState ?? "unknown").toLowerCase();
+  if (CATALOG_REJECTIONS.has(catalogState)) {
+    reject("CATALOG_UNAVAILABLE", `Catalog state '${catalogState}' excludes the candidate.`);
   }
 
-  const requiredCapabilities = [...new Set(workload.requiredCapabilities ?? [])].sort();
-  const capabilities = new Set(candidate.capabilities);
-  const missingCapabilities = requiredCapabilities.filter((required) => !capabilities.has(required));
-  if (missingCapabilities.length > 0) {
-    reject("CAPABILITY_MISSING", `Missing required capabilities: ${missingCapabilities.join(", ")}.`);
-  } else if (requiredCapabilities.length > 0) {
-    support("CAPABILITIES_SATISFIED", `Required capabilities are present: ${requiredCapabilities.join(", ")}.`);
-  } else {
-    support("NO_CAPABILITY_REQUIREMENT", "The workload declares no capability constraint.");
+  const requiredCapabilities = uniqueStrings(workload.requiredCapabilities, "workload.requiredCapabilities").sort();
+  const capabilities = new Set(candidate.capabilities ?? []);
+  const capabilitiesObserved = candidate.inputModalitiesState === "observed"
+    || candidate.capabilityState === "observed"
+    || capabilities.size > 0;
+  const missing = requiredCapabilities.filter((item) => !capabilities.has(item));
+  if (capabilitiesObserved && missing.length > 0) {
+    reject("CAPABILITY_MISSING", `Missing required capabilities: ${missing.join(", ")}.`);
+  } else if (!capabilitiesObserved && requiredCapabilities.length > 0) {
+    caveat("CAPABILITIES_UNKNOWN", "Capability metadata is unknown; exact role qualification remains authoritative.");
   }
 
-  let tierFit = 0;
-  if (workload.requiredTier !== undefined) {
-    if (candidate.tier === undefined) {
-      tierFit = Number.POSITIVE_INFINITY;
-      caveat("TIER_UNKNOWN", `Tier is unknown; the ${workload.requiredTier} requirement is not disproven.`);
+  if (workload.requiredContextWindow !== undefined && candidate.contextWindow !== undefined
+    && candidate.contextWindow < workload.requiredContextWindow) {
+    reject("CONTEXT_TOO_SMALL", `Context window ${candidate.contextWindow} is below ${workload.requiredContextWindow}.`);
+  }
+
+  if (donor) {
+    const requiredTier = workload.requiredTier ?? "economy";
+    const fit = tierFit(donor.tier, requiredTier);
+    if (fit === null) reject("TIER_TOO_LOW", `${donor.tier} tier is below required ${requiredTier}.`);
+    else support("TIER_SATISFIED", `${donor.tier} tier satisfies ${requiredTier}.`);
+
+    const currentRole = currentQualification(donor, qualifications, workload.role);
+    if (!currentRole) {
+      reject("QUALIFICATION_NOT_CURRENT", `No current exact-fingerprint PASS exists for role '${workload.role}'.`);
     } else {
-      tierFit = TIER_RANK[candidate.tier] - TIER_RANK[workload.requiredTier];
-      if (tierFit < 0) {
-        reject("TIER_TOO_LOW", `${candidate.tier} tier is below required ${workload.requiredTier}.`);
-      } else {
-        support("TIER_SATISFIED", `${candidate.tier} tier satisfies required ${workload.requiredTier}.`);
-      }
+      support("QUALIFICATION_PASSED", `Exact current qualification for role '${workload.role}' passed.`);
     }
-  } else if (candidate.tier === undefined) {
-    caveat("TIER_UNKNOWN", "Tier is unknown, and the workload declares no tier requirement.");
-  } else {
-    support("TIER_RECORDED", `Candidate tier is ${candidate.tier}; the workload declares no tier requirement.`);
-  }
-
-  if (workload.requiredContextWindow !== undefined) {
-    if (candidate.contextWindow === undefined) {
-      caveat(
-        "CONTEXT_UNKNOWN",
-        `Context window is unknown; the ${workload.requiredContextWindow} requirement is not disproven.`,
-      );
-    } else if (candidate.contextWindow < workload.requiredContextWindow) {
-      reject(
-        "CONTEXT_TOO_SMALL",
-        `Context window ${candidate.contextWindow} is below required ${workload.requiredContextWindow}.`,
-      );
-    } else {
-      support(
-        "CONTEXT_SATISFIED",
-        `Context window ${candidate.contextWindow} satisfies required ${workload.requiredContextWindow}.`,
-      );
+    if (workload.role === "structured_write") {
+      const benchmark = currentQualification(donor, qualifications, "benchmark");
+      if (!benchmark) reject("BENCHMARK_NOT_CURRENT", "No current exact-fingerprint benchmark PASS exists.");
+      else support("BENCHMARK_PASSED", "Exact current benchmark qualification passed.");
     }
-  } else if (candidate.contextWindow === undefined) {
-    caveat("CONTEXT_UNKNOWN", "Context window is unknown, and the workload declares no context requirement.");
-  } else {
-    support("CONTEXT_RECORDED", `Candidate context window is ${candidate.contextWindow}.`);
   }
-
-  if (candidate.qualificationState === "fail") {
-    reject("QUALIFICATION_FAILED", `Qualification for role '${workload.role}' explicitly failed.`);
-  } else if (candidate.qualificationState === "unknown") {
-    caveat(
-      "QUALIFICATION_UNKNOWN",
-      `Candidate has never been qualified for role '${workload.role}'; unknown is non-gating in shadow only.`,
-    );
-  } else {
-    support("QUALIFICATION_PASSED", `Qualification for role '${workload.role}' passed.`);
-  }
-
-  if (candidate.locality === "local") {
-    support("LOCAL_EXECUTION", "Execution is explicitly local.");
-  } else if (candidate.locality === "remote") {
-    support("REMOTE_EXECUTION", "Execution is explicitly remote.");
-  } else {
-    caveat("LOCALITY_UNKNOWN", "Execution locality is unknown and receives no local preference.");
-  }
-
-  const billingCode = {
-    free: "BILLING_FREE",
-    paid: "BILLING_PAID",
-    subscription: "BILLING_SUBSCRIPTION",
-    unknown: "BILLING_UNKNOWN",
-  }[candidate.billing];
-  const billingMessage = candidate.billing === "unknown"
-    ? "Billing state is unknown; billing is recorded separately and does not imply locality."
-    : candidate.billing === "subscription"
-      ? "Billing is subscription-backed; marginal cost is unknown, and billing does not imply locality."
-      : `Billing state is ${candidate.billing}; billing is recorded separately and does not imply locality.`;
-  const billingKind = ["unknown", "subscription"].includes(candidate.billing) ? "caveat" : "support";
-  reasons.push(makeReason(billingCode, billingKind, billingMessage));
 
   return {
     candidateId: candidate.candidateId,
@@ -221,82 +184,117 @@ function evaluateCandidate(candidate, workload) {
     billing: candidate.billing,
     decision: rejected ? "rejected" : "accepted",
     reasons,
-    rank: {
-      tierFit: Number.isFinite(tierFit) ? tierFit : null,
-      tierKnown: candidate.tier !== undefined,
-    },
   };
 }
 
-function compareAccepted(left, right, candidatesById, workload, policy) {
-  const leftCandidate = candidatesById.get(left.candidateId);
-  const rightCandidate = candidatesById.get(right.candidateId);
-  if (policy.preferLocal) {
-    const localityDifference = (leftCandidate.locality === "local" ? 0 : 1)
-      - (rightCandidate.locality === "local" ? 0 : 1);
-    if (localityDifference !== 0) return localityDifference;
-  }
-  if (workload.requiredTier !== undefined) {
-    const knownDifference = (leftCandidate.tier === undefined ? 1 : 0)
-      - (rightCandidate.tier === undefined ? 1 : 0);
-    if (knownDifference !== 0) return knownDifference;
-    if (leftCandidate.tier !== undefined && rightCandidate.tier !== undefined) {
-      const fitDifference = (TIER_RANK[leftCandidate.tier] - TIER_RANK[workload.requiredTier])
-        - (TIER_RANK[rightCandidate.tier] - TIER_RANK[workload.requiredTier]);
-      if (fitDifference !== 0) return fitDifference;
+function donorRanking({ candidates, qualifications, role, requiredTier, excludedCandidateIds }) {
+  const ranked = [];
+  const excluded = new Set(excludedCandidateIds);
+  while (true) {
+    let selected;
+    try {
+      selected = selectCandidate({
+        candidates,
+        qualifications,
+        role,
+        requiredTier,
+        excludedCandidateIds: [...excluded],
+      });
+    } catch (error) {
+      if (/^No currently qualified candidate can perform /.test(error?.message ?? "")) break;
+      throw error;
     }
+    ranked.push(selected);
+    excluded.add(selected.id);
   }
-  return left.candidateId.localeCompare(right.candidateId);
+  return ranked;
 }
 
-export function recommend({ workload, candidates, policy = {} } = {}) {
+export function recommend({
+  workload,
+  candidates,
+  qualifications = [],
+  excludedCandidateIds = [],
+  policy = {},
+} = {}) {
   validateWorkload(workload);
   if (!Array.isArray(candidates)) throw new TypeError("candidates must be an array");
+  validateQualifications(qualifications);
   const normalizedPolicy = normalizePolicyConfig(policy);
-  const candidatesById = new Map();
+  const explicitExclusions = new Set([
+    ...uniqueStrings(excludedCandidateIds, "excludedCandidateIds"),
+    ...normalizedPolicy.excludedCandidateIds,
+  ]);
+  const byId = new Map();
+  const donorById = new Map();
   candidates.forEach((candidate, index) => {
     validateCandidate(candidate, index);
-    if (candidatesById.has(candidate.candidateId)) {
-      throw new TypeError(`Duplicate candidateId: ${candidate.candidateId}`);
+    if (byId.has(candidate.candidateId)) throw new TypeError(`Duplicate candidateId: ${candidate.candidateId}`);
+    byId.set(candidate.candidateId, candidate);
+    if (typeof candidate.executionFingerprint === "string" && candidate.executionFingerprint.trim()) {
+      donorById.set(candidate.candidateId, toDonorCandidate(candidate, workload.role));
     }
-    candidatesById.set(candidate.candidateId, candidate);
   });
 
-  const evaluations = [...candidatesById.values()]
+  const evaluations = [...candidates]
     .sort((left, right) => left.candidateId.localeCompare(right.candidateId))
-    .map((candidate) => evaluateCandidate(candidate, workload));
-  const accepted = evaluations
-    .filter((evaluation) => evaluation.decision === "accepted")
-    .sort((left, right) => compareAccepted(left, right, candidatesById, workload, normalizedPolicy));
-  const rejected = evaluations.filter((evaluation) => evaluation.decision === "rejected");
-  const selected = accepted[0] ?? null;
-
-  if (selected) {
-    selected.reasons.push(makeReason(
-      "RECOMMENDED",
-      "support",
-      "This candidate ranks first under the deterministic shadow policy.",
+    .map((candidate) => candidateEvaluation(
+    candidate,
+    donorById.get(candidate.candidateId),
+    workload,
+    qualifications,
+    explicitExclusions.has(candidate.candidateId),
     ));
-    for (const evaluation of accepted.slice(1)) {
-      evaluation.reasons.push(makeReason(
-        "RANKED_BELOW_RECOMMENDATION",
+  const hardExcluded = evaluations
+    .filter((evaluation) => evaluation.reasons.some((item) => [
+      "EXECUTION_FINGERPRINT_MISSING",
+      "EXPLICITLY_EXCLUDED",
+      "KNOWN_UNAVAILABLE",
+      "CATALOG_UNAVAILABLE",
+      "CAPABILITY_MISSING",
+      "CONTEXT_TOO_SMALL",
+    ].includes(item.code)))
+    .map((evaluation) => evaluation.candidateId);
+  const ranked = donorRanking({
+    candidates: [...donorById.values()],
+    qualifications,
+    role: workload.role,
+    requiredTier: workload.requiredTier ?? "economy",
+    excludedCandidateIds: [...hardExcluded, ...explicitExclusions],
+  });
+  const rankById = new Map(ranked.map((candidate, index) => [candidate.id, index]));
+  for (const evaluation of evaluations) {
+    if (!rankById.has(evaluation.candidateId)) {
+      evaluation.decision = "rejected";
+      continue;
+    }
+    evaluation.decision = "accepted";
+    const rank = rankById.get(evaluation.candidateId);
+    evaluation.rank = rank + 1;
+    if (rank === 0) {
+      for (const factor of ranked[0].factors) {
+        evaluation.reasons.push(reason("DONOR_SELECTED_FACTOR", "support", factor));
+      }
+    } else {
+      evaluation.reasons.push(reason(
+        "DONOR_RANKED_BELOW",
         "support",
-        `Candidate is eligible but ranks below ${selected.candidateId}.`,
+        `The pinned donor selector ranked this candidate below ${ranked[0].id}.`,
       ));
     }
   }
 
-  const selectedCaveats = selected
-    ? selected.reasons.filter((reason) => reason.kind === "caveat").map((reason) => reason.message)
-    : [];
+  const selected = ranked[0] ?? null;
   const explanation = selected
-    ? `Recommend ${selected.candidateId}. ${selectedCaveats.length > 0 ? `Caveats: ${selectedCaveats.join(" ")} ` : ""}This shadow-only recommendation changes no route.`
-    : "No candidate satisfies every proven constraint. This shadow-only result changes no route.";
+    ? `Recommend ${selected.id}. ${selected.factors.join("; ")}. This shadow-only recommendation changes no route.`
+    : "No currently qualified candidate satisfies the donor role, benchmark, tier, and exclusion gates. This shadow-only result changes no route.";
 
   return {
-    recommendedCandidateId: selected?.candidateId ?? null,
-    acceptedCandidateIds: accepted.map((evaluation) => evaluation.candidateId),
-    rejectedCandidateIds: rejected.map((evaluation) => evaluation.candidateId),
+    recommendedCandidateId: selected?.id ?? null,
+    acceptedCandidateIds: ranked.map((candidate) => candidate.id),
+    rejectedCandidateIds: evaluations
+      .filter((evaluation) => evaluation.decision === "rejected")
+      .map((evaluation) => evaluation.candidateId),
     evaluations,
     explanation,
   };
@@ -307,6 +305,7 @@ export function apply(ctx, config = {}) {
   return ctx.haloRouting.registerPolicy(Object.freeze({
     id: POLICY_ID,
     version: POLICY_VERSION,
+    authority: "none",
     config: normalizedConfig,
     recommend: (request) => recommend({ ...request, policy: normalizedConfig }),
   }));

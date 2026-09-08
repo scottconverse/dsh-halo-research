@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { deriveProfile } from '../stack/halo-routing/profile.mjs';
+import { executionCandidates } from '../stack/halo-routing/execution-candidates.mjs';
+import { buildQualificationReceipt } from '../stack/halo-routing/qualification.mjs';
+import { candidateFingerprint, toDonorCandidate } from '../stack/halo-policy-deterministic/index.mjs';
 
 const candidate = (overrides = {}) => ({
   provider: { id: 'lmstudio' },
@@ -45,7 +48,7 @@ test('derives an execution profile from observed local runtime data', () => {
     loadConfig: { flashAttention: true },
   });
 
-  assert.equal(profile.schemaVersion, '1');
+  assert.equal(profile.schemaVersion, '2');
   assert.equal(profile.identity.endpointHost, '127.0.0.1:1234');
   assert.equal(profile.actual.contextWindow.value, 32768);
   assert.equal(profile.requested.contextWindow.state, 'missing');
@@ -187,6 +190,45 @@ test('tool arguments and prompts are omitted while schema changes alter only the
   assert.equal(left.fingerprint, right.fingerprint);
   assert.notEqual(left.toolSchemaDigest, schemaChanged.toolSchemaDigest);
   assert.equal(JSON.stringify(left).includes('secret-a'), false);
+});
+
+test('missing tools never collapse into an observed empty tool schema, and the measured donor receipt rejoins exactly', () => {
+  const missing = deriveProfile(candidate({ tools: undefined }), enrichment());
+  const observedEmpty = deriveProfile(candidate({ tools: [] }), enrichment());
+
+  assert.notEqual(missing.toolSchemaDigest, observedEmpty.toolSchemaDigest);
+  assert.notEqual(missing.fingerprint, observedEmpty.fingerprint);
+
+  const routingCandidate = {
+    candidateId: 'lmstudio/halo/qwen3-coder-30b-a3b-q4km',
+    provider: 'lmstudio',
+    model: 'halo/qwen3-coder-30b-a3b-q4km',
+    executionClass: 'lmstudio',
+    contextWindow: 32768,
+    tier: 'standard',
+    billing: 'free',
+  };
+  const measured = deriveProfile({ ...routingCandidate, reasoningMode: 'off', tools: [] }, enrichment());
+  const projected = executionCandidates(
+    [routingCandidate],
+    [{ kind: 'measurement', sequence: 1, executionProfileObservation: { phase: 'post-terminal', profile: measured } }],
+    new Map([[routingCandidate.model, enrichment()]]),
+  )[0];
+  const receipt = buildQualificationReceipt({
+    candidate: { ...routingCandidate, executionFingerprint: measured.fingerprint, runtimeVersion: 'DSH/0.1.1-rc.2' },
+    role: 'analysis',
+    finalText: 'DEVHARMONICS_ANALYSIS_QUALIFIED',
+    hostReceipt: {
+      observationId: 'profile-join-observation',
+      executionPhase: 'post-terminal',
+      executionFingerprint: measured.fingerprint,
+      verifier: { kind: 'independent-code', version: 'test', receiptId: 'profile-join-evidence' },
+    },
+    finishedAt: '2026-09-07T12:00:00.000Z',
+  });
+
+  assert.equal(projected.executionFingerprint, measured.fingerprint);
+  assert.equal(candidateFingerprint(toDonorCandidate(projected, 'analysis'), 'analysis'), receipt.fingerprint);
 });
 
 test('local profile fields distinguish missing from explicit unknown', () => {

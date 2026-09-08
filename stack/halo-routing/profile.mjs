@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto';
 
-export const PROFILE_SCHEMA_VERSION = '1';
+// v2 encodes tool-schema observation state inside the digest. This invalidates
+// v1 receipts, where an unavailable schema and an observed empty schema both
+// hashed as `[]` and could therefore share a qualification fingerprint.
+export const PROFILE_SCHEMA_VERSION = '2';
 
 const VOLATILE_KEY = /^(?:pid|processId|residen(?:cy|t)|status|queued|token(?:s|Count)?|speed|throughput|cost|price|latency|duration|lastUsed(?:Time)?|loadedAt)$/i;
 
@@ -73,11 +76,12 @@ function toolDefinition(tool) {
   });
 }
 
-export function toolSchemaDigest(tools = []) {
-  const definitions = (Array.isArray(tools) ? tools : [tools])
+export function toolSchemaDigest(tools) {
+  const state = tools === undefined ? 'missing' : tools === null ? 'unknown' : 'observed';
+  const definitions = (state === 'observed' ? (Array.isArray(tools) ? tools : [tools]) : [])
     .map(toolDefinition)
     .sort((left, right) => canonicalize(left).localeCompare(canonicalize(right)));
-  return sha256(definitions);
+  return sha256({ state, definitions });
 }
 
 function requestedFields(requested, local) {

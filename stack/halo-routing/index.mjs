@@ -5,6 +5,9 @@ import {openLedger} from './ledger.mjs';
 import {createRouting,stableId} from './core.mjs';
 import {deriveProfile} from './profile.mjs';
 import {census,localRuntime,enrichLocal,residentOrigins} from './catalog.mjs';
+import {executionCandidates} from './execution-candidates.mjs';
+import {readNativeQualificationResult} from './native-qualification.mjs';
+import {buildQualificationReceipt,ANALYSIS_FIXTURE,BENCHMARK_FIXTURE,STRUCTURED_WRITE_FIXTURE,verifyStructuredWriteFixture} from './qualification.mjs';
 export const name='dsh-halo-routing';
 export const inject=['llm','storage','storage.backend.json'];
 /** DEV-only observation. Session events supply correlation; stream supplies final dispatch. */
@@ -16,9 +19,9 @@ export async function apply(ctx,config={}){
  let ledger;try{ledger=await openLedger(ctx.storage,{queueLimit:config.queueLimit??256});}catch{ledger={stats:{errors:1},append:async()=>false,get:()=>undefined,values:()=>[],flush:async()=>{},close:async()=>{}};}
  let catalog={candidates:[],nativeProviders:[]};let runtime=new Map();let closed=false;let queued=0;let dropped=0;
  let exportedCount=-1;
- const sessions=new Map();const steps=new Map();const pins=new Map();const attempts=new Map();const latest=new Map();const active=new Map();const observedLatency=[];let workChain=Promise.resolve();let exportChain=Promise.resolve();
+ const sessions=new Map();const steps=new Map();const pins=new Map();const attempts=new Map();const latest=new Map();const active=new Map();const qualificationTests=new Map();const qualificationText=new Map();const observedLatency=[];let workChain=Promise.resolve();let exportChain=Promise.resolve();
  for(const row of ledger.values())if(row.kind==='observation'){const key=stableId(row.sessionId,row.turnId,row.step);attempts.set(key,Math.max(attempts.get(key)??0,(row.attempt??0)+1));}
- const routing=createRouting({ledger,candidates:()=>catalog.candidates,emit:(event,payload)=>{try{ctx.emit(event,payload);}catch{}},validateOutcome:async o=>{
+ const routing=createRouting({ledger,candidates:()=>executionCandidates(catalog.candidates,ledger.values(),runtime),qualifications:()=>ledger.values().filter(r=>r.kind==='qualification'),emit:(event,payload)=>{try{ctx.emit(event,payload);}catch{}},validateOutcome:async o=>{
   try{const resolved=await realpath(o.receiptPath);const rel=path.relative(await realpath(gateRoot),resolved);if(rel.startsWith('..')||path.isAbsolute(rel)||path.basename(resolved)!=='verdict.json')return false;
    const bytes=await readFile(resolved);const audit=JSON.parse(bytes);return stableId(bytes.toString('utf8'))===o.receiptId&&audit.rounds?.some(r=>r.round===o.round&&((o.result==='pass'&&r.state==='VERIFIED')||(o.result==='fail'&&r.state!=='VERIFIED')));
   }catch{return false;}
@@ -34,6 +37,37 @@ export async function apply(ctx,config={}){
  }
  await refresh();
  const refreshTimer=setInterval(()=>refresh().catch(()=>{}),config.refreshMs??60000);refreshTimer.unref();
+ ctx.on('halo-routing/qualification-start',payload=>{
+  const fixture={analysis:ANALYSIS_FIXTURE,benchmark:BENCHMARK_FIXTURE,structured_write:STRUCTURED_WRITE_FIXTURE}[payload.role];
+  if(fixture&&payload.prompt===fixture.prompt){qualificationTests.set(payload.sessionId,{role:payload.role,promptHash:stableId(payload.prompt),cwd:payload.verificationCwd??payload.cwd,startedAt:new Date().toISOString()});qualificationText.set(payload.sessionId,'');}
+ },{global:true});
+ ctx.on('halo-routing/qualification-result',payload=>{queue(async()=>{
+  const run=qualificationTests.get(payload.sessionId),observation=latest.get(payload.sessionId);
+  if(payload.completed!==true){qualificationTests.delete(payload.sessionId);qualificationText.delete(payload.sessionId);return;}
+  if(!run||!observation)return;
+  const measurement=ledger.get(stableId('measurement',observation.observationId));
+  const profile=measurement?.executionProfileObservation;
+  if(profile?.phase!=='post-terminal')return;
+  const base=catalog.candidates.find(c=>c.provider===observation.actual.provider&&c.model===observation.actual.model);if(!base)return;
+  let finalText=qualificationText.get(payload.sessionId)??'';let nativeEvidence=null;
+  if(['claude-cli','codex-cli'].includes(base.provider)){
+   const native=await readNativeQualificationResult(devHome,{sessionId:payload.sessionId,provider:base.provider,model:base.model,notBefore:run.startedAt});
+   if(!native)throw Error('Native qualification receipt missing');
+   finalText=native.ok?native.final:'';
+   nativeEvidence={ok:native.ok,receiptPath:native.receiptPath,receiptHash:native.receiptHash,finishedAt:native.finishedAt,source:'native-adapter-result.final'};
+  }
+  let fixtureVerification=null;
+  if(run.role==='structured_write'){
+   const resolved=await realpath(run.cwd);const relative=path.relative(await realpath(devHome),resolved);
+   if(relative.startsWith('..')||path.isAbsolute(relative))throw Error('Qualification fixture is outside DEV');
+   const original=STRUCTURED_WRITE_FIXTURE.files['test_add.py'];
+   const intact=(await readFile(path.join(resolved,'test_add.py'),'utf8'))===original;
+   fixtureVerification=intact?verifyStructuredWriteFixture(resolved):{passed:false,diffNonEmpty:false,checkPassed:false,detail:'Protected donor fixture changed'};
+  }
+  const record=buildQualificationReceipt({candidate:{...base,executionFingerprint:profile.fingerprint,runtimeVersion:'DSH/0.1.1-rc.2'},role:run.role,finalText,fixtureVerification,finishedAt:measurement.timestamp,hostReceipt:{producer:'dsh-host',observationId:observation.observationId,executionPhase:'post-terminal',executionFingerprint:profile.fingerprint,verifier:{kind:'independent-code',version:'DevHarmonics/ee369b4/qualify',receiptId:stableId(observation.observationId,run.promptHash,finalText,fixtureVerification)}}});
+  await ledger.append(stableId('qualification',record.observationId,record.role),{...record,fixtureVerification,nativeEvidence});
+  qualificationTests.delete(payload.sessionId);qualificationText.delete(payload.sessionId);await exportRecords();
+ });},{global:true});
  async function scanPin(sessionId){try{const p=path.join(devHome,'model-selections',stableIdFromString(sessionId)+'.json');const row=JSON.parse(await readFile(p,'utf8'));pins.set(sessionId,row);}catch(e){if(e.code==='ENOENT')pins.set(sessionId,null);}}
  ctx.on('agent/request',async(payload,next)=>{
   // next belongs to DSH. Never catch it or call it twice.
@@ -46,6 +80,7 @@ export async function apply(ctx,config={}){
   if(event.type==='assistant/chunk'){
    const call=active.get(session.id);if(!call||call.turnId!==event.data.turn||call.step!==event.data.step)return;
    const chunk=event.data.chunk;
+   if(chunk.type==='text-delta'&&qualificationTests.has(session.id))qualificationText.set(session.id,(qualificationText.get(session.id)??'')+(chunk.text??''));
    if(chunk.type==='usage')call.usage=cleanUsage(chunk.usage);
    if(['text-delta','reasoning-delta','tool-call-delta'].includes(chunk.type)&&call.firstChunkMs===null)call.firstChunkMs=performance.now()-call.started;
    if(chunk.type==='finish'){
@@ -73,7 +108,7 @@ export async function apply(ctx,config={}){
    const candidate={...match,reasoningMode:options.reasoningEffort,tools:options.tools};
    const enrichment=options.provider==='lmstudio'?(runtime.get(options.model)??{}):{};
    active.set(id,{observationId,...step,candidate,started:start,firstChunkMs:null});
-   const workload={role:session?.header.parentSession?'worker':'planner',taskKind:'unspecified',requiredCapabilities:['text']};
+   const workload={role:qualificationTests.get(id)?.role??(session?.header.parentSession?'structured_write':'analysis'),requiredTier:config.requiredTier??'economy',taskKind:'caller-role',requiredCapabilities:['text']};
    const timestamp=new Date().toISOString();const parentSessionId=session?.header.parentSession;
    // All hashing, evidence IO and policy work happens after dispatch returns.
    queue(async()=>{

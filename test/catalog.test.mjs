@@ -203,9 +203,10 @@ test('policy accepts the census candidate contract with availability explicitly 
   const live = await census(llm);
 
   const result = recommend({
-    workload: { role: 'planner', requiredCapabilities: ['text'] },
+    workload: { role: 'analysis', requiredCapabilities: ['text'] },
     candidates: live.candidates,
   });
 
-  assert.equal(result.recommendedCandidateId, 'lmstudio/halo/worker');
+  assert.equal(result.recommendedCandidateId, null);
+  assert.ok(result.evaluations[0].reasons.some(r=>r.code==='EXECUTION_FINGERPRINT_MISSING'));
 });

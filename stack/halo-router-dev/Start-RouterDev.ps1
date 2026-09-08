@@ -3,6 +3,7 @@ $ErrorActionPreference = 'Stop'
 $DevRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $DevHome = Join-Path $DevRoot 'home'
 $DshBinary = Join-Path $DevRoot 'node_modules\@deepseek-ai\dsh\lib\bin.js'
+$ModuleIdentityCheck = Join-Path $DevRoot 'repair-profile-module-identity.mjs'
 $NodeBinary = (Get-Command node.exe -ErrorAction Stop).Source
 $PidPath = Join-Path $DevHome 'runtime\halo-router-dev.pid.json'
 $StdoutPath = Join-Path $DevHome 'runtime\halo-router-dev.stdout.log'
@@ -11,6 +12,15 @@ $Port = 3085
 
 if (-not (Test-Path -LiteralPath $DshBinary -PathType Leaf)) {
     throw "DEV DSH binary is missing: $DshBinary"
+}
+if (-not (Test-Path -LiteralPath $ModuleIdentityCheck -PathType Leaf)) {
+    throw "DEV module identity check is missing: $ModuleIdentityCheck"
+}
+$moduleIdentityOutput = & $NodeBinary $ModuleIdentityCheck --check 2>&1
+$moduleIdentityExitCode = $LASTEXITCODE
+if ($moduleIdentityExitCode -ne 0) {
+    $details = $moduleIdentityOutput -join [Environment]::NewLine
+    throw "DEV module identity preflight failed. Run 'node .\repair-profile-module-identity.mjs --repair', inspect its receipt, then retry. Check output:`n$details"
 }
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $PidPath) | Out-Null
 

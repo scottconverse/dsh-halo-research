@@ -1,46 +1,34 @@
-# Deterministic policy provenance
+# Direct donor selector provenance
 
-Status: extracted and deliberately adapted for Halo Router 0.1.0 shadow use on 2026-09-07. This file records source-present provenance; tests and live integration evidence are separate claims.
+Status: direct pinned reuse for DEV-only Halo shadow policy 0.2.0 on 2026-09-07.
 
 ## Pinned sources
 
-| Source | Exact identity | Relevant source | License |
-|---|---|---|---|
-| DevHarmonics | commit `ee369b4eca02e22f5279fac5985fe124a79cde78`; `scripts/fleet.mjs` blob `1326858137d24c41e53b9e84e76abd92d7300d75` | [`scripts/fleet.mjs`](https://github.com/scottconverse/DevHarmonics/blob/ee369b4eca02e22f5279fac5985fe124a79cde78/scripts/fleet.mjs): `TIER_RANK`/`tierFit` lines 45 and 69-71; exact-current qualification lines 179-209; selector, qualification/benchmark gates, score and selected factors lines 212-256 | Apache-2.0 at the pinned commit |
-| Codex Factory | commit `51a31e01c5a7ae2233c79265521d2e30c3195991` | [`scripts/factory-fleet.mjs`](https://github.com/scottconverse/codex-factory/blob/51a31e01c5a7ae2233c79265521d2e30c3195991/scripts/factory-fleet.mjs): `candidateFingerprint`, `currentQualification`, `tierFit`, and `selectCandidate` | Apache-2.0 at the pinned commit |
+| Source | Commit | Vendored selector blob | Original selector test blob | License blob |
+|---|---|---|---|---|
+| DevHarmonics | `ee369b4eca02e22f5279fac5985fe124a79cde78` | `scripts/fleet.mjs` `1326858137d24c41e53b9e84e76abd92d7300d75` | `test/fleet.test.mjs` `6f89636b4e64d34a6dd70918245fe6be263306e7` | `97ad1c8e34f92c09c03fa83c6f9a7a9a94d0c124` |
+| Codex Factory | `51a31e01c5a7ae2233c79265521d2e30c3195991` | `scripts/factory-fleet.mjs` `3328c1c469d7b06735af50e3f40e7a2657e9230b` | `test/factory-fleet.test.mjs` `ac4df9059ad671b87f9c81aa3a787e22cf6eee76` | `261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64` |
 
-DevHarmonics was read with `git show` from the pinned commit, not from its dirty working tree. Codex Factory was read from the commit-pinned GitHub source because there is no local checkout under `Desktop\Code`.
+All six files under `vendor/` are byte-exact Git blobs from those commits. Neither pinned tree contains a `NOTICE` file. Both Apache-2.0 license files are retained. The vendored modules depend only on Node built-ins; their complete dependency closure for selector loading is present.
 
-Governing Halo documents:
+DevHarmonics is the maintained donor called by Halo. Its full `fleet.mjs` is imported and its exported `selectCandidate`, `candidateFingerprint`, `inferLocalTier`, `TIER_RANK`, and `QUALIFICATION_HARNESSES` execute directly. Codex Factory is retained as the upstream lineage and its original tests remain executable.
 
-- `C:\Users\scott\Downloads\HALOROUTERSPECv0.3.md`, especially authority order (§4), deterministic recommendation and cold start (§8 Step 4), no-authority scope (§9), and pin/license requirements (§10).
-- `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\HALO-ROUTER-REAUDIT-2026-09-07.md`, especially reuse provenance (§4) and retained interpretation corrections (§5).
-- `C:\Users\scott\Desktop\Code\dsh-halo-research\stack\halo-router-dev\evidence\phase0-waterfall.json`, which proves listener order is not invariant, downstream delegation remains exactly once, observer failure is isolated, and downstream failure keeps its ordinary meaning. This policy never enters that waterfall.
+## Thin adapter boundary
 
-## Extracted ideas
+`donor-adapter.mjs` contains only:
 
-- deterministic tier sufficiency and tightest-fit ordering;
-- explicit qualification states tied to the candidate snapshot;
-- local-first recommendation after hard constraints;
-- stable candidate identity as the final tie-break;
-- plain-language recommendation factors.
+- DSH-to-donor field projection;
+- the exact pinned DSH runtime fallback;
+- public visibility copies of the donor-private `currentQualification` and `tierFit` helper bodies.
 
-## Required adaptations
+The policy obtains the ranked accepted list by repeatedly calling the donor `selectCandidate` with already-selected ids added to `excludedCandidateIds`. It does not reproduce the donor score or implement another optimizer. Halo-only proven failures are translated into donor exclusions; the selected candidate and selected factors come from the donor.
 
-This is one adapted policy lineage, not two competing optimizers.
+The execution profile is bound as `digest`. This deliberately restores the exact-profile invalidation that the current DevHarmonics LM Studio discovery path cannot provide on its own. The Factory lineage hashes more individual fields; Halo hashes those observable execution fields first and supplies the resulting digest to the maintained donor fingerprint.
 
-- Candidate discovery, runtime probing, fingerprint creation, qualification storage, and verifier receipt joins remain outside this package. It accepts already-assembled data only.
-- DevHarmonics and Codex Factory require a current passing qualification. Halo shadow mode instead rejects `fail` but keeps `unknown` eligible with a visible caveat. This must not be reused for automatic routing.
-- The sources use `paid` as a proxy for local-versus-metered preference. Halo models `locality` and `billing` separately. Only explicit `locality: "local"` receives the local-first preference; billing never implies locality. Subscription billing remains its own non-ranking state with unknown marginal cost.
-- The sources return factors only for the winner. Halo returns accepted/rejected reasoning for every candidate.
-- The sources use discovery order before candidate ID as a tie-break. Halo uses candidate ID so equivalent candidate sets produce identical output regardless of registry order.
-- Unknown tier or context is non-gating. A candidate is rejected only when a supplied known value proves a requirement is not met.
-- Catalog membership is not entitlement. Catalog-only and known-unavailable candidates reject; unknown entitlement remains an explicit shadow caveat.
+`test/factory-lineage-equivalence.test.mjs` runs both pinned selectors over their common candidate contract. It proves the same local-first, tier, explicit-exclusion, structured-write benchmark, and latest-exact-failure decisions. It deliberately asserts that the two fingerprint bytes differ: Factory includes adapter, capabilities, and reasoning fields directly, while current DevHarmonics expects Halo's execution-profile digest to carry that identity. Selection equivalence is proven for the shared contract; universal equivalence between the two historical modules is not claimed.
 
-## Authority boundary
+## Changed behavior
 
-The package is a pure filter/ranker/explainer over supplied objects. It reads no clock, randomness, environment, filesystem, network, provider, CLI, model, or mutable global state. It does not persist, discover candidates, load or unload models, change residency, select an actual route, rewrite an explicit/default choice, retry, fail over, alter tools or permissions, change sandbox/context, or record outcomes. `apply()` only registers the policy with `ctx.haloRouting`; DSH remains the route authority.
+The current task explicitly supersedes HALOROUTERSPECv0.3 section 8's earlier shadow cold-start allowance. An unknown legacy qualification state is no longer eligible. With no exact current PASS, the policy returns `recommendedCandidateId: null` and explains that no currently qualified candidate exists.
 
-## Attribution handling
-
-The package is marked `Apache-2.0`, and this file preserves the source repositories, exact commits, paths, adaptations, and prominent notice that the extracted behavior was changed. Any distribution must retain the Apache-2.0 license terms and applicable source notices.
+This stricter admission remains shadow-only. DSH owns the route, explicit/default choice, picker, retries, tools, permissions, sandbox, context and runtime state. `apply()` only registers an authority-free advisory policy.
