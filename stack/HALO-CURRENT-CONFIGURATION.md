@@ -1,5 +1,27 @@
 # Halo stack — current installed configuration
 
+## September 9 Gateway runtime-root repair — CURRENT
+
+The Gateway 0.3.0 that the at-logon task starts lives in the real
+`C:\Users\scott\AppData\Local\HaloResearchGateway`. The September 8 install ran inside
+the Codex MSIX container, so its `config.toml`, backups and database were redirected to
+`AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\HaloResearchGateway`
+and the real root had no config after the September 8 reboot. On 2026-09-09 13:35 MDT
+the recorded config (SHA-256 `D3D772F6…`) was placed in the real root and the Gateway
+was restarted with its own scripts (pid 40744, health ok, MCP smoke 14 tools, the
+`mission_control` local target recognized). The Codex-store copy is historical evidence;
+do not use or delete it. After the reboot, production DSH (3080), Router DEV (3085) and
+Mission Control (3090) were down; all three are manual desktop-shortcut launches and Scott
+chose to keep them manual. Mission Control was restarted at 14:42 MDT on 2026-09-09 from the
+installed copy (hash 45D40A25…, pid 11188) with stdout/stderr captured in
+`C:\Users\scott\.dsh\mission-control\mission-control-20260909-144201-claude.*.log`; the canonical
+launcher recognized it, all seven tabs were walked with a clean console, and the live acceptance
+passed 38 checks before stopping at the cockpit check (DSH down). Production DSH and DEV remain
+down; zero local models are loaded (one peer model is visible through LM Link). Evidence:
+[repair record](HALO-GATEWAY-RUNTIME-ROOT-REPAIR-2026-09-09.md),
+[Mission Control restore](HALO-MISSION-CONTROL-RESTORE-2026-09-09.md) and
+[takeover assessment](HALO-TAKEOVER-ASSESSMENT-2026-09-09.md) in the records folder.
+
 ## September 8 Gateway reconnection — CURRENT
 
 Production DSH's `mcp-halo-research` connection is enabled against Gateway 0.3.0
