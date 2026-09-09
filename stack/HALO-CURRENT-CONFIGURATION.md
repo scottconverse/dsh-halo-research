@@ -22,6 +22,11 @@ down; zero local models are loaded (one peer model is visible through LM Link). 
 [Mission Control restore](HALO-MISSION-CONTROL-RESTORE-2026-09-09.md) and
 [takeover assessment](HALO-TAKEOVER-ASSESSMENT-2026-09-09.md) in the records folder.
 
+Source control, 2026-09-09 15:15 MDT: this DSH repository now has a private GitHub remote,
+`https://github.com/scottconverse/dsh-halo-research` (origin, branch master). The Gateway
+repository merged the September 8 install record, its correction and the runtime-root repair
+record to `main` in pull request #4 (merge commit `29fce61`).
+
 ## September 8 Gateway reconnection — CURRENT
 
 Production DSH's `mcp-halo-research` connection is enabled against Gateway 0.3.0
