@@ -12,7 +12,7 @@ Answer one question per candidate with a measured pass/fail: does this model do 
 |---|---|---|---|---|
 | C1 | `nvidia-nemotron-3.5-lightning-30b-a3b` | 30B-A3B, Q4_K_S, 24.47 GB | On this disk (Local) | none |
 | C2 | `gemma-4-26b-a4b-it-qat@q4_k_xl` | 25B-A3.8B, Q4_K_XL QAT, 16.54 GB | LM Link peer NvideaBlackwell | copy the GGUF over the LAN into this box's LM Studio models folder (LAN-first rule; no GitHub, no re-download) |
-| C3 | GLM 4.7 Flash 30B-A3B, Q4_K_M | 30B-A3B, about 18 GB | not on any device | `lms get` download after Scott's go; skip if no GGUF with Vulkan support exists |
+| C3 | `halo/qwen3.8-27b` | dense 27B, Q5_K_XL, 21.1 GB | On this disk (Local) | none. Replaced GLM 4.7 Flash on Scott's decision (2026-09-09 ~16:20 MDT) after the Epoch evidence: the dense Qwen 27B line is the highest-rated open model that fits HALO (Qwen3.6 27B ECI 146.5); GLM 4.7 Flash had a weak GPQA (0.605) and needed a download. C3 is tested for the planner role (research fixture, twice). The worker gate runs once for information only; a dense 27B is not a daily-worker candidate on this box's bandwidth. A reviewer role for the verified-coder gate does not exist as a fixture today; it is a later design question, not part of this test. |
 
 Baseline (must be re-run the same day, first): worker `halo/qwen3-coder-30b-a3b-q4km`, planner `halo/qwen3.6-35b-a3b`. Recorded Sep 8 numbers: worker gate PASS in 29.488 s (request 50bd497e), planner Gateway workflow completed in 54.821 s (session 8421af6c).
 
@@ -58,7 +58,7 @@ A candidate that passes is a proven manual route. It does NOT get Auto: Auto req
 - Scott's go for the day.
 - LM Studio server up (1234), Gateway healthy (8765).
 - DEV baseline mismatch from the Sep 8 promotion (`prepare.mjs --verify`, 4 files) is understood; it does not block DEV startup.
-- Candidate files present (C1 yes; C2 after LAN copy; C3 after download).
+- Candidate files present (C1 yes; C2 after LAN copy; C3 yes). No downloads are needed for this test.
 
 ## Verification ledger
 
