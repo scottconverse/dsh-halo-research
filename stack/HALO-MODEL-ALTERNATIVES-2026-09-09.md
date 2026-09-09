@@ -42,6 +42,38 @@ Not shortlisted, with reasons: Qwen3.5-35B-A3B (superseded by the resident Qwen3
 3. Test plan, if Scott wants it: at most three candidates, one at a time, each about 30 minutes, after CivicCast has shipped. Same settings as production (Q4, 32K, parallel 1, Vulkan). Fixtures: the existing independent local coding gate for the worker role, and the recorded DSH research workflow (Gateway search plus fetch plus sourced answer) for the planner role. Pass or fail against today's pair, preserve prompts, no mid-test help. Start with Nemotron 3.5 Lightning because it is already on disk.
 4. Nothing here changes production. The Router's qualification rules stay as they are; a new model gets Auto only after it passes the same exact-profile gate.
 
+## Independent benchmark evidence (Epoch AI Benchmarking Hub, downloaded 2026-09-09)
+
+Source: `https://epoch.ai/data/benchmark_data.zip` (CC-BY 4.0; 2.3 MB; 90 CSV files; `epoch_capabilities_index/eci_scores.csv` has 264 models). Scott pointed me here after the catalog read. The Epoch Capabilities Index (ECI) is one number per model built from 59 benchmarks; Epoch runs many of the evaluations itself. Confidence intervals matter: two models whose intervals overlap are not separated by this data.
+
+Scale: GPT-6 Astra 166.6, Claude Fable 5.1 164.2. Best open-weight model of any size: Kimi K3 157.6 (2.8T parameters). Best open model under 400B: GLM-5.3-Flash 151.4 (320B). None of those fit HALO.
+
+Open-weight models that fit HALO's 64 GiB carveout, by ECI:
+
+| Model | ECI [90% CI] | Shape | GPQA Diamond | Terminal-Bench | Note |
+|---|---|---|---|---|---|
+| Qwen3.6 27B | 146.5 [144.5-147.8] | dense 27B | 0.859 | - | highest-rated model this box can run; dense, so about half the decode speed of a 3B-active MoE |
+| Qwen 3.6 35B-A3B (current planner) | 143.9 [141.3-146.0] | 35B-A3B | 0.838 | 0.230 | the only HALO-class model with a Terminal-Bench entry |
+| Gemma 4 31B IT | 142.7 [140.3-144.8] | dense 31B | 0.758 | - | restricted license |
+| Qwen3.5-35B-A3B | 142.5 [140.2-144.9] | 35B-A3B | 0.835 | - | superseded by 3.6 |
+| Gemma 4 26B A4B | 141.9 [138.6-143.6] | 25B-A3.8B | 0.732 | - | inside the planner's interval; 3.8B active |
+| Mistral Medium 3.5 | 141.3 [138.8-143.1] | 128B | - | - | too large to pair; restricted |
+| gpt-oss-120b | 140.1 [135.4-142.4] | 117B-A5B | 0.758 | 0.187 | already tried here; not adopted |
+| Qwen3.5-9B | 139.4 [136.6-141.1] | dense 9B | 0.790 | 0.092 | small |
+| Qwen3-30B-A3B-Thinking (Jul 2025) | 139.7 | 30B-A3B | 0.701 | - | generation before the current pair |
+
+Not rated by Epoch at all: Nemotron 3.5 Lightning, Nemotron 3 Nano, Qwen3-Coder-30B-A3B (the current worker), Qwen 3.8 27B (on disk as `halo/qwen3.8-27b`), Devstral 2, Cohere North Mini Code. GLM 4.7 Flash has a GPQA Diamond row (0.605, no ECI), well below the current planner (0.838) and Gemma 4 26B-A4B (0.732).
+
+What this changes in my opinion:
+1. It confirms the planner choice. Qwen3.6-35B-A3B is the best-rated fast model that fits, and nothing in its class beats it with confidence.
+2. Gemma 4 26B-A4B stays a candidate: statistically level with the planner, fewer total parameters, unrestricted license. Worth the 30 minutes.
+3. GLM 4.7 Flash drops in priority. Its one independent score is weak, and it needs a download. I would give its slot to a model that is already on disk and better rated.
+4. The dense Qwen 27B line (3.6 rated 146.5; 3.8 is on disk, unrated, newer) is the strongest thing HALO can run. It is slower. It fits a quality role (planner when speed matters less, or a reviewer for the verified-coder gate), not the daily worker.
+5. The worker role is unmeasured by Epoch at this size. Coding quality at 30B-A3B is decided by our own gate, which is exactly what the approved test does.
+6. Nemotron 3.5 Lightning has no independent evidence either way. It is on disk, so the test is the only way to learn anything; keep it.
+
+Recommended candidate slots after this evidence: C1 Nemotron 3.5 Lightning (on disk), C2 Gemma 4 26B-A4B (LAN copy), C3 Qwen 3.8 27B (on disk, planner and reviewer roles only) in place of GLM 4.7 Flash. This swap is Scott's call; the approved plan stands until he says so.
+
 ## Verification ledger
 
 VERIFIED: the dataset license and citation | C:\Users\scott\AppData\Local\Temp\claude\C--Users-scott-Desktop-Code\fb97ebb6-91e1-4a3a-a579-4235dde4a0bb\scratchpad\ai_models\README.md:1
