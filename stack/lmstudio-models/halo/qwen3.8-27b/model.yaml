@@ -65,3 +65,16 @@ config:
         value: false
       - key: load.gpuStrictVramCap
         value: true
+customFields:
+  - key: enableThinking
+    displayName: Enable Thinking
+    description: Controls whether the model will think before replying
+    type: boolean
+    # This is the preserved reasoning-capable lane the planner's own comment
+    # points to (see qwen3.6-35b-a3b/model.yaml). Set explicitly so any test
+    # or production run of this alias has a known, recorded effort level
+    # instead of falling back to the GGUF's own undocumented default.
+    defaultValue: true
+    effects:
+      - type: setJinjaVariable
+        variable: enable_thinking
