@@ -62,7 +62,9 @@ Open-weight models that fit HALO's 64 GiB carveout, by ECI:
 | Qwen3.5-9B | 139.4 [136.6-141.1] | dense 9B | 0.790 | 0.092 | small |
 | Qwen3-30B-A3B-Thinking (Jul 2025) | 139.7 | 30B-A3B | 0.701 | - | generation before the current pair |
 
-Not rated by Epoch at all: Nemotron 3.5 Lightning, Nemotron 3 Nano, Qwen3-Coder-30B-A3B (the current worker), Qwen 3.8 27B (on disk as `halo/qwen3.8-27b`), Devstral 2, Cohere North Mini Code. GLM 4.7 Flash has a GPQA Diamond row (0.605, no ECI), well below the current planner (0.838) and Gemma 4 26B-A4B (0.732).
+Not rated by Epoch at all: Nemotron 3.5 Lightning, Nemotron 3 Nano, Qwen3-Coder-30B-A3B (the current worker), Devstral 2, Cohere North Mini Code.
+
+**Correction, 2026-09-10:** Qwen 3.8 27B was listed above as "not rated by Epoch at all". That is wrong and is withdrawn. It has **no ECI score** (zero rows in `processed_data_for_eci.csv`, so it never entered the ECI fit), but Epoch does hold five benchmark results for it: SciCode, CritPt, ProofBench, Surface Evolver Bench and WebDev Arena. See `HALO-QWEN38-FAMILY-2026-09-10.md`. The distinction matters: "no composite score" is not "no data". GLM 4.7 Flash has a GPQA Diamond row (0.605, no ECI), well below the current planner (0.838) and Gemma 4 26B-A4B (0.732).
 
 What this changes in my opinion:
 1. It confirms the planner choice. Qwen3.6-35B-A3B is the best-rated fast model that fits, and nothing in its class beats it with confidence.
