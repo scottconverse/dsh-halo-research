@@ -272,7 +272,7 @@ test('route hazards and broken persistence cadence cannot keep watched lights gr
     memory: {
       ok: true,
       writer: { configured: true, active: true, cacheState: 'current' },
-      snapshotTask: { configured: true, state: 'Ready' },
+      snapshotTask: { configured: true, definitionValid: true, state: 'Ready' },
       snapshots: { ok: true, overdue: false },
     },
     validation: { ok: true, freshness: { state: 'current' } },
@@ -283,6 +283,7 @@ test('route hazards and broken persistence cadence cannot keep watched lights gr
   assert.notEqual(computeLights({ ...base, routeRuntime: { configured: 'lmstudio/brain', ambiguous: true } }).MODELS.level, 'g');
   assert.notEqual(computeLights({ ...base, memory: { ...base.memory, snapshots: { ok: true, overdue: true } } }).STORE.level, 'g');
   assert.notEqual(computeLights({ ...base, memory: { ...base.memory, snapshotTask: { configured: false, state: null } } }).STORE.level, 'g');
+  assert.equal(computeLights({ ...base, memory: { ...base.memory, snapshotTask: { configured: true, definitionValid: false, state: 'Ready', error: 'task points to retired .dsh memory path' } } }).STORE.level, 'r');
 });
 
 test('overview uses server-proven completed runs and names the real hourly snapshot cadence', () => {

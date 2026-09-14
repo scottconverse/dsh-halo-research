@@ -159,13 +159,35 @@ async function makeFixture(overrides = {}) {
     file: snapshotFile,
     ...(overrides.snapshots || {}),
   };
+  const snapshotScript = path.join(path.dirname(sourceFile), 'Snapshot-HaloMemory.ps1');
+  const snapshotDirectory = path.dirname(snapshotFile);
+  const powerShellExecutable = 'C:\\Program Files\\PowerShell\\7\\pwsh.exe';
+  const snapshotArguments = `-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "${snapshotScript}" -Source "${memoryFile}" -Destination "${snapshotDirectory}" -Keep 168`;
   const snapshotTask = {
     taskName: 'HALO Memory Snapshot',
     configured: true,
+    definitionValid: true,
+    definitionIssues: [],
     state: 'Ready',
     lastRunTime: new Date(now - 10_000).toISOString(),
     nextRunTime: new Date(now + 3_590_000).toISOString(),
     lastTaskResult: 0,
+    action: { execute: powerShellExecutable, arguments: snapshotArguments, workingDirectory: path.dirname(snapshotScript) },
+    triggers: [
+      { type: 'MSFT_TaskTimeTrigger', enabled: true, repetitionInterval: 'PT1H' },
+      { type: 'MSFT_TaskBootTrigger', enabled: true, repetitionInterval: null },
+    ],
+    startWhenAvailable: true,
+    multipleInstances: 'IgnoreNew',
+    expected: {
+      powerShellExecutable,
+      snapshotScript,
+      workingDirectory: path.dirname(snapshotScript),
+      source: memoryFile,
+      destination: snapshotDirectory,
+      retention: 168,
+      arguments: snapshotArguments,
+    },
     error: null,
     ...(overrides.snapshotTask || {}),
   };

@@ -45,6 +45,28 @@ function Assert-DshPortOwner([int] $Port) {
     return $listeners.Count -gt 0
 }
 
+function Wait-ForWigoloMcpChild([int] $TimeoutSeconds = 60) {
+    $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
+    do {
+        $listeners = @(Get-PortListeners 3080)
+        foreach ($listener in $listeners) {
+            $dshProcess = Get-CimInstance Win32_Process -Filter "ProcessId=$($listener.OwningProcess)" -ErrorAction SilentlyContinue
+            if (-not (Test-ExactProcessCommand $dshProcess $node @($dshEntry, 'web', '--no-open'))) {
+                throw "Port 3080 changed to an unexpected owner while waiting for Wigolo (PID $($listener.OwningProcess))."
+            }
+            $snapshot = @(Get-CimInstance Win32_Process)
+            foreach ($descendant in @(Get-ProcessDescendants ([int]$dshProcess.ProcessId) $snapshot)) {
+                if (Test-ExactProcessCommand $descendant $node @($wigoloEntry, 'mcp')) {
+                    return $descendant
+                }
+            }
+        }
+        Start-Sleep -Milliseconds 500
+    } while ([DateTime]::UtcNow -lt $deadline)
+
+    throw "DSH did not create its verified Wigolo MCP child within $TimeoutSeconds seconds. See the DSH logs in $logs."
+}
+
 function Get-LoadedModels {
     $json = & $lms ps --json | Out-String
     if ($LASTEXITCODE -ne 0) { throw 'LM Studio did not return its loaded-model inventory.' }
@@ -152,6 +174,8 @@ for ($attempt = 0; $attempt -lt 120; $attempt++) {
     Start-Sleep -Milliseconds 500
 }
 if (-not $launchUrl) { throw "DSH did not publish its secure launch URL. See $logs." }
+$wigoloProcess = Wait-ForWigoloMcpChild
+Write-StackLog "Verified DSH-owned Wigolo MCP process (PID $($wigoloProcess.ProcessId))."
 
 $restartMissionControl = -not $KeepMissionControl -and ($dshStarted -or $missionControlChanged)
 if (-not $KeepMissionControl -and -not $restartMissionControl) {

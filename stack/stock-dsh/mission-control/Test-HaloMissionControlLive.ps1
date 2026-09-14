@@ -16,7 +16,7 @@ param(
     [string] $SettingsFile = (Join-Path $env:USERPROFILE '.dsh-stock\settings.yaml'),
     [string] $MemoryFile = (Join-Path $env:USERPROFILE '.dsh-stock\memory\memory.json'),
     [ValidateSet('Auto', 'Required', 'Absent')]
-    [string] $MemoryMode = 'Auto',
+    [string] $MemoryMode = 'Required',
     [ValidateRange(1, 300)]
     [int] $MaxPluginAgeSeconds = 60,
     [ValidateRange(1, 300)]
@@ -453,7 +453,21 @@ if ($resolvedMemoryMode -ceq 'Required') {
 $snapshotTask = $status.memory.snapshotTask
 Add-Check 'Memory snapshot task identity' ([string] $snapshotTask.taskName -ceq 'HALO Memory Snapshot') "taskName=$($snapshotTask.taskName)"
 Add-Check 'Memory snapshot task configured' (Test-JsonTrue $snapshotTask.configured) "configured=$($snapshotTask.configured); state=$($snapshotTask.state)"
+Add-Check 'Memory snapshot task definition exact' (Test-JsonTrue $snapshotTask.definitionValid) "issues=$(@($snapshotTask.definitionIssues) -join '; ')"
 Add-Check 'Memory snapshot task healthy' ([string]::IsNullOrWhiteSpace([string] $snapshotTask.error) -and [string] $snapshotTask.state -in @('Ready', 'Running')) "state=$($snapshotTask.state); error=$($snapshotTask.error)"
+Add-Check 'Memory snapshot task executable exact' (Test-SamePath ([string] $snapshotTask.action.execute) ([string] $snapshotTask.expected.powerShellExecutable)) "actual=$($snapshotTask.action.execute); expected=$($snapshotTask.expected.powerShellExecutable)"
+$expectedSnapshotScript = Join-Path (Split-Path -Parent ([string] $receipt.Source)) 'Snapshot-HaloMemory.ps1'
+Add-Check 'Memory snapshot task script exact' (Test-SamePath ([string] $snapshotTask.expected.snapshotScript) $expectedSnapshotScript) "script=$($snapshotTask.expected.snapshotScript); expected=$expectedSnapshotScript"
+Add-Check 'Memory snapshot task source exact' (Test-SamePath ([string] $snapshotTask.expected.source) $memoryPath) "source=$($snapshotTask.expected.source); expected=$memoryPath"
+$expectedSnapshotDirectoryFromTask = Join-Path (Split-Path -Parent $memoryPath) 'snapshots'
+Add-Check 'Memory snapshot task destination exact' (Test-SamePath ([string] $snapshotTask.expected.destination) $expectedSnapshotDirectoryFromTask) "destination=$($snapshotTask.expected.destination); expected=$expectedSnapshotDirectoryFromTask"
+Add-Check 'Memory snapshot task retention exact' ([int] $snapshotTask.expected.retention -eq 168 -and [string] $snapshotTask.action.arguments -ceq [string] $snapshotTask.expected.arguments) "retention=$($snapshotTask.expected.retention); arguments=$($snapshotTask.action.arguments)"
+Add-Check 'Memory snapshot task missed-run recovery' (Test-JsonTrue $snapshotTask.startWhenAvailable) "startWhenAvailable=$($snapshotTask.startWhenAvailable)"
+Add-Check 'Memory snapshot task overlap prevention' ([string] $snapshotTask.multipleInstances -ceq 'IgnoreNew') "multipleInstances=$($snapshotTask.multipleInstances)"
+$hourlyTriggers = @($snapshotTask.triggers | Where-Object { [string] $_.type -ceq 'MSFT_TaskTimeTrigger' -and (Test-JsonTrue $_.enabled) -and [string] $_.repetitionInterval -ceq 'PT1H' })
+$startupTriggers = @($snapshotTask.triggers | Where-Object { [string] $_.type -ceq 'MSFT_TaskBootTrigger' -and (Test-JsonTrue $_.enabled) })
+Add-Check 'Memory snapshot task hourly trigger exact' ($hourlyTriggers.Count -eq 1) "matches=$($hourlyTriggers.Count)"
+Add-Check 'Memory snapshot task startup trigger exact' ($startupTriggers.Count -eq 1) "matches=$($startupTriggers.Count)"
 Assert-NumericFields 'Memory snapshot task' $snapshotTask @('lastTaskResult') -Integer
 Add-Check 'Memory snapshot task last result succeeded' ([int64] $snapshotTask.lastTaskResult -eq 0) "lastTaskResult=$($snapshotTask.lastTaskResult)"
 $lastRunTime = [DateTimeOffset]::MinValue

@@ -36,7 +36,12 @@ foreach ($listener in $listeners) {
     $null = Stop-IdentityCheckedProcess $candidate 'Mission Control'
 }
 
-$remaining = @(Get-NetTCPConnection -State Listen -LocalPort 3090 -ErrorAction SilentlyContinue)
+$deadline = [DateTime]::UtcNow.AddSeconds(10)
+do {
+    $remaining = @(Get-NetTCPConnection -State Listen -LocalPort 3090 -ErrorAction SilentlyContinue)
+    if ($remaining.Count -eq 0) { break }
+    Start-Sleep -Milliseconds 250
+} while ([DateTime]::UtcNow -lt $deadline)
 if ($remaining.Count) { throw 'A listener remains on port 3090 after Mission Control shutdown.' }
 
 Write-Output 'Mission Control stopped.'

@@ -17,6 +17,17 @@ function Write-StopLog([string] $Message) {
     Add-Content -LiteralPath (Join-Path $logs 'stack-lifecycle.log') -Value "$(Get-Date -Format o) $Message"
 }
 
+function Wait-PortClosed([int] $Port, [int] $TimeoutSeconds = 10) {
+    $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
+    do {
+        if (@(Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue).Count -eq 0) {
+            return
+        }
+        Start-Sleep -Milliseconds 250
+    } while ([DateTime]::UtcNow -lt $deadline)
+    throw "A listener remains on port $Port after waiting $TimeoutSeconds seconds. Inspect its owner before stopping it."
+}
+
 function Get-ExactWigoloProcesses {
     return @(Get-CimInstance Win32_Process | Where-Object {
         Test-ExactProcessCommand $_ $node @($wigoloEntry, 'mcp')
@@ -63,6 +74,8 @@ foreach ($candidate in $verifiedWigolo) {
     }
 }
 
+Wait-PortClosed 3080
+
 # A DSH crash can orphan its stdio child. After the listener is gone, stop only
 # the one exact node + absolute Wigolo entry + `mcp` argv shape.
 foreach ($candidate in @(Get-ExactWigoloProcesses)) {
@@ -71,9 +84,6 @@ foreach ($candidate in @(Get-ExactWigoloProcesses)) {
     }
 }
 
-$remainingDsh = @(Get-NetTCPConnection -State Listen -LocalPort 3080 -ErrorAction SilentlyContinue)
-if ($remainingDsh.Count) { throw 'A listener remains on port 3080. Inspect its owner before stopping it.' }
-$remainingMissionControl = @(Get-NetTCPConnection -State Listen -LocalPort 3090 -ErrorAction SilentlyContinue)
-if ($remainingMissionControl.Count) { throw 'A listener remains on port 3090. Inspect its owner before stopping it.' }
+Wait-PortClosed 3090
 
 Write-Output 'Mission Control, DSH, and Wigolo stopped. LM Studio and its loaded models remain running.'

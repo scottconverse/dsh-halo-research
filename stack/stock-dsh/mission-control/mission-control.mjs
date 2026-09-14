@@ -608,11 +608,13 @@ async function memorySnapshotTaskState(now = Date.now()) {
   if (snapshotTaskCache.value && now - snapshotTaskCache.at < 60000) return snapshotTaskCache.value;
   const script = [
     "$t=Get-ScheduledTask -TaskName 'HALO Memory Snapshot' -ErrorAction SilentlyContinue",
-    "if ($null -eq $t) { [pscustomobject]@{configured=$false; state=$null; lastRunTime=$null; nextRunTime=$null; lastTaskResult=$null} | ConvertTo-Json -Compress; exit 0 }",
+    "if ($null -eq $t) { [pscustomobject]@{configured=$false; state=$null; lastRunTime=$null; nextRunTime=$null; lastTaskResult=$null; actions=@(); triggers=@(); startWhenAvailable=$false; multipleInstances=$null} | ConvertTo-Json -Compress -Depth 6; exit 0 }",
     '$i=$t | Get-ScheduledTaskInfo -ErrorAction SilentlyContinue',
     '$last=if ($null -ne $i.LastRunTime) { $i.LastRunTime.ToUniversalTime().ToString("o") } else { $null }',
     '$next=if ($null -ne $i.NextRunTime) { $i.NextRunTime.ToUniversalTime().ToString("o") } else { $null }',
-    '[pscustomobject]@{configured=$true; state=[string]$t.State; lastRunTime=$last; nextRunTime=$next; lastTaskResult=$i.LastTaskResult} | ConvertTo-Json -Compress',
+    '$actions=@($t.Actions | ForEach-Object { [pscustomobject]@{execute=$_.Execute; arguments=$_.Arguments; workingDirectory=$_.WorkingDirectory} })',
+    '$triggers=@($t.Triggers | ForEach-Object { [pscustomobject]@{type=$_.CimClass.CimClassName; enabled=$_.Enabled; repetitionInterval=if ($null -ne $_.Repetition) { [string]$_.Repetition.Interval } else { $null }} })',
+    '[pscustomobject]@{configured=$true; state=[string]$t.State; lastRunTime=$last; nextRunTime=$next; lastTaskResult=$i.LastTaskResult; actions=$actions; triggers=$triggers; startWhenAvailable=$t.Settings.StartWhenAvailable; multipleInstances=[string]$t.Settings.MultipleInstances} | ConvertTo-Json -Compress -Depth 6',
   ].join('; ');
   let value;
   try {
@@ -622,23 +624,67 @@ async function memorySnapshotTaskState(now = Date.now()) {
       maxBuffer: 1024 * 1024,
     });
     const parsed = JSON.parse(stdout.trim());
+    const snapshotScript = path.resolve(DSH_ROOT, 'mission-control', 'Snapshot-HaloMemory.ps1');
+    const workingDirectory = path.dirname(snapshotScript);
+    const powerShellExecutable = 'C:\\Program Files\\PowerShell\\7\\pwsh.exe';
+    const expectedArguments = [
+      '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', `"${snapshotScript}"`,
+      '-Source', `"${MEMORY_FILE}"`, '-Destination', `"${MEMORY_SNAPSHOTS}"`, '-Keep', '168',
+    ].join(' ');
+    const actions = Array.isArray(parsed.actions) ? parsed.actions : (parsed.actions ? [parsed.actions] : []);
+    const triggers = Array.isArray(parsed.triggers) ? parsed.triggers : (parsed.triggers ? [parsed.triggers] : []);
+    const samePath = (left, right) => typeof left === 'string' && typeof right === 'string'
+      && path.resolve(left).toLowerCase() === path.resolve(right).toLowerCase();
+    const issues = [];
+    if (parsed.configured === true) {
+      if (actions.length !== 1) issues.push(`expected one action, found ${actions.length}`);
+      const action = actions[0] || {};
+      if (!samePath(action.execute, powerShellExecutable)) issues.push('PowerShell executable does not match the stock task');
+      if (action.arguments !== expectedArguments) {
+        issues.push(/\\.dsh\\memory/i.test(String(action.arguments || '')) && !/\\.dsh-stock\\memory/i.test(String(action.arguments || ''))
+          ? 'task points to retired .dsh memory path'
+          : 'snapshot command arguments do not match the stock memory paths and retention');
+      }
+      if (!samePath(action.workingDirectory, workingDirectory)) issues.push('working directory does not match the stock Mission Control source');
+      const hourly = triggers.filter(trigger => trigger.type === 'MSFT_TaskTimeTrigger'
+        && trigger.enabled !== false && trigger.repetitionInterval === 'PT1H');
+      const startup = triggers.filter(trigger => trigger.type === 'MSFT_TaskBootTrigger' && trigger.enabled !== false);
+      if (hourly.length !== 1) issues.push('hourly trigger is missing or incorrect');
+      if (startup.length !== 1) issues.push('startup trigger is missing or incorrect');
+      if (parsed.startWhenAvailable !== true) issues.push('missed-run recovery is disabled');
+      if (parsed.multipleInstances !== 'IgnoreNew') issues.push('overlap prevention is not IgnoreNew');
+    }
     value = {
       taskName: MEMORY_SNAPSHOT_TASK,
       configured: parsed.configured === true,
+      definitionValid: parsed.configured === true && issues.length === 0,
+      definitionIssues: issues,
       state: parsed.state || null,
       lastRunTime: parsed.lastRunTime || null,
       nextRunTime: parsed.nextRunTime || null,
       lastTaskResult: parsed.lastTaskResult ?? null,
-      error: null,
+      action: actions[0] || null,
+      triggers,
+      startWhenAvailable: parsed.startWhenAvailable === true,
+      multipleInstances: parsed.multipleInstances || null,
+      expected: { powerShellExecutable, snapshotScript, workingDirectory, source: MEMORY_FILE, destination: MEMORY_SNAPSHOTS, retention: 168, arguments: expectedArguments },
+      error: issues.length ? issues.join('; ') : null,
     };
   } catch (error) {
     value = {
       taskName: MEMORY_SNAPSHOT_TASK,
       configured: false,
+      definitionValid: false,
+      definitionIssues: [],
       state: null,
       lastRunTime: null,
       nextRunTime: null,
       lastTaskResult: null,
+      action: null,
+      triggers: [],
+      startWhenAvailable: false,
+      multipleInstances: null,
+      expected: null,
       error: `scheduled-task state unavailable: ${String(error?.message || error).slice(0, 200)}`,
     };
   }
@@ -2427,7 +2473,7 @@ function computeLights(s){
   else if(!memory.ok) lights.STORE={level:'r',cause:'persistent model memory failed: '+(memory.error||'unknown error')};
   else if(writer.cacheState!=='current') lights.STORE={level:'a',cause:'memory-writer plugin state is '+(writer.cacheState||'unavailable')};
   else if(!writer.configured||!writer.active) lights.STORE={level:'a',cause:'memory-writer plugin is not active'};
-  else if(task.error) lights.STORE={level:'a',cause:task.error};
+  else if(task.error||task.definitionValid!==true) lights.STORE={level:'r',cause:task.error||'memory snapshot task definition does not match the stock Halo paths'};
   else if(!task.configured) lights.STORE={level:'a',cause:'hourly memory snapshot task is not configured'};
   else if(!/^(?:Ready|Running)$/i.test(task.state||'')) lights.STORE={level:'a',cause:'memory snapshot task state is '+(task.state||'unknown')};
   else if(!snapshots.ok) lights.STORE={level:'a',cause:'memory snapshots are '+(snapshots.error||'unavailable')};

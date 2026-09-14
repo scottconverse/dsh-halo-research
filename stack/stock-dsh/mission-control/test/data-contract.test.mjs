@@ -202,16 +202,23 @@ test('Windows PowerShell snapshot task dates cross the JSON boundary as ISO stri
   const start = source.indexOf('async function memorySnapshotTaskState(');
   const end = source.indexOf('async function lmsLs()', start);
   assert.ok(start >= 0 && end > start, 'snapshot task reader is available without starting the service');
+  const root = path.join('C:', 'halo', 'stock-dsh');
+  const memoryFile = path.join('C:', 'Users', 'scott', '.dsh-stock', 'memory', 'memory.json');
+  const snapshotDir = path.join(path.dirname(memoryFile), 'snapshots');
+  const snapshotScript = path.join(root, 'mission-control', 'Snapshot-HaloMemory.ps1');
+  const expectedArgs = `-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "${snapshotScript}" -Source "${memoryFile}" -Destination "${snapshotDir}" -Keep 168`;
   const readTask = new Function(
-    'snapshotTaskCache', 'MEMORY_SNAPSHOT_TASK', 'safeExecFile',
+    'snapshotTaskCache', 'MEMORY_SNAPSHOT_TASK', 'safeExecFile', 'DSH_ROOT', 'MEMORY_FILE', 'MEMORY_SNAPSHOTS', 'path',
     `${source.slice(start, end)}; return memorySnapshotTaskState;`,
   )({ at: 0, value: null }, 'HALO Memory Snapshot', async (exe, args) => {
     assert.equal(exe, 'powershell');
-    const stub = 'function Get-ScheduledTask { [pscustomobject]@{ State="Ready" } }; function Get-ScheduledTaskInfo { [pscustomobject]@{ LastRunTime=[datetime]"2026-09-01T12:00:00Z"; NextRunTime=[datetime]"2026-09-01T13:00:00Z"; LastTaskResult=0 } }; ';
+    const escapedArgs = expectedArgs.replace(/'/g, "''");
+    const stub = `function Get-ScheduledTask { [pscustomobject]@{ State="Ready"; Actions=@([pscustomobject]@{Execute='C:\\Program Files\\PowerShell\\7\\pwsh.exe';Arguments='${escapedArgs}';WorkingDirectory='${path.dirname(snapshotScript).replace(/'/g, "''")}'}); Triggers=@([pscustomobject]@{CimClass=[pscustomobject]@{CimClassName='MSFT_TaskTimeTrigger'};Enabled=$true;Repetition=[pscustomobject]@{Interval='PT1H'}},[pscustomobject]@{CimClass=[pscustomobject]@{CimClassName='MSFT_TaskBootTrigger'};Enabled=$true;Repetition=$null}); Settings=[pscustomobject]@{StartWhenAvailable=$true;MultipleInstances='IgnoreNew'} } }; function Get-ScheduledTaskInfo { [pscustomobject]@{ LastRunTime=[datetime]"2026-09-01T12:00:00Z"; NextRunTime=[datetime]"2026-09-01T13:00:00Z"; LastTaskResult=0 } }; `;
     return { stdout: execFileSync(exe, ['-NoProfile', '-NonInteractive', '-Command', stub + args.at(-1)], { encoding: 'utf8', windowsHide: true, timeout: 10000 }) };
-  });
+  }, root, memoryFile, snapshotDir, path);
   const result = await readTask();
   assert.equal(result.error, null);
+  assert.equal(result.definitionValid, true);
   assert.equal(typeof result.lastRunTime, 'string');
   assert.match(result.lastRunTime, /^2026-09-01T12:00:00(?:\.\d+)?Z$/);
   assert.match(result.nextRunTime, /^2026-09-01T13:00:00(?:\.\d+)?Z$/);

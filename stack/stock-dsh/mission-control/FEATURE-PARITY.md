@@ -185,9 +185,9 @@ the UI must say when live values are ahead of the repository.
 - Fixture tests do not prove the live UI, current DSH cookie, LM Studio model
   state, GPU counters, or scheduled task. Use the live acceptance procedure
   after installation.
-- Persistent memory and its recovery task are optional DSH capabilities. Their
-  absence must remain visible as unavailable; Mission Control must not create a
-  store just to turn the light green.
+- Persistent memory and its recovery task are required for the Halo deployment.
+  Their absence remains visible as unavailable, and Mission Control never
+  fabricates a store just to turn the light green.
 - Configuration validation runs the DSH version already installed in the stock
   deployment. It is an explicit operator action, never part of the five-second
   poll.
