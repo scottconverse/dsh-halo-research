@@ -16,14 +16,12 @@ try {
     if ($matches.Count -eq 0) { throw 'DSH is running, but its secure launch URL is unavailable.' }
     $launchUrl = $matches[$matches.Count - 1].Value
 
-    $edge = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
-    if (Test-Path -LiteralPath $edge) {
-        $browser = Start-Process -FilePath $edge -ArgumentList @('--new-window', $launchUrl) -WindowStyle Normal -PassThru
-        Write-LaunchLog "Opened DSH in a new Microsoft Edge window (PID $($browser.Id))."
-    } else {
-        Start-Process -FilePath $launchUrl
-        Write-LaunchLog 'Opened DSH with the Windows default browser.'
+    $chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    if (!(Test-Path -LiteralPath $chrome)) {
+        throw "Google Chrome was not found at $chrome."
     }
+    $browser = Start-Process -FilePath $chrome -ArgumentList @('--new-window', $launchUrl) -WindowStyle Normal -PassThru
+    Write-LaunchLog "Opened DSH in a new Google Chrome window (PID $($browser.Id))."
 } catch {
     $message = $_.Exception.Message
     Write-LaunchLog "FAILED: $message"
