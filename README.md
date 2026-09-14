@@ -27,9 +27,27 @@ Use the **DSH + Wigolo** desktop shortcut. The launcher:
 2. unloads resident models outside the approved pair;
 3. reloads an approved model if its model key, context window, or parallel-slot count is wrong;
 4. verifies the final two-model capacity envelope; and
-5. starts DSH at `http://127.0.0.1:3080`.
+5. starts or reuses DSH and its Wigolo MCP child;
+6. promotes the tested Mission Control build into `C:\Users\scott\.dsh-stock\mission-control`; and
+7. opens Mission Control at `http://127.0.0.1:3090` in Google Chrome.
 
-The stop shortcut stops DSH and its Wigolo MCP child process. LM Studio and the approved models stay resident.
+Repeated launches reuse healthy DSH and Mission Control processes. The **Stop DSH + Wigolo** shortcut stops Mission Control, DSH, and the Wigolo child process. LM Studio and the approved models stay resident.
+
+## Mission Control
+
+Mission Control is the operator surface for the stock Halo deployment. Its seven tabs preserve the complete earlier console feature set:
+
+- **Overview** shows stack health, active work, throughput, alerts, and common actions.
+- **Models** joins the downloaded LM Studio catalog to the exact resident model instances and provides guarded load and unload controls.
+- **Sessions** groups DSH sessions by workspace, shows context and activity, and can stop one selected session.
+- **Plugins** shows the complete current Cordis inventory, phases, overrides, and failures.
+- **System** shows RAM, GPU pools, disk, runtime versions, configuration validation, and recent LM Studio logs.
+- **Memory** visualizes the optional Halo memory store, writer health, recovery task, and snapshots.
+- **Settings** exposes a bounded editor for the approved model, compaction, retry, and stream-timeout settings.
+
+The status strip treats missing or stale evidence as unavailable or degraded. Persistent Halo memory is not configured in the stock deployment today, so the Memory tab must report that fact; it does not create an empty store or present missing memory as healthy.
+
+Mutation routes use a random per-launch Mission Control token and exact loopback-origin checks. DSH's launch token and authentication cookie stay on the local server side and are not returned through the dashboard, history, receipts, or logs.
 
 ## Search behavior
 
@@ -44,6 +62,7 @@ Native `web_fetch` is keyless. Native DeepSeek `web_search` requires a `DEEPSEEK
 - `stack/stock-dsh/local-preset/agent.cordis.yml` — agent tools and provider preference
 - `stack/stock-dsh/Start-StockDSH.ps1` — verified model and service startup
 - `stack/stock-dsh/Stop-StockDSH.ps1` — scoped shutdown
+- `stack/stock-dsh/mission-control/` — dashboard, installer, lifecycle helpers, acceptance checks, and feature-parity contract
 - `stack/Launch-Halo.ps1` — compatibility entrypoint for the existing shortcut
 
 Older research reports and inactive experiments are preserved in Git history and the pre-cleanup tag. The supported deployment boundary is `stack/stock-dsh`.

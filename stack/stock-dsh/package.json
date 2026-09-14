@@ -1,7 +1,11 @@
 {
   "name": "stock-dsh-deployment",
   "private": true,
+  "scripts": {
+    "test": "node mission-control/test/run-all-contracts-serial.mjs"
+  },
   "dependencies": {
-    "@deepseek-ai/dsh": "0.1.5-rc.2"
+    "@deepseek-ai/dsh": "0.1.5-rc.2",
+    "ws": "8.21.3"
   }
 }

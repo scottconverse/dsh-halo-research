@@ -11,6 +11,9 @@ importers:
       '@deepseek-ai/dsh':
         specifier: 0.1.5-rc.2
         version: 0.1.5-rc.2(5ec030a8288c25614103606221b26882)
+      ws:
+        specifier: 8.21.3
+        version: 8.21.3
 
 packages:
 

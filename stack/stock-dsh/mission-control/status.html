@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halo Status</title>
+<style>
+:root{--bg:#0b0f14;--panel:#101c2a;--line:#27405c;--ink:#eef6ff;--mut:#9fb3c8;--teal:#4fd8c4;--green:#5fe39a;--amber:#ffc86b;--red:#ff8080}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Segoe UI,Arial,sans-serif;padding:16px 20px}
+h1{font-size:1.1rem;margin:0 0 4px}.sub{color:var(--mut);font-size:.78rem;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card h2{font-size:.85rem;margin:0 0 8px;color:#dcecff}
+.row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a2c42;font-size:.82rem}
+.row:last-child{border:none}.k{color:var(--mut)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;flex:none}
+.up{background:var(--green)}.down{background:var(--red)}.busy{background:var(--amber)}
+.badge{display:inline-block;padding:1px 7px;border-radius:6px;font-size:.7rem;margin-left:4px}
+.badge-green{background:#12341f;color:var(--green)}.badge-red{background:#3a1414;color:var(--red)}.badge-amber{background:#3a2c12;color:var(--amber)}
+.bar{background:#1a2c42;border-radius:4px;height:7px;overflow:hidden;margin-top:2px}.bar>i{display:block;height:100%;background:var(--teal)}
+.hero{display:flex;align-items:center;gap:12px;padding:10px 14px;margin-bottom:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;font-size:.88rem}
+.hero .state{font-weight:700;font-size:.95rem}
+.hero .state.idle{color:#7f9bb5}.hero .state.busy{color:var(--amber)}.hero .state.down{color:var(--red)}
+.mono{font-family:Consolas,monospace;font-size:.78rem}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<h1>Halo Status</h1>
+<div class="sub">Refreshes every 5 seconds &middot; <span id="stamp"></span></div>
+<div id="hero" class="hero"></div>
+<div class="grid">
+<div class="card"><h2>Services</h2><div id="services"></div></div>
+<div class="card"><h2>Models Loaded</h2><div id="models"></div></div>
+<div class="card"><h2>Memory</h2><div id="memory"></div></div>
+<div class="card"><h2>Gate Ledger</h2><div id="ledger"></div></div>
+<div class="card"><h2>Today</h2><div id="today"></div></div>
+<div class="card"><h2>Recent Sessions</h2><div id="sessions"></div></div>
+</div>
+<script>
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function fmtK(n){return n==null?'&mdash;':(Math.round(n/1024*10)/10)+'K'}
+function fmtRel(ms){if(!ms)return'&mdash;';var s=Math.round((Date.now()-ms)/1000);if(s<60)return s+'s ago';var m=Math.round(s/60);if(m<60)return m+'m ago';var h=Math.round(m/60);if(h<24)return h+'h ago';return Math.round(h/24)+'d ago'}
+
+async function refresh(){
+  try{
+    var s=await (await fetch('/api/status')).json();
+    document.getElementById('stamp').textContent=new Date(s.time).toLocaleTimeString();
+
+    // Hero
+    var hero=document.getElementById('hero');
+    var running=s.generating&&s.generating.length;
+    var cls=s.services.lmstudio?(running?'busy':'idle'):'down';
+    var word=s.services.lmstudio?(running?'WORKING':'IDLE'):'LM STUDIO DOWN';
+    hero.innerHTML='<span class="state '+cls+'">'+word+'</span>'+
+      (s.generating&&s.generating.length?'<span>'+s.generating.map(esc).join(', ')+' generating</span>':'<span class="mut">no models generating</span>')+
+      '<span class="mut">cockpit '+(s.services.cockpit?'up':'down')+' &middot; LM Studio '+(s.services.lmstudio?'up':'down')+'</span>';
+
+    // Services
+    document.getElementById('services').innerHTML=
+      '<div class="row"><span><span class="dot '+(s.services.cockpit?'up':'down')+'"></span>Cockpit :3080</span><span>'+(s.services.cockpit?'up':'down')+'</span></div>'+
+      '<div class="row"><span><span class="dot '+(s.services.lmstudio?'up':'down')+'"></span>LM Studio :1234</span><span>'+(s.services.lmstudio?'up':'down')+'</span></div>'+
+      '<div class="row"><span><span class="dot '+(s.services.lmsCli?'up':'down')+'"></span>lms CLI</span><span>'+(s.services.lmsCli?'up':'down')+'</span></div>';
+
+    // Models
+    var mhtml=s.models.length?s.models.map(function(m){
+      return '<div class="row"><span class="mono">'+esc(m.identifier)+'</span><span>'+esc(m.status||'idle')+' &middot; ctx '+fmtK(m.context)+' &middot; '+esc(m.quant)+'</span></div>';
+    }).join(''):'<div class="mut">no models loaded</div>';
+    document.getElementById('models').innerHTML=mhtml;
+
+    // Memory
+    var ramPct=Math.round(s.ram.usedGiB/s.ram.totalGiB*100);
+    var sharedCls=s.gpu.sharedGiB>8?'color:var(--red)':(s.gpu.sharedGiB>3?'color:var(--amber)':'');
+    document.getElementById('memory').innerHTML=
+      '<div class="row"><span class="k">RAM</span><span>'+s.ram.freeGiB+' GiB free / '+s.ram.totalGiB+' GiB</span></div>'+
+      '<div class="bar"><i style="width:'+ramPct+'%"></i></div>'+
+      '<div class="row" style="margin-top:6px"><span class="k">GPU dedicated</span><span>'+s.gpu.dedicatedGiB+' GiB'+(s.gpu.carveoutGiB!=null?' / '+s.gpu.carveoutGiB+' GiB':'')+'</span></div>'+
+      '<div class="row"><span class="k">GPU shared</span><span style="'+sharedCls+'">'+s.gpu.sharedGiB+' GiB</span></div>'+
+      '<div class="row"><span class="k">Disk C:</span><span>'+s.disk.freeGB+' GB free</span></div>';
+
+    // Gate ledger
+    var g=s.gate||{};
+    document.getElementById('ledger').innerHTML=
+      '<div class="row"><span class="k">shipped</span><span style="color:var(--green)">'+g.greens+' green</span></div>'+
+      '<div class="row"><span class="k">failed</span><span style="color:var(--red)">'+g.reds+' red</span></div>'+
+      '<div class="row"><span class="k">tripped</span><span style="color:var(--amber)">'+g.trips+' tripwire</span></div>'+
+      '<div class="row"><span class="k">total scored</span><span>'+g.total+' units</span></div>';
+
+    // Today
+    var today=s.sessions||{};
+    document.getElementById('today').innerHTML=
+      '<div class="row"><span class="k">sessions today</span><span>'+today.today+'</span></div>'+
+      '<div class="row"><span class="k">total sessions</span><span>'+today.total+'</span></div>';
+
+    // Recent sessions
+    var sh=(today.recent||[]).map(function(s){
+      return '<div class="row"><span class="mono">'+esc(s.id)+'</span><span style="font-size:.72rem">'+esc(s.workspace)+' &middot; '+fmtRel(s.mtime)+'</span></div>';
+    }).join('');
+    document.getElementById('sessions').innerHTML=sh||'<div class="mut">none</div>';
+
+    // Log tail
+    var log=s.logtail||[];
+    document.getElementById('log').innerHTML=log.length?
+      log.map(function(l){return '<div style="font-size:.72rem;padding:1px 0;border-bottom:1px solid #162030">'+esc(l)+'</div>'}).join(''):
+      '<div class="mut">no notable log lines</div>';
+
+  }catch(e){document.getElementById('stamp').textContent='fetch failed'}
+}
+refresh();
+setInterval(refresh,5000);
+</script>
+</body>
+</html>

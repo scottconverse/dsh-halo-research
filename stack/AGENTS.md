@@ -20,5 +20,9 @@ At minimum, synchronize:
 - `Current Halo Configuration\MANIFEST-SHA256.txt`
 
 The executable canonical files remain under this stack directory and the live
-installation remains under `C:\Users\scott\.dsh` and LM Studio. The Research
+installation remains under `C:\Users\scott\.dsh-stock` and LM Studio. Mission
+Control is installed under `C:\Users\scott\.dsh-stock\mission-control` and is
+served on loopback port 3090. The supported launcher opens Mission Control in
+Google Chrome; the supported stop path stops Mission Control, DSH, and Wigolo
+while leaving LM Studio and the approved resident models running. The Research
 folder is Scott's primary reading location and must not be left stale.
