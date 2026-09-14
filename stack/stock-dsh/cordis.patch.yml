@@ -1,0 +1,13 @@
+- insert:
+    - id: mcp-wigolo
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: wigolo
+        transport: stdio
+        command: 'C:\Program Files\nodejs\node.exe'
+        args: ['C:\Users\scott\Desktop\Code\wigolo\dist\index.js', 'mcp']
+        cwd: 'C:\Users\scott\Desktop\Code\wigolo'
+        env:
+          WIGOLO_EAGER_WARMUP: '1'
+        toolCallTimeoutMs: 180000
+        failOnStartupError: false

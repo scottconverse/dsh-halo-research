@@ -1,0 +1,3 @@
+name: Local models
+description: Stock standard preset with the proven local coder as the default spawned worker; web tools supplied by Wigolo.
+order: 0

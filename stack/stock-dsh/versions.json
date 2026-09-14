@@ -1,0 +1,9 @@
+{
+  "defaultWorkerModel": "halo-coder-q4km",
+  "dshVersion": "0.1.5-rc.2",
+  "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
+  "dshSourceCommit": "fb2c4b9e698e30edb738bca4cf0618587db7d203",
+  "deployedAt": "2026-09-11T10:47:04.6426208-06:00",
+  "optionalPlannerModel": "halo-brain-35b",
+  "defaultModel": "halo-coder-q4km"
+}

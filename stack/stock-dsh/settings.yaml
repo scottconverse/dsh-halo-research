@@ -1,0 +1,39 @@
+permission:
+  defaultPreset: danger-full-access
+agent-default-model:
+  provider: lmstudio
+  model: halo-coder-q4km
+agent-presets:
+  default: local
+llm-pi-ai:
+  providers:
+    lmstudio:
+      displayName: LM Studio local
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:1234/v1
+      defaultInput: [ text ]
+      defaultContextWindow: 32768
+      defaultMaxTokens: 8192
+      models:
+        - id: halo-brain-35b
+          name: Qwen3.6 35B-A3B - planner and vision
+          contextWindow: 32768
+          maxTokens: 8192
+          input: [ text, image ]
+          reasoningEfforts: false
+        - id: halo-coder-q4km
+          name: Qwen3 Coder 30B-A3B Q4_K_M - default
+          contextWindow: 32768
+          maxTokens: 8192
+          input: [ text ]
+          reasoningEfforts: false
+subagent-model-selection:
+  enabled: true
+  allowedModels:
+    - provider: lmstudio
+      model: halo-brain-35b
+    - provider: lmstudio
+      model: halo-coder-q4km
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
