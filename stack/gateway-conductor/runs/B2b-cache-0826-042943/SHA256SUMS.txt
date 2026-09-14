@@ -1,5 +1,0 @@
-9BB428E6CBA407C87090C3A547B64A3328CFB46EBEB7305866BB8086D5097284  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B2b-cache-0826-042943\AGENTS.md
-B7F16EB516A2E4B5C3BF34DE8C3DD01A000D1B8402D98F59A99C2750ECF9F0FF  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B2b-cache-0826-042943\GATE-FEEDBACK.md
-018C3AE2514C88D36176CF79D81302D4944F03C8AD59C139675EC56129FDBFAC  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B2b-cache-0826-042943\gate-log.txt
-2F9B91D45C0227E31464F3D017E862560F6B07E37CC922CCC24FFD1CDEB6026F  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B2b-cache-0826-042943\gate-verdict.txt
-F97D39E5AA054DAD4EE3F3412D5F7E95F986F4B559E4634AD3E1E279DA0B5652  C:\Users\scott\Desktop\Code\halo-research-gateway\tests\unit\test_cache.py

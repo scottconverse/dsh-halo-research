@@ -1,5 +1,0 @@
-7ADFC4017A27DC2FDA21EBAEEF449AA361B8C15C7B079F8EFE3A1F3B4CF5CC2B  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B8a-char-budget-0826-164621\AGENTS.md
-D5AC705E0C772134D57FED00D60EF3949B98FB7D31A7A9E69060173C701FB087  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B8a-char-budget-0826-164621\GATE-FEEDBACK.md
-1F68AF1F912933208CBBCF3233275BAEEAAEB4A8DCA733286321EC72380E2117  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B8a-char-budget-0826-164621\gate-log.txt
-EDA9AF13BBA97943D8FAD00D05018ABCAE251253A11624E015F110FEA9CDA0A1  C:\Users\scott\Desktop\Code\dsh-halo-research\stack\gateway-conductor\runs\B8a-char-budget-0826-164621\gate-verdict.txt
-BDD0A504837C958A56177A6ACE1F1D56B510DD0A3EAD09CF8BDAD85BEEC904D8  C:\Users\scott\Desktop\Code\halo-research-gateway\tests\unit\test_envelope.py

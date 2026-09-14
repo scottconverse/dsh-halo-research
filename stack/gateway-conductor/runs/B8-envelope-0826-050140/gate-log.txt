@@ -1,9 +1,0 @@
-
-[05:01:40] gate start | lane=worker | workspace=C:\Users\scott\Desktop\Code\halo-research-gateway | verifier=C:\Users\scott\Desktop\Code\dsh-halo-research\stack\verify-generic.ps1 | verifyOnly=False
-[05:01:40] round 1 : agent launched (pid 12488, cap 15m, Code Mode, coder-30b)
-[05:05:30] round 1 : worker exited after 3.8 min (code 0)
-[05:05:31] round 1 : verdict FAIL (exit 2) - feeding failures back
-[05:05:31] round 2 : agent launched (pid 26700, cap 15m, Code Mode, coder-30b)
-[05:20:31] round 2 : hit 15m cap - killing recorded tree (pid 26700)
-[05:20:36] round 2 : verdict FAIL (exit 1) - feeding failures back
-[05:20:36] gate END: FAIL after 2 rounds. The work is NOT complete, whatever the model said.
