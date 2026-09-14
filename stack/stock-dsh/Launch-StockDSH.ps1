@@ -22,6 +22,13 @@ try {
         throw 'Mission Control answered on port 3090 without a verifiable build identity.'
     }
 
+    $dshOutput = Get-Content -LiteralPath (Join-Path $logs 'dsh.stdout.log') -Raw -ErrorAction Stop
+    $dshLaunchMatches = [regex]::Matches($dshOutput, 'http://127\.0\.0\.1:3080/\?token=[\w-]+')
+    if ($dshLaunchMatches.Count -eq 0) {
+        throw 'DSH is running, but its authenticated Chrome launch URL is unavailable.'
+    }
+    $dshLaunchUri = $dshLaunchMatches[$dshLaunchMatches.Count - 1].Value
+
     $chromeCandidates = @(
         'C:\Program Files\Google\Chrome\Application\chrome.exe'
         'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
@@ -32,8 +39,8 @@ try {
         throw 'Google Chrome is required but was not found in a standard installation location.'
     }
 
-    $browser = Start-Process -FilePath $chrome -ArgumentList @('--new-window', $missionControlUri) -WindowStyle Normal -PassThru
-    Write-LaunchLog "Opened Mission Control in Google Chrome (PID $($browser.Id))."
+    $browser = Start-Process -FilePath $chrome -ArgumentList @('--new-window', $missionControlUri, $dshLaunchUri) -WindowStyle Normal -PassThru
+    Write-LaunchLog "Opened Mission Control and DSH in Google Chrome (PID $($browser.Id))."
 } catch {
     $message = $_.Exception.Message
     Write-LaunchLog "FAILED: $message"

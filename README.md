@@ -29,7 +29,7 @@ Use the **DSH + Wigolo** desktop shortcut. The launcher:
 4. verifies the final two-model capacity envelope; and
 5. starts or reuses DSH and its Wigolo MCP child;
 6. promotes the tested Mission Control build into `C:\Users\scott\.dsh-stock\mission-control`; and
-7. opens Mission Control at `http://127.0.0.1:3090` in Google Chrome.
+7. opens Mission Control and the authenticated DSH page as two tabs in Google Chrome.
 
 Repeated launches reuse healthy DSH and Mission Control processes. The **Stop DSH + Wigolo** shortcut stops Mission Control, DSH, and the Wigolo child process. LM Studio and the approved models stay resident.
 

@@ -8,6 +8,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const stockDsh = path.join(here, '..', '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(stockDsh, 'package.json'), 'utf8'));
 const settings = fs.readFileSync(path.join(stockDsh, 'settings.yaml'), 'utf8');
+const startLauncher = fs.readFileSync(path.join(stockDsh, 'Start-StockDSH.ps1'), 'utf8');
+const desktopLauncher = fs.readFileSync(path.join(stockDsh, 'Launch-StockDSH.ps1'), 'utf8');
 
 test('stock DSH pins the reviewed release instead of carrying the retired picker override', () => {
   assert.equal(manifest.dependencies['@deepseek-ai/dsh'], '0.1.5-rc.2');
@@ -26,4 +28,9 @@ test('approved aliases share the bounded stock context and response contract', (
   assert.equal((settings.match(/contextWindow:\s*32768/g) || []).length, 2);
   assert.equal((settings.match(/maxTokens:\s*8192/g) || []).length, 2);
   assert.equal((settings.match(/reasoningEfforts:\s*false/g) || []).length, 2);
+});
+
+test('desktop launcher reuses a single DSH listener and opens both operator pages in Chrome', () => {
+  assert.match(startLauncher, /\$listeners\s*=\s*@\(Get-PortListeners\s+\$Port\)/);
+  assert.match(desktopLauncher, /ArgumentList\s+@\('--new-window',\s*\$missionControlUri,\s*\$dshLaunchUri\)/);
 });

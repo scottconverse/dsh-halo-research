@@ -35,7 +35,7 @@ function Get-PortListeners([int] $Port) {
 }
 
 function Assert-DshPortOwner([int] $Port) {
-    $listeners = Get-PortListeners $Port
+    $listeners = @(Get-PortListeners $Port)
     foreach ($listener in $listeners) {
         $owner = Get-CimInstance Win32_Process -Filter "ProcessId=$($listener.OwningProcess)" -ErrorAction Stop
         if (-not (Test-ExactProcessCommand $owner $node @($dshEntry, 'web', '--no-open'))) {
