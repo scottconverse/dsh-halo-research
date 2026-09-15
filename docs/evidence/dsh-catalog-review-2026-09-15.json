@@ -1,0 +1,3365 @@
+{
+  "capturedAt": "2026-09-15T19:04:27.438408+00:00",
+  "installedDsh": "0.1.5-rc.2",
+  "latestRelease": "0.1.6-alpha.1",
+  "releaseCommit": "0a15e36e7f82b6ed45af6fa9759f29b40dcd965d",
+  "npmDistTags": {
+    "alpha": "0.1.6-alpha.1",
+    "next": "0.1.5-rc.2",
+    "latest": "0.1.5-rc.1"
+  },
+  "hostSummary": {
+    "total": 158,
+    "active": 131,
+    "disabled": 27,
+    "waiting": 0,
+    "transitioning": 0,
+    "failed": 0,
+    "stuck": 0,
+    "failedList": [],
+    "waitingList": [],
+    "stuckList": [],
+    "stale": false,
+    "cacheState": "current"
+  },
+  "hostRows": [
+    {
+      "entryId": "1b032f9b",
+      "moduleName": "@deepseek-ai/dsh-host-directory-picker-native",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Native-OS-chooser backend of the directory-picker seam for the DeepSeek Harness web GUI host"
+    },
+    {
+      "entryId": "5035bdb9",
+      "moduleName": "@deepseek-ai/dsh-client-ui-directory-picker-native",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Native directory-picker surface: the renderless workspace directory-flow occupant driving the host's OS chooser"
+    },
+    {
+      "entryId": "ff656d68",
+      "moduleName": "@deepseek-ai/cordis-plugin-hmr",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Hot Module Replacement Plugin for Cordis \u00b7 instance: ff656d68"
+    },
+    {
+      "entryId": "include",
+      "moduleName": "cordis:include",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Composition include: mounts a config subtree"
+    },
+    {
+      "entryId": "include:agent",
+      "moduleName": "@deepseek-ai/dsh-agent",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Agent interface, registry, initiator scope, and event vocabulary for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:agent-default-model",
+      "moduleName": "@deepseek-ai/dsh-agent-default-model",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Default model selection shared by Agent entry points"
+    },
+    {
+      "entryId": "include:agent-loop",
+      "moduleName": "@deepseek-ai/dsh-agent-loop",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "The concrete agent loop plugin for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:agent-presets",
+      "moduleName": "@deepseek-ai/dsh-agent-presets",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Per-session agent composition from preset cordis.yml files for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:api-remotes",
+      "moduleName": "@deepseek-ai/dsh-api-remotes",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Remote BFF assembly for application-selected Host capabilities"
+    },
+    {
+      "entryId": "include:approval",
+      "moduleName": "@deepseek-ai/dsh-user-approval",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "User-approval seam (ctx.approval) for the DeepSeek Harness: one-shot permission decisions dispatched to composed answerers over the approval/request waterfall, fail-closed by default"
+    },
+    {
+      "entryId": "include:attachment-local",
+      "moduleName": "@deepseek-ai/dsh-attachment-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Private content-addressed DSH_HOME attachment storage"
+    },
+    {
+      "entryId": "include:client-hmr",
+      "moduleName": "@deepseek-ai/dsh-client-hmr",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Dev-only hot-reload driver for script-loaded client entries: SSE rebuilt frames \u2192 invalidate/prefetch \u2192 fiber swap through the vendored Loader entry"
+    },
+    {
+      "entryId": "include:code-runtime",
+      "moduleName": "@deepseek-ai/dsh-code-runtime-worker-thread",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Worker-thread implementation of the DeepSeek Harness code-execution seam"
+    },
+    {
+      "entryId": "include:command-feedback",
+      "moduleName": "@deepseek-ai/dsh-command-feedback",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Log-only session feedback: the record event, the sessionFeedback Host Remote, and the human-facing slash command"
+    },
+    {
+      "entryId": "include:commands",
+      "moduleName": "@deepseek-ai/dsh-commands",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Plugin-owned human command registry for DeepSeek Harness UIs"
+    },
+    {
+      "entryId": "include:connection",
+      "moduleName": "@deepseek-ai/dsh-client-connection",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Authenticated RPC transport, generation lifecycle, and browser fixture"
+    },
+    {
+      "entryId": "include:cordis-client-runner",
+      "moduleName": "@deepseek-ai/dsh-cordis-client-runner",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Browser half of dynamic dual-half plugin packages: event subscription, closure evaluation, guard facade, and loader entries"
+    },
+    {
+      "entryId": "include:cordis-host-runner",
+      "moduleName": "@deepseek-ai/dsh-cordis-host-runner",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Dynamic package definition registry, host-half sandbox lifecycle, and invoke handler table for model-mounted dual-half packages"
+    },
+    {
+      "entryId": "include:credentials",
+      "moduleName": "@deepseek-ai/dsh-credentials-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "File-backed credentials provider ($DSH_HOME/.env under the live process environment) for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:deepseek-llm-api-extensions",
+      "moduleName": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Additive request-field registry for the official DeepSeek LLM API adapter"
+    },
+    {
+      "entryId": "include:directory-picker",
+      "moduleName": "@deepseek-ai/dsh-host-directory-picker-auto",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Adaptive chooser of the directory-picker seam: resolves the host situation at boot and mounts the native or browse backend for the DeepSeek Harness web GUI host"
+    },
+    {
+      "entryId": "include:file-reference-local",
+      "moduleName": "@deepseek-ai/dsh-file-reference-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Local-filesystem ctx.fileReferences provider with bounded fuzzy indexes"
+    },
+    {
+      "entryId": "include:file-upload",
+      "moduleName": "@deepseek-ai/dsh-client-file-upload",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Agent-scoped browser file upload, streaming intake, and staged receipt service"
+    },
+    {
+      "entryId": "include:fs-observation-policy",
+      "moduleName": "@deepseek-ai/dsh-fs-observation-policy",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "File-context policy plugin for the DeepSeek Harness \u2014 observed-state, read-before-edit, and version-guarded write/edit added over the ctx.fs provider seam through the fs/* event gate (no service API)"
+    },
+    {
+      "entryId": "include:fs-sandbox",
+      "moduleName": "@deepseek-ai/dsh-fs-sandbox",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Sandbox-enforcing implementation of the DeepSeek Harness filesystem seam: fences write/edit by the per-call sandbox mode (read-only denies mutation, workspace-write contains it to the workspace + temp roots) while reads pass through"
+    },
+    {
+      "entryId": "include:goal",
+      "moduleName": "@deepseek-ai/dsh-goal",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Event-sourced same-session goal state and lifecycle service for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:goal-round-driver",
+      "moduleName": "@deepseek-ai/dsh-goal-round-driver",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Race-fenced same-session goal-round driver"
+    },
+    {
+      "entryId": "include:jobs",
+      "moduleName": "@deepseek-ai/dsh-jobs-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Process-local implementation of the DeepSeek Harness background job registry seam"
+    },
+    {
+      "entryId": "include:llm",
+      "moduleName": "@deepseek-ai/dsh-llm",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Provider-neutral LLM service interface for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:llm-deepseek",
+      "moduleName": "@deepseek-ai/dsh-llm-deepseek",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "DeepSeek chat-completions adapter for the DeepSeek Harness LLM seam"
+    },
+    {
+      "entryId": "include:llm-pi-ai",
+      "moduleName": "@deepseek-ai/dsh-llm-pi-ai",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "pi-ai-backed DeepSeek adapter for the DeepSeek Harness LLM seam (design-verification twin of dsh-llm-deepseek)"
+    },
+    {
+      "entryId": "include:llm-retry",
+      "moduleName": "@deepseek-ai/dsh-llm-retry",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Provider-routed LLM request retry policy for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:locale",
+      "moduleName": "@deepseek-ai/dsh-client-locale",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Locale plugin: Host-backed preference, extensible language catalog, browser fallback, and typed built-in dictionaries"
+    },
+    {
+      "entryId": "include:mcp-wigolo",
+      "moduleName": "@deepseek-ai/dsh-mcp-client",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "MCP client bridge: connects to MCP servers and registers their tools on ctx.tools \u00b7 instance: mcp-wigolo"
+    },
+    {
+      "entryId": "include:memory-mcp-reference",
+      "moduleName": "@deepseek-ai/dsh-mcp-client",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "MCP client bridge: connects to MCP servers and registers their tools on ctx.tools \u00b7 instance: memory-mcp-reference"
+    },
+    {
+      "entryId": "include:message-feedback",
+      "moduleName": "@deepseek-ai/dsh-message-feedback",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Canonical Session-log ratings and notes for finalized assistant messages"
+    },
+    {
+      "entryId": "include:modules",
+      "moduleName": "@deepseek-ai/dsh-client-modules",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Client module system, dual-face: node half composes the __DSH_BOOT__ entry graph (incremental dsh.client scan, bundle route, index tap, webPlugins service); browser half is the lazy-CJS module table the vendored cordis Loader consumes as its internal seam"
+    },
+    {
+      "entryId": "include:open-in-app",
+      "moduleName": "@deepseek-ai/dsh-host-open-in-app",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Host half of open-in-app: resolved application catalog, icons, and the launch endpoint as three webServer routes"
+    },
+    {
+      "entryId": "include:permission",
+      "moduleName": "@deepseek-ai/dsh-permission-presets",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "User-facing permission presets (ctx.permissionPresets) for the DeepSeek Harness: one product-level Permissions select bundling the sandbox-mode and approval-policy knobs, written through to their own session events"
+    },
+    {
+      "entryId": "include:plugin-inventory",
+      "moduleName": "@deepseek-ai/dsh-host-plugin-inventory",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Read-only Remote projection of current Cordis Loader plugin state"
+    },
+    {
+      "entryId": "include:plugin-package-inventory-deepseek",
+      "moduleName": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Active Loader-backed plugin package inventory for official DeepSeek LLM API requests"
+    },
+    {
+      "entryId": "include:pwsh-sandbox",
+      "moduleName": "@deepseek-ai/dsh-pwsh-sandbox",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Sandbox-consuming implementation of the DeepSeek Harness PowerShell executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)"
+    },
+    {
+      "entryId": "include:repeat-tool-reminder",
+      "moduleName": "@deepseek-ai/dsh-repeat-tool-reminder",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Repeat-tool-call guard plugin: advisory reminders when an agent loops on identical tool calls"
+    },
+    {
+      "entryId": "include:resources",
+      "moduleName": "@deepseek-ai/dsh-client-resources",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Unified client resource model: protocol-registered providers turn URL addresses into live values, consumed through the useResource global standard hook"
+    },
+    {
+      "entryId": "include:sandbox",
+      "moduleName": "@deepseek-ai/dsh-sandbox-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Local process-sandbox backends for the DeepSeek Harness sandbox seam: bwrap, the npm-distributed landlock-run launcher, macOS Seatbelt, or the Windows ACL restricted-token runner \u2014 functionally probed, fail-closed"
+    },
+    {
+      "entryId": "include:sandbox-policy",
+      "moduleName": "@deepseek-ai/dsh-sandbox-policy",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Per-call sandbox policy resolver and current model context: deployment fallbacks plus each session's mode and workspace root, shared by every enforcing capability family"
+    },
+    {
+      "entryId": "include:session",
+      "moduleName": "@deepseek-ai/dsh-session",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Event-sourced session store for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:session-checkpoint-policy",
+      "moduleName": "@deepseek-ai/dsh-session-checkpoint-policy",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Semantic session durability checkpoints before model requests and tool side effects"
+    },
+    {
+      "entryId": "include:session-controller",
+      "moduleName": "@deepseek-ai/dsh-api-session-controller",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Session Remote commands, cold reads, and live control transport"
+    },
+    {
+      "entryId": "include:session-log-deepseek",
+      "moduleName": "@deepseek-ai/dsh-session-log-deepseek",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Incremental lossless session-log request extension for the official DeepSeek LLM API"
+    },
+    {
+      "entryId": "include:session-log-download",
+      "moduleName": "@deepseek-ai/dsh-session-log-export",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Web Session-log export command and shared download dialog"
+    },
+    {
+      "entryId": "include:session-persistence-jsonl",
+      "moduleName": "@deepseek-ai/dsh-session-persistence-jsonl",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "JSONL durable session persistence backend for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:session-projection",
+      "moduleName": "@deepseek-ai/dsh-session-projection",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Session-projection seam: the merge-extensible projection type table, the provider contract, and the ctx.sessionProjections registry serving whole current values of log-derived per-session state"
+    },
+    {
+      "entryId": "include:session-projection-cache",
+      "moduleName": "@deepseek-ai/dsh-session-projection-cache",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Persisted projection cache (ctx.sessionProjectionCache): durable per-session checkpoint records on the session_projcache storage domain (per-record layout), throttled write-behind, and the cached listing read"
+    },
+    {
+      "entryId": "include:session-query-sqlite",
+      "moduleName": "@deepseek-ai/dsh-session-query-sqlite",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Concrete ctx.sessionQuery backend with SQLite FTS5 search"
+    },
+    {
+      "entryId": "include:session-reference",
+      "moduleName": "@deepseek-ai/dsh-session-reference",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)"
+    },
+    {
+      "entryId": "include:session-stats",
+      "moduleName": "@deepseek-ai/dsh-session-stats",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Whole-log conversation counts and wall times projection (sessionStats) for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:session-telemetry-otel",
+      "moduleName": "@deepseek-ai/dsh-session-telemetry-otel",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "OpenTelemetry backend for the DeepSeek Harness telemetry seam: hands captured session records to the OTel JS SDK's log pipeline"
+    },
+    {
+      "entryId": "include:session-title",
+      "moduleName": "@deepseek-ai/dsh-session-title",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Log-backed session title service and provider registry for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:session-title-llm",
+      "moduleName": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "First-message LLM provider plugin for DeepSeek Harness session titles"
+    },
+    {
+      "entryId": "include:session-turn-outline",
+      "moduleName": "@deepseek-ai/dsh-session-turn-outline",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Whole-log turn outline projection (turnOutline) for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:settings",
+      "moduleName": "@deepseek-ai/dsh-settings-file",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "File-backed settings provider (settings.yaml) for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:settings-controller",
+      "moduleName": "@deepseek-ai/dsh-api-settings-controller",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Remote owner for the configuration surfaces over the settings-domain seams"
+    },
+    {
+      "entryId": "include:shell-env",
+      "moduleName": "@deepseek-ai/dsh-shell-env",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Tool-independent managed DSH_* shell environment registry"
+    },
+    {
+      "entryId": "include:skill",
+      "moduleName": "@deepseek-ai/dsh-skill",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Agent skill provider registry for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:spill-local",
+      "moduleName": "@deepseek-ai/dsh-spill-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Local-filesystem implementation of the DeepSeek Harness spill storage seam (private session-scoped files)"
+    },
+    {
+      "entryId": "include:spill-policy",
+      "moduleName": "@deepseek-ai/dsh-spill-policy",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Tool-result spill policy for the DeepSeek Harness \u2014 replaces oversized plain-text tool results with a retained preview plus a spill-file path (no service API)"
+    },
+    {
+      "entryId": "include:storage",
+      "moduleName": "@deepseek-ai/dsh-storage",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Storage hub (ctx.storage): named backend registry plus mounted data-form facilities for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:storage-domain",
+      "moduleName": "@deepseek-ai/dsh-storage-domain",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Domain data form (ctx.storage.domain): schema-validated, event-emitting KV domains over storage backends for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:storage-json",
+      "moduleName": "@deepseek-ai/dsh-storage-json",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "JSON file KV storage backend for the DeepSeek Harness storage hub"
+    },
+    {
+      "entryId": "include:subagent",
+      "moduleName": "@deepseek-ai/dsh-subagent",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Abstract subagent seam (ctx.subagents): named-provider registry for delegating to child agents"
+    },
+    {
+      "entryId": "include:subagent-fork-in-process",
+      "moduleName": "@deepseek-ai/dsh-subagent-fork-in-process",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "In-process fork subagent backend: runs a child agent seeded with a prefix of the parent's log"
+    },
+    {
+      "entryId": "include:subagent-model-selection-settings",
+      "moduleName": "@deepseek-ai/dsh-tool-subagent/model-selection-settings",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Model-facing subagent delegation tool over the ctx.subagents seam \u00b7 export: model-selection-settings"
+    },
+    {
+      "entryId": "include:subagent-spawn-in-process",
+      "moduleName": "@deepseek-ai/dsh-subagent-spawn-in-process",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "In-process spawn subagent backend: runs a fresh child agent on ctx.agents"
+    },
+    {
+      "entryId": "include:subprocess",
+      "moduleName": "@deepseek-ai/dsh-subprocess-local",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Local-subprocess implementation of the DeepSeek Harness subprocess seam"
+    },
+    {
+      "entryId": "include:system-prompt",
+      "moduleName": "@deepseek-ai/dsh-system-prompt",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "System prompt assembly registry for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:timeout-policy",
+      "moduleName": "@deepseek-ai/dsh-tool-call-timeout-policy",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Tool-call timeout policy: a tools/execute wrapper that arms a per-tool deadline on exec.signal and returns TOOL_TIMEOUT when it wins"
+    },
+    {
+      "entryId": "include:timer",
+      "moduleName": "@deepseek-ai/cordis-plugin-timer",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Timer service for cordis"
+    },
+    {
+      "entryId": "include:token-meter",
+      "moduleName": "@deepseek-ai/dsh-token-meter",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Replay-aware token measurement service (ctx.tokenMeter) for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:tools",
+      "moduleName": "@deepseek-ai/dsh-tools",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Tool registry and execution pipeline for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:typert",
+      "moduleName": "@deepseek-ai/dsh-typert-registry",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Runtime registry for generated package reflection and Zod schemas"
+    },
+    {
+      "entryId": "include:typert-gateway",
+      "moduleName": "@deepseek-ai/dsh-api-gateway",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Typert Remote Host dispatcher and Client API endpoint"
+    },
+    {
+      "entryId": "include:typert-loader",
+      "moduleName": "@deepseek-ai/dsh-typert-loader",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Loader integration for generated Typert package contributions"
+    },
+    {
+      "entryId": "include:ui-agent-preset",
+      "moduleName": "@deepseek-ai/dsh-client-ui-agent-preset",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Agent-preset surfaces: the default for later sessions, this session's seat, and the composition editor"
+    },
+    {
+      "entryId": "include:ui-approval",
+      "moduleName": "@deepseek-ai/dsh-client-ui-approval",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Approval composer takeover over the scoped Remote Event waterfall"
+    },
+    {
+      "entryId": "include:ui-attachment",
+      "moduleName": "@deepseek-ai/dsh-client-ui-attachment",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Dynamic attachment presentation plugin for conversation input, message-image, and trajectory image slots"
+    },
+    {
+      "entryId": "include:ui-brand-official",
+      "moduleName": "@deepseek-ai/dsh-client-ui-brand-official",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Official DeepSeek Harness brand occupants for the Web client's sidebar slots"
+    },
+    {
+      "entryId": "include:ui-chat",
+      "moduleName": "@deepseek-ai/dsh-client-ui-chat",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Chat Conversation target, node definitions, renderers, and details surface"
+    },
+    {
+      "entryId": "include:ui-commands",
+      "moduleName": "@deepseek-ai/dsh-client-ui-commands",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Client command surface: global directory cache, '/' source, three command UI kinds, popupSelect registry"
+    },
+    {
+      "entryId": "include:ui-conversation",
+      "moduleName": "@deepseek-ai/dsh-client-ui-conversation",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Target-neutral Conversation assembly, shell, composer, queue, and view navigation"
+    },
+    {
+      "entryId": "include:ui-cordis",
+      "moduleName": "@deepseek-ai/dsh-client-ui-cordis",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Cordis dynamic-plugin definition card: the keyed cordis_define tool row with its run/stop switch"
+    },
+    {
+      "entryId": "include:ui-deliverables",
+      "moduleName": "@deepseek-ai/dsh-client-ui-deliverables",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Produced-files turn tail and clickable final-response file references for Web"
+    },
+    {
+      "entryId": "include:ui-goal",
+      "moduleName": "@deepseek-ai/dsh-client-ui-goal",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Session goal surface: GoalBar docked above the composer, read from the goal session projection"
+    },
+    {
+      "entryId": "include:ui-input-trigger",
+      "moduleName": "@deepseek-ai/dsh-client-ui-input-trigger",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Input trigger pipeline: '/' and '@' detection, candidate menu, pick routing to registered sources"
+    },
+    {
+      "entryId": "include:ui-jobs",
+      "moduleName": "@deepseek-ai/dsh-client-ui-jobs",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Session-header background-job list: live registry state mirrored from session/jobs frames"
+    },
+    {
+      "entryId": "include:ui-layout",
+      "moduleName": "@deepseek-ai/dsh-client-ui-layout",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Shell plugin: three-column AppFrame with drag handles, ctx.layout viewing-state service (navigation + panels)"
+    },
+    {
+      "entryId": "include:ui-message-feedback",
+      "moduleName": "@deepseek-ai/dsh-client-ui-message-feedback",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "The Web feedback surface: per-message Like/Dislike in the assistant-message action strip and the feedback dialog behind both ratings and /feedback, backed by the messageFeedback and sessionFeedback Host Remotes"
+    },
+    {
+      "entryId": "include:ui-model-selection",
+      "moduleName": "@deepseek-ai/dsh-client-ui-model-selection",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Model selection over the shared model catalog, Session projection, and session.selectModel"
+    },
+    {
+      "entryId": "include:ui-open-in-app",
+      "moduleName": "@deepseek-ai/dsh-client-ui-open-in-app",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Web Session-header \"Open In...\" split button opening the session workspace directory in a locally installed application"
+    },
+    {
+      "entryId": "include:ui-permission",
+      "moduleName": "@deepseek-ai/dsh-client-ui-permission-presets",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Permission surfaces: a new-session default in General settings and a current-session /permission popup over the permissions projection"
+    },
+    {
+      "entryId": "include:ui-plan",
+      "moduleName": "@deepseek-ai/dsh-client-ui-plan",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Plan-mode composer control: the conversation.input.plan seat over the plan projection and the /plan command channel"
+    },
+    {
+      "entryId": "include:ui-reference",
+      "moduleName": "@deepseek-ai/dsh-client-ui-reference",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Unified Web @file and @session reference source"
+    },
+    {
+      "entryId": "include:ui-renderer",
+      "moduleName": "@deepseek-ai/dsh-client-ui-renderer",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Browser UI renderer: React slot bindings, ctx.uiRenderer, and the assembled application root"
+    },
+    {
+      "entryId": "include:ui-session",
+      "moduleName": "@deepseek-ai/dsh-client-ui-session",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Session Controller adapter for React and session-scoped slots"
+    },
+    {
+      "entryId": "include:ui-settings",
+      "moduleName": "@deepseek-ai/dsh-client-ui-settings",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Settings domain base plugin: the settings-namespace scope service and the canonical settings slot-type contract"
+    },
+    {
+      "entryId": "include:ui-settings-general",
+      "moduleName": "@deepseek-ai/dsh-client-ui-settings-general",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Settings ownerless-copy and product onboarding plugin: the General section, shell trigger/header chrome content, settings dictionaries, and the versioned welcome notice"
+    },
+    {
+      "entryId": "include:ui-settings-models",
+      "moduleName": "@deepseek-ai/dsh-client-ui-settings-models",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Models settings and shared product-onboarding dialogs over existing settings and credential joins"
+    },
+    {
+      "entryId": "include:ui-settings-plugin-inventory",
+      "moduleName": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Read-only Cordis Loader inventory tab in Web Plugins settings"
+    },
+    {
+      "entryId": "include:ui-settings-plugins",
+      "moduleName": "@deepseek-ai/dsh-client-ui-settings-plugins",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Plugins settings section with feature-owned tabs and configurable host-plane plugin cards"
+    },
+    {
+      "entryId": "include:ui-sidebar",
+      "moduleName": "@deepseek-ai/dsh-client-ui-sidebar",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Sidebar plugin: session multi-level tree, search, grouping, state dots"
+    },
+    {
+      "entryId": "include:ui-sidebar-documentpreview",
+      "moduleName": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Extensible document previews for Sidebar files: Markdown, highlighted code, images, PDF, HTML, and plain text"
+    },
+    {
+      "entryId": "include:ui-sidebar-files",
+      "moduleName": "@deepseek-ai/dsh-client-ui-sidebar-files",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Workspace file tree tab type for the right Sidebar: lazy directory listing over the workspaceFiles Remote namespace, opening files into the Sidebar"
+    },
+    {
+      "entryId": "include:ui-sidebar-right",
+      "moduleName": "@deepseek-ai/dsh-client-ui-sidebar-right",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Right Sidebar: the docking surface's session-bound state, its panel and header expand control, and the navigation service over it"
+    },
+    {
+      "entryId": "include:ui-skill",
+      "moduleName": "@deepseek-ai/dsh-client-ui-skill",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Web skill references and the dedicated skill tool row"
+    },
+    {
+      "entryId": "include:ui-subagent",
+      "moduleName": "@deepseek-ai/dsh-client-ui-subagent",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Subagent conversation catalog, continuation routing UI, and '@' reference source"
+    },
+    {
+      "entryId": "include:ui-theme",
+      "moduleName": "@deepseek-ai/dsh-client-ui-theme",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Theme plugin: Host bootstrap for the pre-plugin palette; DOM-free ThemeRuntime for light/dark/system state; --dsw-* token styles and Appearance settings row"
+    },
+    {
+      "entryId": "include:ui-tool",
+      "moduleName": "@deepseek-ai/dsh-client-ui-tool",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Client Tool call-tree renderer and keyed per-tool presentation slot"
+    },
+    {
+      "entryId": "include:ui-trajectory",
+      "moduleName": "@deepseek-ai/dsh-client-ui-trajectory",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Trajectory event ledger with an interactive timing overview: pure-consumer plugin registering into the conversation ViewMap (no service)"
+    },
+    {
+      "entryId": "include:ui-user-questions",
+      "moduleName": "@deepseek-ai/dsh-client-ui-user-questions",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Web ask_user_question composer takeover and plan-review presentation UI"
+    },
+    {
+      "entryId": "include:ui-workflow-run",
+      "moduleName": "@deepseek-ai/dsh-client-ui-workflow-run",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Durable workflow-run Conversation Node and nested member disclosure for dsh web"
+    },
+    {
+      "entryId": "include:ui-workspace",
+      "moduleName": "@deepseek-ai/dsh-client-ui-workspace",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Workspace picker plugin: one WorkspacePicker registered into the sidebar and empty-state workspace slots"
+    },
+    {
+      "entryId": "include:user-questions",
+      "moduleName": "@deepseek-ai/dsh-user-questions",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Abstract user-questions seam (ctx.userQuestions) for asking the human during agent runs"
+    },
+    {
+      "entryId": "include:web",
+      "moduleName": "@deepseek-ai/dsh-web",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Abstract web access capability seam (ctx.web) for the DeepSeek Harness \u2014 search/fetch provider registry, registration-order-independent selection, request/result vocabulary, and the WebError taxonomy"
+    },
+    {
+      "entryId": "include:web-fetch-http",
+      "moduleName": "@deepseek-ai/dsh-web-fetch-http",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Anonymous public HTTP(S) fetch provider for the DeepSeek Harness web capability seam (ctx.web)"
+    },
+    {
+      "entryId": "include:web-runtime",
+      "moduleName": "@deepseek-ai/dsh-web-app",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "The dsh browser-surface bundle: the web patch layer over dsh-base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line)"
+    },
+    {
+      "entryId": "include:web-search-deepseek",
+      "moduleName": "@deepseek-ai/dsh-web-search-deepseek",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "DeepSeek-backed search provider (native web_search via the Anthropic-compatible API) for the DeepSeek Harness web capability seam (ctx.web)"
+    },
+    {
+      "entryId": "include:web-startup",
+      "moduleName": "@deepseek-ai/dsh-web-app/startup",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "The dsh browser-surface bundle: the web patch layer over dsh-base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line) \u00b7 export: startup"
+    },
+    {
+      "entryId": "include:webserver",
+      "moduleName": "@deepseek-ai/dsh-host-webserver",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Web route-registration plugin: HTTP and upgrade routes, index transform taps, and static dist fallback; knows no harness concepts"
+    },
+    {
+      "entryId": "include:workspace",
+      "moduleName": "@deepseek-ai/dsh-workspace",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Workspace entity registry (ctx.workspaceRegistry): durable workspace records with validated session attachment over the domain data form for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:workspace-controller",
+      "moduleName": "@deepseek-ai/dsh-api-workspace-controller",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Workspace Remote commands and reconnect-safe state transport"
+    },
+    {
+      "entryId": "include:workspace-files",
+      "moduleName": "@deepseek-ai/dsh-api-workspace-files",
+      "enabled": true,
+      "fiberPhase": "active",
+      "bucket": "active",
+      "haloOverride": false,
+      "description": "Workspace file service and Client resource provider: bounded reads, directory listing, and live metadata over the workspaceFiles Remote namespace"
+    },
+    {
+      "entryId": "include:agent-instructions",
+      "moduleName": "@deepseek-ai/dsh-agent-instructions",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Workspace context loader for AGENTS.md/CLAUDE.md instruction files"
+    },
+    {
+      "entryId": "include:bash-sandbox",
+      "moduleName": "@deepseek-ai/dsh-bash-sandbox",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Sandbox-consuming implementation of the DeepSeek Harness bash executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)"
+    },
+    {
+      "entryId": "include:command-compact",
+      "moduleName": "@deepseek-ai/dsh-command-compact",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Human-facing slash command for explicit session compaction"
+    },
+    {
+      "entryId": "include:command-goal",
+      "moduleName": "@deepseek-ai/dsh-command-goal",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Human-facing slash command for persisted same-session goals"
+    },
+    {
+      "entryId": "include:compaction-basic",
+      "moduleName": "@deepseek-ai/dsh-compaction-basic",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Token-meter-driven compaction policy and LLM summarization backend for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:hmr",
+      "moduleName": "@deepseek-ai/cordis-plugin-hmr",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Hot Module Replacement Plugin for Cordis \u00b7 instance: hmr"
+    },
+    {
+      "entryId": "include:plan-mode",
+      "moduleName": "@deepseek-ai/dsh-plan-mode",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Logged per-agent plan mode with deployment guidance, a direct slash command, and a user-reviewed exit"
+    },
+    {
+      "entryId": "include:skill-badge",
+      "moduleName": "@deepseek-ai/dsh-skill-badge",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Bundled dsh badge skill provider for DeepSeek Harness"
+    },
+    {
+      "entryId": "include:skill-filesystem",
+      "moduleName": "@deepseek-ai/dsh-skill-filesystem",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Local filesystem skill provider for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:tool-bash",
+      "moduleName": "@deepseek-ai/dsh-tool-bash",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing bash tool with optional generic background-job and sandbox-escalation support"
+    },
+    {
+      "entryId": "include:tool-fs",
+      "moduleName": "@deepseek-ai/dsh-tool-fs",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing filesystem tools (read, write, edit) over the DeepSeek Harness filesystem seam (ctx.fs)"
+    },
+    {
+      "entryId": "include:tool-fs-search",
+      "moduleName": "@deepseek-ai/dsh-tool-fs-search",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing filesystem discovery tools (glob, grep) backed by the packaged ripgrep binary (@vscode/ripgrep)"
+    },
+    {
+      "entryId": "include:tool-goal",
+      "moduleName": "@deepseek-ai/dsh-tool-goal",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing same-session goal tools with execution-time authority checks"
+    },
+    {
+      "entryId": "include:tool-jobs",
+      "moduleName": "@deepseek-ai/dsh-tool-jobs",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing background job control tools (job_output, job_list, job_kill) over the ctx.jobs registry"
+    },
+    {
+      "entryId": "include:tool-pwsh",
+      "moduleName": "@deepseek-ai/dsh-tool-pwsh",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing pwsh tool over the bash executor seam"
+    },
+    {
+      "entryId": "include:tool-ralph",
+      "moduleName": "@deepseek-ai/dsh-tool-ralph",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing fresh-agent Ralph loop over the workflow and subagent seams"
+    },
+    {
+      "entryId": "include:tool-result-pruner",
+      "moduleName": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Replay-safe model-free head/middle/tail pruning for tool-result surface nodes"
+    },
+    {
+      "entryId": "include:tool-skill",
+      "moduleName": "@deepseek-ai/dsh-tool-skill",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing skill loading tool for the DeepSeek Harness"
+    },
+    {
+      "entryId": "include:tool-subagent",
+      "moduleName": "@deepseek-ai/dsh-tool-subagent",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing subagent delegation tool over the ctx.subagents seam \u00b7 instance: tool-subagent"
+    },
+    {
+      "entryId": "include:tool-subagent-control",
+      "moduleName": "@deepseek-ai/dsh-tool-subagent-control",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Globally named send_message, interrupt_agent, and list_agents tools over ctx.subagents continuations"
+    },
+    {
+      "entryId": "include:tool-subagent-fork",
+      "moduleName": "@deepseek-ai/dsh-tool-subagent",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing subagent delegation tool over the ctx.subagents seam \u00b7 instance: tool-subagent-fork"
+    },
+    {
+      "entryId": "include:tool-subagent-list-agents",
+      "moduleName": "@deepseek-ai/dsh-tool-subagent-control/list-agents",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Globally named send_message, interrupt_agent, and list_agents tools over ctx.subagents continuations \u00b7 export: list-agents"
+    },
+    {
+      "entryId": "include:tool-todo",
+      "moduleName": "@deepseek-ai/dsh-tool-todo",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing todo_write tool over the DeepSeek Harness event-sourced session log"
+    },
+    {
+      "entryId": "include:tool-web",
+      "moduleName": "@deepseek-ai/dsh-tool-web",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing web tools (web_search, web_fetch) over the DeepSeek Harness web capability seam (ctx.web)"
+    },
+    {
+      "entryId": "include:tool-workflow",
+      "moduleName": "@deepseek-ai/dsh-tool-workflow",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Model-facing workflow tool: run a JavaScript orchestration script over ctx.workflowEngine"
+    },
+    {
+      "entryId": "include:ui-schedule",
+      "moduleName": "@deepseek-ai/dsh-client-ui-schedule",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "Read-only active Schedule catalog in the Web Session header"
+    },
+    {
+      "entryId": "include:workflow-worker-thread",
+      "moduleName": "@deepseek-ai/dsh-workflow-worker-thread",
+      "enabled": false,
+      "fiberPhase": null,
+      "bucket": "disabled",
+      "haloOverride": false,
+      "description": "worker-thread workflow engine: executes model-written orchestration scripts off the host event loop, bridging agent() calls back to ctx.subagents"
+    }
+  ],
+  "installedPackageVersions": {
+    "@deepseek-ai/cordis": [
+      "4.0.2"
+    ],
+    "@deepseek-ai/cordis-plugin-group": [
+      "1.0.2"
+    ],
+    "@deepseek-ai/cordis-plugin-hmr": [
+      "1.0.17"
+    ],
+    "@deepseek-ai/cordis-plugin-include": [
+      "1.0.7"
+    ],
+    "@deepseek-ai/cordis-plugin-loader": [
+      "1.0.3"
+    ],
+    "@deepseek-ai/cordis-plugin-timer": [
+      "1.1.4"
+    ],
+    "@deepseek-ai/cosmokit": [
+      "1.8.3"
+    ],
+    "@deepseek-ai/dsh": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-acp": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-acp-app": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent-default-model": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent-instructions": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent-loop": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent-presets": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-agent-tool-presentation": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-anonymous-user-id": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-gateway": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-remotes": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-session-controller": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-settings-controller": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-workspace-controller": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-api-workspace-files": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-app-boot": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-atomic-write": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-attachment": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-attachment-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-authorization": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-base": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-bash-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-bash-sandbox": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-brand": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-chunked-list": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-connection": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-file-upload": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-hmr": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-locale": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-modules": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-resources": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-agent-preset": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-approval": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-attachment": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-brand-official": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-chat": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-commands": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-conversation": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-cordis": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-deliverables": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-directory-picker-browse": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-directory-picker-native": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-goal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-input-trigger": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-jobs": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-layout": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-message-feedback": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-model-selection": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-open-in-app": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-permission-presets": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-plan": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-reference": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-renderer": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-schedule": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-session": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-settings": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-settings-general": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-settings-models": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-settings-plugin-inventory": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-settings-plugins": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-sidebar": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-sidebar-documentpreview": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-sidebar-files": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-sidebar-right": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-skill": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-subagent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-theme": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-tool": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-trajectory": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-user-questions": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-workflow-run": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-client-ui-workspace": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-cmdline": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-code-runtime": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-code-runtime-worker-thread": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-command-compact": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-command-feedback": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-command-goal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-commands": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-compaction": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-compaction-basic": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-compaction-tool-result-pruner": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-cordis-client-runner": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-cordis-host-runner": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-credentials": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-credentials-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-deepseek-llm-api-extensions": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-deque": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-file-reference": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-file-reference-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-fs": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-fs-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-fs-observation-policy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-fs-sandbox": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-goal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-goal-round-driver": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-headless": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-home-paths": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-hook-protocol": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-hooks-claude-code": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-hooks-codex": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-directory-picker": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-directory-picker-auto": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-directory-picker-browse": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-directory-picker-native": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-frontend-static": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-open-in-app": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-plugin-inventory": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-host-webserver": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-http-proxy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-invariants": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-jobs": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-jobs-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-launch-environment": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-llm": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-llm-deepseek": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-llm-pi-ai": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-llm-retry": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-mcp-client": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-message-feedback": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-native-command": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-output-retention": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-package-manifest": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-permission-presets": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-persona": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-plan-mode": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-plugin-package-inventory-deepseek": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-pwsh-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-pwsh-sandbox": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-repeat-tool-reminder": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sandbox": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sandbox-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sandbox-policy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sandbox-windows-acl": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-schedule": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-scope": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sdk-app": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sdk-jsonrpc-server": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sdk-minimal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-sdk-protocol": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-checkpoint-policy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-format": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-format-catalog": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-format-v0-to-v1": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-format-v1-to-v2": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-format-v2-to-v3": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-log-deepseek": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-log-export": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-persistence": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-persistence-jsonl": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-projection": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-projection-cache": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-query": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-query-sqlite": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-reference": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-stats": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-telemetry": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-telemetry-otel": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-title": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-title-first-prompt-llm": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-title-llm": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-session-turn-outline": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-settings": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-settings-file": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-shell": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-shell-env": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-skill": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-skill-badge": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-skill-filesystem": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-spill": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-spill-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-spill-policy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-storage": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-storage-domain": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-storage-json": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subagent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subagent-fork-in-process": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subagent-in-process-driver": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subagent-spawn-in-process": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subprocess": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-subprocess-local": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-system-prompt": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-terminal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-terminal-bash": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-time-context": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-timeout": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tmux-context": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-token-meter": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-ask-user": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-bash": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-bash-persistent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-call-timeout-policy": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-cordis": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-fs": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-fs-search": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-goal": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-jobs": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-present": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-pwsh": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-pwsh-persistent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-ralph": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-skill": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-str-replace-editor": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-subagent": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-subagent-control": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-todo": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-web": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tool-workflow": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-tools": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-typert-loader": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-typert-protocol": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-typert-registry": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-user-approval": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-user-questions": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-util-crypto": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-util-time": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-util-values": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-util-workspace-path": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-web": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-web-app": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-web-fetch-http": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-web-frontend": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-web-search-deepseek": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-webhook": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-webhook-github": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-win32-process": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-workflow": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-workflow-worker-thread": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/dsh-workspace": [
+      "0.1.5-rc.2"
+    ],
+    "@deepseek-ai/node-addon-system": [
+      "0.1.2"
+    ],
+    "@deepseek-ai/schemastery": [
+      "3.18.2"
+    ]
+  },
+  "latestSourcePackages": {
+    "@deepseek-ai/dsh-acp": {
+      "source": "packages/acp/acp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-gateway": {
+      "source": "packages/api/gateway/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-remotes": {
+      "source": "packages/api/remotes/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-session-controller": {
+      "source": "packages/api/session-controller/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-settings-controller": {
+      "source": "packages/api/settings-controller/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-terminal-controller": {
+      "source": "packages/api/terminal-controller/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-workspace-controller": {
+      "source": "packages/api/workspace-controller/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-api-workspace-files": {
+      "source": "packages/api/workspace-files/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-attachment-local": {
+      "source": "packages/attachment/attachment-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-attachment": {
+      "source": "packages/attachment/attachment/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-app-boot": {
+      "source": "packages/boot/app-boot/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-cmdline": {
+      "source": "packages/boot/cmdline/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-browser-use": {
+      "source": "packages/browser-use/browser-use/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-acp-app": {
+      "source": "packages/bundle/acp-app/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-base": {
+      "source": "packages/bundle/base/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-headless": {
+      "source": "packages/bundle/headless/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sdk-app": {
+      "source": "packages/bundle/sdk-app/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sdk-minimal": {
+      "source": "packages/bundle/sdk-minimal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web-app": {
+      "source": "packages/bundle/web-app/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-connection": {
+      "source": "packages/client/connection/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-file-upload": {
+      "source": "packages/client/file-upload/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-hmr": {
+      "source": "packages/client/hmr/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-locale": {
+      "source": "packages/client/locale/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-modules": {
+      "source": "packages/client/modules/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-resources": {
+      "source": "packages/client/resources/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-store": {
+      "source": "packages/client/store/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-agent-preset": {
+      "source": "packages/client/ui-agent-preset/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-approval": {
+      "source": "packages/client/ui-approval/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-attachment": {
+      "source": "packages/client/ui-attachment/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-brand-official": {
+      "source": "packages/client/ui-brand-official/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-chat": {
+      "source": "packages/client/ui-chat/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-commands": {
+      "source": "packages/client/ui-commands/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-conversation": {
+      "source": "packages/client/ui-conversation/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-deliverables": {
+      "source": "packages/client/ui-deliverables/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-directory-picker-browse": {
+      "source": "packages/client/ui-directory-picker-browse/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-directory-picker-native": {
+      "source": "packages/client/ui-directory-picker-native/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-dockkit": {
+      "source": "packages/client/ui-dockkit/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-goal": {
+      "source": "packages/client/ui-goal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-input-trigger": {
+      "source": "packages/client/ui-input-trigger/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-jobs": {
+      "source": "packages/client/ui-jobs/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-layout": {
+      "source": "packages/client/ui-layout/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-message-feedback": {
+      "source": "packages/client/ui-message-feedback/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-model-selection": {
+      "source": "packages/client/ui-model-selection/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-open-in-app": {
+      "source": "packages/client/ui-open-in-app/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-permission-presets": {
+      "source": "packages/client/ui-permission-presets/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-plan": {
+      "source": "packages/client/ui-plan/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-primitives": {
+      "source": "packages/client/ui-primitives/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-reference": {
+      "source": "packages/client/ui-reference/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-renderer": {
+      "source": "packages/client/ui-renderer/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-schedule": {
+      "source": "packages/client/ui-schedule/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-session": {
+      "source": "packages/client/ui-session/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings-general": {
+      "source": "packages/client/ui-settings-general/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings-models": {
+      "source": "packages/client/ui-settings-models/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings-plugin-inventory": {
+      "source": "packages/client/ui-settings-plugin-inventory/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings-plugins": {
+      "source": "packages/client/ui-settings-plugins/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings-unarchive-sessions": {
+      "source": "packages/client/ui-settings-unarchive-sessions/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-settings": {
+      "source": "packages/client/ui-settings/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-sidebar-documentpreview": {
+      "source": "packages/client/ui-sidebar-documentpreview/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-sidebar-files": {
+      "source": "packages/client/ui-sidebar-files/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-sidebar-right": {
+      "source": "packages/client/ui-sidebar-right/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-sidebar-terminal": {
+      "source": "packages/client/ui-sidebar-terminal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-sidebar": {
+      "source": "packages/client/ui-sidebar/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-skill": {
+      "source": "packages/client/ui-skill/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-slots": {
+      "source": "packages/client/ui-slots/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-subagent": {
+      "source": "packages/client/ui-subagent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-theme": {
+      "source": "packages/client/ui-theme/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-tool": {
+      "source": "packages/client/ui-tool/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-trajectory": {
+      "source": "packages/client/ui-trajectory/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-user-questions": {
+      "source": "packages/client/ui-user-questions/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-workflow-run": {
+      "source": "packages/client/ui-workflow-run/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-workspace": {
+      "source": "packages/client/ui-workspace/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-web": {
+      "source": "packages/client/web/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-command-compact": {
+      "source": "packages/compaction/command-compact/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-compaction-basic": {
+      "source": "packages/compaction/compaction-basic/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-compaction-image-offload": {
+      "source": "packages/compaction/compaction-image-offload/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-compaction-tool-result-pruner": {
+      "source": "packages/compaction/compaction-tool-result-pruner/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-compaction": {
+      "source": "packages/compaction/compaction/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-computer-use": {
+      "source": "packages/computer-use/computer-use/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-instructions": {
+      "source": "packages/context/agent-instructions/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-file-reference-local": {
+      "source": "packages/context/file-reference-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-file-reference": {
+      "source": "packages/context/file-reference/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-reference": {
+      "source": "packages/context/session-reference/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-time-context": {
+      "source": "packages/context/time-context/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tmux-context": {
+      "source": "packages/context/tmux-context/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-default-model": {
+      "source": "packages/core/agent-default-model/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-loop": {
+      "source": "packages/core/agent-loop/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-tool-presentation": {
+      "source": "packages/core/agent-tool-presentation/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent": {
+      "source": "packages/core/agent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-scope": {
+      "source": "packages/core/scope/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session": {
+      "source": "packages/core/session/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-system-prompt": {
+      "source": "packages/core/system-prompt/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tools": {
+      "source": "packages/core/tools/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-authorization": {
+      "source": "packages/credentials/authorization/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-credentials-local": {
+      "source": "packages/credentials/credentials-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-credentials": {
+      "source": "packages/credentials/credentials/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-agent-team-profile": {
+      "source": "packages/experimental/agent-team-profile/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-agent-team-web-profile": {
+      "source": "packages/experimental/agent-team-web-profile/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-agent-team": {
+      "source": "packages/experimental/agent-team/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-auto-review": {
+      "source": "packages/experimental/auto-review/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp": {
+      "source": "packages/experimental/browser-use-chrome-devtools-mcp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp": {
+      "source": "packages/experimental/browser-use-playwright-mcp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-browser-use-runtime": {
+      "source": "packages/experimental/browser-use-runtime/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-browser-use-stagehand-native": {
+      "source": "packages/experimental/browser-use-stagehand-native/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-client-ui-agent-team": {
+      "source": "packages/experimental/client-ui-agent-team/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp": {
+      "source": "packages/experimental/computer-use-cua-driver-mcp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-computer-use-cua-driver-native": {
+      "source": "packages/experimental/computer-use-cua-driver-native/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-inspector": {
+      "source": "packages/experimental/inspector/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-ptc-runtime-python": {
+      "source": "packages/experimental/ptc-runtime-python/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-tool-agent-team": {
+      "source": "packages/experimental/tool-agent-team/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-webworker-packer": {
+      "source": "packages/experimental/webworker-packer/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-experimental-webworker-runtime": {
+      "source": "packages/experimental/webworker-runtime/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-cordis-client-runner": {
+      "source": "packages/extensions/cordis-client-runner/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-cordis-host-runner": {
+      "source": "packages/extensions/cordis-host-runner/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-cordis": {
+      "source": "packages/extensions/tool-cordis/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-ui-cordis": {
+      "source": "packages/extensions/ui-cordis/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-command-feedback": {
+      "source": "packages/feedback/command-feedback/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-message-feedback": {
+      "source": "packages/feedback/message-feedback/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-fs-local": {
+      "source": "packages/fs/fs-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-fs-observation-policy": {
+      "source": "packages/fs/fs-observation-policy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-fs-sandbox": {
+      "source": "packages/fs/fs-sandbox/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-fs": {
+      "source": "packages/fs/fs/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-fs-search": {
+      "source": "packages/fs/tool-fs-search/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-fs": {
+      "source": "packages/fs/tool-fs/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-present": {
+      "source": "packages/fs/tool-present/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-str-replace-editor": {
+      "source": "packages/fs/tool-str-replace-editor/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-command-goal": {
+      "source": "packages/goal/command-goal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-goal-round-driver": {
+      "source": "packages/goal/goal-round-driver/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-goal": {
+      "source": "packages/goal/goal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-goal": {
+      "source": "packages/goal/tool-goal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-repeat-tool-reminder": {
+      "source": "packages/guard/repeat-tool-reminder/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-call-timeout-policy": {
+      "source": "packages/guard/timeout-policy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-hook-protocol": {
+      "source": "packages/hooks/hook-protocol/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-hooks-claude-code": {
+      "source": "packages/hooks/hooks-claude-code/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-hooks-codex": {
+      "source": "packages/hooks/hooks-codex/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-directory-picker-auto": {
+      "source": "packages/host/directory-picker-auto/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-directory-picker-browse": {
+      "source": "packages/host/directory-picker-browse/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-directory-picker-native": {
+      "source": "packages/host/directory-picker-native/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-directory-picker": {
+      "source": "packages/host/directory-picker/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-frontend-static": {
+      "source": "packages/host/frontend-static/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-open-in-app": {
+      "source": "packages/host/open-in-app/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-plugin-inventory": {
+      "source": "packages/host/plugin-inventory/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-host-webserver": {
+      "source": "packages/host/webserver/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-anonymous-user-id": {
+      "source": "packages/identity/anonymous-user-id/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-commands": {
+      "source": "packages/interaction/commands/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-permission-presets": {
+      "source": "packages/interaction/permission-presets/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-ask-user": {
+      "source": "packages/interaction/tool-ask-user/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-user-approval": {
+      "source": "packages/interaction/user-approval/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-user-questions": {
+      "source": "packages/interaction/user-questions/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-jobs-local": {
+      "source": "packages/jobs/jobs-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-jobs": {
+      "source": "packages/jobs/jobs/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-jobs": {
+      "source": "packages/jobs/tool-jobs/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-deepseek-llm-api-extensions": {
+      "source": "packages/llm/deepseek-llm-api-extensions/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm-deepseek": {
+      "source": "packages/llm/llm-deepseek/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm-pi-ai": {
+      "source": "packages/llm/llm-pi-ai/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm-retry": {
+      "source": "packages/llm/llm-retry/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm": {
+      "source": "packages/llm/llm/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-plugin-package-inventory-deepseek": {
+      "source": "packages/llm/plugin-package-inventory-deepseek/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-token-meter": {
+      "source": "packages/llm/token-meter/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-lsp-stdio": {
+      "source": "packages/lsp/lsp-stdio/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-lsp": {
+      "source": "packages/lsp/lsp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-lsp": {
+      "source": "packages/lsp/tool-lsp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-mcp-client": {
+      "source": "packages/mcp/mcp-client/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-mcp-resources": {
+      "source": "packages/mcp/mcp-resources/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-plan-mode": {
+      "source": "packages/plan/plan-mode/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-presets": {
+      "source": "packages/preset/agent-presets/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-persona": {
+      "source": "packages/preset/persona/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-ptc-runtime-node": {
+      "source": "packages/ptc-runtime/ptc-runtime-node/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-ptc-runtime": {
+      "source": "packages/ptc-runtime/ptc-runtime/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-invariants": {
+      "source": "packages/runtime-diagnostics/invariants/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sandbox-local": {
+      "source": "packages/sandbox/sandbox-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sandbox-policy": {
+      "source": "packages/sandbox/sandbox-policy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sandbox-windows-acl": {
+      "source": "packages/sandbox/sandbox-windows-acl/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sandbox": {
+      "source": "packages/sandbox/sandbox/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-schedule": {
+      "source": "packages/schedule/schedule/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sdk-client": {
+      "source": "packages/sdk/client/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sdk-protocol": {
+      "source": "packages/sdk/protocol/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sdk-jsonrpc-server": {
+      "source": "packages/sdk/server/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-log-export": {
+      "source": "packages/session-query/session-log-export/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-query-sqlite": {
+      "source": "packages/session-query/session-query-sqlite/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-query": {
+      "source": "packages/session-query/session-query/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-session-query": {
+      "source": "packages/session-query/tool-session-query/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-checkpoint-policy": {
+      "source": "packages/session/session-checkpoint-policy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-format-catalog": {
+      "source": "packages/session/session-format-catalog/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-format-v0-to-v1": {
+      "source": "packages/session/session-format-v0-to-v1/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-format-v1-to-v2": {
+      "source": "packages/session/session-format-v1-to-v2/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-format-v2-to-v3": {
+      "source": "packages/session/session-format-v2-to-v3/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-format": {
+      "source": "packages/session/session-format/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-log-deepseek": {
+      "source": "packages/session/session-log-deepseek/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-persistence-jsonl": {
+      "source": "packages/session/session-persistence-jsonl/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-persistence": {
+      "source": "packages/session/session-persistence/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-projection-cache": {
+      "source": "packages/session/session-projection-cache/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-projection": {
+      "source": "packages/session/session-projection/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-stats": {
+      "source": "packages/session/session-stats/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-telemetry-otel": {
+      "source": "packages/session/session-telemetry-otel/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-telemetry": {
+      "source": "packages/session/session-telemetry/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-title-all-prompts-llm": {
+      "source": "packages/session/session-title-all-prompts-llm/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-title-first-prompt-llm": {
+      "source": "packages/session/session-title-first-prompt-llm/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-title-llm": {
+      "source": "packages/session/session-title-llm/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-title": {
+      "source": "packages/session/session-title/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-turn-outline": {
+      "source": "packages/session/session-turn-outline/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-settings-file": {
+      "source": "packages/settings/settings-file/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-settings": {
+      "source": "packages/settings/settings/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-bash-local": {
+      "source": "packages/shell/bash-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-bash-sandbox": {
+      "source": "packages/shell/bash-sandbox/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-pwsh-local": {
+      "source": "packages/shell/pwsh-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-pwsh-sandbox": {
+      "source": "packages/shell/pwsh-sandbox/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-shell-env": {
+      "source": "packages/shell/shell-env/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-shell": {
+      "source": "packages/shell/shell/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-bash-persistent": {
+      "source": "packages/shell/tool-bash-persistent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-bash": {
+      "source": "packages/shell/tool-bash/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-pwsh-persistent": {
+      "source": "packages/shell/tool-pwsh-persistent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-pwsh": {
+      "source": "packages/shell/tool-pwsh/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-skill-badge": {
+      "source": "packages/skill/skill-badge/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-skill-filesystem": {
+      "source": "packages/skill/skill-filesystem/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-skill": {
+      "source": "packages/skill/skill/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-skill": {
+      "source": "packages/skill/tool-skill/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-spill-local": {
+      "source": "packages/spill/spill-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-spill-policy": {
+      "source": "packages/spill/spill-policy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-spill": {
+      "source": "packages/spill/spill/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-fs-ssh": {
+      "source": "packages/ssh/fs-ssh/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-sandbox-ssh": {
+      "source": "packages/ssh/sandbox-ssh/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-ssh": {
+      "source": "packages/ssh/ssh/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subprocess-ssh": {
+      "source": "packages/ssh/subprocess-ssh/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-storage-domain": {
+      "source": "packages/storage/storage-domain/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-storage-json": {
+      "source": "packages/storage/storage-json/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-storage-sqlite": {
+      "source": "packages/storage/storage-sqlite/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-storage": {
+      "source": "packages/storage/storage/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-acp": {
+      "source": "packages/subagent/subagent-acp/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-claude-code": {
+      "source": "packages/subagent/subagent-claude-code/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-codex": {
+      "source": "packages/subagent/subagent-codex/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-dsh-sdk": {
+      "source": "packages/subagent/subagent-dsh-sdk/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-fork-in-process": {
+      "source": "packages/subagent/subagent-fork-in-process/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-in-process-driver": {
+      "source": "packages/subagent/subagent-in-process-driver/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent-spawn-in-process": {
+      "source": "packages/subagent/subagent-spawn-in-process/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subagent": {
+      "source": "packages/subagent/subagent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-subagent-control": {
+      "source": "packages/subagent/tool-subagent-control/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-subagent": {
+      "source": "packages/subagent/tool-subagent/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subprocess-local": {
+      "source": "packages/subprocess/subprocess-local/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-subprocess": {
+      "source": "packages/subprocess/subprocess/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-win32-process": {
+      "source": "packages/subprocess/win32-process/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-terminal-bash": {
+      "source": "packages/terminal/terminal-bash/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-terminal": {
+      "source": "packages/terminal/terminal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-terminal": {
+      "source": "packages/terminal/tool-terminal/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-agent-loop-testkit": {
+      "source": "packages/test-support/agent-loop-testkit/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-client-test-runtime": {
+      "source": "packages/test-support/client-runtime/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm-mock-server": {
+      "source": "packages/test-support/llm-mock-server/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-llm-replay": {
+      "source": "packages/test-support/llm-replay/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-loader-smoke": {
+      "source": "packages/test-support/loader-smoke/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-remote-mock": {
+      "source": "packages/test-support/remote-mock/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-session-snapshot": {
+      "source": "packages/test-support/session-snapshot/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-todo": {
+      "source": "packages/todo/tool-todo/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-typert-generator": {
+      "source": "packages/typert/generator/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-typert-loader": {
+      "source": "packages/typert/loader/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-typert-protocol": {
+      "source": "packages/typert/protocol/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-typert-registry": {
+      "source": "packages/typert/registry/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-atomic-write": {
+      "source": "packages/util/atomic-write/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-brand": {
+      "source": "packages/util/brand/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-chunked-list": {
+      "source": "packages/util/chunked-list/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-util-crypto": {
+      "source": "packages/util/crypto/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-deque": {
+      "source": "packages/util/deque/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-home-paths": {
+      "source": "packages/util/home-paths/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-http-proxy": {
+      "source": "packages/util/http-proxy/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-launch-environment": {
+      "source": "packages/util/launch-environment/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-native-command": {
+      "source": "packages/util/native-command/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-output-retention": {
+      "source": "packages/util/output-retention/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-package-manifest": {
+      "source": "packages/util/package-manifest/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-util-time": {
+      "source": "packages/util/time/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-timeout": {
+      "source": "packages/util/timeout/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-util-values": {
+      "source": "packages/util/values/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-util-workspace-path": {
+      "source": "packages/util/workspace-path/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-web": {
+      "source": "packages/web/tool-web/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web-fetch-http": {
+      "source": "packages/web/web-fetch-http/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web-search-deepseek": {
+      "source": "packages/web/web-search-deepseek/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web-search-exa": {
+      "source": "packages/web/web-search-exa/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web-search-perplexity": {
+      "source": "packages/web/web-search-perplexity/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-web": {
+      "source": "packages/web/web/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-webhook-github": {
+      "source": "packages/webhook/webhook-github/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-webhook": {
+      "source": "packages/webhook/webhook/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-ralph": {
+      "source": "packages/workflow/tool-ralph/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-tool-workflow": {
+      "source": "packages/workflow/tool-workflow/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-workflow-ptc": {
+      "source": "packages/workflow/workflow-ptc/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-workflow": {
+      "source": "packages/workflow/workflow/package.json",
+      "version": "0.1.6-alpha.1"
+    },
+    "@deepseek-ai/dsh-workspace": {
+      "source": "packages/workspace/workspace/package.json",
+      "version": "0.1.6-alpha.1"
+    }
+  },
+  "latestPackagesNotInInstalledStore": [
+    "@deepseek-ai/dsh-agent-loop-testkit",
+    "@deepseek-ai/dsh-api-terminal-controller",
+    "@deepseek-ai/dsh-browser-use",
+    "@deepseek-ai/dsh-client-store",
+    "@deepseek-ai/dsh-client-test-runtime",
+    "@deepseek-ai/dsh-client-ui-dockkit",
+    "@deepseek-ai/dsh-client-ui-primitives",
+    "@deepseek-ai/dsh-client-ui-settings-unarchive-sessions",
+    "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+    "@deepseek-ai/dsh-client-ui-slots",
+    "@deepseek-ai/dsh-client-web",
+    "@deepseek-ai/dsh-compaction-image-offload",
+    "@deepseek-ai/dsh-computer-use",
+    "@deepseek-ai/dsh-experimental-agent-team",
+    "@deepseek-ai/dsh-experimental-agent-team-profile",
+    "@deepseek-ai/dsh-experimental-agent-team-web-profile",
+    "@deepseek-ai/dsh-experimental-auto-review",
+    "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp",
+    "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp",
+    "@deepseek-ai/dsh-experimental-browser-use-runtime",
+    "@deepseek-ai/dsh-experimental-browser-use-stagehand-native",
+    "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+    "@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp",
+    "@deepseek-ai/dsh-experimental-computer-use-cua-driver-native",
+    "@deepseek-ai/dsh-experimental-inspector",
+    "@deepseek-ai/dsh-experimental-ptc-runtime-python",
+    "@deepseek-ai/dsh-experimental-tool-agent-team",
+    "@deepseek-ai/dsh-experimental-webworker-packer",
+    "@deepseek-ai/dsh-experimental-webworker-runtime",
+    "@deepseek-ai/dsh-fs-ssh",
+    "@deepseek-ai/dsh-llm-mock-server",
+    "@deepseek-ai/dsh-llm-replay",
+    "@deepseek-ai/dsh-loader-smoke",
+    "@deepseek-ai/dsh-lsp",
+    "@deepseek-ai/dsh-lsp-stdio",
+    "@deepseek-ai/dsh-mcp-resources",
+    "@deepseek-ai/dsh-ptc-runtime",
+    "@deepseek-ai/dsh-ptc-runtime-node",
+    "@deepseek-ai/dsh-remote-mock",
+    "@deepseek-ai/dsh-sandbox-ssh",
+    "@deepseek-ai/dsh-sdk-client",
+    "@deepseek-ai/dsh-session-snapshot",
+    "@deepseek-ai/dsh-session-title-all-prompts-llm",
+    "@deepseek-ai/dsh-ssh",
+    "@deepseek-ai/dsh-storage-sqlite",
+    "@deepseek-ai/dsh-subagent-acp",
+    "@deepseek-ai/dsh-subagent-claude-code",
+    "@deepseek-ai/dsh-subagent-codex",
+    "@deepseek-ai/dsh-subagent-dsh-sdk",
+    "@deepseek-ai/dsh-subprocess-ssh",
+    "@deepseek-ai/dsh-tool-lsp",
+    "@deepseek-ai/dsh-tool-session-query",
+    "@deepseek-ai/dsh-tool-terminal",
+    "@deepseek-ai/dsh-typert-generator",
+    "@deepseek-ai/dsh-web-search-exa",
+    "@deepseek-ai/dsh-web-search-perplexity",
+    "@deepseek-ai/dsh-workflow-ptc"
+  ],
+  "scopeNote": "Host rows exclude per-session preset tool scope. An installed package or active row is not proof of successful tool use. Package comparison uses release tag, not stale checkout HEAD."
+}

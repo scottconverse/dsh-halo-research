@@ -1,0 +1,63 @@
+{
+  "root": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+  "turn": "01a0a66e-a1f0-79f2-90f6-2a2e5bd27116",
+  "first_usage_at": "2026-09-15T18:57:57.022Z",
+  "last_usage_at": "2026-09-15T19:02:28.645Z",
+  "groups": [
+    {
+      "thread": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "role": "root",
+      "model": "gpt-6-astra",
+      "effort": "high",
+      "responses": 18,
+      "usage": {
+        "input_tokens": 1902301,
+        "cached_input_tokens": 1850752,
+        "output_tokens": 5097,
+        "reasoning_output_tokens": 751,
+        "total_tokens": 1907398
+      },
+      "uncached_input_tokens": 51549
+    },
+    {
+      "thread": "01a0a66f-428d-72c0-a94c-7aaab7f3243b",
+      "role": "/root/plugin_inventory_review",
+      "model": "gpt-5.6-luna",
+      "effort": "medium",
+      "responses": 17,
+      "usage": {
+        "input_tokens": 1267479,
+        "cached_input_tokens": 1160192,
+        "output_tokens": 10290,
+        "reasoning_output_tokens": 1250,
+        "total_tokens": 1277769
+      },
+      "uncached_input_tokens": 107287
+    },
+    {
+      "thread": "01a0a670-5c70-74b3-ba2d-f27991b4b852",
+      "role": "/root/custom_duplication_review",
+      "model": "gpt-5.6-terra",
+      "effort": "medium",
+      "responses": 8,
+      "usage": {
+        "input_tokens": 504247,
+        "cached_input_tokens": 403712,
+        "output_tokens": 5589,
+        "reasoning_output_tokens": 597,
+        "total_tokens": 509836
+      },
+      "uncached_input_tokens": 100535
+    }
+  ],
+  "limitations": [
+    "Usage timestamps bound recorded responses, not task wall time or active work.",
+    "Reasoning output is a component of output; do not add it again.",
+    "No price or account-quota attribution is inferred from token counts.",
+    "Account windows use reported duration/reset and may include other tasks.",
+    "Date discovery can omit parents or children created on other days.",
+    "Acceptance, retries, lead repair and correctness require separate evidence.",
+    "Historical samples are observations, not controlled comparisons."
+  ],
+  "scope": "Partial checkpoint; excludes later review and publication responses. Not final task cost or account quota usage."
+}

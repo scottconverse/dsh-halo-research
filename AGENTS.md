@@ -1,0 +1,7 @@
+# Halo DSH working rules
+
+- Do not expand scope without Scott's direct approval. Preserve requested functionality; do not remove controls or capabilities without his approval.
+- Once authorized work is finished, tested appropriately, and working locally, commit and push the completed changes. Verify the remote commit; do not leave completed work only on this machine. Keep unrelated or unfinished changes out of those commits.
+- Before proposing or building a DSH capability, inspect the installed plugin inventory, the active session preset, and the target upstream release's packages. Reuse stock services, tools, providers, and APIs where they cover the requirement. A host-disabled row may be enabled inside a session preset; a catalog entry is not proof of a working capability.
+- Apply Scott's `openai-multi-agent` skill at `C:\Users\scott\.codex\skills\openai-multi-agent\SKILL.md` to suitable project work. Use its smallest-effective-team and Luna-first rules, short bounded briefs, and actual usage evidence. Serialize experiments that compete for the same local inference resources.
+- Keep the human-readable records and recovery copies required by `stack/AGENTS.md` synchronized for material deployment changes.
