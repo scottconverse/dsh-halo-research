@@ -1,0 +1,1505 @@
+
+
+<!DOCTYPE html>
+<html lang="en" class="fixed_navbar">
+	<head>
+		
+	
+		<title>
+	
+		~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next - r/LocalLLaMA
+	
+</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="View on Redlib, an alternative private front-end to Reddit.">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<meta name="robots" content="noindex, nofollow">
+		
+		<!-- General PWA -->
+		<meta name="theme-color" content="#1F1F1F">
+		<!-- iOS Application -->
+		<meta name="apple-mobile-web-app-title" content="Redlib">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<!-- Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<!-- iOS Logo -->
+		<link href="/touch-icon-iphone.png" rel="apple-touch-icon">
+		<!-- OpenSearch description file -->
+		<link rel="search" type="application/opensearchdescription+xml" title="Search Redlib" href="/opensearch.xml">
+		<!-- PWA Manifest -->
+		<link rel="manifest" type="application/json" href="/manifest.json">
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="/style.css?v=0.36.0">
+		<!-- Video quality -->
+		<div id="video_quality" data-value=""></div>
+		
+	<!-- Meta Tags -->
+	<meta name="author" content="u/stereohype">
+	<meta name="title" content="~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next - r/LocalLLaMA">
+	<meta property="og:title" content="~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next - r/LocalLLaMA">
+	<meta property="og:description" content="View on Redlib, an alternative private front-end to Reddit.">
+	<meta property="og:url" content="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/">
+	<meta property="twitter:url" content="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/">
+	<meta property="twitter:title" content="~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next - r/LocalLLaMA">
+	<meta property="twitter:description" content="View on Redlib, an alternative private front-end to Reddit.">
+	
+	<meta property="og:type" content="website">
+	
+	
+
+		</head>
+	<body class="
+		
+		
+		 
+		 fixed_navbar">
+		<!-- NAVIGATION BAR -->
+		<nav class="
+			 fixed_navbar">
+			<div id="logo">
+				<a id="redlib" href="/"><span id="red">red</span><span id="lib">lib.</span></a>
+				
+	<details id="feeds">
+		<summary>Feeds</summary>
+		<div id="feed_list">
+			<p>MAIN FEEDS</p>
+			<a href="/">Home</a>
+			
+				<a href="/r/popular">Popular</a>
+				<a href="/r/all">All</a>
+			
+			
+		</div>
+	</details>
+
+			</div>
+			
+	<form action="/r/LocalLLaMA/search" id="searchbox">
+	<input id="search" type="text" name="q" placeholder="Search" title="Search redlib" value="">
+	
+	<div id="inside">
+		<input type="checkbox" name="restrict_sr" id="restrict_sr" checked>
+		<label for="restrict_sr" class="search_label" title="Restrict search to this subreddit">in /r/LocalLLaMA</label>
+	</div>
+	
+	<button class="submit">
+		<svg width="15" viewBox="0 0 110 100" fill="none" stroke-width="10" stroke-linecap="round">
+			<path d="M20 50 H100" />
+			<path d="M75 15 L100 50 L75 85" />
+			&rarr;
+		</svg>
+	</button>
+</form>
+
+			<div id="links">
+				<a id="reddit_link" href="#popup">
+					<span>reddit</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 2L12 22"/>
+						<path d="M2 6.70587C3.33333 8.07884 3.33333 11.5971 3.33333 11.5971M3.33333 19.647V11.5971M3.33333 11.5971C3.33333 11.5971 5.125 7.47817 8 7.47817C10.875 7.47817 12 8.85114 12 8.85114"/>
+					</svg>
+				</a>
+				
+					<div class="popup" id="popup">
+	<div class="popup-inner">
+		<h1>You are about to leave Redlib</h1>
+		<p>Do you want to continue?</p>
+		<p id="reddit_url">https://www.reddit.com/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/</p>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 639.24 563">
+			<defs>
+				<style>.cls-1{fill:#000000;}.cls-2{fill:#f8aa00;}</style>
+			</defs>
+			<path class="cls-2" d="M322.03,0c1.95,2.5,4.88,.9,7.33,1.65,10.5,3.21,17.65,10.39,22.83,19.35,93.64,162.06,186.98,324.29,280.25,486.56,15.73,20.19,2.49,51.27-22.92,54.37-1.21,.19-2.72-.54-3.49,1.08H239.03c-70.33-2.43-141.6,.79-212.08-1.74-17.49-4.92-23.16-15.88-26.91-32.26l-.04-1.97C88.74,354.76,194.49,188.2,289.92,18.43c6.2-10.66,15.03-16.94,27.61-17.36,.95-.03,2.05,.18,2.51-1.07h2Zm-2.43,545c94.95-.02,189.9,.04,284.85-.02,11.84-.73,20.75-13.19,16.68-23.55C523.83,355.97,430.74,187.62,332.05,23.07c-7.93-9.02-22.2-6.58-27.23,3.22C230.28,156.11,155.21,285.64,80.41,415.31c-19.88,34.41-39.31,69.07-59.78,103.14-2.43,4.05-4.24,8.8-1.68,14.18,3.92,8.24,9.59,12.37,18.82,12.37,93.95,0,187.9,0,281.85,0Z"/>
+			<path class="cls-1" d="M319.61,545c-93.95,0-187.9,0-281.85,0-9.22,0-14.89-4.13-18.82-12.37-2.56-5.38-.75-10.13,1.68-14.18,20.47-34.07,39.9-68.73,59.78-103.14C155.21,285.64,230.28,156.11,304.82,26.29c5.03-9.8,19.3-12.24,27.23-3.22,98.7,164.55,191.79,332.9,289.1,498.35,4.06,10.36-4.85,22.82-16.68,23.55-94.94,.06-189.9,0-284.85,.02Zm.44-462.31C238.88,223.22,158.17,362.95,77.28,503h485.54c-80.94-140.13-161.61-279.79-242.77-420.31Z"/>
+			<path class="cls-2" d="M320.05,82.69c81.16,140.52,161.83,280.18,242.77,420.31H77.28C158.17,362.95,238.88,223.22,320.05,82.69Zm36.05,118.99c-.14-46.75-68.32-52.32-74.66-4.76,.73,51.49,9.2,102.97,12.63,154.49,1.18,13.14,10.53,21.81,23.32,22.76,13.12,.97,23.89-9.13,24.96-21.58,4.44-49.99,9.4-101.22,13.76-150.91Zm-36.56,271.4c48.8,.76,49.24-74.7-.31-75.47-53.45,3-46.02,78.12,.31,75.47Z"/>
+			<path class="cls-1" d="M356.1,201.67c-4.36,49.69-9.31,100.91-13.76,150.91-1.07,12.45-11.84,22.56-24.96,21.58-12.79-.95-22.14-9.63-23.31-22.76-3.43-51.52-11.9-103-12.63-154.49,6.33-47.53,74.51-42.03,74.66,4.76Z"/>
+			<path class="cls-1" d="M319.54,473.08c-46.34,2.64-53.75-72.47-.31-75.47,49.56,.78,49.1,76.24,.31,75.47Z"/>
+		</svg>
+		<a id="goback" href="#">No, go back!</a>
+		<a id="toreddit" href="https://www.reddit.com/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/" rel="nofollow">Yes, take me to Reddit</a>
+	</div>
+</div>
+				
+				<a id="settings_link" href="/settings">
+					<span>settings</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<title>settings</title>
+						<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+					</svg>
+				</a>
+			</div>
+		</nav>
+		
+		<!-- MAIN CONTENT -->
+		
+		<main>
+			
+	<div id="column_one">
+		<!-- POST CONTENT -->
+<div class="post highlighted">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/user/stereohype">u/stereohype</a>
+		
+		<span class="dot">&bull;</span>
+		<span class="created" title="Sep 09 2026, 17:46:36 UTC">5d ago</span>
+		
+	</p>
+	<h1 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"><span>Resources</span></a>
+		
+		~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next
+		
+		
+	</h1>
+
+	<!-- POST MEDIA -->
+	<!-- post_type: self -->
+	
+
+	<!-- POST BODY -->
+	<div class="post_body">
+		<h1>Strix Halo LLM Fork Comparison &amp; Analysis</h1>
+<p><strong>TL;DR:</strong> Most community debates focus on <strong>decode speed</strong> (token generation rate), but the true bottleneck on Strix Halo is <strong>prefill speed</strong> (processing large context). Additionally, <strong>speculative decoding alters greedy outputs (<code>temp=0</code>)</strong> across all tested GGUF builds due to GPU kernel batching variations.</p>
+<hr />
+<h2>What to Run</h2>
+<p>| Goal | Recommended Engine / Stack | Why |
+| :--- | :--- | :--- |
+| <strong>Daily Coding Agent</strong> | <a href="https://github.com/Nathanw1014/strix-halo-llamacpp">Nathan's strix-halo toolbox</a> (Vulkan v0.7.4.1) | Best agent benchmark scores (<a href="/r/LocalLLaMA/comments/1w6cjm5/neon_ladder_a_playtestgraded_benchmark_for_local/">neon-ladder</a>: 15–18/19). Maintained, flexible, open GGUF build. <em>Turn off the drafter for exact reruns.</em> |
+| <strong>Huge Prompts / Long Reads</strong> | <a href="https://github.com/peonist-ai/halogen-flash-server">halogen 0.5.3</a> | Extreme prefill speed (1,424 tok/s at 32k vs ~433 tok/s on Nathan's). Passable quality, but closed-source, requires custom 126 GB format, and lacks JSON mode. |
+| <strong>Exact Deterministic Reruns</strong> | Any build with <strong>spec off</strong>, or <em>halogen</em> | Speculative drafting changes <code>temp=0</code> token outputs across all tested GGUF builds. |
+| <strong>Dual GPU / R9700 Setup</strong> | <code>sixvolts/llama-halo-hybrid</code> | Honest, verified numbers for dual-GPU hardware setups requiring a riser. |</p>
+<hr />
+<h2>The neon-ladder Scoreboard</h2>
+<p>The <a href="https://github.com/aic0d3r/neon-ladder">neon-ladder</a> benchmark is playtest-graded; a build only scores for contract features it actually ships on identical test setups:</p>
+<p>| Stack | Static Score (of 19) | Laser + Obstacle Pad | Serve Speed | Daily Driver? |
+| :--- | :--- | :--- | :--- | :--- |
+| <strong>Nathan's Toolbox</strong> (Flash-Next) | <strong>15–18</strong> (medium band) | <strong>Shipped</strong> | <strong>420 px/s</strong> | <strong>Yes</strong> |
+| <strong>halogen</strong> (4 builds tested) | 14, 14, 15, 15 | 0/4 each | Slow 4/4 (320 px/s) | <strong>No</strong> (Fast lane only) |</p>
+<h3>Why Nathan's Toolbox Wins for Agents</h3>
+<ul>
+<li><strong>Contract Feature Delivery:</strong> Ships both required game features (laser powerup &amp; obstacle pad) every run.</li>
+<li><strong>Flexibility:</strong> Supports standard open GGUF weights, switchable speculative drafters, CPU-expert memory tuning, and desktop coexistence.</li>
+<li><strong>Why halogen Fails as a Daily Driver:</strong> Across 4 builds, <em>halogen</em> never shipped either required feature, always defaulted to slow serve speed, lacks JSON mode (<code>response_format</code>), requires 126 GB custom weights, and offers no middle-memory tuning mode.</li>
+</ul>
+<hr />
+<h2>Performance &amp; Claims Graded</h2>
+<p>Tested on ROG Flow Z13 (Ryzen AI Max+ 395, 128 GB RAM, gfx1151, 70W power limit):</p>
+<p>| Stack | Claimed Speed | Measured Decode (Serial / Drafted) | 32k Prefill Speed | Verdict / Status |
+| :--- | :--- | :--- | :--- | :--- |
+| <strong><a href="https://github.com/peonist-ai/halogen-flash-server">halogen 0.5.3</a></strong> | ~50 decode / 1200 prefill | 33.2 / 43.1 tok/s | <strong>1,350 tok/s</strong> | Prefill reproduces; ~50 t/s was the drafted row. |
+| <strong>myhacsint</strong> | ~60 decode / 600 prefill | 25.7 / 35.6 tok/s | 584 tok/s | Does not reproduce; matches toolbox performance at parity. |
+| <strong>strix-llama</strong> | ~30 decode / 800 prefill | 14.0 / — tok/s <em>(thread)</em> | 397 tok/s | The 800 prefill claim used unverified draft-skip hacks. |
+| <strong>llama-halo-hybrid</strong> | 45–60 decode (sustained 46) | <em>(Requires secondary GPU)</em> | — | Holds on dual-GPU setups; byte-identical output where checked. |
+| <strong><a href="https://github.com/Nathanw1014/strix-halo-llamacpp">Nathan's Toolbox</a></strong> | <em>(Untuned 2x baseline)</em> | 26.0 / 34.3 tok/s | 433 tok/s | <strong>Wins agent bench</strong> (15–18/19), but fails spec-identity gate. |</p>
+<hr />
+<h2>Key Technical Discoveries</h2>
+<ol>
+<li><strong>Decode Speeds Are Misleading:</strong> Variations in decode rates (e.g., 20 t/s vs 50 t/s) are driven by prompt content (prose vs. highly repetitive JSON) or whether drafting is enabled. Serial decode across all builds sits strictly between 14–34 t/s.</li>
+<li><strong>Speculative Decoding Breaks Output Identity:</strong> Enabling speculative drafting on GGUF builds fails deterministic <code>temp=0</code> identity gates (fails 3 to 9 out of 10 prompts). Loading the drafter alters Vulkan GPU batch execution and floating-point precision, causing coin-flip word choices (e.g., bolding different words in a sentence). Only <em>halogen</em> passed the exact-identity test (10/10).</li>
+<li><strong>Prefill is the True Hardware Gap:</strong> <em>halogen</em> achieves ~3.5x faster real-world prefill than standard llama.cpp forks (1,424 tok/s vs 433 tok/s at 32k context) due to hand-tuned ROCm GEMM kernels specifically compiled for Strix Halo. Standard llama.cpp Vulkan MoE paths remain shader-bound and leave matrix throughput unused.</li>
+</ol>
+<hr />
+<h2>Verification Request for Fork Authors</h2>
+<p>Developers publishing speed claims are encouraged to report <strong>Perplexity (PPL)</strong> or <strong>KL-divergence</strong> scores alongside benchmark numbers:</p>
+<pre><code class="language-bash"># Get test dataset
+./scripts/get-wikitext-2.sh
+
+# Run PPL on GPU
+llama-perplexity -m your-model.gguf -f wikitext-2-raw/wiki.test.raw -ngl 99
+
+# Test deterministic output identity (serial vs spec)
+llama-cli -m your-model.gguf -p "The capital of France is" -n 200 --temp 0 --seed 1 &gt; serial.txt
+llama-cli -m your-model.gguf -md your-drafter.gguf -p "The capital of France is" -n 200 --temp 0 --seed 1 &gt; spec.txt
+diff serial.txt spec.txt
+</code></pre>
+<hr />
+<h2>Reference Links &amp; Resources</h2>
+<ul>
+<li><strong>Benchmark Harness:</strong> <a href="https://github.com/aic0d3r/neon-ladder">neon-ladder Repo</a> | <a href="/r/LocalLLaMA/comments/1w6cjm5/neon_ladder_a_playtestgraded_benchmark_for_local/">Reddit Post</a></li>
+<li><strong>Build Guides:</strong> <a href="/r/LocalLLaMA/comments/1vsw6nz/qwen3827b_q5_k_xl_on_strix_halo_at_31_ts_decode/">Qwen3.8-27B Build Guide</a> | <a href="/r/StrixHalo/comments/1w6cf5t/qwen38flashnext_on_strix_halo_40_ts_sustained/">Qwen3.8-Flash-Next Setup</a></li>
+<li><strong>Workflow &amp; Testing:</strong> <a href="/r/StrixHalo/comments/1w6c5nz/running_a_local_coding_agent_on_strix_halo_with/">pi + llama.cpp Agent Setup</a> | <a href="/r/LocalLLaMA/comments/1vlmh0b/deepseek_v4_flash_0731_at_27_ts_decode_on_strix/">DeepSeek V4 Flash</a> | <a href="/r/LocalLLaMA/comments/1vduxth">Benchmarking Methodology</a></li>
+</ul>
+
+		
+	
+	</div>
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_footer">
+		<ul id="post_links">
+			<li>
+				<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/">
+					<span class="desktop_item">perma</span>link
+				</a>
+			</li>
+			
+			
+			
+<li>
+	<a
+		
+		href="#popup"
+		
+	>reddit</a>
+
+	
+		<div class="popup" id="popup">
+	<div class="popup-inner">
+		<h1>You are about to leave Redlib</h1>
+		<p>Do you want to continue?</p>
+		<p id="reddit_url">https://www.reddit.com/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/</p>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 639.24 563">
+			<defs>
+				<style>.cls-1{fill:#000000;}.cls-2{fill:#f8aa00;}</style>
+			</defs>
+			<path class="cls-2" d="M322.03,0c1.95,2.5,4.88,.9,7.33,1.65,10.5,3.21,17.65,10.39,22.83,19.35,93.64,162.06,186.98,324.29,280.25,486.56,15.73,20.19,2.49,51.27-22.92,54.37-1.21,.19-2.72-.54-3.49,1.08H239.03c-70.33-2.43-141.6,.79-212.08-1.74-17.49-4.92-23.16-15.88-26.91-32.26l-.04-1.97C88.74,354.76,194.49,188.2,289.92,18.43c6.2-10.66,15.03-16.94,27.61-17.36,.95-.03,2.05,.18,2.51-1.07h2Zm-2.43,545c94.95-.02,189.9,.04,284.85-.02,11.84-.73,20.75-13.19,16.68-23.55C523.83,355.97,430.74,187.62,332.05,23.07c-7.93-9.02-22.2-6.58-27.23,3.22C230.28,156.11,155.21,285.64,80.41,415.31c-19.88,34.41-39.31,69.07-59.78,103.14-2.43,4.05-4.24,8.8-1.68,14.18,3.92,8.24,9.59,12.37,18.82,12.37,93.95,0,187.9,0,281.85,0Z"/>
+			<path class="cls-1" d="M319.61,545c-93.95,0-187.9,0-281.85,0-9.22,0-14.89-4.13-18.82-12.37-2.56-5.38-.75-10.13,1.68-14.18,20.47-34.07,39.9-68.73,59.78-103.14C155.21,285.64,230.28,156.11,304.82,26.29c5.03-9.8,19.3-12.24,27.23-3.22,98.7,164.55,191.79,332.9,289.1,498.35,4.06,10.36-4.85,22.82-16.68,23.55-94.94,.06-189.9,0-284.85,.02Zm.44-462.31C238.88,223.22,158.17,362.95,77.28,503h485.54c-80.94-140.13-161.61-279.79-242.77-420.31Z"/>
+			<path class="cls-2" d="M320.05,82.69c81.16,140.52,161.83,280.18,242.77,420.31H77.28C158.17,362.95,238.88,223.22,320.05,82.69Zm36.05,118.99c-.14-46.75-68.32-52.32-74.66-4.76,.73,51.49,9.2,102.97,12.63,154.49,1.18,13.14,10.53,21.81,23.32,22.76,13.12,.97,23.89-9.13,24.96-21.58,4.44-49.99,9.4-101.22,13.76-150.91Zm-36.56,271.4c48.8,.76,49.24-74.7-.31-75.47-53.45,3-46.02,78.12,.31,75.47Z"/>
+			<path class="cls-1" d="M356.1,201.67c-4.36,49.69-9.31,100.91-13.76,150.91-1.07,12.45-11.84,22.56-24.96,21.58-12.79-.95-22.14-9.63-23.31-22.76-3.43-51.52-11.9-103-12.63-154.49,6.33-47.53,74.51-42.03,74.66,4.76Z"/>
+			<path class="cls-1" d="M319.54,473.08c-46.34,2.64-53.75-72.47-.31-75.47,49.56,.78,49.1,76.24,.31,75.47Z"/>
+		</svg>
+		<a id="goback" href="#">No, go back!</a>
+		<a id="toreddit" href="https://www.reddit.com/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/" rel="nofollow">Yes, take me to Reddit</a>
+	</div>
+</div>
+	
+</li>
+
+
+			
+		</ul>
+		<p>36%<span id="upvoted"> Upvoted</span></p>
+	</div>
+</div>
+
+		<!-- SORT FORM -->
+       <div id="commentQueryForms">
+		<form id="sort">
+			<p id="comment_count">44 comments <span id="sorted_by">sorted by </span></p>
+			<select name="sort" title="Sort comments by" id="commentSortSelect"> 
+				
+		<option value="confidence" selected>
+			Confidence
+		</option>
+	
+		<option value="top" >
+			Top
+		</option>
+	
+		<option value="new" >
+			New
+		</option>
+	
+		<option value="controversial" >
+			Controversial
+		</option>
+	
+		<option value="old" >
+			Old
+		</option>
+	
+      </select>
+        <button id="sort_submit" class="submit">
+          <svg width="15" viewBox="0 0 110 100" fill="none" stroke-width="10" stroke-linecap="round">
+              <path d="M20 50 H100" />
+              <path d="M75 15 L100 50 L75 85" />
+              &rarr;
+          </svg>
+      </button>
+      </form>
+      <!-- SEARCH FORM -->
+      <form id="sort">
+        <input id="search" class="commentQuery" type="search" name="q" value="" placeholder="Search comments">
+        <input type="hidden" name="type" value="comment">
+      </form>
+      </div>
+  
+      <div>
+      
+      </div>
+
+		<!-- COMMENTS -->
+		<div class="thread">
+			
+			
+			
+
+
+<div id="p8stkf2" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="Hidden">
+         
+         •
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" >
+		<summary class="comment_data">
+			
+				<a class="comment_author moderator " href="/user/ttkciar">u/ttkciar</a>
+			
+			
+				<small class="author_flair"><span>llama.cpp</span></small>
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8stkf2/?context=3#p8stkf2" class="created" title="Sep 09 2026, 18:51:14 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Violates Rule Three: LLM-generated content</p>
+
+<p>OP, please rewrite the post in your own words to avoid a Rule Three violation.  You can either repost your rewritten content, or edit this one and reply to this comment so I know to review and restore it.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<a class="deeper_replies" href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8stkf2">&rarr; More replies (7)</a>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8si46w" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="39">
+         
+         39
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/abnormal_human">u/abnormal_human</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8si46w/?context=3#p8si46w" class="created" title="Sep 09 2026, 18:03:10 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>*sigh* so fatigued by these AI slop posts. No-one wants to read a wall of ChatGPT slime.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8sj2b6" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="18">
+         
+         18
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Warhouse512">u/Warhouse512</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8sj2b6/?context=3#p8sj2b6" class="created" title="Sep 09 2026, 18:07:11 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>It’s useful data, but fuck man, it’s painful to read</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8sy3a0" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="3">
+         
+         3
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Ok-Breakfast1878">u/Ok-Breakfast1878</a>
+			
+			
+				<small class="author_flair"><span class="emoji" style="background-image:url('/emoji/08m5x9chttjf1_t5_81eyvm/Discord');"></span></small>
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8sy3a0/?context=3#p8sy3a0" class="created" title="Sep 09 2026, 19:10:09 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>if it looks like there&#39;s something interesting in such posts, i paste them into a local model and ask for a tl;dr paragraph</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8sq558" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="-2">
+         
+         -2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8sq558/?context=3#p8sq558" class="created" title="Sep 09 2026, 18:36:54 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I&#39;m tired of people like you calling EVERYTHING ai slop.</p>
+
+<p>I spent days testing forks so people can choose a better strix stack. This is unique data which helps the community move forward.</p>
+
+<p>But yea, call it slop and be ungrateful if that makes you feel better</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8ssloo" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="16">
+         
+         16
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/LetsGoBrandon4256">u/LetsGoBrandon4256</a>
+			
+			
+				<small class="author_flair"><span>transformers</span></small>
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8ssloo/?context=3#p8ssloo" class="created" title="Sep 09 2026, 18:47:12 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><blockquote>
+<p>~1,400 t/s prefill is real. 60 t/s decode is not. </p>
+</blockquote>
+
+<p>Yeah that&#39;s definitely how a human writes a post title.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8t86e5" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/peonist-ai">u/peonist-ai</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8t86e5/?context=3#p8t86e5" class="created" title="Sep 09 2026, 19:52:31 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I thought the data was excellent an I really appreciate your work.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8t8mwz" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="0">
+         
+         0
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8t8mwz/?context=3#p8t8mwz" class="created" title="Sep 09 2026, 19:54:28 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Appreciate it and your work. Sadly many people here are ungrateful little crybabies </p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8th9uw" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/peonist-ai">u/peonist-ai</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8th9uw/?context=3#p8th9uw" class="created" title="Sep 09 2026, 20:31:10 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>How can I make it even better?  Structured json is obviously important.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8tvfdd" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="0">
+         
+         0
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8tvfdd/?context=3#p8tvfdd" class="created" title="Sep 09 2026, 21:33:51 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Only 2 things:</p>
+
+<ol>
+<li><p>JSON mode as you said. Tools already work (pi built all four games on your server), but response_format doesn&#39;t. Harnesses that need guaranteed JSON for their own outputs can&#39;t use it.</p></li>
+<li><p>Quality is the blocker. Four builds, it never shipped the laser or the pad, and always picked the slow ball, even with a huge thinking turn. That looks like the model, not the budget. A small agent test in your releases would catch it.</p></li>
+</ol>
+
+<p>Keep the identity gates, 10/10 is rare.</p>
+
+<p>Details: <a href="https://github.com/peonist-ai/halogen-flash-server/issues/16">https://github.com/peonist-ai/halogen-flash-server/issues/16</a></p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8u8wmi" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/peonist-ai">u/peonist-ai</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8u8wmi/?context=3#p8u8wmi" class="created" title="Sep 09 2026, 22:39:17 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I am surprised by the quality issue TBH.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8u9ls6" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/peonist-ai">u/peonist-ai</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8u9ls6/?context=3#p8u9ls6" class="created" title="Sep 09 2026, 22:42:50 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p><strong>From &quot;my people&quot;.</strong></p>
+
+<p><strong>One thing I would like you to check, because you can and we cannot.</strong> Reading <a href="http://game-score.py"><code>game-score.py</code></a>, the laser check searches <code>js/powerups.js + js/main.js + js/config.js</code>, and the pad check searches <code>js/bricks.js + js/config.js</code>, with <code>read()</code> returning <code>&quot;&quot;</code> for a missing file. If our builds implemented either feature in a different file, the check scores zero on a feature that shipped, and that would produce the same-miss-every-roll signature you would otherwise read as a preference shift. Do your run artifacts show where the laser and pad code actually landed? A grep across the whole build directory rather than those paths would settle it either way in seconds.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p9dbace" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p9dbace/?context=3#p9dbace" class="created" title="Sep 12 2026, 15:43:30 UTC">2d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Checked your theory: not hiding in other files, they&#39;re not in the builds at all. The whole-dir scan finds zero laser/weapon tokens across all four; the only pad hits are parseFloat in shop.js, so a whole-dir grep would false-pass. I played every build: no laser, no pad, slow ball. Contract and scorer are public, run it yourself.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p9dczvt" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/peonist-ai">u/peonist-ai</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p9dczvt/?context=3#p9dczvt" class="created" title="Sep 12 2026, 15:51:14 UTC">2d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I appreciate all your work.  Thanks for the response.  I wonder if this was sampling related.  You can control sampling via env now.  I just pushed a 0.6.1 update that includes a new drafter and it should be even faster now in decode.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p9dh2f1" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p9dh2f1/?context=3#p9dh2f1" class="created" title="Sep 12 2026, 16:09:26 UTC">2d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Thanks, and nice work on the new drafter. On sampling: you might be right, and that&#39;s on me. My stack&#39;s pi entry pins temperature 1.0, top_p 0.95, top_k 20, min_p 0. The halogen entry has no sampling params, so pi&#39;s default (temp 0.8) or your server defaults applied. So the four game cells were not sampling-matched. The temp-0 battery and the identity gate are unaffected.</p>
+
+<p>What are your server defaults when the client sends none? With the env controls in 0.6.1 I&#39;ll re-run the same four cells with everything pinned identical, plus the decode battery on the new drafter, and post both the score and the playtest.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<a class="deeper_replies" href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p9dh2f1">&rarr; More replies (0)</a>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8tpadl" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Lesser-than">u/Lesser-than</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8tpadl/?context=3#p8tpadl" class="created" title="Sep 09 2026, 21:05:57 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I hear you but take 5 more minutes to add your own words, even &#39;^ ai assesment&#39; + my tldr. its not the content that annoys people its the format over and over again.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8u60ca" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8u60ca/?context=3#p8u60ca" class="created" title="Sep 09 2026, 22:24:37 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I get it redditors want byte sized easy to digest info so their brain doesn&#39;t hurt.</p>
+
+<p>This was a detailed post leaving nothing out.</p>
+
+<p>It is not meant for everyone and if a certain format is preferred here i don&#39;t mind adapting to it.</p>
+
+<p>Just stop calling EVERYTHING ai slop if the format doesn&#39;t hold your short attention span.</p>
+
+<p>I&#39;m seeing over and over useful posts being downvoted and ridiculed over this nonsense.</p>
+
+<p>This childish BS has to stop.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8u9gyb" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Lesser-than">u/Lesser-than</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8u9gyb/?context=3#p8u9gyb" class="created" title="Sep 09 2026, 22:42:10 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>look its not like that. its more like when your boss who sits right next to you in the office sends you an email all dressed up by ai. Its overly long winded and looks like an onboarding document, when he could have just turned his chair and said &#39;I am leaving early today make sure you lock up&#39;. you provided the data but no proof of life, we need both these days.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8wug4b" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/stereohype">u/stereohype</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8wug4b/?context=3#p8wug4b" class="created" title="Sep 10 2026, 08:16:31 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>cool analogy but it still misses the main point.</p>
+
+<p>​if your boss sends an email with critical data and you completely ignore the work just because you didn&#39;t like how the email was written you would get fired on the spot.</p>
+
+<p>​people are completely throwing out days of real hardware testing over text aesthetics.</p>
+
+<p>​downvoting genuine effort and useful benchmark numbers just because ai structured the text is counterproductive for everyone looking for actual answers.</p>
+
+<p>​the value is in the data not the wrapper.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8siuhp" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="-10">
+         
+         -10
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/feelcaveman">u/feelcaveman</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8siuhp/?context=3#p8siuhp" class="created" title="Sep 09 2026, 18:06:15 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>This is actually a very high effort post with science numbers.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8skzv8" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/anonymous20256">u/anonymous20256</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8skzv8/?context=3#p8skzv8" class="created" title="Sep 09 2026, 18:15:19 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>its too much data for a human brain to process who just opened reddit to grab a byte</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8skxqn" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="7">
+         
+         7
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/sssplus">u/sssplus</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8skxqn/?context=3#p8skxqn" class="created" title="Sep 09 2026, 18:15:05 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><blockquote>
+<p>One line version: Nathan for agents, halogen for long reads, spec off when exactness matters, and ask every fork author for a PPL number.</p>
+</blockquote>
+
+<p>You should have started and ended with this.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8smsmg" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="3">
+         
+         3
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/SpicyWangz">u/SpicyWangz</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8smsmg/?context=3#p8smsmg" class="created" title="Sep 09 2026, 18:22:57 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>AI fully lacks the awareness to know how brief to be with its words. And it’s one of the easiest ways to tell if something was written by a human or not.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8sqjgt" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="7">
+         
+         7
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/tecneeq">u/tecneeq</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8sqjgt/?context=3#p8sqjgt" class="created" title="Sep 09 2026, 18:38:35 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><blockquote>
+<p>The ladder is playtest-graded</p>
+</blockquote>
+
+<p>W-what?</p>
+
+<figure><a href="/preview/pre/5sjr04qdhjoh1.jpeg?width=1080&amp;format=pjpg&amp;auto=webp&amp;s=9ecde91ffc291c756cd6bf9b31f26157b7f4a547"><img loading="lazy" src="/preview/pre/5sjr04qdhjoh1.jpeg?width=1080&amp;format=pjpg&amp;auto=webp&amp;s=9ecde91ffc291c756cd6bf9b31f26157b7f4a547"></a></figure>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8w8z85" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Grouchy_Ad_4750">u/Grouchy_Ad_4750</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8w8z85/?context=3#p8w8z85" class="created" title="Sep 10 2026, 05:22:06 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Modern llms like opus 5 or talk like that and its really weird...</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8x97te" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/tecneeq">u/tecneeq</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8x97te/?context=3#p8x97te" class="created" title="Sep 10 2026, 10:19:44 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Do you even sidecar your evidence recipe, bro?</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8xh47k" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Grouchy_Ad_4750">u/Grouchy_Ad_4750</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8xh47k/?context=3#p8xh47k" class="created" title="Sep 10 2026, 11:14:58 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Sidecar my evidence?</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8y5bex" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/tecneeq">u/tecneeq</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8y5bex/?context=3#p8y5bex" class="created" title="Sep 10 2026, 13:27:24 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><figure><a href="/preview/pre/86m2qtwr2poh1.jpeg?width=1024&amp;format=pjpg&amp;auto=webp&amp;s=c383484812a5320ea0f24b8c4145241cda2f5d0b"><img loading="lazy" src="/preview/pre/86m2qtwr2poh1.jpeg?width=1024&amp;format=pjpg&amp;auto=webp&amp;s=c383484812a5320ea0f24b8c4145241cda2f5d0b"></a></figure>
+
+<p>W-what?</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8y7hm0" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Grouchy_Ad_4750">u/Grouchy_Ad_4750</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8y7hm0/?context=3#p8y7hm0" class="created" title="Sep 10 2026, 13:37:48 UTC">4d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Is that you whenever you interact on reddit? If so it makes so much sense!</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8skt2j" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="6">
+         
+         6
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/anonymous20256">u/anonymous20256</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8skt2j/?context=3#p8skt2j" class="created" title="Sep 09 2026, 18:14:32 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>quite a long post its fine to use ai but atleast put some thought into reading what it has generated and apparently its hard for people to read it to the end but the post content is fine yet unreadable because of its length </p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8sjouj" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/feelcaveman">u/feelcaveman</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8sjouj/?context=3#p8sjouj" class="created" title="Sep 09 2026, 18:09:49 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Benchmark numbers look good.</p>
+
+<p>Thank you for testing to show us the OG thread wasn&#39;t hype.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p8smff1" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/SpicyWangz">u/SpicyWangz</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8smff1/?context=3#p8smff1" class="created" title="Sep 09 2026, 18:21:24 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I don’t love that halogen uses up 45GB of RAM and throws 72GB into swap. First off, it makes me suspicious that it could perform that well with so much of the model weights offloaded to SSD. </p>
+
+<p>And second, I’m not a huge fan of how much using that much swap cache might thrash my SSD.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8tb7ht" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/NNN_Throwaway2">u/NNN_Throwaway2</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8tb7ht/?context=3#p8tb7ht" class="created" title="Sep 09 2026, 20:05:21 UTC">5d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>AI was a mistake.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p8upxg9" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/38andstillgoing">u/38andstillgoing</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p8upxg9/?context=3#p8upxg9" class="created" title="Sep 10 2026, 00:08:31 UTC">5d ago</a>
+			<span class="edited" title="Sep 10 2026, 00:14:32 UTC">edited 5d ago</span>
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I love that even the AI slop doesn&#39;t bother to say which model it&#39;s running. Saying Qwen 3.8 Flash-Next could be everything from Q1 up to full-sized.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p96jijm" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Heavy_Preparation467">u/Heavy_Preparation467</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/p96jijm/?context=3#p96jijm" class="created" title="Sep 11 2026, 16:13:12 UTC">3d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Feel free to give v7.5 a go, it has some prompt processing and token gen performance increase.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</div>
+
+	</div>
+
+		</main>
+		
+
+		<!-- FOOTER -->
+		
+			<footer>
+				<div class="footer-buttons">
+					<p><span id="version">v0.36.0&emsp;</span><a href="/info" title="View instance information">ⓘ View instance info</a>&emsp;<a href="https://github.com/redlib-org/redlib" title="View code on GitHub">&lt;&gt; Code</a></p>
+				</div>
+			</footer>
+		
+	</body>
+</html>

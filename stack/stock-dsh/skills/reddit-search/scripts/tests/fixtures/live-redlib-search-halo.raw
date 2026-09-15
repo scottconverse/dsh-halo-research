@@ -1,0 +1,4059 @@
+
+
+<!DOCTYPE html>
+<html lang="en" class="fixed_navbar">
+	<head>
+		
+		<title>Redlib: search results - &#38;quot;strix halo&#38;quot; &#38;quot;128&#38;quot;</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="View on Redlib, an alternative private front-end to Reddit.">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<meta name="robots" content="noindex, nofollow">
+		
+		<!-- General PWA -->
+		<meta name="theme-color" content="#1F1F1F">
+		<!-- iOS Application -->
+		<meta name="apple-mobile-web-app-title" content="Redlib">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<!-- Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<!-- iOS Logo -->
+		<link href="/touch-icon-iphone.png" rel="apple-touch-icon">
+		<!-- OpenSearch description file -->
+		<link rel="search" type="application/opensearchdescription+xml" title="Search Redlib" href="/opensearch.xml">
+		<!-- PWA Manifest -->
+		<link rel="manifest" type="application/json" href="/manifest.json">
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="/style.css?v=0.36.0">
+		<!-- Video quality -->
+		<div id="video_quality" data-value=""></div>
+		
+		</head>
+	<body class="
+		
+		
+		 
+		 fixed_navbar">
+		<!-- NAVIGATION BAR -->
+		<nav class="
+			 fixed_navbar">
+			<div id="logo">
+				<a id="redlib" href="/"><span id="red">red</span><span id="lib">lib.</span></a>
+				
+	<details id="feeds">
+		<summary>Feeds</summary>
+		<div id="feed_list">
+			<p>MAIN FEEDS</p>
+			<a href="/">Home</a>
+			
+				<a href="/r/popular">Popular</a>
+				<a href="/r/all">All</a>
+			
+			
+		</div>
+	</details>
+
+			</div>
+			
+			<div id="links">
+				<a id="reddit_link" href="#popup">
+					<span>reddit</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 2L12 22"/>
+						<path d="M2 6.70587C3.33333 8.07884 3.33333 11.5971 3.33333 11.5971M3.33333 19.647V11.5971M3.33333 11.5971C3.33333 11.5971 5.125 7.47817 8 7.47817C10.875 7.47817 12 8.85114 12 8.85114"/>
+					</svg>
+				</a>
+				
+					<div class="popup" id="popup">
+	<div class="popup-inner">
+		<h1>You are about to leave Redlib</h1>
+		<p>Do you want to continue?</p>
+		<p id="reddit_url">https://www.reddit.com/r/LocalLLaMA/search?q=%22strix%20halo%22%20%22128%22&#38;restrict_sr=on&#38;sort=new&#38;t=all</p>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 639.24 563">
+			<defs>
+				<style>.cls-1{fill:#000000;}.cls-2{fill:#f8aa00;}</style>
+			</defs>
+			<path class="cls-2" d="M322.03,0c1.95,2.5,4.88,.9,7.33,1.65,10.5,3.21,17.65,10.39,22.83,19.35,93.64,162.06,186.98,324.29,280.25,486.56,15.73,20.19,2.49,51.27-22.92,54.37-1.21,.19-2.72-.54-3.49,1.08H239.03c-70.33-2.43-141.6,.79-212.08-1.74-17.49-4.92-23.16-15.88-26.91-32.26l-.04-1.97C88.74,354.76,194.49,188.2,289.92,18.43c6.2-10.66,15.03-16.94,27.61-17.36,.95-.03,2.05,.18,2.51-1.07h2Zm-2.43,545c94.95-.02,189.9,.04,284.85-.02,11.84-.73,20.75-13.19,16.68-23.55C523.83,355.97,430.74,187.62,332.05,23.07c-7.93-9.02-22.2-6.58-27.23,3.22C230.28,156.11,155.21,285.64,80.41,415.31c-19.88,34.41-39.31,69.07-59.78,103.14-2.43,4.05-4.24,8.8-1.68,14.18,3.92,8.24,9.59,12.37,18.82,12.37,93.95,0,187.9,0,281.85,0Z"/>
+			<path class="cls-1" d="M319.61,545c-93.95,0-187.9,0-281.85,0-9.22,0-14.89-4.13-18.82-12.37-2.56-5.38-.75-10.13,1.68-14.18,20.47-34.07,39.9-68.73,59.78-103.14C155.21,285.64,230.28,156.11,304.82,26.29c5.03-9.8,19.3-12.24,27.23-3.22,98.7,164.55,191.79,332.9,289.1,498.35,4.06,10.36-4.85,22.82-16.68,23.55-94.94,.06-189.9,0-284.85,.02Zm.44-462.31C238.88,223.22,158.17,362.95,77.28,503h485.54c-80.94-140.13-161.61-279.79-242.77-420.31Z"/>
+			<path class="cls-2" d="M320.05,82.69c81.16,140.52,161.83,280.18,242.77,420.31H77.28C158.17,362.95,238.88,223.22,320.05,82.69Zm36.05,118.99c-.14-46.75-68.32-52.32-74.66-4.76,.73,51.49,9.2,102.97,12.63,154.49,1.18,13.14,10.53,21.81,23.32,22.76,13.12,.97,23.89-9.13,24.96-21.58,4.44-49.99,9.4-101.22,13.76-150.91Zm-36.56,271.4c48.8,.76,49.24-74.7-.31-75.47-53.45,3-46.02,78.12,.31,75.47Z"/>
+			<path class="cls-1" d="M356.1,201.67c-4.36,49.69-9.31,100.91-13.76,150.91-1.07,12.45-11.84,22.56-24.96,21.58-12.79-.95-22.14-9.63-23.31-22.76-3.43-51.52-11.9-103-12.63-154.49,6.33-47.53,74.51-42.03,74.66,4.76Z"/>
+			<path class="cls-1" d="M319.54,473.08c-46.34,2.64-53.75-72.47-.31-75.47,49.56,.78,49.1,76.24,.31,75.47Z"/>
+		</svg>
+		<a id="goback" href="#">No, go back!</a>
+		<a id="toreddit" href="https://www.reddit.com/r/LocalLLaMA/search?q=%22strix%20halo%22%20%22128%22&#38;restrict_sr=on&#38;sort=new&#38;t=all" rel="nofollow">Yes, take me to Reddit</a>
+	</div>
+</div>
+				
+				<a id="settings_link" href="/settings">
+					<span>settings</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<title>settings</title>
+						<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+					</svg>
+				</a>
+			</div>
+		</nav>
+		
+		<!-- MAIN CONTENT -->
+		
+		<main>
+			
+	<div id="column_one">
+		<form id="search_sort">
+			<div class="search_widget_divider_box">
+				<input id="search" type="text" name="q" placeholder="Search" value="&quot;strix halo&quot; &quot;128&quot;" title="Search redlib">
+				<div class="search_widget_divider_box">
+					
+					<div id="inside">
+						<input type="checkbox" name="restrict_sr" id="restrict_sr" checked>
+						<label for="restrict_sr" class="search_label">in r/LocalLLaMA</label>
+					</div>
+					
+					
+					<select id="sort_options" name="sort" title="Sort results by">
+						
+		<option value="relevance" >
+			Relevance
+		</option>
+	
+		<option value="hot" >
+			Hot
+		</option>
+	
+		<option value="top" >
+			Top
+		</option>
+	
+		<option value="new" selected>
+			New
+		</option>
+	
+		<option value="comments" >
+			Comments
+		</option>
+	
+					</select>
+					
+				</div>
+			</div>
+
+			<button id="sort_submit" class="submit">
+				<svg width="15" viewBox="0 0 110 100" fill="none" stroke-width="10" stroke-linecap="round">
+					<path d="M20 50 H100" />
+					<path d="M75 15 L100 50 L75 85" />
+					&rarr;
+				</svg>
+			</button>
+ 		</form>
+
+		
+		
+		
+
+		
+
+		
+
+		
+			
+				
+					<div class="post" id="1wbsnqo">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/stereohype">u/stereohype</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Sep 09 2026, 17:46:36 UTC">5d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/">~1,400 t/s prefill is real. 60 t/s decode is not. I graded 5 Strix Halo forks with Qwen3.8 Flash-Next</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><h1>Strix Halo LLM Fork Comparison &amp; Analysis</h1>
+
+<p><strong>TL;DR:</strong> Most community debates focus on <strong>decode speed</strong> (token generation rate), but the true bottleneck on Strix Halo is <strong>prefill speed</strong> (processing large context). Additionally, <strong>speculative decoding alters greedy outputs (<code>temp=0</code>)</strong> across all tested GGUF builds due to GPU kernel batching variations.</p>
+
+<hr/>
+
+<h2>What to Run</h2>
+
+<table><thead>
+<tr>
+<th align="left">Goal</th>
+<th align="left">Recommended Engine / Stack</th>
+<th align="left">Why</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><strong>Daily Coding Agent</strong></td>
+<td align="left"><a href="https://github.com/Nathanw1014/strix-halo-llamacpp">Nathan&#39;s strix-halo toolbox</a> (Vulkan v0.7.4.1)</td>
+<td align="left">Best agent benchmark scores (<a href="/r/LocalLLaMA/comments/1w6cjm5/neon_ladder_a_playtestgraded_benchmark_for_local/">neon-ladder</a>: 15–18/19). Maintained, flexible, open GGUF build. <em>Turn off the drafter for exact reruns.</em></td>
+</tr>
+<tr>
+<td align="left"><strong>Huge Prompts / Long Reads</strong></td>
+<td align="left"><a href="https://github.com/peonist-ai/halogen-flash-server">halogen 0.5.3</a></td>
+<td align="left">Extreme prefill speed (1,424 tok/s at 32k vs ~433 tok/s on Nathan&#39;s). Passable quality, but closed-source, requires custom 126 GB format, and lacks JSON mode.</td>
+</tr>
+<tr>
+<td align="left"><strong>Exact Deterministic Reruns</strong></td>
+<td align="left">Any build with <strong>spec off</strong>, or <em>halogen</em></td>
+<td align="left">Speculative drafting changes <code>temp=0</code> token outputs across all tested GGUF builds.</td>
+</tr>
+<tr>
+<td align="left"><strong>Dual GPU / R9700 Setup</strong></td>
+<td align="left"><code>sixvolts/llama-halo-hybrid</code></td>
+<td align="left">Honest, verified numbers for dual-GPU hardware setups requiring a riser.</td>
+</tr>
+</tbody></table>
+
+<hr/>
+
+<h2>The neon-ladder Scoreboard</h2>
+
+<p>The <a href="https://github.com/aic0d3r/neon-ladder">neon-ladder</a> benchmark is playtest-graded; a build only scores for contract features it actually ships on identical test setups:</p>
+
+<table><thead>
+<tr>
+<th align="left">Stack</th>
+<th align="left">Static Score (of 19)</th>
+<th align="left">Laser + Obstacle Pad</th>
+<th align="left">Serve Speed</th>
+<th align="left">Daily Driver?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><strong>Nathan&#39;s Toolbox</strong> (Flash-Next)</td>
+<td align="left"><strong>15–18</strong> (medium band)</td>
+<td align="left"><strong>Shipped</strong></td>
+<td align="left"><strong>420 px/s</strong></td>
+<td align="left"><strong>Yes</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>halogen</strong> (4 builds tested)</td>
+<td align="left">14, 14, 15, 15</td>
+<td align="left">0/4 each</td>
+<td align="left">Slow 4/4 (320 px/s)</td>
+<td align="left"><strong>No</strong> (Fast lane only)</td>
+</tr>
+</tbody></table>
+
+<h3>Why Nathan&#39;s Toolbox Wins for Agents</h3>
+
+<ul>
+<li><strong>Contract Feature Delivery:</strong> Ships both required game features (laser powerup &amp; obstacle pad) every run.</li>
+<li><strong>Flexibility:</strong> Supports standard open GGUF weights, switchable speculative drafters, CPU-expert memory tuning, and desktop coexistence.</li>
+<li><strong>Why halogen Fails as a Daily Driver:</strong> Across 4 builds, <em>halogen</em> never shipped either required feature, always defaulted to slow serve speed, lacks JSON mode (<code>response_format</code>), requires 126 GB custom weights, and offers no middle-memory tuning mode.</li>
+</ul>
+
+<hr/>
+
+<h2>Performance &amp; Claims Graded</h2>
+
+<p>Tested on ROG Flow Z13 (Ryzen AI Max+ 395, 128 GB RAM, gfx1151, 70W power limit):</p>
+
+<table><thead>
+<tr>
+<th align="left">Stack</th>
+<th align="left">Claimed Speed</th>
+<th align="left">Measured Decode (Serial / Drafted)</th>
+<th align="left">32k Prefill Speed</th>
+<th align="left">Verdict / Status</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><strong><a href="https://github.com/peonist-ai/halogen-flash-server">halogen 0.5.3</a></strong></td>
+<td align="left">~50 decode / 1200 prefill</td>
+<td align="left">33.2 / 43.1 tok/s</td>
+<td align="left"><strong>1,350 tok/s</strong></td>
+<td align="left">Prefill reproduces; ~50 t/s was the drafted row.</td>
+</tr>
+<tr>
+<td align="left"><strong>myhacsint</strong></td>
+<td align="left">~60 decode / 600 prefill</td>
+<td align="left">25.7 / 35.6 tok/s</td>
+<td align="left">584 tok/s</td>
+<td align="left">Does not reproduce; matches toolbox performance at parity.</td>
+</tr>
+<tr>
+<td align="left"><strong>strix-llama</strong></td>
+<td align="left">~30 decode / 800 prefill</td>
+<td align="left">14.0 / — tok/s <em>(thread)</em></td>
+<td align="left">397 tok/s</td>
+<td align="left">The 800 prefill claim used unverified draft-skip hacks.</td>
+</tr>
+<tr>
+<td align="left"><strong>llama-halo-hybrid</strong></td>
+<td align="left">45–60 decode (sustained 46)</td>
+<td align="left"><em>(Requires secondary GPU)</em></td>
+<td align="left">—</td>
+<td align="left">Holds on dual-GPU setups; byte-identical output where checked.</td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://github.com/Nathanw1014/strix-halo-llamacpp">Nathan&#39;s Toolbox</a></strong></td>
+<td align="left"><em>(Untuned 2x baseline)</em></td>
+<td align="left">26.0 / 34.3 tok/s</td>
+<td align="left">433 tok/s</td>
+<td align="left"><strong>Wins agent bench</strong> (15–18/19), but fails spec-identity gate.</td>
+</tr>
+</tbody></table>
+
+<hr/>
+
+<h2>Key Technical Discoveries</h2>
+
+<ol>
+<li><strong>Decode Speeds Are Misleading:</strong> Variations in decode rates (e.g., 20 t/s vs 50 t/s) are driven by prompt content (prose vs. highly repetitive JSON) or whether drafting is enabled. Serial decode across all builds sits strictly between 14–34 t/s.</li>
+<li><strong>Speculative Decoding Breaks Output Identity:</strong> Enabling speculative drafting on GGUF builds fails deterministic <code>temp=0</code> identity gates (fails 3 to 9 out of 10 prompts). Loading the drafter alters Vulkan GPU batch execution and floating-point precision, causing coin-flip word choices (e.g., bolding different words in a sentence). Only <em>halogen</em> passed the exact-identity test (10/10).</li>
+<li><strong>Prefill is the True Hardware Gap:</strong> <em>halogen</em> achieves ~3.5x faster real-world prefill than standard llama.cpp forks (1,424 tok/s vs 433 tok/s at 32k context) due to hand-tuned ROCm GEMM kernels specifically compiled for Strix Halo. Standard llama.cpp Vulkan MoE paths remain shader-bound and leave matrix throughput unused.</li>
+</ol>
+
+<hr/>
+
+<h2>Verification Request for Fork Authors</h2>
+
+<p>Developers publishing speed claims are encouraged to report <strong>Perplexity (PPL)</strong> or <strong>KL-divergence</strong> scores alongside benchmark numbers:</p>
+
+<p>```bash</p>
+
+<h1>Get test dataset</h1>
+
+<p>./scripts/get-wikitext-2.sh</p>
+
+<h1>Run PPL on GPU</h1>
+
+<p>llama-perplexity -m your-model.gguf -f wikitext-2-raw/wiki.test.raw -ngl 99</p>
+
+<h1>Test deterministic output identity (serial vs spec)</h1>
+
+<p>llama-cli -m your-model.gguf -p &quot;The capital of France is&quot; -n 200 --temp 0 --seed 1 &gt; serial.txt
+llama-cli -m your-model.gguf -md your-drafter.gguf -p &quot;The capital of France is&quot; -n 200 --temp 0 --seed 1 &gt; spec.txt
+diff serial.txt spec.txt
+```</p>
+
+<hr/>
+
+<h2>Reference Links &amp; Resources</h2>
+
+<ul>
+<li><strong>Benchmark Harness:</strong> <a href="https://github.com/aic0d3r/neon-ladder">neon-ladder Repo</a> | <a href="/r/LocalLLaMA/comments/1w6cjm5/neon_ladder_a_playtestgraded_benchmark_for_local/">Reddit Post</a></li>
+<li><strong>Build Guides:</strong> <a href="/r/LocalLLaMA/comments/1vsw6nz/qwen3827b_q5_k_xl_on_strix_halo_at_31_ts_decode/">Qwen3.8-27B Build Guide</a> | <a href="/r/StrixHalo/comments/1w6cf5t/qwen38flashnext_on_strix_halo_40_ts_sustained/">Qwen3.8-Flash-Next Setup</a></li>
+<li><strong>Workflow &amp; Testing:</strong> <a href="/r/StrixHalo/comments/1w6c5nz/running_a_local_coding_agent_on_strix_halo_with/">pi + llama.cpp Agent Setup</a> | <a href="/r/LocalLLaMA/comments/1vlmh0b/deepseek_v4_flash_0731_at_27_ts_decode_on_strix/">DeepSeek V4 Flash</a> | <a href="/r/LocalLLaMA/comments/1vduxth">Benchmarking Methodology</a></li>
+</ul>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1wbsnqo/1400_ts_prefill_is_real_60_ts_decode_is_not_i/" class="post_comments" title="44 comments">44 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1w4ur6e">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/TrifleHopeful5418">u/TrifleHopeful5418</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Sep 02 2026, 00:21:25 UTC">13d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1w4ur6e/qwen38flashnext_104_gb_moe_on_a_strix_halo_rtx/">Qwen3.8-Flash-Next (104 GB MoE) on a Strix Halo + RTX 3090 Ti eGPU: 22 -&#62; 84 tok/s, and within one HumanEval+ problem of a dual-3090 vLLM box at 0.4x the wall time</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="6">
+    
+    6
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Follow-up to my Qwen3.8-27B post. This time the target is Qwen3.8-Flash-Next: 512 experts per layer, 36 layers of gated DeltaNet, 12 layers of top-k sparse attention, a 26.8 GiB n-gram table and a built-in MTP draft head. unsloth UD-Q4_K_XL, 103.69 GiB. It fits in the Strix Halo&#39;s unified memory and nowhere else on a consumer box. Numbers first, caveats after.</p>
+
+<p><strong>Hardware:</strong> AMD Ryzen AI MAX+ 395 (Strix Halo, 128 GB, 64 GiB carve-out for the iGPU) + RTX 3090 Ti on a PCIe x4-class eGPU link. One llama.cpp process: the 71.7 GiB of experts on the iGPU over Vulkan, the dense trunk, KV cache and draft head on the 3090 Ti over CUDA.</p>
+
+<p><strong>Baseline:</strong> 22.2 tok/s on the iGPU alone. The obvious split: 32.9. Turning on the model&#39;s own MTP head as shipped: 31.3 on the split, 5.9 on the iGPU alone. The head that was trained to make it faster made it slower.</p>
+
+<p><strong>Now, Q4_K_XL, greedy:</strong></p>
+
+<table><thead>
+<tr>
+<th align="left"></th>
+<th align="left">tok/s</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">1 stream, short context</td>
+<td align="left">50.5</td>
+</tr>
+<tr>
+<td align="left">4 streams, 196K total context, aggregate decode</td>
+<td align="left">84</td>
+</tr>
+<tr>
+<td align="left">142K context, third consecutive generation</td>
+<td align="left">36.8 (was 24.6 and falling)</td>
+</tr>
+<tr>
+<td align="left">prefill, 4 x 4K prompts</td>
+<td align="left">404-408, untouched by any of this</td>
+</tr>
+</tbody></table>
+
+<p><strong>HumanEval+, 164 problems, EvalPlus tests, same agent, same sampling profile, same day:</strong></p>
+
+<table><thead>
+<tr>
+<th align="left"></th>
+<th align="left">passed</th>
+<th align="left">median per task</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">local, Flash-Next Q4_K_XL</td>
+<td align="left">155/164</td>
+<td align="left">22.5 s</td>
+</tr>
+<tr>
+<td align="left">remote 2x RTX 3090 vLLM, Qwen3.8-27B</td>
+<td align="left">156/164</td>
+<td align="left">58.9 s</td>
+</tr>
+</tbody></table>
+
+<p>Every problem the 27B failed, Flash-Next also failed.</p>
+
+<p><strong>Where the 3.8x came from, in order.</strong> Each step was A/B&#39;d against an interleaved control on the same launcher, gated on draft acceptance and on quality, not on throughput.</p>
+
+<ol>
+<li><strong>Rollback snapshots for the DeltaNet state were crossing PCIe.</strong> Speculative decoding on a recurrent model has to restore a snapshot on every rejection, and upstream&#39;s path serialises it to host memory: 124.88 MiB per cycle, 19.75 ms, about 27% of decode time, for a copy that starts and ends on the same GPU. Device-resident snapshot: 0.29 ms.</li>
+<li><strong>qwen4exp could not actually roll back.</strong> Only the final per-token state slot was written, so every older rollback slot was stale and every rejection replayed a forward pass (with rollback enabled it produced fluent text that degenerated after a few hundred tokens, while passing every short test). Fixing the slots removed the replay. 1+2 together: 32.9 -&gt; 42.7.</li>
+<li><strong>The iGPU&#39;s boundary tensors were read through the write-combined mapping.</strong> On an APU the host buffer is the same DRAM mapped cache-coherent. Routing the scheduler intermediates through it: 10.19 ms -&gt; 0.77 ms per 4 MB hand-off, byte-identical output. 42.7 -&gt; 47.6.</li>
+<li><strong>Sparse attention paid dense prices.</strong> QSA selects ~2,051 cells per token but the implementation masked the whole cache. Gathering the selected rows only pays past 64K because the indexer scan is still O(n_kv), so it turns on there: +8-14% at 128K, needle retrieval byte-identical, KL divergence inside the run-to-run noise. Graph reuse adds ~3%: 49.4.</li>
+<li><strong>Multi-stream speculation was a loss</strong> (60.5 vs 79.0 without it) while posting the best acceptance of any configuration. The batcher cannot pack unequal draft lengths, so 85% of verification passes carried a single stream. Drafting every stream to the same length takes full-batch passes from 3% to 72%. Four streams: 60 -&gt; 75, 83 in the tuned cell.</li>
+<li><strong>Re-port onto the current upstream lineage</strong> (LaurentZuijdwijk&#39;s qwen4exp/mtp-fix), which reads the n-gram table from disk at no measurable cost (0.2% at four streams) and frees 27-51 GiB of RAM. That is what lets Q5_K_XL fit. The series is worth +51% single-stream and +98% at four streams over that branch alone.</li>
+<li><strong>Two upstream long-context ports.</strong> Indexer head reduction by strided views: +4.7% prefill at 142K. And an O(log n) index for the n-gram predecessor lookup, which was a linear scan of every used KV cell per micro-batch: 436.6 us -&gt; 1.19 us per lookup. That scan was the depth tax.</li>
+</ol>
+
+<p><strong>Tuning, from a 72-cell sweep:</strong> draft depth 3 wins at every concurrency, and deeper loses monotonically. The best-accepting cell in the grid (0.956) is among the slowest; the fastest accepts 0.69 of its drafts. If you tune speculative decoding by maximising acceptance rate, you make it slower. KV cache by KL divergence against f16 KV: K q8_0 / V q8_0 keeps 96.4% top-1 agreement, V q4_0 gives up 1.5 points for 2% speed, and K below 8 bits is where it actually hurts (K q4_0 / V q4_0: 90.4%, perplexity +5%).</p>
+
+<p><strong>Things that did not pay, so you don&#39;t have to try them:</strong></p>
+
+<ul>
+<li>A Q8_0 MTP head. More confident, accepts more per round, 2.6x the cost per draft pass. A wash, at 1.6 GB more VRAM.</li>
+<li>Draft depth 4 or 5. Worse at every concurrency.</li>
+<li>The gather below 64K: -5.8% at 16K.</li>
+<li>Q5_K_XL for throughput: -8% single-stream, -16% at four streams, for +2 HumanEval+ problems inside the noise band. Fine for quality, not for serving.</li>
+</ul>
+
+<p><strong>Caveats, because you&#39;d find them anyway:</strong></p>
+
+<ul>
+<li>MTP speculative decoding is not bit-exact against sequential decoding, in upstream as much as here: a token verified inside a batch goes through different kernels, and the target&#39;s probabilities move ~2% at two thirds of positions. Still a valid greedy decode, passes every gate, but not the same token sequence.</li>
+<li>Continuous batching is nondeterministic at temperature 0 in stock llama.cpp with speculation off entirely. Arrival timing changes batch composition, which changes reduction order. Test exactness single-stream only.</li>
+<li>The 27B comparison is deployed stack vs deployed stack, not hardware-isolated: a different model and quant on the remote box.</li>
+<li>Q4_K_XL with K/V q8_0 throughout. Validate on your own workload.</li>
+</ul>
+
+<p>Full write-up with every table, the charts, the reproduction guide and the link to the code (build script, launcher with the measured defaults, memory preflight, benchmark harness): <a href="https://definedrr.medium.com/sixty-extra-tokens-per-second-e1bd744b2a56">https://definedrr.medium.com/sixty-extra-tokens-per-second-e1bd744b2a56</a></p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1w4ur6e/qwen38flashnext_104_gb_moe_on_a_strix_halo_rtx/" class="post_comments" title="12 comments">12 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vz6rjb">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/El_90">u/El_90</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 26 2026, 19:16:39 UTC">19d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Question | Help%22&restrict_sr=on"
+				class="post_flair"
+				style="color:black; background:#5a74cc;"
+				dir="ltr"><span>Question | Help</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vz6rjb/strix_128_egpu_32_or_48_thoughtsconcerns_please/">Strix 128 + eGPU 32 or 48, thoughts/concerns please</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="3">
+    
+    3
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I have a strix halo, 128GB using GTT = 120GB usable = 105GB models and below, and this has served me well, but as the world changes I want to improve a bit.  Your thoughts are welcomed ! (and if you see any mistakes LMK please!)</p>
+
+<p>Goal 1 - Run 27B dense models faster (e.g. Qwen 3.8 which I get 10t/s now)<br/>
+Goal 2 - Run models larger than 105GB (e.g. 0731 including Dflash)</p>
+
+<p>I spent a few days with configuring a m.2 &gt; oculink DEG1 &gt; 4070 TI super (16GB) and I learnt 3 things</p>
+
+<p>1 - It didn’t help run split/dense models faster (4070 sits idle waiting for radeon to keep up)<br/>
+2 - It didn’t help with swapping moe layers (swapping models over PCIe is too slow)<br/>
+2 - It didn’t really make any different to model size (+10%, keeping in mind if you push it too much and touch full 16GB if crashes the computer)</p>
+
+<p>So I have a choice, after I put the 4070 back in to my gaming rig do I look for a 32GB, or a 48GB card.</p>
+
+<p>(about me: career in sysadmin, coding, infrastructure person, so all this is job related)</p>
+
+<p># 32GB card</p>
+
+<ul>
+<li>It’s only just big enough to host Qwen3.8 entirely at a goodish quant, but with small/medium context, this allows 3.8 to act much faster and the xhigh reasoning to not kill my workflow</li>
+<li>It allows me to run 0731 at Q4 with dflash (assuming I get a AMD e.g. 7900, as you can’t combine nvidia and AMD then split dflash over different architecture apparently?) giving me a performance gain with speculation in a slow/reasoning model (so the speed increase is not due to VRAM)</li>
+<li>It would increase usable RAM to 132GB which is a slight improvement, allowing good quants of the new 3.8 flash</li>
+<li>Buying a 2nd 32GB in the future would still become cheaper than a single 48GB</li>
+<li>2x32GB would use both m.2 slots, so I’m maxxed out interconnect (I then use a PCIe&gt;m.2 convertor for local storage)</li>
+<li>Downside is that I set a ceiling of 196GB (instead of 224GB below)</li>
+</ul>
+
+<p># 48GB card</p>
+
+<ul>
+<li>Fits in 27B dense models with MUCH  more context allowing subagent/parallel</li>
+<li>Usable goes to 153GB GGUF models, allowing large+slow models for over night workloads</li>
+<li>If I win the lottery, and can afford a second in the future, dedicated eGPU grows 96GB which allows for some really good performance on medium models. </li>
+</ul>
+
+<p>I don’t think I can justify the 48GB, but I’m also scared of the 32GB putting me into a false economy?</p>
+
+<p>Any thoughts welcome please !!</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vz6rjb/strix_128_egpu_32_or_48_thoughtsconcerns_please/" class="post_comments" title="12 comments">12 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vy9vnr">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/nemuro87">u/nemuro87</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 25 2026, 19:30:33 UTC">20d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vy9vnr/what_is_your_take_on_gns_quote_that_hardware/">What is your take on GN&#39;s quote that Hardware Prices will never really recover?</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<a class="post_thumbnail" href="https://youtu.be/vYosAN7UShU?si=h_H1oPMO4jhZjyGH&#38;t=1867" rel="nofollow">
+		
+		<div style="max-width:140px;max-height:105px;">
+			<svg width="140px" height="105px" xmlns="http://www.w3.org/2000/svg">
+				<image width="100%" height="100%" href="/preview/external-pre/ihdtdsN189STeN1ELt2V_VDlbOGl1uX2I4uHAC23948.jpeg?width=140&#38;height=105&#38;auto=webp&#38;s=6defcc91ff3e587fb7819377d335047270820725"/>
+				<desc>
+					<img loading="lazy" alt="Thumbnail" src="/preview/external-pre/ihdtdsN189STeN1ELt2V_VDlbOGl1uX2I4uHAC23948.jpeg?width=140&#38;height=105&#38;auto=webp&#38;s=6defcc91ff3e587fb7819377d335047270820725"/>
+				</desc>
+			</svg>
+		</div>
+		
+		<span>youtu.be</span>
+	</a>
+	
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Steve from Gamer&#39;s Nexus has a take that hardware prices <strong>are never going to get back</strong> to what they used to be:</p>
+
+<h1>&quot;When these prices might eventually have to slightly come down, it&#39;s not going to go back to normal. It&#39;s never coming back to the prices that it used to be. &quot;</h1>
+
+<p>What do you think?<br/>
+I think as hardware slowly becomes faster or with more vram, it must make older hardware obsolete.<br/>
+If it doesn&#39;t affect the new price, it will at least affect the used price.</p>
+
+<p>I think of it this way, purely from LLM inference performance point of view (excluding OS):</p>
+
+<p><strong>With $10k budget, would you rather get:</strong></p>
+
+<ul>
+<li>1x 256 GB M5 Ultra Mac studio with 1.2 tb/s</li>
+<li>2x 4090 48GB totalVRAM with 1 tb/s (assuming you need to buy the rest of the system)</li>
+<li>2-3 Strix Halo or DGX Spark 256 total Ram with 250gb/s?</li>
+</ul>
+
+<p><strong>With $ 5k, , would you rather get:</strong></p>
+
+<ul>
+<li>1x 128 GB M5 Ultra Mac studio with 600 gb/s</li>
+<li>1x Strix Halo or DGX Spark 128GB RAM with 250gb/s</li>
+</ul>
+
+<p>If I asked this question 1 week ago, I&#39;m sure the answer would&#39;ve been different prior to the M5 Ultra Launch.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vy9vnr/what_is_your_take_on_gns_quote_that_hardware/" class="post_comments" title="77 comments">77 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vu7yce">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/TrifleHopeful5418">u/TrifleHopeful5418</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 21 2026, 06:06:07 UTC">24d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Tutorial | Guide%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#0079d3;"
+				dir="ltr"><span>Tutorial | Guide</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vu7yce/qwen3827b_at_262k_context_on_a_strix_halo_rtx/">Qwen3.8-27B at 262K context on a Strix Halo + RTX 3090 Ti: 9.5 -&#62; 153 tok/s, and it beats a dual-3090 vLLM box on HumanEval</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="47">
+    
+    47
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Spent a while treating layer placement, KV format and llama.cpp itself as experimental variables. 159 logged experiments. Numbers first, caveats after.</p>
+
+<p><strong>Hardware:</strong> AMD Ryzen AI MAX+ 395 (Strix Halo, 128 GB unified) + RTX 3090 Ti on an eGPU link. One llama.cpp process, AMD on Vulkan, NVIDIA on CUDA, one 27B model split across both.</p>
+
+<p><strong>Baseline:</strong> 9.474 tok/s. Target-only, no speculation, AMD side alone.</p>
+
+<p><strong>Now, code-shaped generation:</strong></p>
+
+<ul>
+<li>32K context: <strong>153.32 tok/s</strong></li>
+<li>200K context: <strong>87.74 tok/s</strong></li>
+</ul>
+
+<p><strong>HumanEval, 164 problems, driven by a real coding agent (pi-agent), graded by executing the official tests:</strong></p>
+
+<ul>
+<li>Local: <strong>159/164 in 29.7 min</strong></li>
+<li>Remote 2x RTX 3090 running vLLM TP2: 157/164 in 42.4 min</li>
+</ul>
+
+<p><strong>Long-context retrieval suite:</strong> 15/15, 352 s local vs 551 s on the remote.</p>
+
+<p><strong>Things that actually moved the needle, roughly in order of surprise:</strong></p>
+
+<ol>
+<li><strong>The chat template.</strong> Swapping to a terser template (Qwen-Sharp) cut wall time 44% and output tokens 51%, with no accuracy change. Bigger than several weeks of GPU work. It just stops the model narrating.</li>
+<li><strong>KV cache format as a placement lever.</strong> Going q8_0 -&gt; q4_0 on <em>both</em> K and V freed exactly 2,176 MiB, which was enough to move every full-attention layer onto the fast card at full 262K. +28% prefill, +20% generation. Qwen3.8 is 3:1 Gated DeltaNet to full attention, so only 16 of 64 layers have KV at all, and those are the only ones whose cost scales with context. Which layer sits on which GPU matters enormously.</li>
+<li>--spec-type draft-mtp,ngram-mod**.** The flag accumulates. n-gram on top of MTP is worth +72 to +140% on code-shaped output, about -1% on prose, and costs nothing in VRAM. Free win if you generate code.</li>
+<li><strong>A one-line llama.cpp patch:</strong> --spec-draft-ubatch. The speculative context was inheriting the target&#39;s 512 micro-batch and reserving a 2.2 GiB compute buffer to draft 4 tokens. Setting it to 64 freed 1,039 MiB for a 1.78% prefill cost, which bought another layer of placement.</li>
+<li>MTMD_BACKEND_DEVICE=Vulkan1 to put the vision encoder on the idle iGPU. Undocumented as far as I can tell. Default puts it on the first GPU-type device, which is the already-full 3090 Ti, and it dies allocating 884 MiB.</li>
+</ol>
+
+<p><strong>Things that did NOT work, so you don&#39;t have to try them:</strong></p>
+
+<ul>
+<li>External draft models (0.8B, 4B): 5.06-5.77 tok/s, <em>worse than no speculation</em>. Sequential drafting latency across PCIe dominates.</li>
+<li>Multi-lane parallel drafting: down to 1.62 tok/s. The 27B verification pass is the bottleneck; anything that widens the verification graph loses.</li>
+<li>Q6_K: 2.3x the wall time, marginally <em>lower</em> accuracy (because if hit the 64K output limit wall twice). Only 15.6 of its 20.5 GiB fits on the card, so 4 attention layers get pushed to the iGPU instead of 1.</li>
+</ul>
+
+<p><strong>Caveats, because this is</strong> [<a href="/r/LocalLLaMA">r/LocalLLaMA</a>](<a href="/r/LocalLLaMA">r/LocalLLaMA</a>) <strong>and you&#39;d find them anyway:</strong></p>
+
+<ul>
+<li>153 tok/s is code-shaped generation at 32K where n-gram does heavy lifting. Same config on prose at 200K is 35.8. Different workloads, kept separate on purpose.</li>
+<li>The remote comparison is deployed-stack vs deployed-stack, not hardware isolated: it serves an AWQ-MTP fine-tune, local serves Q4_K_M of the base.</li>
+<li>I asked for standalone functions rather than the canonical prompt+completion format, so 3 of the 5 HumanEval failures are NameErrors on helper functions that the official harness would have kept in scope. 159/164 is probably a slight undercount. Same undercount applies to every arm.</li>
+<li>q4_0 keys are a real quality change. Passed my 15/15 gate; validate on your own workload before trusting it.</li>
+</ul>
+
+<p>Edit: I ran livecodebench(medium+hard ~132 questions) on it, it passed 90/132 in first attempt and resending the failed ones with the grader feedback it improves to 114/132 ~ 86% that puts it pretty close to the frontier models. Ornith-1.0-35B AQW with fp16 kv cache does 82 pass@1 and 92 with repair. Running Ornith-1.5-35B-MTP with fp16 and will see where it lands.</p>
+
+<p>Full writeup with every flag, patch and failed branch: <a href="https://definedrr.medium.com/qwen3-8-27b-9-tokens-per-second-to-153-ee3781f4a3f5?sharedUserId=definedrr">https://definedrr.medium.com/qwen3-8-27b-9-tokens-per-second-to-153-ee3781f4a3f5?sharedUserId=definedrr</a></p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vu7yce/qwen3827b_at_262k_context_on_a_strix_halo_rtx/" class="post_comments" title="49 comments">49 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vsbfyo">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/parepeg">u/parepeg</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 19 2026, 03:53:05 UTC">27d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vsbfyo/giving_up_on_egpu_with_strix_halo/">Giving up on egpu with strix halo</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="12">
+    
+    12
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>People always talk about the successes but I&#39;m sharing my failure for posterity.</p>
+
+<p>Spent hours trying to get egpu working with a framework strix halo. <strong>TLDR;</strong> not worth the pain or I&#39;m  unskilled or unlucky.</p>
+
+<p>Hardware I tried:</p>
+
+<p><a href="https://www.adt.link/product/UT3G.html">ADT-link UT3G</a> - Could not get a consistent connection. On booting Fedora, I&#39;d see &quot;nvidia kernel module missing, falling back to nouveau&quot; (even though nouveau is blacklisted so that line turned out to be boot-time noise, not real nouveau). Running <code>nvidia-smi</code> showed:</p>
+
+<pre><code>modprobe: ERROR: could not insert &#39;nvidia&#39;: No such device
+NVIDIA-SMI has failed because it couldn&#39;t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+</code></pre>
+
+<p>and</p>
+
+<pre><code>[  358.908507] NVRM: The NVIDIA GPU 0000:03:00.0
+               NVRM: (PCI ID: 10de:24c9) installed in this system has
+               NVRM: fallen off the bus and is not responding to commands.
+</code></pre>
+
+<p>Deepseek was convinced that the hardware was at fault given a bunch of web searching and debugging.</p>
+
+<p><a href="https://www.adt.link/product/F9G-BK7.html">ADT-link F9G</a> + <a href="https://www.amazon.com/dp/B0CXDJNB51?ref_=pe_125775000_1044873430_t_fed_asin_title">OCuLink Cable</a> + <a href="https://www.amazon.com/dp/B0DHRTYKM1?ref_=pe_125775000_1044873430_t_fed_asin_title&amp;th=1">M.2 to Oculink Adapter</a> - Worked semi reliably but with a few downsides. I could not get a good PCIE Gen4 connection, it would consistently downgrade to Gen1. I made sure to buy a decent cable so I don&#39;t think the cable was at fault. Despite the length, it should have at least preserved Gen3. Maybe I cheaped out on the adapter? Web searches show a lot of people had success with redriver adapters so maybe that was the missing piece.</p>
+
+<p>Software I tried:</p>
+
+<p>For anyone trying similarly, llama-server supports both the internal gpu and external gpu despite one being AMD and the other nvidia. I found that you have to list the devices explicitly if you want to spread the weights of a single model over both gpus. Vulkan0 is a 3060 ti I was using for testing tensor-split. Vulkan1 is the internal gpu.</p>
+
+<pre><code>llama-server -m laguna-s-2.1-Q4_K_M.gguf -c 131072 --temp 1.0 --top-p 1.0 --min-p 0.01 --reasoning-preserve --load-mode none -fa on --fit off --jinja --kv-unified -ngl 999 -ts 6,128 --main-gpu 1 -dev Vulkan0,Vulkan1
+</code></pre>
+
+<p>No speed advantage since it was a small gpu and it kept falling back to GEN1 PCIE but it did work fine with llama-server.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vsbfyo/giving_up_on_egpu_with_strix_halo/" class="post_comments" title="12 comments">12 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vrm27o">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Responsible_Pain3278">u/Responsible_Pain3278</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 18 2026, 11:07:12 UTC">27d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Tutorial | Guide%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#0079d3;"
+				dir="ltr"><span>Tutorial | Guide</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vrm27o/deepseek_v4_flash_0731_on_strix_halo_draft_model/">DeepSeek V4 Flash 0731 on Strix Halo: draft model, n_max sweep, and a launch line that actually helps</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="37">
+    
+    37
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I know the front page is completely dominated by the Qwen3.8 27B. I know it&#39;s a fantastic model and everyone is rightfully discussing it, but I wanted to shift gears and talk about another model I’ve been experimenting with and got some solid results from: DeepSeek-V4-Flash-0731.</p>
+
+<p>I just finished a week of running numbers on a Strix Halo box and figured I&#39;d dump them here before I forget what I actually measured.</p>
+
+<p>Hardware is a Strix Halo mini PC, Ubuntu, 128 GB unified memory.</p>
+
+<p>Target is Unsloth&#39;s UD-IQ3_XXS with Q6 attention (~96 GB). At 264k context, no context quantization, the process sits at about 114 GB.</p>
+
+<p>At 64k I see 200–220 tok/s prefill and 20–22 tok/s decode with no draft. That&#39;s the baseline I used for everything below: 20.48 tok/s.</p>
+
+<p>I compared two DSpark drafters, Q8_0 (10.15 GB) and a Q2_K_S I quantized myself (6.45 GB), over n_max 2–7, 7 prompt types, 5 runs each.</p>
+
+<p>Same sampling the whole way: temp 0.9, top_p 0.95, min_p 0.01. Thinking on (<code>reasoning_effort=low</code> for the sweep so it wouldn&#39;t take a week). ngram-mod was off during the sweep so <code>draft_n</code> is only the drafter.</p>
+
+<p>Short version: n_max=3 is the peak. Average over both drafts is 28.5 tok/s, 1.39× the no-draft baseline. Q2 and Q8 are a wash. Every n_max, every category, they land inside 1–3% of each other. So the 6.45 GB file is the one I&#39;d actually keep.</p>
+
+<p>One caveat on that 28.5 average: the suite is stacked with tasks that speculative decoding loves (repeat, math, code), and the prompts only used up to ~32k of context. Don&#39;t treat it as what you&#39;ll see on a mixed chat/coding day with a fuller window. Realistically I&#39;d budget <strong>22–28 tok/s</strong>.</p>
+
+<p>Best n_max per category (avg vs 20.48 tok/s):</p>
+
+<ul>
+<li>code — n_max 3 — 28.99 t/s — 1.42×</li>
+<li>json — n_max 3 — 28.59 — 1.40×</li>
+<li>math — n_max 3 — 31.22 — 1.52×</li>
+<li>dialog — n_max 3 — 25.48 — 1.24×</li>
+<li>translate — n_max 2 — 25.09 — 1.22×</li>
+<li>prose — n_max 2 — 23.38 — 1.14×</li>
+<li>repeat — n_max 5 — 40.17 — 1.96×</li>
+</ul>
+
+<p>n_max 5–7 only pays off on the high-acceptance stuff (repeat, some math). On prose / translate / dialog the extra draft tokens just get rejected and you go backwards. Overall table if you want it:</p>
+
+<p>n_max 2: 27.12 t/s, 1.32×, accept 0.69 n_max 3: 28.50, 1.39×, 0.60 n_max 4: 27.73, 1.35×, 0.52 n_max 5–7: ~26.4–26.5, 1.29×, accept ~0.45</p>
+
+<p>I run this day to day at 128k with ngram-mod stacked on the drafter and thinking set to max. That&#39;s not what the sweep used (sweep was a 64k window, ~32k of it actually filled, draft-only, thinking=low), so don&#39;t treat the 28.5 as a promise for this exact line. The n_max=3 result is what I kept; 22–28 tok/s is what I&#39;d quote for mixed use.</p>
+
+<pre><code>llama-server \
+  -m DeepSeek-V4-Flash-0731-UD-IQ3_XXS-q6kattn.gguf \
+  -a DeepSeek-V4-Flash-0731-UD-IQ3_XXS \
+  --no-ui -ngl 999 -c 131072 --jinja -fa 1 --port 9989 \
+  --no-mmap --no-warmup -np 1 \
+  --temp 0.9 --top-p 0.95 --min-p 0.01 --host 0.0.0.0 \
+  -ngld 999 -fit off \
+  -md DeepSeek-V4-Flash-0731-DSpark-Drafter-Q2_K_S-dflash.gguf \
+  --spec-type ngram-mod,draft-dspark --spec-draft-n-max 3 \
+  -ub 1024 --cache-ram 2048 \
+  --chat-template-kwargs &#39;{&quot;reasoning_effort&quot;:&quot;max&quot;}&#39;
+</code></pre>
+
+<p><strong>Fork llama.cpp</strong> is <a href="https://github.com/Nathanw1014/strix-halo-llamacpp">strix-halo-llamacpp</a> (FA + MoE-prefill fixes, bundled Mesa, Vulkan/HIP). </p>
+
+<p><strong>GGUF I actually load:</strong> <a href="https://huggingface.co/Kevletesteur/DeepSeek-V4-Flash-0731-StrixHalo-Verified-GGUF">DeepSeek-V4-Flash-0731-StrixHalo-Verified-GGUF</a>. </p>
+
+<p><strong>Drafter:</strong> <a href="https://huggingface.co/Lynxpda/DeepSeek-V4-Flash-0731-DSpark-Drafter-Q2_K_S-GGUF">Lynxpda/DeepSeek-V4-Flash-0731-DSpark-Drafter-Q2_K_S-GGUF</a>.</p>
+
+<p>Charts from the sweep (baseline drawn at 20.48):</p>
+
+<figure><a href="/preview/pre/xjl24p7r64kh1.png?width=2259&amp;format=png&amp;auto=webp&amp;s=9aa98eaa89b9814c52e8e444f21358a5b49954a3"><img loading="lazy" src="/preview/pre/xjl24p7r64kh1.png?width=2259&amp;format=png&amp;auto=webp&amp;s=9aa98eaa89b9814c52e8e444f21358a5b49954a3"></a><figcaption>dashboard</figcaption></figure>
+
+<figure><a href="/preview/pre/u2waetae84kh1.png?width=1776&amp;format=png&amp;auto=webp&amp;s=ee9546ad356d8aace56b48f79eb29a0b21395eec"><img loading="lazy" src="/preview/pre/u2waetae84kh1.png?width=1776&amp;format=png&amp;auto=webp&amp;s=ee9546ad356d8aace56b48f79eb29a0b21395eec"></a><figcaption>speedup_grouped_bars</figcaption></figure>
+
+<p>If you&#39;re on Strix Halo and already sitting on Flash 0731, <code>--spec-draft-n-max 3</code> and the Q2 drafter is what I&#39;d start with. Happy to answer questions about the sweep if something looks off.</p>
+
+<p>upd: corrected errors.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vrm27o/deepseek_v4_flash_0731_on_strix_halo_draft_model/" class="post_comments" title="27 comments">27 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1vqme4y">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/seti_at_home">u/seti_at_home</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 17 2026, 08:24:35 UTC">28d ago</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Slop%22&restrict_sr=on"
+				class="post_flair"
+				style="color:black; background:;"
+				dir="ltr"><span>Slop</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1vqme4y/qwen3827b_q8_0_on_strix_halo_is_seriously/">Qwen3.8-27B Q8_0 on Strix Halo is seriously impressive</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	
+	<div class="post_media_content">
+		<video class="post_media_video short" src="" width="3840" height="2028" poster="/preview/external-pre/MHI3NXJsOXVhd2poMXArTNwYs67Fb4dRjJDBvsZQ1H7SH3rcYPPn_cMygVBO.png?format=pjpg&#38;auto=webp&#38;s=80bc58bdaf38c95bf47d0a2ef1d3b0d1b4a53562" preload="none" controls ><a href=>Video</a></video>
+	</div>
+	
+<div class="post_notification"><p><a href="/settings/update/?use_hls=on&redirect=r/LocalLLaMA/search?q=%22strix%20halo%22%20%22128%22%26restrict_sr=on%26sort=new%26t=all%231vqme4y">Enable HLS</a> to view with audio, or <a href="/settings/update/?hide_hls_notification=on&redirect=r/LocalLLaMA/search?q=%22strix%20halo%22%20%22128%22%26restrict_sr=on%26sort=new%26t=all%231vqme4y">disable this notification</a></p></div>
+
+	
+	
+	<div class="post_score" title="130">
+    
+    130
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Sorry for the slop, but I was impressed by this model as I have been testing Qwen3.8-27B Q8_0 locally on my ROG Flow Z13 (Ryzen AI Max+ 395, 128 GB unified memory) and this model was the only one who could made this short simulator (and I have tested a lot of models).</p>
+
+<p>Prompt:<br/>
+&quot;Create a beautiful, relaxing flight simulator in a single HTML page.&quot;</p>
+
+<p>It generated the whole thing through an agent using file/bash tools.</p>
+
+<p>Setup:</p>
+
+<p>Lemonade Server + llama.cpp ROCm</p>
+
+<p>Q8_0 weights + Q8 KV cache</p>
+
+<p>Native MTP speculative decoding</p>
+
+<p>64 GB VRAM / 64 GB RAM split</p>
+
+<p>~142k context</p>
+
+<p>I&#39;m seeing roughly 9-19 tok/s depending on the agent step, with some generations sustaining 16-19 tok/s and MTP acceptance reaching 97-99% and it took ~20min to generate this simulator.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1vqme4y/qwen3827b_q8_0_on_strix_halo_is_seriously/" class="post_comments" title="64 comments">64 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1v9100b">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/sandropuppo">u/sandropuppo</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jul 28 2026, 15:00:46 UTC">Jul 28 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1v9100b/deepseek_v4_flash_up_to_32_toks_on_amd_ryzen_ai/">DeepSeek V4 Flash, up to 32 tok/s on AMD Ryzen AI MAX+ 395</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_media_content">
+		<a href="/img/e67btq9fezfh1.png" class="post_media_image short" >
+			
+			<svg
+				width="1536px"
+				height="1024px"
+				xmlns="http://www.w3.org/2000/svg">
+					<image width="100%" height="100%" href="/img/e67btq9fezfh1.png"/>
+					<desc>
+						<img loading="lazy" alt="Post image" src="/img/e67btq9fezfh1.png"/>
+					</desc>
+			</svg>
+			
+		</a>
+	</div>
+	
+	<div class="post_score" title="392">
+    
+    392
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Hey fellow llamas. we have something new for Strix Halo owners we thought would be useful to share. i&#39;ll keep it short:</p>
+
+<p>We were able to fit DeepSeek V4 Flash plus its speculative draft on a single Ryzen AI MAX+ 395 with 128 GB of unified memory, and got it to a usable decode rate. </p>
+
+<p>Blog post with all details here: <a href="https://www.lucebox.com/blog/deepseek-v4-strix-halo">https://www.lucebox.com/blog/deepseek-v4-strix-halo</a> (code is open-source, Apache-2.0)</p>
+
+<p>We submitted the run to LocalMaxxing. On July 25th, its next-fastest DeepSeek V4 Flash entry for the Radeon 8060S was HipFire at 18.99 tok/s. The previous best in the site’s Ryzen AI Max 395 unified-memory group was DwarfStar at 15.6 tok/s.</p>
+
+<p>That puts our run 68.5% ahead of HipFire and at 2.05× the DwarfStar result. These are comparisons against the public LocalMaxxing entries shown above, not controlled A/B tests.</p>
+
+<h1>ROCmFPX: fitting 284B weights into 128 GB</h1>
+
+<p>ROCmFPX is not one quantization format. It is a family of block formats built around the AMD ROCm/HIP path. Each block holds 32 weights as packed low-bit codes plus one or two small scales. ROCmFP2 stores a block in 10 bytes, or 2.50 bits per weight; ROCmFP3 uses 3.50 bits per weight; and the fast ROCmFP4 layout uses 4.25.</p>
+
+<p>For DeepSeek V4 Flash, we added the missing 2-bit format and its HIP kernels, then built a Strix-specific mixed-precision recipe. The enormous routed-expert gate and up matrices use ROCmFP2, expert down projections use ROCmFP3, and dense or more sensitive projections keep ROCmFP4 or higher precision. We used an importance matrix during quantization and kept the model’s MTP head. The final 102.3 GB target works out to roughly <strong>2.88 bits per parameter</strong>; the filename says ROCmFP2 because that is the dominant format, not because every tensor is 2-bit.</p>
+
+<table><thead>
+<tr>
+<th align="left">Piece</th>
+<th align="left">Measured configuration</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">Hardware</td>
+<td align="left">Ryzen AI MAX+ 395, Radeon 8060S (<code>gfx1151</code>), 128 GB LPDDR5X</td>
+</tr>
+<tr>
+<td align="left">Target</td>
+<td align="left"><code>DeepSeek-V4-Flash-ROCMFP2-STRIX.gguf</code>, 102.3 GB</td>
+</tr>
+<tr>
+<td align="left">Draft</td>
+<td align="left"><code>DeepSeek-V4-Flash-DSpark-draft-Q4RMFP4-denseF16.gguf</code>, 11.3 GB</td>
+</tr>
+<tr>
+<td align="left">Runtime</td>
+<td align="left">ROCm 7.2.4, HIP <code>gfx1151</code>, platform <code>performance</code>, Radeon <code>high</code> (2.9 GHz observed), q=4 verification cap</td>
+</tr>
+<tr>
+<td align="left">Server context</td>
+<td align="left">8,192 tokens in the published setup</td>
+</tr>
+</tbody></table>
+
+<h1>Decode: up to 32 tok/s</h1>
+
+<p>ROCmFPX handles the weight traffic. We then added a DeepSeek-specific HIP decode path for the model’s hyper-connections, attention, routing, and expert work. With no speculative draft, that target runs at 25.31 tok/s autoregressive.</p>
+
+<p>DSpark is the next layer. With a q=4 batch, its small draft proposes up to three new tokens and the 284B target verifies four positions, including the current seed, in one fused pass.</p>
+
+<pre><code>01 · propose; DSpark draft = A compact three-layer draft proposes the next few tokens from captured target features.
+
+02 · verify; q=4 target pass = The 284B target checks several positions together through the fused HIP graph.
+
+03 · commit; accepted prefix = Correct proposals are committed in one step; the target repairs the first miss.
+</code></pre>
+
+<p>With a q=4 cap and adaptive width disabled, the public run reached <strong>32.0 tok/s</strong>, 26.4% above the 25.31 tok/s autoregressive result. The gain varies with how many draft tokens the target accepts.</p>
+
+<h1>Sparse prefill: roughly 250 tok/s</h1>
+
+<p>The public LocalMaxxing request reports <strong>245 tok/s</strong> prefill with <code>--ds4-prefill sparse</code>. In a separate 7,960-token validation, indexed sparse prefill reached 251.79 tok/s; the 8K cases ranged from <strong>246.8 to 255.9 tok/s</strong>. At roughly 24K tokens, throughput was 221.9 tok/s.</p>
+
+<p>Sparse prefill uses DeepSeek V4’s learned indexer to limit compressed-history attention. It also batches work layer by layer, which changes floating-point reduction order. The output is not byte-identical to tokenwise exact prefill, so sparse mode remains opt-in. It scored 10/10 on our small GSM8K set and 3/3 on a HumanEval smoke set; we have not run a broad quality evaluation yet.</p>
+
+<h1>Reproducing the run</h1>
+
+<p>Starting from a 128 GB Strix Halo machine with ROCm 7.2.4 already installed:</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install -y build-essential cmake git ninja-build curl \
+  hipblas-dev hipcub-dev rocblas-dev rocprim-dev rocwmma-dev
+
+git clone --branch main --recurse-submodules \
+  https://github.com/Luce-Org/lucebox.git
+cd lucebox
+
+cmake -S server -B server/build-hip -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_HIP_COMPILER=/opt/rocm/lib/llvm/bin/clang++ \
+  -DDFLASH27B_GPU_BACKEND=hip \
+  -DDFLASH27B_HIP_ARCHITECTURES=gfx1151 \
+  -DDFLASH27B_HIP_SM80_EQUIV=ON \
+  -DCMAKE_HIP_FLAGS=-DDFLASH_WAVE_SIZE=32 \
+  -DGGML_HIP_MMQ_MFMA=ON \
+  -DGGML_HIP_NO_VMM=ON \
+  -DGGML_HIP_GRAPHS=OFF
+
+cmake --build server/build-hip --target dflash_server -j&quot;$(nproc)&quot;
+</code></pre>
+
+<p>Download the <a href="https://huggingface.co/Lucebox/DeepSeek-V4-Flash-ROCMFPX">ROCmFPX target</a> and <a href="https://huggingface.co/Lucebox/DeepSeek-V4-Flash-DSpark-Drafter-GGUF">DSpark draft</a>, then start the measured profile:</p>
+
+<pre><code>mkdir -p models
+curl -L -C - --retry 5 \
+  -o models/DeepSeek-V4-Flash-ROCMFP2-STRIX.gguf \
+  &quot;https://huggingface.co/Lucebox/DeepSeek-V4-Flash-ROCMFPX/resolve/main/DeepSeek-V4-Flash-ROCMFP2-STRIX.gguf&quot;
+curl -L -C - --retry 5 \
+  -o models/DeepSeek-V4-Flash-DSpark-draft-Q4RMFP4-denseF16.gguf \
+  &quot;https://huggingface.co/Lucebox/DeepSeek-V4-Flash-DSpark-Drafter-GGUF/resolve/main/DeepSeek-V4-Flash-DSpark-draft-Q4RMFP4-denseF16.gguf&quot;
+
+MODEL=&quot;$PWD/models/DeepSeek-V4-Flash-ROCMFP2-STRIX.gguf&quot;
+DRAFT=&quot;$PWD/models/DeepSeek-V4-Flash-DSpark-draft-Q4RMFP4-denseF16.gguf&quot;
+
+echo performance | sudo tee /sys/firmware/acpi/platform_profile
+sudo /opt/rocm/bin/rocm-smi -d 0 --setperflevel high
+printf &#39;0\n&#39; &gt; /tmp/ds4_awidth
+printf &#39;4\n&#39; &gt; /tmp/ds4_spec_q
+
+DFLASH_DS4_SPEC=1 \
+DFLASH_DS4_FUSED_VERIFY=1 \
+DFLASH_DS4_SPEC_Q=4 \
+DFLASH_DS4_TIMING=1 \
+DFLASH_DS4_DRAFT=&quot;$DRAFT&quot; \
+LUCE_MMVQ_MAX_NCOLS=4 \
+./server/build-hip/dflash_server &quot;$MODEL&quot; \
+  --target-device hip:0 \
+  --host 127.0.0.1 --port 8000 \
+  --max-ctx 8192 --default-max-tokens 2048 \
+  --chunk 2048 --ds4-prefill sparse \
+  --ds4-fused-decode \
+  --ds4-expert-top-k 4 \
+  --prefix-cache-slots 0 --prefill-cache-slots 0 \
+  --disk-prefix-cache off
+</code></pre>
+
+<p>Warm the model once and use <code>temperature: 0</code>. The server prints decode speed on its <code>[deepseek4] DSpark decode</code> line. <code>DFLASH_DS4_SPEC_Q=4</code> sets the DS4 verification cap; <code>--verify-width</code> is a Laguna option and is not used here. The implementation may shorten a batch at a compressor boundary, which is required for correct state handling.</p>
+
+<p>Throughput varies with prompt shape and, for decode, how many DSpark proposals the target accepts. If you switch to exact prefill or restore the model’s six experts, those numbers no longer apply. No integration branch or private patch is required.</p>
+
+<p>-------</p>
+
+<p>Of course any feedback is more than welcome :)</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1v9100b/deepseek_v4_flash_up_to_32_toks_on_amd_ryzen_ai/" class="post_comments" title="63 comments">63 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1ullaf8">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/reujea0">u/reujea0</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jul 02 2026, 15:23:34 UTC">Jul 02 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1ullaf8/team_red_and_green_union_for_disaggregated_prompt/">Team red and green union for disaggregated prompt processing</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="1">
+    
+    1
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Some of you have seen my earlier posts here. I started this whole journey on a single Strix Halo box (Bosgame M5). For local agentic coding with OpenCode, the machine is genuinely good: plenty of unified memory, token generation is solid, but prompt processing falls apart hard once your context gets long. Agentic loops like OpenCode&#39;s are brutal on PP since every tool call reloads a chunk of context, so you&#39;re constantly re-paying that cost.</p>
+
+<p>I tried offloading PP to the NPU, thinking a dedicated matrix engine would help. It didn&#39;t; NPU PP was actually worse than the iGPU. So iGPU PP it was, and it&#39;s just not fast enough at high context.</p>
+
+<p>Out of curiosity (and because it&#39;s relevant to my job) I picked up a DGX Spark. I remembered seeing disaggregated PP/TG setups combining a DGX Spark and a Mac via EXO a while back, and once I ran DGX solo numbers and saw how much stronger its PP was, the idea was obvious: what if the DGX does prefill, and the Strix Halo (which already has plenty of memory and decent TG) handles decode?</p>
+
+<p>So I let Claude Code loose on the llama.cpp source, and after a few hours of iteration had a working disaggregated PP-to-TG pipeline running Qwen 3.5 122B (MTP) GGUF across both boxes. Below are the benchmarks, in the order that actually makes sense to understand why this works: first token generation (to show it&#39;s a non-issue), then disaggregated prefill (to show the actual win and the role of network speed), then concurrent multi-request serving (the real-world scenario where you have several agents running at once).</p>
+
+<h1>1. Token generation: DGX and Strix are basically tied</h1>
+
+<p>This is the first thing worth establishing, because it&#39;s counterintuitive. The DGX Spark is the much more expensive, more &quot;serious&quot; box, but for decode it barely matters:</p>
+
+<table><thead>
+<tr>
+<th align="left">Context</th>
+<th align="left">DGX TG t/s</th>
+<th align="left">Strix TG t/s</th>
+<th align="left">DGX advantage</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">512</td>
+<td align="left">23.5</td>
+<td align="left">20.5</td>
+<td align="left">+15%</td>
+</tr>
+<tr>
+<td align="left">1k</td>
+<td align="left">23.4</td>
+<td align="left">20.5</td>
+<td align="left">+14%</td>
+</tr>
+<tr>
+<td align="left">2k</td>
+<td align="left">23.3</td>
+<td align="left">20.4</td>
+<td align="left">+14%</td>
+</tr>
+<tr>
+<td align="left">32k</td>
+<td align="left">21.2</td>
+<td align="left">18.8</td>
+<td align="left">+13%</td>
+</tr>
+<tr>
+<td align="left">64k</td>
+<td align="left">19.7</td>
+<td align="left">17.5</td>
+<td align="left">+13%</td>
+</tr>
+</tbody></table>
+
+<p>Only a 13 to 15% gap, and it barely moves with context. That&#39;s because decode is memory-bandwidth bound, and the two machines have comparable effective bandwidth for this model. The DGX&#39;s much bigger compute advantage just doesn&#39;t show up here at all; it&#39;s wasted on TG.</p>
+
+<p>That&#39;s the whole justification for disaggregation: if TG is a wash, don&#39;t waste DGX&#39;s compute budget generating tokens. Spend it on PP, where it actually matters.</p>
+
+<h1>2. Disaggregated single-request benchmark: Strix Halo standalone vs. DGX PP to Strix TG</h1>
+
+<p>This table is the core result. Left half is Strix Halo running solo end to end. Right half is DGX Spark doing prefill, serializing the KV cache, shipping it over the network to the Strix Halo, which restores it and does decode.</p>
+
+<table><thead>
+<tr>
+<th align="left">Tokens</th>
+<th align="left">Strix PP t/s</th>
+<th align="left">Strix PP ms</th>
+<th align="left">Strix TG t/s</th>
+<th align="left">Strix TG ms</th>
+<th align="left">Strix total ms</th>
+<th align="left">DGX ms</th>
+<th align="left">Xfer ms</th>
+<th align="left">PP plus Xfer ms</th>
+<th align="left">KV MB</th>
+<th align="left">Decode ms</th>
+<th align="left">Disagg TG t/s</th>
+<th align="left">Disagg TG ms</th>
+<th align="left">Disagg total ms</th>
+<th align="left">Speedup</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">512</td>
+<td align="left">275.4</td>
+<td align="left">1860</td>
+<td align="left">20.5</td>
+<td align="left">6240</td>
+<td align="left">8100</td>
+<td align="left">1121</td>
+<td align="left">538</td>
+<td align="left">1659</td>
+<td align="left">161.4</td>
+<td align="left">340</td>
+<td align="left">20.5</td>
+<td align="left">6240</td>
+<td align="left">1999</td>
+<td align="left">4.1x</td>
+</tr>
+<tr>
+<td align="left">1024</td>
+<td align="left">293.3</td>
+<td align="left">3492</td>
+<td align="left">20.5</td>
+<td align="left">6256</td>
+<td align="left">9748</td>
+<td align="left">1737</td>
+<td align="left">578</td>
+<td align="left">2315</td>
+<td align="left">173.4</td>
+<td align="left">356</td>
+<td align="left">20.5</td>
+<td align="left">6256</td>
+<td align="left">2671</td>
+<td align="left">3.6x</td>
+</tr>
+<tr>
+<td align="left">2047</td>
+<td align="left">300.1</td>
+<td align="left">6822</td>
+<td align="left">20.4</td>
+<td align="left">6276</td>
+<td align="left">13098</td>
+<td align="left">2927</td>
+<td align="left">658</td>
+<td align="left">3585</td>
+<td align="left">197.4</td>
+<td align="left">375</td>
+<td align="left">20.4</td>
+<td align="left">6276</td>
+<td align="left">3960</td>
+<td align="left">3.3x</td>
+</tr>
+<tr>
+<td align="left">4031</td>
+<td align="left">306.6</td>
+<td align="left">13148</td>
+<td align="left">20.2</td>
+<td align="left">6338</td>
+<td align="left">19486</td>
+<td align="left">5244</td>
+<td align="left">813</td>
+<td align="left">6057</td>
+<td align="left">243.9</td>
+<td align="left">446</td>
+<td align="left">20.2</td>
+<td align="left">6338</td>
+<td align="left">6503</td>
+<td align="left">3.0x</td>
+</tr>
+<tr>
+<td align="left">7999</td>
+<td align="left">299.3</td>
+<td align="left">26726</td>
+<td align="left">19.7</td>
+<td align="left">6494</td>
+<td align="left">33220</td>
+<td align="left">10065</td>
+<td align="left">1123</td>
+<td align="left">11188</td>
+<td align="left">337.0</td>
+<td align="left">644</td>
+<td align="left">19.7</td>
+<td align="left">6494</td>
+<td align="left">11832</td>
+<td align="left">2.8x</td>
+</tr>
+<tr>
+<td align="left">15935</td>
+<td align="left">281.8</td>
+<td align="left">56544</td>
+<td align="left">19.4</td>
+<td align="left">6593</td>
+<td align="left">63137</td>
+<td align="left">20090</td>
+<td align="left">1744</td>
+<td align="left">21834</td>
+<td align="left">523.1</td>
+<td align="left">880</td>
+<td align="left">19.4</td>
+<td align="left">6593</td>
+<td align="left">22714</td>
+<td align="left">2.8x</td>
+</tr>
+<tr>
+<td align="left">31807</td>
+<td align="left">244.7</td>
+<td align="left">129994</td>
+<td align="left">18.8</td>
+<td align="left">6791</td>
+<td align="left">136785</td>
+<td align="left">40855</td>
+<td align="left">2985</td>
+<td align="left">43840</td>
+<td align="left">895.4</td>
+<td align="left">1284</td>
+<td align="left">18.8</td>
+<td align="left">6791</td>
+<td align="left">45124</td>
+<td align="left">3.0x</td>
+</tr>
+<tr>
+<td align="left">63551</td>
+<td align="left">195.6</td>
+<td align="left">324851</td>
+<td align="left">17.5</td>
+<td align="left">7317</td>
+<td align="left">332168</td>
+<td align="left">86424</td>
+<td align="left">5467</td>
+<td align="left">91891</td>
+<td align="left">1640.0</td>
+<td align="left">2184</td>
+<td align="left">17.5</td>
+<td align="left">7317</td>
+<td align="left">94075</td>
+<td align="left">3.5x</td>
+</tr>
+<tr>
+<td align="left">127039</td>
+<td align="left">140.0</td>
+<td align="left">907650</td>
+<td align="left">15.3</td>
+<td align="left">8345</td>
+<td align="left">915995</td>
+<td align="left">196092</td>
+<td align="left">10431</td>
+<td align="left">206523</td>
+<td align="left">3129.2</td>
+<td align="left">4014</td>
+<td align="left">15.3</td>
+<td align="left">8345</td>
+<td align="left">210537</td>
+<td align="left">4.4x</td>
+</tr>
+</tbody></table>
+
+<p>The story here is stark. Strix Halo&#39;s own PP goes from 275 t/s at short context down to 140 t/s at 127k tokens; it&#39;s not just slower, it degrades the longer your context gets, which is exactly the failure mode that kills long agentic sessions. DGX&#39;s PP barely blinks at that same range. By 127k tokens, the disaggregated path finishes prefill, transfer, and decode in about 210s total, versus about 916s for Strix Halo doing it alone. That&#39;s not a marginal win, that&#39;s the difference between usable and going to make coffee while you wait.</p>
+
+<h1>The role of network speed</h1>
+
+<p>This is worth calling out explicitly, because the transfer cost is not free, and how much it costs depends entirely on what you connect the two boxes with.</p>
+
+<p>My Bosgame M5 (Strix Halo) has 2x USB4 and 2.5G ethernet. I assumed the DGX Spark would also have USB4/Thunderbolt. It doesn&#39;t. Its USB-C ports are USB 3.2 Gen2 , plus it has 10GbE, and then the fast NVIDIA interconnect (ConnectX, roughly 200Gb-class) meant for Spark-to-Spark clustering, not for talking to a random AMD box.</p>
+
+<p>I tried connecting the two directly over USB-C, hoping to get USB4 networking speeds. That doesn&#39;t work: one side is USB4, the other is USB 3.2 Gen2, and even though USB 3.2 theoretically supports host-to-host networking, the DGX&#39;s controller and chipset don&#39;t seem to expose that. So I ended up just connecting them over plain 2.5GbE, which is what all the numbers above are measured on.</p>
+
+<p>The point is: 2.5GbE is nowhere near the ceiling here. If I had matching USB4 ports (or a proper 10/20/40GbE link) on both sides, the transfer cost, which is already small relative to compute at short context but becomes real at long context, mostly disappears. Here&#39;s what the 127k-token transfer looks like scaled to different link speeds, using the same 3129.2 MB KV cache:</p>
+
+<table><thead>
+<tr>
+<th align="left">Link</th>
+<th align="left">Effective BW</th>
+<th align="left">Xfer ms</th>
+<th align="left">PP + Xfer + Compute total (ms)</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">2.5GbE (actual)</td>
+<td align="left">~300 MB/s</td>
+<td align="left">10,431</td>
+<td align="left">206,523</td>
+</tr>
+<tr>
+<td align="left">10GbE</td>
+<td align="left">~1.2 GB/s</td>
+<td align="left">2,608</td>
+<td align="left">198,700</td>
+</tr>
+<tr>
+<td align="left">20GbE</td>
+<td align="left">~2.4 GB/s</td>
+<td align="left">1,304</td>
+<td align="left">197,396</td>
+</tr>
+<tr>
+<td align="left">40GbE (USB4-class)</td>
+<td align="left">~4.8 GB/s</td>
+<td align="left">652</td>
+<td align="left">196,744</td>
+</tr>
+<tr>
+<td align="left">100GbE</td>
+<td align="left">~12 GB/s</td>
+<td align="left">261</td>
+<td align="left">196,353</td>
+</tr>
+</tbody></table>
+
+<p>Past about 20GbE, the transfer basically disappears into the noise, and what&#39;s left is DGX&#39;s raw compute time (about 196s) plus decode (about 4s). In other words: 2.5GbE is already good enough to make this worth doing, but I&#39;m leaving real performance on the table by not having a faster link. If I get some proper netowrking involved, I&#39;d expect the whole disaggregated path to get noticeably closer to &quot;DGX compute plus decode&quot; as the floor, with the transfer cost close to irrelevant even at 128k context.</p>
+
+<h1>3. Concurrent requests: does this still make sense with multiple agents running?</h1>
+
+<p>The single-request numbers above are nice, but agentic coding rarely means one request at a time. Spin up a couple of subagents in OpenCode and you&#39;ve got multiple concurrent requests hitting your local setup. So the real question is: with two simultaneous users or agents, is it still worth disaggregating, or should you just let each box handle its own request independently?</p>
+
+<p>I compared two architectures for 2 simultaneous requests, 128 tokens generated each:</p>
+
+<ol>
+<li><strong>Independent</strong>: request A goes end to end on DGX, request B goes end to end on Strix, in parallel. Bottlenecked by whichever machine is slower.</li>
+<li><strong>Hybrid concurrent</strong>: DGX does PP for both requests (confirmed via the raw logs that it batches them, since first_ms equals last_ms, meaning both PP jobs get dispatched together rather than queued), then TG is split: one continues on DGX, the other ships its KV cache to Strix.</li>
+</ol>
+
+<p>Raw TG numbers from the actual concurrent run were skewed by Qwen3.5 emitting a burst of thinking tokens on the repetitive benchmark prompt (same issue as the single-request footnote above), so the hybrid columns below substitute real standalone TG timing instead of the inflated raw numbers:</p>
+
+<table><thead>
+<tr>
+<th align="left">Tokens</th>
+<th align="left">Strix standalone (PP+TG)</th>
+<th align="left">DGX standalone (PP+TG)</th>
+<th align="left">Independent, last user done</th>
+<th align="left">Independent, first user done</th>
+<th align="left">Hybrid concurrent, last user done~</th>
+<th align="left">Hybrid concurrent, first user done~</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">512</td>
+<td align="left">8,100</td>
+<td align="left">6,195</td>
+<td align="left">8,100</td>
+<td align="left">6,195</td>
+<td align="left">8,787</td>
+<td align="left">8,787</td>
+</tr>
+<tr>
+<td align="left">1024</td>
+<td align="left">9,748</td>
+<td align="left">6,793</td>
+<td align="left">9,748</td>
+<td align="left">6,793</td>
+<td align="left">9,177</td>
+<td align="left">9,177</td>
+</tr>
+<tr>
+<td align="left">2047</td>
+<td align="left">13,098</td>
+<td align="left">7,940</td>
+<td align="left">13,098</td>
+<td align="left">7,940</td>
+<td align="left">11,770</td>
+<td align="left">11,770</td>
+</tr>
+<tr>
+<td align="left">4031</td>
+<td align="left">19,486</td>
+<td align="left">10,197</td>
+<td align="left">19,486</td>
+<td align="left">10,197</td>
+<td align="left">17,818</td>
+<td align="left">17,818</td>
+</tr>
+<tr>
+<td align="left">7999</td>
+<td align="left">33,220</td>
+<td align="left">14,742</td>
+<td align="left">33,220</td>
+<td align="left">14,742</td>
+<td align="left">18,914</td>
+<td align="left">18,914</td>
+</tr>
+<tr>
+<td align="left">15935</td>
+<td align="left">63,137</td>
+<td align="left">23,996</td>
+<td align="left">63,137</td>
+<td align="left">23,996</td>
+<td align="left">30,161</td>
+<td align="left">30,161</td>
+</tr>
+<tr>
+<td align="left">31807</td>
+<td align="left">136,785</td>
+<td align="left">43,752</td>
+<td align="left">136,785</td>
+<td align="left">43,752</td>
+<td align="left">72,807</td>
+<td align="left">72,807</td>
+</tr>
+<tr>
+<td align="left">63551</td>
+<td align="left">332,168</td>
+<td align="left">87,039</td>
+<td align="left">332,168</td>
+<td align="left">87,039</td>
+<td align="left">186,382</td>
+<td align="left">186,382</td>
+</tr>
+<tr>
+<td align="left">127039</td>
+<td align="left">915,995</td>
+<td align="left">191,701</td>
+<td align="left">915,995</td>
+<td align="left">191,701</td>
+<td align="left">303,164</td>
+<td align="left">303,164</td>
+</tr>
+</tbody></table>
+
+<p>~ hybrid real TG estimated as measured concurrent last_ms plus (real Strix TG minus the Qwen3.5 thinking-token artifact), since DGX batches both PP requests simultaneously.</p>
+
+<p><strong>The verdict:</strong></p>
+
+<ul>
+<li>At 512 tokens or fewer, independent wins by a small margin (about 8%). Strix&#39;s own PP is fast enough at that length that paying the KV-transfer overhead for hybrid isn&#39;t worth it.</li>
+<li>Past about 1k tokens, hybrid pulls ahead and the gap widens fast. At 128k context, hybrid gets both requests done in about 303s versus about 916s for whichever request landed on Strix in the independent case, roughly a 3x improvement in worst-case latency.</li>
+<li>The reason is the same one from section 2. Strix&#39;s PP is the thing that collapses at long context. In independent mode, whichever request lands on Strix is stuck with that collapse. In hybrid mode, DGX eats all the PP work, even batched across two requests, and Strix only ever does TG, which it&#39;s fine at.</li>
+</ul>
+
+<h1>Takeaway</h1>
+
+<p>If you&#39;re running a single Strix Halo for local agentic coding, PP at long context is your real bottleneck, not memory and not TG. Adding a DGX Spark and disaggregating, where DGX does prefill and Strix (plus DGX&#39;s own spare decode capacity) does token generation, turns out to be a genuinely good architecture, not just for one request at a time but for the concurrent multi-agent case that&#39;s actually how tools like OpenCode get used in practice. The crossover point is roughly &quot;anything beyond a very short prompt,&quot; which for agentic coding is basically always.</p>
+
+<p>The other half of the story is the network link. I&#39;m currently stuck on 2.5GbE because the DGX Spark&#39;s USB-C ports turned out to be USB 3.2 Gen2 rather than USB4/TB4, so a direct USB link between the two boxes didn&#39;t pan out. Even so, 2.5GbE is already good enough for this to be a clear win at any real context length, but there&#39;s meaningful headroom left if you have a faster link available, since past about 20GbE the transfer cost becomes irrelevant and you&#39;re just bound by DGX&#39;s raw compute time.</p>
+
+<p>Happy to answer questions or share more of the raw benchmark harness if there&#39;s interest.</p>
+
+<p>(Also ended up with AI rewriting my own words, to make it cleaner)</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1ullaf8/team_red_and_green_union_for_disaggregated_prompt/" class="post_comments" title="9 comments">9 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1u0lhsq">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Sea-Speaker1700">u/Sea-Speaker1700</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 08 2026, 21:31:29 UTC">Jun 08 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1u0lhsq/rdna4_specific_docker_image_vllm/">RDNA4 Specific Docker Image vLLM</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="5">
+    
+    5
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>You bought RDNA4 with the promise of go-fast, and it doesn&#39;t deliver in vLLM. I know the feeling, out of the box vllm is a complete dog on RDNA4...</p>
+
+<p>Here is your fix, currently expanding and porting over my old custom kernels that make previously unusable models, useable:<br/>
+<a href="https://hub.docker.com/repository/docker/tcclaviger/vllm22/general">https://hub.docker.com/repository/docker/tcclaviger/vllm22/general</a></p>
+
+<p>Actually read the card, or have an AI summarize it, but either way it covers 2 of the 3 tuning points that can result is more than a 100% uplift in throughput on RDNA4 vs out of the box vLLM.  Tunableop you&#39;ll need to figure out for yourself (or ask an AI) it&#39;s pretty easy to figure out, and has a smaller impact, usually ~5% after doing GEMM tuning as --tune flag here provides (lots of RDNA4 tuned configs already baked into image).</p>
+
+<p>Includes a custom 5bpw quantizer for current mainline models, more will be added over time. Quantize on CPU, on multi-gpu, on single gpu, with big RAM with small RAM, nearly all cases are covered.</p>
+
+<p>I will post links to models in MXFP4_16 quantization on hugging face if you can&#39;t spend the time/don&#39;t understand how to do it and link them here, starting with:</p>
+
+<p><a href="https://huggingface.co/tcclaviger/Step-3.7-Flash-240REAP-MXFP416">https://huggingface.co/tcclaviger/Step-3.7-Flash-240REAP-MXFP416</a> (this model has kv calibrated scales for fp8 kv)<br/>
+<a href="https://huggingface.co/tcclaviger/gemma-4-31B-it-MXFP416-MTP">https://huggingface.co/tcclaviger/gemma-4-31B-it-MXFP416-MTP</a><br/>
+<a href="https://huggingface.co/tcclaviger/Qwen3.6-27B-MXFP416-MTP">https://huggingface.co/tcclaviger/Qwen3.6-27B-MXFP416-MTP</a><br/>
+<a href="https://huggingface.co/tcclaviger/Qwen3.6-35B-A3B-MXFP416-MTP">https://huggingface.co/tcclaviger/Qwen3.6-35B-A3B-MXFP416-MTP</a></p>
+
+<p>Disclosure: I am not selling anything. I am not disclosing any affiliation with anyone, this is my hobby project. Just making RDNA 4 go fast, take it or leave it 😛</p>
+
+<p>ROADMAP:<br/>
+- nvfp4 in place dequant kernel<br/>
+- mxfp4 in place dequant kernel<br/>
+- custom FP8 linear and moe kernels that are faster than VLLM defaults<br/>
+- RFP2 and RFP3 2.72bwp and 3.6bpw kernels, tuners, and quantizers<br/>
+- expanded model list support for tuning and quantizing<br/>
+- a superior 4 bit based variable bpw kernel ranging from 4.5 to 6.5 bpw that beats all other 4 bit kernels at a given bpw value (already developed needs integration)<br/>
+- expand specialized support for RDNA4 and Strix Halo 395+</p>
+
+<p>INCLUDED:<br/>
+- Auto-tuning attention kernel (huge uplifts on RDNA4 at long context for decode endurance)<br/>
+- Fixed --kv-cache-dtype fp8, it is not a performance uplift instead of a regression by allowing Matrix core use<br/>
+- Fixed default untuned TRITON unified attention kernel to not use defaults targeting 5 year old nvidia gpus<br/>
+- MXFP4_16 Kernel, quantizer, tuner. Think of it as a three-way marriage of Q4_NL, MXFP4, and GPTQ G16<br/>
+- FP8 Block 128 W8A8 tuner and configs (useful for quantized full attention layers in FP8)</p>
+
+<p>PS: yes i&#39;ll trim the image down eventually to have a :latest and :dev so its about 12gb instead of 33ish.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1u0lhsq/rdna4_specific_docker_image_vllm/" class="post_comments" title="7 comments">7 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tyto0j">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/westsunset">u/westsunset</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 06 2026, 21:41:16 UTC">Jun 06 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tyto0j/qat_mtp_heads_upload_parallel2_fix_12b_2slot_bench/">QAT MTP Heads Upload + PARALLEL=2 Fix + 12B 2-slot Bench</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="14">
+    
+    14
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><hr/>
+
+<p><strong>Title:</strong> Gemma 4 QAT MTP assistant heads now public on HuggingFace + PARALLEL=2 crash fix + 12B 2-slot bench (Strix Halo / Vulkan)</p>
+
+<hr/>
+
+<p>Three things in one update: the converted QAT-matched draft heads are now uploaded for anyone to use, we found and fixed the PARALLEL=2 crash in both the Atomic fork and filed the same bug on the native llama.cpp PR, and here are the first 12B 2-slot numbers after the fix.</p>
+
+<hr/>
+
+<h2>1. QAT-matched MTP heads are now on HuggingFace</h2>
+
+<p><strong><a href="https://huggingface.co/boxwrench/gemma-4-qat-mtp-assistant-heads">boxwrench/gemma-4-qat-mtp-assistant-heads</a></strong></p>
+
+<p>Three draft heads for speculative decoding (MTP) with the official Gemma 4 QAT Q4_0 models:</p>
+
+<table><thead>
+<tr>
+<th align="left">File</th>
+<th align="left">Pairs with</th>
+<th align="right">Size</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><code>gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="left">google/gemma-4-12B-it-qat-q4_0</td>
+<td align="right">444 MiB</td>
+</tr>
+<tr>
+<td align="left"><code>gemma-4-26B-A4B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="left">google/gemma-4-26B-A4B-it-qat-q4_0</td>
+<td align="right">441 MiB</td>
+</tr>
+<tr>
+<td align="left"><code>gemma-4-31B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="left">google/gemma-4-31B-it-qat-q4_0</td>
+<td align="right">491 MiB</td>
+</tr>
+</tbody></table>
+
+<p>Converted from Google&#39;s official unquantized QAT assistant checkpoints (<code>google/gemma-4-{12B,26B-A4B,31B}-it-qat-q4_0-unquantized-assistant</code>) to <code>gemma4_assistant</code> GGUF Q8_0.</p>
+
+<p><strong>Why QAT-matched heads matter:</strong> A draft head guesses tokens ahead of the main model. If the head was trained against full-precision weights but the main model is a QAT quantization, their distributions diverge — the head guesses what the full-precision model would have said, and the QAT model disagrees more often. Using heads that were trained against the same QAT checkpoint closes that gap substantially:</p>
+
+<table><thead>
+<tr>
+<th align="left">Model</th>
+<th align="right">Non-QAT head</th>
+<th align="right">QAT-matched head</th>
+<th align="right">Change</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">12B QAT Q4_0</td>
+<td align="right">71.3%</td>
+<td align="right"><strong>78.4%</strong></td>
+<td align="right">+7 pp</td>
+</tr>
+<tr>
+<td align="left">26B-A4B QAT Q4_0</td>
+<td align="right">56.9%</td>
+<td align="right"><strong>91.8%</strong></td>
+<td align="right">+35 pp</td>
+</tr>
+<tr>
+<td align="left">31B QAT Q4_0</td>
+<td align="right">42.5%</td>
+<td align="right"><strong>60.4%</strong></td>
+<td align="right">+18 pp</td>
+</tr>
+</tbody></table>
+
+<p>The 26B-A4B gap was especially stark — nearly 35 percentage points of acceptance rate were being lost purely to the head mismatch.</p>
+
+<p><strong>Compatibility:</strong> These use the <code>gemma4_assistant</code> architecture. They load on the <a href="https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant">Atomic TurboQuant fork</a> now, and on stock llama.cpp once <a href="https://github.com/ggml-org/llama.cpp/pull/23398">PR #23398</a> merges (it uses the same architecture shape). They are <em>not</em> compatible with the <code>ik_llama</code> variant heads (<code>gemma4_mtp</code> format).</p>
+
+<hr/>
+
+<h2>2. PARALLEL=2 crash — root cause found and fixed</h2>
+
+<p>Running <code>--n-parallel 2</code> with any of these heads was crashing with an assertion failure:</p>
+
+<p><code>
+GGML_ASSERT(ggml_nelements(a) == ne0*ne1*ne2)
+</code></p>
+
+<p>in <code>ggml_reshape_3d</code>, called from <code>llm_build_gemma4_mtp</code>.</p>
+
+<p>The root cause was a single line in <code>gemma4-assistant.cpp</code>:</p>
+
+<p>```cpp
+// before (crashes at n_parallel=2):
+Qcur = ggml_reshape_3d(ctx0, Qcur, n_embd_head, n_head, n_tokens);</p>
+
+<p>// fix:
+Qcur = ggml_reshape_3d(ctx0, Qcur, n_embd_head, n_head, 1);
+```</p>
+
+<p>The MTP draft step always processes exactly one token column regardless of how many server slots are active. Using <code>n_tokens</code> from the main forward pass worked fine with one slot (where <code>n_tokens=1</code> anyway) but crashed as soon as a second slot fired its first draft step (<code>n_tokens=2</code>, element count mismatch).</p>
+
+<p>The fix also requires <code>LLAMA_PIPELINE_DEPTH2=0</code> as an env var on Vulkan to prevent thread queue deadlocks when two slots are active simultaneously.</p>
+
+<p>Fix submitted to the Atomic fork: <a href="https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant/pull/26">AtomicBot-ai/atomic-llama-cpp-turboquant#26</a>.</p>
+
+<p><strong>The same bug is in the native llama.cpp PR #23398</strong> — identical line, identical fix. Left a <a href="https://github.com/ggml-org/llama.cpp/pull/23398#issuecomment-4640399306">comment on that PR</a> so it can be patched before merge.</p>
+
+<p>Also worth calling out: <a href="/u/janvitos">u/janvitos</a> independently did the same work for stock llama.cpp — <a href="https://github.com/ggml-org/llama.cpp/pull/23398">PR #23398</a> adds Gemma 4 MTP support to the native build. Great minds think alike. Once that merges, the heads here will load on stock llama.cpp without needing the Atomic fork.</p>
+
+<hr/>
+
+<h2>3. First 12B PARALLEL=2 bench (post-fix, Strix Halo / Vulkan)</h2>
+
+<p><strong>Hardware:</strong> AMD Ryzen AI Max+ 395, 128 GB LPDDR5X unified, Vulkan/RADV (Mesa 25.2.8)</p>
+
+<table><thead>
+<tr>
+<th align="left">Metric</th>
+<th align="right">12B plain 2-slot</th>
+<th align="right">12B MTP PARALLEL=1</th>
+<th align="right"><strong>12B MTP PARALLEL=2</strong></th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">2-slot aggregate</td>
+<td align="right">47.6 tok/s</td>
+<td align="right">43.5 tok/s</td>
+<td align="right"><strong>62.5 tok/s</strong></td>
+</tr>
+<tr>
+<td align="left">Single-stream decode</td>
+<td align="right">—</td>
+<td align="right">45.6 tok/s</td>
+<td align="right">38.6 tok/s (48.6 eff.)</td>
+</tr>
+<tr>
+<td align="left">MTP acceptance</td>
+<td align="right">N/A</td>
+<td align="right">78.4%</td>
+<td align="right"><strong>88.6%</strong></td>
+</tr>
+<tr>
+<td align="left">Wall time (1150-in/2000-out)</td>
+<td align="right">79.5 s</td>
+<td align="right">46.0 s</td>
+<td align="right">53.9 s</td>
+</tr>
+</tbody></table>
+
+<p>MTP PARALLEL=2 aggregate <strong>+31% over plain 2-slot</strong>. Per-slot decode drops (two slots share the same bandwidth), but total output throughput improves and acceptance actually went <em>up</em> relative to single-slot — the model is doing more useful speculation per pass when it has two requests to interleave.</p>
+
+<p>26B-A4B PARALLEL=2 bench still running — expected to close or surpass the plain 2-slot 90.9 tok/s figure since the 26B-A4B has higher acceptance to start with.</p>
+
+<hr/>
+
+<h2>Full numbers and context</h2>
+
+<p>Previous QAT numbers post (plain + single-slot MTP): <a href="/r/LocalLLaMA/comments/1tyilv7/gemma_4_qat_q4_0_bench_on_strix_halo/">Gemma 4 QAT Q4_0 bench on Strix Halo</a></p>
+
+<p>Full benchmark data, reproducibility matrix, serve scripts: <strong><a href="https://github.com/boxwrench/tesla_agent">boxwrench/tesla_agent</a></strong></p>
+
+<p>HF model card has usage examples including the <code>LLAMA_PIPELINE_DEPTH2=0</code> flag and the <code>--mtp-draft-n 3 --draft-p-min 0.75</code> settings that gave these numbers.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tyto0j/qat_mtp_heads_upload_parallel2_fix_12b_2slot_bench/" class="post_comments" title="7 comments">7 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tyj86p">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/westsunset">u/westsunset</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 06 2026, 14:48:01 UTC">Jun 06 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tyj86p/stepfun_37_flash_mtp_bench_strix_halo/">StepFun 3.7 Flash MTP Bench Strix Halo</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="19">
+    
+    19
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>This is the StepFun Step-3.7-Flash <code>UD-IQ4_XS</code> main model with the official StepFun MTP <code>Q8_0</code> draft model, served through a patched llama.cpp Vulkan/RADV build.</p>
+
+<h1>Host</h1>
+
+<ul>
+<li>System: AMD Ryzen AI Max+ 395 / Radeon 8060S (<code>gfx1151</code>)</li>
+<li>Memory: 128 GB unified LPDDR5X</li>
+<li>BIOS UMA / VRAM: 4 GB UMA dedicated VRAM</li>
+<li>GTT ceiling: 112 GiB</li>
+<li>IOMMU: enabled (<code>amd_iommu=on</code>)</li>
+<li>OS: Ubuntu 25.04 (Plucky)</li>
+<li>Kernel: <code>6.18.1-061801-generic</code></li>
+<li>Mesa / RADV: Mesa <code>25.2.8</code> / RADV</li>
+<li>ROCm: <code>7.1.1</code> baseline; some later rows also reference ROCm <code>7.2.x</code> runtime libraries</li>
+</ul>
+
+<h1>Model</h1>
+
+<ul>
+<li>Main model: StepFun Step-3.7-Flash <code>UD-IQ4_XS</code></li>
+<li>Main model size on disk: <code>95,336,010,208</code> bytes / <code>88.79 GiB</code></li>
+<li>Main model shards: 3</li>
+<li>Draft model: <code>Step-3.7-Flash-MTP-Q8_0.gguf</code></li>
+<li>Draft model size: about <code>3.5 GiB</code></li>
+<li>Architecture: <code>step35</code></li>
+<li>Model class: roughly 200B total parameters / about 11B active parameters per token</li>
+<li>Backend: llama.cpp Vulkan/RADV b9360 with Step-3.7 MTP patch</li>
+<li>Context used for this bench: 12,288</li>
+<li>MTP settings: <code>DRAFT_N=2</code>, <code>PMIN=0.60</code>, <code>UBATCH=512</code></li>
+</ul>
+
+<h1>Latest measured numbers</h1>
+
+<table><thead>
+<tr>
+<th align="left">Metric</th>
+<th align="left">StepFun MTP</th>
+<th align="left">Non-MTP baseline</th>
+<th align="left">Change</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Load to listening</td>
+<td align="left">~31 s</td>
+<td align="left">~31 s</td>
+<td align="left">no startup penalty observed</td>
+</tr>
+<tr>
+<td align="left">Prefill / prompt processing</td>
+<td align="left">211.2 tok/s</td>
+<td align="left">212.0 tok/s</td>
+<td align="left">basically flat</td>
+</tr>
+<tr>
+<td align="left">Decode / token generation</td>
+<td align="left">26.0 tok/s</td>
+<td align="left">20.4 tok/s</td>
+<td align="left">+27.5%</td>
+</tr>
+<tr>
+<td align="left">Normalized wall time, 1150-in/2000-out</td>
+<td align="left">82.4 s</td>
+<td align="left">103.4 s</td>
+<td align="left">20.8% faster</td>
+</tr>
+<tr>
+<td align="left">Two concurrent requests</td>
+<td align="left">19.7 / 19.6 tok/s</td>
+<td align="left">17.14 tok/s each</td>
+<td align="left">+15% per slot</td>
+</tr>
+<tr>
+<td align="left">Two-slot aggregate</td>
+<td align="left">35.7 tok/s</td>
+<td align="left">~34 tok/s</td>
+<td align="left">+5% aggregate</td>
+</tr>
+<tr>
+<td align="left">Socket power during decode</td>
+<td align="left">~73 W</td>
+<td align="left">~85 W</td>
+<td align="left">~14% lower</td>
+</tr>
+</tbody></table>
+
+<p>The main result: MTP materially improves decode speed without hurting prefill. For a roughly 200B-total MoE model, 26 tok/s single-stream on a 128 GB Strix Halo APU is a useful local lane.</p>
+
+<h1>Draft acceptance</h1>
+
+<p>The standard decode probe showed:</p>
+
+<ul>
+<li>Drafted tokens: 491</li>
+<li>Accepted draft tokens: 416</li>
+<li>Accepted / drafted: 84.7%</li>
+</ul>
+
+<p>Important source note: the summarized <code>bench.json</code> currently has <code>&quot;mtp.acceptance_pct&quot;: null</code>. The 84.7% acceptance number comes from the raw <code>tg_probe.json</code> timing counters, not from the aggregate <code>bench.json</code> field.</p>
+
+<h1>Context against other local lanes</h1>
+
+<p>These are not quality-equivalent rows, but they help place the speed tier:</p>
+
+<table><thead>
+<tr>
+<th align="left">Model / lane</th>
+<th align="left">Total / active</th>
+<th align="left">Quant / path</th>
+<th align="left">Prefill</th>
+<th align="left">Decode</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Qwen 3.6 35B MTP</td>
+<td align="left">35B / A3B</td>
+<td align="left">Q4_K_M, Vulkan MTP</td>
+<td align="left">not listed here</td>
+<td align="left">81.2 tok/s</td>
+</tr>
+<tr>
+<td align="left">gpt-oss-120b</td>
+<td align="left">117B / A5.1B</td>
+<td align="left">MXFP4, Vulkan</td>
+<td align="left">787 tok/s</td>
+<td align="left">46.7 tok/s</td>
+</tr>
+<tr>
+<td align="left">Qwen3-Coder-Next</td>
+<td align="left">coder MoE</td>
+<td align="left">UD-Q4_K_XL, Vulkan</td>
+<td align="left">723.2 tok/s</td>
+<td align="left">44.4 tok/s</td>
+</tr>
+<tr>
+<td align="left">Qwen 3.5 122B MTP</td>
+<td align="left">122B / A10B</td>
+<td align="left">MXFP4_MOE, Vulkan MTP</td>
+<td align="left">332.1 tok/s</td>
+<td align="left">26.7 tok/s</td>
+</tr>
+<tr>
+<td align="left">StepFun 3.7 Flash MTP</td>
+<td align="left">~200B / A11B</td>
+<td align="left">UD-IQ4_XS + Q8 MTP draft</td>
+<td align="left">211.2 tok/s</td>
+<td align="left">26.0 tok/s</td>
+</tr>
+<tr>
+<td align="left">StepFun 3.7 Flash plain</td>
+<td align="left">~200B / A11B</td>
+<td align="left">UD-IQ4_XS, no MTP</td>
+<td align="left">212.0 tok/s</td>
+<td align="left">20.4 tok/s</td>
+</tr>
+</tbody></table>
+
+<p>The interesting part is that StepFun MTP lands in the same rough decode tier as Qwen 122B MTP while moving a much larger total-parameter model. Whether that is the best lane depends on whether StepFun&#39;s quality is worth spending the 26 tok/s tier on.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tyj86p/stepfun_37_flash_mtp_bench_strix_halo/" class="post_comments" title="6 comments">6 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tyilv7">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/westsunset">u/westsunset</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 06 2026, 14:22:55 UTC">Jun 06 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tyilv7/gemma_4_qat_q4_0_bench_on_strix_halo/">Gemma 4 QAT Q4_0 Bench on Strix Halo</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="31">
+    
+    31
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><h1>Gemma 4 QAT Q4_0 Bench on Strix Halo</h1>
+
+<p>These are Google&#39;s official Gemma 4 QAT Q4_0 GGUF models, served locally
+through llama.cpp Vulkan/RADV on a Strix Halo APU.</p>
+
+<p>QAT means <strong>quantization-aware training</strong>. Instead of taking a normal model and
+quantizing it only after training, the model is trained or adapted while
+accounting for the lower-precision format it will run in. The goal is to make a
+small Q4 model keep more of the original model&#39;s behavior than a simple
+post-training quantization.</p>
+
+<h2>Host</h2>
+
+<p><strong>System:</strong> AMD Ryzen AI Max+ 395 / Radeon 8060S, <code>gfx1151</code></p>
+
+<p><strong>Memory:</strong> 128 GB unified LPDDR5X</p>
+
+<p><strong>GTT ceiling:</strong> 96 GiB class / large-GTT setup</p>
+
+<p><strong>IOMMU:</strong> enabled</p>
+
+<p><strong>OS:</strong> Linux Mint 22.3 / Ubuntu noble base</p>
+
+<p><strong>Kernel:</strong> <code>6.17.0-23-generic</code></p>
+
+<p><strong>Mesa / RADV:</strong> Mesa <code>25.2.8</code> / RADV</p>
+
+<p><strong>Backend:</strong> llama.cpp Vulkan/RADV, Atomic llama.cpp TurboQuant fork for Gemma 4
+assistant-head MTP</p>
+
+<p><strong>ROCm:</strong> installed, but these rows are Vulkan/RADV inference rows</p>
+
+<h2>Models</h2>
+
+<p><strong>Main model:</strong> <code>google/gemma-4-26B-A4B-it-qat-q4_0-gguf</code></p>
+
+<p><strong>Main model file:</strong> <code>gemma-4-26B_q4_0-it.gguf</code></p>
+
+<p><strong>Main model size on disk:</strong> <code>14,439,361,440</code> bytes / <code>13.45 GiB</code></p>
+
+<p><strong>Architecture:</strong> Gemma 4 MoE, roughly 26B total / A4B-ish active lane</p>
+
+<p>Other QAT models tested:</p>
+
+<table><thead>
+<tr>
+<th>Model</th>
+<th align="right">File size</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 12B QAT Q4_0</td>
+<td align="right"><code>6,975,877,728</code> bytes / <code>6.50 GiB</code></td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT Q4_0</td>
+<td align="right"><code>14,439,361,440</code> bytes / <code>13.45 GiB</code></td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT Q4_0</td>
+<td align="right"><code>17,650,999,456</code> bytes / <code>16.44 GiB</code></td>
+</tr>
+</tbody></table>
+
+<h2>MTP Assistant Heads</h2>
+
+<p>The first QAT MTP probes borrowed the normal non-QAT Gemma 4 assistant heads.
+Those loaded, but acceptance was weak. The better result came from using the
+matching QAT assistant sources from Google and converting those assistant
+checkpoints to Atomic/llama.cpp-compatible GGUF heads.</p>
+
+<p>Official QAT assistant sources:</p>
+
+<p><code>text
+google/gemma-4-12B-it-qat-q4_0-unquantized-assistant
+google/gemma-4-26B-A4B-it-qat-q4_0-unquantized-assistant
+google/gemma-4-31B-it-qat-q4_0-unquantized-assistant
+</code></p>
+
+<p>Converted local assistant heads:</p>
+
+<table><thead>
+<tr>
+<th>Main model</th>
+<th>QAT assistant head</th>
+<th align="right">Size</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 12B QAT</td>
+<td><code>gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="right">444 MiB</td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT</td>
+<td><code>gemma-4-26B-A4B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="right">441 MiB</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT</td>
+<td><code>gemma-4-31B-it-qat-assistant-MTP-Q8_0.gguf</code></td>
+<td align="right">491 MiB</td>
+</tr>
+</tbody></table>
+
+<p>Conversion note: the assistant GGUF needs the <code>gemma4_assistant</code> metadata shape
+that this Atomic llama.cpp build expects, including <code>n_embd_backbone</code> and target
+architecture metadata. A public 31B QAT assistant GGUF I tried used different
+metadata and did not load as-is. The 12B source repo uses a newer
+<code>Gemma4UnifiedAssistantForCausalLM</code> config name, so I converted it through a
+temporary config alias to the existing Gemma 4 assistant converter path. The
+source weights were not hand-edited.</p>
+
+<h2>Latest Measured Numbers</h2>
+
+<table><thead>
+<tr>
+<th>Lane</th>
+<th align="right">Load to listening</th>
+<th align="right">Prefill</th>
+<th align="right">Decode</th>
+<th align="right">Normalized wall, 1150-in/2000-out</th>
+<th align="right">Two-slot aggregate</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 26B-A4B QAT Q4_0, plain F16 KV</td>
+<td align="right">~4 s</td>
+<td align="right">1194.4 tok/s</td>
+<td align="right">59.4 tok/s</td>
+<td align="right">34.6 s</td>
+<td align="right">90.9 tok/s</td>
+<td>best plain row</td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT Q4_0, QAT MTP + Q8 KV</td>
+<td align="right">~18 s</td>
+<td align="right">729.3 tok/s</td>
+<td align="right">71.4 tok/s</td>
+<td align="right">29.6 s</td>
+<td align="right">62.5 tok/s</td>
+<td>best overall QAT lane</td>
+</tr>
+<tr>
+<td>Gemma 4 12B QAT Q4_0, QAT MTP + Q8 KV</td>
+<td align="right">~10 s</td>
+<td align="right">539.9 tok/s</td>
+<td align="right">45.6 tok/s</td>
+<td align="right">46.0 s</td>
+<td align="right">43.5 tok/s</td>
+<td>strong small-model MTP lane</td>
+</tr>
+<tr>
+<td>Gemma 4 12B QAT Q4_0, plain F16 KV</td>
+<td align="right">~4 s</td>
+<td align="right">666.5 tok/s</td>
+<td align="right">25.7 tok/s</td>
+<td align="right">79.5 s</td>
+<td align="right">47.6 tok/s</td>
+<td>plain baseline</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT Q4_0, QAT MTP + F16 KV</td>
+<td align="right">~20 s</td>
+<td align="right">203.6 tok/s</td>
+<td align="right">19.1 tok/s</td>
+<td align="right">110.4 s</td>
+<td align="right">18.9 tok/s</td>
+<td>works, but less efficient than 26B-A4B</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT Q4_0, plain Q8 KV</td>
+<td align="right">~8 s</td>
+<td align="right">204.2 tok/s</td>
+<td align="right">11.0 tok/s</td>
+<td align="right">187.4 s</td>
+<td align="right">20.0 tok/s</td>
+<td>best plain 31B row</td>
+</tr>
+</tbody></table>
+
+<p>The main result: the 26B-A4B QAT model is the useful lane. Plain Vulkan already
+gives about <strong>59 tok/s decode</strong> with very strong prefill, and the QAT-matched
+MTP/Q8 path reaches about <strong>71 tok/s single-stream</strong> with much better acceptance
+than the borrowed-head probe.</p>
+
+<h2>Draft Acceptance</h2>
+
+<p>Current QAT-matched MTP rows:</p>
+
+<table><thead>
+<tr>
+<th>Model</th>
+<th align="right">MTP acceptance</th>
+<th align="right">Effective acceptance-adjusted decode</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 12B QAT Q4_0 + QAT MTP head</td>
+<td align="right">78.4%</td>
+<td align="right">43.9 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT Q4_0 + QAT MTP head</td>
+<td align="right">91.8%</td>
+<td align="right">71.4 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT Q4_0 + QAT MTP head</td>
+<td align="right">60.4%</td>
+<td align="right">19.0 tok/s</td>
+</tr>
+</tbody></table>
+
+<p>The 26B-A4B row is the standout. It keeps the fast decode lane and acceptance
+is now high enough that I would treat it as the real QAT MTP result, not just a
+speed probe.</p>
+
+<p>31B is more of a tradeoff:</p>
+
+<table><thead>
+<tr>
+<th>31B setting</th>
+<th align="right">Decode</th>
+<th align="right">MTP acceptance</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>DRAFT_BLOCK_SIZE=3</code></td>
+<td align="right">19.1 tok/s</td>
+<td align="right">~60%</td>
+</tr>
+<tr>
+<td><code>DRAFT_BLOCK_SIZE=2</code></td>
+<td align="right">16.5-17.1 tok/s</td>
+<td align="right">~76%</td>
+</tr>
+</tbody></table>
+
+<p><code>DRAFT_BLOCK_SIZE=1</code> is not accepted by this build; the allowed range starts at
+2. <code>DRAFT_P_MIN</code> did not materially change the 31B acceptance in my short
+sweep.</p>
+
+<p>For comparison, the earlier borrowed-head QAT MTP rows were lower quality as
+MTP stacks:</p>
+
+<table><thead>
+<tr>
+<th>Model</th>
+<th align="right">Borrowed-head acceptance</th>
+<th align="right">QAT-matched acceptance</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 26B-A4B QAT Q4_0 + MTP</td>
+<td align="right">56.9%</td>
+<td align="right">91.8%</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT Q4_0 + MTP</td>
+<td align="right">42.5%</td>
+<td align="right">60.4%</td>
+</tr>
+</tbody></table>
+
+<h2>Context Against Previous Local Gemma Rows</h2>
+
+<table><thead>
+<tr>
+<th>Model / lane</th>
+<th>Quant / path</th>
+<th align="right">Prefill</th>
+<th align="right">Decode</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Gemma 4 26B-A4B non-QAT</td>
+<td>UD-Q6_K_XL, plain Vulkan</td>
+<td align="right">1002.8 tok/s</td>
+<td align="right">44.8 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT</td>
+<td>Q4_0, plain Vulkan</td>
+<td align="right">1194.4 tok/s</td>
+<td align="right">59.4 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 26B-A4B QAT</td>
+<td>Q4_0 + QAT MTP/Q8 KV</td>
+<td align="right">729.3 tok/s</td>
+<td align="right">71.4 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 31B non-QAT</td>
+<td>Q6 plain Vulkan</td>
+<td align="right">151.3 tok/s</td>
+<td align="right">~8.1 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT</td>
+<td>Q4_0 plain Vulkan</td>
+<td align="right">204.2 tok/s</td>
+<td align="right">11.0 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 31B QAT</td>
+<td>Q4_0 + QAT MTP/F16 KV</td>
+<td align="right">203.6 tok/s</td>
+<td align="right">19.1 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 12B QAT</td>
+<td>Q4_0 plain Vulkan</td>
+<td align="right">666.5 tok/s</td>
+<td align="right">25.7 tok/s</td>
+</tr>
+<tr>
+<td>Gemma 4 12B QAT</td>
+<td>Q4_0 + QAT MTP/Q8 KV</td>
+<td align="right">539.9 tok/s</td>
+<td align="right">45.6 tok/s</td>
+</tr>
+</tbody></table>
+
+<h2>Takeaway</h2>
+
+<p>On a 128 GB Strix Halo APU, Google&#39;s official Gemma 4 26B-A4B QAT Q4_0 GGUF is
+a very strong local lane: about <strong>59 tok/s plain</strong> and about <strong>71 tok/s</strong> with
+the QAT-matched MTP/Q8 setup.</p>
+
+<p>The important update is that QAT-matched assistant heads matter. Borrowing the
+normal non-QAT assistant heads was useful for proving that MTP could load, but
+the matched QAT heads substantially improved acceptance, especially on the
+26B-A4B row.</p>
+
+<p>I have not verified these QAT MTP rows on stock upstream llama.cpp or vLLM
+locally. The measured claim here is the Atomic llama.cpp TurboQuant fork on
+Vulkan/RADV.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tyilv7/gemma_4_qat_q4_0_bench_on_strix_halo/" class="post_comments" title="32 comments">32 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1twwycb">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/JSVD2">u/JSVD2</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 04 2026, 18:55:02 UTC">Jun 04 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1twwycb/nemotron_3_ultra_reality_check_no_onebox_128gb/">Nemotron 3 Ultra reality check: no one-box 128GB GGUF route yet; Nemotron 3 Nano runs at 66.6 t/s on Strix Halo</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p><em>Update / correction:</em></p>
+
+<p><em>Commenters are right that I skipped Nemotron 3 Super in the original framing.</em></p>
+
+<p><em>The better Nemotron map for one 128GB Strix Halo box is:</em></p>
+
+<p><em>- Ultra 550B-A55B: not a practical direct one-box GGUF/llama.cpp target from the artifacts I found</em></p>
+
+<p><em>- Super 120B-A12B: the interesting middle route; I tested the UD-IQ4_XS GGUF and it runs directly</em></p>
+
+<p><em>- Nano 30B-A3B: the faster smaller route; 66.6 t/s generation-only</em></p>
+
+<p><em>Super result:</em></p>
+
+<p><em>- unsloth/NVIDIA-Nemotron-3-Super-120B-A12B-GGUF</em></p>
+
+<p><em>- UD-IQ4_XS</em></p>
+
+<p><em>- pp512/tg128 r3: 292.51 pp512 / 17.94 tg128</em></p>
+
+<p><em>- p0/tg128 r3: 17.73 t/s generation-only</em></p>
+
+<p><em>So the original takeaway should not be “Nano is the only practical route.”</em></p>
+
+<p><em>It should be: Ultra is too large for one-box 128GB today, Super is the runnable capacity route, and Nano is the faster route.</em>  </p>
+
+<p>NVIDIA released Nemotron 3 Ultra 550B-A55B, so I checked what is actually practical on a one-box 128GB Strix Halo / Ryzen AI MAX+ 395 local setup.</p>
+
+<p>Disclosure: I maintain the linked Strix Halo guide/repo. I’m posting the actual numbers here because the artifact/quant/backend reality may be useful for people evaluating unified-memory local AI systems. I’m looking for corrections, reproductions, better Ultra routes, GGUF paths, or multi-node data.</p>
+
+<p>Ultra artifact check:</p>
+
+<p>- BF16: ~1.1 TB</p>
+
+<p>- NVFP4: ~352.4 GB</p>
+
+<p>- Format: safetensors / Transformers</p>
+
+<p>- I did not find a direct GGUF / llama.cpp route for Ultra during this scan</p>
+
+<p>So for a single 128GB Strix Halo box, I would treat Ultra as a watchlist item for now, not a direct local llama.cpp benchmark target.</p>
+
+<p>The practical NVIDIA Nemotron route I could actually run was Nemotron 3 Nano 30B-A3B GGUF.</p>
+
+<p>Model:</p>
+
+<p>- unsloth/Nemotron-3-Nano-30B-A3B-GGUF</p>
+
+<p>- Nemotron-3-Nano-30B-A3B-IQ4_XS.gguf</p>
+
+<p>- llama.cpp model line: nemotron_h_moe 31B.A3.5B IQ4_XS - 4.25 bpw</p>
+
+<p>- model size: 18,161,059,584 bytes</p>
+
+<p>- params: 31,577,940,288</p>
+
+<p>Hardware/software:</p>
+
+<p>- Beelink GTR9 Pro</p>
+
+<p>- Ryzen AI MAX+ 395 / Radeon 8060S</p>
+
+<p>- 128GB unified memory</p>
+
+<p>- llama.cpp b9453-14-g1fd5f4803</p>
+
+<p>- Vulkan/RADV</p>
+
+<p>- Device line: Radeon 8060S Graphics (RADV_STRIX_HALO)</p>
+
+<p>Direct llama-bench results:</p>
+
+<p>- smoke p0/tg32 r1: 66.06 t/s</p>
+
+<p>- pp512/tg128 r5: 619.00 pp512 / 65.45 tg128</p>
+
+<p>- generation-only p0/tg128 r10: 66.60 t/s</p>
+
+<p>Command shape:</p>
+
+<p>```bash</p>
+
+<p>llama-bench \</p>
+
+<p>-m Nemotron-3-Nano-30B-A3B-IQ4_XS.gguf \</p>
+
+<p>-fa 1 -ngl 999 -mmp 0 -b 512 -ub 128 \</p>
+
+<p>-p 512 -n 128 -r 5 -o csv</p>
+
+<p>llama-bench \</p>
+
+<p>-m Nemotron-3-Nano-30B-A3B-IQ4_XS.gguf \</p>
+
+<p>-fa 1 -ngl 999 -mmp 0 -b 512 -ub 128 \</p>
+
+<p>-p 0 -n 128 -r 10 -o csv</p>
+
+<p>Takeaway:</p>
+
+<p>For local AI PCs, the useful question is often not just “did a model release?” but:</p>
+
+<ul>
+<li>is there a usable artifact?</li>
+<li>what quant exists?</li>
+<li>does it fit?</li>
+<li>is there a GGUF / llama.cpp route?</li>
+<li>what backend actually runs it?</li>
+<li>what is the measured speed?</li>
+</ul>
+
+<p>Nemotron 3 Ultra is a major release, but for one-box 128GB Strix Halo today, Nemotron 3 Nano 30B-A3B is the route I could actually run and verify.</p>
+
+<p>Raw evidence / guide: <a href="https://github.com/hogeheer499-commits/strix-halo-guide">https://github.com/hogeheer499-commits/strix-halo-guide</a></p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1twwycb/nemotron_3_ultra_reality_check_no_onebox_128gb/" class="post_comments" title="35 comments">35 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tvadbd">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/JSVD2">u/JSVD2</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 03 2026, 01:15:39 UTC">Jun 03 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tvadbd/direct_1000_ts_on_strix_halo_with_qwen3_30ba3b/">Direct 100.0 t/s on Strix Halo with Qwen3 30B-A3B. Can anyone reproduce or beat this?</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I got a direct `llama-bench` row over 100 t/s on AMD Strix Halo / Ryzen AI MAX+ 395.</p>
+
+<p>Broader framing: I’m trying to document what a ~$4k unified-memory local AI PC can actually do for LLMs, with raw data instead of scattered anecdotes.</p>
+
+<p>When I started with Strix Halo, I kept running into the same problem: the useful information was scattered across random comments, partial benchmark rows, driver notes, backend-specific fixes, and “works for me” claims without enough raw data.</p>
+
+<p>So I started putting together the reference I wish I had at the beginning: setup steps, model choices, known-good paths, failed paths, raw logs, CSVs, and reproducible commands.</p>
+
+<p>This result is not MTP, not speculative decoding, not multi-user aggregate throughput, and not a server/API benchmark. It is a direct Vulkan/RADV `llama-bench` result.</p>
+
+<p>Setup:</p>
+
+<p>- Beelink GTR9 Pro</p>
+
+<p>- Ryzen AI MAX+ 395 / Radeon 8060S</p>
+
+<p>- 128GB unified LPDDR5X</p>
+
+<p>- Ubuntu</p>
+
+<p>- Vulkan/RADV</p>
+
+<p>- llama.cpp b9467 / `1fd5f4803`</p>
+
+<p>- Model: `Qwen3-30B-A3B-Instruct-2507`</p>
+
+<p>- Quant: `IQ4_XS-3.63bpw`</p>
+
+<p>Result:</p>
+
+<p>- `pp512/tg128`, r50: **1416.03 pp512 / 100.04 tg128**</p>
+
+<p>- r20: **100.58 tg128**</p>
+
+<p>- generation-only `-p 0 -n 128`: **100.40 tg128**</p>
+
+<p>Important caveat: this is not my Qwen3-Coder 30B headline. My direct Qwen3-Coder row is still 98.51 t/s with Q4_K_S. This 100 t/s result is a separate Qwen3 30B-A3B Instruct route with a different quant.</p>
+
+<p>Qwen3-Coder is still useful because it is a practical coding model that fits this hardware well and gives a clean reproducible benchmark target. But it is not the only thing I’ve tested. I also have rows for Qwen3.6, Qwen3-Next 80B, gpt-oss-120b, Ollama/server routes, MTP/speculative decoding, long-context checks, Windows/LM Studio community data, and power/RPC notes.</p>
+
+<p>The interesting part to me is that Strix Halo now seems to have multiple 30B-class Qwen MoE paths around 98.5-100 t/s locally, with raw CSV/log evidence instead of just vibes.</p>
+
+<p>Raw data / reproduction notes:</p>
+
+<p><a href="https://github.com/hogeheer499-commits/strix-halo-guide">https://github.com/hogeheer499-commits/strix-halo-guide</a></p>
+
+<p>If you have a Strix Halo system, I’d really like reproductions or counterexamples, especially:</p>
+
+<p>- Beelink / GMKtec / Framework Desktop / Corsair / Minisforum / HP systems</p>
+
+<p>- same model + quant</p>
+
+<p>- Qwen3-Coder 30B Q4_K_S</p>
+
+<p>- newer coding models</p>
+
+<p>- Windows / LM Studio / Ollama comparisons</p>
+
+<p>- long-context rows</p>
+
+<p>- wall-power / tokens-per-watt</p>
+
+<p>- failed or slower runs too</p>
+
+<p>Disclosure: I maintain the repo above. The goal is not to make a cherry-picked leaderboard. I’m trying to build a practical Strix Halo local LLM reference because I could not find one when I needed it.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tvadbd/direct_1000_ts_on_strix_halo_with_qwen3_30ba3b/" class="post_comments" title="22 comments">22 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tuzwfq">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Jealous-Astronaut457">u/Jealous-Astronaut457</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="Jun 02 2026, 18:34:58 UTC">Jun 02 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Question | Help%22&restrict_sr=on"
+				class="post_flair"
+				style="color:black; background:#5a74cc;"
+				dir="ltr"><span>Question | Help</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tuzwfq/any_local_coding_success_with_mimo25/">Any local coding success with MiMo-2.5 ?</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="9">
+    
+    9
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I am experimenting with AesSedai--MiMo-V2.5-GGUF--IQ3_S and llamacpp for coding but it quickly gets stuck into loops.</p>
+
+<p>I tried with official suggested settings and then tried with qwen36-27b ones - no change.</p>
+
+<p>I really like the intelligence of the model, and the speed is pretty fine on strix halo, but I am certainly missing something ....</p>
+
+<p>Update:<br/>
+<strong>I finally have success and now stable at 60k where I get 22t/s generation.</strong><br/>
+Thanks for this post: <a href="/r/StrixHalo/comments/1twtprv/comment/oprze80/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button">https://www.reddit.com/r/StrixHalo/comments/1twtprv/comment/oprze80/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button</a></p>
+
+<p>Here are my settings:<br/>
+--parallel 1 -t 16 -tb 24 -kvu -ub 1024 -b 4096 --mmap --ctx-size 131072 --split-mode none --no-warmup --cache-prompt --flash-attn on --jinja --direct-io --ctx-checkpoints 20 --cache-reuse 4096 --cache-ram 4096 --slot-prompt-similarity 0.85 --image-min-tokens 560 --image-max-tokens 2240 --metrics --webui-mcp-proxy --ctx-checkpoints 128 --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.01 --jinja --fit off --reasoning-budget 3000 --reasoning-budget-message Thinking budget exceeded, answer now --repeat-penalty 1.05 --repeat-last-n 128</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tuzwfq/any_local_coding_success_with_mimo25/" class="post_comments" title="20 comments">20 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tmq4s6">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/randomfoo2">u/randomfoo2</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 24 2026, 22:21:21 UTC">May 24 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tmq4s6/hipengine_fast_native_qwen_36_inference_for_rdna3/">hipEngine: Fast Native Qwen 3.6 Inference for RDNA3 (Strix Halo, 7900 XTX)</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="82">
+    
+    82
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>A few weeks ago, after finishing <a href="/r/LocalLLaMA/comments/1t3vlrx/fastdms_64x_kvcache_compression_running_faster/">FastDMS</a>, I started toying around writing some RDNA3 kernels again to see how fast I could get Qwen 3.6 MoE running. It turned out well enough, so over the past couple weeks, I turned those experiments into <a href="https://github.com/shisa-ai/hipEngine">hipEngine</a>, a new open source (AGPLv3) ROCm-native local LLM inference engine.</p>
+
+<p>It&#39;s Python based, but with no heavy PyTorch dependency. All the hot-path is HIP/C++, making liberal use of AMD native libs like hipBLASLt, hipGraph, AOTriton, etc.</p>
+
+<h3>gfx1100 (Radeon RX 7900 XTX / Radeon Pro W7900)</h3>
+
+<p>The initial implementation has Qwen 3.6 (MoE and dense) running competitively with llama.cpp, with the <a href="https://github.com/shisa-ai/paroquant">ParoQuant</a>  (which I&#39;ve also ported to be ROCm compatible) 4.68bpw having better c=1 prefill (&quot;prompt processing&quot;) at every tested context length, from 512-128K on gfx1100 (W7900/7900 XTX):</p>
+
+<h3>Prefill tok/s</h3>
+
+<table><thead>
+<tr>
+<th>Workload</th>
+<th align="right">hipEngine PARO</th>
+<th align="right">hipEngine GGUF Q4_K_S</th>
+<th align="right">llama.cpp HIP</th>
+<th align="right">llama.cpp Vulkan</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>512/128</td>
+<td align="right"><strong>2718.497</strong></td>
+<td align="right">2258.847</td>
+<td align="right">2436.049</td>
+<td align="right">1816.927</td>
+</tr>
+<tr>
+<td>4K/128</td>
+<td align="right"><strong>2838.773</strong></td>
+<td align="right">2576.673</td>
+<td align="right">2176.905</td>
+<td align="right">1705.093</td>
+</tr>
+<tr>
+<td>32K/128</td>
+<td align="right"><strong>2074.699</strong></td>
+<td align="right">1893.967</td>
+<td align="right">1496.409</td>
+<td align="right">1128.554</td>
+</tr>
+<tr>
+<td>128K/128</td>
+<td align="right"><strong>1055.454</strong></td>
+<td align="right">998.143</td>
+<td align="right">710.213</td>
+<td align="right">480.539</td>
+</tr>
+</tbody></table>
+
+<h3>Decode tok/s</h3>
+
+<table><thead>
+<tr>
+<th>Workload</th>
+<th align="right">hipEngine PARO</th>
+<th align="right">hipEngine GGUF Q4_K_S</th>
+<th align="right">llama.cpp HIP</th>
+<th align="right">llama.cpp Vulkan</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>512/128</td>
+<td align="right">103.460</td>
+<td align="right">109.152</td>
+<td align="right">85.487</td>
+<td align="right"><strong>127.515</strong></td>
+</tr>
+<tr>
+<td>4K/128</td>
+<td align="right">101.964</td>
+<td align="right">100.048</td>
+<td align="right">87.375</td>
+<td align="right"><strong>120.163</strong></td>
+</tr>
+<tr>
+<td>32K/128</td>
+<td align="right">90.438</td>
+<td align="right">86.774</td>
+<td align="right">76.994</td>
+<td align="right"><strong>98.073</strong></td>
+</tr>
+<tr>
+<td>128K/128</td>
+<td align="right">59.598</td>
+<td align="right">57.954</td>
+<td align="right">57.341</td>
+<td align="right"><strong>64.478</strong></td>
+</tr>
+</tbody></table>
+
+<h3>Peak GiB</h3>
+
+<table><thead>
+<tr>
+<th>Workload</th>
+<th align="right">hipEngine PARO</th>
+<th align="right">hipEngine GGUF Q4_K_S</th>
+<th align="right">llama.cpp HIP</th>
+<th align="right">llama.cpp Vulkan</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>512/128</td>
+<td align="right">20.962</td>
+<td align="right">25.108</td>
+<td align="right">21.125</td>
+<td align="right"><strong>20.844</strong></td>
+</tr>
+<tr>
+<td>4K/128</td>
+<td align="right">21.906</td>
+<td align="right">25.108</td>
+<td align="right">21.197</td>
+<td align="right"><strong>20.969</strong></td>
+</tr>
+<tr>
+<td>32K/128</td>
+<td align="right">22.016</td>
+<td align="right">25.108</td>
+<td align="right">21.738</td>
+<td align="right"><strong>21.533</strong></td>
+</tr>
+<tr>
+<td>128K/128</td>
+<td align="right"><strong>22.122</strong></td>
+<td align="right">25.108</td>
+<td align="right">23.605</td>
+<td align="right">23.596</td>
+</tr>
+</tbody></table>
+
+<p>It also has the lowest peak memory usage at 128K. hipEngine also has near-lossless INT8 KVCache (with almost no speed-loss), meaning that you can run the full Qwen 3.6 256K context window in &lt;24GB (eg, on a dedicated 7900 XTX) at good performance on RDNA3:</p>
+
+<table><thead>
+<tr>
+<th>Model</th>
+<th align="right">Context</th>
+<th>KV cache</th>
+<th align="right">Sampled peak</th>
+<th align="right">Allocator peak</th>
+<th align="right">Retained KV</th>
+<th align="right">Prefill</th>
+<th align="right">Decode</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Qwen3.6 35B-A3B PARO</td>
+<td align="right">128K</td>
+<td>BF16</td>
+<td align="right">21.04 GiB</td>
+<td align="right">21.88 GiB</td>
+<td align="right">2.69 GiB</td>
+<td align="right">1091.9 tok/s</td>
+<td align="right">62.2 tok/s</td>
+</tr>
+<tr>
+<td>Qwen3.6 35B-A3B PARO</td>
+<td align="right">128K</td>
+<td>INT8</td>
+<td align="right">19.80 GiB</td>
+<td align="right">20.89 GiB</td>
+<td align="right">1.36 GiB</td>
+<td align="right">1076.5 tok/s</td>
+<td align="right">60.0 tok/s</td>
+</tr>
+<tr>
+<td>Qwen3.6 35B-A3B PARO</td>
+<td align="right">256K</td>
+<td>INT8</td>
+<td align="right">21.96 GiB</td>
+<td align="right">23.71 GiB</td>
+<td align="right">2.71 GiB</td>
+<td align="right">670.2 tok/s</td>
+<td align="right">40.3 tok/s</td>
+</tr>
+</tbody></table>
+
+<h2>gfx1151 (AMD Ryzen AI MAX+ 395 / Radeon 8060S)</h2>
+
+<p>I currently don&#39;t have a dedicated Strix Halo machine for grinding kernels on, but I&#39;m happy to say that only minimal targeted optimization, it is already quite fast for gfx1151:</p>
+
+<h3>Prefill tok/s</h3>
+
+<table><thead>
+<tr>
+<th>Workload</th>
+<th align="right">hipEngine PARO</th>
+<th align="right">llama.cpp HIP</th>
+<th align="right">llama.cpp Vulkan</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>512/128</td>
+<td align="right">983.206</td>
+<td align="right"><strong>1058.738</strong></td>
+<td align="right">638.008</td>
+</tr>
+<tr>
+<td>4K/128</td>
+<td align="right"><strong>1029.402</strong></td>
+<td align="right">1004.220</td>
+<td align="right">595.400</td>
+</tr>
+<tr>
+<td>32K/128</td>
+<td align="right"><strong>792.296</strong></td>
+<td align="right">735.534</td>
+<td align="right">407.984</td>
+</tr>
+<tr>
+<td>128K/128</td>
+<td align="right"><strong>413.489</strong></td>
+<td align="right">376.070</td>
+<td align="right">181.453</td>
+</tr>
+</tbody></table>
+
+<h3>Decode tok/s</h3>
+
+<table><thead>
+<tr>
+<th>Workload</th>
+<th align="right">hipEngine PARO</th>
+<th align="right">llama.cpp HIP</th>
+<th align="right">llama.cpp Vulkan</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>512/128</td>
+<td align="right"><strong>62.060</strong></td>
+<td align="right">50.537</td>
+<td align="right">57.615</td>
+</tr>
+<tr>
+<td>4K/128</td>
+<td align="right"><strong>63.605</strong></td>
+<td align="right">49.379</td>
+<td align="right">55.027</td>
+</tr>
+<tr>
+<td>32K/128</td>
+<td align="right"><strong>50.629</strong></td>
+<td align="right">43.435</td>
+<td align="right">44.576</td>
+</tr>
+<tr>
+<td>128K/128</td>
+<td align="right">30.245</td>
+<td align="right"><strong>31.286</strong></td>
+<td align="right">26.935</td>
+</tr>
+</tbody></table>
+
+<h2>GGUF</h2>
+
+<p>One thing you might notice in the gfx1100 tables is that hipEngine <em>also</em> now has initial support for GGUF. This is something that I figured would be easy to add (not quite, took a more few days and billions of cached agentic coding tokens humming in the background than I would have expected), but I got Q4_K_M and Q4_K_S into a  &quot;good enough&quot; initial state - a little behind the ParoQuant path in speeds, but it does open up future compatibility and does not require any custom training (ParoQuant models can take <em>days</em> to quant).</p>
+
+<h2>Implementation Notes</h2>
+
+<p>hipEngine was packaged up mostly as an fun sidequest/experiment, but inspired by DS4, it seems useful enough to package up and and share with any RDNA3 users. It&#39;s designed to allow expansion to different model architectures (maybe Gemma 4 or StepFun 3.5 next), and to different hardware as well.</p>
+
+<p>I&#39;ve also shared some <code>docs/</code> in the repo for those interested:</p>
+
+<ul>
+<li><code>KERNELS.md</code> - this is the list of 100+ custom kernels with both fused <em>and</em> unfused kernels (and CPU-reference oracle) for correctness</li>
+<li><code>ROOFLINE.md</code> and <code>ROOFLINE-gfx1151.md</code> - for AMD GPU nerds, this is part of why I decided to go down the path since there&#39;s so much theoretical performance on the table, although even reducing kernel launches, and many iterations, it turns out that</li>
+<li><code>LESSONS-LEARNED.md</code> - some notes on what worked and didn&#39;t work while optimizing.</li>
+</ul>
+
+<p>I&#39;d encourage anyone with an interest/inkling to poke around, review the docs, generate their own code/optimizations, etc, but a couple of notes w/ the hipEngine code-base in particular: hipEngine is AGPLv3 licensed - it&#39;s a strong copy-left license. Anyone is free to use and modify however they want, but if you redistribute any part of it, you must share alike.</p>
+
+<p>Also, while this post was entirely typed by hand into a textbox, the kernel optimization is the result of hundreds (thousands?) of rounds of AI-assisted generation and is not suitable for use/adoption by code-bases with strict anti-AI policies.</p>
+
+<p>NOTE: this is very early code - all the numerics have been very carefully tested, the model inferences well for me, but if you&#39;re trying to install this, you might want to use an AI agent to help if you run into HIP/ROCm problems.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tmq4s6/hipengine_fast_native_qwen_36_inference_for_rdna3/" class="post_comments" title="41 comments">41 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tgepbd">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Fit-Courage5400">u/Fit-Courage5400</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 18 2026, 06:57:45 UTC">May 18 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tgepbd/luce_dflash_pflash_on_7900xtx_qwen3627b_at_224x/">Luce DFlash + PFlash on 7900XTX: Qwen3.6-27B at 2.24x decode and 3.05x prefill vs llama.cpp HIP</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="16">
+    
+    16
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Tested a bit on my XTX, a bit share hope helpful, thanks to Lucebox!</p>
+
+<h1>Lucebox DFlash + PFlash PR #119 Reproduction Report (RX 7900 XTX)</h1>
+
+<h1>Hardware Environment</h1>
+
+<table><thead>
+<tr>
+<th align="left">Component</th>
+<th align="left">Spec</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">GPU</td>
+<td align="left">AMD Radeon RX 7900 XTX (Navi 31, gfx1100)</td>
+</tr>
+<tr>
+<td align="left">VRAM</td>
+<td align="left">24 GiB GDDR6 (~936 GB/s)</td>
+</tr>
+<tr>
+<td align="left">System RAM</td>
+<td align="left">62 GiB DDR5</td>
+</tr>
+<tr>
+<td align="left">ROCm</td>
+<td align="left">7.1</td>
+</tr>
+<tr>
+<td align="left">OS</td>
+<td align="left">Ubuntu 26.04, Linux 7.0.0-14-generic</td>
+</tr>
+</tbody></table>
+
+<h1>Benchmark Results</h1>
+
+<p><strong>Model</strong>: Qwen3.6-27B Q4_K_M (15.65 GiB) + Lucebox Q8_0 DFlash drafter (1.84 GiB) <strong>Test</strong>: 10-prompt HumanEval-style, <code>--n-gen 128</code>, <code>--fast-rollback</code> <strong>Baseline</strong>: llama.cpp HIP AR (tg128) — 28.07 tok/s</p>
+
+<table><thead>
+<tr>
+<th align="left">Config</th>
+<th align="left">Mean tok/s</th>
+<th align="left">Mean AL</th>
+<th align="left">Speedup (vs llama.cpp HIP)</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><strong>llama.cpp HIP AR</strong></td>
+<td align="left"><strong>28.07</strong></td>
+<td align="left">—</td>
+<td align="left"><strong>1.00x</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>DFlash (chain speculation)</strong></td>
+<td align="left"><strong>64.23</strong></td>
+<td align="left">5.36</td>
+<td align="left"><strong>2.29x</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>DFlash DDTree budget=8</strong></td>
+<td align="left"><strong>62.75</strong></td>
+<td align="left">4.93</td>
+<td align="left"><strong>2.24x</strong></td>
+</tr>
+<tr>
+<td align="left">DFlash DDTree budget=22</td>
+<td align="left">60.94</td>
+<td align="left">6.11</td>
+<td align="left">2.17x</td>
+</tr>
+</tbody></table>
+
+<h1>Key Findings</h1>
+
+<ol>
+<li><strong>Budget=8 is optimal on 7900 XTX</strong> (62.75 tok/s), consistent with the blog. GDDR6&#39;s high bandwidth favors smaller trees to avoid tile waste; Strix Halo&#39;s LPDDR5X needs budget=22 to amortize launch overhead.</li>
+<li><strong>2.24x speedup</strong> matches the blog&#39;s 2.23x on Strix Halo. The 7900 XTX absolute speed of 62.75 tok/s far exceeds 26.85 tok/s, thanks to its ~9x bandwidth advantage.</li>
+<li><strong>Standard chain speculation (no DDTree) is slightly faster</strong> (64.23 tok/s), showing simpler strategies have lower overhead for short generations (128 tokens).</li>
+</ol>
+
+<h1>Full Reproduction Steps</h1>
+
+<h1>1. Clone repo and checkout PR #119</h1>
+
+<pre><code>git clone https://github.com/Luce-Org/lucebox-hub.git
+cd lucebox-hub
+git fetch origin pull/119/head:pr119 &amp;&amp; git checkout pr119
+git submodule update --init --recursive
+</code></pre>
+
+<h1>2. Install rocWMMA headers (optional but recommended, enables Phase 2 FlashPrefill)</h1>
+
+<p>If you don&#39;t have sudo to install the <code>rocwmma</code> package, fetch headers directly from GitHub:</p>
+
+<pre><code>git clone --depth 1 https://github.com/ROCm/rocWMMA.git /tmp/rocwmma
+mkdir -p /tmp/rocm_include/include
+cp -r /tmp/rocwmma/library/include/rocwmma /tmp/rocm_include/include/rocwmma
+</code></pre>
+
+<h1>3. Build (gfx1100 / 7900 XTX)</h1>
+
+<pre><code>cd dflash
+cmake -B build -S . \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DDFLASH27B_GPU_BACKEND=hip \
+  -DDFLASH27B_HIP_ARCHITECTURES=gfx1100 \
+  -DDFLASH27B_HIP_SM80_EQUIV=ON \
+  -DROCM_PATH=/tmp/rocm_include    # path from step 2; omit if rocwmma is system-installed
+
+cmake --build build --target test_dflash -j$(nproc)
+</code></pre>
+
+<blockquote>
+<p>Replace <code>gfx1100</code> with your GPU arch, e.g. gfx1151 (Strix Halo), gfx1030 (Navi 21), etc.<br/>
+To skip rocWMMA, set <code>-DDFLASH27B_HIP_SM80_EQUIV=OFF</code> to use the q8 fallback.</p>
+</blockquote>
+
+<h1>4. Download models</h1>
+
+<pre><code>mkdir -p models/draft
+wget -c -O models/Qwen3.6-27B-Q4_K_M.gguf \
+  &quot;https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M.gguf&quot;
+wget -c -O models/draft/dflash-draft-3.6-q8_0.gguf \
+  &quot;https://huggingface.co/Lucebox/Qwen3.6-27B-DFlash-GGUF/resolve/main/dflash-draft-3.6-q8_0.gguf&quot;
+</code></pre>
+
+<h1>5. Install Python dependencies (for bench script)</h1>
+
+<pre><code>pip3 install --break-system-packages transformers torch
+</code></pre>
+
+<h1>6. Run the benchmark</h1>
+
+<pre><code># DFlash DDTree budget=8 (recommended for gfx1100)
+cd dflash
+LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH \
+DFLASH_BIN=$PWD/build/test_dflash \
+DFLASH_TARGET=$PWD/models/Qwen3.6-27B-Q4_K_M.gguf \
+DFLASH_DRAFT=$PWD/models/draft/dflash-draft-3.6-q8_0.gguf \
+DFLASH27B_DRAFT_SWA=2048 \
+DFLASH27B_PREFILL_UBATCH=512 \
+  python3 scripts/bench_he.py --n-gen 128 --ddtree-budget 8
+</code></pre>
+
+<h1>Environment variables</h1>
+
+<table><thead>
+<tr>
+<th align="left">Variable</th>
+<th align="left">Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><code>DFLASH_BIN</code></td>
+<td align="left">Path to test_dflash binary</td>
+</tr>
+<tr>
+<td align="left"><code>DFLASH_TARGET</code></td>
+<td align="left">Path to target model GGUF</td>
+</tr>
+<tr>
+<td align="left"><code>DFLASH_DRAFT</code></td>
+<td align="left">Path to draft model GGUF</td>
+</tr>
+<tr>
+<td align="left"><code>DFLASH27B_DRAFT_SWA</code></td>
+<td align="left">Draft sliding window attention window for Qwen3.6 (2048)</td>
+</tr>
+<tr>
+<td align="left"><code>DFLASH27B_PREFILL_UBATCH</code></td>
+<td align="left">Compressed prefill micro-batch size (512, applies PR #159)</td>
+</tr>
+</tbody></table>
+
+<h1>bench_he.py common arguments</h1>
+
+<table><thead>
+<tr>
+<th align="left">Argument</th>
+<th align="left">Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><code>--n-gen N</code></td>
+<td align="left">Tokens to generate per prompt (default 128)</td>
+</tr>
+<tr>
+<td align="left"><code>--ddtree-budget N</code></td>
+<td align="left">DDTree node budget (8/22/32/48/64/96/128)</td>
+</tr>
+<tr>
+<td align="left"><code>--ddtree-temp T</code></td>
+<td align="left">Draft logits temperature (T&lt;1 widens top-1/top-2 gap)</td>
+</tr>
+<tr>
+<td align="left"><code>--max-ctx N</code></td>
+<td align="left">Maximum context length</td>
+</tr>
+<tr>
+<td align="left"><code>--target-tokenizer REPO</code></td>
+<td align="left">Target model tokenizer (default Qwen/Qwen3.5-27B)</td>
+</tr>
+<tr>
+<td align="left"><code>--target-split-dflash</code></td>
+<td align="left">Use target layer-split mode (shows prefill timing)</td>
+</tr>
+<tr>
+<td align="left"><code>--skip-tokenize</code></td>
+<td align="left">Skip tokenization step (reuse cache)</td>
+</tr>
+</tbody></table>
+
+<h1>7. Build and run llama.cpp baseline for comparison</h1>
+
+<pre><code># Build separately from dflash/deps/llama.cpp
+BUILD_DIR=/tmp/llama-bench-build
+cmake -B $BUILD_DIR -S dflash/deps/llama.cpp \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DGGML_HIP=ON \
+  -DLLAMA_BUILD_TOOLS=ON
+cmake --build $BUILD_DIR --target llama-bench -j$(nproc)
+
+# Run baseline
+LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH \
+$BUILD_DIR/bin/llama-bench \
+  -m models/Qwen3.6-27B-Q4_K_M.gguf \
+  -n 128 -p 128 -o md
+</code></pre>
+
+<h1>Comparison with Blog Data</h1>
+
+<table><thead>
+<tr>
+<th align="left">Metric</th>
+<th align="left">Strix Halo (gfx1151) Blog</th>
+<th align="left">7900 XTX (gfx1100) This Run</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">llama.cpp HIP AR</td>
+<td align="left">12.02 tok/s</td>
+<td align="left">28.07 tok/s</td>
+</tr>
+<tr>
+<td align="left">DFlash (optimal budget)</td>
+<td align="left">26.85 tok/s (budget=22)</td>
+<td align="left">62.75 tok/s (budget=8)</td>
+</tr>
+<tr>
+<td align="left">Speedup</td>
+<td align="left">2.23x</td>
+<td align="left">2.24x</td>
+</tr>
+<tr>
+<td align="left">Optimal budget</td>
+<td align="left">22 (LPDDR5X bandwidth bottleneck)</td>
+<td align="left">8 (GDDR6 high bandwidth)</td>
+</tr>
+</tbody></table>
+
+<p>Blog: <a href="https://www.lucebox.com/blog/amd">https://www.lucebox.com/blog/amd</a></p>
+
+<h1>Notes</h1>
+
+<ol>
+<li><strong>BSA scoring kernel</strong> is not implemented on HIP — it falls back to ggml flash_attn_ext (~3.4x slower than CUDA BSA). This is the remaining PFlash optimization headroom.</li>
+<li><strong>PR #159 ubatch=512</strong> is applied via the <code>DFLASH27B_PREFILL_UBATCH=512</code> env variable (manually layered on top of PR #119).</li>
+<li><strong>VRAM limitation</strong>: The 7900 XTX&#39;s 24 GiB is insufficient for a full 16K context PFlash test. 16K KV cache + model weights (~16 GiB + ~6 GiB KV cache) exceeds 24 GiB. Strix Halo&#39;s 128 GiB unified memory is needed for large context + large model workloads.</li>
+</ol>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tgepbd/luce_dflash_pflash_on_7900xtx_qwen3627b_at_224x/" class="post_comments" title="18 comments">18 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1tb9pwn">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/sandropuppo">u/sandropuppo</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 12 2026, 18:09:59 UTC">May 12 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1tb9pwn/luce_dflash_pflash_on_amd_strix_halo_qwen3627b_at/">Luce DFlash + PFlash on AMD Strix Halo: Qwen3.6-27B at 2.23x decode and 3.05x prefill vs llama.cpp HIP</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_media_content">
+		<a href="/img/ta09oubqxq0h1.png" class="post_media_image short" >
+			
+			<svg
+				width="1536px"
+				height="1024px"
+				xmlns="http://www.w3.org/2000/svg">
+					<image width="100%" height="100%" href="/img/ta09oubqxq0h1.png"/>
+					<desc>
+						<img loading="lazy" alt="Post image" src="/img/ta09oubqxq0h1.png"/>
+					</desc>
+			</svg>
+			
+		</a>
+	</div>
+	
+	<div class="post_score" title="57">
+    
+    57
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Hey fellow Llamas, keeping it short.</p>
+
+<p>We just shipped <strong>DFlash</strong> and <strong>PFlash</strong> support for the AMD Ryzen AI MAX+ 395 iGPU (gfx1151, Strix Halo, 128 GiB unified memory). Same Luce DFlash stack from <a href="/r/LocalLLaMA/comments/1sx8uok/luce_dflash_qwen3627b_at_up_to_2x_throughput_on_a/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button">the RTX 3090 post a couple weeks back</a>, now running on the consumer AMD APU class.</p>
+
+<p><strong>Repo:</strong> <a href="https://github.com/Luce-Org/lucebox-hub">https://github.com/Luce-Org/lucebox-hub</a> (MIT)</p>
+
+<h1>TL;DR</h1>
+
+<p>End-to-end on Qwen3.6-27B Q4_K_M with the Luce Q8_0 DFlash drafter: <strong>26.85 tok/s decode</strong> and <strong>20.2 s prefill at 16K context</strong>. </p>
+
+<p>That is 2.23x faster decode and 3.05x faster prefill than llama.cpp HIP on the same silicon. At a 16K prompt + 1K generation workload, total wall clock drops from 147 s to 58 s, <strong>2.5x faster end to end</strong>.</p>
+
+<p>The same 128 GiB box hosts checkpoints up to ~100 GiB, a class of models a 24 GiB consumer GPU cannot touch (Qwen3.5-122B-A10B, MiniMax-M2.7-REAP 139B-A10B, full BF16 27B).</p>
+
+<h1>The numbers</h1>
+
+<p><strong>Hardware:</strong> Ryzen AI MAX+ 395, Radeon 8060S iGPU (gfx1151), 128 GiB LPDDR5X-8000, ROCm 7.2.2 <strong>Target:</strong> Qwen3.6-27B Q4_K_M (15.65 GiB) <strong>Drafter:</strong> <code>Lucebox/Qwen3.6-27B-DFlash-GGUF</code> Q8_0 with <code>DFLASH27B_DRAFT_SWA=2048</code> <strong>Bench:</strong> 10-prompt HumanEval-style, <code>--n-gen 128 --ddtree-budget 22 --fast-rollback</code></p>
+
+<p><strong>Decode (Qwen3.6-27B Q4_K_M, tok/s):</strong></p>
+
+<table><thead>
+<tr>
+<th align="left">Engine</th>
+<th align="left">tok/s</th>
+<th align="left">vs AR</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">llama.cpp HIP AR</td>
+<td align="left">12.02</td>
+<td align="left">1.00x</td>
+</tr>
+<tr>
+<td align="left">llama.cpp Vulkan AR</td>
+<td align="left">12.45</td>
+<td align="left">1.04x</td>
+</tr>
+<tr>
+<td align="left"><strong>Luce DFlash (this PR)</strong></td>
+<td align="left"><strong>26.85</strong></td>
+<td align="left"><strong>2.23x</strong></td>
+</tr>
+</tbody></table>
+
+<p><strong>Prefill (Qwen3.6-27B, 16K tokens):</strong></p>
+
+<table><thead>
+<tr>
+<th align="left">Engine</th>
+<th align="left">TTFT</th>
+<th align="left">vs AR</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">llama.cpp HIP AR</td>
+<td align="left">61.69 s</td>
+<td align="left">1.00x</td>
+</tr>
+<tr>
+<td align="left"><strong>Luce PFlash</strong></td>
+<td align="left"><strong>20.2 s</strong></td>
+<td align="left"><strong>3.05x</strong></td>
+</tr>
+</tbody></table>
+
+<p>Speedup grows with context: PFlash compress is O(S), AR prefill is O(S^2). NIAH retrieval still passes at 16K.</p>
+
+<p><strong>Tuning note:</strong> <code>--ddtree-budget=22</code> is the gfx1151 optimum. Higher budgets accept more tokens per step but each step gets more expensive on LPDDR5X. Bandwidth caps the benefit before tile utilization pays off. Contrast with gfx1100 (7900 XTX, GDDR6 936 GB/s) where budget=8 wins, tile waste matters more than launch amortization. Default ship is arch-aware.</p>
+
+<h1>Reproduce</h1>
+
+<p>bash</p>
+
+<pre><code># 1. Build PR #119 for gfx1151
+git clone https://github.com/Luce-Org/lucebox-hub.git
+cd lucebox-hub
+git fetch origin pull/119/head:pr119 &amp;&amp; git checkout pr119
+git submodule update --init --recursive
+cd dflash
+cmake -B build -S . \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DDFLASH27B_GPU_BACKEND=hip \
+  -DDFLASH27B_HIP_ARCHITECTURES=gfx1151 \
+  -DDFLASH27B_HIP_SM80_EQUIV=ON
+cmake --build build --target test_dflash -j
+
+# 2. Models: Qwen3.6-27B target + Lucebox Q8_0 DFlash drafter
+mkdir -p models/draft
+hf download unsloth/Qwen3.6-27B-GGUF Qwen3.6-27B-Q4_K_M.gguf --local-dir models/
+hf download Lucebox/Qwen3.6-27B-DFlash-GGUF dflash-draft-3.6-q8_0.gguf --local-dir models/draft/
+
+# 3. Bench (DFlash decode + PFlash long-context prefill)
+LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH \
+DFLASH_BIN=$PWD/build/test_dflash \
+DFLASH_TARGET=$PWD/models/Qwen3.6-27B-Q4_K_M.gguf \
+DFLASH_DRAFT=$PWD/models/draft/dflash-draft-3.6-q8_0.gguf \
+DFLASH27B_DRAFT_SWA=2048 \
+DFLASH27B_PREFILL_UBATCH=512 \
+  python3 scripts/bench_he.py --n-gen 128 --ddtree-budget 22
+</code></pre>
+
+<p><code>DFLASH27B_PREFILL_UBATCH=512</code> applies the PR #159 fix on top of PR #119. Once #159 merges, this is the daemon default.</p>
+
+<h1>What is still missing</h1>
+
+<ul>
+<li><strong>BSA scoring kernel on HIP.</strong> The drafter compress-score path uses BSA (block-sparse attention) on CUDA. PR #119 disables it on HIP and falls back to ggml&#39;s <code>flash_attn_ext</code>, which the daemon&#39;s own warning flags as ~3.4x slower. A rocWMMA-native sparse-FA kernel closes the gap. After it lands, PFlash TTFT at 16K drops from 27.6 s to roughly 8 s. At 128K, projected 7-10x over llama.cpp AR.</li>
+<li><strong>Multi-row q4_K decode GEMV.</strong> RDNA-native multi-row pattern (R=4-8 output rows sharing activation register state) for the drafter forward, currently 30% of compress time at long context.</li>
+<li><strong>Phase 2 tile shape tuning for gfx1151.</strong> Current rocWMMA flashprefill tiles are tuned for gfx1100. Strix Halo has different LDS and VGPR characteristics.</li>
+<li><strong>70B+ MoE targets.</strong> 128 GiB headroom is wasted on a 27B. Qwen3.5-122B-A10B and MiniMax-M2.7-REAP 139B-A10B both fit. DFlash math ports cleanly to MoE; big work is wiring the expert-routed forward into the spec verify loop.</li>
+</ul>
+
+<h1>Constraints</h1>
+
+<p>ROCm 7.2.2+, gfx1151 tuned (gfx1100 also supported with arch-aware defaults), greedy verify only, no Vulkan / Metal / multi-GPU on this path yet.</p>
+
+<p>We&#39;re working hard on this but we know we need to improve on many things. </p>
+
+<p>Feedback is more than welcome :)</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1tb9pwn/luce_dflash_pflash_on_amd_strix_halo_qwen3627b_at/" class="post_comments" title="26 comments">26 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1ta7ce9">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Reactor-Licker">u/Reactor-Licker</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 11 2026, 15:51:50 UTC">May 11 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Question | Help%22&restrict_sr=on"
+				class="post_flair"
+				style="color:black; background:#5a74cc;"
+				dir="ltr"><span>Question | Help</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1ta7ce9/strix_halo_or_dgx_spark_for_a_home_llm_server/">Strix Halo or DGX Spark for a home LLM server?</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="25">
+    
+    25
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I’m currently stuck deciding between AMD Strix Halo (128 GB AMD Ryzen AI Max+ 395 Framework Desktop) and an Nvidia DGX Spark (Asus Ascent GX10) for a home LLM server that can be accessed over the local network with a ChatGPT like interface in a web browser. Keep in mind I’m a noob at this, my only previous experience with local LLMs is using LM Studio on one machine, with no network hosting.</p>
+
+<p>The Framework Desktop costs $3,388, while the Asus Ascent GX10 costs $3,500. I’m willing to pay this difference if the GX10 is faster in real world inference speeds.</p>
+
+<p>I’m planning to use Q4_K_M or Q6_K quantization to preserve quality without wasting speed and RAM, because I heard those 2 are the sweet spots.</p>
+
+<p>I want to run the following models ideally as fast as possible and with long context lengths (128K and above):</p>
+
+<p>Gemma 4 31B</p>
+
+<p>Gemma 4 26B A4B</p>
+
+<p>Qwen 3.6 27B</p>
+
+<p>Qwen 3.6 35B A3B</p>
+
+<p>GPT OSS 120B</p>
+
+<p>I have watched a bunch of DGX Spark reviews but oddly none of them seem to compare its inference speed to Strix Halo. What is the real world performance difference between the two? Does it change when more context is used?</p>
+
+<p>My planned use cases are the following:</p>
+
+<p>Web researching and fact finding</p>
+
+<p>Document / file summarization and fact finding</p>
+
+<p>Logical reasoning and problem solving</p>
+
+<p>General chat</p>
+
+<p>Image recognition </p>
+
+<p>Essentially, like a private and controllable version of ChatGPT. A “ChatGPT Lite” so to speak. I understand that these models don’t have the same level of intelligence or capabilities as GPT 5.5, but I want to get as close as I can with this level of hardware without waiting a year for a response from the model.</p>
+
+<p>In terms of interface, I’m thinking of using Open WebUI because of its ChatGPT like interface and multi user support to keep the different household members chats separated, but I am open to alternatives. I’m not super sure how to get quality web searching and file reading working.</p>
+
+<p>For the engine running the LLM that will hook into Open WebUI, I’m thinking of using LM Studio or llama.cpp. I want to have a GUI to configure model settings like context length, GPU offload, temperature, seed, and things like that without having to mess around with the command line to test a settings change. </p>
+
+<p>Finally, I plan to use Ubuntu as the OS.</p>
+
+<p>Please let me know any suggestions, improvements, or ideas you have. I’m by no means an expert, this is just what I have come up with on my own. Thanks!</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1ta7ce9/strix_halo_or_dgx_spark_for_a_home_llm_server/" class="post_comments" title="93 comments">93 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1t6ycii">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/Thanks-Suitable">u/Thanks-Suitable</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 08 2026, 05:15:58 UTC">May 08 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1t6ycii/strix_halo_clustering_hardware_setup_discussion/">Strix Halo Clustering (Hardware Setup Discussion)</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="7">
+    
+    7
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Cross post from Strix Halo, but I think The fine folks here also have some wisdom, maybe on the model side:</p>
+
+<p>Hey there!</p>
+
+<p>I recently got into the local hardware game with the Strix Halo (bosgame m5), ever since buying the hardware it went up in price by some 10~20% in 2 weeks.</p>
+
+<p>I&#39;m now thinking that it would be good to buy another one and cluster the two nodes to run bigger models before prices go up further.</p>
+
+<p>I am an enterprise user working on sensitive code so local hosting of the model is the only way to use LLMs in my field of work.</p>
+
+<p>Does anybody have experience with clustering tools for running models across multiple nodes?</p>
+
+<p>The real motivation that I see behind this approach is the fact that I would have 256 GB of ram rather then 128 GB, based on reading some bartowski quants on hugging face, the models I would be able to run would be:</p>
+
+<p>128 GB:</p>
+
+<p>- Minimax 2.7 high q3 quant with small context</p>
+
+<p>- q1/q2 version of GLM 4.7 (NOT Flash)</p>
+
+<p>- q3 ish qwen 3.5 ~400b</p>
+
+<p>Meanwhile with two systems, potentially:</p>
+
+<p>256gb:</p>
+
+<p>- Minimax q4 2.7 with decent context</p>
+
+<p>- q4 of GLM 4.7</p>
+
+<p>- q1/2 of GLM 5.1 (maybe higher with some REAP version)</p>
+
+<p>- q4 of Qwen 3.5 ~400b</p>
+
+<p>Yes I get it, qwen 3.6 27b is good, yes gemma is good, but for real agentic work and actually getting things done, I was not that happy with just those models that are in the ~32/64gb range.</p>
+
+<p>What I want to find out is:</p>
+
+<ol>
+<li> ⁠What methods you can use for clustering?</li>
+</ol>
+
+<p>1.1) I have seen people using thunderbolt networking which would be a nice option, but the protocol itself has very high latency due to the wrapping of the data packet into the thunderbolt layer, and as far as my understanding goes, there is still no option for RDMA over thunderbolt on strix halo as there is with MAC Studios.</p>
+
+<p>1.2) I have also seen people use M2 NVME adapters to networking/ Oculink, this is a feasible approach but I would need to run a high speed network card at each of the strix halos.</p>
+
+<p>1.2.1). Would 50Gig networking be good for the interconnect? Can i do 100 Gig? Over those Nvidia DGX spark connectors?</p>
+
+<p>1.2.2) What is the achievable speed? And whats the ltency ( I know its limited by the M2 slot with something like pice gen 4 speeds from the 4x4 slot), but is it slower in reality?</p>
+
+<p>1.3) Have I missed any additional options?</p>
+
+<p>2) What clustering techniques would work well?</p>
+
+<p>2.1) I know tensor parallelism across two machines is nice for prefill acceleration (and the strix halo would benefit from higher prefit speed for agentic coding workloads to process the high context), How is the stack for this? I know of vLLM strix halo toolboxes, is it painfull to install / has it been tried?</p>
+
+<p>2.2) Pipeline paralelism, does it offer any generation speed advantages in tokens/ sec? I would preferably want to use something decently fast for my work.</p>
+
+<p>2.3) Would something like Exo work on the strix halo? Ive only seen people use it with MAC clusters and Im under the impression that its a MAC Specific thing.</p>
+
+<p>3) To be more clear with my backgrond: I am an embeded engineer so I am ok with hacky solutions as long as someone else has done it before and made at least some documentation for it. I just figured out how to train my own models on Strix Halo using pytorch, it was a mess but I manged using some configuration. What were your experiences? is there another solution you can recomend? Distributed compute?</p>
+
+<p>Would love to hear everyone&#39;s experience. Even if you got a setup like this running i would love to jump together on a quick call or sth (Im on the Local Llama discord btw) So just PM me and lets find a time. All responses welcome!</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1t6ycii/strix_halo_clustering_hardware_setup_discussion/" class="post_comments" title="21 comments">21 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1t4fkri">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/FeiX7">u/FeiX7</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 05 2026, 13:31:17 UTC">May 05 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Discussion%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#646d73;"
+				dir="ltr"><span>Discussion</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1t4fkri/vulkan_backend_outperforms_rocm_on_strix_halo/">Vulkan backend outperforms ROCm on Strix Halo (gfx1151) — llama.cpp benchmark</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="21">
+    
+    21
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Just ran some llama-bench comparisons between ROCm and Vulkan backends on my Strix Halo system. Vulkan came out ahead, which surprised me.</p>
+
+<p>Hardware:</p>
+
+<p>- AMD Radeon 8060S (gfx1151 / Strix Halo)</p>
+
+<p>- 64GB unified VRAM</p>
+
+<p>- Arch Linux, ROCm 7.2.2 via pacman</p>
+
+<p>- Mesa RADV Vulkan driver</p>
+
+<p>Model: Qwen3.6-35B-A3B (MoE, Q6_K quantized, ~30GB)</p>
+
+<p>llama.cpp: commit 27aef3dd9</p>
+
+<p>Flags: -ngl 99 -p 512 -n 128 -t 8 -fa 1 -b 2048 -ub 512</p>
+
+<p>Results (tokens/sec):</p>
+
+<p>| Backend | pp512 | tg128 | Std Dev |</p>
+
+<p>|---------|-------|-------|---------|</p>
+
+<p>| ROCm0 | 841 | 42.3 | ±1.8 |</p>
+
+<p>| Vulkan0 | 867 | 51.2 | ±0.5 |</p>
+
+<p>Vulkan is ~21% faster at token generation and more stable (lower variance). Prompt processing is roughly equal.</p>
+
+<p>I built both backends into the same binary (`-DGGML_HIP=ON -DGGML_VULKAN=ON`). Using `-dev Vulkan0` gives better results than ROCm for this workload.</p>
+
+<p>Curious if anyone else on Strix Halo or other RDNA3.5 chips has seen the same thing. ROCm seems to fall back to slower code paths for certain ops on this GPU.</p>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1t4fkri/vulkan_backend_outperforms_rocm_on_strix_halo/" class="post_comments" title="84 comments">84 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1t31tk7">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/westsunset">u/westsunset</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 04 2026, 00:05:22 UTC">May 04 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Resources%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#ccac2b;"
+				dir="ltr"><span>Resources</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1t31tk7/mistral_medium_35_128_on_amd_ryzen_ai_max_395/">Mistral Medium 3.5 128 on AMD Ryzen AI Max+ 395 (Strix Halo)</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="3">
+    
+    3
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>I like numbers myself so contributing.  </p>
+
+<p>FYI, below is formatted with AI :</p>
+
+<p>Technical Benchmark: Nimo AI Mini PC - AMD Ryzen AI Max+ 395 (Strix Halo)</p>
+
+<p>Sharing a comprehensive performance review of the Nimo AI Mini PC. This unit
+  features the new Strix Halo architecture with 128GB of unified LPDDR5X memory
+  and a 2TB SSD. Tests cover gaming (1440p), synthetic benchmarks (4K), and
+  large-scale AI inference (128B Model).</p>
+
+<hr/>
+
+<p>System Specifications</p>
+
+<ul>
+<li>Model: Nimo AI Mini PC</li>
+<li>CPU: AMD Ryzen AI Max+ 395 (Strix Halo)</li>
+<li>GPU: AMD Radeon 8060S</li>
+<li>RAM: 128GB LPDDR5X (121Gi Visible)</li>
+<li>Storage: 2TB NVMe SSD</li>
+<li>OS: Linux Mint 22.3 / Ubuntu 24.04</li>
+<li><p>Driver: Mesa 25.2.8 / ROCm 7.8.0</p>
+
+<hr/>
+
+<p>AI Inference Performance (Mistral-Medium 128B)</p>
+
+<p>One of the standout features is the 128GB unified memory, allowing for
+ultra-large model offloading.</p></li>
+<li><p>Model: Mistral-Medium-128B-Q4_K_M (~75GB)</p></li>
+<li><p>Token Generation (TG):** 1.57 tokens/sec (Sustained) Prompt Processing (PP):** 32.10 tokens/sec</p></li>
+<li><p>VRAM Utilization: 79Gi (Unified Memory)</p></li>
+<li><p>Peak Power: 145.0W (Prefill/Bursts)</p></li>
+<li><p>Peak Noise: 46 dBA</p>
+
+<p>Note: Successfully offloaded the entire 128B model to the iGPU with ~40Gi
+remaining for context.</p>
+
+<hr/>
+
+<p>Gaming &amp; Graphics Benchmarks</p>
+
+<p>DOOM Eternal (1440p Ultra Nightmare)</p></li>
+<li><p>Resolution: 2560 x 1440 (1440p)</p></li>
+<li><p>Preset: Ultra Nightmare (Maxed)</p></li>
+<li><p>Framerate: 137 - 144 FPS (Stable / 144Hz Monitor Cap)</p>
+
+<p>Unigine Superposition (4K Optimized)</p></li>
+<li><p>Score: 7900</p></li>
+<li><p>Average FPS: 59.1</p></li>
+<li><p>Preset: 4K Optimized</p>
+
+<hr/>
+
+<p>Hardware Telemetry &amp; Thermal Performance</p>
+
+<p>Captured during sustained peak load (150W Power Envelope).</p>
+
+<p>Idle Baseline:</p></li>
+<li><p>System Power: 6.1W</p></li>
+<li><p>Temperature: 40.9°C</p></li>
+<li><p>Fan Noise: 27 dBA</p>
+
+<p>Peak Load Performance:</p></li>
+<li><p>Peak System Power: 154.1W</p></li>
+<li><p>Peak GPU Temp: 88.0°C</p></li>
+<li><p>Max GPU Clock: 2900 MHz</p></li>
+<li><p>Peak CPU Temp: 88.5°C</p></li>
+<li><p>Max CPU Load: 42.4% (Gaming)</p></li>
+<li><p>Max VRAM Used: 79 GB (AI Inference)</p></li>
+<li><p>Peak Fan Noise: 46 dBA</p>
+
+<hr/>
+
+<p>Technical Fixes Applied</p>
+
+<p>To unlock the full potential of this Strix Halo unit:</p></li>
+<li><p>RAM Carve-out: Adjusted BIOS UMA settings to unlock full 128GB (121Gi
+ visible).</p></li>
+<li><p>Driver Initialization: Removed amdgpu from modprobe blacklist for ROCm
+ support.</p></li>
+<li><p>Optimizations: Utilized HIPFIRE_MMQ=1 and
+ HSA_OVERRIDE_GFX_VERSION=11.0.13.</p>
+
+<hr/></li>
+</ul>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1t31tk7/mistral_medium_35_128_on_amd_ryzen_ai_max_395/" class="post_comments" title="19 comments">19 comments</a>
+	</div>
+</div>
+				
+			
+				
+					<div class="post" id="1t2i22w">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/u/sterby92">u/sterby92</a>
+		<span class="dot">&bull;</span>
+		<span class="created" title="May 03 2026, 10:43:09 UTC">May 03 &#39;26</span>
+		
+	</p>
+	<h2 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Question | Help%22&restrict_sr=on"
+				class="post_flair"
+				style="color:black; background:#5a74cc;"
+				dir="ltr"><span>Question | Help</span></a>
+		
+		<a href="/r/LocalLLaMA/comments/1t2i22w/bad_model_quality_qwen3627b_with_hipfire_on_strix/">Bad model quality qwen3.6-27b with hipfire on strix halo</a>
+	</h2>
+	<!-- POST MEDIA/THUMBNAIL -->
+	
+	<div class="post_score" title="0">
+    
+    0
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_body post_preview">
+		<!-- SC_OFF --><div class="md"><p>Hi, I&#39;m running the default qwen3.6-27b with dflash with the latest hipfire on strix halo (Rocm 7.2). It works an gives a decently fast performance (i guess). But the output quality is really subpar. It does barely manage to do a tool call in openwebui and even messes up todays date for another date (todays date in the system prompt). I&#39;m not sure if I&#39;m doing something wrong, or if it is expected and we just wait for better support and better quants?</p>
+
+<pre><code>  run 1/5 pp 102 tok/s | TTFT 196 ms | decode 34.9 tok/s (128 tok)
+  run 2/5 pp 102 tok/s | TTFT 196 ms | decode 34.9 tok/s (128 tok)
+  run 3/5 pp 103 tok/s | TTFT 194 ms | decode 34.7 tok/s (128 tok)
+  run 4/5 pp 103 tok/s | TTFT 195 ms | decode 34.7 tok/s (128 tok)
+  run 5/5 pp 102 tok/s | TTFT 196 ms | decode 34.9 tok/s (128 tok)
+
+  Prefill    tok/s      mean      min      max    stdev     ms
+  ────────────────────────────────────────────────────────────────
+  pp128               165.2    164.9    165.4      0.2   775.0
+  pp512               270.9    270.5    271.2      0.2   1890.3
+
+                       mean      min      max    stdev
+  ──────────────────────────────────────────────────────────
+  Prefill  tok/s      102.3    101.8    102.9      0.4   (user prompt, 20 tok)
+  TTFT     ms         195.5    194.4    196.4      0.7
+  Decode   tok/s       34.8     34.7     34.9      0.1
+  Wall     tok/s       33.1     33.0     33.1      0.0
+
+  Decode ms/tok: 28.72
+</code></pre>
+</div><!-- SC_ON -->
+	</div>
+
+	
+	
+
+	<div class="post_footer">
+		<a href="/r/LocalLLaMA/comments/1t2i22w/bad_model_quality_qwen3627b_with_hipfire_on_strix/" class="post_comments" title="24 comments">24 comments</a>
+	</div>
+</div>
+				
+			
+		
+		
+
+		
+		<footer>
+			
+
+			
+			<a href="?q=&quot;strix halo&quot; &quot;128&quot;&restrict_sr=on
+				&sort=new&t=all
+				&after=t3_1t2i22w" accesskey="N">NEXT</a>
+			
+		</footer>
+		
+	</div>
+
+		</main>
+		
+
+		<!-- FOOTER -->
+		
+			<footer>
+				<div class="footer-buttons">
+					<p><span id="version">v0.36.0&emsp;</span><a href="/info" title="View instance information">ⓘ View instance info</a>&emsp;<a href="https://github.com/redlib-org/redlib" title="View code on GitHub">&lt;&gt; Code</a></p>
+				</div>
+			</footer>
+		
+	</body>
+</html>

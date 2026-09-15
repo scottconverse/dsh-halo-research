@@ -51,15 +51,45 @@ Mutation routes use a random per-launch Mission Control token and exact loopback
 
 ## Search behavior
 
-Wigolo is the first provider for search, page retrieval, and research. The agent makes at most one revised Wigolo attempt when a result is empty. It then uses DSH's native web tools after an MCP availability failure, timeout, or lack of usable evidence.
+For Reddit and subreddit research, the local preset directs the agent to load the bundled `reddit-search` skill and follow its RSS/Redlib workflow. For other search, page retrieval, and research, Wigolo is the first provider. The agent makes at most one revised Wigolo attempt when a result is empty. It then uses DSH's native web tools after an MCP availability failure, timeout, or lack of usable evidence.
 
 Native `web_fetch` is keyless. Native DeepSeek `web_search` requires a `DEEPSEEK_API_KEY`; without that credential, it remains visible but reports a structured credential error. Secrets belong only in the ignored local `stack/stock-dsh/.env` file or the DSH credential store.
 
-## Active files
+## Reddit research skill
+
+The local DSH preset discovers the repository-owned `reddit-search` skill from
+`stack/stock-dsh/skills`. Ask DSH to use the Reddit research skill for community
+experience or explicitly select it from the skill menu. Its instructions use
+Reddit RSS for discovery and optional local Redlib for full posts and comments.
+The skill is not an MCP server and does not change the general search provider.
+
+The parser requires Python 3.10 or newer, uses only the standard library, and
+handles UTF-8 on Windows. The optional native Redlib scripts use PowerShell 7;
+on this machine Redlib is installed under `%LOCALAPPDATA%\RedditSearch\Redlib`
+and listens at `http://127.0.0.1:18080`. Check both its local health and a
+Reddit-backed request before treating it as usable. Installation and lifecycle
+instructions are bundled in the skill's `references/windows-redlib.md`.
+DSH's start/stop shortcuts do not manage Redlib.
+
+The skill folder, parser, Windows lifecycle scripts, references, and regression
+fixtures are versioned together. Run its checks with:
+
+```powershell
+python -m unittest discover -s stack/stock-dsh/skills/reddit-search/scripts/tests -v
+```
+
+For recovery, restore the repository to its documented Windows path and copy
+`stack/stock-dsh/local-preset/agent.cordis.yml` into
+`%USERPROFILE%\.dsh-stock\.agent-presets\local\agent.cordis.yml`.
+If the repository is relocated, update `customSkillDirs` in that preset.
+The repo copy takes priority over the shared user skill of the same name.
+
+## Deployment files
 
 - `stack/stock-dsh/settings.yaml` — model identities and per-model capacities
 - `stack/stock-dsh/cordis.patch.yml` — Wigolo MCP connection
 - `stack/stock-dsh/local-preset/agent.cordis.yml` — agent tools and provider preference
+- `stack/stock-dsh/skills/reddit-search/` — Reddit research instructions, parser, and optional native Redlib lifecycle
 - `stack/stock-dsh/Start-StockDSH.ps1` — verified model and service startup
 - `stack/stock-dsh/Stop-StockDSH.ps1` — scoped shutdown
 - `stack/stock-dsh/mission-control/` — dashboard, installer, lifecycle helpers, acceptance checks, and feature-parity contract

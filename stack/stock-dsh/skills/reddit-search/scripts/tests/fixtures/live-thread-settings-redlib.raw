@@ -1,0 +1,1171 @@
+
+
+<!DOCTYPE html>
+<html lang="en" class="fixed_navbar">
+	<head>
+		
+	
+		<title>
+	
+		How to use Qwen27b with Deepseek Harness - r/LocalLLaMA
+	
+</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="View on Redlib, an alternative private front-end to Reddit.">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<meta name="robots" content="noindex, nofollow">
+		
+		<!-- General PWA -->
+		<meta name="theme-color" content="#1F1F1F">
+		<!-- iOS Application -->
+		<meta name="apple-mobile-web-app-title" content="Redlib">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<!-- Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<!-- iOS Logo -->
+		<link href="/touch-icon-iphone.png" rel="apple-touch-icon">
+		<!-- OpenSearch description file -->
+		<link rel="search" type="application/opensearchdescription+xml" title="Search Redlib" href="/opensearch.xml">
+		<!-- PWA Manifest -->
+		<link rel="manifest" type="application/json" href="/manifest.json">
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="/style.css?v=0.36.0">
+		<!-- Video quality -->
+		<div id="video_quality" data-value=""></div>
+		
+	<!-- Meta Tags -->
+	<meta name="author" content="u/i_wayyy_over_think">
+	<meta name="title" content="How to use Qwen27b with Deepseek Harness - r/LocalLLaMA">
+	<meta property="og:title" content="How to use Qwen27b with Deepseek Harness - r/LocalLLaMA">
+	<meta property="og:description" content="View on Redlib, an alternative private front-end to Reddit.">
+	<meta property="og:url" content="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/">
+	<meta property="twitter:url" content="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/">
+	<meta property="twitter:title" content="How to use Qwen27b with Deepseek Harness - r/LocalLLaMA">
+	<meta property="twitter:description" content="View on Redlib, an alternative private front-end to Reddit.">
+	
+	<meta property="og:type" content="website">
+	
+	
+
+		</head>
+	<body class="
+		
+		
+		 
+		 fixed_navbar">
+		<!-- NAVIGATION BAR -->
+		<nav class="
+			 fixed_navbar">
+			<div id="logo">
+				<a id="redlib" href="/"><span id="red">red</span><span id="lib">lib.</span></a>
+				
+	<details id="feeds">
+		<summary>Feeds</summary>
+		<div id="feed_list">
+			<p>MAIN FEEDS</p>
+			<a href="/">Home</a>
+			
+				<a href="/r/popular">Popular</a>
+				<a href="/r/all">All</a>
+			
+			
+		</div>
+	</details>
+
+			</div>
+			
+	<form action="/r/LocalLLaMA/search" id="searchbox">
+	<input id="search" type="text" name="q" placeholder="Search" title="Search redlib" value="">
+	
+	<div id="inside">
+		<input type="checkbox" name="restrict_sr" id="restrict_sr" checked>
+		<label for="restrict_sr" class="search_label" title="Restrict search to this subreddit">in /r/LocalLLaMA</label>
+	</div>
+	
+	<button class="submit">
+		<svg width="15" viewBox="0 0 110 100" fill="none" stroke-width="10" stroke-linecap="round">
+			<path d="M20 50 H100" />
+			<path d="M75 15 L100 50 L75 85" />
+			&rarr;
+		</svg>
+	</button>
+</form>
+
+			<div id="links">
+				<a id="reddit_link" href="#popup">
+					<span>reddit</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 2L12 22"/>
+						<path d="M2 6.70587C3.33333 8.07884 3.33333 11.5971 3.33333 11.5971M3.33333 19.647V11.5971M3.33333 11.5971C3.33333 11.5971 5.125 7.47817 8 7.47817C10.875 7.47817 12 8.85114 12 8.85114"/>
+					</svg>
+				</a>
+				
+					<div class="popup" id="popup">
+	<div class="popup-inner">
+		<h1>You are about to leave Redlib</h1>
+		<p>Do you want to continue?</p>
+		<p id="reddit_url">https://www.reddit.com/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/</p>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 639.24 563">
+			<defs>
+				<style>.cls-1{fill:#000000;}.cls-2{fill:#f8aa00;}</style>
+			</defs>
+			<path class="cls-2" d="M322.03,0c1.95,2.5,4.88,.9,7.33,1.65,10.5,3.21,17.65,10.39,22.83,19.35,93.64,162.06,186.98,324.29,280.25,486.56,15.73,20.19,2.49,51.27-22.92,54.37-1.21,.19-2.72-.54-3.49,1.08H239.03c-70.33-2.43-141.6,.79-212.08-1.74-17.49-4.92-23.16-15.88-26.91-32.26l-.04-1.97C88.74,354.76,194.49,188.2,289.92,18.43c6.2-10.66,15.03-16.94,27.61-17.36,.95-.03,2.05,.18,2.51-1.07h2Zm-2.43,545c94.95-.02,189.9,.04,284.85-.02,11.84-.73,20.75-13.19,16.68-23.55C523.83,355.97,430.74,187.62,332.05,23.07c-7.93-9.02-22.2-6.58-27.23,3.22C230.28,156.11,155.21,285.64,80.41,415.31c-19.88,34.41-39.31,69.07-59.78,103.14-2.43,4.05-4.24,8.8-1.68,14.18,3.92,8.24,9.59,12.37,18.82,12.37,93.95,0,187.9,0,281.85,0Z"/>
+			<path class="cls-1" d="M319.61,545c-93.95,0-187.9,0-281.85,0-9.22,0-14.89-4.13-18.82-12.37-2.56-5.38-.75-10.13,1.68-14.18,20.47-34.07,39.9-68.73,59.78-103.14C155.21,285.64,230.28,156.11,304.82,26.29c5.03-9.8,19.3-12.24,27.23-3.22,98.7,164.55,191.79,332.9,289.1,498.35,4.06,10.36-4.85,22.82-16.68,23.55-94.94,.06-189.9,0-284.85,.02Zm.44-462.31C238.88,223.22,158.17,362.95,77.28,503h485.54c-80.94-140.13-161.61-279.79-242.77-420.31Z"/>
+			<path class="cls-2" d="M320.05,82.69c81.16,140.52,161.83,280.18,242.77,420.31H77.28C158.17,362.95,238.88,223.22,320.05,82.69Zm36.05,118.99c-.14-46.75-68.32-52.32-74.66-4.76,.73,51.49,9.2,102.97,12.63,154.49,1.18,13.14,10.53,21.81,23.32,22.76,13.12,.97,23.89-9.13,24.96-21.58,4.44-49.99,9.4-101.22,13.76-150.91Zm-36.56,271.4c48.8,.76,49.24-74.7-.31-75.47-53.45,3-46.02,78.12,.31,75.47Z"/>
+			<path class="cls-1" d="M356.1,201.67c-4.36,49.69-9.31,100.91-13.76,150.91-1.07,12.45-11.84,22.56-24.96,21.58-12.79-.95-22.14-9.63-23.31-22.76-3.43-51.52-11.9-103-12.63-154.49,6.33-47.53,74.51-42.03,74.66,4.76Z"/>
+			<path class="cls-1" d="M319.54,473.08c-46.34,2.64-53.75-72.47-.31-75.47,49.56,.78,49.1,76.24,.31,75.47Z"/>
+		</svg>
+		<a id="goback" href="#">No, go back!</a>
+		<a id="toreddit" href="https://www.reddit.com/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/" rel="nofollow">Yes, take me to Reddit</a>
+	</div>
+</div>
+				
+				<a id="settings_link" href="/settings">
+					<span>settings</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<title>settings</title>
+						<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+					</svg>
+				</a>
+			</div>
+		</nav>
+		
+		<!-- MAIN CONTENT -->
+		
+		<main>
+			
+	<div id="column_one">
+		<!-- POST CONTENT -->
+<div class="post highlighted">
+	<p class="post_header">
+		<a class="post_subreddit" href="/r/LocalLLaMA">r/LocalLLaMA</a>
+		<span class="dot">&bull;</span>
+		<a class="post_author " href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+		
+		<span class="dot">&bull;</span>
+		<span class="created" title="Aug 20 2026, 21:11:57 UTC">25d ago</span>
+		
+	</p>
+	<h1 class="post_title">
+		
+			<a href="/r/LocalLLaMA/search?q=flair_name%3A%22Tutorial | Guide%22&restrict_sr=on"
+				class="post_flair"
+				style="color:white; background:#0079d3;"><span>Tutorial | Guide</span></a>
+		
+		How to use Qwen27b with Deepseek Harness
+		
+		
+	</h1>
+
+	<!-- POST MEDIA -->
+	<!-- post_type: self -->
+	
+
+	<!-- POST BODY -->
+	<div class="post_body">
+		<!-- SC_OFF --><div class="md"><p>- I&#39;m assuming you already have a way to host qwen3.8-27b, but I installed docker and WSL2 and asked codex to use <a href="https://github.com/noonghunna/club-3090">https://github.com/noonghunna/club-3090</a> to get the vLLM working to host it for me. ( I ran into a stability issue with the number of MTP draft tokens, had to lower it to 3 or it would crash pretty quickly. SPEC_N=3 env variable. Saw a GitHub issue )</p>
+
+<p>- For reference: <a href="https://deepseek.com/harness/en/">https://deepseek.com/harness/en/</a></p>
+
+<p>- After you have recent-ish node.js installed, start on the command line with:</p>
+
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+
+<p>- open <a href="http://127.0.0.1:3080/">http://127.0.0.1:3080/</a> -&gt; Settings -&gt; Models</p>
+
+<p>- Add provider -&gt; select Open AI ( I see there&#39;s a Add Custom provider, but I have not tried using that way yet)</p>
+
+<p>- For Api key, use some fake value like &#39;asdf&#39;</p>
+
+<p>- Base URL, for my vllm recipe, it hosts it on http://localhost:8095/v1 . You might need to adjust.</p>
+
+<p>- Use &quot;Add Model&quot; button. Use your backend /v1/models endpoint ( like http://localhost:8095/v1/models ) in your browser to see exact values that your backend gives for the model id, for me I used qwen3.8-27b for modelID and Display Name.</p>
+
+<p>- On the same row as the model, use the dropdown arrow to adjust Context Window size and Max output Tokesn. It defaults to 32k output tokens, qwen27b likes to think a ton, so I bumped it to 64k on mine.</p>
+
+<p>- After you hit apply you should be able to see it in the new chat.</p>
+
+<p>- I found that it defaults to No thinking without being able to adjust to xhigh for instance ( but it seems like it thinks a ton &quot;out loud&quot; in the non thinking area anyway, so might be just fine as it is)</p>
+
+<p>- However, to be able to change thinking effort, open Settings -&gt; click the &quot;Open Configuration File&quot; button, and it should open settings.yaml in a text editor. You should see your new model settings in the yaml. Edit it  to add reasoningEfforts section, something like this:</p>
+
+<pre><code>llm-pi-ai:
+  providers:
+    openai:
+      baseURL: http://localhost:8095/v1
+      models:
+        - id: qwen3.8-27b
+          name: qwen3.8-27b
+          reasoningEfforts:
+            off: none
+            low: low
+            medium: medium
+            xhigh: xhigh
+          maxTokens: 64000
+      apiKeyEnv: OPENAI_API_KEY
+agent-default-model:
+  provider: openai
+  model: qwen3.8-27b
+  reasoningEffort: low
+agent-presets:
+  default: code
+</code></pre>
+</div><!-- SC_ON -->
+		
+	
+	</div>
+	<div class="post_score" title="2">
+    
+    2
+    
+    <span class="label"> Upvotes</span></div>
+	<div class="post_footer">
+		<ul id="post_links">
+			<li>
+				<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/">
+					<span class="desktop_item">perma</span>link
+				</a>
+			</li>
+			
+			<li>
+				<a href="/r/LocalLLaMA/duplicates/1vtw870">
+					dup<span class="desktop_item">licat</span>es
+				</a>
+			</li>
+			
+			
+			
+<li>
+	<a
+		
+		href="#popup"
+		
+	>reddit</a>
+
+	
+		<div class="popup" id="popup">
+	<div class="popup-inner">
+		<h1>You are about to leave Redlib</h1>
+		<p>Do you want to continue?</p>
+		<p id="reddit_url">https://www.reddit.com/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/</p>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 639.24 563">
+			<defs>
+				<style>.cls-1{fill:#000000;}.cls-2{fill:#f8aa00;}</style>
+			</defs>
+			<path class="cls-2" d="M322.03,0c1.95,2.5,4.88,.9,7.33,1.65,10.5,3.21,17.65,10.39,22.83,19.35,93.64,162.06,186.98,324.29,280.25,486.56,15.73,20.19,2.49,51.27-22.92,54.37-1.21,.19-2.72-.54-3.49,1.08H239.03c-70.33-2.43-141.6,.79-212.08-1.74-17.49-4.92-23.16-15.88-26.91-32.26l-.04-1.97C88.74,354.76,194.49,188.2,289.92,18.43c6.2-10.66,15.03-16.94,27.61-17.36,.95-.03,2.05,.18,2.51-1.07h2Zm-2.43,545c94.95-.02,189.9,.04,284.85-.02,11.84-.73,20.75-13.19,16.68-23.55C523.83,355.97,430.74,187.62,332.05,23.07c-7.93-9.02-22.2-6.58-27.23,3.22C230.28,156.11,155.21,285.64,80.41,415.31c-19.88,34.41-39.31,69.07-59.78,103.14-2.43,4.05-4.24,8.8-1.68,14.18,3.92,8.24,9.59,12.37,18.82,12.37,93.95,0,187.9,0,281.85,0Z"/>
+			<path class="cls-1" d="M319.61,545c-93.95,0-187.9,0-281.85,0-9.22,0-14.89-4.13-18.82-12.37-2.56-5.38-.75-10.13,1.68-14.18,20.47-34.07,39.9-68.73,59.78-103.14C155.21,285.64,230.28,156.11,304.82,26.29c5.03-9.8,19.3-12.24,27.23-3.22,98.7,164.55,191.79,332.9,289.1,498.35,4.06,10.36-4.85,22.82-16.68,23.55-94.94,.06-189.9,0-284.85,.02Zm.44-462.31C238.88,223.22,158.17,362.95,77.28,503h485.54c-80.94-140.13-161.61-279.79-242.77-420.31Z"/>
+			<path class="cls-2" d="M320.05,82.69c81.16,140.52,161.83,280.18,242.77,420.31H77.28C158.17,362.95,238.88,223.22,320.05,82.69Zm36.05,118.99c-.14-46.75-68.32-52.32-74.66-4.76,.73,51.49,9.2,102.97,12.63,154.49,1.18,13.14,10.53,21.81,23.32,22.76,13.12,.97,23.89-9.13,24.96-21.58,4.44-49.99,9.4-101.22,13.76-150.91Zm-36.56,271.4c48.8,.76,49.24-74.7-.31-75.47-53.45,3-46.02,78.12,.31,75.47Z"/>
+			<path class="cls-1" d="M356.1,201.67c-4.36,49.69-9.31,100.91-13.76,150.91-1.07,12.45-11.84,22.56-24.96,21.58-12.79-.95-22.14-9.63-23.31-22.76-3.43-51.52-11.9-103-12.63-154.49,6.33-47.53,74.51-42.03,74.66,4.76Z"/>
+			<path class="cls-1" d="M319.54,473.08c-46.34,2.64-53.75-72.47-.31-75.47,49.56,.78,49.1,76.24,.31,75.47Z"/>
+		</svg>
+		<a id="goback" href="#">No, go back!</a>
+		<a id="toreddit" href="https://www.reddit.com/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/" rel="nofollow">Yes, take me to Reddit</a>
+	</div>
+</div>
+	
+</li>
+
+
+			
+		</ul>
+		<p>75%<span id="upvoted"> Upvoted</span></p>
+	</div>
+</div>
+
+		<!-- SORT FORM -->
+       <div id="commentQueryForms">
+		<form id="sort">
+			<p id="comment_count">24 comments <span id="sorted_by">sorted by </span></p>
+			<select name="sort" title="Sort comments by" id="commentSortSelect"> 
+				
+		<option value="confidence" selected>
+			Confidence
+		</option>
+	
+		<option value="top" >
+			Top
+		</option>
+	
+		<option value="new" >
+			New
+		</option>
+	
+		<option value="controversial" >
+			Controversial
+		</option>
+	
+		<option value="old" >
+			Old
+		</option>
+	
+      </select>
+        <button id="sort_submit" class="submit">
+          <svg width="15" viewBox="0 0 110 100" fill="none" stroke-width="10" stroke-linecap="round">
+              <path d="M20 50 H100" />
+              <path d="M75 15 L100 50 L75 85" />
+              &rarr;
+          </svg>
+      </button>
+      </form>
+      <!-- SEARCH FORM -->
+      <form id="sort">
+        <input id="search" class="commentQuery" type="search" name="q" value="" placeholder="Search comments">
+        <input type="hidden" name="type" value="comment">
+      </form>
+      </div>
+  
+      <div>
+      
+      </div>
+
+		<!-- COMMENTS -->
+		<div class="thread">
+			
+			
+			
+
+
+<div id="p4wl2kk" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="5">
+         
+         5
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Asleep-Land-3914">u/Asleep-Land-3914</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wl2kk/?context=3#p4wl2kk" class="created" title="Aug 20 2026, 21:23:34 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Here is my config:</p>
+
+<p>I had to manually specify context window size and make it lower than actual context in order for compaction to not fail.</p>
+
+<p><code>
+llm-pi-ai:
+  providers:
+    llamacpp:
+      api: openai-completions
+      baseURL: http://&lt;HOST&gt;:8080/v1
+      streamIdleTimeoutMs: 3000000
+      compat:
+        thinkingFormat: deepseek
+      models:
+        - id: qwen-code
+          name: Qwen 3.8 27b xhigh
+          contextWindow: 136000
+          maxTokens: 65000
+          reasoningEfforts:
+            off:
+            low: low
+            medium: medium
+            xhigh: xhigh
+          input:
+            - text
+            - image
+      apiKeyEnv: LLAMACPP_API_KEY
+agent-default-model:
+  provider: llamacpp
+  model: qwen-code
+  reasoningEffort: medium
+</code></p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p5fgglq" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/SplitAny7190">u/SplitAny7190</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p5fgglq/?context=3#p5fgglq" class="created" title="Aug 23 2026, 16:01:06 UTC">22d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>i don&#39;t understand the diff between contextWindow and maxTokens. For example i can run the model (unsloth) at 128k context and is full in GPU but i tried different settings here on deepseek harness and i keep get into output max tokens reached error and it stops</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p5gkc4a" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Asleep-Land-3914">u/Asleep-Land-3914</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p5gkc4a/?context=3#p5gkc4a" class="created" title="Aug 23 2026, 18:57:23 UTC">22d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Max tokens is a per completion request setting. If you reach your context size before reaching max tokens it&#39;ll still stop inference.</p>
+
+<p>Use medium effort and bump the value to 65k. At least this is what helped me</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wwf5n" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="5">
+         
+         5
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/skeole">u/skeole</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wwf5n/?context=3#p4wwf5n" class="created" title="Aug 20 2026, 22:18:48 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Defaults for reasoning effort level don&#39;t work out of the box. They require   </p>
+
+<p>(1)  chat_template_kwargs to be passed to the backend in the request body and<br/>
+(2) openai-completions (responses doesn&#39;t support this).  </p>
+
+<p>That&#39;s how you can dynamically control what gets sent to the jinja template for the model in both llama.cpp and vLLM.</p>
+
+<p>Specifically, this is the relevant block that enables chat template wrangling. This requires dsh rc-8, I tried to do this voodoo on rc-7 and turns out it&#39;s not supported, so upgrade to rc-8.</p>
+
+<pre><code>          compat:
+            thinkingFormat: chat-template
+            chatTemplateKwargs:
+              # thinking on/off and effort follow the per-request thinking state
+              # (the UI toggle), like pi does; effort is omitted when thinking is off.
+              enable_thinking:
+                $var: thinking.enabled
+              reasoning_effort:
+                $var: thinking.effort
+                omitWhenOff: true
+              preserve_thinking: true
+</code></pre>
+
+<p>My full config (~/.dsh/settings.yaml) is below.</p>
+
+<pre><code>ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+llm-pi-ai:
+  providers:
+    llamacpp:
+      apiKeyEnv: LLAMACPP_API_KEY
+      api: openai-completions
+      reasoning: xhigh
+      retryPolicy:
+        mode: normal
+        maxRetries: 10
+        backoff:
+          initialDelayMs: 500
+          maxDelayMs: 9000000
+          jitterRatio: 0.1
+      baseURL: http://127.0.0.1:9999/v1
+      models:
+        - id: qwen-3.8-27B
+          contextWindow: 142336
+          maxTokens: 65536
+          input:
+            - text
+            - image
+          reasoningEfforts:
+            off:
+            low: low
+            medium: medium
+            high: xhigh
+            xhigh: xhigh
+            max: xhigh
+          compat:
+            thinkingFormat: chat-template
+            chatTemplateKwargs:
+              enable_thinking:
+                $var: thinking.enabled
+              reasoning_effort:
+                $var: thinking.effort
+                omitWhenOff: true
+              preserve_thinking: true
+    vllm:
+      apiKeyEnv: VLLM_API_KEY
+      api: openai-completions
+      reasoning: max
+      baseURL: http://127.0.0.1:18020/v1
+      models:
+        - id: qwen3.8-27b
+          contextWindow: 150000
+          maxTokens: 16000
+          reasoningEfforts:
+            off:
+            low: low
+            medium: medium
+            max: xhigh
+          compat:
+            thinkingFormat: chat-template
+            chatTemplateKwargs:
+              enable_thinking:
+                $var: thinking.enabled
+              reasoning_effort:
+                $var: thinking.effort
+                omitWhenOff: true
+              preserve_thinking: true
+agent-default-model:
+  provider: vllm
+  model: qwen3.8-27b
+  reasoningEffort: max
+</code></pre>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4x2exw" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4x2exw/?context=3#p4x2exw" class="created" title="Aug 20 2026, 22:49:29 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Thanks for those details. I’m wondering if the model I used in vllm had a lot of that taken care of already. Only needed the few things I posted in my particular case. I guess llama.cpp needs more. </p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wlal2" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="3">
+         
+         3
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/LagOps91">u/LagOps91</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wlal2/?context=3#p4wlal2" class="created" title="Aug 20 2026, 21:24:37 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>well the model doesn&#39;t have a high reasoning mode. you can look at the chat template and it only shows custom handling for low and xhigh. medium ist just leaving out any addition to system prompt.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wmz9u" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="3">
+         
+         3
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/ea_man">u/ea_man</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wmz9u/?context=3#p4wmz9u" class="created" title="Aug 20 2026, 21:32:34 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>There&#39;s no high reasoning effort, remove that.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4wn82u" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wn82u/?context=3#p4wn82u" class="created" title="Aug 20 2026, 21:33:44 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>ty, corrected.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wot7d" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wot7d/?context=3#p4wot7d" class="created" title="Aug 20 2026, 21:41:19 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I let it have fun trying to find a counter example to the Jacobian conjecture ( was standing for 80 years before Claude fable knocked it down ). It was happily chugging away on it for like 8 hours and 100 experiments before I gave it the answer. Was curious if I just let it run for a week straight if it could have done so. </p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4wyuhl" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Several-Tax31">u/Several-Tax31</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wyuhl/?context=3#p4wyuhl" class="created" title="Aug 20 2026, 22:31:05 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Tell me more, I also want to test this. What was your prompt? How did you make it run for 8 hours and 100 experiments? How did you configure the subagents? Or is it all automatic? I guess I need another tutorial now lmao.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4x3q5q" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4x3q5q/?context=3#p4x3q5q" class="created" title="Aug 20 2026, 22:56:11 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>You can activate the goal with the + plus button.<br/>
+But actually it would still get discouraged and give up and act like the goal was done after a few rounds. </p>
+
+<p>I noticed it can launch background tasks automatically, and it activates a turn for it when it was done. I was tempted to ask it to launch a 1 hour back ground task that would just sleep and tell it to keep going and to relaunch it when the hour was done. </p>
+
+<p>I asked it to keep a log.md of the things it tried and to keep trying different things. And it just settled on numbering experiments and eventually got to 100. Basically I promoted </p>
+
+<p>“Find a counter example to the Jacobian conjecture. Yes it’s fields metal worthy, but I believe in you. Keep a log of things your tried. And don’t stop” then I used the goal button to make it keep going. There’s a pause/play button /on the goal that you can watch to make sure the goal is armed and causes another turn when it thinks it’s done with  its turn. </p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4x77pf" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Several-Tax31">u/Several-Tax31</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4x77pf/?context=3#p4x77pf" class="created" title="Aug 20 2026, 23:14:29 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Okay, I&#39;m excited to test this now. Thanks for the tips :) Obviously, jaconian conjectire won&#39;t work, but there are a few other mathematical research questions that I want to test</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wnz05" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Beginning-Raisin9723">u/Beginning-Raisin9723</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wnz05/?context=3#p4wnz05" class="created" title="Aug 20 2026, 21:37:17 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Nice guide. Using vLLM on WSL2 usually does the trick, but I&#39;ve found that tuning the context window is where the real battle is for these 27b models. Appreciate the heads up on the 64k bump.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4x7zp8" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/cviperr33">u/cviperr33</a>
+			
+			
+				<small class="author_flair"><span class="emoji" style="background-image:url('/emoji/08m5x9chttjf1_t5_81eyvm/Discord');"></span></small>
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4x7zp8/?context=3#p4x7zp8" class="created" title="Aug 20 2026, 23:18:37 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>i spent 3 hours today just starting and stopping vllm to find the absolute maximum contex window with my setup 😄</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p4wpui0" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/llamabott">u/llamabott</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wpui0/?context=3#p4wpui0" class="created" title="Aug 20 2026, 21:46:17 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>OP, I notice you have agent-presets default to `code`. I assume this puts dsh into &quot;PTC mode&quot;. Is that actually working out for you?</p>
+
+<p>PTC mode seems super-interesting but it did not work out for me with Qwen 3.8 27B. It was inserting stray characters like hashmarks into the TypeScript code, as if it was slipping into Python or bash mode, which led me to the conclusion that the model would probably need some dedicated post-training to behave with this new harness feature.</p>
+
+<p>PTC mode has worked great for me so far with Deepseek Flash (via API), but yea.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4wu09m" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="2">
+         
+         2
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wu09m/?context=3#p4wu09m" class="created" title="Aug 20 2026, 22:06:43 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I just gave it &quot;can you make an npendulum simulation in html5 javascript&quot; and did it one shot fine :shrug: example: <a href="https://output.jsbin.com/vikojopope">https://output.jsbin.com/vikojopope</a> </p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p4wsw3q" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wsw3q/?context=3#p4wsw3q" class="created" title="Aug 20 2026, 22:01:10 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I&#39;ve  not played a ton with it yet, but seems to work fine for me on python. But haven&#39;t used it for typescript. I&#39;d have to play between the different modes to know for sure. My model is qwen3.8-27b-autoround-int4</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p4wu346" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/llamabott">u/llamabott</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wu346/?context=3#p4wu346" class="created" title="Aug 20 2026, 22:07:08 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>PTC mode works by having the model itself write its own TypeScript code as the tool call itself, so that&#39;s what I was referring to. This is independent of the language of the user&#39;s project code. FWIW.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p4wubc2" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p4wubc2/?context=3#p4wubc2" class="created" title="Aug 20 2026, 22:08:16 UTC">25d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>I just gave it &quot;can you make an npendulum simulation in html5 javascript&quot; and did it one shot fine :shrug: Did some inline typescript tests too, which I think is the PTC mode.</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div><div class="thread">
+			
+			
+			
+
+
+<div id="p6j15an" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/DrRoughFingers">u/DrRoughFingers</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p6j15an/?context=3#p6j15an" class="created" title="Aug 29 2026, 01:08:42 UTC">17d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>For the life of me I cannot get tool calling to working in DSH with Unsloth and Qwen3.8 27B. It just outputs the tool calls as response. It&#39;s driving me crazy.</p>
+</div></div>
+		
+		<blockquote class="replies">
+
+
+<div id="p6vezgi" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  op" href="/user/i_wayyy_over_think">u/i_wayyy_over_think</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p6vezgi/?context=3#p6vezgi" class="created" title="Aug 30 2026, 21:52:51 UTC">15d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Might need some extra config like this person <a href="/r/LocalLLaMA/s/WpKqEe9UOd">https://www.reddit.com/r/LocalLLaMA/s/WpKqEe9UOd</a></p>
+
+<p>Things just worked when I used the recipe in the club-3090 git repo that uses vLLM with the autoround int4 model. </p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+
+
+<div id="p8en2bj" class="comment">
+	<div class="comment_left">
+    <p class="comment_score" title="1">
+         
+         1
+         
+    </p>
+        <div class="line"></div>
+	</div>
+	<details class="comment_right" open>
+		<summary class="comment_data">
+			
+				<a class="comment_author  " href="/user/Sufficient-Grape-594">u/Sufficient-Grape-594</a>
+			
+			
+			<a href="/r/LocalLLaMA/comments/1vtw870/how_to_use_qwen27b_with_deepseek_harness/p8en2bj/?context=3#p8en2bj" class="created" title="Sep 07 2026, 19:03:43 UTC">7d ago</a>
+			
+			
+		</summary>
+		
+		<div class="comment_body "><div class="md"><p>Usually something to do with the Jinja template. Had the same issue and changed the template and it started working</p>
+</div></div>
+		
+		<blockquote class="replies">
+		</blockquote>
+	</details>
+</div>
+
+		</blockquote>
+	</details>
+</div>
+
+		</div>
+
+	</div>
+
+		</main>
+		
+
+		<!-- FOOTER -->
+		
+			<footer>
+				<div class="footer-buttons">
+					<p><span id="version">v0.36.0&emsp;</span><a href="/info" title="View instance information">ⓘ View instance info</a>&emsp;<a href="https://github.com/redlib-org/redlib" title="View code on GitHub">&lt;&gt; Code</a></p>
+				</div>
+			</footer>
+		
+	</body>
+</html>
