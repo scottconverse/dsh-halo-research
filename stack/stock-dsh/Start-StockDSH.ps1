@@ -26,6 +26,17 @@ New-Item -ItemType Directory -Force -Path $logs | Out-Null
 New-Item -ItemType Directory -Force -Path $missionControlData | Out-Null
 $env:DSH_HOME = $dshHome
 
+# Profiles and user presets live outside this deployment. Let Node resolve the
+# pinned optional stock packages from their normal parent lookup path too.
+$homeModules = Join-Path $dshHome 'node_modules'
+$deploymentModules = Join-Path $deploy 'node_modules'
+if (-not (Test-Path -LiteralPath $homeModules)) {
+    if (-not (Test-Path -LiteralPath $deploymentModules -PathType Container)) {
+        throw "Install the pinned DSH dependencies first: $deploymentModules is missing."
+    }
+    New-Item -ItemType Junction -Path $homeModules -Target $deploymentModules | Out-Null
+}
+
 function Write-StackLog([string] $Message) {
     Add-Content -LiteralPath (Join-Path $logs 'stack-lifecycle.log') -Value "$(Get-Date -Format o) $Message"
 }

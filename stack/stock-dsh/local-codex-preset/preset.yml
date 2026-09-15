@@ -1,0 +1,4 @@
+name: Local + Codex (opt-in)
+description: Local Halo tools with explicit optional Codex Luna delegation; uses Codex
+  subscription.
+order: 1

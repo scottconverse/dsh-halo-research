@@ -32,6 +32,8 @@ llm-pi-ai:
           maxTokens: 8192
           input: [ text ]
           reasoningEfforts: false
+    google:
+      apiKeyEnv: GOOGLE_API_KEY
 subagent-model-selection:
   enabled: true
   allowedModels:

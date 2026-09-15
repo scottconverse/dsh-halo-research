@@ -4,7 +4,7 @@ This repository maintains the local DeepSeek Harness deployment used on the Halo
 
 ## Supported stack
 
-- DeepSeek Harness `0.1.5-rc.2`
+- DeepSeek Harness `0.1.6-alpha.1`
 - LM Studio on `127.0.0.1:1234`
 - Wigolo connected over MCP stdio as the primary research provider
 - DSH native `web_search` and `web_fetch` exposed as fallback tools
@@ -96,3 +96,7 @@ The repo copy takes priority over the shared user skill of the same name.
 - `stack/Launch-Halo.ps1` — compatibility entrypoint for the existing shortcut
 
 Older research reports and inactive experiments are preserved in Git history and the pre-cleanup tag. The supported deployment boundary is `stack/stock-dsh`.
+
+## September 15 stock upgrade
+
+The [alpha upgrade guide](docs/DSH-ALPHA-UPGRADE-2026-09-15.md) covers history search, TypeScript/Python navigation, Chrome interaction, persistent PowerShell and the stock Terminal panel, optional native Codex delegation, and the optional Gemini connection. The existing local coder remains the default.

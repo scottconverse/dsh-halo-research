@@ -209,9 +209,8 @@
         toolName: subagent_fork
         backgroundMode: continuable
 
-    # Production dsh does not install these optional providers. Install the
-    # matching Bundle in this Profile and restart the Host, then copy this
-    # preset and remove `disabled` from the matching tool row. Host availability
+    # Codex is installed on the host but exposed only in local-codex.
+    # Claude Code remains optional and is not installed. Host availability
     # alone grants no tool.
     - id: tool-subagent-codex
       name: '@deepseek-ai/dsh-tool-subagent'
@@ -231,8 +230,8 @@
         backgroundMode: one-shot
         maxDepth: provider-managed
 
-    - id: workflow-worker-thread
-      name: '@deepseek-ai/dsh-workflow-worker-thread'
+    - id: workflow-ptc
+      name: '@deepseek-ai/dsh-workflow-ptc'
       config:
         provider: spawn
 
@@ -265,3 +264,48 @@
 
 - id: present
   name: '@deepseek-ai/dsh-tool-present'
+
+# Source-derived agent-preset overlay for DSH v0.1.6-alpha.1.
+# The group gives the model-facing history tools their private agent realm;
+# they resolve the host ctx.sessionQuery service mounted in host-config.yaml.
+- id: history-tools
+  name: cordis:group
+  group: true
+  isolate:
+    sessionQueryTools: true
+  config:
+    - id: tool-session-query
+      name: '@deepseek-ai/dsh-tool-session-query'
+      config:
+        maxSearchResults: 100
+        searchTimeoutMs: 30000
+
+# LSP consumer is model-facing and resolves the host lsp registry. Like the
+# existing host-registry tools, leave it outside an entry-local isolate.
+- id: tool-lsp
+  name: '@deepseek-ai/dsh-tool-lsp'
+  config:
+    maxLocations: 100
+    maxResultChars: 16000
+    timeoutMs: 60000
+
+# Stock persistent terminals alongside the existing one-shot pwsh tool.
+- id: persistent-terminal
+  name: cordis:group
+  group: true
+  isolate:
+    terminals: true
+  config:
+    - id: pty
+      name: '@deepseek-ai/dsh-terminal'
+    - id: terminal-pwsh
+      name: '@deepseek-ai/dsh-terminal-bash'
+      config:
+        backendType: shell
+        shellDialect: pwsh
+        timeoutMs: 300000
+    - id: tool-terminal
+      name: '@deepseek-ai/dsh-tool-terminal'
+      config:
+        enableRunInBackground: true
+        maxResultBytes: 16384

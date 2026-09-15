@@ -167,7 +167,7 @@ const TUNED_BRAIN_27B = {
   definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.8-27b', 'model.yaml'),
 };
 const START_DSH = path.resolve(process.env.HALO_START_DSH || path.join(DSH_ROOT, 'Start-StockDSH.ps1'));
-const DSH_VERSION_PIN = '0.1.5-rc.2';
+const DSH_VERSION_PIN = '0.1.6-alpha.1';
 const DSH_ORIGIN = 'http://127.0.0.1:3080';
 const DSH_STDOUT_LOG = path.join(DSH_ROOT, 'logs', 'dsh.stdout.log');
 // Capture launch authority exactly once, then remove it from the process-wide

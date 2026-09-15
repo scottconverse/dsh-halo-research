@@ -1,3 +1,4 @@
 name: Local models
-description: Stock standard preset with the proven local coder as the default spawned worker; web tools supplied by Wigolo.
+description: Local Halo models with stock history search, LSP, Chrome, persistent
+  terminals and Wigolo.
 order: 0

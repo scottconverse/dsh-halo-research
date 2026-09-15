@@ -1,0 +1,424 @@
+{
+  "version": "0.1.6-alpha.1",
+  "sourceCommit": "0a15e36e7f82b6ed45af6fa9759f29b40dcd965d",
+  "services": {
+    "cockpit": true,
+    "lmstudio": true,
+    "lmsCli": true,
+    "dshVersionPin": "0.1.6-alpha.1",
+    "lmsCliVersion": "commit ff50809",
+    "lmStudioVersion": "0.4.24 (last recorded)",
+    "engine": "llama.cpp-win-x86_64-vulkan-avx2@2.38.0",
+    "engineChanged": false
+  },
+  "plugins": {
+    "total": 168,
+    "active": 141,
+    "disabled": 27,
+    "waiting": 0,
+    "transitioning": 0,
+    "failed": 0,
+    "stuck": 0,
+    "failedList": [],
+    "waitingList": [],
+    "stuckList": [],
+    "stale": false,
+    "cacheState": "current",
+    "sampledAt": 1789503532516,
+    "sourceAgeMs": 22116,
+    "refreshError": null
+  },
+  "validation": {
+    "when": 1789503553048,
+    "ok": true,
+    "warnings": [],
+    "freshness": {
+      "state": "current",
+      "ageMs": 1587
+    }
+  },
+  "missionControlInstall": {
+    "SchemaVersion": 1,
+    "ReceiptType": "HaloMissionControlInstall",
+    "RecordedAt": "2026-09-15T20:04:19.4274975Z",
+    "Action": "Installed",
+    "Source": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\mission-control.mjs",
+    "Destination": "C:\\Users\\scott\\.dsh-stock\\mission-control\\mission-control.mjs",
+    "Sha256": "7CF2BA3E5C35CF9F5557A8DEAA7351ECA3A3C0D488F9DA863220E894017A3002",
+    "SourceSha256": "7CF2BA3E5C35CF9F5557A8DEAA7351ECA3A3C0D488F9DA863220E894017A3002",
+    "PreviousDestinationSha256": "10E4C8AF14861FD5D77AEC4CBCCE90E337DCEE928A1DE51807DAEAD91DE57FE5",
+    "InstalledSha256": "7CF2BA3E5C35CF9F5557A8DEAA7351ECA3A3C0D488F9DA863220E894017A3002",
+    "Backup": "C:\\Users\\scott\\.dsh-stock\\mission-control\\backups\\mission-control-20260915-140419-209-75544906.mjs",
+    "BackupSha256": "10E4C8AF14861FD5D77AEC4CBCCE90E337DCEE928A1DE51807DAEAD91DE57FE5",
+    "SyntaxCheck": {
+      "Command": "node --check \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\mission-control.mjs\"",
+      "Result": "Passed"
+    },
+    "TestsRan": true,
+    "TestResult": "Passed",
+    "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\reasoning-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\data-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\ui-contract.test.mjs\"; node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\installer-contract.test.mjs\"",
+    "ContractSuites": [
+      {
+        "Name": "reasoning-contract.test.mjs",
+        "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\reasoning-contract.test.mjs",
+        "SuiteSha256": "4AE84D795D99AB2C6020F246387155994C758AA69DB1BC84EF36C584A9CFF4C8",
+        "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\reasoning-contract.test.mjs\"",
+        "TestResult": "Passed"
+      },
+      {
+        "Name": "data-contract.test.mjs",
+        "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\data-contract.test.mjs",
+        "SuiteSha256": "B1DB843CCB54D1C2F69D790034EDFBCF2D649E215B8D2BA75FC6537C751EAD72",
+        "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\data-contract.test.mjs\"",
+        "TestResult": "Passed"
+      },
+      {
+        "Name": "ui-contract.test.mjs",
+        "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\ui-contract.test.mjs",
+        "SuiteSha256": "473327D81EB7E2B2C8C4012259BBB2F3CE37F09C9E3F84E317652AF1ADFEB59E",
+        "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\ui-contract.test.mjs\"",
+        "TestResult": "Passed"
+      },
+      {
+        "Name": "installer-contract.test.mjs",
+        "Path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\installer-contract.test.mjs",
+        "SuiteSha256": "11D8A300CFFE5AA7E2491DF1EFC09320BC5F883A6E0DD2B8B55BC6DD20A4057C",
+        "TestCommand": "node --test \"C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\test\\installer-contract.test.mjs\"",
+        "TestResult": "Passed"
+      }
+    ]
+  },
+  "pickerContracts": {
+    "passed": 4,
+    "failed": 0
+  },
+  "defaultModel": {
+    "provider": "lmstudio",
+    "model": "halo-coder-q4km"
+  },
+  "defaultPreset": "local",
+  "codexOptIn": {
+    "ordinaryDisabled": true,
+    "optInEnabled": true,
+    "ordinaryLiveHeaderHasCodex": false
+  },
+  "models": [
+    {
+      "id": "halo-coder-q4km",
+      "contextLength": 131072,
+      "status": "idle"
+    },
+    {
+      "id": "halo-brain-35b",
+      "contextLength": 131072,
+      "status": "idle"
+    }
+  ],
+  "liveSessionId": "session-6b021a27-af3f-43a2-a644-9cf1c111755e",
+  "liveToolResults": [
+    {
+      "type": "tool/call",
+      "seq": 17,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "callId": "zSCVkgi9edeiMSbpE69Qf7b8s8n8hj50",
+        "name": "session_search",
+        "arguments": "{\"query\":\"tuning acceptance conversation\"}"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 18,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "source": {
+            "kind": "tool",
+            "callId": "zSCVkgi9edeiMSbpE69Qf7b8s8n8hj50"
+          },
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "zSCVkgi9edeiMSbpE69Qf7b8s8n8hj50",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No prior session matches found."
+                }
+              ],
+              "isError": false
+            }
+          ],
+          "role": "user",
+          "id": "69c6a1c5-beaa-4cc3-92f7-f36972f982da"
+        }
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 22,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "callId": "omNYWfT3aGgfYTz4RGWWiL6qF4FKT6uV",
+        "name": "glob",
+        "arguments": "{\"pattern\":\"**/alpha-tools/use.ts\"}"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 23,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "message": {
+          "source": {
+            "kind": "tool",
+            "callId": "omNYWfT3aGgfYTz4RGWWiL6qF4FKT6uV"
+          },
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "omNYWfT3aGgfYTz4RGWWiL6qF4FKT6uV",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "alpha-tools\\use.ts"
+                }
+              ],
+              "isError": false
+            }
+          ],
+          "role": "user",
+          "id": "7200b16a-5ddb-407c-9599-b45b437b9e94"
+        },
+        "meta": {
+          "shape": "paths",
+          "paths": [
+            "alpha-tools\\use.ts"
+          ],
+          "truncated": false,
+          "total": 1
+        }
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 27,
+      "data": {
+        "turn": 1,
+        "step": 3,
+        "callId": "XOF66Z90Y1hmXBpiBZSQ3cBP4TXBH7NA",
+        "name": "lsp",
+        "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"alpha-tools/use.ts\",\"line\":1,\"character\":10}"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 28,
+      "data": {
+        "turn": 1,
+        "step": 3,
+        "message": {
+          "source": {
+            "kind": "tool",
+            "callId": "XOF66Z90Y1hmXBpiBZSQ3cBP4TXBH7NA"
+          },
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "XOF66Z90Y1hmXBpiBZSQ3cBP4TXBH7NA",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "alpha-tools/use.ts:1:10"
+                }
+              ],
+              "isError": false
+            }
+          ],
+          "role": "user",
+          "id": "c528da6c-2030-4728-8aec-71914ab009c6"
+        }
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 40,
+      "data": {
+        "turn": 2,
+        "step": 1,
+        "callId": "HrFxgBNMIVW7t1zw4yfrv9W3xXXDBs8g",
+        "name": "session_search",
+        "arguments": "{\"query\":\"events\"}"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 41,
+      "data": {
+        "turn": 2,
+        "step": 1,
+        "message": {
+          "source": {
+            "kind": "tool",
+            "callId": "HrFxgBNMIVW7t1zw4yfrv9W3xXXDBs8g"
+          },
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "HrFxgBNMIVW7t1zw4yfrv9W3xXXDBs8g",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Session search results (1):\n\n1. Session session-ff92e9c8-39c1-4e2a-b267-fe98e881ebdf \u2014 Tuning acceptance: halo-coder-q4km\n   Created: 2026-09-15T18:39:28.364Z\n   Parent: root\n   Availability: persisted\n   Best match: seq 61 | assistant/message | current | 2026-09-15T18:40:41.000Z\n   Snippet: \u2026de a final summary report. ## Task Completion Report I have successfully fixed `events.mjs` to satisfy all requirements from `requirements.txt` and passed all tests in `events.test.mjs`. ### Implementation Details The implemented function\u2026"
+                }
+              ],
+              "isError": false
+            }
+          ],
+          "role": "user",
+          "id": "8b62f129-2fc1-440d-865e-abf92442ef6e"
+        }
+      }
+    },
+    {
+      "type": "tool/call",
+      "seq": 55,
+      "data": {
+        "turn": 3,
+        "step": 1,
+        "callId": "Mz6leGclslelwy3NiotN9gmx5ahJkNy0",
+        "name": "lsp",
+        "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"alpha-tools/use.ts\",\"line\":2,\"character\":13}"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 56,
+      "data": {
+        "turn": 3,
+        "step": 1,
+        "message": {
+          "source": {
+            "kind": "tool",
+            "callId": "Mz6leGclslelwy3NiotN9gmx5ahJkNy0"
+          },
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "Mz6leGclslelwy3NiotN9gmx5ahJkNy0",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "alpha-tools/definition.ts:1:17"
+                }
+              ],
+              "isError": false
+            }
+          ],
+          "role": "user",
+          "id": "1ff6cd57-e1dc-416e-85be-f7bb339b8ed6"
+        }
+      }
+    }
+  ],
+  "toolNames": [
+    "ask_user_question",
+    "create_goal",
+    "edit",
+    "exit_plan_mode",
+    "get_goal",
+    "glob",
+    "grep",
+    "interrupt_agent",
+    "job_kill",
+    "job_list",
+    "job_output",
+    "list_agents",
+    "list_mcp_resource_templates",
+    "list_mcp_resources",
+    "list_subagent_models",
+    "lsp",
+    "mcp__chrome-devtools-mcp__click",
+    "mcp__chrome-devtools-mcp__close_page",
+    "mcp__chrome-devtools-mcp__drag",
+    "mcp__chrome-devtools-mcp__emulate",
+    "mcp__chrome-devtools-mcp__evaluate_script",
+    "mcp__chrome-devtools-mcp__fill",
+    "mcp__chrome-devtools-mcp__fill_form",
+    "mcp__chrome-devtools-mcp__get_console_message",
+    "mcp__chrome-devtools-mcp__get_network_request",
+    "mcp__chrome-devtools-mcp__handle_dialog",
+    "mcp__chrome-devtools-mcp__hover",
+    "mcp__chrome-devtools-mcp__lighthouse_audit",
+    "mcp__chrome-devtools-mcp__list_console_messages",
+    "mcp__chrome-devtools-mcp__list_network_requests",
+    "mcp__chrome-devtools-mcp__list_pages",
+    "mcp__chrome-devtools-mcp__navigate_page",
+    "mcp__chrome-devtools-mcp__new_page",
+    "mcp__chrome-devtools-mcp__performance_analyze_insight",
+    "mcp__chrome-devtools-mcp__performance_start_trace",
+    "mcp__chrome-devtools-mcp__performance_stop_trace",
+    "mcp__chrome-devtools-mcp__press_key",
+    "mcp__chrome-devtools-mcp__resize_page",
+    "mcp__chrome-devtools-mcp__select_page",
+    "mcp__chrome-devtools-mcp__take_heapsnapshot",
+    "mcp__chrome-devtools-mcp__take_screenshot",
+    "mcp__chrome-devtools-mcp__take_snapshot",
+    "mcp__chrome-devtools-mcp__type_text",
+    "mcp__chrome-devtools-mcp__upload_file",
+    "mcp__chrome-devtools-mcp__wait_for",
+    "mcp__reference_memory__add_observations",
+    "mcp__reference_memory__create_entities",
+    "mcp__reference_memory__create_relations",
+    "mcp__reference_memory__delete_entities",
+    "mcp__reference_memory__delete_observations",
+    "mcp__reference_memory__delete_relations",
+    "mcp__reference_memory__open_nodes",
+    "mcp__reference_memory__read_graph",
+    "mcp__reference_memory__search_nodes",
+    "mcp__wigolo__agent",
+    "mcp__wigolo__cache",
+    "mcp__wigolo__crawl",
+    "mcp__wigolo__diff",
+    "mcp__wigolo__extract",
+    "mcp__wigolo__fetch",
+    "mcp__wigolo__find_similar",
+    "mcp__wigolo__research",
+    "mcp__wigolo__search",
+    "mcp__wigolo__watch",
+    "present",
+    "pwsh",
+    "ralph",
+    "read",
+    "read_image",
+    "read_mcp_resource",
+    "send_message",
+    "session_event_read",
+    "session_event_search",
+    "session_event_trace",
+    "session_search",
+    "session_trace",
+    "skill",
+    "subagent",
+    "subagent_fork",
+    "terminal_close",
+    "terminal_list",
+    "terminal_open",
+    "terminal_read",
+    "terminal_send",
+    "terminal_signal",
+    "todo_write",
+    "update_goal",
+    "web_fetch",
+    "web_search",
+    "workflow",
+    "write"
+  ],
+  "deployment": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh",
+  "home": "C:\\Users\\scott\\.dsh-stock",
+  "homeModulesTarget": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\node_modules"
+}

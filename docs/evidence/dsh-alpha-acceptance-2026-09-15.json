@@ -1,0 +1,417 @@
+{
+  "release": "0.1.6-alpha.1",
+  "environment": "native Windows staged instance port 3081",
+  "checks": [
+    {
+      "test": "acceptance",
+      "sessionId": "session-5137d346-9dd2-4761-acf4-8034075ba438",
+      "toolCalls": [
+        {
+          "seq": 17,
+          "name": "session_search",
+          "arguments": "{\"query\":\"events\",\"created_at_from\":\"2024-01-01T00:00:00Z\"}"
+        },
+        {
+          "seq": 22,
+          "name": "lsp",
+          "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"alpha-tools/use.ts\",\"line\":2,\"character\":13}"
+        },
+        {
+          "seq": 27,
+          "name": "lsp",
+          "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"alpha-tools/use.py\",\"line\":2,\"character\":9}"
+        },
+        {
+          "seq": 32,
+          "name": "terminal_open",
+          "arguments": "{\"type\":\"shell\"}"
+        },
+        {
+          "seq": 37,
+          "name": "terminal_send",
+          "arguments": "{\"sessionId\":\"pty-1\",\"text\":\"$haloCheck=41\"}"
+        },
+        {
+          "seq": 42,
+          "name": "terminal_send",
+          "arguments": "{\"sessionId\":\"pty-1\",\"text\":\"echo ($haloCheck+1)\"}"
+        },
+        {
+          "seq": 47,
+          "name": "terminal_close",
+          "arguments": "{\"sessionId\":\"pty-1\"}"
+        },
+        {
+          "seq": 52,
+          "name": "pwsh",
+          "arguments": "{\"command\":\"Write-Output \\\"HALO_ONESHOT_OK\\\"\",\"description\":\"Output HALO_ONESHOT_OK\"}"
+        },
+        {
+          "seq": 57,
+          "name": "mcp__chrome-devtools-mcp__list_pages",
+          "arguments": "{}"
+        },
+        {
+          "seq": 62,
+          "name": "mcp__chrome-devtools-mcp__navigate_page",
+          "arguments": "{\"pageId\":1,\"type\":\"url\",\"url\":\"http://127.0.0.1:3081/\"}"
+        },
+        {
+          "seq": 67,
+          "name": "mcp__chrome-devtools-mcp__take_snapshot",
+          "arguments": "{\"pageId\":1}"
+        },
+        {
+          "seq": 72,
+          "name": "mcp__chrome-devtools-mcp__evaluate_script",
+          "arguments": "{\"pageId\":1,\"function\":\"() => document.title\"}"
+        },
+        {
+          "seq": 87,
+          "name": "lsp",
+          "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"alpha-tools/use.ts\",\"line\":2,\"character\":13}"
+        }
+      ],
+      "toolResults": [
+        {
+          "seq": 18,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "A69MEpiblBeElm2L4aulGqAmS1Eglx1e",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Session search results (2):\n\n1. Session session-ff92e9c8-39c1-4e2a-b267-fe98e881ebdf \u2014 Tuning acceptance: halo-coder-q4km\n   Created: 2026-09-15T18:39:28.364Z\n   Parent: root\n   Availability: persisted\n   Best match: seq 61 | assistant/message | current | 2026-09-15T18:40:41.000Z\n   Snippet: \u2026de a final summary report. ## Task Completion Report I have successfully fixed `events.mjs` to satisfy all requirements from `requirements.txt` and passed all tests in `events.test.mjs`. ### Implementation Details The implemented function\u2026\n\n2. Session session-4315a59e-7f28-4be0-acac-9a9c29a336e6 \u2014 DSH alpha stock capability acceptance\n   Created: 2026-09-15T19:49:47.459Z\n   Parent: root\n   Availability: persisted\n   Best match: seq 11 | user/message | current | 2026-09-15T19:49:51.029Z\n   Snippet: \u2026. 1. Use session_search to find previous sessions in this workspace containing \"events\" (maximum 3 results); report a prior session ID. 2. Use lsp goToDefinition on alpha-tools/use.ts line 2 character 13, and alpha-tools/use.py line 2 cha\u2026"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 23,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "9nJsoToJsZwOg3bQh1qnuedrtdIy2Rc7",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Error: Request initialize failed with message: Could not find a valid TypeScript installation. Please ensure that the \"typescript\" dependency is installed in the workspace or that a valid `tsserver.path` is specified. Exiting."
+                }
+              ],
+              "isError": true
+            }
+          ]
+        },
+        {
+          "seq": 28,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "eo91JAysusUz3eISSi1UxmmQ6Ddb6ZRJ",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "alpha-tools/definition.py:1:5"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 33,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "OMVulTnTWxlZQ0Y9t2ALi85yC3A9xbjB",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "started terminal session pty-1 [type: shell]\nPS C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\tuning-five\\acceptance-halo-coder-q4km>> [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [System.Text.UTF8Encoding]::new($false); function prompt { [Console]::Write([char]27 + ']133;D;' + [int]$LASTEXITCODE + [char]7); 'dsh> ' }\ndsh> "
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 38,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "ayynFiQQKnnAX4aDuSadZ2mDhhHoj9sN",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "> $haloCheck=41\ndsh> \n[wait: stdin_read]\n[session: running]"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 43,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "YHysTTwHCk10fkabnMRrIZN7C1dP3RhQ",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "> echo ($haloCheck+1)\n42\ndsh> \n[wait: stdin_read]\n[session: running]"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 48,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "9GmPUD6pZOAyfukhQfXZO0NxABwxes29",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "closed terminal session pty-1"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 53,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "XPcptW9yI13OGyIOAy8z7mNWv8CPfMFc",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "HALO_ONESHOT_OK\r\n"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 58,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "wW8ubSb8dYIp2VNtZWpjyibseQU55o5b",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "## Pages\n1: about:blank [selected]"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 63,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "OpkOHgDUAPACIf7U5TTSJxtyavdDC9S6",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Successfully navigated to http://127.0.0.1:3081/.\n## Pages\n1: http://127.0.0.1:3081/ [selected]"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 68,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "ZgJtEiSqmiPJ4endSdokbfi2rEE07BGi",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "## Latest page snapshot\nuid=1_0 RootWebArea url=\"http://127.0.0.1:3081/\"\n  uid=1_1 StaticText \"dsh web authentication required; reopen the URL printed by dsh web.\n\"\n"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 73,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "Pwdpr0PG1SG3XFIs5KAA5LX0lfSvANW4",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Script ran on page and returned:\n```json\n\"\"\n```"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        },
+        {
+          "seq": 88,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "eHNMAFNRx9Nbw6di2aqo68RQbB5muBIK",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "alpha-tools/use.ts:1:10"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        }
+      ],
+      "finalMessages": [
+        [
+          {
+            "type": "text",
+            "text": "Here are the results of the bounded DSH integration checks:\n\n1. **Previous sessions containing \"events\"**: \n   - Found 2 sessions, with the most recent being `session-4315a59e-7f28-4be0-acac-9a9c29a336e6` (DSH alpha stock capability acceptance)\n\n2. **LSP Definition Checks**:\n   - TypeScript file definition failed with \"Could not find a valid TypeScript installation\" \n   - Python file definition successfully located at `alpha-tools/definition.py:1:5`\n\n3. **Terminal State Persistence**:\n   - Successfully demonstrated persistent state with `$haloCheck=41` and output of `($haloCheck+1)=42`\n\n4. **HALO_ONESHOT_OK Output**:\n   - Successfully output \"HALO_ONESHOT_OK\"\n\n5. **Browser Navigation**:\n   - Navigated to http://127.0.0.1:3081/ successfully\n   - The page content shows \"dsh web authentication required; reopen the URL printed by dsh web.\" but the browser tool was able to navigate to the URL\n\nAll requested integration checks have been completed and reported as requested."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "I've successfully performed the TypeScript definition check. The result shows that the definition for alpha-tools/use.ts at line 2 character 13 is located at `alpha-tools/use.ts:1:10`. This completes the requested integration check."
+          }
+        ]
+      ],
+      "endings": [
+        {
+          "turn": 1,
+          "reason": {
+            "kind": "completed"
+          }
+        },
+        {
+          "turn": 2,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      ]
+    },
+    {
+      "test": "codex",
+      "sessionId": "session-5ccf0403-198d-4e84-a7ce-f9e1b51e0048",
+      "toolCalls": [
+        {
+          "seq": 17,
+          "name": "subagent_codex",
+          "arguments": "{\"description\":\"Read alpha-tools/definition.ts and alpha-tools/use.ts to extract function name, parameter types, and numerical result\",\"prompt\":\"Read the following two files:\\n\\n1. alpha-tools/definition.ts\\n2. alpha-tools/use.ts\\n\\nExtract:\\n- The function name from definition.ts\\n- The two parameter types of that function\\n- The numerical result of its invocation in use.ts\\n\\nReturn only this information in a clear format.\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "seq": 18,
+          "content": [
+            {
+              "type": "tool-result",
+              "toolCallId": "c5z9DzPGBKLB87OFYDY3D1vZ1Afhz7QW",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "- Function name: `haloSum`\n- Parameter types: `number`, `number`\n- Numerical result: `5`"
+                }
+              ],
+              "isError": false
+            }
+          ]
+        }
+      ],
+      "finalMessages": [
+        [
+          {
+            "type": "text",
+            "text": "I've analyzed the two files as requested. Here are the results:\n\n- Function name: `haloSum`\n- Parameter types: `number`, `number`\n- Numerical result: `5`\n\nThis information was extracted from the alpha-tools/definition.ts and alpha-tools/use.ts files using a subagent_codex task. No file editing, commands, or additional tools were used beyond reading these two files as requested."
+          }
+        ]
+      ],
+      "endings": [
+        {
+          "turn": 1,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      ]
+    },
+    {
+      "test": "gemini",
+      "sessionId": "session-bbcb0ff7-76e4-4f43-a363-920eb1929594",
+      "toolCalls": [],
+      "toolResults": [],
+      "finalMessages": [
+        [
+          {
+            "type": "text",
+            "text": "GEMINI_CONNECTION_OK"
+          }
+        ]
+      ],
+      "endings": [
+        {
+          "turn": 1,
+          "reason": {
+            "kind": "error",
+            "error": {
+              "message": "{\"error\":{\"message\":\"{\\n  \\\"error\\\": {\\n    \\\"code\\\": 404,\\n    \\\"message\\\": \\\"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements. We recommend you to use the Interactions API.\\\",\\n    \\\"status\\\": \\\"NOT_FOUND\\\"\\n  }\\n}\\n\",\"code\":404,\"status\":\"Not Found\"}}",
+              "code": "PI_AI_ERROR"
+            }
+          }
+        },
+        {
+          "turn": 2,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      ]
+    }
+  ],
+  "uiTerminal": {
+    "method": "Chrome stock sidebar New terminal; two separately executed commands; screenshot observed",
+    "shell": "PowerShell 7",
+    "commands": [
+      "$haloUi = 41",
+      "Write-Output ($haloUi + 1)"
+    ],
+    "output": "42"
+  },
+  "geminiModelsList": {
+    "status": 200,
+    "models": 50
+  },
+  "corrections": [
+    "Stage first omitted local .env; copied existing LM Studio environment before retry.",
+    "TypeScript 7 does not contain tsserver.js; pinned TypeScript 6.0.3 and explicit server path.",
+    "Gemini 2.5 Flash denied new users; Gemini 3.6 Flash completed successfully."
+  ],
+  "review": {
+    "worker": "gpt-5.6-luna",
+    "reviewer": "gpt-5.6-terra",
+    "lead": "gpt-6-astra",
+    "usage": "Worker token totals unavailable; no invented estimate.",
+    "findings": "Root corrected worker terminal naming conflict before integration. Final review claim default enables Codex was false; source has disabled:true and ordinary stage tool header excludes it."
+  }
+}

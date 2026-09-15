@@ -12,7 +12,7 @@ const startLauncher = fs.readFileSync(path.join(stockDsh, 'Start-StockDSH.ps1'),
 const desktopLauncher = fs.readFileSync(path.join(stockDsh, 'Launch-StockDSH.ps1'), 'utf8');
 
 test('stock DSH pins the reviewed release instead of carrying the retired picker override', () => {
-  assert.equal(manifest.dependencies['@deepseek-ai/dsh'], '0.1.5-rc.2');
+  assert.equal(manifest.dependencies['@deepseek-ai/dsh'], '0.1.6-alpha.1');
   assert.equal(fs.existsSync(path.join(stockDsh, 'Install-HaloPickerOverride.ps1')), false);
   assert.equal(fs.existsSync(path.join(stockDsh, 'packages', 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz')), false);
 });
