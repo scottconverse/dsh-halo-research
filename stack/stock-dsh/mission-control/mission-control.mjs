@@ -1216,6 +1216,9 @@ async function listSessionsApi(limit = 500) {
         stalled: !!(s.running && s.updatedAt && (Date.now() - s.updatedAt) > STALL_MS),
         running: !!s.running && !(s.updatedAt && (Date.now() - s.updatedAt) > STALL_MS),
         preset: v.agentPreset || s.agentPreset || '',
+        // Use the model that produced output, not a queued selection or global default.
+        provider: v.modelSelection?.lastUsed?.provider || null,
+        model: v.modelSelection?.lastUsed?.model || null,
         turns: st.turns ?? null,
         kTokIn: Math.round(((tk.uncachedInputTokens || 0) + (tk.cacheReadTokens || 0)) / 1000 * 10) / 10,
         kTokOut: Math.round((tk.outputTokens || 0) / 1000 * 10) / 10,
@@ -2651,6 +2654,7 @@ function renderOverview(s){
     '<div class="row"><span class="k">cumulative kTok in / out for those sessions</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest
       ? '<div class="row"><span class="k">completed-run decode</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">session aggregate</span></span></div>'+
+        '<div class="row"><span class="k">model (last used)</span><span style="text-align:right;overflow-wrap:anywhere">'+esc(latest.model||'unknown')+'<br><span class="mut">'+esc(latest.provider||'unknown provider')+'</span></span></div>'+
         '<div class="row"><span class="k">TTFT, latest completed session</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+'</span></div>'
       : '<div class="row"><span class="k">completed-run decode</span><span class="mut">no completed run with stats yet</span></div>');
 
