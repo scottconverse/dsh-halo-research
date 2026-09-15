@@ -154,12 +154,12 @@ const MEMORY_SNAPSHOT_TASK = 'HALO Memory Snapshot';
 // "unknown-origin". These are the current, versioned role contracts.
 const DAILY_BRAIN = {
   modelKey: 'halo/qwen3.6-35b-a3b', identifier: 'halo-brain-35b',
-  quant: 'Q4_K_M', context: 32768, parallel: 1,
+  quant: 'Q4_K_M', context: 131072, parallel: 1,
   definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.6-35b-a3b', 'model.yaml'),
 };
 const DAILY_WORKER = {
   modelKey: 'halo/qwen3-coder-30b-a3b-q4km', identifier: 'halo-coder-q4km',
-  quant: 'Q4_K_M', context: 32768, parallel: 1,
+  quant: 'Q4_K_M', context: 131072, parallel: 1,
   definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3-coder-30b-a3b-q4km', 'model.yaml'),
 };
 const TUNED_BRAIN_27B = {
@@ -1797,7 +1797,7 @@ function readRoleProfile(role) {
   try {
     const src = fs.readFileSync(role.definition, 'utf8');
     definitionOk = new RegExp('model:\\s*' + role.modelKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(src)
-      && /key:\s*llm\.load\.contextLength\s*[\s\S]*?value:\s*32768\b/.test(src)
+      && new RegExp('key:\\s*llm\\.load\\.contextLength\\s*[\\s\\S]*?value:\\s*' + role.context + '\\b').test(src)
       && /key:\s*llm\.load\.numParallelSessions\s*[\s\S]*?value:\s*1\b/.test(src);
   } catch { definitionOk = false; }
   return { ...role, definitionOk };
@@ -2359,8 +2359,8 @@ var modelsCache=[];
 async function loadModel(i){
   var row=modelsCache[i]; if(!row) return;
   var ctxInput=document.getElementById('loadctx-'+i);
-  var ctx=ctxInput?parseInt(ctxInput.value,10):32768;
-  if(!ctx||ctx<512) ctx=32768;
+  var ctx=ctxInput?parseInt(ctxInput.value,10):131072;
+  if(!ctx||ctx<512) ctx=131072;
   if(ctx>=200000&&!confirm('Load '+row.modelKey+' with '+ctx.toLocaleString()+' context tokens? This huge context can consume substantial memory.')) return;
   var msg=document.getElementById('actionMsg');
   msg.textContent='loading '+row.modelKey+' (ctx '+ctx+')...';
@@ -2894,7 +2894,7 @@ async function loadModels(){
         : (m.originKind==='local'
           ? ('<button onclick="showLoadRow('+i+')">Load</button>'+
              '<span id="loadrow-'+i+'" style="display:none;gap:4px;align-items:center;margin-top:4px">'+
-             '<label class="mut" for="loadctx-'+i+'">context</label> <input type="number" aria-label="Context length for '+esc(m.displayName||m.modelKey)+'" id="loadctx-'+i+'" value="32768">'+
+             '<label class="mut" for="loadctx-'+i+'">context</label> <input type="number" aria-label="Context length for '+esc(m.displayName||m.modelKey)+'" id="loadctx-'+i+'" value="131072">'+
              '<button onclick="loadModel('+i+')">Confirm</button></span>')
           : '<span class="mut">manage on '+esc(m.origin||'peer')+'</span>'));
       // Two rows titled "Qwen3.8 27B UD" read as a duplicate render, not as

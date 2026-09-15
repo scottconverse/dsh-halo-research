@@ -16,15 +16,27 @@ metadataOverrides:
     - 30B-A3B
   minMemoryUsageBytes: 18500000000
   contextLengths:
-    - 32768
+    - 131072
   vision: false
   reasoning: false
   trainedForToolUse: true
 config:
+  operation:
+    fields:
+      - key: llm.prediction.temperature
+        value: 0.7
+      - key: llm.prediction.topKSampling
+        value: 20
+      - key: llm.prediction.topPSampling
+        value: { checked: true, value: 0.8 }
+      - key: llm.prediction.minPSampling
+        value: { checked: false, value: 0 }
+      - key: llm.prediction.repeatPenalty
+        value: { checked: true, value: 1.05 }
   load:
     fields:
       - key: llm.load.contextLength
-        value: 32768
+        value: 131072
       - key: llm.load.numParallelSessions
         value: 1
       - key: llm.load.useUnifiedKvCache
@@ -40,7 +52,7 @@ config:
       - key: llm.load.llama.evalBatchSize
         value: 2048
       - key: llm.load.llama.physicalBatchSize
-        value: 512
+        value: 1024
       - key: llm.load.llama.flashAttention
         value: true
       - key: llm.load.llama.contextCheckpoints

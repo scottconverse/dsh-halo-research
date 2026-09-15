@@ -25,9 +25,10 @@ test('stock model catalog contains exactly the two approved Halo aliases', () =>
 });
 
 test('approved aliases share the bounded stock context and response contract', () => {
-  assert.equal((settings.match(/contextWindow:\s*32768/g) || []).length, 2);
+  assert.equal((settings.match(/contextWindow:\s*131072/g) || []).length, 2);
   assert.equal((settings.match(/maxTokens:\s*8192/g) || []).length, 2);
-  assert.equal((settings.match(/reasoningEfforts:\s*false/g) || []).length, 2);
+  assert.equal((settings.match(/reasoningEfforts:\s*false/g) || []).length, 1);
+  assert.match(settings, /reasoningEfforts:\s*\n\s+off: none\s*\n\s+high: high/);
 });
 
 test('desktop launcher reuses a single DSH listener and opens both operator pages in Chrome', () => {

@@ -35,7 +35,7 @@ metadataOverrides:
     - 35B
   minMemoryUsageBytes: 22000000000
   contextLengths:
-    - 32768
+    - 131072
   vision: true
   reasoning: true
   trainedForToolUse: true
@@ -43,13 +43,13 @@ config:
   operation:
     fields:
       - key: llm.prediction.temperature
-        value: 0.6
+        value: 0.7
       - key: llm.prediction.topKSampling
         value: 20
       - key: llm.prediction.topPSampling
         value:
           checked: true
-          value: 0.95
+          value: 0.8
       - key: llm.prediction.minPSampling
         value:
           checked: false
@@ -60,8 +60,8 @@ config:
           value: 1.0
       - key: llm.prediction.llama.presencePenalty
         value:
-          checked: false
-          value: 0.0
+          checked: true
+          value: 1.5
       - key: llm.prediction.promptTemplate
         value:
           type: jinja
@@ -225,7 +225,7 @@ config:
   load:
     fields:
       - key: llm.load.contextLength
-        value: 32768
+        value: 131072
       - key: llm.load.numParallelSessions
         value: 1
       - key: llm.load.useUnifiedKvCache
@@ -241,7 +241,7 @@ config:
       - key: llm.load.llama.evalBatchSize
         value: 2048
       - key: llm.load.llama.physicalBatchSize
-        value: 512
+        value: 1024
       - key: llm.load.llama.flashAttention
         value: true
       - key: llm.load.llama.contextCheckpoints
@@ -263,9 +263,7 @@ customFields:
     displayName: Enable Thinking
     description: Controls whether the model will think before replying
     type: boolean
-    # Daily Halo planning is prompt-heavy and usually needs a short visible
-    # answer. Keep the fast path honest by disabling extended thinking here;
-    # GPT-OSS 120B and the preserved 27B alias remain reasoning-capable lanes.
+    # Routine work uses direct answers. Enable Thinking for difficult planning.
     defaultValue: false
     effects:
       - type: setJinjaVariable
@@ -274,7 +272,7 @@ customFields:
     displayName: Preserve Thinking
     description: Preserve reasoning content in all prior assistant turns instead of only the most recent one
     type: boolean
-    defaultValue: false
+    defaultValue: true
     effects:
       - type: setJinjaVariable
         variable: preserve_thinking

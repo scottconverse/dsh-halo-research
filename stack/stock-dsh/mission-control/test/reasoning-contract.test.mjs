@@ -96,8 +96,10 @@ test('Halo configuration does not advertise fictional graded efforts', () => {
   assert.doesNotMatch(source, /enum:\s*\['low',\s*'medium',\s*'high',\s*'xhigh'\]/);
 
   assert.doesNotMatch(stockSettings, /reasoningEfforts:\s*\[(?:[^\]]*\b(?:low|medium|high|xhigh)\b[^\]]*)\]/);
-  assert.equal((stockSettings.match(/reasoningEfforts:\s*false/g) || []).length, 2,
-    'both approved stock aliases explicitly disable graded reasoning efforts');
+  assert.equal((stockSettings.match(/reasoningEfforts:\s*false/g) || []).length, 1,
+    'the coder remains non-thinking');
+  assert.match(stockSettings, /reasoningEfforts:\s*\n\s+off: none\s*\n\s+high: high/,
+    '35B exposes only the verified off and thinking wire settings');
 });
 
 test('approved stock aliases expose their effective non-reasoning defaults honestly', () => {

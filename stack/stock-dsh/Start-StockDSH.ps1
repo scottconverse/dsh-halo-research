@@ -113,8 +113,8 @@ try { Invoke-RestMethod 'http://127.0.0.1:1234/v1/models' -TimeoutSec 5 | Out-Nu
 catch { throw 'Start the LM Studio local server on port 1234, then run this shortcut again.' }
 
 $approved = @(
-    [pscustomobject]@{ key='halo/qwen3.6-35b-a3b'; id='halo-brain-35b'; contextLength=32768; parallel=1 },
-    [pscustomobject]@{ key='halo/qwen3-coder-30b-a3b-q4km'; id='halo-coder-q4km'; contextLength=32768; parallel=1 }
+    [pscustomobject]@{ key='halo/qwen3.6-35b-a3b'; id='halo-brain-35b'; contextLength=131072; parallel=1 },
+    [pscustomobject]@{ key='halo/qwen3-coder-30b-a3b-q4km'; id='halo-coder-q4km'; contextLength=131072; parallel=1 }
 )
 $approvedIds = @($approved | ForEach-Object { $_.id })
 $loaded = Get-LoadedModels
