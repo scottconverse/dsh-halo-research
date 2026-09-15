@@ -1,0 +1,30 @@
+diff --git a/lib/index.js b/lib/index.js
+index 455a06eebceb74d7a4750b4b564767ffe70410e7..24c38fa80f45fe1b0a4b26ff2b3f8233ac60c1dd 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -125,6 +125,10 @@ function createXaiOAuthAdapter(session, resolveAttachments) {
+ 			streamIdleTimeoutMs: XAI_OAUTH_STREAM_IDLE_TIMEOUT_MS,
+ 			retryPolicy: resolveRetryPolicy(void 0, "dsh-xai retryPolicy"),
+ 			configuredMaxTokens: /* @__PURE__ */ new Map(),
++			modelErrors: new Map(),
++			maxRequestImageBytes: 20 * 1024 * 1024,
++			requestImagePixelBudget: 2048 * 2048,
++			requestImageMaxBytes: 1024 * 1024,
+ 			piProvider: session.provider()
+ 		}]]),
+ 		resolveApiKey: async () => {
+diff --git a/src/adapter.ts b/src/adapter.ts
+index 658f444de6757ae2b6b99a50ab3460d928848c17..9756633a2b63668c8e92712b15545ee9cd186677 100644
+--- a/src/adapter.ts
++++ b/src/adapter.ts
+@@ -36,6 +36,10 @@ export function createXaiOAuthAdapter(
+       streamIdleTimeoutMs: XAI_OAUTH_STREAM_IDLE_TIMEOUT_MS,
+       retryPolicy: resolveRetryPolicy(undefined, 'dsh-xai retryPolicy'),
+       configuredMaxTokens: new Map(),
++      modelErrors: new Map(),
++      maxRequestImageBytes: 20 * 1024 * 1024,
++      requestImagePixelBudget: 2048 * 2048,
++      requestImageMaxBytes: 1024 * 1024,
+       piProvider: session.provider(),
+     }]]),
+     resolveApiKey: async () => {

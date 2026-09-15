@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-15",
+  "dshVersion": "0.1.6-alpha.1",
+  "plugin": "MirDie/dsh-xai",
+  "pluginCommit": "5946301f992b7445d8dcb26bd9c89dc86246832b",
+  "patch": "stack/stock-dsh/web-profile/patches/dsh-xai@0.1.0.patch",
+  "sessionId": "session-0cb89eac-2fb1-4c88-aaf2-fcfc6156ffeb",
+  "provider": "xai-oauth",
+  "model": "grok-4.6",
+  "response": "GROK_SUBSCRIPTION_OK",
+  "completion": {
+    "kind": "completed"
+  },
+  "usage": {
+    "inputTokens": 17178,
+    "outputTokens": 93,
+    "totalTokens": 17783,
+    "cacheReadTokens": 512
+  },
+  "defaultProvider": "lmstudio",
+  "defaultModel": "halo-coder-q4km",
+  "verificationLimits": "Text inference and OAuth verified. Image inputs, tool calls and future token refresh not separately tested."
+}

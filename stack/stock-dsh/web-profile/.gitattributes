@@ -1,0 +1,2 @@
+# pnpm hashes patch bytes; preserve LF on Windows checkout.
+patches/*.patch -text whitespace=-space-before-tab

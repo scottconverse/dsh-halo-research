@@ -1,0 +1,62 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false
+
+patchedDependencies:
+  dsh-xai@0.1.0: 6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86
+
+importers:
+
+  .:
+    dependencies:
+      dsh-xai:
+        specifier: github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b
+        version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86)
+
+packages:
+
+  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b:
+    resolution: {gitHosted: true, integrity: sha512-/ZnH3ZIVldhqHUoJNvLNi1NVmlM1AOZ7BSGQypd/5//MIj45/vHh6LMpC8yD9/C9jnXvnK00bpp/FSOeMtlCrw==, tarball: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b}
+    version: 0.1.0
+    hasBin: true
+    peerDependencies:
+      '@deepseek-ai/cordis': ^4.0.1-rc.1
+      '@deepseek-ai/dsh-atomic-write': '*'
+      '@deepseek-ai/dsh-attachment': '*'
+      '@deepseek-ai/dsh-home-paths': '*'
+      '@deepseek-ai/dsh-host-webserver': '*'
+      '@deepseek-ai/dsh-invariants': '*'
+      '@deepseek-ai/dsh-llm': '*'
+      '@deepseek-ai/dsh-llm-pi-ai': '*'
+      '@deepseek-ai/schemastery': ^3.18.1-rc.1
+      '@earendil-works/pi-ai': ^0.82.1
+      react: ^18.2.0
+    peerDependenciesMeta:
+      '@deepseek-ai/cordis':
+        optional: true
+      '@deepseek-ai/dsh-atomic-write':
+        optional: true
+      '@deepseek-ai/dsh-attachment':
+        optional: true
+      '@deepseek-ai/dsh-home-paths':
+        optional: true
+      '@deepseek-ai/dsh-host-webserver':
+        optional: true
+      '@deepseek-ai/dsh-invariants':
+        optional: true
+      '@deepseek-ai/dsh-llm':
+        optional: true
+      '@deepseek-ai/dsh-llm-pi-ai':
+        optional: true
+      '@deepseek-ai/schemastery':
+        optional: true
+      '@earendil-works/pi-ai':
+        optional: true
+      react:
+        optional: true
+
+snapshots:
+
+  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86): {}

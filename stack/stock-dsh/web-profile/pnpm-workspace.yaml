@@ -1,0 +1,7 @@
+packages:
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false
+patchedDependencies:
+  dsh-xai@0.1.0: patches/dsh-xai@0.1.0.patch

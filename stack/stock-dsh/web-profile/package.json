@@ -1,0 +1,17 @@
+{
+  "name": "dsh-profile-web",
+  "private": true,
+  "dependencies": {
+    "dsh-xai": "github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-xai"
+      ],
+      "patchReload": "live"
+    }
+  }
+}
