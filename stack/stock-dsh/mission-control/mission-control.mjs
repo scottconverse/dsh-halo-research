@@ -2649,12 +2649,18 @@ function renderOverview(s){
   // Activity: what used to be two half-empty cards (Today + Throughput),
   // with the hairline sparkline dropped since the vitals strip owns trend.
   var tpsCls=latest&&latest.decodeTps<18?'v-warn':'';
+  var activeSessions=(s.sessions||[]).filter(function(session){return session.running;});
+  var activeModels=activeSessions.map(function(session){
+    return '<span title="'+esc(session.title||session.sessionId||'')+'">'+esc(session.model||'awaiting model output')+'<br><span class="mut">'+esc(session.provider||'provider not yet recorded')+'</span></span>';
+  }).join('<br>');
   document.getElementById('ov-activity').innerHTML=
+    '<div class="row"><span class="k">running now</span><span style="text-align:right;overflow-wrap:anywhere">'+(activeModels||'<span class="mut">no active session</span>')+'</span></div>'+
     '<div class="row"><span class="k">session files updated today</span><span>'+s.today.count+'</span></div>'+
     '<div class="row"><span class="k">cumulative kTok in / out for those sessions</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest
-      ? '<div class="row"><span class="k">completed-run decode</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">session aggregate</span></span></div>'+
-        '<div class="row"><span class="k">model (last used)</span><span style="text-align:right;overflow-wrap:anywhere">'+esc(latest.model||'unknown')+'<br><span class="mut">'+esc(latest.provider||'unknown provider')+'</span></span></div>'+
+      ? '<div class="row"><span class="k">latest completed session</span><span style="text-align:right;overflow-wrap:anywhere">'+esc(latest.title||latest.sessionId||'untitled')+'</span></div>'+
+        '<div class="row"><span class="k">that session’s last model</span><span style="text-align:right;overflow-wrap:anywhere">'+esc(latest.model||'unknown')+'<br><span class="mut">'+esc(latest.provider||'unknown provider')+'</span></span></div>'+
+        '<div class="row"><span class="k">completed-run decode</span><span class="'+tpsCls+'">'+latest.decodeTps+' t/s <span class="mut">session aggregate</span></span></div>'+
         '<div class="row"><span class="k">TTFT, latest completed session</span><span>'+(latest.ttftS!=null?latest.ttftS+'s':'&mdash;')+'</span></div>'
       : '<div class="row"><span class="k">completed-run decode</span><span class="mut">no completed run with stats yet</span></div>');
 

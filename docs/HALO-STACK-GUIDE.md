@@ -115,4 +115,4 @@ The existing web profile includes pinned `MirDie/dsh-xai` with an alpha compatib
 
 ## Activity speed attribution
 
-Mission Control's Activity card now shows the last-used model and provider beside the completed-session decode rate. It reads DSH's recorded last-used selection, not the default or a queued model. The speed remains a session aggregate; sessions that switched models can include multiple models. Missing attribution displays unknown.
+Mission Control's Activity card separates running now (active session models and providers) from the latest completed session, which is identified by title and its last-used model/provider beside its historical decode rate. It reads DSH's recorded last-used selection, not the default or a queued model. The speed remains a session aggregate; sessions that switched models can include multiple models. Missing attribution displays unknown.
