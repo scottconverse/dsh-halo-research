@@ -1,5 +1,7 @@
 # Existing-model Windows tuning — September 15, 2026
 
+**Follow-up:** This is the initial deployment record. The later [five-investigation tuning report](WINDOWS-TUNING-FIVE-INVESTIGATIONS-2026-09-15.md) records the current coder microbatch of 2,048 and Q8 cache; the 35B retains microbatch 1,024 and F16. Both now explicitly set Min-P to 0.05. Runtime inspection found that the unchecked field described below as disabled had actually fallen through to a 0.05 default. Initial timings and checks below remain historical.
+
 The approved models remain Qwen3-Coder-30B-A3B Q4_K_M (`halo-coder-q4km`) and Qwen3.6-35B-A3B Q4_K_M (`halo-brain-35b`). No model was downloaded or replaced. LM Studio selected its already installed Vulkan runtime 2.38.0 when the models were reloaded.
 
 ## Applied settings

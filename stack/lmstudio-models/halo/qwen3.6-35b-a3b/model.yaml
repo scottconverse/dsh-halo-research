@@ -52,8 +52,8 @@ config:
           value: 0.8
       - key: llm.prediction.minPSampling
         value:
-          checked: false
-          value: 0
+          checked: true
+          value: 0.05
       - key: llm.prediction.repeatPenalty
         value:
           checked: false

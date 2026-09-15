@@ -1,0 +1,752 @@
+{
+  "date": "2026-09-15",
+  "runtime": "LM Studio Vulkan 2.38.0",
+  "context": 131072,
+  "performance": [
+    {
+      "config": "coder-base",
+      "coldSeconds": [
+        6.645,
+        16.07
+      ],
+      "promptTokensPerSecond": [
+        1072.74,
+        1082.98
+      ],
+      "meanPromptTokensPerSecond": 1077.86,
+      "decodeTokensPerSecond": [
+        68.33,
+        69.28
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "coder-ub2048",
+      "coldSeconds": [
+        5.915,
+        16.402
+      ],
+      "promptTokensPerSecond": [
+        1152.25,
+        1142.09
+      ],
+      "meanPromptTokensPerSecond": 1147.17,
+      "decodeTokensPerSecond": [
+        68.69,
+        68.29
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "coder-b4096",
+      "coldSeconds": [
+        6.394,
+        16.173
+      ],
+      "promptTokensPerSecond": [
+        1145.25,
+        1160.79
+      ],
+      "meanPromptTokensPerSecond": 1153.02,
+      "decodeTokensPerSecond": [
+        66.76,
+        68.87
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "coder-q8",
+      "coldSeconds": [
+        6.172,
+        11.139
+      ],
+      "promptTokensPerSecond": [
+        1175.95,
+        1173.82
+      ],
+      "meanPromptTokensPerSecond": 1174.88,
+      "decodeTokensPerSecond": [
+        70.93,
+        71.37
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "coder-t8",
+      "coldSeconds": [
+        6.637,
+        16.389
+      ],
+      "promptTokensPerSecond": [
+        1056.5,
+        1083.75
+      ],
+      "meanPromptTokensPerSecond": 1070.12,
+      "decodeTokensPerSecond": [
+        65.74,
+        67.63
+      ],
+      "validThreadComparison": false
+    },
+    {
+      "config": "coder-t16",
+      "coldSeconds": [
+        6.586,
+        16.44
+      ],
+      "promptTokensPerSecond": [
+        1084.89,
+        1098.39
+      ],
+      "meanPromptTokensPerSecond": 1091.64,
+      "decodeTokensPerSecond": [
+        69.66,
+        70.18
+      ],
+      "validThreadComparison": false
+    },
+    {
+      "config": "coder-t8-actual",
+      "coldSeconds": [
+        6.693,
+        15.833
+      ],
+      "promptTokensPerSecond": [
+        1060.74,
+        1053.57
+      ],
+      "meanPromptTokensPerSecond": 1057.15,
+      "decodeTokensPerSecond": [
+        68.83,
+        67.43
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "coder-t16-actual",
+      "coldSeconds": [
+        6.611,
+        15.694
+      ],
+      "promptTokensPerSecond": [
+        1079.69,
+        1088.02
+      ],
+      "meanPromptTokensPerSecond": 1083.86,
+      "decodeTokensPerSecond": [
+        68.13,
+        68.82
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-base",
+      "coldSeconds": [
+        12.535,
+        15.224
+      ],
+      "promptTokensPerSecond": [
+        728.42,
+        732.48
+      ],
+      "meanPromptTokensPerSecond": 730.45,
+      "decodeTokensPerSecond": [
+        65.37,
+        65.85
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-ub2048",
+      "coldSeconds": [
+        13.741,
+        16.054
+      ],
+      "promptTokensPerSecond": [
+        658.52,
+        664.96
+      ],
+      "meanPromptTokensPerSecond": 661.74,
+      "decodeTokensPerSecond": [
+        65.75,
+        63.03
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-b4096",
+      "coldSeconds": [
+        13.59,
+        15.837
+      ],
+      "promptTokensPerSecond": [
+        656.9,
+        662.53
+      ],
+      "meanPromptTokensPerSecond": 659.71,
+      "decodeTokensPerSecond": [
+        65.28,
+        63.04
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-q8",
+      "coldSeconds": [
+        12.471,
+        13.607
+      ],
+      "promptTokensPerSecond": [
+        727.13,
+        733.78
+      ],
+      "meanPromptTokensPerSecond": 730.45,
+      "decodeTokensPerSecond": [
+        67.54,
+        66.7
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-t8",
+      "coldSeconds": [
+        12.415,
+        15.419
+      ],
+      "promptTokensPerSecond": [
+        752.44,
+        740.42
+      ],
+      "meanPromptTokensPerSecond": 746.43,
+      "decodeTokensPerSecond": [
+        66.22,
+        64.24
+      ],
+      "validThreadComparison": true
+    },
+    {
+      "config": "brain-t16",
+      "coldSeconds": [
+        12.434,
+        14.542
+      ],
+      "promptTokensPerSecond": [
+        737.65,
+        755.26
+      ],
+      "meanPromptTokensPerSecond": 746.45,
+      "decodeTokensPerSecond": [
+        66.11,
+        63.54
+      ],
+      "validThreadComparison": true
+    }
+  ],
+  "longContext": [
+    {
+      "label": "brain-long-f16",
+      "pass": false,
+      "seconds": 62.233,
+      "usage": {
+        "prompt_tokens": 46544,
+        "completion_tokens": 33,
+        "total_tokens": 46577,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "answer": "{\n\"candidate\": \"A\",\n\"delays\": [\n100,\n200,\n500\n]\n}"
+    },
+    {
+      "label": "brain-long-q8",
+      "pass": false,
+      "seconds": 62.886,
+      "usage": {
+        "prompt_tokens": 46549,
+        "completion_tokens": 33,
+        "total_tokens": 46582,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "answer": "{\n\"candidate\": \"A\",\n\"delays\": [\n100,\n200,\n500\n]\n}"
+    },
+    {
+      "label": "coder-long-f16",
+      "pass": false,
+      "seconds": 275.547,
+      "usage": {
+        "prompt_tokens": 43829,
+        "completion_tokens": 22,
+        "total_tokens": 43851,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "answer": "{\"candidate\":\"A\",\"delays\":[100,200,3200]}"
+    },
+    {
+      "label": "coder-long-q8",
+      "pass": false,
+      "seconds": 107.516,
+      "usage": {
+        "prompt_tokens": 43830,
+        "completion_tokens": 22,
+        "total_tokens": 43852,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "answer": "{\"candidate\":\"A\",\"delays\":[100,200,3200]}"
+    }
+  ],
+  "qualitySummary": [
+    {
+      "config": "coder-quality-current",
+      "passed": 3,
+      "runs": 3,
+      "labels": [
+        "coder-quality-current-0-merge",
+        "coder-quality-current-0-events",
+        "coder-quality-current-0-schedule"
+      ]
+    },
+    {
+      "config": "coder-quality-mild",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "coder-quality-mild-0-merge",
+        "coder-quality-mild-0-events",
+        "coder-quality-mild-0-schedule"
+      ]
+    },
+    {
+      "config": "coder-quality-q8-minp0",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "coder-quality-q8-minp0-0-merge",
+        "coder-quality-q8-minp0-0-events",
+        "coder-quality-q8-minp0-0-schedule"
+      ]
+    },
+    {
+      "config": "coder-quality-q8-current",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "coder-quality-q8-current-0-merge",
+        "coder-quality-q8-current-0-events",
+        "coder-quality-q8-current-0-schedule"
+      ]
+    },
+    {
+      "config": "coder-quality-q8-low",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "coder-quality-q8-low-0-merge",
+        "coder-quality-q8-low-0-events",
+        "coder-quality-q8-low-0-schedule"
+      ]
+    },
+    {
+      "config": "coder-paired-base",
+      "passed": 1,
+      "runs": 3,
+      "labels": [
+        "coder-paired-base-seed42-0-events",
+        "coder-paired-base-seed43-0-events",
+        "coder-paired-base-seed44-0-events"
+      ]
+    },
+    {
+      "config": "coder-paired-ub2048",
+      "passed": 1,
+      "runs": 3,
+      "labels": [
+        "coder-paired-ub2048-seed42-0-events",
+        "coder-paired-ub2048-seed43-0-events",
+        "coder-paired-ub2048-seed44-0-events"
+      ]
+    },
+    {
+      "config": "coder-paired-q8",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "coder-paired-q8-seed42-0-events",
+        "coder-paired-q8-seed43-0-events",
+        "coder-paired-q8-seed44-0-events"
+      ]
+    },
+    {
+      "config": "brain-quality-current",
+      "passed": 3,
+      "runs": 3,
+      "labels": [
+        "brain-quality-current-0-merge",
+        "brain-quality-current-0-events",
+        "brain-quality-current-0-schedule"
+      ]
+    },
+    {
+      "config": "brain-quality-mild",
+      "passed": 2,
+      "runs": 3,
+      "labels": [
+        "brain-quality-mild-0-merge",
+        "brain-quality-mild-0-events",
+        "brain-quality-mild-0-schedule"
+      ]
+    },
+    {
+      "config": "brain-quality-high",
+      "passed": 1,
+      "runs": 3,
+      "labels": [
+        "brain-quality-high-0-merge",
+        "brain-quality-high-0-events",
+        "brain-quality-high-0-schedule"
+      ]
+    },
+    {
+      "config": "brain-quality-q8",
+      "passed": 3,
+      "runs": 3,
+      "labels": [
+        "brain-quality-q8-0-merge",
+        "brain-quality-q8-0-events",
+        "brain-quality-q8-0-schedule"
+      ]
+    }
+  ],
+  "qualityResults": [
+    {
+      "label": "coder-quality-current-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 2.188
+    },
+    {
+      "label": "coder-quality-current-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 5.356
+    },
+    {
+      "label": "coder-quality-current-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 4.324
+    },
+    {
+      "label": "coder-quality-mild-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 2.738
+    },
+    {
+      "label": "coder-quality-mild-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 16.948
+    },
+    {
+      "label": "coder-quality-mild-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 6.269
+    },
+    {
+      "label": "coder-quality-q8-minp0-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 49.552
+    },
+    {
+      "label": "coder-quality-q8-minp0-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 8.589
+    },
+    {
+      "label": "coder-quality-q8-minp0-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 4.402
+    },
+    {
+      "label": "coder-quality-q8-current-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 2.422
+    },
+    {
+      "label": "coder-quality-q8-current-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 4.264
+    },
+    {
+      "label": "coder-quality-q8-current-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 3.902
+    },
+    {
+      "label": "coder-quality-q8-low-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 2.429
+    },
+    {
+      "label": "coder-quality-q8-low-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 3.761
+    },
+    {
+      "label": "coder-quality-q8-low-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 4.024
+    },
+    {
+      "label": "brain-quality-current-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 4.492
+    },
+    {
+      "label": "brain-quality-current-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 6.414
+    },
+    {
+      "label": "brain-quality-current-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 10.278
+    },
+    {
+      "label": "brain-quality-mild-0-merge",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 4.916
+    },
+    {
+      "label": "brain-quality-mild-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 7.214
+    },
+    {
+      "label": "brain-quality-mild-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 9.689
+    },
+    {
+      "label": "brain-quality-high-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 42.682
+    },
+    {
+      "label": "brain-quality-high-0-events",
+      "pass": false,
+      "finish": "length",
+      "seconds": 64.251
+    },
+    {
+      "label": "brain-quality-high-0-schedule",
+      "pass": false,
+      "finish": "length",
+      "seconds": 64.568
+    },
+    {
+      "label": "brain-quality-q8-0-merge",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 16.466
+    },
+    {
+      "label": "brain-quality-q8-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 8.09
+    },
+    {
+      "label": "brain-quality-q8-0-schedule",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 10.451
+    },
+    {
+      "label": "coder-paired-base-seed42-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 5.371
+    },
+    {
+      "label": "coder-paired-base-seed43-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 5.353
+    },
+    {
+      "label": "coder-paired-base-seed44-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 3.847
+    },
+    {
+      "label": "coder-paired-ub2048-seed42-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 5.452
+    },
+    {
+      "label": "coder-paired-ub2048-seed43-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 5.356
+    },
+    {
+      "label": "coder-paired-ub2048-seed44-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 3.799
+    },
+    {
+      "label": "coder-paired-q8-seed42-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 4.067
+    },
+    {
+      "label": "coder-paired-q8-seed43-0-events",
+      "pass": false,
+      "finish": "stop",
+      "seconds": 4.343
+    },
+    {
+      "label": "coder-paired-q8-seed44-0-events",
+      "pass": true,
+      "finish": "stop",
+      "seconds": 3.604
+    }
+  ],
+  "promotion": {
+    "backup": "C:\\Users\\scott\\Desktop\\Halo Stack Research\\Tuning Backups\\20260915-five-investigations-123822",
+    "coderCache": "q8_0",
+    "coderMicrobatch": 2048,
+    "brainCache": "f16",
+    "brainMicrobatch": 1024,
+    "minP": 0.05
+  },
+  "limitations": [
+    "Two repetitions per short performance setting; not a statistical benchmark.",
+    "Initial quality trials used independent nonces and stochastic output. The coder event-task comparison was repeated with identical prompts and seeds 42, 43, 44.",
+    "All four long-context trials failed the full expected answer. Timings measure processing and response, not time to a correct solution.",
+    "High reasoning was tested with a 4096-token response allowance; two trials exhausted it before producing code. Production DSH still permits 8192 output tokens."
+  ],
+  "dshAcceptance": [
+    {
+      "model": "halo-coder-q4km",
+      "sessionId": "session-ff92e9c8-39c1-4e2a-b267-fe98e881ebdf",
+      "completed": true,
+      "testsUnchanged": true,
+      "testExitCode": 0,
+      "testOutput": "All 8 cases passed; input preserved",
+      "toolCalls": 11,
+      "criteria": "8 event-selection cases and input nonmutation; supplied tests unchanged; no parent intervention"
+    },
+    {
+      "model": "halo-brain-35b",
+      "sessionId": "session-a74fcb19-7825-4bc8-8bb2-29cb7effc264",
+      "completed": true,
+      "testsUnchanged": true,
+      "testExitCode": 0,
+      "testOutput": "All 8 cases passed; input preserved",
+      "toolCalls": 6,
+      "criteria": "8 event-selection cases and input nonmutation; supplied tests unchanged; no parent intervention"
+    }
+  ],
+  "finalState": {
+    "time": "2026-09-15T18:49:41.111Z",
+    "models": [
+      {
+        "identifier": "halo-coder-q4km",
+        "modelKey": "halo/qwen3-coder-30b-a3b-q4km",
+        "publisher": "halo",
+        "type": "llm",
+        "quant": "Q4_K_M",
+        "context": 131072,
+        "status": "idle",
+        "queued": 0,
+        "parallel": 1,
+        "gb": 18.6,
+        "origin": "this device",
+        "originKind": "local",
+        "deviceId": null
+      },
+      {
+        "identifier": "halo-brain-35b",
+        "modelKey": "halo/qwen3.6-35b-a3b",
+        "publisher": "halo",
+        "type": "llm",
+        "quant": "Q4_K_M",
+        "context": 131072,
+        "status": "idle",
+        "queued": 0,
+        "parallel": 1,
+        "gb": 22.1,
+        "origin": "this device",
+        "originKind": "local",
+        "deviceId": null
+      }
+    ],
+    "plugins": {
+      "total": 158,
+      "active": 131,
+      "disabled": 27,
+      "waiting": 0,
+      "transitioning": 0,
+      "failed": 0,
+      "stuck": 0,
+      "failedList": [],
+      "waitingList": [],
+      "stuckList": [],
+      "stale": false,
+      "cacheState": "current",
+      "sampledAt": 1789498181067,
+      "sourceAgeMs": 0,
+      "refreshError": null
+    },
+    "brainConfigMismatch": null,
+    "settingsRefusals": [],
+    "canonicalAndLiveSettingsSemanticallyEqual": true,
+    "aliasSha256": {
+      "qwen3-coder-30b-a3b-q4km": "6cb3c6eaf6d3505064540e7b41c9791d3d1c12ed59d82099c1ee264c5f28c823",
+      "qwen3.6-35b-a3b": "4454832b0e8907fa9f6256e5a0875a37e2ef0695db6c1ad43cffd466d4955f2c"
+    },
+    "temporaryAliasesRemoved": true,
+    "gpu": {
+      "ok": true,
+      "dedicatedGiB": 51.2,
+      "sharedGiB": 1.5,
+      "carveoutGiB": 64.2,
+      "sampledAt": 1789498181013,
+      "error": null
+    },
+    "ram": {
+      "totalGiB": 63.8,
+      "freeGiB": 36.1,
+      "usedGiB": 27.7
+    }
+  }
+}
