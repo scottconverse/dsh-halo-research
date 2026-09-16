@@ -1,0 +1,1021 @@
+{
+  "checkedAt": "2026-09-16T04:39:33.222Z",
+  "scope": "Isolated DSH sessions; unique file read followed by exact response. 3.6 used local-lean; repaired 3.8, Grok, and Ollama used full local preset.",
+  "catalog": {
+    "default": {
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:cloud",
+      "reasoningEffort": "off"
+    },
+    "routableProviders": [
+      "xai-oauth",
+      "lmstudio",
+      "google",
+      "ollama"
+    ],
+    "groups": [
+      {
+        "id": "xai-oauth",
+        "name": "xAI Grok",
+        "models": [
+          {
+            "id": "grok-4.20-0309-non-reasoning",
+            "name": "Grok 4.20 0309 Non Reasoning"
+          },
+          {
+            "id": "grok-4.20-0309-reasoning",
+            "name": "Grok 4.20 0309 Reasoning",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-4.20-multi-agent-0309",
+            "name": "Grok 4.20 Multi Agent 0309",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-4.3",
+            "name": "Grok 4.3",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-4.5",
+            "name": "Grok 4.5",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-4.6",
+            "name": "Grok 4.6",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                },
+                {
+                  "id": "xhigh",
+                  "name": "Xhigh"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-build-0.1",
+            "name": "Grok Build 0.1",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-imagine-image",
+            "name": "Grok Imagine Image",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-imagine-image-2.0",
+            "name": "Grok Imagine Image 2.0",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-imagine-image-quality",
+            "name": "Grok Imagine Image Quality",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-imagine-video",
+            "name": "Grok Imagine Video",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          },
+          {
+            "id": "grok-imagine-video-1.5",
+            "name": "Grok Imagine Video 1.5",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "lmstudio",
+        "name": "LM Studio local",
+        "models": [
+          {
+            "id": "halo-brain-35b",
+            "name": "Qwen3.6 35B-A3B - planner and vision",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "off"
+            }
+          },
+          {
+            "id": "halo-coder-q4km",
+            "name": "Qwen3 Coder 30B-A3B Q4_K_M - default"
+          }
+        ]
+      },
+      {
+        "id": "google",
+        "name": "google",
+        "models": [
+          {
+            "id": "gemini-2.5-computer-use-preview-10-2025",
+            "name": "Gemini 2.5 Computer Use Preview 10-2025",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-2.5-flash",
+            "name": "Gemini 2.5 Flash",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-2.5-flash-lite",
+            "name": "Gemini 2.5 Flash-Lite",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-2.5-pro",
+            "name": "Gemini 2.5 Pro",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3-flash-preview",
+            "name": "Gemini 3 Flash Preview",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-flash-lite",
+            "name": "Gemini 3.1 Flash Lite",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-flash-lite-image",
+            "name": "Nano Banana 2 Lite",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-flash-lite-preview",
+            "name": "Gemini 3.1 Flash Lite Preview",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-flash-live-preview",
+            "name": "Gemini 3.1 Flash Live Preview",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-pro-preview",
+            "name": "Gemini 3.1 Pro Preview",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.1-pro-preview-customtools",
+            "name": "Gemini 3.1 Pro Preview Custom Tools",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.5-flash",
+            "name": "Gemini 3.5 Flash",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.5-flash-lite",
+            "name": "Gemini 3.5 Flash Lite",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.6-flash",
+            "name": "Gemini 3.6 Flash",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.7-flash",
+            "name": "Gemini 3.7 Flash",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-3.8-flash",
+            "name": "Gemini 3.8 Flash",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-flash-latest",
+            "name": "Gemini Flash Latest",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemini-flash-lite-latest",
+            "name": "Gemini Flash-Lite Latest",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                },
+                {
+                  "id": "medium",
+                  "name": "Medium"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemma-4-26b-a4b-it",
+            "name": "Gemma 4 26B A4B IT",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          },
+          {
+            "id": "gemma-4-31b-it",
+            "name": "Gemma 4 31B IT",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "minimal",
+                  "name": "Minimal"
+                },
+                {
+                  "id": "high",
+                  "name": "High"
+                }
+              ],
+              "defaultEffort": "high"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ollama",
+        "name": "Ollama Cloud",
+        "models": [
+          {
+            "id": "deepseek-v4.1-flash:cloud",
+            "name": "DeepSeek V4.1 Flash (Ollama Cloud)",
+            "reasoning": {
+              "efforts": [
+                {
+                  "id": "off",
+                  "name": "Off"
+                },
+                {
+                  "id": "low",
+                  "name": "Low"
+                }
+              ],
+              "defaultEffort": "off"
+            }
+          }
+        ]
+      }
+    ],
+    "failures": []
+  },
+  "runs": [
+    {
+      "sessionId": "session-5fbace7f-1bd5-4c1f-9f2b-0699914060ef",
+      "provider": "xai-oauth",
+      "model": "grok-4.6",
+      "startedAt": "2026-09-16T04:38:01.234Z",
+      "selected": {
+        "provider": "xai-oauth",
+        "model": "grok-4.6"
+      },
+      "toolCalls": [
+        {
+          "name": "read",
+          "arguments": "{\"file_path\":\"C:/Users/scott/Documents/Codex/2026-09-10/gi/work/cloud-checks/session-5fbace7f-1bd5-4c1f-9f2b-0699914060ef.txt\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "isError": false,
+          "text": "<path>C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\cloud-checks\\session-5fbace7f-1bd5-4c1f-9f2b-0699914060ef.txt</path>\n<type>file</type>\n<content>\n1: b892d762-a950-4c47-a383-d6e9ca0e63c4\n\n(End of file - total 1 lines)\n</content>"
+        }
+      ],
+      "finalText": "b892d762-a950-4c47-a383-d6e9ca0e63c4",
+      "finalSource": "grok-4.6",
+      "expected": "b892d762-a950-4c47-a383-d6e9ca0e63c4",
+      "end": {
+        "kind": "completed"
+      },
+      "contentMatches": true,
+      "exactFormatting": true,
+      "providerToolCheckPassed": true
+    },
+    {
+      "sessionId": "session-657e5f73-82ba-4c4f-a453-d743f64e5cec",
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:cloud",
+      "startedAt": "2026-09-16T04:38:03.090Z",
+      "selected": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:cloud",
+        "reasoningEffort": "off"
+      },
+      "toolCalls": [
+        {
+          "name": "read",
+          "arguments": "{\"file_path\":\"C:/Users/scott/Documents/Codex/2026-09-10/gi/work/cloud-checks/session-657e5f73-82ba-4c4f-a453-d743f64e5cec.txt\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "isError": false,
+          "text": "<path>C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\cloud-checks\\session-657e5f73-82ba-4c4f-a453-d743f64e5cec.txt</path>\n<type>file</type>\n<content>\n1: 7c2fc3d6-6bd8-430c-8f91-6c649f4f0138\n\n(End of file - total 1 lines)\n</content>"
+        }
+      ],
+      "finalText": "```\n7c2fc3d6-6bd8-430c-8f91-6c649f4f0138\n```",
+      "finalSource": "deepseek-v4.1-flash:cloud",
+      "expected": "7c2fc3d6-6bd8-430c-8f91-6c649f4f0138",
+      "end": {
+        "kind": "completed"
+      },
+      "contentMatches": true,
+      "exactFormatting": false,
+      "providerToolCheckPassed": true
+    },
+    {
+      "sessionId": "session-8365d9bd-1b63-479c-8b3b-ec088eed44b7",
+      "provider": "google",
+      "model": "gemini-3.6-flash",
+      "startedAt": "2026-09-16T04:33:16.760Z",
+      "selected": {
+        "provider": "google",
+        "model": "gemini-3.6-flash"
+      },
+      "toolCalls": [
+        {
+          "name": "read",
+          "arguments": "{\"file_path\":\"C:/Users/scott/Documents/Codex/2026-09-10/gi/work/cloud-checks/session-8365d9bd-1b63-479c-8b3b-ec088eed44b7.txt\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "isError": false,
+          "text": "<path>C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\cloud-checks\\session-8365d9bd-1b63-479c-8b3b-ec088eed44b7.txt</path>\n<type>file</type>\n<content>\n1: eecef184-4b0a-4162-939c-a90a62fcbe6e\n\n(End of file - total 1 lines)\n</content>"
+        }
+      ],
+      "finalText": "eecef184-4b0a-4162-939c-a90a62fcbe6e",
+      "finalSource": "gemini-3.6-flash",
+      "expected": "eecef184-4b0a-4162-939c-a90a62fcbe6e",
+      "end": {
+        "kind": "completed"
+      },
+      "contentMatches": true,
+      "exactFormatting": true,
+      "providerToolCheckPassed": true
+    },
+    {
+      "sessionId": "session-8a51d164-f88f-47f9-b8fd-24c6b1b331be",
+      "provider": "xai-oauth",
+      "model": "grok-4.20-0309-non-reasoning",
+      "startedAt": "2026-09-16T04:37:38.835Z",
+      "selected": {
+        "provider": "xai-oauth",
+        "model": "grok-4.20-0309-non-reasoning"
+      },
+      "toolCalls": [
+        {
+          "name": "read",
+          "arguments": "{\"file_path\":\"C:/Users/scott/Documents/Codex/2026-09-10/gi/work/cloud-checks/session-8a51d164-f88f-47f9-b8fd-24c6b1b331be.txt\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "isError": false,
+          "text": "<path>C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\cloud-checks\\session-8a51d164-f88f-47f9-b8fd-24c6b1b331be.txt</path>\n<type>file</type>\n<content>\n1: a0b2ed8a-3fbc-4079-927d-243eb26c9752\n\n(End of file - total 1 lines)\n</content>"
+        }
+      ],
+      "finalText": "a0b2ed8a-3fbc-4079-927d-243eb26c9752",
+      "finalSource": "grok-4.20-0309-non-reasoning",
+      "expected": "a0b2ed8a-3fbc-4079-927d-243eb26c9752",
+      "end": {
+        "kind": "completed"
+      },
+      "contentMatches": true,
+      "exactFormatting": true,
+      "providerToolCheckPassed": true
+    },
+    {
+      "sessionId": "session-b8dd5b77-f6dc-4b61-a704-f51a4b214c57",
+      "provider": "google",
+      "model": "gemini-3.8-flash",
+      "startedAt": "2026-09-16T04:34:26.732Z",
+      "selected": {
+        "provider": "google",
+        "model": "gemini-3.8-flash"
+      },
+      "toolCalls": [],
+      "toolResults": [],
+      "expected": "84a84f5a-0d5f-45a0-97ad-cbd183e21893",
+      "end": {
+        "kind": "error",
+        "error": {
+          "message": "{\"error\":{\"message\":\"{\\n  \\\"error\\\": {\\n    \\\"code\\\": 400,\\n    \\\"message\\\": \\\"Thinking level MINIMAL is not supported for this model. Please retry with other thinking level.\\\",\\n    \\\"status\\\": \\\"INVALID_ARGUMENT\\\"\\n  }\\n}\\n\",\"code\":400,\"status\":\"Bad Request\"}}",
+          "code": "INVALID_REQUEST"
+        }
+      },
+      "contentMatches": false,
+      "exactFormatting": false,
+      "providerToolCheckPassed": false
+    },
+    {
+      "sessionId": "session-c6fc6cb8-f0e4-43ce-9f77-f3f873319162",
+      "provider": "google",
+      "model": "gemini-3.8-flash",
+      "startedAt": "2026-09-16T04:37:40.721Z",
+      "selected": {
+        "provider": "google",
+        "model": "gemini-3.8-flash",
+        "reasoningEffort": "high"
+      },
+      "toolCalls": [
+        {
+          "name": "read",
+          "arguments": "{\"file_path\":\"C:/Users/scott/Documents/Codex/2026-09-10/gi/work/cloud-checks/session-c6fc6cb8-f0e4-43ce-9f77-f3f873319162.txt\"}"
+        }
+      ],
+      "toolResults": [
+        {
+          "isError": false,
+          "text": "<path>C:\\Users\\scott\\Documents\\Codex\\2026-09-10\\gi\\work\\cloud-checks\\session-c6fc6cb8-f0e4-43ce-9f77-f3f873319162.txt</path>\n<type>file</type>\n<content>\n1: ffe51582-045f-42e4-bcb5-15cd1e7729bc\n\n(End of file - total 1 lines)\n</content>"
+        }
+      ],
+      "finalText": "ffe51582-045f-42e4-bcb5-15cd1e7729bc",
+      "finalSource": "gemini-3.8-flash",
+      "expected": "ffe51582-045f-42e4-bcb5-15cd1e7729bc",
+      "end": {
+        "kind": "completed"
+      },
+      "contentMatches": true,
+      "exactFormatting": true,
+      "providerToolCheckPassed": true
+    },
+    {
+      "sessionId": "session-ffab864c-59f8-49a1-b775-e816b9831d22",
+      "provider": "google",
+      "model": "gemini-3.8-flash",
+      "startedAt": "2026-09-16T04:33:34.607Z",
+      "selected": {
+        "provider": "google",
+        "model": "gemini-3.8-flash"
+      },
+      "toolCalls": [],
+      "toolResults": [],
+      "expected": "276be334-2159-4c49-aa0b-455e2f74b181",
+      "end": {
+        "kind": "error",
+        "error": {
+          "message": "{\"error\":{\"message\":\"{\\n  \\\"error\\\": {\\n    \\\"code\\\": 400,\\n    \\\"message\\\": \\\"Thinking level MINIMAL is not supported for this model. Please retry with other thinking level.\\\",\\n    \\\"status\\\": \\\"INVALID_ARGUMENT\\\"\\n  }\\n}\\n\",\"code\":400,\"status\":\"Bad Request\"}}",
+          "code": "INVALID_REQUEST"
+        }
+      },
+      "contentMatches": false,
+      "exactFormatting": false,
+      "providerToolCheckPassed": false
+    }
+  ],
+  "observedUserFailures": [
+    {
+      "model": "deepseek-official/deepseek-flash",
+      "error": "MISSING_CREDENTIAL: no API key for provider route deepseek-official"
+    },
+    {
+      "model": "xai-oauth/grok-4.20-0309-non-reasoning",
+      "error": "400: Model grok-4.20-0309-non-reasoning does not support parameter reasoningEffort."
+    },
+    {
+      "model": "google/deep-research-max-preview-04-2026",
+      "error": "400: This model only supports Interactions API."
+    }
+  ]
+}

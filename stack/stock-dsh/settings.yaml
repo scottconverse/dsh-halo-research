@@ -34,6 +34,32 @@ llm-pi-ai:
           reasoningEfforts: false
     google:
       apiKeyEnv: GOOGLE_API_KEY
+      models:
+        - id: gemini-2.5-computer-use-preview-10-2025
+        - id: gemini-2.5-flash
+        - id: gemini-2.5-flash-lite
+        - id: gemini-2.5-pro
+        - id: gemini-3-flash-preview
+        - id: gemini-3.1-flash-lite
+        - id: gemini-3.1-flash-lite-image
+        - id: gemini-3.1-flash-lite-preview
+        - id: gemini-3.1-flash-live-preview
+        - id: gemini-3.1-pro-preview
+        - id: gemini-3.1-pro-preview-customtools
+        - id: gemini-3.5-flash
+        - id: gemini-3.5-flash-lite
+        - id: gemini-3.6-flash
+        - id: gemini-3.7-flash
+        - id: gemini-3.8-flash
+          reasoningEfforts:
+            low: LOW
+            medium: MEDIUM
+            high: HIGH
+        - id: gemini-flash-latest
+        - id: gemini-flash-lite-latest
+        - id: gemma-4-26b-a4b-it
+        - id: gemma-4-31b-it
+      reasoning: high
     ollama:
       displayName: Ollama Cloud
       # The local Ollama daemon accepts this existing non-secret gateway placeholder

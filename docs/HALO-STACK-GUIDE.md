@@ -130,3 +130,7 @@ Mission Control's Activity card separates running now (active session models and
 Keep Ollama running and signed in. In DSH choose **Ollama Cloud > DeepSeek V4.1 Flash (Ollama Cloud)**. Local models remain available; cloud use does not load GPU weights. In Codex, the stock Ollama desktop integration supplies the cloud model alongside native models after the desktop reloads its catalog. The native Terra default is retained.
 
 The Codex `ollama-deepseek` worker profile supports usage-aware delegation: Sol/Terra/Luna at 10% remaining or more, DeepSeek execution with Astra coordination below 10%. Agents operate the worker; no terminal operation is required from Scott. Ollama's router is in Codex's request path for native as well as cloud models; keep it running or use Ollama Apps > ChatGPT (Desktop) > Off to restore the prior connection. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for exact files, checks, and limitations.
+
+## Cloud model compatibility repair (September 15, 2026)
+
+Direct DeepSeek API models are hidden because this installation has no DeepSeek API key; Ollama Cloud DeepSeek stays available. The Google chat picker excludes the two Deep Research agents that require a different API. Gemini defaults to explicit High thinking; Gemini 3.8 offers Low/Medium/High rather than unsupported Minimal. The SuperGrok plugin now correctly treats its 4.20 non-reasoning model as non-reasoning. See [changes, real DSH checks, and recovery](HALO-DSH-IMPLEMENTATION-2026-09-15-CLOUD-REPAIR.md).

@@ -25,3 +25,7 @@ To restore on this machine, stop DSH using the existing stop launcher. Copy the 
 To disconnect, use **Settings > xAI Grok > Sign out**. To remove the provider entirely, use the pinned DSH CLI's `plugin --profile web remove dsh-xai` and restart through the desktop launcher. Removing a bundle alone does not delete its saved credential, so sign out first. No separately billed route is enabled automatically.
 
 Evidence: [DSH response](evidence/dsh-supergrok-2026-09-15.json).
+
+## Later compatibility correction
+
+The original text-only 4.6 check did not validate every model offered by live account discovery. The 4.20 non-reasoning variant inherited invalid reasoning metadata; the tracked patch now clears it. Real tool-call checks and the current verification limits are documented in [the cloud repair record](HALO-DSH-IMPLEMENTATION-2026-09-15-CLOUD-REPAIR.md). Preserve the updated pnpm patch and matching lockfile when restoring.

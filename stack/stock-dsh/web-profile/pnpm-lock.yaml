@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  dsh-xai@0.1.0: 6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86
+  dsh-xai@0.1.0: 686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d
 
 importers:
 
@@ -13,7 +13,7 @@ importers:
     dependencies:
       dsh-xai:
         specifier: github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b
-        version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86)
+        version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d)
 
 packages:
 
@@ -59,4 +59,4 @@ packages:
 
 snapshots:
 
-  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=6dc6032e207f37647c7c8a03d0be15f504a2dcf3cc83b8c7229f2acafd505d86): {}
+  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d): {}

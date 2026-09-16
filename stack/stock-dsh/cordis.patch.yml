@@ -79,3 +79,7 @@
       name: PowerShell 7
       args:
       - -NoLogo
+
+# No direct DeepSeek API key on this deployment; Ollama DeepSeek remains enabled.
+- id: llm-deepseek
+  disabled: true
