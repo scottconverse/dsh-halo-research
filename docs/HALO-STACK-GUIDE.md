@@ -1,6 +1,10 @@
 # Halo stack guide
 
-Updated September 15, 2026.
+Updated September 16, 2026.
+
+## Approved model context
+
+The approved brain and worker use **131,072 tokens**, parallel=1. Mission Control's missing-context fallback and profile warning now agree with that setting. Explicit manual context choices remain available. The retained legacy startup helper was also aligned, but the desktop shortcut continues to use the stock PowerShell launcher. The September 16 correction was installed on disk without starting DSH or restarting services; a running Mission Control process uses it after its next normal restart. No model reload is required just for this code correction.
 
 ## Focused coding sessions
 

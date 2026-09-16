@@ -1995,7 +1995,7 @@ function roleProfiles() {
 }
 function brainMismatch(profiles, models) {
   const expected = profiles?.brain;
-  if (!expected?.definitionOk) return 'cannot verify the daily brain: its LM Studio model.yaml definition is missing or no longer pins 32K / parallel=1';
+  if (!expected?.definitionOk) return `cannot verify the daily brain: its LM Studio model.yaml definition is missing or no longer pins ${expected?.context ?? DAILY_BRAIN.context} tokens / parallel=${expected?.parallel ?? DAILY_BRAIN.parallel}`;
   const b = (models || []).find(m => m.identifier === expected.identifier && m.originKind === 'local');
   if (!b) return null;
   const quantOk = b.quant === expected.quant;
@@ -4713,7 +4713,7 @@ const server = http.createServer(async (req, res) => {
       if (!/^[A-Za-z0-9._:@\/-]{1,128}$/.test(String(modelKey))) {
         res.writeHead(400); res.end('invalid modelKey'); return;
       }
-      const ctxN = Number.isFinite(ctx) && ctx > 0 ? Math.min(1048576, Math.round(ctx)) : 32768;
+      const ctxN = Number.isFinite(ctx) && ctx > 0 ? Math.min(1048576, Math.round(ctx)) : DAILY_BRAIN.context;
       // No shell: args are an argv vector, never concatenated into a command line.
       try {
         await runLmsMutation(

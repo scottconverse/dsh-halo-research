@@ -1,6 +1,10 @@
 # Current installation: stock DSH + Wigolo + Mission Control
 
-Updated September 15, 2026.
+Updated September 16, 2026.
+
+## Context consistency correction — September 16
+
+The approved brain and worker context remains **131,072 tokens**, parallel=1. Mission Control's invalid-profile message now reports the actual role contract, and its manual-load endpoint uses 131,072 when no valid context is supplied (explicit context choices remain supported). The retained legacy `stack/startup/halo-startup.mjs` helper now uses the same context for loads and validation; the desktop launcher still uses `stack/stock-dsh/Start-StockDSH.ps1`. The corrected Mission Control file was installed on disk without launching or restarting services or touching loaded models. A running Mission Control process picks up the correction on its next normal restart. See [offline correction record](HALO-DSH-IMPLEMENTATION-2026-09-16-CONTEXT-CONSISTENCY.md).
 
 ## Optional lean coding
 

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { PAIR, mergeCatalog, loadArguments, synchronize, waitForSettings } from '../halo-startup.mjs';
 
 const inventory = [
-  ...PAIR.map(p => ({type:'llm',key:p.modelKey,display_name:p.identifier,max_context_length:32768,quantization:{name:'Q4_K_M'}})),
+  ...PAIR.map(p => ({type:'llm',key:p.modelKey,display_name:p.identifier,max_context_length:262144,quantization:{name:'Q4_K_M'}})),
   {type:'llm',key:'remote/new-model',display_name:'Remote new model',max_context_length:65536},
   {type:'llm',key:'local/new-quant@q6_k',display_name:'New quant',max_context_length:8192},
   {type:'embedding',key:'embed'},
@@ -32,7 +32,7 @@ function fixture() {
     describe:async()=>({namespaces}),
     mutate:async body=>{mutations.push(body);},
     loaded:async()=>resident,
-    load:async p=>{loads.push(p);resident.push({modelKey:p.modelKey,identifier:p.identifier,contextLength:32768,parallel:1,quantization:{name:'Q4_K_M'}});},
+    load:async p=>{loads.push(p);resident.push({modelKey:p.modelKey,identifier:p.identifier,contextLength:131072,parallel:1,quantization:{name:'Q4_K_M'}});},
     log:()=>{},
   }};
 }
@@ -53,8 +53,9 @@ test('catalog preserves all custom configuration and never mutates its inputs',(
 });
 test('new metadata does not mistake advertised maximum for loaded context',()=>{
   const result=mergeCatalog([],inventory);
+  assert.equal(result.find(m=>m.id===PAIR[0].modelKey).contextWindow,131072);
   assert.ok(result.find(m=>m.id==='remote/new-model'),'discovered remote model must exist');
-  assert.equal(result.find(m=>m.id==='remote/new-model').contextWindow,32768);
+  assert.equal(result.find(m=>m.id==='remote/new-model').contextWindow,65536);
   assert.equal(result.find(m=>m.id==='local/new-quant@q6_k').contextWindow,8192);
 });
 test('malformed or empty discovery cannot erase a saved catalog',()=>{
@@ -65,7 +66,7 @@ test('load uses CLI-compatible alias and retains measured envelope, not picker r
   const args=loadArguments(PAIR[1]);
   assert.equal(args[1],PAIR[1].modelKey);
   assert.deepEqual(args.slice(args.indexOf('--parallel'),args.indexOf('--parallel')+2),['--parallel','1']);
-  assert.ok(args.includes('32768'));
+  assert.ok(args.includes('131072'));
   assert.ok(args.includes('--no-speculative-draft-mtp'));
   assert.ok(!args.includes('--unload'));
 });
@@ -89,8 +90,14 @@ test('already loaded tuned pair is not loaded again',async()=>{
   await synchronize(f.deps,{warm:true}); assert.equal(f.loads.length,0);
 });
 test('wrong resident configuration is reported without silently unloading it',async()=>{
-  const f=fixture(); f.deps.loaded=async()=>[{modelKey:PAIR[0].modelKey,contextLength:32768,parallel:4,quantization:{name:'Q4_K_M'}}];
+  const f=fixture(); f.deps.loaded=async()=>[{modelKey:PAIR[0].modelKey,contextLength:131072,parallel:4,quantization:{name:'Q4_K_M'}}];
   await assert.rejects(synchronize(f.deps,{warm:true}),/parallel|envelope/i);
+  assert.equal(f.loads.length,0);
+});
+test('legacy 32K resident is rejected without loading or unloading models',async()=>{
+  const f=fixture();
+  f.deps.loaded=async()=>[{modelKey:PAIR[0].modelKey,contextLength:32768,parallel:1,quantization:{name:'Q4_K_M'}}];
+  await assert.rejects(synchronize(f.deps,{warm:true}),/131072/);
   assert.equal(f.loads.length,0);
 });
 test('API failure makes no settings writes or model requests',async()=>{
@@ -119,7 +126,7 @@ test('successful CLI exit without a resident model is not success',async()=>{
   assert.equal(f.loads.length,1);
 });
 test('another model using the reserved identifier is not accepted as the tuned model',async()=>{
-  const f=fixture();f.deps.loaded=async()=>[{modelKey:'other/model',identifier:PAIR[0].identifier,contextLength:32768,parallel:1,quantization:{name:'Q4_K_M'}}];
+  const f=fixture();f.deps.loaded=async()=>[{modelKey:'other/model',identifier:PAIR[0].identifier,contextLength:131072,parallel:1,quantization:{name:'Q4_K_M'}}];
   await assert.rejects(synchronize(f.deps,{warm:true}),/not verified/);
   assert.equal(f.loads.length,0);
 });

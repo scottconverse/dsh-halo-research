@@ -7,6 +7,8 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 
+// Retained legacy helper; the desktop launcher uses stock-dsh/Start-StockDSH.ps1.
+export const CONTEXT_LENGTH = 131072;
 export const PAIR = [
   { modelKey: 'halo/qwen3.6-35b-a3b', identifier: 'halo-brain-35b' },
   { modelKey: 'halo/qwen3-coder-30b-a3b-q4km', identifier: 'halo-coder-q4km' },
@@ -27,10 +29,10 @@ export function mergeCatalog(existing, inventory) {
   const ids=new Set(result.map(m=>m.id));
   for (const model of inventory) {
     if (model.type!=='llm' || typeof model.key!=='string' || !model.key || ids.has(model.key)) continue;
-    const maximum=Number.isInteger(model.max_context_length)&&model.max_context_length>0 ? model.max_context_length : 32768;
+    const maximum=Number.isInteger(model.max_context_length)&&model.max_context_length>0 ? model.max_context_length : CONTEXT_LENGTH;
     // A catalog maximum is not a load setting. New entries use the existing Halo
-    // 32K operating declaration (or a smaller native maximum); do not invent 256K loads.
-    result.push({id:model.key,name:`${model.display_name || model.key}${model.quantization?.name ? ' '+model.quantization.name : ''} [LM Studio discovered]`,contextWindow:Math.min(32768,maximum)});
+    // 131,072-token operating declaration (or a smaller native maximum).
+    result.push({id:model.key,name:`${model.display_name || model.key}${model.quantization?.name ? ' '+model.quantization.name : ''} [LM Studio discovered]`,contextWindow:Math.min(CONTEXT_LENGTH,maximum)});
     ids.add(model.key);
   }
   return result;
@@ -40,7 +42,7 @@ export function loadArguments(role) {
   // lms ls advertises @quant variants, but this installed CLI rejects them for
   // Hub aliases. Load the alias and verify its selected quant before and after.
   return ['load',role.modelKey,'--identifier',role.identifier,
-    '--context-length','32768','--parallel','1','--gpu','max','--no-speculative-draft-mtp','-y'];
+    '--context-length',String(CONTEXT_LENGTH),'--parallel','1','--gpu','max','--no-speculative-draft-mtp','-y'];
 }
 
 function residentFor(models,role) {
@@ -48,8 +50,8 @@ function residentFor(models,role) {
 }
 function assertEnvelope(model,role) {
   const correctKey=model && [role.modelKey,role.modelKey+'@q4_k_m'].includes(model.modelKey);
-  if (!correctKey || model.contextLength!==32768 || model.parallel!==1 || model.quantization?.name!=='Q4_K_M') {
-    throw Error(`${role.modelKey}: loaded envelope is not verified Q4_K_M / 32768 / parallel=1. No model was automatically unloaded; inspect lms ps --json.`);
+  if (!correctKey || model.contextLength!==CONTEXT_LENGTH || model.parallel!==1 || model.quantization?.name!=='Q4_K_M') {
+    throw Error(`${role.modelKey}: loaded envelope is not verified Q4_K_M / ${CONTEXT_LENGTH} / parallel=1. No model was automatically unloaded; inspect lms ps --json.`);
   }
 }
 
@@ -85,7 +87,7 @@ export async function synchronize(deps,{warm=false,selectBrain=false}={}) {
       assertEnvelope(current,role);
       deps.log(`Already resident: ${role.modelKey}; no duplicate load.`);
     } else {
-      deps.log(`Loading ${role.modelKey} at Q4_K_M / 32K / parallel=1...`);
+      deps.log(`Loading ${role.modelKey} at Q4_K_M / ${CONTEXT_LENGTH} / parallel=1...`);
       await deps.load(role);
       assertEnvelope(residentFor(await deps.loaded(),role),role);
       deps.log(`Ready: ${role.modelKey}`);
