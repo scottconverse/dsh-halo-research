@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-09-16T05:15:09.080Z",
+  "verification": "Real stop/start through Stop-StockDSH.ps1 and Start-StockDSH.ps1 -NoOpen",
+  "default": {
+    "provider": "lmstudio",
+    "model": "halo-coder-q4km"
+  },
+  "routableProviders": [
+    "xai-oauth",
+    "lmstudio",
+    "google",
+    "ollama"
+  ],
+  "passed": true
+}
