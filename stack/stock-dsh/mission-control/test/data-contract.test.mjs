@@ -497,6 +497,11 @@ test('validation freshness distinguishes current, stale, and never-run evidence'
 
 test('configured DSH route is kept separate from resident model state', () => {
   const { describeRouteRuntime } = dataContractFunctions();
+  const brain = describeRouteRuntime({ provider: 'lmstudio-brain', model: 'halo-brain-35b' }, [
+    { identifier: 'halo-brain-35b', modelKey: 'halo/qwen3.6-35b-a3b', originKind: 'local', type: 'llm', status: 'idle' },
+  ]);
+  assert.equal(brain.exactResident, true);
+  assert.equal(brain.matchedIdentifier, 'halo-brain-35b');
   const route = { provider: 'lmstudio', model: 'unsloth/qwen3.8-27b' };
   const models = [
     { publisher: 'unsloth', identifier: 'qwen3.8-27b', modelKey: 'qwen3.8-27b', type: 'llm', originKind: 'local', status: 'idle' },

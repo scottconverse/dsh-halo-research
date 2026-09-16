@@ -2,6 +2,10 @@
 
 Updated September 16, 2026.
 
+## Brain reasoning default — September 16
+
+DSH now configures the 35B brain under `lmstudio-brain/halo-brain-35b`, displayed as **LM Studio brain**, with **High** as its reasoning default. Explicit **Off** sends `reasoning_effort: "none"`. The coder remains `lmstudio/halo-coder-q4km`, non-thinking and the startup model. Both routes use the same LM Studio endpoint and resident identifiers; no extra model instance, alias, context or tuning changes are involved. Claude's direct LM Studio requests are unaffected. The saved configuration and Mission Control recognition are installed; no services or models were started or restarted for this change. On the next normal launch, use the brain under its new provider. Existing conversations retain their saved selections: reselect the new brain entry and High if continuing a conversation saved with the old route or explicit Off. See [implementation and verification](HALO-DSH-IMPLEMENTATION-2026-09-16-BRAIN-HIGH.md).
+
 ## Context consistency correction — September 16
 
 The approved brain and worker context remains **131,072 tokens**, parallel=1. Mission Control's invalid-profile message now reports the actual role contract, and its manual-load endpoint uses 131,072 when no valid context is supplied (explicit context choices remain supported). The retained legacy `stack/startup/halo-startup.mjs` helper now uses the same context for loads and validation; the desktop launcher still uses `stack/stock-dsh/Start-StockDSH.ps1`. The corrected Mission Control file was installed on disk without launching or restarting services or touching loaded models. A running Mission Control process picks up the correction on its next normal restart. See [offline correction record](HALO-DSH-IMPLEMENTATION-2026-09-16-CONTEXT-CONSISTENCY.md).

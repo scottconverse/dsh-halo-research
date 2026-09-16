@@ -373,7 +373,7 @@ function describeRouteRuntime(route, models) {
   const localLlm = (models || []).filter(m => m?.originKind === 'local' && (!m?.type || m.type === 'llm'));
   let matches = [];
   let matchBasis = null;
-  if (route?.provider === 'lmstudio' && model) {
+  if (['lmstudio', 'lmstudio-brain'].includes(route?.provider) && model) {
     matches = localLlm.filter(m => m?.identifier === model || m?.modelKey === model);
     if (matches.length === 1) matchBasis = 'exact key or identifier';
     else if (matches.length === 0) {
@@ -4507,6 +4507,8 @@ function settingsData(file = SETTINGS_FILE) {
     // routes, but never confuse it with the configured stock alias.
     ['lmstudio/' + DAILY_BRAIN.identifier]: { raw: brain, source: brainFile },
     ['lmstudio/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
+    ['lmstudio-brain/' + DAILY_BRAIN.identifier]: { raw: brain, source: brainFile },
+    ['lmstudio-brain/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
     ['lmstudio/' + DAILY_WORKER.identifier]: { raw: worker, source: workerFile },
     ['lmstudio/' + DAILY_WORKER.modelKey]: { raw: worker, source: workerFile },
     ['lmstudio/' + TUNED_BRAIN_27B.modelKey]: { raw: tunedBrain27, source: tunedBrain27File },
