@@ -472,8 +472,8 @@ def atomic_write_pair(
 
 
 def _canonical_path(path: str | os.PathLike[str]) -> str:
-    """Return a normalized absolute path for collision checks."""
-    return os.path.normcase(os.path.abspath(os.fspath(path)))
+    """Return a fully resolved normalized path for collision checks."""
+    return os.path.normcase(os.path.realpath(os.fspath(path)))
 
 
 def run(

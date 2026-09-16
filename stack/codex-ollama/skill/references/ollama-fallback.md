@@ -22,13 +22,19 @@ The default cloud execution model is exactly `deepseek-v4.1-flash:cloud`, served
 The native `spawn_agent` control currently exposes OpenAI models only. Use the existing Codex CLI with its Ollama profile for DeepSeek execution, not a fictitious native subagent model:
 
 ```powershell
-$taskText | & 'C:/Users/scott/AppData/Roaming/npm/codex.cmd' exec `
-  --profile ollama-deepseek --model deepseek-v4.1-flash:cloud `
-  --cd $workspace --json --output-last-message $resultFile -
+$taskText | python 'C:/Users/scott/.codex/skills/openai-multi-agent/scripts/run_ollama_code_worker.py' `
+  --cwd $workspace --result-file $resultFile --events-file $eventsFile `
+  --stderr-file $stderrFile
 ```
 
 Operate this through tools; Scott does not need to use a terminal. Give a self-contained task, file ownership, acceptance criteria, and output paths. Use the host's authorized permissions; the profile does not narrow Scott's standing access. Avoid competing workers editing the same files. Capture exit status, model/provider identity, results, and tests; a launched process alone is not success.
 
-Profile: `C:/Users/scott/.codex/ollama-deepseek.config.toml`. Endpoint: `http://[::1]:11434/api/codex/v1`, Ollama's stock Codex desktop router. The profile's `openai` provider name selects Codex's authenticated transport; the router sends this allow-listed DeepSeek model to Ollama Cloud, not OpenAI inference. The plain CLI-generated `ollama-launch` profile at `/v1/` failed the initial tool-loop check; do not use it for fallback. Keep the profile's model, high reasoning default, and stock router. High reasoning is selected based on the focused September 16 helper implementation trial; do not generalize that single task into a reliability guarantee.
+For code execution, use `C:/Users/scott/.codex/ollama-deepseek-code-worker.config.toml` with `--ignore-user-config`. It uses a dedicated custom Responses provider at `http://[::1]:11434/v1`, a one-row DeepSeek catalog, and no web-search, app, plugin, memory, multi-agent, or skill-catalog prompt surface. This is deliberately stateless because Ollama's stateful follow-up handling is under repair. The full stock-router profile remains `C:/Users/scott/.codex/ollama-deepseek.config.toml` at `http://[::1]:11434/api/codex/v1`; reserve it as the selectable restoration and web-research path. High reasoning is selected based on the focused September 16 helper implementation trial; do not generalize that single task into a reliability guarantee.
 
 No GPU model is required. Keep Ollama running and signed in. If the worker route fails, report the actual failure and repair that connection; do not silently spend the reserved OpenAI allowance on implementation.
+
+## Bound the worker job
+
+Start a fresh worker with a short file-based brief. Name the owned files and the failing behavior, not a prewritten patch. For a bounded fix, inspect the relevant code sections, run one baseline only if needed, edit, run the focused post-edit checks and `git diff --check`, then return the result. Repeat checks only for a new edit, failure or unresolved concern. Use `python -B` to avoid bytecode cleanup work; do not spend turns removing ignored generated caches. Preserve applicable repository instructions. Do not feed the coordinator conversation or unrelated installed skills into the worker.
+
+The launcher reads the saved profile into explicit supported CLI overrides because the installed CLI does not reliably load `--profile` together with `--ignore-user-config`. The older full profile is retained for restoring its optional tools; its known compatibility limitations remain. The September 16 code task completed unaided, but cumulative tokens and whole-task premium usage missed their targets. Do not describe this as a proven 90% offload system.

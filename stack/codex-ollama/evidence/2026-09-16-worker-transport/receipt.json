@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-16",
+  "model": "deepseek-v4.1-flash:cloud",
+  "provider": "ollama-code-worker",
+  "base_url": "http://[::1]:11434/v1",
+  "cli_version": "0.147.0",
+  "ollama_version": "0.34.1",
+  "thread_id": "01a0ab82-d043-7153-b30b-1a13926a6db8",
+  "elapsed_seconds": 114.432,
+  "initial_input_tokens": 4926,
+  "input_tokens": 518417,
+  "cached_input_tokens": 455680,
+  "output_tokens": 12068,
+  "total_tokens": 530485,
+  "shell_commands": 28,
+  "test_executions": 4,
+  "worker_tests": 17,
+  "premium_code_repairs": 0,
+  "final_text": true,
+  "exit_code": 0,
+  "initial_context_target_met": true,
+  "total_100k_target_met": false,
+  "original_jsonl": "C:\\Users\\scott\\Tools\\model-trial\\codex-delegation-2026-09-16\\code-worker-acceptance\\attempt-2-direct-overrides-valid-catalog\\events.jsonl",
+  "limitations": [
+    "Windows denied real symlink creation: WinError 1314; regression simulates resolver mapping with stdlib mock.",
+    "A single completed task is not a reliability or savings benchmark.",
+    "Tighter stop instructions were added after this measurement and are not measured here."
+  ]
+}

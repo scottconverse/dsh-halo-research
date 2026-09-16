@@ -1,5 +1,11 @@
 # Current installation: stock DSH + Wigolo + Mission Control
 
+## Codex coding-worker transport repair — September 16
+
+Bounded DeepSeek coding workers now have a separate custom Responses route to the signed-in Ollama server at `http://[::1]:11434/v1`. The one-model catalog avoids the incompatible built-in search path; apps, plugins, memories and nested-agent tools are excluded only from this worker invocation. The original `ollama-deepseek` full profile remains available. Main desktop, DSH, Claude and LM Studio settings were not changed by this repair. Because this installed CLI cannot combine the global desktop settings with the isolated profile reliably, use the installed skill's reproducible launcher rather than copying the old `--profile` command.
+
+One real fix completed entirely by DeepSeek in 114 seconds, with 17 passing tests and a final reply. Initial context was 4,926 tokens; cumulative usage was 530,485 including cached replay. Completion passed; the cumulative efficiency target did not. See [research, evidence and limitations](HALO-CODEX-TRANSPORT-RESEARCH-2026-09-16.md).
+
 ## Codex delegation defaults — September 16
 
 Codex now assigns implementation and test work to Ollama Cloud DeepSeek from the start, rather than waiting for low Codex quota. Tuned local models handle bounded file-based drafts and reviews: the brain sends High reasoning by default; the coder sends no reasoning field. Astra coordinates and handles difficult judgment; Sol/Terra/Luna are selective reviewers or escalations while quota permits. Targets of 90%+ cloud/local work, 1–5% Astra, and 6–9% other premium work are goals, not measured savings or hard quota controls. Below 10% main Codex allowance, no new premium workers are launched. See [setup and verification](HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md). DSH routing, Claude's helper, model tuning, and resident instances are unchanged by this setup.

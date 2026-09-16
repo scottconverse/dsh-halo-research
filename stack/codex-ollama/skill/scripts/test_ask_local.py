@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -367,6 +368,38 @@ class AskLocalTests(unittest.TestCase):
                     )
                     self.assertNotEqual(result, 0)
                     self.assertEqual(opener.calls, [])
+
+    def test_canonical_path_resolves_alias_for_input_collision(self):
+        with tempfile.TemporaryDirectory() as root:
+            prompt = Path(root) / "prompt.txt"
+            output = Path(root) / "answer.txt"
+            prompt.write_text("Prompt.", encoding="utf-8")
+
+            realpath = os.path.realpath
+
+            def simulated_realpath(path):
+                if Path(path) == output:
+                    return str(prompt)
+                return realpath(path)
+
+            opener = FakeHTTP(models_payload(ask_local.MODEL_KEYS["coder"], "coder-instance"))
+            with patch("ask_local.os.path.realpath", side_effect=simulated_realpath):
+                result = ask_local.main(
+                    [
+                        "--role",
+                        "coder",
+                        "--prompt-file",
+                        str(prompt),
+                        "--output-file",
+                        str(output),
+                    ],
+                    opener=opener,
+                )
+
+            self.assertNotEqual(result, 0)
+            self.assertEqual(opener.calls, [])
+            self.assertEqual(prompt.read_text(encoding="utf-8"), "Prompt.")
+            self.assertFalse(output.exists())
 
     def test_nonpositive_max_tokens_fails_before_inference(self):
         with tempfile.TemporaryDirectory() as root:
