@@ -138,3 +138,13 @@ Direct DeepSeek API models are hidden because this installation has no DeepSeek 
 ## Local default on fresh launch
 
 A fresh desktop start restores `lmstudio / halo-coder-q4km` as the default for new sessions. Both approved local models remain loaded. DSH normally saves model-picker changes as the next-session default; those choices may persist during the running instance, but the next fresh launch restores the deployment default. Existing conversations retain their own selected model. Clicking Start while DSH is already running reuses it without resetting the model.
+
+## Recovery after restarting the controlling agent app
+
+If the browser stays open but says `session/prompt failed: Failed to fetch`, check whether DSH (3080) and Mission Control (3090) are actually listening before changing model settings. On September 15 both servers disappeared after Codex was restarted, while LM Studio stayed up. The previous servers had been launched from Codex; the logs contained neither a normal stop nor an application crash report. Coupled process lifetime is the suspected cause, not a proven crash diagnosis.
+
+For agent-operated recovery, launch the existing `Start-StockDSH.ps1 -NoOpen` through Windows `Win32_Process.Create` with `Win32_ProcessStartup.ShowWindow = 0`, using the installed PowerShell executable and deployment working directory. That lets Windows start the existing stack outside the invoking Codex command's process tree. Do not call the long-lived launch scripts as ordinary Codex child processes and assume Node `detached` or PowerShell `Start-Process` proves independence from the agent host. This is an operating procedure, not a new service or startup task. The ordinary desktop shortcut remains the user-facing launcher.
+
+Verify both services, reconnect the existing browser's terminal recovery if needed, and verify a completed local-model reply. Preserve any unsent text. Do not restart Codex or the computer to test survival without Scott's authorization.
+
+Recovery verification: the original Chrome tab successfully submitted `ANYONE HOME?`; `halo-coder-q4km` returned a completed reply in 1m 02s. Mission Control showed all eight watched signals nominal and both approved models resident. Surviving a further Codex restart was not tested.
