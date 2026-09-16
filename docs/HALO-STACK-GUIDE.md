@@ -51,9 +51,13 @@ If native DeepSeek search is reached without a `DEEPSEEK_API_KEY`, DSH reports t
 
 - `halo-coder-q4km` is the default coding and tool-using model.
 - `halo-brain-35b` is available for planning, synthesis, and vision.
-- Each is loaded with a 32,768-token context and one parallel slot.
+- Each is loaded with a 131,072-token context and one parallel slot.
 
 The launcher corrects extra models and wrong approved-model load settings. Mission Control can manage model residency, but it does not silently change the approved pair or claim that an unqualified model is healthy.
+
+If LM Studio records an unexpected engine exit while DSH is running, Mission Control automatically reloads affected approved models that were resident before the failure. The dashboard tab may be closed; its background server performs the recovery. Intentional Unload commands are respected. Use the normal Load control to bring an intentionally unloaded model back. The desktop start shortcut continues to restore the complete approved pair as before.
+
+The watcher does not reopen a deliberately closed LM Studio application, and it does not restart a failed DSH conversation. After the models recover, retry the failed conversation in DSH. Recovery failures are visible in the Models page and Mission Control log, with limited retries instead of an endless load loop.
 
 ## Settings and restart behavior
 

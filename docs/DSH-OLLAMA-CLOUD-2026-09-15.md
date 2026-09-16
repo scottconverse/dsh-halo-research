@@ -2,6 +2,18 @@
 
 Updated September 15, 2026.
 
+## Deployment recommendation (not yet applied)
+
+For cloud-only DSH users, prefer a direct connection to `https://ollama.com/v1` using their own Ollama API key. This removes the local Ollama process as a DSH dependency. Keep the local endpoint as an option for users who want local Ollama models or the existing signed-in-account route.
+
+Codex's verified integration uses Ollama's local compatibility router. For a normal desktop, run the existing Ollama server invisibly at user sign-in so it uses that user's account and configuration. A Windows service is an advanced unattended-host option: it starts before sign-in, but requires service installation, account configuration, and an update procedure. Ollama documents using its standalone distribution with a wrapper such as NSSM; the Windows installer is not itself a one-click service installer.
+
+Direct cloud access supports chat completions and stateless Responses, but does not support all Codex-style request features, including custom/freeform tool-call replay. Do not assume the working local Codex router can be replaced by a cloud URL.
+
+Sources: [Windows installation and standalone service](https://docs.ollama.com/windows), [direct cloud API and compatibility limits](https://docs.ollama.com/api/openai-compatibility), [desktop integration](https://docs.ollama.com/integrations/chatgpt).
+
+These are recommendations for packaging, not changes to this installation. The current tested DSH and Codex connections below still use the existing local Ollama server.
+
 The stock `@deepseek-ai/dsh-llm-pi-ai` provider now includes an optional `ollama` route in the canonical and live DSH settings. It uses the existing OpenAI-compatible provider implementation:
 
 ```yaml

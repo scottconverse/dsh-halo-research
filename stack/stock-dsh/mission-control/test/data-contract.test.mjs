@@ -12,6 +12,214 @@ const missionControlFile = process.env.HALO_MC_SOURCE_UNDER_TEST
   : path.join(here, '..', 'mission-control.mjs');
 const source = fs.readFileSync(missionControlFile, 'utf8');
 
+// Execute the production supervisor and production mutation queue, with only
+// external I/O and the clock substituted. This catches ordering/race defects
+// that isolated decision predicates cannot exercise.
+function recoveryHarness(t) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'halo-model-recovery-'));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const log = path.join(dir, 'main.log');
+  fs.writeFileSync(log, 'existing history\n');
+  const roles = {
+    brain: { identifier: 'halo-brain-35b', modelKey: 'halo/brain', context: 131072, parallel: 1 },
+    worker: { identifier: 'halo-coder-q4km', modelKey: 'halo/worker', context: 131072, parallel: 1 },
+  };
+  const h = { log, roles, clock: 1000000, up: true, models: [], saved: {}, loads: [], fail: false, loadGate: null };
+  const resident = role => ({ identifier: roles[role].identifier, modelKey: roles[role].modelKey, deviceIdentifier: null });
+  h.resident = resident;
+  h.models = [resident('brain'), resident('worker')];
+  h.crash = () => fs.appendFileSync(log, 'Engine protocol runtime exited unexpectedly. exitCode=1, signal=null\n');
+  const body = source.split('/*__MODEL_RECOVERY_START__*/')[1]?.split('/*__MODEL_RECOVERY_END__*/')[0];
+  assert.ok(body, 'the actual recovery supervisor has extraction markers');
+  const mutation = source.slice(source.indexOf('async function runLmsMutation('), source.indexOf('const snapshotTaskCache'));
+  h.boot = () => {
+    h.api = new Function('fs', 'LMSTUDIO_MAIN_LOG', 'DAILY_BRAIN', 'DAILY_WORKER', 'readState', 'writeState', 'tcpCheck', 'lmsPs', 'safeExecFile', 'waitForModelState', 'Date', 'console',
+      `${body}\n${mutation}\nreturn { modelRecoveryTick, runLmsMutation, recoveryState, queuedLmsMutation };`)(
+      fs, log, roles.brain, roles.worker,
+      () => structuredClone(h.saved), patch => { h.saved = structuredClone({ ...h.saved, ...patch }); },
+      async () => h.up, async () => h.models == null ? null : structuredClone(h.models),
+      async (_exe, args) => {
+        if (args[0] === 'load') {
+          h.loads.push([...args]);
+          if (h.loadGate) await h.loadGate;
+          if (h.fail) throw new Error('injected engine load failure');
+          const id = args[args.indexOf('--identifier') + 1];
+          h.models = h.models.filter(m => m.identifier !== id).concat({ identifier: id, modelKey: args[1], deviceIdentifier: null });
+        } else if (args[0] === 'unload') {
+          h.models = args[1] === '--all' ? [] : h.models.filter(m => m.identifier !== args[1]);
+        }
+        return { stdout: '', stderr: '' };
+      },
+      async (id, loaded) => assert.equal(id == null ? h.models.length > 0 : h.models.some(m => m.identifier === id), loaded),
+      class extends Date { static now() { return h.clock; } }, { error() {} },
+    );
+    return h.api;
+  };
+  h.boot();
+  h.tick = () => h.api.modelRecoveryTick();
+  h.manualLoad = role => h.api.runLmsMutation(['load', roles[role].modelKey, '--identifier', roles[role].identifier], roles[role].identifier, true);
+  h.manualUnload = role => h.api.runLmsMutation(['unload', role ? roles[role].identifier : '--all'], role ? roles[role].identifier : null, false);
+  return h;
+}
+
+test('actual supervisor baselines at EOF and restores only previously resident approved models', async t => {
+  const h = recoveryHarness(t);
+  fs.writeFileSync(h.log, ('Engine protocol runtime exited unexpectedly\n').repeat(10000));
+  await h.tick();
+  assert.equal(h.api.recoveryState().log.offset, fs.statSync(h.log).size);
+  assert.equal(h.loads.length, 0);
+  h.models = [];
+  h.crash();
+  await h.tick();
+  assert.equal(h.loads.length, 2);
+  assert.deepEqual(h.models.map(m => m.identifier).sort(), Object.values(h.roles).map(r => r.identifier).sort());
+  for (const args of h.loads) {
+    assert.equal(args[args.indexOf('--context-length') + 1], '131072');
+    assert.equal(args[args.indexOf('--parallel') + 1], '1');
+    assert.ok(args.includes('--no-speculative-draft-mtp'));
+  }
+});
+
+test('ordinary unload is not reversed by a later unrelated engine failure', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  h.models = [h.resident('worker')];
+  await h.tick();
+  h.models = [];
+  h.crash();
+  await h.tick();
+  assert.equal(h.loads.length, 1);
+  assert.equal(h.loads[0][1], h.roles.worker.modelKey);
+});
+
+test('unavailable inventory retains the crash event and pending work survives restart', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  const cursor = h.api.recoveryState().log.offset;
+  h.models = null;
+  h.crash();
+  await h.tick();
+  assert.equal(h.api.recoveryState().log.offset, cursor);
+  assert.equal(h.loads.length, 0);
+  h.boot();
+  h.models = [h.resident('brain')];
+  h.fail = true;
+  await h.tick();
+  assert.equal(h.api.recoveryState().roles.worker.pending, true);
+  h.boot();
+  h.fail = false;
+  h.clock += 16000;
+  await h.tick();
+  assert.equal(h.loads.length, 2, 'retry needs no second crash event');
+  assert.equal(h.api.recoveryState().roles.worker.pending, false);
+});
+
+test('actual failed loads back off and stop at three within ten minutes', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  h.models = [h.resident('brain')];
+  h.fail = true;
+  h.crash();
+  await h.tick();
+  await h.tick();
+  assert.equal(h.loads.length, 1);
+  for (let n = 0; n < 4; n++) { h.clock += 16000; await h.tick(); }
+  assert.equal(h.loads.length, 3);
+  assert.match(h.api.recoveryState().roles.worker.lastError, /limit/);
+});
+
+test('Unload during a recovery load wins and persists through restart; manual Load rearms only that role', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  h.models = [h.resident('brain')];
+  h.crash();
+  let release;
+  h.loadGate = new Promise(resolve => { release = resolve; });
+  const recovering = h.tick();
+  while (!h.loads.length) await new Promise(resolve => setImmediate(resolve));
+  const unloading = h.manualUnload();
+  release();
+  await Promise.all([recovering, unloading]);
+  h.loadGate = null;
+  assert.equal(h.models.length, 0);
+  h.boot();
+  h.crash();
+  await h.tick();
+  assert.equal(h.loads.length, 1);
+  await h.manualLoad('brain');
+  assert.equal(h.api.recoveryState().suppression.brain, false);
+  assert.equal(h.api.recoveryState().suppression.worker, true);
+});
+
+test('automatic load queued behind another mutation rechecks operator suppression', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  let release;
+  const blocking = h.api.queuedLmsMutation(() => new Promise(resolve => { release = resolve; }));
+  await new Promise(resolve => setImmediate(resolve));
+  h.models = [h.resident('brain')];
+  h.crash();
+  const recovering = h.tick();
+  await new Promise(resolve => setImmediate(resolve));
+  const unloading = h.manualUnload('worker');
+  release();
+  await Promise.all([blocking, recovering, unloading]);
+  assert.equal(h.loads.length, 0);
+  assert.equal(h.api.recoveryState().suppression.worker, true);
+});
+
+test('desktop launcher or LM Studio load rearms a previously confirmed intentional unload', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  await h.manualUnload('worker');
+  h.boot();
+  h.models = [h.resident('brain'), h.resident('worker')];
+  await h.tick();
+  assert.equal(h.api.recoveryState().suppression.worker, false);
+  h.models = [h.resident('brain')];
+  h.crash();
+  await h.tick();
+  assert.equal(h.loads.length, 1);
+});
+
+test('DSH stopped and alias reused for another model never cause recovery', async t => {
+  const h = recoveryHarness(t);
+  h.models = [{ ...h.resident('worker'), modelKey: 'other/model' }];
+  await h.tick();
+  h.models = [];
+  h.crash();
+  await h.tick();
+  assert.equal(h.loads.length, 0);
+  await h.manualLoad('worker');
+  h.loads = [];
+  h.up = false;
+  h.models = [];
+  h.crash();
+  await h.tick();
+  h.up = true;
+  await h.tick();
+  assert.equal(h.loads.length, 0);
+});
+
+test('bounded log chunks, partial lines, and log rotation retain valid crash detection', async t => {
+  const h = recoveryHarness(t);
+  await h.tick();
+  h.models = [h.resident('brain')];
+  fs.appendFileSync(h.log, 'ordinary\n'.repeat(40000) + 'Engine protocol runtime exited unexpectedly');
+  await h.tick();
+  await h.tick();
+  assert.equal(h.loads.length, 0);
+  fs.appendFileSync(h.log, '\n');
+  await h.tick();
+  assert.equal(h.loads.length, 1);
+  fs.renameSync(h.log, h.log + '.old');
+  fs.writeFileSync(h.log, 'Engine protocol runtime exited unexpectedly\n');
+  h.models = [h.resident('brain')];
+  h.clock += 16000;
+  await h.tick();
+  assert.equal(h.loads.length, 2);
+});
+
 function dataContractFunctions() {
   const startMark = '/*__DATA_CONTRACT_START__*/';
   const endMark = '/*__DATA_CONTRACT_END__*/';

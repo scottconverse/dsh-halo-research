@@ -52,6 +52,8 @@ The approved LM Studio pair is:
 
 The launcher removes other resident models and repairs either approved model when its key, context window, or parallel count is wrong. The 35B model remains optional because it has passed planner work, while the coder remains the automatic default.
 
+While DSH and the Mission Control server are running, Mission Control also watches for unexpected LM Studio engine exits. It restores affected approved models that were previously resident, using the same 131,072-token, single-slot load settings. Closing the dashboard tab does not stop this watcher. An intentional Unload is respected; an empty model list alone is not treated as a crash. Recovery is serialized and rate-limited to avoid repeated loading after a persistent engine failure. See [recovery behavior and verification](HALO-DSH-IMPLEMENTATION-2026-09-15-MODEL-RECOVERY.md).
+
 ## Research routing
 
 Wigolo is the first provider for ordinary web search, page retrieval, and research. The agent may make one revised Wigolo attempt when the first result contains no usable evidence. It then uses the native DSH web tools after an MCP availability failure, timeout, or continued lack of evidence. It must not loop between providers.

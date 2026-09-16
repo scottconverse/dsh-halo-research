@@ -143,6 +143,7 @@ const MC_DIR = path.resolve(process.env.HALO_MC_DIR || path.join(DSH_HOME, 'miss
 const STATE_FILE = path.join(MC_DIR, 'mc-state.json');
 const HISTORY_FILE = path.join(MC_DIR, 'mc-history.jsonl');
 const LMSTUDIO_LOGS = path.join(HOME, '.lmstudio', 'server-logs');
+const LMSTUDIO_MAIN_LOG = path.join(process.env.APPDATA || path.join(HOME, 'AppData', 'Roaming'), 'LM Studio', 'logs', 'main.log');
 const LMSTUDIO_VERSION_FILE = path.join(HOME, '.lmstudio', '.internal', 'historical-version-info.json');
 const LM_LINK_ACCOUNT_CACHE = path.join(HOME, '.lmstudio', '.internal', 'lm-link-account-status-cache.json');
 const LMSTUDIO_MODELS_DIR = path.join(HOME, '.lmstudio', 'models');
@@ -594,13 +595,31 @@ async function waitForModelState(identifier, shouldBeResident, timeoutMs = 12000
   throw new Error(`LM Studio did not corroborate ${identifier || 'all local models'} as ${expected} within ${Math.round(timeoutMs / 1000)} seconds`);
 }
 
-async function runLmsMutation(args, identifier, shouldBeResident, timeoutMs = 120000) {
-  const { stdout = '', stderr = '' } = await safeExecFile('lms', args, {
-    timeout: timeoutMs,
-    maxBuffer: 16 * 1024 * 1024,
-  });
-  await waitForModelState(identifier, shouldBeResident, timeoutMs);
-  return { stdout, stderr };
+async function runLmsMutation(args, identifier, shouldBeResident, timeoutMs = 120000, before = null) {
+  // Record manual intent before waiting for another model operation. A later
+  // Unload wins even if an earlier Load is still completing.
+  let revision = null;
+  if (!before) {
+    if (shouldBeResident) revision = beginManualLoad(identifier);
+    else suppressRecovery(identifier, identifier == null);
+  }
+  lmsMutationsPending++;
+  return queuedLmsMutation(async () => {
+    if (before && await before() === false) return { skipped: true };
+    const { stdout = '', stderr = '' } = await safeExecFile('lms', args, {
+      timeout: timeoutMs,
+      maxBuffer: 16 * 1024 * 1024,
+    });
+    await waitForModelState(identifier, shouldBeResident, timeoutMs);
+    if (!before && shouldBeResident) rearmRecovery(identifier, revision);
+    if (!shouldBeResident) {
+      for (const [role, model] of Object.entries(RECOVERY_ROLES)) {
+        if (identifier == null || identifier === model.identifier) modelRecoveryState.roles[role].confirmedAbsent = true;
+      }
+      saveRecovery(modelRecoveryState);
+    }
+    return { stdout, stderr };
+  }).finally(() => { lmsMutationsPending--; });
 }
 
 const snapshotTaskCache = { at: 0, value: null };
@@ -1452,6 +1471,167 @@ function writeState(patch) {
   } catch { /* best effort */ }
 }
 
+// Crash recovery is deliberately narrower than startup convergence. It only
+// reloads an approved role after that role was seen resident, a new LM Studio
+// engine-exit line arrived, and a fresh lms ps confirms its absence.
+/*__MODEL_RECOVERY_START__*/
+const RECOVERY_ROLES = { brain: DAILY_BRAIN, worker: DAILY_WORKER };
+let lmsMutationTail = Promise.resolve();
+let lmsMutationsPending = 0;
+let recoveryTickRunning = false;
+function normalizeRecovery(r = {}) {
+  const roles = Object.fromEntries(Object.keys(RECOVERY_ROLES).map(role => [role, {
+    observedResident: !!r.roles?.[role]?.observedResident, lastObservedAt: r.roles?.[role]?.lastObservedAt || null,
+    lastRecoveryAt: r.roles?.[role]?.lastRecoveryAt || null, lastError: r.roles?.[role]?.lastError || null,
+    pending: !!r.roles?.[role]?.pending, intentRevision: Number(r.roles?.[role]?.intentRevision) || 0,
+    confirmedAbsent: !!r.roles?.[role]?.confirmedAbsent,
+    attempts: Array.isArray(r.roles?.[role]?.attempts) ? r.roles[role].attempts.filter(x => Number.isFinite(x) && Date.now() - x < 10 * 60 * 1000) : [],
+  }]));
+  return {
+    log: { path: LMSTUDIO_MAIN_LOG, offset: Number.isFinite(r.log?.offset) ? r.log.offset : null, carry: typeof r.log?.carry === 'string' ? r.log.carry : '', identity: r.log?.identity || null },
+    crashAt: Number.isFinite(r.crashAt) ? r.crashAt : null,
+    lastCrashLine: r.lastCrashLine || null, monitorError: null, dshUp: false,
+    suppression: { brain: !!r.suppression?.brain, worker: !!r.suppression?.worker }, roles,
+  };
+}
+const modelRecoveryState = normalizeRecovery(readState().modelRecovery);
+function recoveryState() {
+  for (const role of Object.keys(RECOVERY_ROLES)) modelRecoveryState.roles[role].attempts = modelRecoveryState.roles[role].attempts.filter(x => Date.now() - x < 10 * 60 * 1000);
+  return modelRecoveryState;
+}
+function saveRecovery(s) { writeState({ modelRecovery: s }); }
+function suppressRecovery(identifier, all = false) {
+  const s = modelRecoveryState;
+  for (const [role, model] of Object.entries(RECOVERY_ROLES)) {
+    if (!all && model.identifier !== identifier) continue;
+    s.suppression[role] = true;
+    s.roles[role].pending = false;
+    s.roles[role].observedResident = false;
+    s.roles[role].confirmedAbsent = false;
+    s.roles[role].lastError = null;
+    s.roles[role].intentRevision++;
+  }
+  saveRecovery(s);
+}
+function beginManualLoad(identifier) {
+  const s = modelRecoveryState;
+  const role = Object.keys(RECOVERY_ROLES).find(r => RECOVERY_ROLES[r].identifier === identifier);
+  if (!role) return null;
+  const revision = ++s.roles[role].intentRevision;
+  s.roles[role].pending = false;
+  saveRecovery(s);
+  return revision;
+}
+function rearmRecovery(identifier, revision) {
+  const s = modelRecoveryState;
+  for (const [role, model] of Object.entries(RECOVERY_ROLES)) {
+    if (model.identifier !== identifier || s.roles[role].intentRevision !== revision) continue;
+    s.suppression[role] = false;
+    s.roles[role].pending = false;
+    s.roles[role].observedResident = true;
+    s.roles[role].confirmedAbsent = false;
+    s.roles[role].lastError = null;
+    s.roles[role].attempts = [];
+  }
+  saveRecovery(s);
+}
+function queuedLmsMutation(run) {
+  const result = lmsMutationTail.then(run, run);
+  lmsMutationTail = result.catch(() => {});
+  return result;
+}
+function readNewCrashLines(s) {
+  try {
+    const st = fs.statSync(LMSTUDIO_MAIN_LOG);
+    const identity = `${st.birthtimeMs}:${st.ino || 0}`;
+    const rotated = s.log.identity != null && s.log.identity !== identity;
+    let offset = s.log.offset;
+    const baseline = offset == null;
+    if (baseline) { s.log.offset = st.size; s.log.identity = identity; s.log.carry = ''; return { ok: true, crashes: [], baseline: true }; }
+    if (rotated || offset > st.size) { offset = 0; s.log.carry = ''; }
+    const max = 256 * 1024;
+    const start = Math.max(0, Math.min(offset, st.size));
+    const length = Math.min(max, st.size - start);
+    const fd = fs.openSync(LMSTUDIO_MAIN_LOG, 'r');
+    const buf = Buffer.alloc(length);
+    let bytesRead;
+    try { bytesRead = fs.readSync(fd, buf, 0, length, start); }
+    finally { fs.closeSync(fd); }
+    const text = s.log.carry + buf.subarray(0, bytesRead).toString('utf8');
+    const lines = text.split(/\r?\n/);
+    s.log.carry = (lines.pop() || '').slice(-4096);
+    s.log.offset = start + bytesRead;
+    s.log.identity = identity;
+    const crashes = lines.filter(line => /Engine protocol runtime exited unexpectedly/i.test(line));
+    return { ok: true, crashes, baseline, caughtUp: s.log.offset >= st.size && !s.log.carry };
+  } catch (e) { return { ok: false, error: String(e?.message || e).slice(0, 240) }; }
+}
+async function modelRecoveryTick() {
+  if (recoveryTickRunning) return;
+  recoveryTickRunning = true;
+  try {
+    const s = recoveryState();
+    const dshUp = await tcpCheck(3080);
+    const candidate = normalizeRecovery(s);
+    const scan = readNewCrashLines(candidate);
+    if (!scan.ok) { s.monitorError = scan.error; saveRecovery(s); return; }
+    const models = await lmsPs();
+    if (models === null) { s.monitorError = 'LM Studio model inventory unavailable'; saveRecovery(s); return; }
+    s.monitorError = null;
+    s.dshUp = dshUp;
+    s.log = candidate.log;
+    const crashSeen = scan.crashes.length > 0 && !scan.baseline;
+    if (crashSeen) {
+      s.crashAt = Date.now(); s.lastCrashLine = scan.crashes[scan.crashes.length - 1].slice(-300);
+    }
+    for (const [role, expected] of Object.entries(RECOVERY_ROLES)) {
+      const rs = s.roles[role];
+      const resident = models.some(m => m?.identifier === expected.identifier && m?.modelKey === expected.modelKey && m?.deviceIdentifier == null);
+      // A later explicit load through LM Studio or the desktop launcher also
+      // re-arms recovery. Never mistake an in-flight queued Unload for that.
+      if (s.suppression[role] && !resident) rs.confirmedAbsent = true;
+      if (s.suppression[role] && resident && rs.confirmedAbsent && lmsMutationsPending === 0) s.suppression[role] = false;
+      if (!dshUp || s.suppression[role]) { rs.pending = false; rs.observedResident = false; continue; }
+      if (resident) { rs.observedResident = true; rs.confirmedAbsent = false; rs.lastObservedAt = Date.now(); rs.pending = false; continue; }
+      if (crashSeen && rs.observedResident) rs.pending = true;
+      // Keep the last observation until a bounded log read catches up; an
+      // engine-exit line may be in the next chunk or incomplete current line.
+      if (!rs.pending && (scan.caughtUp || scan.baseline)) rs.observedResident = false;
+    }
+    saveRecovery(s);
+    if (!dshUp || scan.baseline) return;
+    for (const [role, expected] of Object.entries(RECOVERY_ROLES)) {
+      const rs = s.roles[role];
+      if (!rs.pending || s.suppression[role]) continue;
+      if (rs.attempts.length >= 3) { rs.lastError = 'recovery limit reached (3 loads in 10 minutes)'; continue; }
+      if (rs.attempts.some(at => Date.now() - at < 15000)) continue;
+      try {
+        const result = await runLmsMutation(['load', expected.modelKey, '--identifier', expected.identifier, '--gpu', 'max', '--context-length', String(expected.context), '--parallel', String(expected.parallel), '--no-speculative-draft-mtp', '-y'], expected.identifier, true, 10 * 60 * 1000, async () => {
+          if (!await tcpCheck(3080)) { rs.pending = false; return false; }
+          const fresh = await lmsPs();
+          if (fresh === null) throw new Error('LM Studio inventory unavailable before automatic recovery');
+          // Check again after the asynchronous reads: an Unload may have been
+          // requested while the inventory call was in flight.
+          if (s.suppression[role] || !rs.pending) return false;
+          if (fresh.some(m => m?.identifier === expected.identifier)) { rs.pending = false; return false; }
+          rs.attempts.push(Date.now());
+          saveRecovery(s);
+        });
+        if (!result.skipped) {
+          rs.lastRecoveryAt = Date.now(); rs.lastError = null; rs.pending = false;
+          rs.observedResident = !s.suppression[role];
+        }
+      } catch (e) { rs.lastError = String(e?.message || e).slice(0, 300); console.error(`[mission-control] automatic ${role} recovery failed:`, rs.lastError); }
+    }
+    saveRecovery(s);
+  } catch (error) {
+    modelRecoveryState.monitorError = String(error?.message || error).slice(0, 300);
+    saveRecovery(modelRecoveryState);
+    console.error('[mission-control] model recovery monitor failed:', modelRecoveryState.monitorError);
+  } finally { recoveryTickRunning = false; }
+}
+/*__MODEL_RECOVERY_END__*/
+
 // ─────────────────────────── history (mc-history.jsonl) ───────────────────────────
 
 async function appendHistory() {
@@ -1675,6 +1855,7 @@ async function status() {
 
   const engineStr = runtime?.selected ? `${runtime.selected.name}@${runtime.selected.version}` : null;
   const state = readState();
+  const modelRecovery = state.modelRecovery || recoveryState();
   let engineChanged = false;
   if (engineStr) {
     if (state.lastEngine == null) { writeState({ lastEngine: engineStr }); }
@@ -1702,6 +1883,7 @@ async function status() {
       engineChanged,
     },
     models: modelsWithOrigin,
+    modelRecovery,
     fleet: {
       linkOk: !!linkStatus,
       deviceName: linkStatus?.deviceName || null,
@@ -2931,7 +3113,9 @@ async function loadModels(){
     }).join('');
     document.getElementById('models-table').innerHTML='<table class="tbl"><thead><tr><th>Model</th><th>Arch/Params</th><th>Quant</th><th class="num">Size</th><th class="num">Max ctx</th><th>State</th><th>Origin</th><th>Actions</th></tr></thead><tbody>'+rows+'</tbody></table>';
     var localDisk=c.localDiskGiB==null?'unavailable':(c.localDiskGiB+' GiB in '+c.localDiskFiles+' files');
-    document.getElementById('models-footer').textContent='this device: '+c.localCount+' addressable entries, '+localDisk+' physically on disk (aliases share base weights) \\u00b7 LM Link peers: '+c.fleetCount+' catalog entries / '+c.fleetCatalogGB+' GB \\u00b7 engine: '+(lastStatus&&lastStatus.services.engine||'unknown');
+    var mr=lastStatus&&lastStatus.modelRecovery;
+    var mrText=mr?(' \\u00b7 Model recovery: '+(mr.monitorError||(!mr.dshUp?'paused (DSH stopped)':Object.keys(mr.roles||{}).map(function(role){var r=mr.roles[role];return role+': '+(mr.suppression[role]?'intentionally unloaded':r.lastError|| (r.pending?'restoring':r.observedResident?'watching':'not resident'));}).join('; ')))):'';
+    document.getElementById('models-footer').textContent='this device: '+c.localCount+' addressable entries, '+localDisk+' physically on disk (aliases share base weights) \\u00b7 LM Link peers: '+c.fleetCount+' catalog entries / '+c.fleetCatalogGB+' GB \\u00b7 engine: '+(lastStatus&&lastStatus.services.engine||'unknown')+mrText;
   }catch(e){ document.getElementById('models-table').innerHTML='<div class="mut">catalog fetch failed</div>' }
 }
 
@@ -4683,4 +4867,6 @@ server.listen(PORT, '127.0.0.1', () => {
   console.log(`Mission Control on http://127.0.0.1:${PORT}`);
   appendHistory();
   setInterval(appendHistory, 60000);
+  modelRecoveryTick();
+  setInterval(modelRecoveryTick, 15000);
 });
