@@ -1,0 +1,533 @@
+{
+  "started_utc": "2026-09-16T16:51:36.883402+00:00",
+  "model": "halo-brain-reasoning-trial-20260916",
+  "alias": "halo/qwen3.6-35b-a3b",
+  "alias_sha256": "4454832b0e8907fa9f6256e5a0875a37e2ef0695db6c1ad43cffd466d4955f2c",
+  "prompt_sha256": "d84368a31fcfbd25ddaf8c6cee91ff02c90e51917270e4b3f7893e3bce1f52eb",
+  "fixture_sha256": "f6498223679b70776d4b74c2db880e2387509efded629c8b987080efa2808d8b",
+  "key": {
+    "errors": 5,
+    "chrome": 2,
+    "first_time": "10:10:26"
+  },
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.05,
+    "presence_penalty": 1.5,
+    "frequency_penalty": 0,
+    "repeat_penalty": 1.0
+  },
+  "max_tokens": 8192,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "runs": [
+    {
+      "label": "warmup-none",
+      "mode": "none",
+      "seed": 100,
+      "total_s": 19.231,
+      "ttft_s": 18.888506499992218,
+      "first_answer_s": 18.888507999989088,
+      "answer": "ERRORS=4\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 2,
+      "maximum": 3,
+      "perfect": false,
+      "strict_perfect": false,
+      "extracted": {
+        "ERRORS": "4",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "warmup-high",
+      "mode": "high",
+      "seed": 100,
+      "total_s": 37.354,
+      "ttft_s": 1.3026318000047468,
+      "first_answer_s": 37.01731529999233,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 6113,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 2180,
+        "total_tokens": 19935,
+        "completion_tokens_details": {
+          "reasoning_tokens": 2157
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-1-none",
+      "mode": "none",
+      "seed": 42,
+      "total_s": 1.64,
+      "ttft_s": 1.3102540999971097,
+      "first_answer_s": 1.310255699994741,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-1-high",
+      "mode": "high",
+      "seed": 42,
+      "total_s": 26.397,
+      "ttft_s": 1.323426600007224,
+      "first_answer_s": 26.06219820000115,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 3967,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 1511,
+        "total_tokens": 19266,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1488
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-2-high",
+      "mode": "high",
+      "seed": 43,
+      "total_s": 33.855,
+      "ttft_s": 1.2958119000104489,
+      "first_answer_s": 33.51995380000153,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 5132,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 1948,
+        "total_tokens": 19703,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1925
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-2-none",
+      "mode": "none",
+      "seed": 43,
+      "total_s": 1.641,
+      "ttft_s": 1.3108677999989595,
+      "first_answer_s": 1.3108686999912607,
+      "answer": "ERRORS=4\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 2,
+      "maximum": 3,
+      "perfect": false,
+      "strict_perfect": false,
+      "extracted": {
+        "ERRORS": "4",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-3-none",
+      "mode": "none",
+      "seed": 44,
+      "total_s": 1.638,
+      "ttft_s": 1.3075322000076994,
+      "first_answer_s": 1.3075340000068536,
+      "answer": "ERRORS=4\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 2,
+      "maximum": 3,
+      "perfect": false,
+      "strict_perfect": false,
+      "extracted": {
+        "ERRORS": "4",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-3-high",
+      "mode": "high",
+      "seed": 44,
+      "total_s": 33.746,
+      "ttft_s": 1.2868068999960087,
+      "first_answer_s": 33.40877449999971,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 5256,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 1953,
+        "total_tokens": 19708,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1930
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-4-high",
+      "mode": "high",
+      "seed": 45,
+      "total_s": 41.307,
+      "ttft_s": 1.3106550999946194,
+      "first_answer_s": 40.961902299997746,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 6085,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 2278,
+        "total_tokens": 20033,
+        "completion_tokens_details": {
+          "reasoning_tokens": 2255
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-4-none",
+      "mode": "none",
+      "seed": 45,
+      "total_s": 1.655,
+      "ttft_s": 1.319540099997539,
+      "first_answer_s": 1.319541199991363,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-5-none",
+      "mode": "none",
+      "seed": 46,
+      "total_s": 1.639,
+      "ttft_s": 1.3001503999985289,
+      "first_answer_s": 1.300151499992353,
+      "answer": "ERRORS=4\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 2,
+      "maximum": 3,
+      "perfect": false,
+      "strict_perfect": false,
+      "extracted": {
+        "ERRORS": "4",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-5-high",
+      "mode": "high",
+      "seed": 46,
+      "total_s": 31.338,
+      "ttft_s": 1.2720434999937424,
+      "first_answer_s": 30.999815100003616,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 4625,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 1807,
+        "total_tokens": 19562,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1784
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-6-high",
+      "mode": "high",
+      "seed": 47,
+      "total_s": 35.098,
+      "ttft_s": 1.311361999993096,
+      "first_answer_s": 34.76135039998917,
+      "answer": "ERRORS=5\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 5455,
+      "usage": {
+        "prompt_tokens": 17755,
+        "completion_tokens": 2033,
+        "total_tokens": 19788,
+        "completion_tokens_details": {
+          "reasoning_tokens": 2010
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 3,
+      "maximum": 3,
+      "perfect": true,
+      "strict_perfect": true,
+      "extracted": {
+        "ERRORS": "5",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    },
+    {
+      "label": "pair-6-none",
+      "mode": "none",
+      "seed": 47,
+      "total_s": 1.673,
+      "ttft_s": 1.330102000007173,
+      "first_answer_s": 1.3301028999994742,
+      "answer": "ERRORS=4\nCHROME=2\nFIRST=10:10:26",
+      "reasoning_chars": 0,
+      "usage": {
+        "prompt_tokens": 17757,
+        "completion_tokens": 21,
+        "total_tokens": 17778,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "stream_done": true,
+      "score": 2,
+      "maximum": 3,
+      "perfect": false,
+      "strict_perfect": false,
+      "extracted": {
+        "ERRORS": "4",
+        "CHROME": "2",
+        "FIRST": "10:10:26"
+      }
+    }
+  ],
+  "note": "Two unscored fixture warmups; six pairs, alternating order. Same instance. No tools or corrective feedback.",
+  "residents_before": [],
+  "residents_loaded": [
+    {
+      "type": "llm",
+      "modelKey": "halo/qwen3.6-35b-a3b",
+      "format": "gguf",
+      "displayName": "Qwen3.6 35B A3B",
+      "publisher": "halo",
+      "path": "halo/qwen3.6-35b-a3b",
+      "sizeBytes": 22069593637,
+      "indexedModelIdentifier": "halo/qwen3.6-35b-a3b",
+      "deviceIdentifier": null,
+      "paramsString": "35B-A3B",
+      "architecture": "qwen35moe",
+      "quantization": {
+        "name": "Q4_K_M",
+        "bits": 4
+      },
+      "variants": [
+        "halo/qwen3.6-35b-a3b@q4_k_m"
+      ],
+      "selectedVariant": "halo/qwen3.6-35b-a3b@q4_k_m",
+      "identifier": "halo-brain-reasoning-trial-20260916",
+      "ttlMs": null,
+      "lastUsedTime": 1789577506235,
+      "vision": true,
+      "trainedForToolUse": true,
+      "maxContextLength": 262144,
+      "contextLength": 131072,
+      "status": "idle",
+      "queued": 0,
+      "parallel": 1
+    }
+  ],
+  "summary": {
+    "none": {
+      "perfect": 2,
+      "strict_perfect": 2,
+      "n": 6,
+      "median_s": 1.6404999999999998,
+      "min_s": 1.638,
+      "max_s": 1.673,
+      "errors_answers": [
+        "5",
+        "4",
+        "4",
+        "5",
+        "4",
+        "4"
+      ],
+      "reasoning_chars": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "high": {
+      "perfect": 6,
+      "strict_perfect": 6,
+      "n": 6,
+      "median_s": 33.8005,
+      "min_s": 26.397,
+      "max_s": 41.307,
+      "errors_answers": [
+        "5",
+        "5",
+        "5",
+        "5",
+        "5",
+        "5"
+      ],
+      "reasoning_chars": [
+        3967,
+        5132,
+        5256,
+        6085,
+        4625,
+        5455
+      ]
+    }
+  },
+  "status": "completed",
+  "cleanup": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "Model \"halo-brain-reasoning-trial-20260916\" unloaded.\n"
+  },
+  "alias_unchanged": true,
+  "residents_after": [],
+  "ended_utc": "2026-09-16T16:56:15.802919+00:00"
+}
