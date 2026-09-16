@@ -1,0 +1,17 @@
+{
+  "elapsed_seconds": 8.580324,
+  "newly_loaded_instance": null,
+  "reasoning_character_count": 0,
+  "reasoning_effort": null,
+  "requested_instance_id": "halo-coder-q4km",
+  "requested_model": "halo/qwen3-coder-30b-a3b-q4km",
+  "response_model": "halo-coder-q4km",
+  "usage": {
+    "completion_tokens": 69,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 713,
+    "total_tokens": 782
+  }
+}

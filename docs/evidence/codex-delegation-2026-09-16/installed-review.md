@@ -1,0 +1,1 @@
+Yes. When `os.replace(second_temp, second_path)` fails, the `rollback_errors` branch (lines 57–61) restores `second_path` from its backup, but **does not restore `first_path`**. The rollback only handles already-replaced targets, so `first_path` retains its new contents.

@@ -1,5 +1,9 @@
 # Halo stack guide
 
+## Codex delegation defaults — September 16
+
+Codex now assigns implementation and test work to Ollama Cloud DeepSeek from the start, rather than waiting for low Codex quota. Tuned local models handle bounded file-based drafts and reviews: the brain sends High reasoning by default; the coder sends no reasoning field. Astra coordinates and handles difficult judgment; Sol/Terra/Luna are selective reviewers or escalations while quota permits. Targets of 90%+ cloud/local work, 1–5% Astra, and 6–9% other premium work are goals, not measured savings or hard quota controls. Below 10% main Codex allowance, no new premium workers are launched. See [setup and verification](HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md). DSH routing, Claude's helper, model tuning, and resident instances are unchanged by this setup.
+
 Updated September 16, 2026.
 
 ## Approved model context
@@ -135,7 +139,7 @@ Mission Control's Activity card separates running now (active session models and
 
 Keep Ollama running and signed in. In DSH choose **Ollama Cloud > DeepSeek V4.1 Flash (Ollama Cloud)**. Local models remain available; cloud use does not load GPU weights. In Codex, the stock Ollama desktop integration supplies the cloud model alongside native models after the desktop reloads its catalog. The native Terra default is retained.
 
-The Codex `ollama-deepseek` worker profile supports usage-aware delegation: Sol/Terra/Luna at 10% remaining or more, DeepSeek execution with Astra coordination below 10%. Agents operate the worker; no terminal operation is required from Scott. Ollama's router is in Codex's request path for native as well as cloud models; keep it running or use Ollama Apps > ChatGPT (Desktop) > Off to restore the prior connection. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for exact files, checks, and limitations.
+The Codex `ollama-deepseek` worker profile defaults to DeepSeek execution, with bounded local helpers and Astra coordination. Sol/Terra/Luna are selective checks or escalations at 10% remaining or more; below 10%, no new premium workers start. Agents operate the worker; no terminal operation is required from Scott. Ollama's router is in Codex's request path for native as well as cloud models; keep it running or use Ollama Apps > ChatGPT (Desktop) > Off to restore the prior connection. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for exact files, checks, and limitations.
 
 ## Cloud model compatibility repair (September 15, 2026)
 

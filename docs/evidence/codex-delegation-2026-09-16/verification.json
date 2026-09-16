@@ -1,0 +1,23 @@
+{
+  "installed_files_match_source": {
+    "skill\\SKILL.md": true,
+    "skill\\agents\\openai.yaml": true,
+    "skill\\references\\coordination.md": true,
+    "skill\\references\\local-trial.md": true,
+    "skill\\references\\ollama-fallback.md": true,
+    "skill\\scripts\\ask_local.py": true,
+    "skill\\scripts\\test_ask_local.py": true,
+    "profile": true,
+    "global_routing": true
+  },
+  "tuning_and_global_settings_hashes_unchanged": true,
+  "resident_instances_unchanged": true,
+  "unit_test_command": "python -m unittest discover -s stack/codex-ollama/skill/scripts -p test_ask_local.py -v",
+  "unit_tests_passed": 16,
+  "unit_test_executor": "root independently after Luna repairs",
+  "git_diff_check": "passed",
+  "cloud_first_pass": "failed; high authored code, Luna repaired failing mock and error paths",
+  "local_coder_quality": "two review suggestions rejected; transport/instance reuse verified",
+  "local_brain_quality": "broad review token-limit failure; focused High review identified partial-write defect",
+  "workload_percentages_verified": false
+}

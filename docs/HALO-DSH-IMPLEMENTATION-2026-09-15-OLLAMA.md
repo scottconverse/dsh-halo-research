@@ -1,5 +1,7 @@
 # Ollama Cloud for DSH and Codex
 
+> The September 15 quota-first worker policy below is historical. The September 16 [Codex delegation update](HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md) replaces it with cloud/local workers from the start.
+
 Implemented September 15, 2026. Model: `deepseek-v4.1-flash:cloud`.
 
 ## Using it

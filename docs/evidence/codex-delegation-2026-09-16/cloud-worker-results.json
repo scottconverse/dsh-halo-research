@@ -1,0 +1,44 @@
+[
+  {
+    "run": "deepseek",
+    "thread_id": "01a0ab5b-5011-7583-b7b3-9e8ecf1e6d0f",
+    "usage": {
+      "input_tokens": 431081,
+      "cached_input_tokens": 346240,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 11638,
+      "reasoning_output_tokens": 0
+    },
+    "model": "deepseek-v4.1-flash:cloud",
+    "reasoning_requested": "low",
+    "result": "incomplete: no implementation"
+  },
+  {
+    "run": "helper",
+    "thread_id": "01a0ab5d-fb9a-7053-8ff4-0bc3897ae313",
+    "usage": {
+      "input_tokens": 145597,
+      "cached_input_tokens": 105600,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 1443,
+      "reasoning_output_tokens": 0
+    },
+    "model": "deepseek-v4.1-flash:cloud",
+    "reasoning_requested": "low",
+    "result": "incomplete: no implementation"
+  },
+  {
+    "run": "helper-retry",
+    "thread_id": "01a0ab5d-fb9a-7053-8ff4-0bc3897ae313",
+    "usage": {
+      "input_tokens": 672521,
+      "cached_input_tokens": 540544,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 32529,
+      "reasoning_output_tokens": 0
+    },
+    "model": "deepseek-v4.1-flash:cloud",
+    "reasoning_requested": "high",
+    "result": "authored helper and tests; 9/10 passed before review repairs"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "elapsed_seconds": 55.404179,
+  "newly_loaded_instance": null,
+  "reasoning_character_count": 13951,
+  "reasoning_effort": "high",
+  "requested_model": "halo/qwen3.6-35b-a3b",
+  "served_model": "halo-brain-35b",
+  "usage": {
+    "completion_tokens": 3142,
+    "completion_tokens_details": {
+      "reasoning_tokens": 3053
+    },
+    "prompt_tokens": 320,
+    "total_tokens": 3462
+  }
+}

@@ -1,0 +1,3 @@
+No. First destination is updated; second remains unchanged (partial failure). `os.replace` is file-scoped, not cross-file transactional. 
+
+Minimal correction: Update the docstring to remove the atomicity guarantee, as true all-or-nothing semantics require either writing both temps in a shared temporary directory and atomically renaming it over a common parent path, or storing rollback data to restore the first file if the second fails.

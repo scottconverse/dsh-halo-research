@@ -1,5 +1,9 @@
 # Current installation: stock DSH + Wigolo + Mission Control
 
+## Codex delegation defaults — September 16
+
+Codex now assigns implementation and test work to Ollama Cloud DeepSeek from the start, rather than waiting for low Codex quota. Tuned local models handle bounded file-based drafts and reviews: the brain sends High reasoning by default; the coder sends no reasoning field. Astra coordinates and handles difficult judgment; Sol/Terra/Luna are selective reviewers or escalations while quota permits. Targets of 90%+ cloud/local work, 1–5% Astra, and 6–9% other premium work are goals, not measured savings or hard quota controls. Below 10% main Codex allowance, no new premium workers are launched. See [setup and verification](HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md). DSH routing, Claude's helper, model tuning, and resident instances are unchanged by this setup.
+
 Updated September 16, 2026.
 
 ## Desktop launch recovery — September 16
@@ -153,7 +157,7 @@ Mission Control's Activity card separates running now (active session models and
 
 DSH now offers **Ollama Cloud > DeepSeek V4.1 Flash (Ollama Cloud)** through the stock provider and the signed-in Ollama daemon on port 11434. The existing local default is unchanged. Codex Desktop has the same DeepSeek model added beside its native models; Terra remains its default. The saved `ollama-deepseek` worker profile passed file editing and test execution through Ollama's stock desktop router.
 
-Codex workers remain Sol/Terra/Luna while at least 10% of the available main quota remains. Below 10%, new execution and review go to DeepSeek; Astra coordinates only. Persistent agent instructions use live quota readings, not token totals. This is agent routing guidance, not a background quota service. A desktop restart/picker check remains for Scott's next convenient restart. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for evidence and recovery.
+The September 16 delegation update supersedes the initial quota-first rule: DeepSeek and local helpers are the default from the start. Sol/Terra/Luna are selective checks or escalations at 10% remaining or more; below 10%, no new premium workers start. Persistent agent instructions use live quota readings, not token totals. This is agent routing guidance, not a background quota service. A desktop restart/picker check remains for Scott's next convenient restart. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for evidence and recovery.
 
 ## Cloud model compatibility repair (September 15, 2026)
 
