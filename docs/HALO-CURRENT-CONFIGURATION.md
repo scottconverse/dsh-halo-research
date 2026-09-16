@@ -2,6 +2,10 @@
 
 Updated September 16, 2026.
 
+## Desktop launch recovery — September 16
+
+The unified launcher now detects when Mission Control is still running an older build after an offline file update. It compares the running build hash with the installed file and uses the existing process-identity-checked stop/start path to replace only Mission Control. A matching running build is reused; `KeepMissionControl` still prevents automatic replacement. The live stale-build recovery succeeded, followed by a successful desktop launch in Chrome with the same DSH and Wigolo processes retained. See [launch repair](HALO-DSH-IMPLEMENTATION-2026-09-16-LAUNCH-RECOVERY.md).
+
 ## Brain reasoning default — September 16
 
 DSH now configures the 35B brain under `lmstudio-brain/halo-brain-35b`, displayed as **LM Studio brain**, with **High** as its reasoning default. Explicit **Off** sends `reasoning_effort: "none"`. The coder remains `lmstudio/halo-coder-q4km`, non-thinking and the startup model. Both routes use the same LM Studio endpoint and resident identifiers; no extra model instance, alias, context or tuning changes are involved. Claude's direct LM Studio requests are unaffected. The saved configuration and Mission Control recognition are installed; no services or models were started or restarted for this change. On the next normal launch, use the brain under its new provider. Existing conversations retain their saved selections: reselect the new brain entry and High if continuing a conversation saved with the old route or explicit Off. See [implementation and verification](HALO-DSH-IMPLEMENTATION-2026-09-16-BRAIN-HIGH.md).

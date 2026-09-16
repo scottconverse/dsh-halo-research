@@ -201,6 +201,26 @@ if (-not $KeepMissionControl -and -not $restartMissionControl) {
         }
     }
 }
+# An offline installation can leave the prior build running even when both
+# files already match today. Compare the process's startup hash with the file.
+if (-not $KeepMissionControl -and -not $restartMissionControl) {
+    $runningStatus = $null
+    try { $runningStatus = Invoke-RestMethod 'http://127.0.0.1:3090/api/status' -TimeoutSec 5 }
+    catch { } # Launch-Status retains its normal unavailable-service handling.
+    if ($null -ne $runningStatus -and $runningStatus.PSObject.Properties['build']) {
+        $runningBuild = $runningStatus.build
+        if ($runningBuild -and $runningBuild.PSObject.Properties['sourceFile'] -and
+            $runningBuild.PSObject.Properties['sourceSha256'] -and
+            [StringComparer]::OrdinalIgnoreCase.Equals([string]$runningBuild.sourceFile, $missionControlInstalled) -and
+            [string]$runningBuild.sourceSha256 -match '^[A-Fa-f0-9]{64}$') {
+            $installedHash = (Get-FileHash -LiteralPath $missionControlInstalled -Algorithm SHA256).Hash
+            if (-not [StringComparer]::OrdinalIgnoreCase.Equals([string]$runningBuild.sourceSha256, $installedHash)) {
+                $restartMissionControl = $true
+                Write-StackLog 'Mission Control is running the prior installed build; restarting it to use the current file.'
+            }
+        }
+    }
+}
 if ($restartMissionControl) {
     & (Join-Path $deploy 'mission-control\Stop-MissionControl.ps1') -InstalledCopy $missionControlInstalled -AllowNotRunning | Out-Null
 }

@@ -25,6 +25,8 @@ Halo is the local DeepSeek Harness deployment for this Windows workstation. Stoc
 
 Double-click **DSH + Wigolo** on the desktop.
 
+If Mission Control's file was updated while its old process stayed open, the launcher now replaces that verified old process automatically. You do not need to stop the whole stack just to clear a build-identity mismatch. DSH, Wigolo and the models remain running during that Mission Control replacement.
+
 The launcher checks LM Studio, converges it to the two approved 128K single-slot models, starts or reuses DSH and its Wigolo child, promotes the tested Mission Control build, and opens Mission Control plus the authenticated DSH page as two tabs in Google Chrome. A second click reuses healthy processes.
 
 Mission Control is ready when its Overview page loads at `http://127.0.0.1:3090` and its status strip begins resolving live evidence. Brief amber states during initial collection are normal; a persistent amber or red light should explain which source is missing, stale, or unhealthy.
