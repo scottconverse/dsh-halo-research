@@ -1,0 +1,6 @@
+Command: node usage.test.mjs
+ExitCode: 0
+Output:
+8 checks passed
+
+SHA256 usage.mjs: 6798E96FE8BF984DD1C821601332AFDBC04D98927641B4F6BED474D2A3F64497

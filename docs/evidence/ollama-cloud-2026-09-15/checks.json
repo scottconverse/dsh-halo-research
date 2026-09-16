@@ -1,0 +1,94 @@
+[
+  {
+    "run": "events",
+    "usage": {
+      "input_tokens": 533086,
+      "cached_input_tokens": 398848,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 406,
+      "reasoning_output_tokens": 0
+    },
+    "commands": [
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'Get-ChildItem -Force | Format-Table Mode,Length,Name -AutoSize'",
+        "exit_code": 0,
+        "output": "\r\nMode  Length Name\r\n----  ------ ----\r\n-a---      0 events.jsonl\r\n-a---      0 stderr.txt\r\n-a---     73 usage.mjs\r\n-a---    469 usage.test.mjs\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Write-Output '--- usage.mjs ---'; Get-Content -Raw usage.mjs; Write-Output '--- usage.test.mjs ---'; Get-Content -Raw usage.test.mjs\"",
+        "exit_code": 0,
+        "output": "--- usage.mjs ---\r\nexport function remainingPercent(usedPercent) {\n  return usedPercent;\n}\r\n\r\n--- usage.test.mjs ---\r\nimport { remainingPercent } from './usage.mjs';\nimport assert from 'node:assert/strict';\nassert.equal(remainingPercent(33), 67);\nassert.equal(remainingPercent(91), 9);\nassert.equal(remainingPercent(-5), 100);\nassert.equal(remainingPercent(105), 0);\nassert.equal(remainingPercent(null), null);\nassert.equal(remainingPercent(undefined), null);\nassert.equal(remainingPercent(Number.NaN), null);\nassert.equal(remainingPercent('33'), null);\nconsole.log('8 checks passed');\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Write-Output '--- usage.mjs ---'; Get-Content -Raw -LiteralPath .\\\\usage.mjs; Write-Output '--- usage.test.mjs ---'; Get-Content -Raw -LiteralPath .\\\\usage.test.mjs\"",
+        "exit_code": 0,
+        "output": "--- usage.mjs ---\r\nexport function remainingPercent(usedPercent) {\n  return usedPercent;\n}\r\n\r\n--- usage.test.mjs ---\r\nimport { remainingPercent } from './usage.mjs';\nimport assert from 'node:assert/strict';\nassert.equal(remainingPercent(33), 67);\nassert.equal(remainingPercent(91), 9);\nassert.equal(remainingPercent(-5), 100);\nassert.equal(remainingPercent(105), 0);\nassert.equal(remainingPercent(null), null);\nassert.equal(remainingPercent(undefined), null);\nassert.equal(remainingPercent(Number.NaN), null);\nassert.equal(remainingPercent('33'), null);\nconsole.log('8 checks passed');\r\n\r\n"
+      }
+    ]
+  },
+  {
+    "run": "desktop-events",
+    "usage": {
+      "input_tokens": 93452,
+      "cached_input_tokens": 61696,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 898,
+      "reasoning_output_tokens": 0
+    },
+    "commands": [
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\usage.test.mjs\"",
+        "exit_code": 0,
+        "output": "import { remainingPercent } from './usage.mjs';\nimport assert from 'node:assert/strict';\nassert.equal(remainingPercent(33), 67);\nassert.equal(remainingPercent(91), 9);\nassert.equal(remainingPercent(-5), 100);\nassert.equal(remainingPercent(105), 0);\nassert.equal(remainingPercent(null), null);\nassert.equal(remainingPercent(undefined), null);\nassert.equal(remainingPercent(Number.NaN), null);\nassert.equal(remainingPercent('33'), null);\nconsole.log('8 checks passed');\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Get-Content -Raw -LiteralPath .\\\\usage.mjs\"",
+        "exit_code": 0,
+        "output": "export function remainingPercent(usedPercent) {\n  return usedPercent;\n}\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'Get-ChildItem -Force | Select-Object Mode,Length,Name'",
+        "exit_code": 0,
+        "output": "\r\nMode  Length Name\r\n----  ------ ----\r\n-a---      0 desktop-events.jsonl\r\n-a---      0 desktop-stderr.txt\r\n-a---   4226 events.jsonl\r\n-a---     40 result.txt\r\n-a---  34855 stderr.txt\r\n-a---     73 usage.mjs\r\n-a---    469 usage.test.mjs\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"@'\nexport function remainingPercent(usedPercent) {\n  if (typeof usedPercent \"'!== '\"'number' || \"'!Number.isFinite(usedPercent)) {\n    return null;\n  }\n\n  return Math.min(100, Math.max(0, 100 - usedPercent));\n}\n'\"'@ | Set-Content -LiteralPath .\\\\usage.mjs -Encoding utf8NoBOM\nnode .\\\\usage.test.mjs\"",
+        "exit_code": 0,
+        "output": "8 checks passed\n"
+      }
+    ]
+  },
+  {
+    "run": "profile-events",
+    "usage": {
+      "input_tokens": 93336,
+      "cached_input_tokens": 61440,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 1244,
+      "reasoning_output_tokens": 0
+    },
+    "commands": [
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command '$output = & node usage.test.mjs 2>&1 | Out-String; $exitCode = $LASTEXITCODE; $hash = (Get-FileHash -LiteralPath usage.mjs -Algorithm SHA256).Hash; @(\"TEST COMMAND: node usage.test.mjs\", \"TEST EXIT CODE: $exitCode\", \"TEST OUTPUT:\", $output.TrimEnd(), \"\", \"SHA256 usage.mjs: $hash\") | Set-Content -LiteralPath verification.txt -Encoding utf8; Get-Content -LiteralPath verification.txt -Raw; exit $exitCode'",
+        "exit_code": 0,
+        "output": "TEST COMMAND: node usage.test.mjs\r\nTEST EXIT CODE: 0\r\nTEST OUTPUT:\r\n8 checks passed\r\n\r\nSHA256 usage.mjs: 6798E96FE8BF984DD1C821601332AFDBC04D98927641B4F6BED474D2A3F64497\r\n\r\n"
+      },
+      {
+        "command": "\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command '$out = & node .'\"\\\\usage.test.mjs 2>&1 | Out-String; \"'$ec = $LASTEXITCODE; $hash = (Get-FileHash -LiteralPath .'\"\\\\usage.mjs -Algorithm SHA256).Hash; \\\"Command: node usage.test.mjs\"'`r`nExitCode: $ec`r`nOutput:`r`n$out`r`nSHA256 usage.mjs: $hash\" | Set-Content -LiteralPath .'\"\\\\verification.txt -NoNewline -Encoding utf8; Get-Content -LiteralPath .\\\\verification.txt -Raw; exit \"'$ec'",
+        "exit_code": 0,
+        "output": "Command: node usage.test.mjs\r\nExitCode: 0\r\nOutput:\r\n8 checks passed\r\n\r\nSHA256 usage.mjs: 6798E96FE8BF984DD1C821601332AFDBC04D98927641B4F6BED474D2A3F64497\r\n"
+      }
+    ]
+  },
+  {
+    "run": "native-events",
+    "usage": {
+      "input_tokens": 23329,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 8,
+      "reasoning_output_tokens": 0
+    },
+    "commands": []
+  }
+]

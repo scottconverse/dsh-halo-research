@@ -120,3 +120,9 @@ The existing web profile includes pinned `MirDie/dsh-xai` with an alpha compatib
 ## Activity speed attribution
 
 Mission Control's Activity card separates running now (active session models and providers) from the latest completed session, which is identified by title and its last-used model/provider beside its historical decode rate. It reads DSH's recorded last-used selection, not the default or a queued model. The speed remains a session aggregate; sessions that switched models can include multiple models. Missing attribution displays unknown.
+
+## Ollama Cloud (September 15, 2026)
+
+Keep Ollama running and signed in. In DSH choose **Ollama Cloud > DeepSeek V4.1 Flash (Ollama Cloud)**. Local models remain available; cloud use does not load GPU weights. In Codex, the stock Ollama desktop integration supplies the cloud model alongside native models after the desktop reloads its catalog. The native Terra default is retained.
+
+The Codex `ollama-deepseek` worker profile supports usage-aware delegation: Sol/Terra/Luna at 10% remaining or more, DeepSeek execution with Astra coordination below 10%. Agents operate the worker; no terminal operation is required from Scott. Ollama's router is in Codex's request path for native as well as cloud models; keep it running or use Ollama Apps > ChatGPT (Desktop) > Off to restore the prior connection. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for exact files, checks, and limitations.

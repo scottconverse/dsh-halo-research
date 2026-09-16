@@ -1,0 +1,9 @@
+Ran the requested checks without modifying source or tests.
+
+- `node usage.test.mjs` → exit code `0`
+- Test output: `8 checks passed`
+- SHA256 of `usage.mjs`: `6798E96FE8BF984DD1C821601332AFDBC04D98927641B4F6BED474D2A3F64497`
+
+Wrote the full output and hash to:
+
+`C:\Users\scott\Documents\Codex\2026-09-10\gi\outputs\ollama-worker-check\verification.txt`

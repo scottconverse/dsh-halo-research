@@ -1,0 +1,11 @@
+import { remainingPercent } from './usage.mjs';
+import assert from 'node:assert/strict';
+assert.equal(remainingPercent(33), 67);
+assert.equal(remainingPercent(91), 9);
+assert.equal(remainingPercent(-5), 100);
+assert.equal(remainingPercent(105), 0);
+assert.equal(remainingPercent(null), null);
+assert.equal(remainingPercent(undefined), null);
+assert.equal(remainingPercent(Number.NaN), null);
+assert.equal(remainingPercent('33'), null);
+console.log('8 checks passed');

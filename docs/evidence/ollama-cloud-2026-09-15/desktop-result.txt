@@ -1,0 +1,10 @@
+Updated `usage.mjs` so `remainingPercent`:
+
+- Returns `100 - usedPercent`, clamped to `0..100` for finite numeric inputs.
+- Returns `null` for non-numeric, `NaN`, `Infinity`, `null`, and `undefined`.
+
+Ran `node usage.test.mjs`:
+
+```text
+8 checks passed
+```

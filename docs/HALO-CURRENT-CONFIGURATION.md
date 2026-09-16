@@ -134,3 +134,9 @@ The existing web profile includes pinned `MirDie/dsh-xai` with an alpha compatib
 ## Activity speed attribution
 
 Mission Control's Activity card separates running now (active session models and providers) from the latest completed session, which is identified by title and its last-used model/provider beside its historical decode rate. It reads DSH's recorded last-used selection, not the default or a queued model. The speed remains a session aggregate; sessions that switched models can include multiple models. Missing attribution displays unknown.
+
+## September 15: Ollama Cloud and Codex quota routing
+
+DSH now offers **Ollama Cloud > DeepSeek V4.1 Flash (Ollama Cloud)** through the stock provider and the signed-in Ollama daemon on port 11434. The existing local default is unchanged. Codex Desktop has the same DeepSeek model added beside its native models; Terra remains its default. The saved `ollama-deepseek` worker profile passed file editing and test execution through Ollama's stock desktop router.
+
+Codex workers remain Sol/Terra/Luna while at least 10% of the available main quota remains. Below 10%, new execution and review go to DeepSeek; Astra coordinates only. Persistent agent instructions use live quota readings, not token totals. This is agent routing guidance, not a background quota service. A desktop restart/picker check remains for Scott's next convenient restart. See `HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md` for evidence and recovery.

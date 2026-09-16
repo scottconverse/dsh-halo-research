@@ -34,6 +34,25 @@ llm-pi-ai:
           reasoningEfforts: false
     google:
       apiKeyEnv: GOOGLE_API_KEY
+    ollama:
+      displayName: Ollama Cloud
+      # The local Ollama daemon accepts this existing non-secret gateway placeholder
+      # while its signed-in daemon forwards cloud requests.
+      apiKeyEnv: LMSTUDIO_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:11434/v1
+      defaultContextWindow: 131072
+      defaultMaxTokens: 8192
+      reasoning: off
+      models:
+        - id: deepseek-v4.1-flash:cloud
+          name: DeepSeek V4.1 Flash (Ollama Cloud)
+          contextWindow: 1048576
+          maxTokens: 8192
+          input: [ text, image ]
+          reasoningEfforts:
+            off: null
+            low: low
 subagent-model-selection:
   enabled: true
   allowedModels:

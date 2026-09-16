@@ -1,0 +1,6 @@
+# Uses Ollama's stock Codex desktop router, which normalizes Codex tools.
+model = "deepseek-v4.1-flash:cloud"
+model_provider = "openai"
+model_reasoning_effort = "low"
+model_catalog_json = "C:/Users/scott/.codex/ollama-launch-models.json"
+openai_base_url = "http://127.0.0.1:11434/api/codex/v1"

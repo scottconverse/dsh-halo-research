@@ -1,0 +1,13 @@
+interface:
+  display_name: OpenAI Multi-Agent
+  short_description: OpenAI workers with Ollama fallback below 10 percent quota
+  default_prompt: Use $openai-multi-agent to complete this development task, checking
+    quota and routing workers to Ollama DeepSeek below 10 percent remaining.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - atlas
+  allow_implicit_invocation: true
