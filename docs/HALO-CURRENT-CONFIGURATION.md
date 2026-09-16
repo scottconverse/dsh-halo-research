@@ -2,6 +2,10 @@
 
 Updated September 15, 2026.
 
+## Optional lean coding
+
+**Local coding — lean** is available in DSH's new-session preset picker. **Local models** remains the default. Lean retains file tools, PowerShell, LSP, skills and stock compaction, with 13 model-facing tools instead of 91. The observed tool-definition estimate fell from 25,122 to 3,290 tokens. Existing full presets, research/browser services, permissions and 128K model settings remain unchanged. See [setup and measured results](DSH-LEAN-CODING-2026-09-15.md).
+
 ## Supported stack
 
 DeepSeek Harness `0.1.6-alpha.1` runs from `C:\Users\scott\.dsh-stock`. Its Cordis overlay registers Wigolo over MCP stdio as the preferred research provider and the reference memory MCP as its persistent knowledge store. DSH's native `web_search` and `web_fetch` tools remain available as a bounded fallback.

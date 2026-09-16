@@ -2,6 +2,10 @@
 
 Updated September 15, 2026.
 
+## Focused coding sessions
+
+In DSH, click **New session**, open the **Local models** preset selector, and choose **Local coding — lean**. Choose the workspace and model normally. This keeps file editing/search, PowerShell, LSP, skills and compaction while sending a much smaller tool catalog to the model. Start a session with **Local models** when you want the full research, browser, persistent memory, history and delegation capabilities. The default and existing sessions have not changed. See [the lean preset guide and results](DSH-LEAN-CODING-2026-09-15.md).
+
 ## What this stack is
 
 Halo is the local DeepSeek Harness deployment for this Windows workstation. Stock DSH runs the agent, LM Studio supplies the approved local models, Wigolo supplies primary web research over MCP, `reference_memory` keeps durable knowledge across sessions, and Mission Control supplies the operator dashboard.

@@ -1,0 +1,297 @@
+{
+  "date": "2026-09-15",
+  "dsh": "0.1.6-alpha.1",
+  "runs": [
+    {
+      "id": "session-b52f8a64-c8c0-4a50-8465-05fb4eed11ad",
+      "cwd": "C:/Users/scott/Documents/Codex/2026-09-10/gi/work/lean-preset-check",
+      "preset": "local",
+      "prompt": "Fix mergeRanges in ranges.ts: sort intervals numerically, merge overlapping or touching intervals, preserve the largest end for nested intervals, and never mutate input or share result arrays with it. Keep the public API. First use LSP goToDefinition on mergeRanges in use.ts line 2 character 24 to locate the implementation. Read the instructions and relevant files, make the change, run node --test ranges.test.mjs, and report the actual result. Do not change tests, install dependencies, research online, or delegate. Stop when done.",
+      "startedAt": "2026-09-16T01:18:12.006Z",
+      "model": {
+        "provider": "lmstudio",
+        "model": "halo-brain-35b",
+        "reasoningEffort": "off",
+        "maxTokens": 8192
+      },
+      "contextWindow": 131072,
+      "toolCount": 91,
+      "toolNames": [
+        "ask_user_question",
+        "create_goal",
+        "edit",
+        "exit_plan_mode",
+        "get_goal",
+        "glob",
+        "grep",
+        "interrupt_agent",
+        "job_kill",
+        "job_list",
+        "job_output",
+        "list_agents",
+        "list_mcp_resource_templates",
+        "list_mcp_resources",
+        "list_subagent_models",
+        "lsp",
+        "mcp__chrome-devtools-mcp__click",
+        "mcp__chrome-devtools-mcp__close_page",
+        "mcp__chrome-devtools-mcp__drag",
+        "mcp__chrome-devtools-mcp__emulate",
+        "mcp__chrome-devtools-mcp__evaluate_script",
+        "mcp__chrome-devtools-mcp__fill",
+        "mcp__chrome-devtools-mcp__fill_form",
+        "mcp__chrome-devtools-mcp__get_console_message",
+        "mcp__chrome-devtools-mcp__get_network_request",
+        "mcp__chrome-devtools-mcp__handle_dialog",
+        "mcp__chrome-devtools-mcp__hover",
+        "mcp__chrome-devtools-mcp__lighthouse_audit",
+        "mcp__chrome-devtools-mcp__list_console_messages",
+        "mcp__chrome-devtools-mcp__list_network_requests",
+        "mcp__chrome-devtools-mcp__list_pages",
+        "mcp__chrome-devtools-mcp__navigate_page",
+        "mcp__chrome-devtools-mcp__new_page",
+        "mcp__chrome-devtools-mcp__performance_analyze_insight",
+        "mcp__chrome-devtools-mcp__performance_start_trace",
+        "mcp__chrome-devtools-mcp__performance_stop_trace",
+        "mcp__chrome-devtools-mcp__press_key",
+        "mcp__chrome-devtools-mcp__resize_page",
+        "mcp__chrome-devtools-mcp__select_page",
+        "mcp__chrome-devtools-mcp__take_heapsnapshot",
+        "mcp__chrome-devtools-mcp__take_screenshot",
+        "mcp__chrome-devtools-mcp__take_snapshot",
+        "mcp__chrome-devtools-mcp__type_text",
+        "mcp__chrome-devtools-mcp__upload_file",
+        "mcp__chrome-devtools-mcp__wait_for",
+        "mcp__reference_memory__add_observations",
+        "mcp__reference_memory__create_entities",
+        "mcp__reference_memory__create_relations",
+        "mcp__reference_memory__delete_entities",
+        "mcp__reference_memory__delete_observations",
+        "mcp__reference_memory__delete_relations",
+        "mcp__reference_memory__open_nodes",
+        "mcp__reference_memory__read_graph",
+        "mcp__reference_memory__search_nodes",
+        "mcp__wigolo__agent",
+        "mcp__wigolo__cache",
+        "mcp__wigolo__crawl",
+        "mcp__wigolo__diff",
+        "mcp__wigolo__extract",
+        "mcp__wigolo__fetch",
+        "mcp__wigolo__find_similar",
+        "mcp__wigolo__research",
+        "mcp__wigolo__search",
+        "mcp__wigolo__watch",
+        "present",
+        "pwsh",
+        "ralph",
+        "read",
+        "read_image",
+        "read_mcp_resource",
+        "send_message",
+        "session_event_read",
+        "session_event_search",
+        "session_event_trace",
+        "session_search",
+        "session_trace",
+        "skill",
+        "subagent",
+        "subagent_fork",
+        "terminal_close",
+        "terminal_list",
+        "terminal_open",
+        "terminal_read",
+        "terminal_send",
+        "terminal_signal",
+        "todo_write",
+        "update_goal",
+        "web_fetch",
+        "web_search",
+        "workflow",
+        "write"
+      ],
+      "schemaBytes": 100658,
+      "estimatedToolTokens": 25122,
+      "elapsedSeconds": 149.366,
+      "completion": {
+        "kind": "completed"
+      },
+      "modelSteps": 10,
+      "toolCalls": [
+        "lsp",
+        "lsp",
+        "lsp",
+        "read",
+        "read",
+        "glob",
+        "read",
+        "edit",
+        "pwsh",
+        "edit",
+        "pwsh"
+      ],
+      "lspResults": [
+        {
+          "type": "tool-result",
+          "toolCallId": "tx3YqbDpWgQuC5VTrWvIMVEj23TnXb4D",
+          "content": [
+            {
+              "type": "text",
+              "text": "No results."
+            }
+          ],
+          "isError": false
+        },
+        {
+          "type": "tool-result",
+          "toolCallId": "atrdEQlpZZwhDUqobulCnqLxmZKgZfzq",
+          "content": [
+            {
+              "type": "text",
+              "text": "No results."
+            }
+          ],
+          "isError": false
+        },
+        {
+          "type": "tool-result",
+          "toolCallId": "lGNRM6uS2YTmqMV7VNvJAFQherpqRTC7",
+          "content": [
+            {
+              "type": "text",
+              "text": "ranges.ts:2:17"
+            }
+          ],
+          "isError": false
+        }
+      ],
+      "usage": {
+        "input": 304670,
+        "output": 1814
+      },
+      "verification": {
+        "tests": 4,
+        "passed": 4,
+        "independentlyRerun": true
+      },
+      "answer": [
+        {
+          "type": "text",
+          "text": "All 4 tests pass. Here's a summary of the fix in `ranges.ts`:\n\n**Changes made:**\n\n1. **`input.sort()` → `input.slice().sort(([a], [b]) => a - b)`** — Sorts numerically instead of lexicographically, and copies the input first so it is never mutated.\n2. **`range[0] < previous[1]` → `range[0] <= previous[1]`** — Merges touching intervals (where start equals the previous end) as required.\n3. **`previous[1] = range[1]` → `previous[1] = Math.max(previous[1], range[1])`** — Preserves the largest end for nested intervals (e.g., `[1,10]` containing `[2,3]`).\n4. **`result.push(range)` → `result.push([range[0], range[1]])`** — Pushes a new tuple so result arrays are never shared with the input.\n\nThe public API (`export function mergeRanges(input: Range[]): Range[]`) is unchanged. All 4 tests pass."
+        }
+      ]
+    },
+    {
+      "id": "session-fc01ceb0-7d87-4994-b1d6-14784c48f7d7",
+      "cwd": "C:/Users/scott/Documents/Codex/2026-09-10/gi/work/lean-preset-check",
+      "preset": "local-lean",
+      "prompt": "Fix mergeRanges in ranges.ts: sort intervals numerically, merge overlapping or touching intervals, preserve the largest end for nested intervals, and never mutate input or share result arrays with it. Keep the public API. First use LSP goToDefinition on mergeRanges in use.ts line 2 character 24 to locate the implementation. Read the instructions and relevant files, make the change, run node --test ranges.test.mjs, and report the actual result. Do not change tests, install dependencies, research online, or delegate. Stop when done.",
+      "startedAt": "2026-09-16T01:23:22.004Z",
+      "model": {
+        "provider": "lmstudio",
+        "model": "halo-brain-35b",
+        "reasoningEffort": "off",
+        "maxTokens": 8192
+      },
+      "contextWindow": 131072,
+      "toolCount": 13,
+      "toolNames": [
+        "ask_user_question",
+        "edit",
+        "glob",
+        "grep",
+        "job_kill",
+        "job_list",
+        "job_output",
+        "lsp",
+        "pwsh",
+        "read",
+        "read_image",
+        "skill",
+        "write"
+      ],
+      "schemaBytes": 13174,
+      "estimatedToolTokens": 3290,
+      "elapsedSeconds": 48.449,
+      "completion": {
+        "kind": "completed"
+      },
+      "modelSteps": 6,
+      "toolCalls": [
+        "lsp",
+        "read",
+        "glob",
+        "read",
+        "edit",
+        "pwsh"
+      ],
+      "lspResults": [
+        {
+          "type": "tool-result",
+          "toolCallId": "gclgx7UVhNtnGlv8e58g55NNvmpi2jvH",
+          "content": [
+            {
+              "type": "text",
+              "text": "ranges.ts:2:17"
+            }
+          ],
+          "isError": false
+        }
+      ],
+      "usage": {
+        "input": 34626,
+        "output": 909
+      },
+      "verification": {
+        "tests": 4,
+        "passed": 4,
+        "independentlyRerun": true
+      },
+      "answer": [
+        {
+          "type": "text",
+          "text": "All 4 tests pass. Here's a summary of the fixes applied to `ranges.ts`:\n\n1. **Sort numerically** — replaced `input.sort()` with `[...input].sort((a, b) => a[0] - b[0] || a[1] - b[1])` which sorts by start then end numerically and creates a shallow copy so input is never mutated.\n\n2. **Merge overlapping or touching intervals** — changed `range[0] < previous[1]` to `range[0] <= previous[1]` so touching intervals (where one ends exactly where the next begins) are merged.\n\n3. **Preserve the largest end for nested intervals** — replaced direct assignment `previous[1] = range[1]` with `Math.max(previous[1], range[1])` to keep the largest end value when merging.\n\n4. **Never share result arrays with input** — changed `result.push(range)` to `result.push([range[0], range[1]])` so new array pairs are created, not references to the original input arrays."
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "One serial coding fixture, not a general speed benchmark.",
+    "Runtime cache and language-server warmth were not controlled.",
+    "Full preset corrected its own first patch after failing tests; lean passed on first patch.",
+    "Tool token counts are DSH estimates; byte counts are exact JSON serialization sizes."
+  ],
+  "isolation": {
+    "stockAssemblyTest": "passed: full and global catalogs unchanged; late MCP additions hidden only in lean; preset switch restores complete catalog",
+    "executionPermissionsChanged": false,
+    "globalDefaultPreset": "local",
+    "globalModelSelectionUnchanged": true
+  },
+  "development": {
+    "draft": "Inherited-tool mask left 45 tools because Chrome registers in agent scope. Replaced before final acceptance with stock prompt-assembly hook.",
+    "worker": "/root/lean_tool_scope",
+    "requestedWorkerModel": "gpt-5.6-luna",
+    "workerContribution": "Inspected stock scoping and independently reviewed assembly hook.",
+    "workerTokenUsage": "unknown",
+    "review": "Source review plus actual stock-service isolation check and live model coding acceptance"
+  },
+  "finalCompositionCheck": {
+    "sessionId": "session-2aa29efd-3ac1-46a7-b53b-108828b22dfe",
+    "explicitNativeMode": true,
+    "toolCount": 13,
+    "model": {
+      "provider": "lmstudio",
+      "model": "halo-brain-35b",
+      "reasoningEffort": "off",
+      "maxTokens": 8192
+    },
+    "reply": [
+      {
+        "type": "text",
+        "text": "LEAN_READY"
+      }
+    ],
+    "completed": {
+      "kind": "completed"
+    }
+  }
+}

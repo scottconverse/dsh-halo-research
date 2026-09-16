@@ -1,0 +1,11 @@
+export type Range = [number, number];
+export function mergeRanges(input: Range[]): Range[] {
+  input.sort();
+  const result: Range[] = [];
+  for (const range of input) {
+    const previous = result.at(-1);
+    if (previous && range[0] < previous[1]) previous[1] = range[1];
+    else result.push(range);
+  }
+  return result;
+}
