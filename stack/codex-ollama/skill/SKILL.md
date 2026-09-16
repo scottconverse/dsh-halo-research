@@ -36,7 +36,7 @@ Use `MODE: SINGLE_AGENT` for straightforward work when delegation adds overhead.
 
 | Role | Use |
 | --- | --- |
-| Ollama `deepseek-v4.1-flash:cloud` | Default implementation, diagnosis, and tests through the stock Codex CLI profile. |
+| Ollama `deepseek-v4.1-flash:cloud` | Default implementation, diagnosis, and tests through the packaged `run_ollama_code_worker.py` launcher, which drives the stock Codex CLI tool loop. |
 | Tuned local coder helper | Bounded coding drafts, mechanical changes, and other tasks suited to a one-shot answer. |
 | Tuned local brain helper | High-reasoning bounded review or analysis. |
 | Astra | Coordination and bounded high-judgment work. |
@@ -48,7 +48,7 @@ Treat workload targets as starting preferences, not measured performance guarant
 
 For multi-agent work, read [coordination.md](references/coordination.md) before dispatch. Reuse equivalent project records. For simple single-agent work, avoid creating a board solely for ceremony.
 
-Keep product decisions, interfaces, ticket scope, integration, and final acceptance with the lead. Give each worker or helper a bounded task with a source snapshot and acceptance criteria. Use file-based briefs to reduce repeated lead-context replay. Require actual artifacts, tests/checks that were run, limitations, and a handoff; inspect the returned artifacts and results rather than treating a process exit code as proof of success. Review actual source and diffs against observable acceptance criteria. Use focused behavioral verification and required project gates. Distinguish personally executed checks from reported results.
+Keep product decisions, interfaces, ticket scope, integration, and final acceptance with the lead. Give each worker or helper a bounded task with a source snapshot and acceptance criteria. Drive code workers through `run_ollama_code_worker.py` and accept only on a receipt with `"success": true`, a nonempty authoritative `--output-last-message` that agrees with any stdout `agent_message`, an actual diff, and executed tests; exit 0 alone is not success. Continue a stopped worker with `--resume <SESSION_ID>` from the receipt rather than replaying the coordinator conversation. Use file-based briefs to reduce repeated lead-context replay. Require actual artifacts, tests/checks that were run, limitations, and a handoff; inspect the returned artifacts and results rather than treating a process exit code as proof of success. Review actual source and diffs against observable acceptance criteria. Use focused behavioral verification and required project gates. Distinguish personally executed checks from reported results.
 
 After two unsuccessful attempts on a bounded task, split or revise it, escalate with the reason, or have the lead take over; do not retry indefinitely. Preserve the original artifact and distinguish ticket/tool failures from implementation failures. Call lead-only review `SELF_REVIEW`. A fresh session of the same model is separate review but not model diversity. Mark a ticket DONE only after the lead accepts the actual result; retain unmet required review or platform checks as outstanding. Continue useful authorized work while another ticket is blocked.
 
