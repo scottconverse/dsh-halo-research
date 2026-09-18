@@ -100,3 +100,5 @@ Older research reports and inactive experiments are preserved in Git history and
 ## September 15 stock upgrade
 
 The [alpha upgrade guide](docs/DSH-ALPHA-UPGRADE-2026-09-15.md) covers history search, TypeScript/Python navigation, Chrome interaction, persistent PowerShell and the stock Terminal panel, optional native Codex delegation, and the optional Gemini connection. The existing local coder remains the default.
+
+For the current provider and delegation options, including authentication and access caveats, see the [DSH provider setup guide](docs/DSH-PROVIDER-SETUP.md).
