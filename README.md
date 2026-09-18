@@ -84,6 +84,8 @@ For recovery, restore the repository to its documented Windows path and copy
 If the repository is relocated, update `customSkillDirs` in that preset.
 The repo copy takes priority over the shared user skill of the same name.
 
+For substantial implementation tasks that benefit from separate coding and review roles, the repository also includes the [pairing-team skill](stack/stock-dsh/skills/pairing-team/SKILL.md) and its [coder handoff template](stack/stock-dsh/skills/pairing-team/references/HANDOFF.md). It uses DSH's existing delegation tools and does not enable providers or grant release authority.
+
 ## Deployment files
 
 - `stack/stock-dsh/settings.yaml` — model identities and per-model capacities
