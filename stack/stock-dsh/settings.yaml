@@ -90,6 +90,26 @@ llm-pi-ai:
           reasoningEfforts:
             off: null
             low: low
+        - id: glm-5.3:cloud
+          name: GLM-5.3 (Ollama Cloud)
+          contextWindow: 1048576
+          maxTokens: 8192
+          input: [ text ]
+        - id: kimi-k3:cloud
+          name: Kimi K3 (Ollama Cloud)
+          contextWindow: 1048576
+          maxTokens: 8192
+          input: [ text, image ]
+        - id: minimax-m3:cloud
+          name: MiniMax M3 (Ollama Cloud)
+          contextWindow: 512000
+          maxTokens: 8192
+          input: [ text, image ]
+        - id: glm-5.3-flash:cloud
+          name: GLM-5.3 Flash (Ollama Cloud)
+          contextWindow: 1048576
+          maxTokens: 8192
+          input: [ text, image ]
 subagent-model-selection:
   enabled: true
   allowedModels:
