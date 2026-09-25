@@ -1200,6 +1200,99 @@ async function muxConnect() {
 }
 muxConnect();
 
+// Follow only active sessions. DSH's process-local assistant stream supplies
+// output text during generation, but not per-chunk token counts. This is a
+// rolling text-length estimate, kept separate from measured completed stats.
+const liveDecode = new Map();
+const LIVE_DECODE_WINDOW_MS = 10000;
+function followLiveDecode(sessionId) {
+  const state = { socket: null, connected: false, active: false, samples: [], lastChunkAt: 0, nextTryAt: 0 };
+  liveDecode.set(sessionId, state);
+  void (async () => {
+    try {
+      const cookie = await authenticateDsh();
+      if (liveDecode.get(sessionId) !== state) return;
+      const socket = new WebSocket('ws://127.0.0.1:3080/api/remote.mux', { headers: { Cookie: cookie } });
+      state.socket = socket;
+      const streamId = `mc-live-${crypto.randomBytes(8).toString('hex')}`;
+      socket.on('open', () => {
+        if (liveDecode.get(sessionId) !== state) return socket.close();
+        state.connected = true;
+        socket.send(JSON.stringify({ type: 'open', streamId, endpoint: 'session/follow', payload: {
+          args: { request: { address: { kind: 'session', sessionId }, maxMessages: 1, assistantStream: true } },
+        } }));
+      });
+      socket.on('message', raw => {
+        try {
+          const carrier = JSON.parse(String(raw));
+          if (carrier.streamId !== streamId) return;
+          if (carrier.type === 'error' || carrier.type === 'end') return socket.close();
+          if (carrier.type !== 'item') return;
+          const value = carrier.value || {};
+          if (value.type === 'snapshot') {
+            state.active = !!value.assistantStream?.activeAttempt;
+            state.samples = [];
+            state.lastChunkAt = 0;
+          } else if (value.type === 'assistant-stream') {
+            const frame = value.frame || {};
+            if (frame.type === 'start') {
+              state.active = true;
+              state.samples = [];
+              state.lastChunkAt = 0;
+            } else if (frame.type === 'end') {
+              state.active = false;
+              state.samples = [];
+              state.lastChunkAt = 0;
+            } else if (frame.type === 'chunk') {
+              const chunk = frame.chunk || {};
+              if ((chunk.type === 'text-delta' || chunk.type === 'reasoning-delta') && typeof chunk.text === 'string') {
+                const now = Date.now();
+                state.active = true;
+                state.samples.push({ at: now, chars: [...chunk.text].length });
+                state.lastChunkAt = now;
+                state.samples = state.samples.filter(sample => now - sample.at <= LIVE_DECODE_WINDOW_MS);
+              }
+            }
+          }
+        } catch { /* No text or authority is logged or persisted. */ }
+      });
+      socket.on('close', () => { state.connected = false; state.active = false; state.nextTryAt = Date.now() + 5000; });
+      socket.on('error', () => { try { socket.close(); } catch { /* already closed */ } });
+    } catch { state.nextTryAt = Date.now() + 5000; }
+  })();
+}
+function liveDecodeView(sessionId, title) {
+  const state = liveDecode.get(sessionId);
+  if (!state?.connected) return { sessionId, title, state: 'unavailable', estimatedTps: null };
+  if (!state.active) return { sessionId, title, state: 'waiting', estimatedTps: null };
+  const now = Date.now();
+  state.samples = state.samples.filter(sample => now - sample.at <= LIVE_DECODE_WINDOW_MS);
+  if (!state.samples.length || now - state.lastChunkAt > 5000) {
+    return { sessionId, title, state: 'waiting', estimatedTps: null };
+  }
+  const chars = state.samples.reduce((sum, sample) => sum + sample.chars, 0);
+  const seconds = Math.max(2, (now - state.samples[0].at) / 1000);
+  return { sessionId, title, state: 'streaming', estimatedTps: Math.round(chars / 4 / seconds * 10) / 10 };
+}
+function syncLiveDecode(sessions) {
+  const active = sessions.filter(session => session.claimsRunning).slice(0, 4);
+  const wanted = new Set(active.map(session => session.sessionId));
+  for (const [id, state] of liveDecode) {
+    if (!wanted.has(id)) {
+      liveDecode.delete(id);
+      try { state.socket?.close(); } catch { /* already closed */ }
+    }
+  }
+  for (const session of active) {
+    const state = liveDecode.get(session.sessionId);
+    if (!state || (!state.connected && state.nextTryAt && Date.now() >= state.nextTryAt)) {
+      try { state?.socket?.close(); } catch { /* already closed */ }
+      followLiveDecode(session.sessionId);
+    }
+  }
+  return active.map(session => liveDecodeView(session.sessionId, session.title || session.id));
+}
+
 // ─────────────────────────── sessions ───────────────────────────
 
 function isDriveRoot(p) { return typeof p === 'string' && /^[A-Za-z]:\\?$/.test(p.trim()); }
@@ -1855,6 +1948,7 @@ async function status() {
   // Today totals and context selection need the complete session inventory,
   // not whichever 50 happen to sort first. The UI still renders a short slice.
   const sc = await getSessions(dshUp, 500);
+  const liveDecodeRows = syncLiveDecode(dshUp ? (sc.sessions || []) : []);
   const slow = dshUp ? await slowPulls() : slowCacheView(Date.now(), 'DSH port unavailable');
   const mem = parseMemoryFile(MEMORY_FILE);
   const snapshots = readSnapshotCadence(MEMORY_SNAPSHOTS);
@@ -1942,6 +2036,7 @@ async function status() {
     },
     sessions: (sc.sessions || []).slice(0, 8),
     latestCompletedRun: selectLatestCompletedSession(sc.sessions || []),
+    liveDecode: liveDecodeRows,
     sessionsSource: sc.source,
     stalledSessions,
     // Context warning for work that is actually live/recent. The old reduction
@@ -2879,8 +2974,13 @@ function renderOverview(s){
   var activeModels=activeSessions.map(function(session){
     return '<span title="'+esc(session.title||session.sessionId||'')+'">'+esc(session.model||'awaiting model output')+'<br><span class="mut">'+esc(session.provider||'provider not yet recorded')+'</span></span>';
   }).join('<br>');
+  var live=(s.liveDecode||[]).find(function(row){return row.state==='streaming'})||(s.liveDecode||[])[0];
+  var liveText=live&&live.state==='streaming'
+    ? '&asymp;'+live.estimatedTps+' t/s <span class="mut">'+esc(live.title)+'; rolling estimate from output text</span>'
+    : '<span class="mut">'+(live?'waiting for model output':'no active session')+'</span>';
   document.getElementById('ov-activity').innerHTML=
     '<div class="row"><span class="k">running now</span><span style="text-align:right;overflow-wrap:anywhere">'+(activeModels||'<span class="mut">no active session</span>')+'</span></div>'+
+    '<div class="row"><span class="k">live decode (estimate)</span><span style="text-align:right">'+liveText+'</span></div>'+
     '<div class="row"><span class="k">session files updated today</span><span>'+s.today.count+'</span></div>'+
     '<div class="row"><span class="k">cumulative kTok in / out for those sessions</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest
