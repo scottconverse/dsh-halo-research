@@ -1201,8 +1201,8 @@ async function muxConnect() {
 muxConnect();
 
 // Follow only active sessions. DSH's process-local assistant stream supplies
-// output text during generation, but not per-chunk token counts. This is a
-// rolling text-length estimate, kept separate from measured completed stats.
+// output text during generation, but not per-chunk token counts. Show its
+// actual character rate; never relabel a character heuristic as token speed.
 const liveDecode = new Map();
 const LIVE_DECODE_WINDOW_MS = 10000;
 function followLiveDecode(sessionId) {
@@ -1263,16 +1263,16 @@ function followLiveDecode(sessionId) {
 }
 function liveDecodeView(sessionId, title) {
   const state = liveDecode.get(sessionId);
-  if (!state?.connected) return { sessionId, title, state: 'unavailable', estimatedTps: null };
-  if (!state.active) return { sessionId, title, state: 'waiting', estimatedTps: null };
+  if (!state?.connected) return { sessionId, title, state: 'unavailable', charsPerS: null };
+  if (!state.active) return { sessionId, title, state: 'waiting', charsPerS: null };
   const now = Date.now();
   state.samples = state.samples.filter(sample => now - sample.at <= LIVE_DECODE_WINDOW_MS);
   if (!state.samples.length || now - state.lastChunkAt > 5000) {
-    return { sessionId, title, state: 'waiting', estimatedTps: null };
+    return { sessionId, title, state: 'waiting', charsPerS: null };
   }
   const chars = state.samples.reduce((sum, sample) => sum + sample.chars, 0);
   const seconds = Math.max(2, (now - state.samples[0].at) / 1000);
-  return { sessionId, title, state: 'streaming', estimatedTps: Math.round(chars / 4 / seconds * 10) / 10 };
+  return { sessionId, title, state: 'streaming', charsPerS: Math.round(chars / seconds) };
 }
 function syncLiveDecode(sessions) {
   const active = sessions.filter(session => session.claimsRunning).slice(0, 4);
@@ -1297,6 +1297,31 @@ function syncLiveDecode(sessions) {
 
 function isDriveRoot(p) { return typeof p === 'string' && /^[A-Za-z]:\\?$/.test(p.trim()); }
 
+// DSH sessionStats is the authority for decode speed: its output-token and
+// decode-time counters advance when an assistant step settles. Their delta is
+// a measured rate for the steps completed since our previous observation.
+const decodeTotals = new Map();
+let latestMeasuredDecode = null;
+function observeDecodeTotals(sessionId, title, model, stats, now = Date.now()) {
+  const tokens = stats?.decodeTokens;
+  const ms = stats?.decodeMs;
+  if (!Number.isFinite(tokens) || !Number.isFinite(ms) || tokens < 0 || ms < 0) return;
+  const previous = decodeTotals.get(sessionId);
+  decodeTotals.set(sessionId, { tokens, ms });
+  if (!previous) return; // Never mistake a session's lifetime totals for one new step.
+  const addedTokens = tokens - previous.tokens;
+  const addedMs = ms - previous.ms;
+  if (addedTokens <= 0 || addedMs <= 0) return;
+  latestMeasuredDecode = {
+    sessionId, title, model, at: now, outputTokens: addedTokens, decodeMs: addedMs,
+    tps: Math.round(addedTokens / (addedMs / 1000) * 10) / 10,
+  };
+}
+function recentMeasuredDecode(now = Date.now()) {
+  return latestMeasuredDecode && now - latestMeasuredDecode.at <= 15 * 60 * 1000
+    ? latestMeasuredDecode : null;
+}
+
 async function listSessionsApi(limit = 500) {
   const sess = await dshRpc('session/list', { _request: {} });
   // DSH's list updatedAt can remain at the last completed turn while a long
@@ -1310,6 +1335,8 @@ async function listSessionsApi(limit = 500) {
     .map(s => {
       const v = s.projections?.values || {};
       const st = v.sessionStats || {};
+      observeDecodeTotals(s.sessionId, v.title || s.sessionId,
+        v.modelSelection?.lastUsed?.model || null, st);
       const tk = v.tokenUsage || {};
       // Context fill: the single number that predicts the output-token wall.
       // The harness tracks it (dsh-token-meter's contextPressure projection);
@@ -2037,6 +2064,7 @@ async function status() {
     sessions: (sc.sessions || []).slice(0, 8),
     latestCompletedRun: selectLatestCompletedSession(sc.sessions || []),
     liveDecode: liveDecodeRows,
+    recentMeasuredDecode: recentMeasuredDecode(),
     sessionsSource: sc.source,
     stalledSessions,
     // Context warning for work that is actually live/recent. The old reduction
@@ -2976,11 +3004,16 @@ function renderOverview(s){
   }).join('<br>');
   var live=(s.liveDecode||[]).find(function(row){return row.state==='streaming'})||(s.liveDecode||[])[0];
   var liveText=live&&live.state==='streaming'
-    ? '&asymp;'+live.estimatedTps+' t/s <span class="mut">'+esc(live.title)+'; rolling estimate from output text</span>'
+    ? live.charsPerS+' chars/s <span class="mut">'+esc(live.title)+'; rolling text flow</span>'
     : '<span class="mut">'+(live?'waiting for model output':'no active session')+'</span>';
+  var measured=s.recentMeasuredDecode||null;
+  var measuredText=measured
+    ? measured.tps+' t/s <span class="mut">'+esc(measured.model||measured.title)+'; '+measured.outputTokens+' tokens / '+(measured.decodeMs/1000).toFixed(1)+'s, observed '+fmtRel(measured.at)+'</span>'
+    : '<span class="mut">waiting for a completed model step</span>';
   document.getElementById('ov-activity').innerHTML=
     '<div class="row"><span class="k">running now</span><span style="text-align:right;overflow-wrap:anywhere">'+(activeModels||'<span class="mut">no active session</span>')+'</span></div>'+
-    '<div class="row"><span class="k">live decode (estimate)</span><span style="text-align:right">'+liveText+'</span></div>'+
+    '<div class="row"><span class="k">live output flow</span><span style="text-align:right">'+liveText+'</span></div>'+
+    '<div class="row"><span class="k">recent measured decode</span><span style="text-align:right">'+measuredText+'</span></div>'+
     '<div class="row"><span class="k">session files updated today</span><span>'+s.today.count+'</span></div>'+
     '<div class="row"><span class="k">cumulative kTok in / out for those sessions</span><span>'+s.today.kTokIn+'K / '+s.today.kTokOut+'K</span></div>'+
     (latest

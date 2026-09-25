@@ -12,6 +12,25 @@ const missionControlFile = process.env.HALO_MC_SOURCE_UNDER_TEST
   : path.join(here, '..', 'mission-control.mjs');
 const source = fs.readFileSync(missionControlFile, 'utf8');
 
+test('recent decode rate uses DSH token and decode-time deltas, never lifetime totals', () => {
+  const body = source.slice(source.indexOf('const decodeTotals = new Map();'),
+    source.indexOf('async function listSessionsApi('));
+  assert.ok(body, 'production decode observer is present');
+  const { observeDecodeTotals, recentMeasuredDecode } = new Function(
+    `${body}\nreturn { observeDecodeTotals, recentMeasuredDecode };`,
+  )();
+  observeDecodeTotals('s', 'Research', 'brain', { decodeTokens: 1000, decodeMs: 25000 }, 1000000);
+  assert.equal(recentMeasuredDecode(1000000), null);
+  observeDecodeTotals('s', 'Research', 'brain', { decodeTokens: 1000, decodeMs: 25000 }, 1001000);
+  assert.equal(recentMeasuredDecode(1001000), null);
+  observeDecodeTotals('s', 'Research', 'brain', { decodeTokens: 1400, decodeMs: 35000 }, 1002000);
+  assert.deepEqual(recentMeasuredDecode(1002000), {
+    sessionId: 's', title: 'Research', model: 'brain', at: 1002000,
+    outputTokens: 400, decodeMs: 10000, tps: 40,
+  });
+  assert.equal(recentMeasuredDecode(1002000 + 15 * 60 * 1000 + 1), null);
+});
+
 // Execute the production supervisor and production mutation queue, with only
 // external I/O and the clock substituted. This catches ordering/race defects
 // that isolated decision predicates cannot exercise.
