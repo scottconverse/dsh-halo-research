@@ -1322,6 +1322,81 @@ function recentMeasuredDecode(now = Date.now()) {
     ? latestMeasuredDecode : null;
 }
 
+// LM Studio's llama.cpp workers expose the active request's generated-token
+// counter through their loopback /slots endpoint. This is a measured live
+// count, unlike estimating tokens from streamed text. The worker's bearer key
+// stays in memory and is never included in the status API, history, or logs.
+let llamaWorkers = [];
+let llamaWorkersAt = 0;
+let llamaPollBusy = false;
+const llamaSamples = new Map();
+const LLAMA_SAMPLE_WINDOW_MS = 10000;
+async function discoverLlamaWorkers() {
+  if (process.platform !== 'win32') return [];
+  try {
+    const { stdout } = await safeExecFile('powershell', ['-NoProfile', '-NonInteractive', '-Command',
+      'Get-CimInstance Win32_Process -Filter "Name=\'llama-server.exe\'" | Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress'],
+    { timeout: 5000, maxBuffer: 1024 * 1024 });
+    const rows = JSON.parse(stdout || 'null');
+    return (Array.isArray(rows) ? rows : rows ? [rows] : []).flatMap(row => {
+      const cmd = row.CommandLine || '';
+      const port = /--port\s+(\d+)/.exec(cmd)?.[1];
+      const key = /--api-key\s+(?:"([^"]+)"|(\S+))/.exec(cmd);
+      const model = /--model\s+(?:"([^"]+)"|(\S+))/.exec(cmd);
+      if (!port || !key || !model) return [];
+      return [{ id: `${row.ProcessId}:${port}`, port: Number(port), key: key[1] || key[2],
+        model: path.basename(model[1] || model[2]).replace(/\.gguf$/i, '') }];
+    }).slice(0, 4);
+  } catch { return []; }
+}
+async function pollLlamaDecode() {
+  if (llamaPollBusy) return;
+  llamaPollBusy = true;
+  try {
+    const now = Date.now();
+    if (now - llamaWorkersAt > (llamaWorkers.length ? 30000 : 10000)) {
+      llamaWorkers = await discoverLlamaWorkers();
+      llamaWorkersAt = Date.now();
+      const ids = new Set(llamaWorkers.map(w => w.id));
+      for (const id of llamaSamples.keys()) if (!ids.has(id)) llamaSamples.delete(id);
+    }
+    await Promise.all(llamaWorkers.map(async worker => {
+      try {
+        const response = await fetch(`http://127.0.0.1:${worker.port}/slots`, {
+          headers: { Authorization: `Bearer ${worker.key}` }, signal: AbortSignal.timeout(1500),
+        });
+        if (!response.ok) { llamaSamples.delete(worker.id); return; }
+        const slots = await response.json();
+        const slot = Array.isArray(slots) ? slots.find(s => s?.is_processing &&
+          Number.isFinite(s?.next_token?.[0]?.n_decoded)) : null;
+        if (!slot) { llamaSamples.delete(worker.id); return; }
+        const task = slot.id_task;
+        const count = slot.next_token[0].n_decoded;
+        const at = Date.now();
+        const prior = llamaSamples.get(worker.id);
+        const samples = prior?.task === task && count >= prior.samples.at(-1)?.count
+          ? prior.samples.filter(sample => at - sample.at <= LLAMA_SAMPLE_WINDOW_MS) : [];
+        samples.push({ at, count });
+        llamaSamples.set(worker.id, { model: worker.model, task, samples });
+      } catch { /* Busy workers may miss a sample; never manufacture a rate. */ }
+    }));
+  } finally { llamaPollBusy = false; }
+}
+function liveEngineDecode(now = Date.now()) {
+  return [...llamaSamples.values()].flatMap(state => {
+    const samples = state.samples.filter(sample => now - sample.at <= LLAMA_SAMPLE_WINDOW_MS);
+    if (samples.length < 2 || now - samples.at(-1).at > 5000) return [];
+    const first = samples[0], last = samples.at(-1);
+    const added = last.count - first.count;
+    const seconds = (last.at - first.at) / 1000;
+    if (added <= 0 || seconds <= 0) return [];
+    return [{ model: state.model, tps: Math.round(added / seconds * 10) / 10,
+      tokens: added, intervalMs: last.at - first.at, at: last.at }];
+  });
+}
+setInterval(() => { void pollLlamaDecode(); }, 2000).unref();
+void pollLlamaDecode();
+
 async function listSessionsApi(limit = 500) {
   const sess = await dshRpc('session/list', { _request: {} });
   // DSH's list updatedAt can remain at the last completed turn while a long
@@ -2064,6 +2139,7 @@ async function status() {
     sessions: (sc.sessions || []).slice(0, 8),
     latestCompletedRun: selectLatestCompletedSession(sc.sessions || []),
     liveDecode: liveDecodeRows,
+    liveEngineDecode: liveEngineDecode(),
     recentMeasuredDecode: recentMeasuredDecode(),
     sessionsSource: sc.source,
     stalledSessions,
@@ -3007,11 +3083,16 @@ function renderOverview(s){
     ? live.charsPerS+' chars/s <span class="mut">'+esc(live.title)+'; rolling text flow</span>'
     : '<span class="mut">'+(live?'waiting for model output':'no active session')+'</span>';
   var measured=s.recentMeasuredDecode||null;
+  var engineLive=s.liveEngineDecode||[];
+  var engineLiveText=engineLive.length
+    ? engineLive.map(function(row){return row.tps+' t/s <span class="mut">'+esc(row.model)+'; '+row.tokens+' tokens / '+(row.intervalMs/1000).toFixed(1)+'s</span>';}).join('<br>')
+    : '<span class="mut">waiting for active local decode</span>';
   var measuredText=measured
     ? measured.tps+' t/s <span class="mut">'+esc(measured.model||measured.title)+'; '+measured.outputTokens+' tokens / '+(measured.decodeMs/1000).toFixed(1)+'s, observed '+fmtRel(measured.at)+'</span>'
     : '<span class="mut">waiting for a completed model step</span>';
   document.getElementById('ov-activity').innerHTML=
     '<div class="row"><span class="k">running now</span><span style="text-align:right;overflow-wrap:anywhere">'+(activeModels||'<span class="mut">no active session</span>')+'</span></div>'+
+    '<div class="row"><span class="k">live local decode</span><span style="text-align:right">'+engineLiveText+'</span></div>'+
     '<div class="row"><span class="k">live output flow</span><span style="text-align:right">'+liveText+'</span></div>'+
     '<div class="row"><span class="k">recent measured decode</span><span style="text-align:right">'+measuredText+'</span></div>'+
     '<div class="row"><span class="k">session files updated today</span><span>'+s.today.count+'</span></div>'+
@@ -3218,7 +3299,10 @@ function renderVitalsHead(){
   var worst=s.contextPressure;
   var ctxCls=worst?(worst.worstPct>=85?'bad':(worst.worstPct>=70?'warn':'')):'';
   var gen=s.models.filter(function(m){return m.status==='generating'}).length;
+  var liveRates=s.liveEngineDecode||[];
+  var liveRate=liveRates.length===1?liveRates[0]:null;
   head.innerHTML=
+    '<div class="vstat"><b>'+(liveRate?liveRate.tps:'&mdash;')+'</b><span>'+(liveRate?'live decode t/s · '+esc(liveRate.model):'live decode t/s · waiting')+'</span></div>'+
     '<div class="vstat"><b>'+(last?last.decodeTps:'&mdash;')+'</b><span>completed-run decode t/s</span></div>'+
     '<div class="vstat"><b>'+(gpuOk?s.gpu.dedicatedGiB:'&mdash;')+(gpuOk&&s.gpu.carveoutGiB!=null?' <span class="mut" style="font-size:.62em">/ '+s.gpu.carveoutGiB+'</span>':'')+'</b><span>GPU dedicated GiB</span></div>'+
     '<div class="vstat"><b class="'+sharedCls+'">'+(gpuOk?s.gpu.sharedGiB:'&mdash;')+'</b><span title="~1.5 GiB is the normal floor: Vulkan staging buffers plus the desktop. Growth is the leak signal.">GPU shared GiB (flat ≈ healthy)</span></div>'+
