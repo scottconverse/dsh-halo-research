@@ -573,6 +573,20 @@ function readSnapshotCadence(snapshotDir, now = Date.now(), intervalMs = 3600000
     overdue: ageMs > intervalMs + graceMs, file: newest.file,
   };
 }
+function sessionActivityState(summaryUpdatedAt, logUpdatedAt, claimsRunning, now = Date.now(), stallAfterMs = 10 * 60 * 1000) {
+  const summaryAt = Number(summaryUpdatedAt) || 0;
+  const logAt = Number(logUpdatedAt) || 0;
+  const lastActivityAt = Math.max(summaryAt, logAt);
+  const stalledMs = claimsRunning && lastActivityAt ? Math.max(0, now - lastActivityAt) : null;
+  const stalled = stalledMs != null && stalledMs > stallAfterMs;
+  return {
+    lastActivityAt,
+    activitySource: logAt > summaryAt ? 'session log' : 'DSH session list',
+    stalledMs,
+    stalled,
+    running: !!claimsRunning && !stalled,
+  };
+}
 /*__DATA_CONTRACT_END__*/
 
 // ─────────────────────────── lms CLI surfaces ───────────────────────────
@@ -1192,6 +1206,10 @@ function isDriveRoot(p) { return typeof p === 'string' && /^[A-Za-z]:\\?$/.test(
 
 async function listSessionsApi(limit = 500) {
   const sess = await dshRpc('session/list', { _request: {} });
+  // DSH's list updatedAt can remain at the last completed turn while a long
+  // running turn keeps writing events. Corroborate active sessions with their
+  // durable log before calling them stalled.
+  const logActivity = runningSessionLogMtimes(sess.items.filter(s => s.running).map(s => s.sessionId));
   return sess.items
     .filter(s => !s.blank)
     .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
@@ -1209,6 +1227,7 @@ async function listSessionsApi(limit = 500) {
       const ctxUsed = cp.projectedTokens ?? cp.pressureTokens ?? null;
       const ctxWindow = cp.contextWindow || null;
       const workspace = s.cwd || 'Ungrouped';
+      const activity = sessionActivityState(s.updatedAt, logActivity.get(s.sessionId), !!s.running, Date.now(), STALL_MS);
       return {
         workspace,
         driveRootBug: isDriveRoot(workspace) || isDriveRoot(s.cwd),
@@ -1219,7 +1238,10 @@ async function listSessionsApi(limit = 500) {
         // wrapper over its lifetime.  The browser contract is always a string.
         goal: typeof v.goal === 'string' ? v.goal
           : (v.goal?.goal?.objective || v.goal?.objective || null),
-        mtime: s.updatedAt || 0,
+        mtime: activity.lastActivityAt,
+        summaryUpdatedAt: s.updatedAt || 0,
+        lastActivityAt: activity.lastActivityAt,
+        activitySource: activity.activitySource,
         // `running` is the harness's own flag and this console repeated it
         // without corroboration. On 2026-08-20 a session sat at running:true
         // with frozen counters for 4h41m while making zero progress, and the
@@ -1231,9 +1253,9 @@ async function listSessionsApi(limit = 500) {
         // both, and `running` now means "claims running AND is actually
         // moving" so every existing consumer gets the corroborated answer.
         claimsRunning: !!s.running,
-        stalledMs: (s.running && s.updatedAt) ? Math.max(0, Date.now() - s.updatedAt) : null,
-        stalled: !!(s.running && s.updatedAt && (Date.now() - s.updatedAt) > STALL_MS),
-        running: !!s.running && !(s.updatedAt && (Date.now() - s.updatedAt) > STALL_MS),
+        stalledMs: activity.stalledMs,
+        stalled: activity.stalled,
+        running: activity.running,
         preset: v.agentPreset || s.agentPreset || '',
         // Use the model that produced output, not a queued selection or global default.
         provider: v.modelSelection?.lastUsed?.provider || null,
@@ -1469,6 +1491,28 @@ function writeState(patch) {
     const cur = readState();
     fs.writeFileSync(STATE_FILE, JSON.stringify({ ...cur, ...patch }, null, 2));
   } catch { /* best effort */ }
+}
+
+function runningSessionLogMtimes(sessionIds) {
+  const wanted = new Set(sessionIds.filter(Boolean));
+  const result = new Map();
+  if (!wanted.size) return result;
+  try {
+    for (const bucket of fs.readdirSync(DSH_SESSIONS)) {
+      const bucketDir = path.join(DSH_SESSIONS, bucket);
+      if (!fs.statSync(bucketDir).isDirectory()) continue;
+      for (const sessionId of wanted) {
+        const sessionDir = path.join(bucketDir, sessionId);
+        const logName = sessionLogFile(sessionDir);
+        if (!logName) continue;
+        try { result.set(sessionId, fs.statSync(path.join(sessionDir, logName)).mtimeMs); }
+        catch { /* fall back to the DSH list timestamp */ }
+        wanted.delete(sessionId);
+      }
+      if (!wanted.size) break;
+    }
+  } catch { /* missing or unreadable logs: retain the DSH list timestamp */ }
+  return result;
 }
 
 // Crash recovery is deliberately narrower than startup convergence. It only
@@ -2589,7 +2633,7 @@ function computeLights(s){
   if(stalled.count){
     lights.HARNESS={level:'r',cause:stalled.count+' session(s) claim to be running but have not advanced: '+
       (stalled.items||[]).map(function(x){return '"'+(x.title||x.id)+'" idle '+fmtDur(x.stalledMs)}).join('; ')+
-      ' — the harness still reports them as running; stop them or investigate'};
+      ' — no durable session activity; investigate before stopping'};
   }
   else if(!s.services.cockpit) lights.HARNESS={level:'r',cause:'cockpit :3080 is down'};
   else if(s.dshData&&(s.dshData.cacheState==='stale'||s.dshData.cacheState==='unavailable')) {
@@ -2947,7 +2991,7 @@ function renderVitals(){
   var strips=[
     {key:'gpuDed', label:'GPU dedicated', unit:'GiB', color:'#4fd8c4', top:14,  bot:76,  fill:true},
     {key:'gpuShared', label:'GPU shared', unit:'GiB', color:'#ffc86b', top:90,  bot:140, fill:true, danger:8},
-    {key:'decodeTps', label:'decode', unit:'t/s', color:'#6ea8ff', top:154, bot:206, fill:false}
+    {key:'decodeTps', label:'completed-run decode', unit:'t/s', color:'#6ea8ff', top:154, bot:206, fill:false}
   ];
   var t0=rows[0].t, t1=rows[rows.length-1].t, span=(t1-t0)||1;
   var x=function(t){return L+((t-t0)/span)*(R-L)};
@@ -2956,7 +3000,9 @@ function renderVitals(){
     var vals=rows.map(function(r){return r[st.key]}).filter(function(v){return v!=null});
     var lo=vals.length?Math.min.apply(null,vals):0, hi=vals.length?Math.max.apply(null,vals):1;
     var sc=niceScale(lo,hi,st.key==='gpuShared'||st.key==='decodeTps');
-    var y=function(v){return st.bot-((v-sc.lo)/(sc.hi-sc.lo))*(st.bot-st.top)};
+    // Reserve a header band so a high value cannot draw through the label.
+    var plotTop=st.top+18;
+    var y=function(v){return st.bot-((v-sc.lo)/(sc.hi-sc.lo))*(st.bot-plotTop)};
     st._y=y; st._sc=sc;
     // gridlines + rounded tick labels (the old auto-scale printed 9/17/26/35,
     // which reads as broken rather than designed)
@@ -2978,6 +3024,12 @@ function renderVitals(){
     });
     if(cur.length) segs.push(cur);
     segs.forEach(function(sg){
+      // Decode is a sparse completed-run observation, not a continuous live
+      // rate. Dots make that distinction visible even for adjacent samples.
+      if(st.key==='decodeTps'){
+        sg.forEach(function(p){body+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.8" fill="'+st.color+'"/>';});
+        return;
+      }
       var pts=sg.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1)}).join('L');
       if(st.fill&&sg.length>1){
         body+='<path d="M'+pts+'L'+sg[sg.length-1][0].toFixed(1)+','+st.bot+'L'+sg[0][0].toFixed(1)+','+st.bot+'Z" fill="'+st.color+'" fill-opacity=".13"/>';
@@ -3180,7 +3232,7 @@ async function loadSessions(){
         // are history, so they are dimmed rather than competing with context.
         '<td class="'+(s.running?'':'mut')+'">'+(s.ttftS!=null?s.ttftS+'s':'&mdash;')+'</td>'+
         '<td class="'+(s.running?'':'mut')+'">'+(s.decodeTps!=null?s.decodeTps+' <span class="mut" style="font-size:.75rem">tok/s</span>':'&mdash;')+'</td>'+
-        '<td>'+fmtRel(s.mtime)+'</td>'+
+        '<td title="'+esc(s.activitySource||'session file')+'">'+fmtRel(s.lastActivityAt||s.mtime)+'</td>'+
         // Only offered where it means something: a session the harness still
         // believes is running. Stopping is the operator's call, so it asks.
         '<td>'+((s.claimsRunning)
@@ -3190,6 +3242,7 @@ async function loadSessions(){
       var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="12"><div class="detail">'+
         '<div>sessionId: <span class="mono">'+esc(s.sessionId)+'</span></div>'+
         (s.ctxPct!=null?'<div>context: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+' tokens ('+s.ctxPct+'% full, '+(s.ctxWindow-s.ctxUsed).toLocaleString()+' left)</div>':'')+
+        (s.lastActivityAt?'<div>last durable activity: '+fmtRel(s.lastActivityAt)+' ('+esc(s.activitySource||'unknown source')+')</div>':'')+
         (s.goal?'<div>goal: '+esc(s.goal)+'</div>':'')+
         '<div><button class="btn btn-sm" type="button" onclick="event.stopPropagation();openDsh()">Open in DSH</button></div>'+
         '</div></td></tr>';

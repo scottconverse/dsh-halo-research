@@ -229,7 +229,7 @@ function dataContractFunctions() {
   assert.notEqual(end, -1, 'data contract end marker is present');
   assert.ok(end > start, 'data contract markers are ordered');
   const body = source.slice(start + startMark.length, end);
-  return new Function('fs', 'path', `${body}\nreturn { parseMemoryFile, selectNewestLogFile, selectDecodeObservation, describeValidationFreshness, parseValidationDiagnostics, describeRouteRuntime, normalizeHistoryRow, pruneHistoryLines, parseGpuCounterOutput, describeFileFreshness, downsampleHistoryRows, summarizeStalledSessions, describeCacheState, describeMuxState, readSnapshotCadence, selectLatestCompletedSession: typeof selectLatestCompletedSession === 'function' ? selectLatestCompletedSession : undefined, resolveExactResidentRole: typeof resolveExactResidentRole === 'function' ? resolveExactResidentRole : undefined, modelStateMatches: typeof modelStateMatches === 'function' ? modelStateMatches : undefined };`)(fs, path);
+  return new Function('fs', 'path', `${body}\nreturn { parseMemoryFile, selectNewestLogFile, selectDecodeObservation, describeValidationFreshness, parseValidationDiagnostics, describeRouteRuntime, normalizeHistoryRow, pruneHistoryLines, parseGpuCounterOutput, describeFileFreshness, downsampleHistoryRows, summarizeStalledSessions, sessionActivityState, describeCacheState, describeMuxState, readSnapshotCadence, selectLatestCompletedSession: typeof selectLatestCompletedSession === 'function' ? selectLatestCompletedSession : undefined, resolveExactResidentRole: typeof resolveExactResidentRole === 'function' ? resolveExactResidentRole : undefined, modelStateMatches: typeof modelStateMatches === 'function' ? modelStateMatches : undefined };`)(fs, path);
 }
 
 test('malformed memory JSON fails closed instead of reporting a healthy graph', () => {
@@ -594,6 +594,22 @@ test('stall summary covers the complete supplied inventory', () => {
     items: [{ id: 's15', sessionId: undefined, title: undefined, stalledMs: 700_000 }],
   });
   assert.match(source, /const STALL_MS = 10 \* 60 \* 1000/);
+});
+
+test('active session uses durable log activity when list timestamp lags', () => {
+  const { sessionActivityState } = dataContractFunctions();
+  const now = 20_000_000;
+  const active = sessionActivityState(now - 8_000_000, now - 10_000, true, now);
+  assert.equal(active.lastActivityAt, now - 10_000);
+  assert.equal(active.activitySource, 'session log');
+  assert.equal(active.running, true);
+  assert.equal(active.stalled, false);
+  const trulyStalled = sessionActivityState(now - 8_000_000, now - 800_000, true, now);
+  assert.equal(trulyStalled.stalled, true);
+  assert.equal(trulyStalled.stalledMs, 800_000);
+  const fallback = sessionActivityState(now - 10_000, null, true, now);
+  assert.equal(fallback.activitySource, 'DSH session list');
+  assert.equal(fallback.running, true);
 });
 
 test('failed cache refresh is explicitly stale and disconnected mux data is not active', () => {
