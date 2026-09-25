@@ -294,7 +294,7 @@ test('overview uses server-proven completed runs and names the real hourly snaps
   assert.match(overview, /next snapshot expected/i);
   assert.doesNotMatch(overview, /delta-scan/i);
   assert.match(overview, /validationFreshness\.state===['"]never['"]/);
-  assert.match(source, /no completed-run observation/i);
+  assert.match(source, /no observation at this time/i);
   assert.doesNotMatch(source, /decode[^\n]{0,120}['"]idle['"]/i);
 });
 

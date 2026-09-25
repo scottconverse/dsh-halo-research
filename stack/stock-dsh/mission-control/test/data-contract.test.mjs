@@ -342,6 +342,17 @@ test('a completed-session decode rate is emitted once rather than repeated every
   assert.equal(repeated.decodeSourceKey, 's1:1234');
 });
 
+test('a settled step in a running session reaches history once', () => {
+  const { selectDecodeObservation } = dataContractFunctions();
+  const closed = [{ id: 'old', mtime: 1234, decodeTps: 22.1 }];
+  const step = { sessionId: 'active', at: 2000, tps: 35 };
+  const first = selectDecodeObservation(closed, null, step);
+  assert.equal(first.decodeTps, 35);
+  assert.equal(first.decodeSourceSession, 'active');
+  assert.equal(selectDecodeObservation(closed, first, step).decodeTps, null);
+  assert.equal(selectDecodeObservation(closed, first, { ...step, at: 3000, tps: 36 }).decodeTps, 36);
+});
+
 test('a repeated completed-run observation stays absent through history normalization', () => {
   const { selectDecodeObservation, normalizeHistoryRow } = dataContractFunctions();
   const sessions = [{ id: 's1', mtime: 1234, decodeTps: 22.1 }];

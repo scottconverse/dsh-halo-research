@@ -326,13 +326,25 @@ function selectNewestLogFile(root) {
   return newest;
 }
 
-function selectDecodeObservation(sessions, previous) {
+function selectDecodeObservation(sessions, previous, measuredStep = null) {
   const completed = (sessions || [])
     .filter(s => s?.decodeTps != null && s.running !== true && s.claimsRunning !== true)
     .sort((a, b) => (b.mtime || 0) - (a.mtime || 0));
   const latest = completed[0] || null;
+  // A long-running session can finish many model steps before the session
+  // itself ends. Its DSH token/time delta is newer than the last closed run.
+  if (measuredStep?.at > (latest?.mtime || 0) && Number.isFinite(measuredStep.tps)) {
+    const decodeSourceKey = `step:${measuredStep.sessionId}:${measuredStep.at}`;
+    return { decodeTps: previous?.decodeSourceKey === decodeSourceKey ? null : measuredStep.tps,
+      decodeSourceKey, decodeSourceSession: measuredStep.sessionId, decodeSourceAt: measuredStep.at };
+  }
   if (!latest) {
-    return { decodeTps: null, decodeSourceKey: previous?.decodeSourceKey || null, decodeSourceSession: null, decodeSourceAt: null };
+    return { decodeTps: null, decodeSourceKey: previous?.decodeSourceKey || null,
+      decodeSourceSession: previous?.decodeSourceSession || null, decodeSourceAt: previous?.decodeSourceAt || null };
+  }
+  if (previous?.decodeSourceAt && (latest.mtime || 0) <= previous.decodeSourceAt) {
+    return { decodeTps: null, decodeSourceKey: previous.decodeSourceKey,
+      decodeSourceSession: previous.decodeSourceSession || null, decodeSourceAt: previous.decodeSourceAt };
   }
   const id = latest.id || latest.sessionId || '?';
   const decodeSourceKey = `${id}:${latest.mtime || 0}`;
@@ -1331,6 +1343,7 @@ let llamaWorkersAt = 0;
 let llamaPollBusy = false;
 const llamaSamples = new Map();
 const LLAMA_SAMPLE_WINDOW_MS = 10000;
+let latestLiveEngineDecode = null;
 async function discoverLlamaWorkers() {
   if (process.platform !== 'win32') return [];
   try {
@@ -1378,6 +1391,15 @@ async function pollLlamaDecode() {
           ? prior.samples.filter(sample => at - sample.at <= LLAMA_SAMPLE_WINDOW_MS) : [];
         samples.push({ at, count });
         llamaSamples.set(worker.id, { model: worker.model, task, samples });
+        if (samples.length >= 2) {
+          const first = samples[0], last = samples.at(-1);
+          const added = last.count - first.count;
+          const elapsed = last.at - first.at;
+          if (added > 0 && elapsed > 0) latestLiveEngineDecode = {
+            model: worker.model, tps: Math.round(added / (elapsed / 1000) * 10) / 10,
+            tokens: added, intervalMs: elapsed, at: last.at,
+          };
+        }
       } catch { /* Busy workers may miss a sample; never manufacture a rate. */ }
     }));
   } finally { llamaPollBusy = false; }
@@ -1393,6 +1415,10 @@ function liveEngineDecode(now = Date.now()) {
     return [{ model: state.model, tps: Math.round(added / seconds * 10) / 10,
       tokens: added, intervalMs: last.at - first.at, at: last.at }];
   });
+}
+function recentLiveEngineDecode(now = Date.now()) {
+  return latestLiveEngineDecode && now - latestLiveEngineDecode.at <= 15 * 60 * 1000
+    ? latestLiveEngineDecode : null;
 }
 setInterval(() => { void pollLlamaDecode(); }, 2000).unref();
 void pollLlamaDecode();
@@ -1877,11 +1903,14 @@ async function appendHistory() {
   try {
     const [gpu, sess] = await Promise.all([gpuMemory(), getSessions(await tcpCheck(3080), 50)]);
     if (!historyObservationState.initialized) {
-      historyObservationState.decodeSourceKey = readHistorySpark(1)[0]?.decodeSourceKey || null;
+      const lastRow = readHistorySpark(1)[0];
+      historyObservationState.decodeSourceKey = lastRow?.decodeSourceKey || null;
+      historyObservationState.decodeSourceAt = lastRow?.decodeSourceAt || null;
       historyObservationState.initialized = true;
     }
-    const observation = selectDecodeObservation(sess.sessions || [], historyObservationState);
+    const observation = selectDecodeObservation(sess.sessions || [], historyObservationState, recentMeasuredDecode());
     historyObservationState.decodeSourceKey = observation.decodeSourceKey;
+    historyObservationState.decodeSourceAt = observation.decodeSourceAt;
     const row = {
       t: Date.now(),
       ...observation,
@@ -1899,7 +1928,7 @@ async function appendHistory() {
   } catch { /* best effort, never crash the poller */ }
 }
 
-const historyObservationState = { initialized: false, decodeSourceKey: null };
+const historyObservationState = { initialized: false, decodeSourceKey: null, decodeSourceAt: null };
 
 // Time-series for the vitals chart. Field names drifted mid-collection
 // (winFreeGB -> winFreeGiB etc.) — accept both rather than losing the older
@@ -2140,6 +2169,7 @@ async function status() {
     latestCompletedRun: selectLatestCompletedSession(sc.sessions || []),
     liveDecode: liveDecodeRows,
     liveEngineDecode: liveEngineDecode(),
+    recentLiveEngineDecode: recentLiveEngineDecode(),
     recentMeasuredDecode: recentMeasuredDecode(),
     sessionsSource: sc.source,
     stalledSessions,
@@ -3084,9 +3114,12 @@ function renderOverview(s){
     : '<span class="mut">'+(live?'waiting for model output':'no active session')+'</span>';
   var measured=s.recentMeasuredDecode||null;
   var engineLive=s.liveEngineDecode||[];
+  var engineRecent=s.recentLiveEngineDecode||null;
   var engineLiveText=engineLive.length
     ? engineLive.map(function(row){return row.tps+' t/s <span class="mut">'+esc(row.model)+'; '+row.tokens+' tokens / '+(row.intervalMs/1000).toFixed(1)+'s</span>';}).join('<br>')
-    : '<span class="mut">waiting for active local decode</span>';
+    : (engineRecent
+      ? engineRecent.tps+' t/s <span class="mut">last live sample '+fmtRel(engineRecent.at)+'; '+esc(engineRecent.model)+'</span>'
+      : '<span class="mut">waiting for active local decode</span>');
   var measuredText=measured
     ? measured.tps+' t/s <span class="mut">'+esc(measured.model||measured.title)+'; '+measured.outputTokens+' tokens / '+(measured.decodeMs/1000).toFixed(1)+'s, observed '+fmtRel(measured.at)+'</span>'
     : '<span class="mut">waiting for a completed model step</span>';
@@ -3205,7 +3238,7 @@ function renderVitals(){
   var strips=[
     {key:'gpuDed', label:'GPU dedicated', unit:'GiB', color:'#4fd8c4', top:14,  bot:76,  fill:true},
     {key:'gpuShared', label:'GPU shared', unit:'GiB', color:'#ffc86b', top:90,  bot:140, fill:true, danger:8},
-    {key:'decodeTps', label:'completed-run decode', unit:'t/s', color:'#6ea8ff', top:154, bot:206, fill:false}
+    {key:'decodeTps', label:'measured decode', unit:'t/s', color:'#6ea8ff', top:154, bot:206, fill:false}
   ];
   var t0=rows[0].t, t1=rows[rows.length-1].t, span=(t1-t0)||1;
   var x=function(t){return L+((t-t0)/span)*(R-L)};
@@ -3238,7 +3271,7 @@ function renderVitals(){
     });
     if(cur.length) segs.push(cur);
     segs.forEach(function(sg){
-      // Decode is a sparse completed-run observation, not a continuous live
+      // Decode is a sparse settled-step or completed-run observation, not a continuous live
       // rate. Dots make that distinction visible even for adjacent samples.
       if(st.key==='decodeTps'){
         sg.forEach(function(p){body+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.8" fill="'+st.color+'"/>';});
@@ -3283,7 +3316,7 @@ function renderVitals(){
     tip.innerHTML='<b>'+fmtClock(best.t,span)+'</b><br>'+
       'GPU dedicated: '+(best.gpuDed!=null?best.gpuDed+' GiB':'&mdash;')+'<br>'+
       'GPU shared: '+(best.gpuShared!=null?best.gpuShared+' GiB':'&mdash;')+'<br>'+
-      'completed-run decode: '+(best.decodeTps!=null?best.decodeTps+' t/s':'no completed-run observation')+'<br>'+
+      'measured decode: '+(best.decodeTps!=null?best.decodeTps+' t/s':'no observation at this time')+'<br>'+
       'Windows free: '+(best.winFree!=null?best.winFree+' GiB':'&mdash;');
   });
   hit.addEventListener('mouseleave',function(){ tip.style.display='none'; vx.style.display='none'; });
@@ -3301,9 +3334,10 @@ function renderVitalsHead(){
   var gen=s.models.filter(function(m){return m.status==='generating'}).length;
   var liveRates=s.liveEngineDecode||[];
   var liveRate=liveRates.length===1?liveRates[0]:null;
+  var lastLive=s.recentLiveEngineDecode||null;
   head.innerHTML=
-    '<div class="vstat"><b>'+(liveRate?liveRate.tps:'&mdash;')+'</b><span>'+(liveRate?'live decode t/s · '+esc(liveRate.model):'live decode t/s · waiting')+'</span></div>'+
-    '<div class="vstat"><b>'+(last?last.decodeTps:'&mdash;')+'</b><span>completed-run decode t/s</span></div>'+
+    '<div class="vstat"><b>'+(liveRate?liveRate.tps:(lastLive?lastLive.tps:'&mdash;'))+'</b><span>'+(liveRate?'live decode t/s · '+esc(liveRate.model):(lastLive?'last live sample · '+fmtRel(lastLive.at):'live decode t/s · waiting'))+'</span></div>'+
+    '<div class="vstat"><b>'+(last?last.decodeTps:'&mdash;')+'</b><span>last charted decode t/s</span></div>'+
     '<div class="vstat"><b>'+(gpuOk?s.gpu.dedicatedGiB:'&mdash;')+(gpuOk&&s.gpu.carveoutGiB!=null?' <span class="mut" style="font-size:.62em">/ '+s.gpu.carveoutGiB+'</span>':'')+'</b><span>GPU dedicated GiB</span></div>'+
     '<div class="vstat"><b class="'+sharedCls+'">'+(gpuOk?s.gpu.sharedGiB:'&mdash;')+'</b><span title="~1.5 GiB is the normal floor: Vulkan staging buffers plus the desktop. Growth is the leak signal.">GPU shared GiB (flat ≈ healthy)</span></div>'+
     '<div class="vstat"><b class="'+freeCls+'">'+s.ram.freeGiB+'</b><span>Windows free GiB</span></div>'+
