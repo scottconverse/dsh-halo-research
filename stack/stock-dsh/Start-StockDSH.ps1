@@ -114,12 +114,19 @@ function Install-MissionControlIfNeeded {
 }
 
 if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { throw "Node.js was not found at $node." }
-if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
 if (-not (Test-Path -LiteralPath $wigoloEntry -PathType Leaf)) {
     throw "Wigolo's MCP entry point is missing: $wigoloEntry"
 }
 $missionControlChanged = Install-MissionControlIfNeeded
 
+# A cloud default can start without changing LM Studio residency. This also
+# keeps a Desktop DSH local run intact when Web DSH is launched alongside it.
+$settingsText = Get-Content -LiteralPath (Join-Path $dshHome 'settings.yaml') -Raw
+$cloudDefault = [regex]::IsMatch($settingsText, '(?m)^agent-default-model:\s*\r?\n\s+provider:\s*ollama\s*\r?\n\s+model:\s*[^\r\n]+:cloud\s*$')
+if ($cloudDefault) {
+    Write-StackLog 'Web default is Ollama Cloud; preserving LM Studio resident models.'
+} else {
+if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
 try { Invoke-RestMethod 'http://127.0.0.1:1234/v1/models' -TimeoutSec 5 | Out-Null }
 catch { throw 'Start the LM Studio local server on port 1234, then run this shortcut again.' }
 
@@ -160,6 +167,7 @@ foreach ($model in $approved) {
     if (-not $resident -or [string]$resident.modelKey -ne $model.key -or [int]$resident.contextLength -ne $model.contextLength -or [int]$resident.parallel -ne $model.parallel) {
         throw "LM Studio model $($model.id) is not loaded with the approved capacity envelope."
     }
+}
 }
 
 $dshStarted = $false

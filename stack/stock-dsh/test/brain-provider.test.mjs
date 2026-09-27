@@ -25,9 +25,9 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
   try {
     const source = settings['llm-pi-ai'].providers;
     assert.equal(source['lmstudio-brain'].baseURL, source.lmstudio.baseURL);
-    assert.deepEqual(source['lmstudio-brain'].models.map(m => m.id), ['halo-brain-35b']);
-    assert.deepEqual(source.lmstudio.models.map(m => m.id), ['halo-coder-q4km']);
-    assert.deepEqual(settings['agent-default-model'], { provider: 'lmstudio', model: 'halo-coder-q4km' });
+    assert.deepEqual(source['lmstudio-brain'].models.map(m => m.id), ['halo-brain-35b', 'halo/qwen3.6-35b-a3b']);
+    assert.deepEqual(source.lmstudio.models.map(m => m.id), ['halo-coder-q4km', 'halo/qwen3-coder-30b-a3b-q4km']);
+    assert.deepEqual(settings['agent-default-model'], { provider: 'ollama', model: 'deepseek-v4.1-flash:cloud' });
     assert.deepEqual(settings['subagent-model-selection'].allowedModels[0], { provider: 'lmstudio-brain', model: 'halo-brain-35b' });
     const providers = structuredClone({ 'lmstudio-brain': source['lmstudio-brain'], lmstudio: source.lmstudio });
     for (const route of Object.values(providers)) route.baseURL = `http://127.0.0.1:${server.address().port}/v1`;

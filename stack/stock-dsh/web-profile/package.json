@@ -8,8 +8,7 @@
     "profile": {
       "bundles": [
         "@deepseek-ai/dsh-base",
-        "@deepseek-ai/dsh-web-app",
-        "dsh-xai"
+        "@deepseek-ai/dsh-web-app"
       ],
       "patchReload": "live"
     }
