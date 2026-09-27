@@ -40,14 +40,14 @@ export class NativeCliAdapter {
   providerInfo(provider) { return {id:provider,name:provider==='claude-cli'?'Claude Code — signed-in CLI':'Codex — signed-in CLI'}; }
   providerRetryPolicy() { return {mode:'normal',maxRetries:0,retryableCodes:['CLI_FAILED'],initialDelayMs:500,maxDelayMs:10000,jitterRatio:0}; }
   async listModels(provider) {
-    const ids=provider==='claude-cli'?['opus','sonnet','haiku']:(this.deps.codexModels??['gpt-5.6','gpt-5.4']);
+    const ids=provider==='claude-cli'?(this.deps.claudeModels??['opus','sonnet','haiku']):(this.deps.codexModels??['gpt-5.6','gpt-5.4']);
     return Promise.all(ids.map(id=>this.resolveModel(provider,id)));
   }
   async resolveModel(provider, model) {
-    const row=provider==='codex-cli'?this.deps.codexMetadata?.find(m=>m.slug===model):undefined;
+    const row=(provider==='codex-cli'?this.deps.codexMetadata:this.deps.claudeMetadata)?.find(m=>m.slug===model);
     const reasoning=row?.supported_reasoning_levels?.length?{efforts:row.supported_reasoning_levels.map(r=>({id:r.effort,name:r.effort})),defaultEffort:row.default_reasoning_level}:undefined;
     const contextWindow=row?.context_window??this.deps.observedContexts?.get(`${provider}/${model}`);
-    return {provider,id:model,name:model,inputModalities:['text'],description:'Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.',...(contextWindow?{context:{contextWindow}}:{}),...(reasoning?{reasoning}:{})};
+    return {provider,id:model,name:row?.display_name??model,inputModalities:['text'],description:'Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.',...(contextWindow?{context:{contextWindow}}:{}),...(reasoning?{reasoning}:{})};
   }
   async prepareCall(provider,model,signal) { return {model:await this.resolveModel(provider,model,signal),stream:options=>this.stream(options)}; }
   stream(options) {
@@ -144,7 +144,7 @@ export async function apply(ctx,config={}) {
   const continuity=new NativeContinuity(config.dataRoot?path.join(path.resolve(config.dataRoot),'threads'):path.join(root,'.runtime/native-threads'));
   if(fs.existsSync(dir))for(const file of fs.readdirSync(dir).filter(f=>f.endsWith('.json')).sort())try{const record=JSON.parse(fs.readFileSync(path.join(dir,file),'utf8'));observe(record);records.set(file,record);}catch{/* Malformed historical receipt does not invent metadata. */}
   ctx.webServer.register({kind:'exact',path:'/halo-dev/cli-metrics',handler:metricsHandler(records)});
-  const adapter=new NativeCliAdapter({run:runNativeCli,find:findNativeCli,continuity,codexModels,codexMetadata,observedContexts,cwdFor:id=>id?ctx.sessions.get(id)?.header.cwd:undefined,receipt:record=>{
+  const adapter=new NativeCliAdapter({run:runNativeCli,find:findNativeCli,continuity,codexModels,codexMetadata,claudeModels:config.claudeModels,claudeMetadata:config.claudeMetadata,observedContexts,cwdFor:id=>id?ctx.sessions.get(id)?.header.cwd:undefined,receipt:record=>{
     observe(record);fs.mkdirSync(dir,{recursive:true});const file=`${Date.now()}-${randomUUID()}.json`;fs.writeFileSync(path.join(dir,file),JSON.stringify(record,null,2));records.set(file,record);
   }});
   ctx.llm.registerAdapter(['claude-cli','codex-cli'],adapter);

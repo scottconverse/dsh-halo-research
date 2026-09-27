@@ -2,6 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {NativeCliAdapter, buildCliPrompt} from './cli-provider.mjs';
 const options = {provider:'codex-cli', model:'exact-custom-model', sessionId:'dev-1', system:'Development task only.', messages:[{role:'user', content:[{type:'text',text:'Create a file.'}]}]};
+test('Desktop explicit Claude catalog uses exact IDs and declared efforts without changing default catalog',async()=>{
+  const metadata=[{slug:'claude-opus-5-5',display_name:'Claude Opus 5.5',default_reasoning_level:'medium',supported_reasoning_levels:['low','medium','high','xhigh','max'].map(effort=>({effort}))}];
+  const desktop=new NativeCliAdapter({claudeModels:['claude-opus-5-5'],claudeMetadata:metadata});
+  const [model]=await desktop.listModels('claude-cli');
+  assert.equal(model.id,'claude-opus-5-5');assert.equal(model.name,'Claude Opus 5.5');
+  assert.deepEqual(model.reasoning.efforts.map(e=>e.id),['low','medium','high','xhigh','max']);
+  assert.equal(model.reasoning.defaultEffort,'medium');
+  assert.deepEqual((await new NativeCliAdapter().listModels('claude-cli')).map(m=>m.id),['opus','sonnet','haiku']);
+  assert.equal((await desktop.resolveModel('claude-cli','haiku')).reasoning,undefined);
+});
 function setup(run, extra={}) { return new NativeCliAdapter({run, find:()=> 'C:/signed-in/codex.exe', cwdFor:id=>id==='dev-1'?'C:/dev/fixture':undefined, ...extra}); }
 async function collect(adapter, opts=options) { return Array.fromAsync(adapter.stream(opts)); }
 test('exact custom model passes through and retries never repeat partial coding work', async()=>{

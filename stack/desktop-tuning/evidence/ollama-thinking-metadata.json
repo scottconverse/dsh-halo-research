@@ -1,0 +1,76 @@
+{
+  "deepseek-v4.1-flash:cloud": {
+    "thinking": {
+      "values": [
+        false,
+        "low",
+        "high",
+        "max"
+      ],
+      "default": "high"
+    },
+    "capabilities": [
+      "completion",
+      "thinking",
+      "tools",
+      "vision"
+    ]
+  },
+  "glm-5.3:cloud": {
+    "thinking": {
+      "values": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default": "max"
+    },
+    "capabilities": [
+      "completion",
+      "thinking",
+      "tools"
+    ]
+  },
+  "kimi-k3:cloud": {
+    "thinking": {
+      "values": [
+        false,
+        "low",
+        "high",
+        "max"
+      ],
+      "default": "max"
+    },
+    "capabilities": [
+      "vision",
+      "thinking",
+      "completion",
+      "tools"
+    ]
+  },
+  "minimax-m3:cloud": {
+    "thinking": null,
+    "capabilities": [
+      "completion",
+      "tools",
+      "thinking",
+      "vision"
+    ]
+  },
+  "glm-5.3-flash:cloud": {
+    "thinking": {
+      "values": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default": "max"
+    },
+    "capabilities": [
+      "completion",
+      "thinking",
+      "tools",
+      "vision"
+    ]
+  }
+}

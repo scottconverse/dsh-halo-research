@@ -1,0 +1,44 @@
+{
+  "default": {
+    "provider": "lmstudio-library",
+    "model": "halo/qwen3.8-27b-q4km",
+    "reasoningEffort": "xhigh"
+  },
+  "cloud_ids": [
+    "deepseek-v4.1-flash:cloud",
+    "glm-5.3:cloud",
+    "kimi-k3:cloud",
+    "minimax-m3:cloud",
+    "glm-5.3-flash:cloud"
+  ],
+  "cloud_efforts": {
+    "deepseek-v4.1-flash:cloud": {
+      "off": "none",
+      "low": "low",
+      "high": "high",
+      "max": "max"
+    },
+    "glm-5.3:cloud": {
+      "low": "low",
+      "high": "high",
+      "max": "max"
+    },
+    "kimi-k3:cloud": {
+      "off": "none",
+      "low": "low",
+      "high": "high",
+      "max": "max"
+    },
+    "minimax-m3:cloud": false,
+    "glm-5.3-flash:cloud": {
+      "low": "low",
+      "high": "high",
+      "max": "max"
+    }
+  },
+  "refresh_idempotent": true,
+  "q5_absent": true,
+  "q4_file_present": true,
+  "tests": "33 native CLI adapter/runtime tests passed",
+  "profile_sha256": "ab869a3dd323b983e19712ef6cd490c947d58e5ad1faeba878e33a202170bb3e"
+}

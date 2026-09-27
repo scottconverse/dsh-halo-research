@@ -1,0 +1,96 @@
+Window: "DeepSeek Harness", App: DeepSeek Harness.exe.
+	0 window DeepSeek Harness Secondary Actions: Raise
+		1 pane (disabled)
+		2 region DeepSeek Harness
+			3 region
+				4 region
+					5 region
+						6 button Minimize
+						7 button Maximize
+						8 button Close
+					9 region
+						10 region
+							11 region
+								12 region
+									13 document DeepSeek Harness Value: dsh-app://app/ ID: RootWebArea
+										14 group
+											15 group ID: root
+												16 button New session
+												17 button Collapse sidebar
+												18 button New session
+												19 navigation Global panels
+													20 button Plugins
+												21 text Workspaces
+												22 group
+													23 button Search sessions
+													24 edit (settable, string) Search session names Description: Search session names
+												25 button View options
+												26 button Add workspace
+												27 tree Sessions
+													28 tree item Default workspace
+													141 tree item (selectable) New Session
+													29 tree item (selectable) Assert Verification for Desktop Tool 13min
+													30 tree item (selectable) anyone home? 27min
+													31 tree item (selectable) testing 49min
+													32 tree item (selectable) Desktop Q6 verification: repair only 2h
+													33 tree item (selectable) C:\Users\scott\Documents\Codex\2026-09-2 1d
+													34 tree item Ungrouped
+												35 button Account menu
+												142 header
+													143 button Open right sidebar
+												144 text Into the Unknown
+												145 text Preview
+												146 button Choose workspace
+												152 button Local models Description: Choose the agent preset for your new task
+												147 edit (settable, string) Describe what you want to build, / commands, @ files or sessions
+												148 button Add files or run commands
+												149 button Access mode, current: Full access
+												150 button Select model, current Qwen3.8 27B Q4_K_M - Halo tuned (startup default), reasoning effort Xhigh Description: Qwen3.8 27B Q4_K_M - Halo tuned (startup default) · Xhigh
+												151 button (disabled) Send message
+											137 menu bar Application menu
+												138 menu item Application
+												139 menu item Edit
+											161 menu Model and reasoning effort ID: :rb:-menu
+												204 group LM Studio local
+													205 text LM Studio local
+													206 menu item radio button (selectable, settable, string) Qwen3 Coder 30B-A3B Q4_K_M Description: Qwen3 Coder 30B-A3B Q4_K_M
+												207 group Ollama Cloud
+													208 text Ollama Cloud
+													209 menu item radio button (selectable, settable, string) DeepSeek V4.1 Flash (Ollama Cloud) Description: DeepSeek V4.1 Flash (Ollama Cloud)
+													210 menu item radio button (selectable, settable, string) GLM-5.3 (Ollama Cloud) Description: GLM-5.3 (Ollama Cloud)
+													211 menu item radio button (selectable, settable, string) Kimi K3 (Ollama Cloud) Description: Kimi K3 (Ollama Cloud)
+													212 menu item radio button (selectable, settable, string) MiniMax M3 (Ollama Cloud) — provider-default thinking Description: MiniMax M3 (Ollama Cloud) — provider-default thinking
+													213 menu item radio button (selectable, settable, string) GLM-5.3 Flash (Ollama Cloud) Description: GLM-5.3 Flash (Ollama Cloud)
+												214 group LM Studio brain
+													215 text LM Studio brain
+													216 menu item radio button (selectable, settable, string) Qwen3.6 35B-A3B - planner and vision Description: Qwen3.6 35B-A3B - planner and vision
+												217 group LM Studio Qwen3.8
+													218 text LM Studio Qwen3.8
+													219 menu item radio button (selectable, settable, string) Qwen3.8 27B Q6_K (local) Description: Qwen3.8 27B Q6_K (local)
+												220 group LM Studio downloaded
+													221 text LM Studio downloaded
+													222 menu item radio button (selectable, settable, string) Qwen3.8 27B Q4_K_M - Halo tuned (startup default) Description: Qwen3.8 27B Q4_K_M - Halo tuned (startup default)
+													223 menu item radio button (selectable, settable, string) Qwen3.6 35B A3B Q4_K_M [qwen/qwen3.6-35b-a3b] Description: Qwen3.6 35B A3B Q4_K_M [qwen/qwen3.6-35b-a3b]
+													224 menu item radio button (selectable, settable, string) Qwen3.8 27B Q6_K [qwen/qwen3.8-27b] Description: Qwen3.8 27B Q6_K [qwen/qwen3.8-27b]
+													225 menu item radio button (selectable, settable, string) Qwen3 Coder 30B A3B Instruct Q4_K_M [qwen3-coder-30b-a3b-instruct] Description: Qwen3 Coder 30B A3B Instruct Q4_K_M [qwen3-coder-30b-a3b-instruct]
+												226 group Ollama local
+													227 text Ollama local
+													228 menu item radio button (selectable, settable, string) qwen3-coder:30b-a3b-q4_K_M (Ollama local) Description: qwen3-coder:30b-a3b-q4_K_M (Ollama local)
+													229 menu item radio button (selectable, settable, string) qwen3.6:35b-a3b-q4_K_M (Ollama local) Description: qwen3.6:35b-a3b-q4_K_M (Ollama local)
+													230 menu item radio button (selectable, settable, string) qwen3.8:27b-q4_K_M (Ollama local) Description: qwen3.8:27b-q4_K_M (Ollama local)
+												231 group Claude Code — signed-in CLI
+													232 text Claude Code — signed-in CLI
+													233 menu item radio button (selectable, settable, string) Claude Opus 5.5 Description: Claude Opus 5.5
+													234 menu item radio button (selectable, settable, string) Claude Sonnet 5 Description: Claude Sonnet 5
+													235 menu item radio button (selectable, settable, string) Claude Haiku 4.5 — no effort control Description: Claude Haiku 4.5 — no effort control
+												236 group Codex — signed-in CLI
+													237 text Codex — signed-in CLI
+													238 menu item radio button (selectable, settable, string) GPT-5.6-Sol Description: GPT-5.6-Sol
+													239 menu item radio button (selectable, settable, string) GPT-5.6-Terra Description: GPT-5.6-Terra
+													240 menu item radio button (selectable, settable, string) GPT-5.6-Luna Description: GPT-5.6-Luna
+													241 menu item radio button (selectable, settable, string) GPT-5.5 Description: GPT-5.5
+								140 region
+
+Document text: ```
+Describe what you want to build, / commands, @ files or sessions
+```

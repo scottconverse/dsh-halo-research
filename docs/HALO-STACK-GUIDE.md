@@ -176,3 +176,20 @@ its existing CLI; no computer-use package was installed. Stock fetch works;
 stock search currently fails because its DeepSeek API key is absent. Wigolo CLI
 and the seven-test coding fixture passed in a fresh Desktop chat. Web DSH and
 model loading were untouched. See [Desktop implementation and evidence](HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-SMALL-CATALOG.md).
+
+## Native Desktop picker correction, 2026-09-27
+
+Native DSH Desktop now starts on **Qwen3.8 27B Q4_K_M, Halo tuned**, with
+Xhigh effort; startup does not load or unload models. Existing conversations
+retain their selections. This supersedes older native-Desktop default notes;
+Web DSH's configuration is unchanged.
+
+The five approved Ollama clouds are DeepSeek V4.1 Flash, GLM-5.3, Kimi K3,
+MiniMax M3, and GLM-5.3 Flash. Gemini/Grok are removed from Desktop's picker.
+Q5 weights were deleted (21.1 GB); the duplicate raw LM Studio Q4 picker route
+is hidden while its shared GGUF remains. Claude Opus 5.5 replaces the old Opus
+entry. Model effort controls use checked model/CLI metadata; MiniMax M3 stays
+at provider-default thinking because this route advertises no verified levels.
+Stock fetch works; stock search still requires its missing provider credential.
+
+See [Desktop picker, effort evidence and recovery](HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-PICKER.md).
