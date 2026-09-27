@@ -1,0 +1,12 @@
+{
+  "time": "2026-09-27T07:43:00.554Z",
+  "model": "halo/qwen3.8-27b-q4km",
+  "reasoning_effort": "medium",
+  "max_tokens": 16384,
+  "temperature": 1,
+  "top_p": 0.95,
+  "top_k": 20,
+  "min_p": 0,
+  "presence_penalty": 0,
+  "repeat_penalty": 1
+}

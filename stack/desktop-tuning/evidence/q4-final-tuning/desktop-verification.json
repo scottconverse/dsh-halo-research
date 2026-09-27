@@ -1,0 +1,73 @@
+{
+  "session": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\sessions\\--C-Users-scott-Documents-deepseek-harness-default-workspace--\\session-31215a76-50a1-4bba-a3f2-0920650a5ef6\\session.v4.jsonl.zstd",
+  "requests": [
+    {
+      "seq": 13,
+      "time": 1790494826157,
+      "config": {
+        "provider": "lmstudio-library",
+        "model": "halo/qwen3.8-27b-q4km",
+        "reasoningEffort": "off",
+        "maxTokens": 16384
+      },
+      "toolCount": 27
+    },
+    {
+      "seq": 27,
+      "time": 1790494980546,
+      "config": {
+        "provider": "lmstudio-library",
+        "model": "halo/qwen3.8-27b-q4km",
+        "reasoningEffort": "medium",
+        "maxTokens": 16384
+      },
+      "toolCount": 27
+    }
+  ],
+  "answers": [
+    {
+      "seq": 17,
+      "time": 1790494867270,
+      "turn": 1,
+      "usage": {
+        "inputTokens": 7755,
+        "outputTokens": 5,
+        "totalTokens": 7760
+      },
+      "reasoningBlocks": 0,
+      "reasoningChars": 0,
+      "text": "Q4_OFF_OK"
+    },
+    {
+      "seq": 28,
+      "time": 1790494994871,
+      "turn": 2,
+      "usage": {
+        "inputTokens": 7792,
+        "outputTokens": 23,
+        "totalTokens": 7815
+      },
+      "reasoningBlocks": 1,
+      "reasoningChars": 60,
+      "text": "Q4_MEDIUM_OK"
+    }
+  ],
+  "turns": [
+    {
+      "seq": 19,
+      "time": 1790494867271,
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    },
+    {
+      "seq": 30,
+      "time": 1790494994872,
+      "turn": 2,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  ]
+}

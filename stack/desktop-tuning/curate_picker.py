@@ -68,11 +68,12 @@ for m in library['models']:
         m['reasoningEfforts'] = qwen_efforts
     if m['id'] == 'halo/qwen3.8-27b-q4km':
         m['name'] = 'Qwen3.8 27B Q4_K_M — Halo tuned (default)'
+        m['maxTokens'] = 16384
     if m['id'] == 'qwen/qwen3.6-35b-a3b':
         m['reasoningEfforts'] = {'off': 'none', 'high': 'high'}
         m['name'] += ' — High means thinking On'
 provider('lmstudio-library', library)
-text, count = re.subn(r'(?ms)(^- id: agent-default-model\n.*?  config:\n).*?(?=^- id:)', r'\g<1>    provider: lmstudio-library\n    model: halo/qwen3.8-27b-q4km\n    reasoningEffort: xhigh\n', text, count=1)
+text, count = re.subn(r'(?ms)(^- id: agent-default-model\n.*?  config:\n).*?(?=^- id:)', r'\g<1>    provider: lmstudio-library\n    model: halo/qwen3.8-27b-q4km\n    reasoningEffort: medium\n', text, count=1)
 assert count == 1
 metadata = [
     {'slug': 'claude-opus-5-5', 'display_name': 'Claude Opus 5.5', 'default_reasoning_level': 'medium', 'supported_reasoning_levels': [{'effort': e} for e in ['low', 'medium', 'high', 'xhigh', 'max']]},

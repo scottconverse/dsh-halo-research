@@ -193,3 +193,9 @@ at provider-default thinking because this route advertises no verified levels.
 Stock fetch works; stock search still requires its missing provider credential.
 
 See [Desktop picker, effort evidence and recovery](HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-PICKER.md).
+
+## Native Desktop Q4 final tuning — September 27, 2026
+
+Native DSH Desktop now starts on the Halo Qwen3.8 27B Q4 alias with **Medium** effort and a **16,384-token output allowance**. Off explicitly sends `none`. The Q4 alias explicitly disables mmap and memory lock; context stays 131072, one lane, f16 KV, flash attention and MTP depth 4. The 0.2 vs 0.5 comparison showed identical paired answers and no meaningful decode gain; saved and loaded probability both remain **0.5**. A Desktop-only plugin applies Qwen27 Off/thinking sampling through the stock pi-ai payload hook. Live native Desktop probes completed: Off produced no reasoning blocks; Medium produced reasoning and the expected answer. Web DSH configuration and Windows settings were not changed.
+
+See [configuration, exact verification, MTP results and recovery](HALO-DSH-IMPLEMENTATION-2026-09-27-Q4-TUNING.md). The plugin uses an internal DSH adapter seam and needs re-verification after Desktop upgrades. These findings supersede earlier Q4 Xhigh/8K startup notes; the shared model alias retains its own Xhigh default for other clients that omit effort.

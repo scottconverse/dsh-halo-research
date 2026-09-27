@@ -56,7 +56,8 @@ foreach ($item in $lmExtras) {
     $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned (startup default)' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
     $library.Add("            name: $(Quote-Yaml $label)")
     $library.Add("            contextWindow: $context")
-    $library.Add('            maxTokens: 8192')
+    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 16384 } else { 8192 }
+    $library.Add("            maxTokens: $maxOutput")
     $inputTypes = if ($item.vision) { '[text, image]' } else { '[text]' }
     $library.Add("            input: $inputTypes")
     if ($item.modelKey -in @('halo/qwen3.8-27b-q4km', 'qwen/qwen3.8-27b')) {

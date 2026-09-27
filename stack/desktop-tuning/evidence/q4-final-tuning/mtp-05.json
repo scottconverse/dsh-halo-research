@@ -1,0 +1,90 @@
+{
+  "model": "halo/qwen3.8-27b-q4km",
+  "prompt": "Return JSON only with a single key \"code\" containing JavaScript function mergeRanges(ranges).\nEach input is an array [start,end] of safe integers representing a half-open interval. Ignore empty intervals. Reject malformed/reversed intervals by throwing TypeError. Return intervals sorted by start, merging overlaps transitively but NOT intervals that merely touch. Never mutate the input. Do not use external libraries. Include only the function in code, no tests or prose.",
+  "rows": [
+    {
+      "arm": "0.5",
+      "seed": 41,
+      "warmup": true,
+      "elapsed": 3.6999695,
+      "ttft": 3.5536987,
+      "streamSpan": 0.000001299999999901047,
+      "usage": {
+        "prompt_tokens": 18,
+        "completion_tokens": 2,
+        "total_tokens": 20,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "reasoningChars": 0,
+      "tests": 0,
+      "error": null,
+      "text": "READY"
+    },
+    {
+      "arm": "0.5",
+      "seed": 42,
+      "warmup": false,
+      "elapsed": 16.464880700000002,
+      "ttft": 6.436369,
+      "streamSpan": 10.028341000000003,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 297,
+        "total_tokens": 399,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "reasoningChars": 0,
+      "tests": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    [\n      1,\n-     2\n-   ],\n-   [\n-     2,\n      3\n    ]\n  ]\n",
+      "text": "{\n  \"code\": \"function mergeRanges(ranges) {\\n    if (!Array.isArray(ranges)) throw new TypeError('ranges must be an array');\\n    const valid = [];\\n    for (const r of ranges) {\\n      if (!Array.isArray(r) || r.length !== 2) throw new TypeError('each range must be an array of two numbers');\\n      const [s, e] = r;\\n      if (typeof s !== 'number' || typeof e !== 'number' || !Number.isSafeInteger(s) || !Number.isSafeInteger(e)) {\\n        throw new TypeError('range endpoints must be safe integers');\\n      }\\n      if (s >= e) continue; // ignore empty or reversed\\n      valid.push([s, e]);\\n    }\\n    valid.sort((a, b) => a[0] - b[0]);\\n    const merged = [];\\n    for (const [s, e] of valid) {\\n      if (merged.length > 0 && s <= merged[merged.length - 1][1]) {\\n        const last = merged[merged.length - 1];\\n        if (e > last[1]) last[1] = e;\\n      } else {\\n        merged.push([s, e]);\\n      }\\n    }\\n    return merged;\\n}\"\n}"
+    },
+    {
+      "arm": "0.5",
+      "seed": 43,
+      "warmup": false,
+      "elapsed": 17.2858579,
+      "ttft": 6.417556399999998,
+      "streamSpan": 10.868043100000003,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 310,
+        "total_tokens": 412,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "reasoningChars": 0,
+      "tests": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.",
+      "text": "{\n  \"code\": \"function mergeRanges(ranges) {\\n    if (!Array.isArray(ranges)) throw new TypeError('Input must be an array');\\n\\n    const valid = [];\\n    for (const r of ranges) {\\n      if (!Array.isArray(r) || r.length !== 2) throw new TypeError('Malformed interval');\\n      const [s, e] = r;\\n      if (typeof s !== 'number' || typeof e !== 'number' || !Number.isSafeInteger(s) || !Number.isSafeInteger(e)) {\\n        throw new TypeError('Interval bounds must be safe integers');\\n      }\\n      if (e <= s) continue; // ignore empty/reversed\\n      valid.push([s, e]);\\n    }\\n\\n    valid.sort((a, b) => a[0] - b[0] || a[1] - b[1]);\\n\\n    const merged = [];\\n    for (const [s, e] of valid) {\\n      const last = merged[merged.length - 1];\\n      if (last && s < last[1]) { // overlap only; touching (s === last[1]) not merged\\n        if (e > last[1]) last[1] = e;\\n      } else {\\n        merged.push([s, e]);\\n      }\\n    }\\n    return merged;\\n  }\"\n}"
+    },
+    {
+      "arm": "0.5",
+      "seed": 44,
+      "warmup": false,
+      "elapsed": 18.9821783,
+      "ttft": 6.108574200000003,
+      "streamSpan": 12.873444799999998,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 380,
+        "total_tokens": 482,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "reasoningChars": 0,
+      "tests": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.",
+      "text": "{\n  \"code\": \"function mergeRanges(ranges) {\\n    if (!Array.isArray(ranges)) throw new TypeError('Input must be an array');\\n    \\n    const valid = [];\\n    for (const r of ranges) {\\n      if (!Array.isArray(r) || r.length !== 2) {\\n        throw new TypeError('Each range must be an array of length 2');\\n      }\\n      const [start, end] = r;\\n      if (typeof start !== 'number' || typeof end !== 'number') {\\n        throw new TypeError('Range values must be numbers');\\n      }\\n      if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end)) {\\n        throw new TypeError('Range values must be safe integers');\\n      }\\n      if (start >= end) {\\n        continue;\\n      }\\n      valid.push([start, end]);\\n    }\\n\\n    valid.sort((a, b) => a[0] - b[0]);\\n\\n    const merged = [];\\n    for (const r of valid) {\\n      const [start, end] = r;\\n      if (merged.length === 0) {\\n        merged.push([start, end]);\\n      } else {\\n        const last = merged[merged.length - 1];\\n        // Merge only if overlapping: current start < last end\\n        // Do NOT merge if merely touching: current start >= last end\\n        if (start < last[1]) {\\n          last[1] = Math.max(last[1], end);\\n        } else {\\n          merged.push([start, end]);\\n        }\\n      }\\n    }\\n\\n    return merged;\\n}\"\n}"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+# model.yaml is an open standard for defining cross-platform, composable AI models
+# Learn more at https://modelyaml.org
+model: halo/qwen3.8-27b-q4km
+base:
+  - key: lmstudio-community/qwen3.8-27b-q4-km-gguf
+    sources:
+      - type: huggingface
+        user: lmstudio-community
+        repo: Qwen3.8-27B-Q4-KM-GGUF
+metadataOverrides:
+  domain: llm
+  architectures:
+    - qwen35
+  compatibilityTypes:
+    - gguf
+  paramsStrings:
+    - 27B
+  minMemoryUsageBytes: 17000000000
+  contextLengths:
+    - 131072
+  vision: true
+  reasoning: true
+  trainedForToolUse: true
+config:
+  load:
+    fields:
+      - key: llm.load.contextLength
+        value: 131072
+      - key: llm.load.numParallelSessions
+        value: 1
+      - key: llm.load.offloadKVCacheToGpu
+        value: true
+      - key: llm.load.llama.autoFit
+        value: false
+      - key: llm.load.llama.acceleration.offloadRatio
+        value: "max"
+      - key: llm.load.llama.flashAttention
+        value: true
+      - key: llm.load.llama.tryMmap
+        value: false
+      - key: llm.load.llama.keepModelInMemory
+        value: false
+      - key: llm.load.llama.speculativeDecoding.draftMtp
+        value: true
+      - key: llm.load.llama.speculativeDecoding.draftSimple
+        value: false
+      - key: llm.load.llama.speculativeDecoding.draftMaxTokens
+        value: 4
+      - key: llm.load.llama.speculativeDecoding.draftMinContinueProbability
+        value: 0.5
+      - key: llm.load.llama.useFp16ForKVCache
+        value: true
+  operation:
+    fields:
+      - key: llm.prediction.temperature
+        value: 1.0
+      - key: llm.prediction.topKSampling
+        value: 20
+      - key: llm.prediction.topPSampling
+        value:
+          checked: true
+          value: 0.95
+      - key: llm.prediction.minPSampling
+        value:
+          checked: false
+          value: 0
+      - key: llm.prediction.repeatPenalty
+        value:
+          checked: false
+          value: 1.0
+      - key: llm.prediction.llama.presencePenalty
+        value:
+          checked: false
+          value: 0.0
+customFields:
+  - key: reasoningEffort
+    displayName: Reasoning Effort
+    description: Controls how much reasoning the model should perform.
+    type: select
+    defaultValue: xhigh
+    options:
+      - value: xhigh
+        label: Extra High
+      - value: medium
+        label: Medium
+      - value: low
+        label: Low
+    effects:
+      - type: setJinjaVariable
+        variable: reasoning_effort
+  - key: enableThinking
+    displayName: Enable Thinking
+    description: Controls whether the model will think before replying
+    type: boolean
+    defaultValue: true
+    effects:
+      - type: setJinjaVariable
+        variable: enable_thinking
+  - key: preserveThinking
+    displayName: Preserve Thinking
+    description: Preserve reasoning content in all prior assistant turns instead of only the most recent one
+    type: boolean
+    defaultValue: true
+    effects:
+      - type: setJinjaVariable
+        variable: preserve_thinking

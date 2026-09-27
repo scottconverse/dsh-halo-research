@@ -1,0 +1,30 @@
+{
+  "0.5": {
+    "median_elapsed_s": 17.2858579,
+    "median_stream_tokens_per_second": 29.518128667472133,
+    "passed_runs": 0,
+    "runs": 3,
+    "reasoning_chars": [
+      0,
+      0,
+      0
+    ]
+  },
+  "0.2": {
+    "median_elapsed_s": 16.998606,
+    "median_stream_tokens_per_second": 29.36511621866821,
+    "passed_runs": 0,
+    "runs": 3,
+    "reasoning_chars": [
+      0,
+      0,
+      0
+    ]
+  },
+  "paired_text_identical": [
+    true,
+    true,
+    true
+  ],
+  "decision": "Keep existing 0.5; no meaningful measured improvement from 0.2 on this fixture. All three paired outputs failed strict coding checks."
+}
