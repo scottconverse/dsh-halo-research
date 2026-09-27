@@ -164,3 +164,15 @@ For agent-operated recovery, launch the existing `Start-StockDSH.ps1 -NoOpen` th
 Verify both services, reconnect the existing browser's terminal recovery if needed, and verify a completed local-model reply. Preserve any unsent text. Do not restart Codex or the computer to test survival without Scott's authorization.
 
 Recovery verification: the original Chrome tab successfully submitted `ANYONE HOME?`; `halo-coder-q4km` returned a completed reply in 1m 02s. Mission Control showed all eight watched signals nominal and both approved models resident. Surviving a further Codex restart was not tested.
+
+## Desktop tool-load update, 2026-09-27
+
+Native DSH Desktop's Local models preset now starts with 27 observed tools
+(previous full catalog: 92). Wigolo, Chrome, reference memory MCP, delegation,
+and persistent terminals are optional instead of default-loaded. PowerShell,
+background jobs, file tools, LSP, history, planning/goals, skills, and basic web
+tools remain. Wigolo is callable through the desktop-optional-tools skill and
+its existing CLI; no computer-use package was installed. Stock fetch works;
+stock search currently fails because its DeepSeek API key is absent. Wigolo CLI
+and the seven-test coding fixture passed in a fresh Desktop chat. Web DSH and
+model loading were untouched. See [Desktop implementation and evidence](HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-SMALL-CATALOG.md).
