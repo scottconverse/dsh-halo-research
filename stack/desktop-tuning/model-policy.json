@@ -1,0 +1,8 @@
+{
+  "desktopDefault": {"provider":"lmstudio-library","model":"halo/qwen3.8-27b-q4km","reasoningEffort":"off"},
+  "qwen27Efforts": {"off":"none","low":"low","medium":"medium","xhigh":"xhigh"},
+  "desktopQ4": {"contextWindow":131072,"maxTokens":16384},
+  "desktopQ6": {"contextWindow":131072,"maxTokens":24576},
+  "webFast": {"contextWindow":65536,"maxTokens":16384,"reasoningEffort":"high"},
+  "webFallback": {"contextWindow":65536,"maxTokens":24576,"reasoningEffort":"medium"}
+}

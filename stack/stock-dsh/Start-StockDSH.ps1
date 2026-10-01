@@ -114,18 +114,23 @@ function Install-MissionControlIfNeeded {
 }
 
 if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { throw "Node.js was not found at $node." }
-if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
-if (-not (Test-Path -LiteralPath $wigoloEntry -PathType Leaf)) {
-    throw "Wigolo's MCP entry point is missing: $wigoloEntry"
-}
+# Optional Wigolo CLI is checked only when invoked.
 $missionControlChanged = Install-MissionControlIfNeeded
 
+# A cloud default can start without changing LM Studio residency. This also
+# keeps a Desktop DSH local run intact when Web DSH is launched alongside it.
+$settingsText = Get-Content -LiteralPath (Join-Path $dshHome 'settings.yaml') -Raw
+$cloudDefault = [regex]::IsMatch($settingsText, '(?m)^agent-default-model:\s*\r?\n\s+provider:\s*ollama\s*\r?\n\s+model:\s*[^\r\n]+:cloud\s*$')
+if ($cloudDefault) {
+    Write-StackLog 'Web default is Ollama Cloud; preserving LM Studio resident models.'
+} else {
+if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
 try { Invoke-RestMethod 'http://127.0.0.1:1234/v1/models' -TimeoutSec 5 | Out-Null }
 catch { throw 'Start the LM Studio local server on port 1234, then run this shortcut again.' }
 
 $approved = @(
-    [pscustomobject]@{ key='halo/qwen3.6-35b-a3b'; id='halo-brain-35b'; contextLength=131072; parallel=1 },
-    [pscustomobject]@{ key='halo/qwen3-coder-30b-a3b-q4km'; id='halo-coder-q4km'; contextLength=131072; parallel=1 }
+    [pscustomobject]@{ key='halo/qwen3.6-35b-a3b-q6'; id='halo-fast-35b-q6'; contextLength=65536; parallel=1 },
+    [pscustomobject]@{ key='halo/qwen3.8-27b-q6-fast'; id='halo-fallback-27b-q6'; contextLength=65536; parallel=1 }
 )
 $approvedIds = @($approved | ForEach-Object { $_.id })
 $loaded = Get-LoadedModels
@@ -148,7 +153,9 @@ foreach ($model in $approved) {
     }
     if (-not $resident) {
         $modelLog = Join-Path $logs "$($model.id)-load.log"
-        & $lms load $model.key --identifier $model.id --context-length $model.contextLength --parallel $model.parallel --gpu max --no-speculative-draft-mtp -y *> $modelLog
+        $mtpArgs = if ($model.id -eq 'halo-fallback-27b-q6') { @('--speculative-draft-mtp','--speculative-draft-max-tokens','4','--speculative-draft-min-continue-probability','0.2') } else { @('--no-speculative-draft-mtp') }
+        $loadArgs = @('load', [string]$model.key, '--identifier', [string]$model.id, '--context-length', [string]$model.contextLength, '--parallel', [string]$model.parallel, '--gpu', 'max') + $mtpArgs + @('--yes')
+        & $lms @loadArgs *> $modelLog
         if ($LASTEXITCODE -ne 0) { throw "Could not load $($model.id). See $modelLog." }
     }
 }
@@ -160,6 +167,7 @@ foreach ($model in $approved) {
     if (-not $resident -or [string]$resident.modelKey -ne $model.key -or [int]$resident.contextLength -ne $model.contextLength -or [int]$resident.parallel -ne $model.parallel) {
         throw "LM Studio model $($model.id) is not loaded with the approved capacity envelope."
     }
+}
 }
 
 $dshStarted = $false
@@ -185,8 +193,7 @@ for ($attempt = 0; $attempt -lt 120; $attempt++) {
     Start-Sleep -Milliseconds 500
 }
 if (-not $launchUrl) { throw "DSH did not publish its secure launch URL. See $logs." }
-$wigoloProcess = Wait-ForWigoloMcpChild
-Write-StackLog "Verified DSH-owned Wigolo MCP process (PID $($wigoloProcess.ProcessId))."
+Write-StackLog 'Wigolo is on demand; no eager MCP process required.'
 
 $restartMissionControl = -not $KeepMissionControl -and ($dshStarted -or $missionControlChanged)
 if (-not $KeepMissionControl -and -not $restartMissionControl) {
@@ -245,4 +252,4 @@ if (-not $NoOpen) {
     Start-Process -FilePath $chrome -ArgumentList @('--new-window', 'http://127.0.0.1:3090/') -WindowStyle Normal | Out-Null
 }
 
-Write-Output 'DSH, its Wigolo MCP child, and Mission Control are ready. LM Studio retains the two approved models.'
+Write-Output 'DSH and Mission Control are ready; Wigolo is available on demand. LM Studio retains the two approved models.'

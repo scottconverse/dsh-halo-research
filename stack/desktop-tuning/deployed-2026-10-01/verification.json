@@ -1,0 +1,122 @@
+{
+  "web": {
+    "sessionId": "session-6bd56946-65ec-4fd8-8ed2-3d117bf7d080",
+    "config": {
+      "provider": "web-fast",
+      "model": "halo/qwen3.6-35b-a3b-q6",
+      "reasoningEffort": "high",
+      "maxTokens": 16384
+    },
+    "context": {
+      "provider": "web-fast",
+      "model": "halo/qwen3.6-35b-a3b-q6",
+      "contextWindow": 65536
+    },
+    "tools": [
+      "ask_user_question",
+      "edit",
+      "glob",
+      "grep",
+      "interrupt_agent",
+      "job_kill",
+      "job_list",
+      "job_output",
+      "list_agents",
+      "list_subagent_models",
+      "lsp",
+      "pwsh",
+      "read",
+      "read_image",
+      "send_message",
+      "session_event_read",
+      "session_event_search",
+      "session_event_trace",
+      "session_search",
+      "session_trace",
+      "skill",
+      "subagent",
+      "web_fetch",
+      "web_search",
+      "write"
+    ],
+    "toolCount": 25,
+    "schemaChars": 24616,
+    "calls": [
+      "read",
+      "read",
+      "edit",
+      "pwsh"
+    ],
+    "ended": true,
+    "end": {
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    },
+    "lastEvent": "turn/end",
+    "file": "C:\\Users\\scott\\.dsh-stock\\sessions\\--C-Users-scott-Documents-Codex-2026-10-01-dsh-windows-study-cleanup-web-smoke--\\session-6bd56946-65ec-4fd8-8ed2-3d117bf7d080\\session.v3.jsonl.zstd",
+    "eventCount": 36
+  },
+  "desktop": {
+    "sessionId": "session-bdb128be-6c73-4060-8442-1f5b081364e5",
+    "config": {
+      "provider": "lmstudio-library",
+      "model": "halo/qwen3.8-27b-q4km",
+      "reasoningEffort": "off",
+      "maxTokens": 16384
+    },
+    "context": {
+      "provider": "lmstudio-library",
+      "model": "halo/qwen3.8-27b-q4km",
+      "contextWindow": 131072
+    },
+    "tools": [
+      "ask_user_question",
+      "create_goal",
+      "edit",
+      "exit_plan_mode",
+      "get_goal",
+      "glob",
+      "grep",
+      "job_kill",
+      "job_list",
+      "job_output",
+      "load_workspace_dependencies",
+      "lsp",
+      "present",
+      "pwsh",
+      "read",
+      "read_image",
+      "session_event_read",
+      "session_event_search",
+      "session_event_trace",
+      "session_search",
+      "session_trace",
+      "skill",
+      "todo_write",
+      "update_goal",
+      "web_fetch",
+      "web_search",
+      "write"
+    ],
+    "toolCount": 27,
+    "schemaChars": 20754,
+    "calls": [
+      "read",
+      "read",
+      "edit",
+      "pwsh"
+    ],
+    "ended": true,
+    "end": {
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    },
+    "lastEvent": "turn/end",
+    "file": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\sessions\\--C-Users-scott-Documents-Codex-2026-10-01-dsh-windows-study-cleanup-desktop-smoke--\\session-bdb128be-6c73-4060-8442-1f5b081364e5\\session.v4.jsonl.zstd",
+    "eventCount": 35
+  }
+}

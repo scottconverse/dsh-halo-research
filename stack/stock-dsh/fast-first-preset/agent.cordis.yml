@@ -1,0 +1,131 @@
+# Optional coding composition; full presets and the host remain unchanged.
+- id: persona
+  name: '@deepseek-ai/dsh-persona'
+  config:
+    prefix: >-
+      You are a coding agent powered by {{model}}. Read project instructions, inspect
+      relevant code, implement the requested change, and run focused verification.
+      Implement and verify directly first. Delegate once to the configured 27B fallback only after an observed persistent failed check, incomplete implementation, or repeated tool errors. Send the factual failure and independently verify its result. Supervise with list_agents, messaging, and session history/trace tools. Use stock web_search and web_fetch first; use the desktop-optional-tools skill for Wigolo CLI only when needed. Do not automatically invoke pairing-team. Exact counts come from code. Keep tool output concise. Finish once the requested outcome is verified.
+    suffix: Your working directory is {{cwd}}.
+
+- id: lean-tool-catalog
+  name: './tool-catalog.mjs'
+
+- id: native-tool-presentation
+  name: '@deepseek-ai/dsh-agent-tool-presentation'
+  config:
+    mode: native
+
+- id: agent-instructions
+  name: '@deepseek-ai/dsh-agent-instructions'
+  config:
+    maxBytes: 65536
+
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: !!js process.platform === 'win32'
+
+- id: tool-pwsh
+  name: '@deepseek-ai/dsh-tool-pwsh'
+  disabled: !!js process.platform !== 'win32'
+
+- id: tool-fs
+  name: '@deepseek-ai/dsh-tool-fs'
+
+- id: tool-fs-search
+  name: '@deepseek-ai/dsh-tool-fs-search'
+  config:
+    sampleOverCapGlobResults: false
+
+- id: tool-jobs
+  name: '@deepseek-ai/dsh-tool-jobs'
+
+- id: skill-filesystem
+  name: '@deepseek-ai/dsh-skill-filesystem'
+  config:
+    customSkillDirs:
+      - 'C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills'
+
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+
+- id: compaction
+  name: cordis:group
+  group: true
+  isolate:
+    compaction: true
+    toolResultPruner: true
+  config:
+    - id: compaction-basic
+      name: '@deepseek-ai/dsh-compaction-basic'
+      config:
+        auto: true
+        thresholdRatio: 0.7
+        retainRatio: 0.55
+        maxTokens: 8192
+
+    - id: command-compact
+      name: '@deepseek-ai/dsh-command-compact'
+
+    - id: tool-result-pruner
+      name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+      config:
+        thresholdChars: 8192
+        headChars: 4096
+        tailChars: 1024
+
+- id: tool-ask-user
+  name: '@deepseek-ai/dsh-tool-ask-user'
+
+- id: tool-lsp
+  name: '@deepseek-ai/dsh-tool-lsp'
+  config:
+    maxLocations: 100
+    maxResultChars: 16000
+    timeoutMs: 60000
+
+
+- id: delegation
+  name: cordis:group
+  group: true
+  isolate:
+    workflowEngine: true
+  config:
+    - id: tool-subagent-control
+      name: '@deepseek-ai/dsh-tool-subagent-control'
+
+    - id: tool-subagent-list-agents
+      name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+
+    - id: tool-subagent
+      name: '@deepseek-ai/dsh-tool-subagent'
+      config:
+        provider: spawn
+        toolName: subagent
+        modelSelectionSettings: true
+        agentOptions:
+          provider: web-fallback
+          model: halo/qwen3.8-27b-q6-fast
+          reasoningEffort: medium
+          maxTokens: 24576
+        backgroundMode: continuable
+
+
+- id: history-tools
+  name: cordis:group
+  group: true
+  isolate:
+    sessionQueryTools: true
+  config:
+    - id: tool-session-query
+      name: '@deepseek-ai/dsh-tool-session-query'
+      config:
+        maxSearchResults: 100
+        searchTimeoutMs: 30000
+
+
+- id: tool-web
+  name: '@deepseek-ai/dsh-tool-web'
+  config:
+    fetch: true
+    searchTimeoutMs: 60000

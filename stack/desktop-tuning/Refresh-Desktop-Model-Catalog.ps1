@@ -3,6 +3,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$modelPolicy = Get-Content -LiteralPath 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\desktop-tuning\model-policy.json' -Raw | ConvertFrom-Json
 $lmsPath = Join-Path $env:USERPROFILE '.lmstudio\bin\lms.exe'
 if (-not (Test-Path -LiteralPath $ProfilePath)) { throw "Desktop profile missing: $ProfilePath" }
 if (-not (Test-Path -LiteralPath $lmsPath)) { throw "LM Studio CLI missing: $lmsPath" }
@@ -33,8 +34,8 @@ $lmsOutput = & $lmsPath ls --json 2>&1
 if ($LASTEXITCODE -ne 0) { throw "Could not list LM Studio models: $lmsOutput" }
 $lmModels = @($lmsOutput -join "`n" | ConvertFrom-Json | Where-Object { $_.type -eq 'llm' })
 $tunedLmKeys = @('halo/qwen3.6-35b-a3b', 'halo/qwen3-coder-30b-a3b-q4km', 'halo/qwen3.8-27b-q6')
-$hiddenLmKeys = @('qwen3.8-27b-km', 'halo/qwen3.8-27b', 'unsloth/qwen3.8-27b')
-$lmExtras = @($lmModels | Where-Object { $_.modelKey -notin $tunedLmKeys -and $_.modelKey -notin $hiddenLmKeys } | Sort-Object modelKey)
+$hiddenLmKeys = @('qwen3.8-27b-km', 'halo/qwen3.8-27b', 'unsloth/qwen3.8-27b', 'qwen/qwen3.8-27b', 'halo/qwen3.8-27b-q6-fast', 'halo/qwen3.6-35b-a3b-q6')
+$lmExtras = @($lmModels | Where-Object { $_.modelKey -notlike 'study/*' -and $_.modelKey -notin $tunedLmKeys -and $_.modelKey -notin $hiddenLmKeys } | Sort-Object modelKey)
 
 $library = [Collections.Generic.List[string]]::new()
 $library.Add('      # BEGIN generated Desktop model library')
@@ -56,7 +57,7 @@ foreach ($item in $lmExtras) {
     $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned (startup default)' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
     $library.Add("            name: $(Quote-Yaml $label)")
     $library.Add("            contextWindow: $context")
-    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 16384 } else { 8192 }
+    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens } else { 8192 }
     $library.Add("            maxTokens: $maxOutput")
     $inputTypes = if ($item.vision) { '[text, image]' } else { '[text]' }
     $library.Add("            input: $inputTypes")
