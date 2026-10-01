@@ -3,11 +3,12 @@ name: desktop-optional-tools
 description: Use installed Wigolo research on demand without loading its MCP catalog; identify optional Desktop tool groups.
 ---
 
-# Optional tools in Scott's DSH Desktop
+# Optional tools in Scott's DSH installations
 
 Ordinary coding uses the stock file, PowerShell, job, LSP, planning, goal,
 history, skill and web tools. The installed optional integrations have not
-been deleted. This configuration belongs to Desktop, not Web DSH.
+been deleted. This on-demand Wigolo CLI recipe applies to both Desktop and
+Web's lean preset. Their other optional tool groups remain preset-specific.
 
 ## Wigolo on demand
 

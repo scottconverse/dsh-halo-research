@@ -1,5 +1,6 @@
 - insert:
   - id: mcp-wigolo
+    disabled: true
     name: '@deepseek-ai/dsh-mcp-client'
     config:
       serverName: wigolo
