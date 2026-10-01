@@ -14,6 +14,7 @@ const { parse } = createRequire(require.resolve('@deepseek-ai/dsh/package.json')
 const localModels = Object.entries(parse(settings)['llm-pi-ai'].providers)
   .filter(([provider]) => ['lmstudio', 'lmstudio-brain'].includes(provider))
   .flatMap(([, provider]) => provider.models);
+const providers = parse(settings)['llm-pi-ai'].providers;
 const startLauncher = fs.readFileSync(path.join(stockDsh, 'Start-StockDSH.ps1'), 'utf8');
 const desktopLauncher = fs.readFileSync(path.join(stockDsh, 'Launch-StockDSH.ps1'), 'utf8');
 
@@ -23,18 +24,23 @@ test('stock DSH pins the reviewed release instead of carrying the retired picker
   assert.equal(fs.existsSync(path.join(stockDsh, 'packages', 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz')), false);
 });
 
-test('stock model catalog contains exactly the two approved Halo aliases', () => {
+test('Web catalog retains saved-session aliases and defaults new sessions to cloud', () => {
   const ids = localModels.map(model => model.id);
-  assert.deepEqual(ids, ['halo-brain-35b', 'halo-coder-q4km']);
-  assert.match(settings, /model:\s*halo-coder-q4km/);
-  assert.match(settings, /allowedModels:[\s\S]*?model:\s*halo-brain-35b[\s\S]*?model:\s*halo-coder-q4km/);
+  assert.deepEqual(ids, ['halo-coder-q4km', 'halo/qwen3-coder-30b-a3b-q4km', 'halo-brain-35b', 'halo/qwen3.6-35b-a3b']);
+  assert.deepEqual(parse(settings)['agent-default-model'], { provider: 'ollama', model: 'deepseek-v4.1-flash:cloud' });
+  assert.deepEqual(providers.ollama.models.map(model => model.id), [
+    'deepseek-v4.1-flash:cloud', 'glm-5.3:cloud', 'kimi-k3:cloud', 'minimax-m3:cloud', 'glm-5.3-flash:cloud',
+  ]);
+  assert.equal(providers.google, undefined);
+  assert.equal(providers['xai-oauth'], undefined);
 });
 
 test('approved aliases share the bounded stock context and response contract', () => {
-  assert.ok(localModels.every(model => model.contextWindow === 131072));
-  assert.ok(localModels.every(model => model.maxTokens === 8192));
-  assert.equal((settings.match(/reasoningEfforts:\s*false/g) || []).length, 1);
-  assert.match(settings, /reasoningEfforts:\s*\n\s+off: none\s*\n\s+high: high/);
+  const aliases = localModels.filter(model => ['halo-brain-35b', 'halo-coder-q4km'].includes(model.id));
+  assert.ok(aliases.every(model => model.contextWindow === 131072));
+  assert.ok(aliases.every(model => model.maxTokens === 8192));
+  assert.equal(aliases.find(model => model.id === 'halo-coder-q4km').reasoningEfforts, false);
+  assert.deepEqual(aliases.find(model => model.id === 'halo-brain-35b').reasoningEfforts, { off: 'none', high: 'high' });
 });
 
 test('desktop launcher reuses a single DSH listener and opens both operator pages in Chrome', () => {
