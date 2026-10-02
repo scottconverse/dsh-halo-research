@@ -33,6 +33,13 @@ $newline = if ($profile.Contains("`r`n")) { "`r`n" } else { "`n" }
 $lmsOutput = & $lmsPath ls --json 2>&1
 if ($LASTEXITCODE -ne 0) { throw "Could not list LM Studio models: $lmsOutput" }
 $lmModels = @($lmsOutput -join "`n" | ConvertFrom-Json | Where-Object { $_.type -eq 'llm' })
+# The CLI inventory omits reasoning capabilities. Read the native catalog; no
+# model is loaded and no inference request is made by this discovery endpoint.
+$lmCapabilities = @{}
+$nativeModels = (Invoke-RestMethod -Uri 'http://127.0.0.1:1234/api/v1/models' -TimeoutSec 10).models
+foreach ($native in $nativeModels) {
+    if ($native.type -eq 'llm') { $lmCapabilities[[string]$native.key] = $native.capabilities.reasoning }
+}
 $tunedLmKeys = @('halo/qwen3.6-35b-a3b', 'halo/qwen3-coder-30b-a3b-q4km', 'halo/qwen3.8-27b-q6')
 $hiddenLmKeys = @('qwen3.8-27b-km', 'halo/qwen3.8-27b', 'unsloth/qwen3.8-27b', 'qwen/qwen3.8-27b', 'halo/qwen3.8-27b-q6-fast', 'halo/qwen3.6-35b-a3b-q6')
 $lmExtras = @($lmModels | Where-Object { $_.modelKey -notlike 'study/*' -and $_.modelKey -notin $tunedLmKeys -and $_.modelKey -notin $hiddenLmKeys } | Sort-Object modelKey)
@@ -65,6 +72,30 @@ foreach ($item in $lmExtras) {
         $library.Add('            reasoningEfforts: { off: none, low: low, medium: medium, xhigh: xhigh }')
     } elseif ($item.modelKey -eq 'qwen/qwen3.6-35b-a3b') {
         $library.Add('            reasoningEfforts: { off: none, high: high }')
+    } else {
+        $options = @($lmCapabilities[[string]$item.modelKey].allowed_options | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+        if ($options.Count -gt 0) {
+            $library.Add('            reasoningEfforts:')
+            foreach ($option in $options) {
+                # LM Studio native metadata uses off/on, while Chat Completions
+                # accepts none/medium. "On" is a toggle, not a claimed Medium
+                # budget. Keep real graduated options under their real names.
+                # This transport alias also exists in Hermes' LMS integration:
+                # github.com/NousResearch/hermes-agent/blob/main/agent/lmstudio_reasoning.py
+                switch ($option) {
+                    'off' { $library.Add('              off: none') }
+                    'on' {
+                        if (-not ($options | Where-Object { $_ -in @('minimal','low','medium','high','xhigh','max') })) {
+                            $library.Add('              on: medium')
+                        }
+                    }
+                    { $_ -in @('minimal','low','medium','high','xhigh','max') } {
+                        $library.Add("              ${option}: $option")
+                    }
+                    default { throw "Unsupported LM Studio reasoning metadata for $($item.modelKey): $option" }
+                }
+            }
+        } else { $library.Add('            reasoningEfforts: false') }
     }
 
 }
