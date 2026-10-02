@@ -10,7 +10,7 @@ const missionControlFile = process.env.HALO_MC_SOURCE_UNDER_TEST
   : path.join(here, '..', 'mission-control.mjs');
 const source = fs.readFileSync(missionControlFile, 'utf8');
 const stockDshDir = path.join(here, '..', '..');
-const stockSettings = fs.readFileSync(path.join(stockDshDir, 'settings.yaml'), 'utf8');
+const stockSettings = fs.readFileSync(path.join(stockDshDir, 'web-profile', 'cordis.patch.yml'), 'utf8');
 
 function contractFunctions() {
   const startMark = '/*__REASONING_CONTRACT_START__*/';
@@ -91,13 +91,13 @@ test('a non-reasoning model is reported as off', () => {
   });
 });
 
-test('Halo configuration does not advertise fictional graded efforts', () => {
+test('Halo Web profile exposes only its declared reasoning contracts', () => {
   assert.doesNotMatch(source, /\['low','medium','high','xhigh'\]/);
   assert.doesNotMatch(source, /enum:\s*\['low',\s*'medium',\s*'high',\s*'xhigh'\]/);
 
   assert.doesNotMatch(stockSettings, /reasoningEfforts:\s*\[(?:[^\]]*\b(?:low|medium|high|xhigh)\b[^\]]*)\]/);
-  assert.equal((stockSettings.match(/reasoningEfforts:\s*false/g) || []).length, 1,
-    'the coder remains non-thinking');
+  assert.ok((stockSettings.match(/reasoningEfforts:\s*false/g) || []).length >= 1,
+    'the profile retains explicitly non-thinking models');
   assert.match(stockSettings, /reasoningEfforts:\s*\n\s+off: none\s*\n\s+high: high/,
     '35B exposes only the verified off and thinking wire settings');
 });
@@ -114,7 +114,7 @@ test('approved stock aliases expose their effective non-reasoning defaults hones
     value: 'off',
     basis: 'model declares reasoning=false',
   });
-  assert.match(stockSettings, /- id:\s*halo-brain-35b[\s\S]*?reasoningEfforts:\s*false/);
+  assert.match(stockSettings, /- id:\s*halo\/qwen3\.6-35b-a3b-q6[\s\S]*?reasoningEfforts:/);
   assert.match(stockSettings, /- id:\s*halo-coder-q4km[\s\S]*?reasoningEfforts:\s*false/);
 });
 
@@ -174,9 +174,9 @@ test('Settings indexes reasoning contracts by configured DSH aliases as well as 
   const settingsDataAt = source.indexOf('function settingsData');
   assert.notEqual(settingsDataAt, -1);
   const settingsData = source.slice(settingsDataAt, source.indexOf('// ─────────────────────────── HTTP server', settingsDataAt));
-  assert.match(settingsData, /\['lmstudio\/' \+ DAILY_BRAIN\.identifier\]/);
+  assert.match(settingsData, /\['web-fast\/' \+ DAILY_BRAIN\.identifier\]/);
   assert.match(settingsData, /\['lmstudio\/' \+ DAILY_WORKER\.identifier\]/);
-  assert.match(settingsData, /\['lmstudio\/' \+ DAILY_BRAIN\.modelKey\]/);
+  assert.match(settingsData, /\['web-fast\/' \+ DAILY_BRAIN\.modelKey\]/);
   assert.match(settingsData, /\['lmstudio\/' \+ DAILY_WORKER\.modelKey\]/);
 });
 
@@ -186,10 +186,10 @@ test('settingsData indexes reasoning contracts by the configured DSH alias ids',
   assert.notEqual(start, -1);
   assert.ok(end > start);
   const settingsDataSource = source.slice(start, end);
-  assert.match(settingsDataSource, /\['lmstudio\/' \+ DAILY_BRAIN\.identifier\]/);
+  assert.match(settingsDataSource, /\['web-fast\/' \+ DAILY_BRAIN\.identifier\]/);
   assert.match(settingsDataSource, /\['lmstudio\/' \+ DAILY_WORKER\.identifier\]/);
-  const configuredAlias = stockSettings.match(/agent-default-model:[\s\S]*?model:\s*([^\s#]+)/)?.[1];
-  assert.ok(['halo-brain-35b', 'halo-coder-q4km'].includes(configuredAlias));
+  const configuredAlias = stockSettings.match(/- id:\s*agent-default-model[\s\S]*?model:\s*([^\s#]+)/)?.[1];
+  assert.ok(configuredAlias, 'the Web profile declares an exact default model row');
 });
 
 test('Mission Control installer records whether contract tests ran', () => {

@@ -13,7 +13,8 @@ param(
     [string] $InstalledCopy,
     [Parameter(Mandatory)]
     [string] $InstallReceipt,
-    [string] $SettingsFile = (Join-Path $env:USERPROFILE '.dsh-stock\settings.yaml'),
+    [Alias('ProfileFile')]
+    [string] $SettingsFile = (Join-Path $env:USERPROFILE '.dsh-stock\profiles\web\cordis.patch.yml'),
     [string] $MemoryFile = (Join-Path $env:USERPROFILE '.dsh-stock\memory\memory.json'),
     [ValidateSet('Auto', 'Required', 'Absent')]
     [string] $MemoryMode = 'Required',
@@ -143,10 +144,18 @@ function Get-ConfiguredRoute([string] $Path) {
     $text = Get-Content -LiteralPath $Path -Raw
     $match = [regex]::Match(
         $text,
-        '(?ms)^agent-default-model:\s*\r?\n(?:(?:[ \t]+.*)?\r?\n)*?[ \t]+provider:\s*([^\s#]+)[^\r\n]*\r?\n[ \t]+model:\s*([^\s#]+)'
+        '(?ms)^- id:\s*agent-default-model\s*\r?\n(?:(?!^- (?:id|insert):).)*?^[ \t]+provider:\s*([^\s#]+)[^\r\n]*\r?\n[ \t]+model:\s*([^\s#]+)'
     )
+    # Explicitly supplied legacy fixtures remain readable for upgrade testing;
+    # the production default above is always the Web profile.
     if (-not $match.Success) {
-        throw "Could not parse agent-default-model from $Path"
+        $match = [regex]::Match(
+            $text,
+            '(?ms)^agent-default-model:\s*\r?\n(?:(?:[ \t]+.*)?\r?\n)*?[ \t]+provider:\s*([^\s#]+)[^\r\n]*\r?\n[ \t]+model:\s*([^\s#]+)'
+        )
+    }
+    if (-not $match.Success) {
+        throw "Could not parse agent-default-model plugin config from Web profile $Path"
     }
     return "$($match.Groups[1].Value)/$($match.Groups[2].Value)"
 }
@@ -361,7 +370,8 @@ Add-Check 'Resident model parity' ($expectedModels -ceq $reportedModels) "lms=$e
 $configuredRoute = Get-ConfiguredRoute $SettingsFile
 Add-Check 'Configured DSH route parity' ($status.routeRuntime.configured -eq $configuredRoute) "settings=$configuredRoute; mission-control=$($status.routeRuntime.configured)"
 Add-Check 'Route residency is Boolean' ($status.routeRuntime.exactResident -is [bool]) "resident=$($status.routeRuntime.exactResident)"
-Add-Check 'Route state explained' ((Test-JsonTrue $status.routeRuntime.exactResident) -or -not [string]::IsNullOrWhiteSpace([string] $status.routeRuntime.warning)) "resident=$($status.routeRuntime.exactResident); warning=$($status.routeRuntime.warning)"
+Add-Check 'Route residency applicability is Boolean' ($status.routeRuntime.residencyApplicable -is [bool]) "applicable=$($status.routeRuntime.residencyApplicable)"
+Add-Check 'Route state explained' ((Test-JsonTrue $status.routeRuntime.exactResident) -or (Test-JsonFalse $status.routeRuntime.residencyApplicable) -or -not [string]::IsNullOrWhiteSpace([string] $status.routeRuntime.warning)) "resident=$($status.routeRuntime.exactResident); applicable=$($status.routeRuntime.residencyApplicable); warning=$($status.routeRuntime.warning)"
 
 Add-Check 'Catalog available' (-not [bool] $catalog.error) "entries=$(@($catalog.catalog).Count)"
 Add-Check 'Catalog resident identity parity' (@($status.models | Where-Object {

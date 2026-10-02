@@ -212,3 +212,8 @@ See [configuration, exact verification, MTP results and recovery](HALO-DSH-IMPLE
 ## Integrated update: 2026-10-02
 
 Both Web and Desktop Halo DSH now run official **0.2.0-rc.2**. The existing defaults, curated model routes, lean tools, compaction settings, and sampling policy remain in place. Active settings now live in each `profiles/<host>/cordis.patch.yml`; legacy `settings.yaml` was imported and renamed. Halo presets are registered declarations inside those profile patches, rather than automatically discovered folders. See `HALO-DSH-UPDATE-2026-10-02.md` for deployment paths, verified results, launch behavior, and rollback. Both hosts passed a real cloud-only request; no local model residency changed.
+
+
+## Web Mission Control compatibility — October 2, 2026
+
+Mission Control reads the installed DSH package version and the active Web profile at `C:\Users\scott\.dsh-stock\profiles\web\cordis.patch.yml`. Settings changes target exact provider/model rows in the live and repository profiles, preserve differing default selections, and use staged checks, backups, compare-and-swap and rollback. Context occupancy is labeled as an estimated next provider prompt; the last provider prompt is shown separately, and overflow estimates remain visible. Validation is tied to the profile bytes and installed DSH version. The Web brain role is the Q6 35B alias with its verified 65,536-token load context; the worker remains Q4_K_M. See [repair and deployment evidence](HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md).

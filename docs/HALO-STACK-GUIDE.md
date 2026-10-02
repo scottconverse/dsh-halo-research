@@ -204,3 +204,8 @@ See [configuration, exact verification, MTP results and recovery](HALO-DSH-IMPLE
 ## Integrated update: 2026-10-02
 
 Both Web and Desktop Halo DSH now run official **0.2.0-rc.2**. The existing defaults, curated model routes, lean tools, compaction settings, and sampling policy remain in place. Active settings now live in each `profiles/<host>/cordis.patch.yml`; legacy `settings.yaml` was imported and renamed. Halo presets are registered declarations inside those profile patches, rather than automatically discovered folders. See `HALO-DSH-UPDATE-2026-10-02.md` for deployment paths, verified results, launch behavior, and rollback. Both hosts passed a real cloud-only request; no local model residency changed.
+
+
+## Mission Control after the DSH 0.2 update
+
+Use `http://127.0.0.1:3090` for Web Mission Control. Its Settings tab reads the Web `cordis.patch.yml`, not retired `settings.yaml`. The context percentage estimates the next provider prompt; it may exceed 100% and is not cumulative usage or a same-boundary measurement. Live engine decode, recently measured steps and historical session rates retain separate labels. Configuration validation becomes stale when the Web profile or installed DSH version changes. Source-only dashboard updates require restarting Mission Control, not DSH or LM Studio. See [the October 2 repair record](HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md).

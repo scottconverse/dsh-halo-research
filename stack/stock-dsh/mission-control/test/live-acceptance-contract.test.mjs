@@ -217,7 +217,7 @@ async function makeFixture(overrides = {}) {
     models: [{ identifier: 'brain', modelKey: 'brain', context: 32768, parallel: 1, status: 'idle', originKind: 'local', deviceId: null }],
     sessionsSource: 'dsh api',
     stalledSessions: { inventoryCount: 0, count: 0, items: [] },
-    routeRuntime: { configured: 'lmstudio/brain', exactResident: true, warning: null },
+    routeRuntime: { configured: 'lmstudio/brain', residencyApplicable: true, exactResident: true, warning: null },
     ram: { totalGiB: 64, freeGiB: 32, usedGiB: 32 },
     gpu,
     disk: { ok: true, totalGB: 1000, freeGB: 500, usedGB: 500 },

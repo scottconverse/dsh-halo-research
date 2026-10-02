@@ -522,7 +522,12 @@ test('validation freshness distinguishes current, stale, and never-run evidence'
   const now = Date.parse('2026-09-01T12:00:00Z');
   assert.deepEqual(describeValidationFreshness(null, now), { state: 'never', ageMs: null });
   assert.deepEqual(describeValidationFreshness({ when: now - 60_000 }, now), { state: 'current', ageMs: 60_000 });
-  assert.deepEqual(describeValidationFreshness({ when: now - 25 * 3_600_000 }, now), { state: 'stale', ageMs: 25 * 3_600_000 });
+  assert.deepEqual(describeValidationFreshness({ when: now - 25 * 3_600_000 }, now), {
+    state: 'stale', ageMs: 25 * 3_600_000, reason: 'validation is older than 24 hours',
+  });
+  assert.deepEqual(describeValidationFreshness({ when: now - 60_000, fingerprint: 'old' }, now, 'new'), {
+    state: 'stale', ageMs: 60_000, reason: 'configuration or installed DSH version changed',
+  });
 });
 
 test('configured DSH route is kept separate from resident model state', () => {
@@ -567,12 +572,63 @@ test('configured DSH route is kept separate from resident model state', () => {
   ]);
   assert.equal(generating.exactGenerating, true);
 
+  const orcaResident = {
+    identifier: 'orcasaq-2-cyber-27b-uncensored',
+    modelKey: 'orcasaq-2-cyber-27b-uncensored',
+    type: 'llm', originKind: 'local', status: 'idle',
+  };
+  const currentOrca = describeRouteRuntime({
+    provider: 'lmstudio-library', model: orcaResident.modelKey, localModelProvider: true,
+  }, [orcaResident]);
+  assert.equal(currentOrca.exactResident, true,
+    'a Web-profile provider using local LM Studio recognizes the exact current resident');
+  assert.equal(currentOrca.residencyApplicable, true);
+  const cloudCollision = describeRouteRuntime({
+    provider: 'cloud-provider', model: orcaResident.modelKey, localModelProvider: false,
+  }, [orcaResident]);
+  assert.equal(cloudCollision.exactResident, false,
+    'a cloud route cannot claim a local resident merely because its model id collides');
+  assert.equal(cloudCollision.residencyApplicable, false);
+  assert.equal(cloudCollision.warning, null,
+    'a nonlocal route does not claim its next request will load a local instance');
+  const missingLocal = describeRouteRuntime({
+    provider: 'lmstudio-library', model: 'missing-local-model', localModelProvider: true,
+  }, [orcaResident]);
+  assert.equal(missingLocal.residencyApplicable, true);
+  assert.match(missingLocal.warning, /next request can load a separate model instance/);
+
   const unreadable = describeRouteRuntime({
     provider: null, model: null, error: 'settings.yaml is unreadable',
   }, models);
   assert.equal(unreadable.exactResident, false);
   assert.equal(unreadable.configError, 'settings.yaml is unreadable');
   assert.match(unreadable.warning, /unreadable/i);
+});
+
+test('configured route locality is derived from the exact Web-profile provider transport', () => {
+  const body = source.slice(source.indexOf('function configuredRouteData()'), source.indexOf('async function catalog()'));
+  assert.match(body, /profileProviderTransport\(raw, route\.provider\)/);
+  const start = source.indexOf('/*__SETTINGS_FN_START__*/');
+  const end = source.indexOf('/*__SETTINGS_FN_END__*/');
+  const settingsBody = source.slice(start, end);
+  const { profileProviderTransport } = new Function(`${settingsBody}\nreturn { profileProviderTransport };`)();
+  const profile = `
+- id: llm-pi-ai
+  config:
+    providers:
+      local-library:
+        baseURL: http://127.0.0.1:1234/v1
+      local-cloud-proxy:
+        baseURL: http://127.0.0.1:11434/v1
+      remote-lmstudio:
+        baseURL: http://192.0.2.10:1234/v1
+`;
+  assert.deepEqual(profileProviderTransport(profile, 'local-library'), {
+    providerBaseURL: 'http://127.0.0.1:1234/v1', localModelProvider: true,
+  });
+  assert.equal(profileProviderTransport(profile, 'local-cloud-proxy').localModelProvider, false);
+  assert.equal(profileProviderTransport(profile, 'remote-lmstudio').localModelProvider, false);
+  assert.equal(profileProviderTransport(profile, 'missing').localModelProvider, false);
 });
 
 test('completed-run selection excludes sessions still running or claiming to run', () => {
@@ -731,10 +787,10 @@ test('DSH authority is exchanged server-side, sent on RPC and WebSocket, and red
 
 test('stock paths and session fallback preserve truthful workspace identity', () => {
   assert.match(source, /path\.join\(HOME,\s*'\.dsh-stock'\)/);
-  assert.match(source, /const PRESET_FILE = path\.join\(DSH_HOME,\s*'\.agent-presets',\s*'local',\s*'agent\.cordis\.yml'\)/);
+  assert.match(source, /const PROFILE_FILE = path\.join\(DSH_HOME,\s*'profiles',\s*'web',\s*'cordis\.patch\.yml'\)/);
   assert.doesNotMatch(source, /path\.join\(HOME,\s*'\.dsh'/,
     'Mission Control must never read the retired ~/.dsh tree');
-  assert.match(source, /const presetFile = PRESET_FILE/);
+  assert.match(source, /function settingsData\(file = PROFILE_FILE\)/);
   assert.doesNotMatch(source, /replace\(\/-\/g,\s*['"]\\\\['"]\)/,
     'hyphenated storage buckets cannot be decoded into invented path separators');
   assert.match(source, /readSessionHeader/);

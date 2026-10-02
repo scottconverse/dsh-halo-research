@@ -154,9 +154,9 @@ const MEMORY_SNAPSHOT_TASK = 'HALO Memory Snapshot';
 // those deleted scripts, which made the real daily pair appear empty and
 // "unknown-origin". These are the current, versioned role contracts.
 const DAILY_BRAIN = {
-  modelKey: 'halo/qwen3.6-35b-a3b', identifier: 'halo-brain-35b',
-  quant: 'Q4_K_M', context: 131072, parallel: 1,
-  definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.6-35b-a3b', 'model.yaml'),
+  modelKey: 'halo/qwen3.6-35b-a3b-q6', identifier: 'halo/qwen3.6-35b-a3b-q6',
+  quant: 'Q6_K', context: 65536, parallel: 1,
+  definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.6-35b-a3b-q6', 'model.yaml'),
 };
 const DAILY_WORKER = {
   modelKey: 'halo/qwen3-coder-30b-a3b-q4km', identifier: 'halo-coder-q4km',
@@ -168,7 +168,13 @@ const TUNED_BRAIN_27B = {
   definition: path.join(HOME, '.lmstudio', 'hub', 'models', 'halo', 'qwen3.8-27b', 'model.yaml'),
 };
 const START_DSH = path.resolve(process.env.HALO_START_DSH || path.join(DSH_ROOT, 'Start-StockDSH.ps1'));
-const DSH_VERSION_PIN = '0.1.6-alpha.1';
+const DSH_PACKAGE_FILE = path.join(DSH_ROOT, 'node_modules', '@deepseek-ai', 'dsh', 'package.json');
+function installedDshVersion() {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(DSH_PACKAGE_FILE, 'utf8'));
+    return typeof parsed.version === 'string' && parsed.version.trim() ? parsed.version.trim() : 'unknown';
+  } catch { return 'unknown'; }
+}
 const DSH_ORIGIN = 'http://127.0.0.1:3080';
 const DSH_STDOUT_LOG = path.join(DSH_ROOT, 'logs', 'dsh.stdout.log');
 // Capture launch authority exactly once, then remove it from the process-wide
@@ -356,11 +362,15 @@ function selectDecodeObservation(sessions, previous, measuredStep = null) {
   };
 }
 
-function describeValidationFreshness(validation, now = Date.now()) {
+function describeValidationFreshness(validation, now = Date.now(), currentFingerprint = null) {
   const when = Number(validation?.when);
   if (!Number.isFinite(when) || when <= 0) return { state: 'never', ageMs: null };
   const ageMs = Math.max(0, now - when);
-  return { state: ageMs > 24 * 3600000 ? 'stale' : 'current', ageMs };
+  if (currentFingerprint && validation?.fingerprint !== currentFingerprint) {
+    return { state: 'stale', ageMs, reason: 'configuration or installed DSH version changed' };
+  }
+  return { state: ageMs > 24 * 3600000 ? 'stale' : 'current', ageMs,
+    ...(ageMs > 24 * 3600000 ? { reason: 'validation is older than 24 hours' } : {}) };
 }
 
 function parseValidationDiagnostics(text, max = 50) {
@@ -385,7 +395,11 @@ function describeRouteRuntime(route, models) {
   const localLlm = (models || []).filter(m => m?.originKind === 'local' && (!m?.type || m.type === 'llm'));
   let matches = [];
   let matchBasis = null;
-  if (['lmstudio', 'lmstudio-brain'].includes(route?.provider) && model) {
+  // Provider ids are operator-defined in the Web profile. Locality comes from
+  // that provider's transport, not a stale allow-list of historical names.
+  const localRoute = route?.localModelProvider === true
+    || (route?.localModelProvider == null && ['lmstudio', 'lmstudio-brain'].includes(route?.provider));
+  if (localRoute && model) {
     matches = localLlm.filter(m => m?.identifier === model || m?.modelKey === model);
     if (matches.length === 1) matchBasis = 'exact key or identifier';
     else if (matches.length === 0) {
@@ -406,13 +420,14 @@ function describeRouteRuntime(route, models) {
   return {
     configured,
     model,
+    residencyApplicable: localRoute,
     exactResident,
     exactGenerating: !!exact && exact.status === 'generating',
     matchedIdentifier: exact?.identifier || null,
     matchBasis,
     ambiguous: matches.length > 1,
     configError: route?.error || null,
-    warning: route?.error || (configured && !exactResident
+    warning: route?.error || (localRoute && configured && !exactResident
       ? (matches.length > 1
           ? 'configured route matches more than one resident model; residency is ambiguous'
           : 'configured route is not resident; its next request can load a separate model instance')
@@ -1442,8 +1457,10 @@ async function listSessionsApi(limit = 500) {
       // Context fill: the single number that predicts the output-token wall.
       // The harness tracks it (dsh-token-meter's contextPressure projection);
       // MC fetched it in this same block and ignored it until 2026-08-19.
-      // projectedTokens = last request's prompt + surface movement since, so
-      // it is the live "how full am I", not a per-turn total.
+      // projectedTokens estimates the NEXT provider prompt: the last provider
+      // prompt plus unsampled surface movement. It can transiently exceed the
+      // window while a stream is active. pressureTokens is the separately
+      // reported last provider prompt and can be older than the current surface.
       const cp = v.contextPressure || {};
       const ctxUsed = cp.projectedTokens ?? cp.pressureTokens ?? null;
       const ctxWindow = cp.contextWindow || null;
@@ -1485,6 +1502,9 @@ async function listSessionsApi(limit = 500) {
         kTokIn: Math.round(((tk.uncachedInputTokens || 0) + (tk.cacheReadTokens || 0)) / 1000 * 10) / 10,
         kTokOut: Math.round((tk.outputTokens || 0) / 1000 * 10) / 10,
         ctxUsed,
+        ctxProjectedTokens: cp.projectedTokens ?? null,
+        ctxLastPromptTokens: cp.pressureTokens ?? null,
+        ctxProjectionSource: cp.projectedTokens != null ? 'estimated next provider prompt' : 'last provider prompt fallback',
         ctxWindow,
         ctxPct: (ctxUsed != null && ctxWindow) ? Math.round(ctxUsed / ctxWindow * 100) : null,
         ttftS: st.ttftSteps ? Math.round(st.ttftMs / st.ttftSteps / 1000 * 10) / 10 : null,
@@ -1975,13 +1995,17 @@ function directoryUsage(root) {
 }
 
 function configuredRouteData() {
-  try { return parseAgentDefaultRoute(fs.readFileSync(path.join(DSH_HOME, 'settings.yaml'), 'utf8')); }
+  try {
+    const raw = fs.readFileSync(PROFILE_FILE, 'utf8');
+    const route = parseAgentDefaultRoute(raw);
+    return { ...route, ...profileProviderTransport(raw, route.provider) };
+  }
   catch (error) {
     return {
       provider: null,
       model: null,
       reasoningEffort: null,
-      error: error?.code === 'ENOENT' ? 'settings.yaml is not configured' : 'settings.yaml is unreadable',
+      error: error?.code === 'ENOENT' ? 'Web profile is not configured' : 'Web profile is unreadable',
     };
   }
 }
@@ -2145,7 +2169,7 @@ async function status() {
       cockpit: dshUp,
       lmstudio: lmUp,
       lmsCli: models !== null,
-      dshVersionPin: DSH_VERSION_PIN,
+      dshVersionPin: installedDshVersion(),
       lmsCliVersion: lmsVer,
       lmStudioVersion: lmStudioAppVersion(),
       engine: engineStr,
@@ -2238,7 +2262,7 @@ async function status() {
     disk: { ok: disk.ok, usedGB: gb(diskCache.usedBytes), freeGB: gb(diskCache.freeBytes), totalGB: gb(diskCache.usedBytes + diskCache.freeBytes) },
     machineTotalRamGiB: Math.round(MACHINE_TOTAL_RAM / 1073741824),
     validation: state.lastValidation
-      ? { ...state.lastValidation, freshness: describeValidationFreshness(state.lastValidation) }
+      ? { ...state.lastValidation, freshness: describeValidationFreshness(state.lastValidation, Date.now(), configurationFingerprint()) }
       : { when: null, ok: null, warnings: [], freshness: describeValidationFreshness(null) },
     historySpark: readHistorySpark(40).map(h => h.decodeTps),
   };
@@ -2506,7 +2530,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <div id="tab-settings" class="tabpanel" role="tabpanel" aria-labelledby="tab-button-settings">
 <div class="tabsection">
 <h2>Effective configuration</h2>
-<p class="mut">The values DSH actually uses. Editable values target an exact setting or model in <code>settings.yaml</code> or the local preset; Mission Control stages and validates both files before replacing them.</p>
+<p class="mut">The values Web DSH actually uses. Editable values target an exact provider, model, or active-preset scalar in <code>profiles/web/cordis.patch.yml</code>; Mission Control stages and validates the live and repository profiles before replacing either.</p>
 <div id="settings-body">loading&hellip;</div>
 </div>
 </div>
@@ -2668,7 +2692,7 @@ function settingsRecalc(){
     // the red card next to it.
     var why = n===0 ? 'No changes to apply yet - edit a value first.'
             : (!ok ? 'Cannot apply: the change above would re-arm a known failure. See the reasons listed.'
-                   : 'Write these changes to settings.yaml.');
+                   : 'Write these changes to the Web profile.');
     ab.title=why; ab.setAttribute('aria-label', why);
     ab.setAttribute('aria-disabled', ab.disabled ? 'true' : 'false');
   }
@@ -2708,7 +2732,7 @@ function showTab(name){
   // confirms before a destructive session stop; do the same for losing work.
   if(currentTab==='settings' && name!=='settings'){
     var pending=Object.keys(settingsGather()).length;
-    if(pending && !confirm('Discard '+pending+' unapplied settings change'+(pending>1?'s':'')+'?\\n\\nThey have NOT been written to settings.yaml.')){
+    if(pending && !confirm('Discard '+pending+' unapplied settings change'+(pending>1?'s':'')+'?\\n\\nThey have NOT been written to the Web profile.')){
       // gauntlet re-verify New-1: the tab click sets location.hash BEFORE
       // hashchange calls showTab, so an early return here left the URL pointing at
       // a tab we are not showing -- and a refresh then landed there and silently
@@ -2888,7 +2912,7 @@ function computeLights(s){
   else if(s.routeRuntime&&s.routeRuntime.configError) lights.MODELS={level:'r',cause:'configured route cannot be read: '+s.routeRuntime.configError};
   else if(s.routeRuntime&&s.routeRuntime.ambiguous) lights.MODELS={level:'r',cause:'configured route matches multiple resident models; routing is ambiguous'};
   else if(s.models.length===0) lights.MODELS={level:'a',cause:'zero models loaded'};
-  else if(s.routeRuntime&&s.routeRuntime.configured&&!s.routeRuntime.exactResident) lights.MODELS={level:'a',cause:s.routeRuntime.warning||'configured route is not resident'};
+  else if(s.routeRuntime&&s.routeRuntime.residencyApplicable&&s.routeRuntime.configured&&!s.routeRuntime.exactResident) lights.MODELS={level:'a',cause:s.routeRuntime.warning||'configured local route is not resident'};
   else if(s.models.some(function(m){return m.context>=200000})) lights.MODELS={level:'a',cause:'a loaded model has context \u2265 200K (silent-huge-context trap)'};
   else if(s.brainConfigMismatch) lights.MODELS={level:'a',cause:s.brainConfigMismatch};
   else if(unknownGenerating.length&&localGenerating) lights.MODELS={level:'a',cause:'fleet contention: unknown-origin model generating alongside a local model \u2014 '+unknownGenerating.join(', ')};
@@ -2998,7 +3022,8 @@ function applyLoaderLabels(s){
     };
     var route=s.routeRuntime||{};
     var routeHtml='<span class="slot"><b>Configured DSH route:</b> <span class="mono">'+esc(route.configured||'not declared')+'</span>'+
-      (route.warning?' <span class="badge badge-amber">'+esc(route.warning)+'</span>':'')+'</span>';
+      (route.warning?' <span class="badge badge-amber">'+esc(route.warning)+'</span>'
+        :(route.configured&&route.residencyApplicable===false?' <span class="badge">local residency N/A</span>':''))+'</span>';
     var others=((s.residentRoles&&s.residentRoles.other)||[]).map(function(m){return '<span class="mono">'+esc(m.identifier)+'</span>';}).join(', ');
     slots.innerHTML=routeHtml+say('Resident Brain:',brain)+say('Resident Worker:',worker)+
       (others?'<span class="slot"><b>Other resident:</b> '+others+'</span>':'')+
@@ -3424,9 +3449,8 @@ async function loadModels(){
 
 // ── sessions tab ──
 var openSession=null;
-// Context fill is the wall's early-warning light: the reply budget is always
-// min(maxTokens, window - this). Amber from 70%, red at 85% - past there a
-// large single emission cannot fit no matter what maxTokens says.
+// The primary meter is the token-meter estimate for the next provider prompt.
+// It is intentionally not clamped: a transient overflow is useful evidence.
 function ctxCell(s){
   if(s.ctxPct==null) return '<span class="mut">&mdash;</span>';
   // The ramp starts at 50, not 70: by the time a window is 70% full a large
@@ -3436,12 +3460,14 @@ function ctxCell(s){
   // NB: this whole UI script lives inside a template literal, which eats one
   // level of backslash — an escaped apostrophe here silently ends the string
   // and breaks the page. Use double quotes, never \\' in this file.
-  var title=s.ctxPct>=50?"large single emissions may not fit; start a fresh session for big generations":"context used of this session's window";
+  var title=s.ctxPct>=50?"estimated next provider prompt is near or beyond this context window":"estimated next provider prompt";
   var big=s.ctxPct>=50?'font-size:1.25rem;font-weight:700':'font-size:1.05rem;font-weight:600';
   var col=s.ctxPct>=85?'color:var(--red)':(s.ctxPct>=50?'color:var(--amber)':'color:var(--mut)');
+  var delta=s.ctxWindow-s.ctxUsed;
+  var capacity=delta>=0?delta.toLocaleString()+' estimated headroom':Math.abs(delta).toLocaleString()+' estimated overflow';
   return '<div style="'+big+';'+col+'" title="'+title+'">'+s.ctxPct+'%</div>'+
-    '<div class="mut mono" style="font-size:.75rem">'+(s.ctxWindow-s.ctxUsed).toLocaleString()+' left</div>'+
-    '<div class="mut mono" style="font-size:.7rem;opacity:.75">'+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+'</div>';
+    '<div class="mut mono" style="font-size:.75rem">'+capacity+'</div>'+
+    '<div class="mut mono" style="font-size:.7rem;opacity:.75">next prompt estimate: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+'</div>';
 }
 async function loadSessions(){
   try{
@@ -3492,7 +3518,8 @@ async function loadSessions(){
         '</tr>';
       var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="12"><div class="detail">'+
         '<div>sessionId: <span class="mono">'+esc(s.sessionId)+'</span></div>'+
-        (s.ctxPct!=null?'<div>context: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+' tokens ('+s.ctxPct+'% full, '+(s.ctxWindow-s.ctxUsed).toLocaleString()+' left)</div>':'')+
+        (s.ctxPct!=null?'<div>estimated next provider prompt: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+' tokens ('+s.ctxPct+'%)</div>':'')+
+        (s.ctxLastPromptTokens!=null?'<div>last provider prompt: '+s.ctxLastPromptTokens.toLocaleString()+' tokens <span class="mut">(may lag while streaming)</span></div>':'')+
         (s.lastActivityAt?'<div>last durable activity: '+fmtRel(s.lastActivityAt)+' ('+esc(s.activitySource||'unknown source')+')</div>':'')+
         (s.goal?'<div>goal: '+esc(s.goal)+'</div>':'')+
         '<div><button class="btn btn-sm" type="button" onclick="event.stopPropagation();openDsh()">Open in DSH</button></div>'+
@@ -3610,7 +3637,7 @@ function renderSystem(s){
   document.getElementById('sys-disk').innerHTML=s.disk.ok?
     ('<div class="row"><span class="k">used / free / total</span><span>'+s.disk.usedGB+' / '+s.disk.freeGB+' / '+s.disk.totalGB+' GB</span></div><div class="bar '+diskCls+'"><i style="width:'+diskPct+'%"></i></div>')
     : '<div class="mut">disk read failed</div>';
-  var vv='<div class="row"><span class="k">dsh pin</span><span class="mono">'+esc(s.services.dshVersionPin)+'</span></div>'+
+  var vv='<div class="row"><span class="k">installed DSH</span><span class="mono">'+esc(s.services.dshVersionPin)+'</span></div>'+
     '<div class="row"><span class="k">LM Studio</span><span>'+esc(s.services.lmStudioVersion||'unknown')+'</span></div>'+
     '<div class="row"><span class="k">lms CLI</span><span>'+esc(s.services.lmsCliVersion||'unknown')+'</span></div>'+
     '<div class="row"><span class="k">engine (selected)</span><span>'+esc(s.services.engine||'unknown')+(s.services.engineChanged?' <span class="badge badge-teal">changed</span>':'')+'</span></div>'+
@@ -3623,7 +3650,7 @@ function renderSystem(s){
   }else{
     document.getElementById('sys-validate').innerHTML=
       '<div class="row"><span class="k">last run</span><span>'+fmtStamp(val.when)+'</span></div>'+
-      '<div class="row"><span class="k">freshness</span><span'+(freshness.state==='stale'?' style="color:var(--amber)"':'')+'>'+esc(freshness.state)+(freshness.ageMs!=null?' &middot; '+fmtDur(freshness.ageMs)+' old':'')+'</span></div>'+
+      '<div class="row"><span class="k">freshness</span><span'+(freshness.state==='stale'?' style="color:var(--amber)"':'')+'>'+esc(freshness.state)+(freshness.ageMs!=null?' &middot; '+fmtDur(freshness.ageMs)+' old':'')+(freshness.reason?' &middot; '+esc(freshness.reason):'')+'</span></div>'+
       '<div class="row"><span class="k">result</span><span'+(val.ok?' style="color:var(--green)"':' style="color:var(--red)"')+'>'+(val.ok?'ok':'issues found')+'</span></div>'+
       (val.warnings&&val.warnings.length?'<div class="mut" style="margin-top:6px">'+val.warnings.map(esc).join('<br>')+'</div>':'');
   }
@@ -4349,20 +4376,93 @@ setInterval(function(){ if(currentTab==='overview') loadVitals(); },60000);
 </script></body></html>`;
 
 // ─────────────────────────── settings ───────────────────────────
-// Read-only view of the live tunables and the compaction math they produce,
-// plus the refusal checks (G5). MC never re-serializes settings.yaml -- it
-// carries load-bearing comments -- so this reads the whitelisted scalars by
-// line, deliberately, not by a YAML parse.
-const SETTINGS_FILE = path.join(DSH_HOME, 'settings.yaml');
-const PRESET_FILE = path.join(DSH_HOME, '.agent-presets', 'local', 'agent.cordis.yml');
-const REPO_SETTINGS_FILE = path.join(DSH_ROOT, 'settings.yaml');
-const REPO_PRESET_FILE = path.join(DSH_ROOT, 'local-preset', 'agent.cordis.yml');
+// Web 0.2 composes its route, providers, models and registered presets from a
+// profile patch. Preserve comments and JS tags by editing exact scalar lines;
+// never parse and re-serialize the document.
+const PROFILE_FILE = path.join(DSH_HOME, 'profiles', 'web', 'cordis.patch.yml');
+const REPO_PROFILE_FILE = path.join(DSH_ROOT, 'web-profile', 'cordis.patch.yml');
+
+/*__SETTINGS_FN_START__*/
+function profileLines(raw) {
+  const rows = [];
+  const re = /.*(?:\r?\n|$)/g;
+  let match;
+  while ((match = re.exec(String(raw))) && match[0]) {
+    rows.push({ text: match[0].replace(/\r?\n$/, ''), start: match.index, end: re.lastIndex });
+  }
+  return rows;
+}
+
+function profileProviderTransport(raw, provider) {
+  const rows = profileLines(raw);
+  const significant = row => row.text.trim() && !row.text.trimStart().startsWith('#');
+  const indent = row => row.text.match(/^ */)?.[0].length || 0;
+  const providerAt = rows.findIndex(row => indent(row) === 6 && row.text.trim() === String(provider) + ':');
+  if (providerAt < 0) return { providerBaseURL: null, localModelProvider: false };
+  let end = rows.length;
+  for (let i = providerAt + 1; i < rows.length; i++) {
+    if (significant(rows[i]) && indent(rows[i]) <= 6) { end = i; break; }
+  }
+  const baseLine = rows.slice(providerAt + 1, end)
+    .find(row => indent(row) === 8 && row.text.trimStart().startsWith('baseURL:'));
+  const baseURL = baseLine?.text.split(/baseURL:\s*/, 2)[1]?.trim().replace(/^(['"])(.*)\1$/, '$2') || null;
+  let localModelProvider = false;
+  try {
+    const parsed = new URL(baseURL);
+    localModelProvider = parsed.protocol === 'http:'
+      && ['127.0.0.1', 'localhost'].includes(parsed.hostname)
+      && parsed.port === '1234';
+  } catch { /* absent or invalid transport is never assumed local */ }
+  return { providerBaseURL: baseURL, localModelProvider };
+}
+
+function locateProfileField(raw, scope, field, routeOverride = null) {
+  const rows = profileLines(raw);
+  const route = routeOverride || parseAgentDefaultRoute(raw);
+  const provider = scope.provider || route.provider;
+  const model = scope.model === true ? route.model : scope.model;
+  if (!provider || (scope.model && !model)) return null;
+  const significant = row => row.text.trim() && !row.text.trimStart().startsWith('#');
+  const indent = row => row.text.match(/^ */)?.[0].length || 0;
+  const providerAt = rows.findIndex(row => indent(row) === 6 && row.text.trim() === provider + ':');
+  if (providerAt < 0) return null;
+  let end = rows.length;
+  for (let i = providerAt + 1; i < rows.length; i++) {
+    if (significant(rows[i]) && indent(rows[i]) <= 6) { end = i; break; }
+  }
+  let start = providerAt + 1;
+  if (scope.model) {
+    const modelAt = rows.findIndex((row, index) => index >= start && index < end
+      && indent(row) === 10 && row.text.trim() === '- id: ' + model);
+    if (modelAt < 0) return null;
+    start = modelAt + 1;
+    for (let i = start; i < end; i++) {
+      if (significant(rows[i]) && indent(rows[i]) <= 10) { end = i; break; }
+    }
+  }
+  const matches = [];
+  const expectedIndent = scope.model ? 12 : 8;
+  for (let i = start; i < end; i++) {
+    const match = rows[i].text.match(new RegExp('^ {' + expectedIndent + '}' + field + ':[ \\t]*(\\d+)(?:[ \\t]*(?:#.*)?)$'));
+    if (match) {
+      const relative = rows[i].text.indexOf(match[1]);
+      matches.push({ start: rows[i].start + relative, end: rows[i].start + relative + match[1].length, value: match[1] });
+    }
+  }
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function configurationFingerprint(profileRaw = null, version = installedDshVersion()) {
+  try {
+    const raw = profileRaw == null ? fs.readFileSync(PROFILE_FILE) : Buffer.from(profileRaw);
+    return crypto.createHash('sha256').update(String(version)).update('\0').update(raw).digest('hex').toUpperCase();
+  } catch { return null; }
+}
 
 // The whitelist IS the write policy: only these scalar keys can be edited from
 // MC, each by replacing the value in place (group $1 keeps the key + comment +
 // indentation; only the value changes). The summary maxTokens is scoped to the
 // compaction-basic block because model maxTokens appear earlier in the file.
-/*__SETTINGS_FN_START__*/
 // Each entry carries the line-edit regex AND the value's safe range. GATE-2026-08-22
 // (gauntlet C1): a bare /^\d+$/ accepted "0", and the refusal maths then SKIPPED
 // its own guards because `window &&` / `&& summaryMaxTokens` treat 0 as
@@ -4376,35 +4476,36 @@ const REPO_PRESET_FILE = path.join(DSH_ROOT, 'local-preset', 'agent.cordis.yml')
 const SETTINGS_WHITELIST = {
   // Every model field is scoped to its exact id. The old generic
   // `contextWindow` regexp matched whichever model appeared first.
-  contextWindow:       { document: 'settings', re: /(defaultContextWindow:[ \t]*)(\d+)/, kind: 'int', min: 4096, max: 1048576, unique: true },
-  brainContextWindow:  { document: 'settings', re: /(- id:[ \t]*halo-brain-35b\b[\s\S]*?\n[ \t]+contextWindow:[ \t]*)(\d+)/, kind: 'int', min: 4096, max: 1048576, unique: true },
-  workerContextWindow: { document: 'settings', re: /(- id:[ \t]*halo-coder-q4km\b[\s\S]*?\n[ \t]+contextWindow:[ \t]*)(\d+)/, kind: 'int', min: 4096, max: 1048576, unique: true },
-  defaultMaxTokens:    { document: 'settings', re: /(defaultMaxTokens:[ \t]*)(\d+)/, kind: 'int', min: 256, max: 262144, unique: true },
-  brainMaxTokens:      { document: 'settings', re: /(- id:[ \t]*halo-brain-35b\b[\s\S]*?\n[ \t]+maxTokens:[ \t]*)(\d+)/, kind: 'int', min: 256, max: 262144, unique: true },
-  workerMaxTokens:     { document: 'settings', re: /(- id:[ \t]*halo-coder-q4km\b[\s\S]*?\n[ \t]+maxTokens:[ \t]*)(\d+)/, kind: 'int', min: 256, max: 262144, unique: true },
-  streamIdleTimeoutMs: { document: 'settings', re: /(streamIdleTimeoutMs:[ \t]*)(\d+)/, kind: 'int', min: 600000, max: 7200000, defaultValue: 300000 },
-  thresholdRatio:      { document: 'preset', key: 'thresholdRatio', kind: 'ratio', defaultValue: 0.8 },
-  retainRatio:         { document: 'preset', key: 'retainRatio', kind: 'ratio', defaultValue: 0.16 },
-  summaryMaxTokens:    { document: 'preset', key: 'maxTokens', kind: 'int', min: 1024, max: 262144, defaultValue: 8192 },
-  maxRetries:          { document: 'preset', key: 'compactionRetries', kind: 'int', min: 0, max: 5, defaultValue: 1 },
-  maxOverflowRetries:  { document: 'preset', key: 'maxOverflowRetries', kind: 'int', min: 0, max: 5, defaultValue: 1 },
+  contextWindow:       { scope: { model: true }, field: 'contextWindow', kind: 'int', min: 4096, max: 1048576, unique: true },
+  brainContextWindow:  { scope: { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' }, field: 'contextWindow', kind: 'int', min: 4096, max: 1048576, unique: true },
+  workerContextWindow: { scope: { provider: 'lmstudio', model: 'halo-coder-q4km' }, field: 'contextWindow', kind: 'int', min: 4096, max: 1048576, unique: true },
+  defaultMaxTokens:    { scope: { model: true }, field: 'maxTokens', kind: 'int', min: 256, max: 262144, unique: true },
+  brainMaxTokens:      { scope: { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' }, field: 'maxTokens', kind: 'int', min: 256, max: 262144, unique: true },
+  workerMaxTokens:     { scope: { provider: 'lmstudio', model: 'halo-coder-q4km' }, field: 'maxTokens', kind: 'int', min: 256, max: 262144, unique: true },
+  streamIdleTimeoutMs: { scope: {}, field: 'streamIdleTimeoutMs', kind: 'int', min: 600000, max: 7200000, defaultValue: 300000 },
+  thresholdRatio:      { document: 'compaction', key: 'thresholdRatio', kind: 'ratio', defaultValue: 0.8 },
+  retainRatio:         { document: 'compaction', key: 'retainRatio', kind: 'ratio', defaultValue: 0.16 },
+  summaryMaxTokens:    { document: 'compaction', key: 'maxTokens', kind: 'int', min: 1024, max: 262144, defaultValue: 8192 },
+  maxRetries:          { document: 'compaction', key: 'compactionRetries', kind: 'int', min: 0, max: 5, defaultValue: 1 },
+  maxOverflowRetries:  { document: 'compaction', key: 'maxOverflowRetries', kind: 'int', min: 0, max: 5, defaultValue: 1 },
 };
 
 function compactionBlock(raw) {
   const lines = String(raw || '').split(/\r?\n/);
-  const start = lines.findIndex(line => /^ {4}- id:\s*compaction-basic\s*$/.test(line));
+  const start = lines.findIndex(line => /^\s+- id:\s*compaction-basic\s*$/.test(line));
   if (start < 0) return null;
+  const indent = lines[start].match(/^(\s*)/)?.[1].length || 0;
   let end = lines.length;
   for (let i = start + 1; i < lines.length; i++) {
-    if (/^ {4}- id:\s*/.test(lines[i]) || /^- id:\s*/.test(lines[i])) { end = i; break; }
+    if (new RegExp('^ {' + indent + '}- id:\\s*').test(lines[i])) { end = i; break; }
   }
-  return { lines, start, end };
+  return { lines, start, end, indent };
 }
 
 function readCompactionValue(raw, key, fallback = null) {
   const block = compactionBlock(raw);
   if (!block) return fallback;
-  const re = new RegExp('^ {8}' + key + ':\\s*([^#\\s]+)');
+  const re = new RegExp('^ {' + (block.indent + 4) + '}' + key + ':\\s*([^#\\s]+)');
   for (let i = block.start + 1; i < block.end; i++) {
     const match = block.lines[i].match(re);
     if (match) return match[1];
@@ -4417,24 +4518,26 @@ function upsertCompactionValues(raw, values) {
   if (!block) throw new Error('local preset does not contain the compaction-basic row');
   const lines = block.lines;
   let configAt = -1;
-  for (let i = block.start + 1; i < block.end; i++) if (/^ {6}config:\s*$/.test(lines[i])) { configAt = i; break; }
+  const configIndent = block.indent + 2;
+  const valueIndent = block.indent + 4;
+  for (let i = block.start + 1; i < block.end; i++) if (new RegExp('^ {' + configIndent + '}config:\\s*$').test(lines[i])) { configAt = i; break; }
   if (configAt < 0) {
     let insertAt = block.start + 1;
-    while (insertAt < block.end && /^ {6}(?:name|disabled):/.test(lines[insertAt])) insertAt++;
-    const additions = ['      config:', ...Object.entries(values).map(([key, value]) => `        ${key}: ${value}`)];
+    while (insertAt < block.end && new RegExp('^ {' + configIndent + '}(?:name|disabled):').test(lines[insertAt])) insertAt++;
+    const additions = [' '.repeat(configIndent) + 'config:', ...Object.entries(values).map(([key, value]) => ' '.repeat(valueIndent) + `${key}: ${value}`)];
     lines.splice(insertAt, 0, ...additions);
   } else {
     let configEnd = block.end;
     for (let i = configAt + 1; i < block.end; i++) {
-      if (lines[i].trim() && !/^ {8,}/.test(lines[i])) { configEnd = i; break; }
+      if (lines[i].trim() && (lines[i].match(/^(\s*)/)?.[1].length || 0) < valueIndent) { configEnd = i; break; }
     }
     for (const [key, value] of Object.entries(values)) {
-      const re = new RegExp('^ {8}' + key + ':');
+      const re = new RegExp('^ {' + valueIndent + '}' + key + ':');
       let found = false;
       for (let i = configAt + 1; i < configEnd; i++) {
-        if (re.test(lines[i])) { lines[i] = `        ${key}: ${value}`; found = true; break; }
+        if (re.test(lines[i])) { lines[i] = ' '.repeat(valueIndent) + `${key}: ${value}`; found = true; break; }
       }
-      if (!found) { lines.splice(configEnd, 0, `        ${key}: ${value}`); configEnd++; }
+      if (!found) { lines.splice(configEnd, 0, ' '.repeat(valueIndent) + `${key}: ${value}`); configEnd++; }
     }
   }
   return lines.join(raw.includes('\r\n') ? '\r\n' : '\n');
@@ -4443,7 +4546,7 @@ function upsertCompactionValues(raw, values) {
 // computeSettings and applySettings are PURE (string in, result out) so they are
 // unit-tested off a temp file, never the live one. settingsData() is the only
 // part that touches disk.
-function computeSettings(raw, presetRaw = '') {
+function computeSettings(raw, editContext = {}) {
   // gauntlet Eng-nit: this used to carry its OWN copy of every regex, structurally
   // similar to but separate from SETTINGS_WHITELIST's. Two hand-synced copies of
   // the same pattern drift -- and a read that disagrees with the write is how you
@@ -4453,9 +4556,9 @@ function computeSettings(raw, presetRaw = '') {
   const read = (key) => {
     const spec = Object.prototype.hasOwnProperty.call(SETTINGS_WHITELIST, key) ? SETTINGS_WHITELIST[key] : null;
     if (!spec) return null;
-    if (spec.document === 'preset') return readCompactionValue(presetRaw, spec.key, spec.defaultValue ?? null);
-    const m = raw.match(spec.re);
-    return m ? m[2] : (spec.defaultValue ?? null);
+    if (spec.document === 'compaction') return readCompactionValue(raw, spec.key, spec.defaultValue ?? null);
+    const located = locateProfileField(raw, spec.scope || {}, spec.field, editContext.route || null);
+    return located ? located.value : (spec.defaultValue ?? null);
   };
   const num = (key) => { const v = read(key); return v == null ? null : Number(v); };
   const window = num('contextWindow');
@@ -4503,12 +4606,11 @@ function computeSettings(raw, presetRaw = '') {
 // RE-RUN the refusal checks on the result. Returns the would-be content and any
 // blocking errors/refusals -- the caller writes ONLY when ok. Nothing is written
 // here; comments and everything off the whitelist are preserved verbatim.
-function applySettingsDocuments(raw, presetRaw, changes, whitelist = SETTINGS_WHITELIST) {
+function applySettingsDocuments(raw, changes, whitelist = SETTINGS_WHITELIST, editContext = {}) {
   let content = raw;
-  let presetContent = presetRaw;
   const changed = [];
   const errors = [];
-  const presetChanges = {};
+  const compactionChanges = {};
   for (const key of Object.keys(changes || {})) {
     // C5: `whitelist[key]` resolved Object.prototype members, so a key named
     // __proto__ / constructor / toString sailed past the guard and then crashed
@@ -4525,46 +4627,32 @@ function applySettingsDocuments(raw, presetRaw, changes, whitelist = SETTINGS_WH
     }
     else if (spec.kind === 'ratio') { const n = Number(v); if (!(n > 0 && n < 1)) { errors.push(key + ' must be a ratio strictly between 0 and 1'); continue; } }
     else if (spec.kind === 'enum') { if (!spec.enum.includes(v)) { errors.push(key + ' must be one of: ' + spec.enum.join(', ')); continue; } }
-    if (spec.document === 'preset') {
-      presetChanges[spec.key] = v;
+    if (spec.document === 'compaction') {
+      compactionChanges[spec.key] = v;
       changed.push(key + ' -> ' + v);
       continue;
     }
-    if (!spec.re.test(content)) {
-      if (key === 'streamIdleTimeoutMs') {
-        const anchor = /(^ {6}baseURL:[^\r\n]*(?:\r?\n|$))/m;
-        if (!anchor.test(content)) { errors.push('LM Studio provider block was not found in settings.yaml'); continue; }
-        content = content.replace(anchor, '$1      streamIdleTimeoutMs: ' + v + (content.includes('\r\n') ? '\r\n' : '\n'));
-        changed.push(key + ' -> ' + v);
-        continue;
-      }
-      errors.push(key + ' was not found in settings.yaml -- cannot line-edit it'); continue;
+    const located = locateProfileField(content, spec.scope || {}, spec.field, editContext.route || null);
+    if (!located) {
+      errors.push(key + ' was not found in the exact Web profile provider/model row -- cannot line-edit it'); continue;
     }
-    if (spec.unique) {
-      const all = content.match(new RegExp(spec.re.source, 'g')) || [];
-      if (all.length > 1) {
-        errors.push(key + ' appears ' + all.length + ' times in settings.yaml (e.g. one per model); Mission Control will not guess which one you meant -- edit it in the file, or narrow the key');
-        continue;
-      }
-    }
-    content = content.replace(spec.re, '$1' + v);
+    content = content.slice(0, located.start) + v + content.slice(located.end);
     changed.push(key + ' -> ' + v);
   }
-  if (Object.keys(presetChanges).length) {
-    try { presetContent = upsertCompactionValues(presetContent, presetChanges); }
+  if (Object.keys(compactionChanges).length) {
+    try { content = upsertCompactionValues(content, compactionChanges); }
     catch (error) { errors.push(String(error?.message || error)); }
   }
-  const after = computeSettings(content, presetContent);
+  const after = computeSettings(content, editContext);
   return {
-    content, presetContent, changed, errors, refusals: after.refusals,
+    content, changed, errors, refusals: after.refusals,
     ok: errors.length === 0 && after.refusals.length === 0,
   };
 }
 
-// Kept for the archived deterministic contract: callers that exercise only
-// settings.yaml still receive the old return shape.
+// Kept for the deterministic pure-function contract.
 function applySettings(raw, changes, whitelist = SETTINGS_WHITELIST) {
-  return applySettingsDocuments(raw, '', changes, whitelist);
+  return applySettingsDocuments(raw, changes, whitelist);
 }
 /*__SETTINGS_FN_END__*/
 
@@ -4590,16 +4678,14 @@ function atomicWriteUtf8(file, content, nonce) {
   }
 }
 
-// Settings exist in two deployment documents and in their versioned source
-// counterparts. Treat them as one transaction: stage and validate both,
-// compare-and-swap all inputs, back up every target, then replace every copy.
+// The live Web profile and its versioned source may legitimately differ in the
+// selected route. Apply the same requested scalar edits independently to each
+// baseline, compare-and-swap both inputs, then replace both or roll both back.
 // A failure after the first replacement restores every original byte string.
 function applySettingsTransaction(changes) {
   const documents = [
-    { name: 'live settings.yaml', path: SETTINGS_FILE, kind: 'settings' },
-    { name: 'live local preset', path: PRESET_FILE, kind: 'preset' },
-    { name: 'repository settings.yaml', path: REPO_SETTINGS_FILE, kind: 'settings' },
-    { name: 'repository local preset', path: REPO_PRESET_FILE, kind: 'preset' },
+    { name: 'live Web profile', path: PROFILE_FILE },
+    { name: 'repository Web profile', path: REPO_PROFILE_FILE },
   ];
   const before = new Map();
   try {
@@ -4608,52 +4694,48 @@ function applySettingsTransaction(changes) {
     return { ok: false, status: 500, errors: ['A settings source is not readable: ' + String(error?.message || error)] };
   }
 
-  const liveSettings = before.get(SETTINGS_FILE);
-  const livePreset = before.get(PRESET_FILE);
-  if (before.get(REPO_SETTINGS_FILE) !== liveSettings || before.get(REPO_PRESET_FILE) !== livePreset) {
-    return {
-      ok: false,
-      status: 409,
-      errors: ['The live settings and repository copies differ. Mission Control will not guess which copy should win. Sync them, reload Settings, and apply again.'],
-    };
+  const candidates = new Map();
+  let result = null;
+  const editContext = { route: parseAgentDefaultRoute(before.get(PROFILE_FILE)) };
+  if (!editContext.route.provider || !editContext.route.model) {
+    return { ok: false, status: 409, errors: ['The live Web profile default route is not readable; nothing was written.'] };
   }
-
-  const result = applySettingsDocuments(liveSettings, livePreset, changes, SETTINGS_WHITELIST);
-  if (!result.ok) return { ...result, status: 409 };
+  for (const doc of documents) {
+    const candidate = applySettingsDocuments(before.get(doc.path), changes, SETTINGS_WHITELIST, editContext);
+    if (!candidate.ok) return { ...candidate, status: 409,
+      errors: candidate.errors.map(error => doc.name + ': ' + error) };
+    candidates.set(doc.path, candidate.content);
+    if (!result) result = candidate;
+  }
 
   const nonce = `${process.pid}-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
   fs.mkdirSync(MC_DIR, { recursive: true });
   const stageDir = fs.mkdtempSync(path.join(MC_DIR, 'settings-stage-'));
-  const stagedSettings = path.join(stageDir, 'settings.yaml');
-  const stagedPreset = path.join(stageDir, 'agent.cordis.yml');
+  const stagedProfiles = documents.map((doc, index) => path.join(stageDir, `profile-${index}.yml`));
   try {
-    fs.writeFileSync(stagedSettings, result.content, 'utf8');
-    fs.writeFileSync(stagedPreset, result.presetContent, 'utf8');
-    const checkSettings = fs.readFileSync(stagedSettings, 'utf8');
-    const checkPreset = fs.readFileSync(stagedPreset, 'utf8');
-    if (checkSettings !== result.content || checkPreset !== result.presetContent) {
-      return { ok: false, status: 500, errors: ['Staged settings could not be read back exactly; nothing was written.'] };
-    }
-    const staged = computeSettings(checkSettings, checkPreset);
-    if (!compactionBlock(checkPreset)) {
-      return { ok: false, status: 409, errors: ['The staged local preset has no compaction-basic row; nothing was written.'] };
-    }
-    if (!staged.ok) {
-      return { ok: false, status: 409, errors: [], refusals: staged.refusals };
+    for (let index = 0; index < documents.length; index++) {
+      const doc = documents[index];
+      fs.writeFileSync(stagedProfiles[index], candidates.get(doc.path), 'utf8');
+      const checked = fs.readFileSync(stagedProfiles[index], 'utf8');
+      if (checked !== candidates.get(doc.path)) {
+        return { ok: false, status: 500, errors: [doc.name + ' staged bytes did not read back exactly; nothing was written.'] };
+      }
+      const staged = computeSettings(checked, editContext);
+      if (!compactionBlock(checked) || !staged.ok) {
+        return { ok: false, status: 409, errors: [],
+          refusals: staged.refusals.length ? staged.refusals : [doc.name + ' has no compaction-basic row'] };
+      }
     }
 
     // No await occurs in this transaction, but external editors and DSH sync
-    // jobs can still race it. Verify all four byte strings at the final edge.
+    // jobs can still race it. Verify both byte strings at the final edge.
     for (const doc of documents) {
       if (fs.readFileSync(doc.path, 'utf8') !== before.get(doc.path)) {
         return { ok: false, status: 409, errors: [doc.name + ' changed during validation; nothing was written. Reload Settings and try again.'] };
       }
     }
 
-    const desired = new Map([
-      [SETTINGS_FILE, result.content], [REPO_SETTINGS_FILE, result.content],
-      [PRESET_FILE, result.presetContent], [REPO_PRESET_FILE, result.presetContent],
-    ]);
+    const desired = candidates;
     const targets = documents.filter(doc => desired.get(doc.path) !== before.get(doc.path));
     if (!targets.length) return { ...result, ok: true, written: [] };
 
@@ -4693,7 +4775,10 @@ function applySettingsTransaction(changes) {
 // Mission Control fiction this contract replaces.
 function parseAgentDefaultRoute(raw) {
   const text = String(raw || '');
-  const match = text.match(/(?:^|\n)agent-default-model:\s*\r?\n((?:[ \t]+[^\r\n]*(?:\r?\n|$))*)/);
+  const profile = text.match(/(?:^|\n)- id:\s*agent-default-model\s*\r?\n([\s\S]*?)(?=\r?\n- (?:id|insert):|$)/);
+  const match = profile
+    ? [profile[0], profile[1]]
+    : text.match(/(?:^|\n)agent-default-model:\s*\r?\n((?:[ \t]+[^\r\n]*(?:\r?\n|$))*)/);
   if (!match) return { provider: null, model: null, reasoningEffort: null };
   const block = match[1];
   const field = (name) => {
@@ -4788,16 +4873,14 @@ function buildReasoningRows({
 }
 /*__REASONING_CONTRACT_END__*/
 
-function settingsData(file = SETTINGS_FILE) {
+function settingsData(file = PROFILE_FILE) {
   let raw = '';
   try { raw = fs.readFileSync(file, 'utf8'); }
-  catch { return { error: 'settings.yaml not readable at ' + file }; }
-  const presetFile = PRESET_FILE;
+  catch { return { error: 'Web profile not readable at ' + file }; }
   const brainFile = DAILY_BRAIN.definition;
   const workerFile = DAILY_WORKER.definition;
   const tunedBrain27File = TUNED_BRAIN_27B.definition;
   const readText = p => { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } };
-  const preset = readText(presetFile);
   const brain = readText(brainFile);
   const worker = readText(workerFile);
   const tunedBrain27 = readText(tunedBrain27File);
@@ -4806,13 +4889,11 @@ function settingsData(file = SETTINGS_FILE) {
   const brainReasoning = describeModelReasoning(brain);
   const workerReasoning = describeModelReasoning(worker);
   const reasoningDefinitions = {
-    // DSH routes by the alias identifier from settings.yaml. Keep the physical
+    // DSH routes by the alias identifier from the Web profile. Keep the physical
     // LM Studio model key as an additional exact key for manually selected
     // routes, but never confuse it with the configured stock alias.
-    ['lmstudio/' + DAILY_BRAIN.identifier]: { raw: brain, source: brainFile },
-    ['lmstudio/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
-    ['lmstudio-brain/' + DAILY_BRAIN.identifier]: { raw: brain, source: brainFile },
-    ['lmstudio-brain/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
+    ['web-fast/' + DAILY_BRAIN.identifier]: { raw: brain, source: brainFile },
+    ['web-fast/' + DAILY_BRAIN.modelKey]: { raw: brain, source: brainFile },
     ['lmstudio/' + DAILY_WORKER.identifier]: { raw: worker, source: workerFile },
     ['lmstudio/' + DAILY_WORKER.modelKey]: { raw: worker, source: workerFile },
     ['lmstudio/' + TUNED_BRAIN_27B.modelKey]: { raw: tunedBrain27, source: tunedBrain27File },
@@ -4826,23 +4907,23 @@ function settingsData(file = SETTINGS_FILE) {
     workerContract: workerReasoning,
     workerSource: workerFile,
   });
-  const computed = computeSettings(raw, preset);
+  const computed = computeSettings(raw);
   const v = computed.values;
   return {
-    file, presetFile, editable: true, math: computed.math, refusals: computed.refusals,
+    file, profileKind: 'web cordis.patch.yml', editable: true, math: computed.math, refusals: computed.refusals,
     rows: [
-      { label: 'Default context window', value: v.window + ' tokens', rawValue: v.window, editableKey: 'contextWindow', suffix: ' tokens', source: file },
+      { label: 'Current route context window', value: v.window + ' tokens', rawValue: v.window, editableKey: 'contextWindow', suffix: ' tokens', source: file },
       { label: 'Brain context window', value: v.brainContextWindow + ' tokens', rawValue: v.brainContextWindow, editableKey: 'brainContextWindow', suffix: ' tokens', source: file },
       { label: 'Worker context window', value: v.workerContextWindow + ' tokens', rawValue: v.workerContextWindow, editableKey: 'workerContextWindow', suffix: ' tokens', source: file },
-      { label: 'Default maximum output', value: v.defaultMaxTokens + ' tokens', rawValue: v.defaultMaxTokens, editableKey: 'defaultMaxTokens', suffix: ' tokens', source: file },
+      { label: 'Current route maximum output', value: v.defaultMaxTokens + ' tokens', rawValue: v.defaultMaxTokens, editableKey: 'defaultMaxTokens', suffix: ' tokens', source: file },
       { label: 'Brain maximum output', value: v.brainMaxTokens + ' tokens', rawValue: v.brainMaxTokens, editableKey: 'brainMaxTokens', suffix: ' tokens', source: file },
       { label: 'Worker maximum output', value: v.workerMaxTokens + ' tokens', rawValue: v.workerMaxTokens, editableKey: 'workerMaxTokens', suffix: ' tokens', source: file },
-      { label: 'Compaction enabled', value: 'true', source: presetFile + ' + dsh-compaction-basic default' },
-      { label: 'Compaction threshold', value: v.thresholdRatio, rawValue: v.thresholdRatio, editableKey: 'thresholdRatio', source: readCompactionValue(preset, 'thresholdRatio', null) == null ? 'dsh-compaction-basic default' : presetFile },
-      { label: 'Compaction retain ratio', value: v.retainRatio, rawValue: v.retainRatio, editableKey: 'retainRatio', source: readCompactionValue(preset, 'retainRatio', null) == null ? 'dsh-compaction-basic default' : presetFile },
-      { label: 'Compaction summary maximum', value: v.summaryMaxTokens + ' tokens', rawValue: v.summaryMaxTokens, editableKey: 'summaryMaxTokens', suffix: ' tokens', source: readCompactionValue(preset, 'maxTokens', null) == null ? 'dsh-compaction-basic default' : presetFile },
-      { label: 'Compaction retries', value: v.maxRetries, rawValue: v.maxRetries, editableKey: 'maxRetries', source: readCompactionValue(preset, 'compactionRetries', null) == null ? 'dsh-compaction-basic default' : presetFile },
-      { label: 'Overflow compaction retries', value: v.maxOverflowRetries, rawValue: v.maxOverflowRetries, editableKey: 'maxOverflowRetries', source: readCompactionValue(preset, 'maxOverflowRetries', null) == null ? 'dsh-compaction-basic default' : presetFile },
+      { label: 'Compaction enabled', value: 'true', source: file + ' + dsh-compaction-basic default' },
+      { label: 'Compaction threshold', value: v.thresholdRatio, rawValue: v.thresholdRatio, editableKey: 'thresholdRatio', source: readCompactionValue(raw, 'thresholdRatio', null) == null ? 'dsh-compaction-basic default' : file },
+      { label: 'Compaction retain ratio', value: v.retainRatio, rawValue: v.retainRatio, editableKey: 'retainRatio', source: readCompactionValue(raw, 'retainRatio', null) == null ? 'dsh-compaction-basic default' : file },
+      { label: 'Compaction summary maximum', value: v.summaryMaxTokens + ' tokens', rawValue: v.summaryMaxTokens, editableKey: 'summaryMaxTokens', suffix: ' tokens', source: readCompactionValue(raw, 'maxTokens', null) == null ? 'dsh-compaction-basic default' : file },
+      { label: 'Compaction retries', value: v.maxRetries, rawValue: v.maxRetries, editableKey: 'maxRetries', source: readCompactionValue(raw, 'compactionRetries', null) == null ? 'dsh-compaction-basic default' : file },
+      { label: 'Overflow compaction retries', value: v.maxOverflowRetries, rawValue: v.maxOverflowRetries, editableKey: 'maxOverflowRetries', source: readCompactionValue(raw, 'maxOverflowRetries', null) == null ? 'dsh-compaction-basic default' : file },
       { label: 'Provider stream idle timeout', value: v.streamIdleTimeoutMs + ' ms', rawValue: v.streamIdleTimeoutMs, editableKey: 'streamIdleTimeoutMs', suffix: ' ms', source: /streamIdleTimeoutMs:/.test(raw) ? file : 'dsh-llm-pi-ai default' },
       ...reasoningRows,
       { label: 'Brain parallel slots', value: n(brain, /llm\.load\.numParallelSessions[\s\S]*?value:\s*(\d+)/, DAILY_BRAIN.parallel), source: brainFile },
@@ -4970,6 +5051,8 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'POST' && url.pathname === '/api/validate-config') {
       if (!actionAuthorized(req)) { res.writeHead(403); res.end('unauthorized: missing or invalid action token'); return; }
       let result;
+      const fingerprintBefore = configurationFingerprint();
+      const version = installedDshVersion();
       try {
         // Validate with the exact DSH bits installed in this deployment. A
         // network `dlx` could validate a different build and used to download
@@ -4983,9 +5066,15 @@ const server = http.createServer(async (req, res) => {
         });
         const combined = `${stdout}\n${stderr}`;
         const warnings = parseValidationDiagnostics(combined);
-        result = { when: Date.now(), ok: warnings.length === 0, warnings };
+        const fingerprintAfter = configurationFingerprint();
+        if (!fingerprintBefore || fingerprintAfter !== fingerprintBefore) {
+          warnings.push('Web profile or installed DSH version changed during validation; retry against a stable configuration');
+        }
+        result = { when: Date.now(), ok: warnings.length === 0, warnings,
+          fingerprint: fingerprintAfter, dshVersion: version, profile: PROFILE_FILE };
       } catch (e) {
-        result = { when: Date.now(), ok: false, warnings: [String(e.message || e).slice(0, 500)] };
+        result = { when: Date.now(), ok: false, warnings: [String(e.message || e).slice(0, 500)],
+          fingerprint: configurationFingerprint(), dshVersion: version, profile: PROFILE_FILE };
         // If a plugin spawned a descendant during composition, clean up only
         // the exact installed bin.js dump-config command from this deployment.
         if (/timeout|ETIMEDOUT/i.test(String(e.message || e))) {
@@ -5095,7 +5184,7 @@ const server = http.createServer(async (req, res) => {
           changed: result.changed,
           written: result.written,
           note: result.written.length
-            ? 'Live and repository settings were updated together. Restart DSH for composition changes to take effect.'
+            ? 'Live and repository Web profiles were updated transactionally. Restart DSH for composition changes to take effect.'
             : 'No settings values changed.',
         }));
       } catch (e) {

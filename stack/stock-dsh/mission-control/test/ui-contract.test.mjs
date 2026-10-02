@@ -281,6 +281,13 @@ test('route hazards and broken persistence cadence cannot keep watched lights gr
   assert.equal(computeLights(base).STORE.level, 'g');
   assert.notEqual(computeLights({ ...base, routeRuntime: { configError: 'settings unreadable' } }).MODELS.level, 'g');
   assert.notEqual(computeLights({ ...base, routeRuntime: { configured: 'lmstudio/brain', ambiguous: true } }).MODELS.level, 'g');
+  assert.equal(computeLights({ ...base, routeRuntime: {
+    configured: 'cloud/same-id', residencyApplicable: false, exactResident: false, warning: null,
+  } }).MODELS.level, 'g', 'nonlocal route residency is not a MODELS alarm');
+  assert.equal(computeLights({ ...base, routeRuntime: {
+    configured: 'lmstudio-library/missing', residencyApplicable: true, exactResident: false,
+    warning: 'configured route is not resident',
+  } }).MODELS.level, 'a', 'missing local route remains a MODELS alarm');
   assert.notEqual(computeLights({ ...base, memory: { ...base.memory, snapshots: { ok: true, overdue: true } } }).STORE.level, 'g');
   assert.notEqual(computeLights({ ...base, memory: { ...base.memory, snapshotTask: { configured: false, state: null } } }).STORE.level, 'g');
   assert.equal(computeLights({ ...base, memory: { ...base.memory, snapshotTask: { configured: true, definitionValid: false, state: 'Ready', error: 'task points to retired .dsh memory path' } } }).STORE.level, 'r');
@@ -582,7 +589,7 @@ test('Settings surface exposes the stock schemas without exposing credentials', 
   const loader = extractFunction('loadSettings');
   const backend = extractFunction('settingsData');
   assert.match(panel, /Effective configuration/);
-  for (const label of ['Default context window', 'Brain context window', 'Worker context window', 'Default maximum output', 'Brain maximum output', 'Worker maximum output', 'Compaction enabled', 'Compaction threshold', 'Compaction retain ratio', 'Compaction summary maximum', 'Compaction retries', 'Overflow compaction retries', 'Provider stream idle timeout', 'Configured DSH route']) {
+  for (const label of ['Current route context window', 'Brain context window', 'Worker context window', 'Current route maximum output', 'Brain maximum output', 'Worker maximum output', 'Compaction enabled', 'Compaction threshold', 'Compaction retain ratio', 'Compaction summary maximum', 'Compaction retries', 'Overflow compaction retries', 'Provider stream idle timeout', 'Configured DSH route']) {
     assert.match(source, new RegExp(label, 'i'));
   }
   assert.match(backend, /editable:\s*true/);
@@ -595,13 +602,71 @@ test('Settings surface exposes the stock schemas without exposing credentials', 
   assert.match(applyRoute, /applySettingsTransaction\(changes\)/);
   assert.match(applyRoute, /written:\s*result\.written/);
   const transaction = extractFunction('applySettingsTransaction');
-  for (const target of ['SETTINGS_FILE', 'PRESET_FILE', 'REPO_SETTINGS_FILE', 'REPO_PRESET_FILE']) {
+  for (const target of ['PROFILE_FILE', 'REPO_PROFILE_FILE']) {
     assert.match(transaction, new RegExp(`\\b${target}\\b`), `${target} participates in the transaction`);
   }
   assert.match(transaction, /applySettingsDocuments/);
   assert.match(transaction, /atomicWriteUtf8/);
   assert.match(transaction, /rollback/i);
   assert.doesNotMatch(panel + loader + backend, /apiKey|credential value|\.credentials\.yaml|launch token/i);
+});
+
+test('profile settings edits stay inside the pinned live provider/model row despite route drift and duplicate values', () => {
+  const startMark = '/*__SETTINGS_FN_START__*/';
+  const endMark = '/*__SETTINGS_FN_END__*/';
+  const body = source.slice(source.indexOf(startMark) + startMark.length, source.indexOf(endMark));
+  const { applySettingsDocuments } = new Function(`${body}\nreturn { applySettingsDocuments };`)();
+  const profile = route => `
+- id: agent-default-model
+  config:
+    provider: ${route.provider}
+    model: ${route.model}
+- id: llm-pi-ai
+  config:
+    providers:
+      live-provider:
+        defaultContextWindow: 131072
+        defaultMaxTokens: 8192
+        streamIdleTimeoutMs: 600000
+        models:
+          - id: live-orca
+            contextWindow: 131072
+            maxTokens: 8192
+          - id: duplicate
+            contextWindow: 131072
+            maxTokens: 8192
+      web-fast:
+        streamIdleTimeoutMs: 600000
+        models:
+          - id: halo/qwen3.6-35b-a3b-q6
+            contextWindow: 131072
+            maxTokens: 8192
+      lmstudio:
+        streamIdleTimeoutMs: 600000
+        models:
+          - id: halo-coder-q4km
+            contextWindow: 131072
+            maxTokens: 8192
+- insert:
+    - id: halo-preset-fast-first
+      config:
+        plugins:
+          - id: compaction-basic
+            config:
+              thresholdRatio: 0.7
+              retainRatio: 0.55
+              maxTokens: 8192
+`;
+  const liveRoute = { provider: 'live-provider', model: 'live-orca', reasoningEffort: null };
+  for (const baselineRoute of [liveRoute, { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' }]) {
+    const result = applySettingsDocuments(profile(baselineRoute), {
+      contextWindow: 65536, defaultMaxTokens: 4096,
+    }, undefined, { route: liveRoute });
+    assert.equal(result.ok, true, result.errors?.join('; '));
+    assert.match(result.content, /- id: live-orca\n\s+contextWindow: 65536\n\s+maxTokens: 4096/);
+    assert.match(result.content, /- id: duplicate\n\s+contextWindow: 131072\n\s+maxTokens: 8192/);
+    assert.match(result.content, /- id: halo\/qwen3\.6-35b-a3b-q6\n\s+contextWindow: 131072\n\s+maxTokens: 8192/);
+  }
 });
 
 test('Open DSH is a protected server-side Chrome action that keeps launch authority out of the page', () => {
