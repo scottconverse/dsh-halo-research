@@ -64,7 +64,9 @@ foreach ($item in $lmExtras) {
     $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned (startup default)' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
     $library.Add("            name: $(Quote-Yaml $label)")
     $library.Add("            contextWindow: $context")
-    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens } else { 8192 }
+    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens }
+        elseif ($item.modelKey -eq 'orcasaq-2-cyber-27b-uncensored') { $modelPolicy.desktopQ6.maxTokens }
+        else { 8192 }
     $library.Add("            maxTokens: $maxOutput")
     $inputTypes = if ($item.vision) { '[text, image]' } else { '[text]' }
     $library.Add("            input: $inputTypes")
@@ -78,15 +80,16 @@ foreach ($item in $lmExtras) {
             $library.Add('            reasoningEfforts:')
             foreach ($option in $options) {
                 # LM Studio native metadata uses off/on, while Chat Completions
-                # accepts none/medium. "On" is a toggle, not a claimed Medium
-                # budget. Keep real graduated options under their real names.
+                # accepts none/medium. DSH's schema has no On key, so binary
+                # On uses the Medium transport label, not a graduated budget.
+                # Keep real graduated options under their real names.
                 # This transport alias also exists in Hermes' LMS integration:
                 # github.com/NousResearch/hermes-agent/blob/main/agent/lmstudio_reasoning.py
                 switch ($option) {
                     'off' { $library.Add('              off: none') }
                     'on' {
                         if (-not ($options | Where-Object { $_ -in @('minimal','low','medium','high','xhigh','max') })) {
-                            $library.Add('              on: medium')
+                            $library.Add('              medium: medium')
                         }
                     }
                     { $_ -in @('minimal','low','medium','high','xhigh','max') } {

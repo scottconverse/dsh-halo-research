@@ -1,0 +1,115 @@
+{
+  "checkedAtUTC": "2026-10-02T07:17:48.291714+00:00",
+  "hosts": {
+    "19387": {
+      "default": {
+        "provider": "lmstudio-library",
+        "model": "orcasaq-2-cyber-27b-uncensored"
+      },
+      "routableProviders": [
+        "lmstudio",
+        "ollama",
+        "lmstudio-brain",
+        "lmstudio-qwen38",
+        "lmstudio-library",
+        "ollama-local",
+        "claude-cli",
+        "codex-cli"
+      ],
+      "orca": [
+        {
+          "id": "orcasaq-2-cyber-27b-uncensored",
+          "name": "OrcaSAQ 2 27B Uncensored [orcasaq-2-cyber-27b-uncensored]",
+          "reasoning": {
+            "efforts": [
+              {
+                "id": "off",
+                "name": "Off"
+              },
+              {
+                "id": "medium",
+                "name": "Medium"
+              }
+            ]
+          }
+        }
+      ],
+      "failures": []
+    },
+    "3080": {
+      "default": {
+        "provider": "web-fast",
+        "model": "halo/qwen3.6-35b-a3b-q6",
+        "reasoningEffort": "high"
+      },
+      "routableProviders": [
+        "lmstudio",
+        "ollama",
+        "lmstudio-brain",
+        "lmstudio-qwen38",
+        "lmstudio-library",
+        "ollama-local",
+        "web-fast",
+        "web-fallback",
+        "claude-cli",
+        "codex-cli"
+      ],
+      "orca": [
+        {
+          "id": "orcasaq-2-cyber-27b-uncensored",
+          "name": "OrcaSAQ 2 27B Uncensored [orcasaq-2-cyber-27b-uncensored]",
+          "reasoning": {
+            "efforts": [
+              {
+                "id": "off",
+                "name": "Off"
+              },
+              {
+                "id": "medium",
+                "name": "Medium"
+              }
+            ]
+          }
+        }
+      ],
+      "failures": []
+    }
+  },
+  "probe": [
+    {
+      "effort": "none",
+      "thinkingChars": 0,
+      "answer": "OK",
+      "finish": "stop",
+      "seconds": 31.46,
+      "usage": {
+        "prompt_tokens": 17,
+        "completion_tokens": 2,
+        "total_tokens": 19,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      }
+    },
+    {
+      "effort": "medium",
+      "thinkingChars": 106,
+      "answer": "OK",
+      "finish": "stop",
+      "seconds": 10.56,
+      "usage": {
+        "prompt_tokens": 57,
+        "completion_tokens": 30,
+        "total_tokens": 87,
+        "completion_tokens_details": {
+          "reasoning_tokens": 26
+        }
+      }
+    }
+  ],
+  "orcaBudget": {
+    "contextWindow": 131072,
+    "maxTokens": 24576
+  },
+  "quantization": "OrcaSAQ2 mixed precision; GGUF file_type 30 (IQ4_XS), tensor types 14:2, 0:360, 23:439, 13:65. Not standard Q6."
+}
