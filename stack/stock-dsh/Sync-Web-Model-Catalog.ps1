@@ -5,7 +5,17 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $desktop = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $DesktopProfilePath).Path)
-$web = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $WebSettingsPath).Path)
+$profileMode = $false
+if (-not (Test-Path -LiteralPath $WebSettingsPath)) {
+    $WebSettingsPath = Join-Path (Split-Path $WebSettingsPath) 'profiles\web\cordis.patch.yml'
+    $profileMode = $true
+}
+if ($profileMode) {
+    $web = (& node (Join-Path $PSScriptRoot 'profile-catalog-settings.mjs') read $WebSettingsPath | Out-String)
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read the DSH 0.2 Web profile.' }
+} else {
+    $web = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $WebSettingsPath).Path)
+}
 
 $source = [regex]::Match($desktop, '(?ms)^- id: llm-pi-ai\r?\n  name: [^\r\n]+\r?\n  config:\r?\n(?<providers>    providers:\r?\n.*?)(?=^- id: ui-settings-general)')
 if (-not $source.Success) { throw 'Expected exactly one Desktop llm-pi-ai provider block.' }
@@ -49,6 +59,15 @@ if ([regex]::Matches($updated, $defaultBlock).Count -ne 1) { throw 'Expected exa
 # Catalog refresh is not a default-model decision. Preserve the chosen Web default.
 
 if ($updated -ne $web) {
-    [IO.File]::WriteAllText($WebSettingsPath, $updated, [Text.UTF8Encoding]::new($false))
+    if ($profileMode) {
+        $catalogTemp = [IO.Path]::GetTempFileName()
+        try {
+            [IO.File]::WriteAllText($catalogTemp, $updated, [Text.UTF8Encoding]::new($false))
+            & node (Join-Path $PSScriptRoot 'profile-catalog-settings.mjs') write $WebSettingsPath $catalogTemp
+            if ($LASTEXITCODE -ne 0) { throw 'Could not update the DSH 0.2 Web profile.' }
+        } finally { [IO.File]::Delete($catalogTemp) }
+    } else {
+        [IO.File]::WriteAllText($WebSettingsPath, $updated, [Text.UTF8Encoding]::new($false))
+    }
 }
 Write-Output 'Shared provider catalog refreshed; Web-only routes and default preserved. No model was loaded.'

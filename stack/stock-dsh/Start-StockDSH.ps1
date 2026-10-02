@@ -119,8 +119,10 @@ $missionControlChanged = Install-MissionControlIfNeeded
 
 # A cloud default can start without changing LM Studio residency. This also
 # keeps a Desktop DSH local run intact when Web DSH is launched alongside it.
-$settingsText = Get-Content -LiteralPath (Join-Path $dshHome 'settings.yaml') -Raw
-$cloudDefault = [regex]::IsMatch($settingsText, '(?m)^agent-default-model:\s*\r?\n\s+provider:\s*ollama\s*\r?\n\s+model:\s*[^\r\n]+:cloud\s*$')
+$legacySettings = Join-Path $dshHome 'settings.yaml'
+$settingsPath = if (Test-Path -LiteralPath $legacySettings) { $legacySettings } else { Join-Path $dshHome 'profiles\web\cordis.patch.yml' }
+$settingsText = Get-Content -LiteralPath $settingsPath -Raw
+$cloudDefault = [regex]::IsMatch($settingsText, '(?m)(?:^agent-default-model:|^- id: agent-default-model\r?\n(?:  name:[^\r\n]*\r?\n)?  config:)\s*\r?\n\s+provider:\s*ollama\s*\r?\n\s+model:\s*[^\r\n]+:cloud\s*$')
 if ($cloudDefault) {
     Write-StackLog 'Web default is Ollama Cloud; preserving LM Studio resident models.'
 } else {

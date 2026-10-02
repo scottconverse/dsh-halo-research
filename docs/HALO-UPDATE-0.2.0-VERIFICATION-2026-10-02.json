@@ -1,0 +1,102 @@
+[
+  {
+    "port": 3080,
+    "sessionId": "session-72b10518-84e1-4004-9f93-d77e92907ca8",
+    "originalDefault": {
+      "provider": "web-fast",
+      "model": "halo/qwen3.6-35b-a3b-q6",
+      "reasoningEffort": "high"
+    },
+    "running": false,
+    "cloudModels": [
+      "deepseek-v4.1-flash:cloud",
+      "glm-5.3:cloud",
+      "kimi-k3:cloud",
+      "minimax-m3:cloud",
+      "glm-5.3-flash:cloud"
+    ],
+    "eventLog": "C:\\Users\\scott\\.dsh-stock\\sessions\\--C-Users-scott-Documents-Codex-2026-10-01-dsh-update-020--\\session-72b10518-84e1-4004-9f93-d77e92907ca8\\session.v4.jsonl.zstd",
+    "eventTypes": [
+      "session",
+      "permission/preset",
+      "sandbox/mode",
+      "approval/policy",
+      "subagent/model-selection-policy",
+      "model/selection",
+      "agent/inbox/spliced",
+      "turn/start",
+      "agent/inbox/spliced",
+      "step/start",
+      "system/message",
+      "user/message",
+      "user/message",
+      "user/message",
+      "request/header",
+      "request/context",
+      "session/title",
+      "session/title-llm-request",
+      "session/title",
+      "assistant/message",
+      "step/end",
+      "turn/end"
+    ],
+    "replyVerified": true,
+    "errors": [],
+    "tools": 25,
+    "config": {
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:cloud",
+      "reasoningEffort": "off",
+      "maxTokens": 8192
+    }
+  },
+  {
+    "port": 19387,
+    "sessionId": "session-cb1d5c1b-d7d0-4dfb-b277-f031cadac39e",
+    "originalDefault": {
+      "provider": "lmstudio-library",
+      "model": "halo/qwen3.8-27b-q4km",
+      "reasoningEffort": "off"
+    },
+    "running": false,
+    "cloudModels": [
+      "deepseek-v4.1-flash:cloud",
+      "glm-5.3:cloud",
+      "kimi-k3:cloud",
+      "minimax-m3:cloud",
+      "glm-5.3-flash:cloud"
+    ],
+    "eventLog": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\sessions\\--C-Users-scott-Documents-Codex-2026-10-01-dsh-update-020--\\session-cb1d5c1b-d7d0-4dfb-b277-f031cadac39e\\session.v4.jsonl.zstd",
+    "eventTypes": [
+      "session",
+      "permission/preset",
+      "sandbox/mode",
+      "approval/policy",
+      "session/title",
+      "model/selection",
+      "agent/inbox/spliced",
+      "turn/start",
+      "agent/inbox/spliced",
+      "step/start",
+      "system/message",
+      "user/message",
+      "user/message",
+      "user/message",
+      "request/header",
+      "request/context",
+      "assistant/message",
+      "step/end",
+      "turn/end",
+      "model/selection"
+    ],
+    "replyVerified": true,
+    "errors": [],
+    "tools": 27,
+    "config": {
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:cloud",
+      "reasoningEffort": "off",
+      "maxTokens": 8192
+    }
+  }
+]

@@ -3,8 +3,8 @@
 import { writeFileSync } from 'node:fs';
 export const name = 'halo-web-qwen27-sampling';
 export const inject = ['llm'];
-const routes = new Set(['lmstudio-library', 'lmstudio-qwen38']);
-const ids = new Set(['halo/qwen3.8-27b-q4km', 'halo/qwen3.8-27b-q6', 'qwen/qwen3.8-27b']);
+const routes = new Set(['lmstudio-library', 'lmstudio-qwen38', 'web-fallback']);
+const ids = new Set(['halo/qwen3.8-27b-q4km', 'halo/qwen3.8-27b-q6', 'halo/qwen3.8-27b-q6-fast', 'qwen/qwen3.8-27b']);
 export function tunePayload(payload, model) {
   if (!routes.has(model.provider) || !ids.has(model.id) ||
       model.baseUrl?.replace(/\/$/, '') !== 'http://127.0.0.1:1234/v1') return payload;
