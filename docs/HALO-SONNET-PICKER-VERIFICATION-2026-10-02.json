@@ -1,0 +1,152 @@
+[
+  {
+    "port": 3080,
+    "models": [
+      {
+        "id": "claude-opus-5-5",
+        "name": "Claude Opus 5.5",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.",
+        "reasoning": {
+          "efforts": [
+            {
+              "id": "low",
+              "name": "low"
+            },
+            {
+              "id": "medium",
+              "name": "medium"
+            },
+            {
+              "id": "high",
+              "name": "high"
+            },
+            {
+              "id": "xhigh",
+              "name": "xhigh"
+            },
+            {
+              "id": "max",
+              "name": "max"
+            }
+          ],
+          "defaultEffort": "medium"
+        }
+      },
+      {
+        "id": "claude-sonnet-5-5",
+        "name": "Claude Sonnet 5.5",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.",
+        "reasoning": {
+          "efforts": [
+            {
+              "id": "low",
+              "name": "low"
+            },
+            {
+              "id": "medium",
+              "name": "medium"
+            },
+            {
+              "id": "high",
+              "name": "high"
+            },
+            {
+              "id": "xhigh",
+              "name": "xhigh"
+            },
+            {
+              "id": "max",
+              "name": "max"
+            }
+          ],
+          "defaultEffort": "high"
+        }
+      },
+      {
+        "id": "claude-haiku-4-5-20251001",
+        "name": "Claude Haiku 4.5 - no effort control",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use."
+      }
+    ],
+    "default": {
+      "provider": "web-fast",
+      "model": "halo/qwen3.6-35b-a3b-q6",
+      "reasoningEffort": "high"
+    }
+  },
+  {
+    "port": 19387,
+    "models": [
+      {
+        "id": "claude-opus-5-5",
+        "name": "Claude Opus 5.5",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.",
+        "reasoning": {
+          "efforts": [
+            {
+              "id": "low",
+              "name": "low"
+            },
+            {
+              "id": "medium",
+              "name": "medium"
+            },
+            {
+              "id": "high",
+              "name": "high"
+            },
+            {
+              "id": "xhigh",
+              "name": "xhigh"
+            },
+            {
+              "id": "max",
+              "name": "max"
+            }
+          ],
+          "defaultEffort": "medium"
+        }
+      },
+      {
+        "id": "claude-sonnet-5-5",
+        "name": "Claude Sonnet 5.5",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use.",
+        "reasoning": {
+          "efforts": [
+            {
+              "id": "low",
+              "name": "low"
+            },
+            {
+              "id": "medium",
+              "name": "medium"
+            },
+            {
+              "id": "high",
+              "name": "high"
+            },
+            {
+              "id": "xhigh",
+              "name": "xhigh"
+            },
+            {
+              "id": "max",
+              "name": "max"
+            }
+          ],
+          "defaultEffort": "high"
+        }
+      },
+      {
+        "id": "claude-haiku-4-5-20251001",
+        "name": "Claude Haiku 4.5 \u00e2\u20ac\u201d no effort control",
+        "description": "Official signed-in CLI owns tools. Context comes from CLI metadata or a live receipt when known. Account availability is checked on use."
+      }
+    ],
+    "default": {
+      "provider": "lmstudio-library",
+      "model": "halo/qwen3.8-27b-q4km",
+      "reasoningEffort": "off"
+    }
+  }
+]

@@ -5,7 +5,7 @@
         dataRoot: C:/Users/scott/.dsh-stock/native-cli
         claudeModels:
           - claude-opus-5-5
-          - claude-sonnet-5
+          - claude-sonnet-5-5
           - claude-haiku-4-5-20251001
         claudeMetadata:
           - slug: claude-opus-5-5
@@ -17,8 +17,8 @@
               - effort: high
               - effort: xhigh
               - effort: max
-          - slug: claude-sonnet-5
-            display_name: Claude Sonnet 5
+          - slug: claude-sonnet-5-5
+            display_name: Claude Sonnet 5.5
             default_reasoning_level: high
             supported_reasoning_levels:
               - effort: low

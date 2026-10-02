@@ -46,3 +46,11 @@ Use the existing **DSH Halo Desktop** shortcut / `Launch-DeepSeek-Harness-Evalua
 Pre-update backups and installer evidence: `C:\Users\scott\Documents\Codex\2026-10-01\dsh-update-020\before`, `before-manifest.json`, and `official-feed.json`. This folder also retains the post-import pre-preset profile copies. New installer is in the same root. Old Desktop 0.1.7-rc.2 installer remains in Downloads. Rollback requires stopped hosts, reinstalling that Desktop version and restoring its backed-up profile/settings, and restoring Web package.json/lock plus reinstalling dependencies and restoring its old settings/profile. Restore both configuration and binary/package versions together; restoring only a settings file is insufficient after the 0.2 migration.
 
 Canonical Desktop snapshot: `stack/desktop-tuning/deployed-2026-10-02-020`. Canonical Web profile: `stack/stock-dsh/web-profile/cordis.patch.yml`. Human records and recovery copies are synchronized under `C:\Users\scott\Desktop\Halo Stack Research`.
+
+## Claude catalog correction — 2026-10-02
+
+Replaced pinned `claude-sonnet-5` / Claude Sonnet 5 with `claude-sonnet-5-5` / Claude Sonnet 5.5 in both live profiles and canonical recovery copies. Current Claude rows are Opus 5.5, Sonnet 5.5, and Haiku 4.5 (still the latest released Haiku per Anthropic's current model documentation). Sonnet exposes Low, Medium, High, Xhigh and Max; its existing High selection default remains unchanged. Official model identity and supported levels were checked against Anthropic's Sonnet 5.5 and effort documentation, and installed Claude Code 2.1.283 help.
+
+Neither host had active turns. Brief host restarts restored native CLI registration after live config reload dropped it. Both authenticated runtime catalogs now return `claude-sonnet-5-5` and exclude `claude-sonnet-5`; their local model defaults remain unchanged. No Claude generation was needed for this catalog correction. Evidence: `HALO-SONNET-PICKER-VERIFICATION-2026-10-02.json`.
+
+Sources: https://platform.claude.com/docs/en/models/sonnet-5-5/overview and https://platform.claude.com/docs/en/build-with-claude/effort .
