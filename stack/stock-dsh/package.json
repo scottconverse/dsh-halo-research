@@ -2,7 +2,8 @@
   "name": "stock-dsh-deployment",
   "private": true,
   "scripts": {
-    "test": "node mission-control/test/run-all-contracts-serial.mjs"
+    "test": "node mission-control/test/run-all-contracts-serial.mjs",
+    "test:budget": "node output-budget-patch.mjs && node --test test/output-budget.test.mjs test/compaction-budget.test.mjs"
   },
   "dependencies": {
     "@deepseek-ai/dsh": "0.2.0-rc.2",

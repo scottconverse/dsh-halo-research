@@ -131,14 +131,14 @@ llm-pi-ai:
       defaultInput:
       - text
       defaultContextWindow: 65536
-      defaultMaxTokens: 16384
+      defaultMaxTokens: 24576
       reasoning: high
       streamIdleTimeoutMs: 600000
       models:
       - id: halo/qwen3.6-35b-a3b-q6
         name: Qwen3.6 35B UD-Q6_K â€” main local agent
         contextWindow: 65536
-        maxTokens: 16384
+        maxTokens: 24576
         input:
         - text
         reasoningEfforts:

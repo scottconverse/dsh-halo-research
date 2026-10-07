@@ -209,3 +209,20 @@ Both Web and Desktop Halo DSH now run official **0.2.0-rc.2**. The existing defa
 ## Mission Control after the DSH 0.2 update
 
 Use `http://127.0.0.1:3090` for Web Mission Control. Its Settings tab reads the Web `cordis.patch.yml`, not retired `settings.yaml`. The context percentage estimates the next provider prompt; it may exceed 100% and is not cumulative usage or a same-boundary measurement. Live engine decode, recently measured steps and historical session rates retain separate labels. Configuration validation becomes stale when the Web profile or installed DSH version changes. Source-only dashboard updates require restarting Mission Control, not DSH or LM Studio. See [the October 2 repair record](HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md).
+
+### 2026-10-07 output-budget audit repair
+
+The hidden pi-ai character-estimate output clamp is disabled for the Web child
+with HALO_DSH_DISABLE_ESTIMATED_OUTPUT_CLAMP=1. The version-pinned, backed-up
+repair is enforced by output-budget-patch.mjs before supported detached launch.
+The 35B main route is now 24,576 output / 65,536 context / High reasoning.
+All four registered compaction policies explicitly set headroomTokens: 4096;
+the installed DSH 0.2 default of 65,536 previously invalidated the 64K budget.
+The effective 24K-reserving pressure threshold is 36,864; retention is 22,528;
+summary max remains 8,192. Seven focused output/compaction checks passed.
+Web restarted with sessions preserved; only 35B remains loaded.
+
+Audit details and remaining findings: HALO-DSH-AUDIT-2026-10-07.md. The launcher
+still reloads both resident roles and delegation still targets the unloaded 27B.
+Four of 149 Mission Control contract checks retain obsolete assumptions.
+No complete news pipeline or live full-summary compaction was claimed.

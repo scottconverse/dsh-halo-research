@@ -60,6 +60,7 @@
       name: '@deepseek-ai/dsh-compaction-basic'
       config:
         auto: true
+        headroomTokens: 4096
         thresholdRatio: 0.8
         retainRatio: 0.55
         maxTokens: 8192
