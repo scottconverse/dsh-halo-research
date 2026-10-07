@@ -1,11 +1,12 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: web-profile/cordis.patch.yml (embedded registered preset).
+# Run: node preset-sync.mjs sync
 # Optional coding composition; full presets and the host remain unchanged.
 - id: persona
   name: '@deepseek-ai/dsh-persona'
   config:
     prefix: >-
-      You are a coding agent powered by {{model}}. Read project instructions, inspect
-      relevant code, implement the requested change, and run focused verification.
-      Implement and verify directly first. Delegate once to the configured 27B fallback only after an observed persistent failed check, incomplete implementation, or repeated tool errors. Send the factual failure and independently verify its result. Supervise with list_agents, messaging, and session history/trace tools. Use stock web_search and web_fetch first; use the desktop-optional-tools skill for Wigolo CLI only when needed. Do not automatically invoke pairing-team. Exact counts come from code. Keep tool output concise. Finish once the requested outcome is verified.
+      You are a coding agent powered by {{model}}. Read project instructions, inspect relevant code, implement the requested change, and run focused verification. The default delegation route is the configured resident 35B (web-fast / halo/qwen3.6-35b-a3b-q6); a non-default 27B model remains available as an optional picker/model-selection choice. Delegate once to that configured route only after an observed persistent failed check, incomplete implementation, or repeated tool errors. Send the factual failure and independently verify its result. Supervise with list_agents, messaging, and session history/trace tools. Use stock web_search and web_fetch first for routine research. A missing-provider or authentication error, empty body, navigation-only page, truncated response missing the requested evidence, or JavaScript shell counts as unusable content even with HTTP 200. After one such result, load desktop-optional-tools and try the Wigolo CLI before repeating stock fetches. Never infer a paywall from truncation alone. For explicit Reddit requests, practitioner experience, product opinions, troubleshooting, community consensus, or local community signals, load reddit-search before searching Reddit and follow its RSS, validation, pacing, and coverage rules. Reddit evidence is a lead or attributed community statement, not primary verification of a news claim. Do not automatically invoke pairing-team. Exact counts come from code. Keep tool output concise. Finish once the requested outcome is verified.
     suffix: Your working directory is {{cwd}}.
 
 - id: lean-tool-catalog
@@ -85,7 +86,6 @@
     maxResultChars: 16000
     timeoutMs: 60000
 
-
 - id: delegation
   name: cordis:group
   group: true
@@ -105,12 +105,11 @@
         toolName: subagent
         modelSelectionSettings: true
         agentOptions:
-          provider: web-fallback
-          model: halo/qwen3.8-27b-q6-fast
-          reasoningEffort: medium
+          provider: web-fast
+          model: halo/qwen3.6-35b-a3b-q6
+          reasoningEffort: high
           maxTokens: 24576
         backgroundMode: continuable
-
 
 - id: history-tools
   name: cordis:group
@@ -123,7 +122,6 @@
       config:
         maxSearchResults: 100
         searchTimeoutMs: 30000
-
 
 - id: tool-web
   name: '@deepseek-ai/dsh-tool-web'

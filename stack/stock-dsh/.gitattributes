@@ -1,0 +1,3 @@
+# Reviewed dependency backups are byte evidence; Windows checkout must not
+# convert their line endings and invalidate the version-pinned SHA-256 guard.
+runtime-patch-backups/*.original -text

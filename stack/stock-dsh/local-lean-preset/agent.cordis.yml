@@ -1,11 +1,12 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: web-profile/cordis.patch.yml (embedded registered preset).
+# Run: node preset-sync.mjs sync
 # Optional coding composition; full presets and the host remain unchanged.
 - id: persona
   name: '@deepseek-ai/dsh-persona'
   config:
     prefix: >-
-      You are a coding agent powered by {{model}}. Read project instructions, inspect
-      relevant code, implement the requested change, and run focused verification.
-      Keep tool output concise. Finish once the requested outcome is verified.
+      You are a coding agent powered by {{model}}. Read project instructions, inspect relevant code, implement the requested change, and run focused verification. Keep tool output concise. Finish once the requested outcome is verified.
     suffix: Your working directory is {{cwd}}.
 
 - id: lean-tool-catalog
@@ -84,4 +85,3 @@
     maxLocations: 100
     maxResultChars: 16000
     timeoutMs: 60000
-

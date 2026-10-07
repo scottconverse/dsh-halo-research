@@ -78,17 +78,43 @@ function Wait-ForWigoloMcpChild([int] $TimeoutSeconds = 60) {
     throw "DSH did not create its verified Wigolo MCP child within $TimeoutSeconds seconds. See the DSH logs in $logs."
 }
 
-function Get-LoadedModels {
+function Get-ResidentModels {
+    # Read-only inventory. This launcher validates operator choices but never
+    # changes LM Studio residency.
     $json = & $lms ps --json | Out-String
     if ($LASTEXITCODE -ne 0) { throw 'LM Studio did not return its loaded-model inventory.' }
     return @($json | ConvertFrom-Json)
 }
 
-function Unload-Model([object] $Model, [string] $Reason) {
-    $target = if ($Model.identifier) { [string]$Model.identifier } else { [string]$Model.modelKey }
-    $safeLogName = $target -replace '[^A-Za-z0-9_.-]', '_'
-    & $lms unload $target *> (Join-Path $logs "$safeLogName-unload.log")
-    if ($LASTEXITCODE -ne 0) { throw "Could not unload $target while $Reason. See $logs." }
+function Resolve-SelectedRoute([string] $SettingsPath) {
+    $helper = Join-Path $deploy 'launcher-model-route.mjs'
+    $selectedJson = & $node $helper route --settings-file $SettingsPath
+    if ($LASTEXITCODE -ne 0) { throw 'Could not parse the selected agent-default-model route from the DSH configuration.' }
+    try { return ($selectedJson | ConvertFrom-Json) }
+    catch { throw 'The DSH selected-route helper returned invalid JSON.' }
+}
+
+function Assert-SelectedResidency([string] $SettingsPath, [object[]] $Residents) {
+    $helper = Join-Path $deploy 'launcher-model-route.mjs'
+    $residentsFile = Join-Path ([System.IO.Path]::GetTempPath()) ("dsh-residents-{0}.json" -f [guid]::NewGuid())
+    try {
+        [System.IO.File]::WriteAllText($residentsFile, (ConvertTo-Json -InputObject @($Residents) -Depth 20 -Compress), [System.Text.UTF8Encoding]::new($false))
+        $resultJson = & $node $helper validate --settings-file $SettingsPath --residents $residentsFile
+        if ($LASTEXITCODE -ne 0) { throw "Selected route validation failed: $resultJson" }
+        try { return ($resultJson | ConvertFrom-Json) }
+        catch { throw 'The DSH selected-route helper returned invalid JSON.' }
+    }
+    finally {
+        if (Test-Path -LiteralPath $residentsFile) { [System.IO.File]::Delete($residentsFile) }
+    }
+}
+
+function Resolve-SelectedTransport([string] $SettingsPath) {
+    $helper = Join-Path $deploy 'launcher-model-route.mjs'
+    $providerJson = & $node $helper transport --settings-file $SettingsPath
+    if ($LASTEXITCODE -ne 0) { throw 'Could not resolve the selected route transport from the DSH configuration.' }
+    try { return ($providerJson | ConvertFrom-Json) }
+    catch { throw 'The DSH selected-route helper returned invalid provider JSON.' }
 }
 
 function Install-MissionControlIfNeeded {
@@ -117,59 +143,22 @@ if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { throw "Node.js was not
 # Optional Wigolo CLI is checked only when invoked.
 $missionControlChanged = Install-MissionControlIfNeeded
 
-# A cloud default can start without changing LM Studio residency. This also
-# keeps a Desktop DSH local run intact when Web DSH is launched alongside it.
+# Select the local route named by the DSH configuration. This is read-only:
+# the launcher reports a mismatch but never loads, unloads, or replaces a model.
 $legacySettings = Join-Path $dshHome 'settings.yaml'
-$settingsPath = if (Test-Path -LiteralPath $legacySettings) { $legacySettings } else { Join-Path $dshHome 'profiles\web\cordis.patch.yml' }
-$settingsText = Get-Content -LiteralPath $settingsPath -Raw
-$cloudDefault = [regex]::IsMatch($settingsText, '(?m)(?:^agent-default-model:|^- id: agent-default-model\r?\n(?:  name:[^\r\n]*\r?\n)?  config:)\s*\r?\n\s+provider:\s*ollama\s*\r?\n\s+model:\s*[^\r\n]+:cloud\s*$')
-if ($cloudDefault) {
-    Write-StackLog 'Web default is Ollama Cloud; preserving LM Studio resident models.'
+$profileSettings = Join-Path $dshHome 'profiles\web\cordis.patch.yml'
+$settingsPath = if (Test-Path -LiteralPath $profileSettings -PathType Leaf) { $profileSettings } else { $legacySettings }
+if (-not (Test-Path -LiteralPath $settingsPath -PathType Leaf)) { throw "DSH configuration was not found at $settingsPath." }
+$selectedRoute = Resolve-SelectedRoute $settingsPath
+$transport = Resolve-SelectedTransport $settingsPath
+$routeSummary = "$($selectedRoute.provider)/$($selectedRoute.model)"
+if ($transport.kind -ne 'lmstudio') {
+    Write-StackLog "Selected provider-managed route $routeSummary; LM Studio residency was not inspected or changed."
 } else {
-if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
-try { Invoke-RestMethod 'http://127.0.0.1:1234/v1/models' -TimeoutSec 5 | Out-Null }
-catch { throw 'Start the LM Studio local server on port 1234, then run this shortcut again.' }
-
-$approved = @(
-    [pscustomobject]@{ key='halo/qwen3.6-35b-a3b-q6'; id='halo-fast-35b-q6'; contextLength=65536; parallel=1 },
-    [pscustomobject]@{ key='halo/qwen3.8-27b-q6-fast'; id='halo-fallback-27b-q6'; contextLength=65536; parallel=1 }
-)
-$approvedIds = @($approved | ForEach-Object { $_.id })
-$loaded = Get-LoadedModels
-foreach ($resident in $loaded) {
-    if ($approvedIds -notcontains [string]$resident.identifier) {
-        Unload-Model $resident 'enforcing the approved DSH model set'
-    }
-}
-foreach ($model in $approved) {
-    $loaded = Get-LoadedModels
-    $resident = @($loaded | Where-Object { $_.identifier -eq $model.id }) | Select-Object -First 1
-    $wrongEnvelope = $resident -and (
-        [string]$resident.modelKey -ne $model.key -or
-        [int]$resident.contextLength -ne $model.contextLength -or
-        [int]$resident.parallel -ne $model.parallel
-    )
-    if ($wrongEnvelope) {
-        Unload-Model $resident 'correcting its model key, context window, or parallel slots'
-        $resident = $null
-    }
-    if (-not $resident) {
-        $modelLog = Join-Path $logs "$($model.id)-load.log"
-        $mtpArgs = if ($model.id -eq 'halo-fallback-27b-q6') { @('--speculative-draft-mtp','--speculative-draft-max-tokens','4','--speculative-draft-min-continue-probability','0.2') } else { @('--no-speculative-draft-mtp') }
-        $loadArgs = @('load', [string]$model.key, '--identifier', [string]$model.id, '--context-length', [string]$model.contextLength, '--parallel', [string]$model.parallel, '--gpu', 'max') + $mtpArgs + @('--yes')
-        & $lms @loadArgs *> $modelLog
-        if ($LASTEXITCODE -ne 0) { throw "Could not load $($model.id). See $modelLog." }
-    }
-}
-
-$loaded = Get-LoadedModels
-if ($loaded.Count -ne $approved.Count) { throw 'LM Studio did not converge to the two approved DSH models.' }
-foreach ($model in $approved) {
-    $resident = @($loaded | Where-Object { $_.identifier -eq $model.id }) | Select-Object -First 1
-    if (-not $resident -or [string]$resident.modelKey -ne $model.key -or [int]$resident.contextLength -ne $model.contextLength -or [int]$resident.parallel -ne $model.parallel) {
-        throw "LM Studio model $($model.id) is not loaded with the approved capacity envelope."
-    }
-}
+    if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
+    $residents = @(Get-ResidentModels)
+    $residency = Assert-SelectedResidency $settingsPath $residents
+    Write-StackLog $residency.message
 }
 
 $dshStarted = $false
@@ -254,4 +243,4 @@ if (-not $NoOpen) {
     Start-Process -FilePath $chrome -ArgumentList @('--new-window', 'http://127.0.0.1:3090/') -WindowStyle Normal | Out-Null
 }
 
-Write-Output 'DSH and Mission Control are ready; Wigolo is available on demand. LM Studio retains the two approved models.'
+Write-Output "DSH and Mission Control are ready; Wigolo is available on demand. Selected route: $routeSummary."

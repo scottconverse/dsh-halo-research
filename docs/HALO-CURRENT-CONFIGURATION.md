@@ -218,19 +218,83 @@ Both Web and Desktop Halo DSH now run official **0.2.0-rc.2**. The existing defa
 
 Mission Control reads the installed DSH package version and the active Web profile at `C:\Users\scott\.dsh-stock\profiles\web\cordis.patch.yml`. Settings changes target exact provider/model rows in the live and repository profiles, preserve differing default selections, and use staged checks, backups, compare-and-swap and rollback. Context occupancy is labeled as an estimated next provider prompt; the last provider prompt is shown separately, and overflow estimates remain visible. Validation is tied to the profile bytes and installed DSH version. The Web brain role is the Q6 35B alias with its verified 65,536-token load context; the worker remains Q4_K_M. See [repair and deployment evidence](HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md).
 
-### 2026-10-07 output-budget audit repair
+## Research fallback repair - 2026-10-07
 
-The hidden pi-ai character-estimate output clamp is disabled for the Web child
-with HALO_DSH_DISABLE_ESTIMATED_OUTPUT_CLAMP=1. The version-pinned, backed-up
-repair is enforced by output-budget-patch.mjs before supported detached launch.
-The 35B main route is now 24,576 output / 65,536 context / High reasoning.
-All four registered compaction policies explicitly set headroomTokens: 4096;
-the installed DSH 0.2 default of 65,536 previously invalidated the 64K budget.
-The effective 24K-reserving pressure threshold is 36,864; retention is 22,528;
-summary max remains 8,192. Seven focused output/compaction checks passed.
-Web restarted with sessions preserved; only 35B remains loaded.
+Web fast-first now treats missing provider/authentication, empty or navigation-only
+bodies, JavaScript shells, and truncation missing the requested evidence as
+unusable results, including HTTP 200. After one unusable stock web result, the
+agent must load desktop-optional-tools and try the existing Wigolo CLI before
+repeating stock fetches. Truncation alone is not proof of a paywall.
+Explicit Reddit requests and community/practitioner research require reddit-search,
+with RSS discovery, validation, pacing, and partial-coverage reporting. Reddit is
+not primary verification of a news claim. No MCP catalog was enabled.
 
-Audit details and remaining findings: HALO-DSH-AUDIT-2026-10-07.md. The launcher
-still reloads both resident roles and delegation still targets the unloaded 27B.
-Four of 149 Mission Control contract checks retain obsolete assumptions.
-No complete news pipeline or live full-summary compaction was claimed.
+Installed Web profile and fast-first preset were updated with backups; only
+persona prefixes changed and parsed unrelated YAML values were preserved.
+The shared optional-tools skill was updated. Web was restarted after the news
+turn ended. LM Studio retained only halo-fast-35b-q6; 27B remained unloaded.
+Wigolo retrieved actual article prose from the same Times-Call URL stock fetch
+returned as navigation. Reddit live validation hit HTTP 429; no further retry
+was made. A future model turn still needs to demonstrate skill selection.
+The failed news turn ended max-tokens with one output token; no finished story
+or editorial audit was observed. This repair does not claim that failure solved.
+
+
+### Native tool fallback added after the prompt-only repair failed
+
+The fast-first tool-catalog now installs a preset-scoped tools/execute hook.
+It automatically tries the existing Wigolo CLI once after unusable stock fetch
+content (including displayed truncation/navigation) or missing/empty stock
+search results. Results pass through the stock output schema and renderer;
+pre-execute policies and post-execute checks remain in place. Cancellation,
+policy denials, protected pages and HTTP 404 do not trigger fetch retries.
+Each CLI call is capped at 25 seconds and bounded output. Failures explicitly
+report partial coverage rather than silently returning navigation as evidence.
+Queries explicitly mentioning Reddit use sequential Reddit RSS and the existing
+reddit-search Python parser, with eight-second pacing and Retry-After handling.
+RSS discovery has unknown comment coverage; no Redlib server was installed.
+
+Nine checks passed, including actual Wigolo retrieval of the failing Times-Call
+article and the real Reddit parser with controlled RSS/429 responses. Live Reddit
+availability remains unverified after its earlier rate limit. Installed adapter
+modules match canonical sources. Web was restarted after the news turn ended;
+35B remains loaded and 27B remains unloaded. The news session again ended at
+max-tokens; this adapter does not claim to fix that separate model termination.
+
+## Current Web audit repairs — October 7, 2026
+
+This section supersedes older launch/residency/default descriptions above for
+DSH Web 0.2.0-rc.2. Web is intentionally OFF at Scott's request. Only the 35B
+is loaded at 65,536 context; 27B is intentionally unloaded.
+
+The selected main route and default delegated route are web-fast /
+halo/qwen3.6-35b-a3b-q6, High reasoning, 24,576 maximum output. Compaction has
+explicit 4,096 headroom across all four policies: effective pressure threshold
+36,864, retention 22,528, summary max 8,192. The supported Web launch disables
+the SDK character-estimate completion clamp while preserving true server
+capacity and normal compaction.
+
+The launcher preserves the operator's saved model choice and validates only
+its effective LM Studio route. It never loads/unloads a fixed model pair or
+removes other resident models. Active profiles/web/cordis.patch.yml takes
+precedence over legacy settings.yaml. External providers manage their own
+availability. Optional 27B selection remains available; manually load it before
+selecting a route that needs it.
+
+Embedded presets in web-profile/cordis.patch.yml are the editable authority.
+External *-preset/agent.cordis.yml files are generated recovery mirrors. After
+editing embedded composition, run node preset-sync.mjs sync and then check.
+Supported detached startup refuses drift, verifies both version-pinned SDK and
+adapter repairs, and preserves the Web-only opt-out environment setting.
+
+The adapter now preserves positive reasoning-token telemetry and rejects
+malformed/non-object historical tool arguments before dispatch, with explicit
+tool/call context and no raw JSON parse cause. Valid replay is unchanged.
+All 149 Mission Control contracts pass. Focused request, replay, launcher,
+compaction and preset checks are detailed in HALO-DSH-AUDIT-2026-10-07.md and
+HALO-DSH-IMPLEMENTATION-2026-10-07-AUDIT-REPAIRS.md. No completed news report,
+live full-summary compaction or live delegation is claimed while Web is off.
+
+Desktop reading/recovery copies and their SHA-256 manifest are synchronized.
+Use the supported Start-StockDSH.ps1 when Scott chooses to resume; direct
+unsupported CLI launches do not automatically inherit the Web repair opt-out.

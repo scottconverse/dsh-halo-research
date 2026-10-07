@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "node mission-control/test/run-all-contracts-serial.mjs",
-    "test:budget": "node output-budget-patch.mjs && node --test test/output-budget.test.mjs test/compaction-budget.test.mjs"
+    "test:budget": "node output-budget-patch.mjs && node adapter-integrity-patch.mjs && node --test test/output-budget.test.mjs test/compaction-budget.test.mjs test/adapter-integrity.test.mjs",
+    "test:audit": "node preset-sync.mjs check && node output-budget-patch.mjs && node adapter-integrity-patch.mjs && node --test test/output-budget.test.mjs test/compaction-budget.test.mjs test/adapter-integrity.test.mjs test/launcher-model-route.test.mjs test/preset-sync.test.mjs test/startup-default.test.mjs test/brain-provider.test.mjs fast-first-preset/research-fallback.test.mjs"
   },
   "dependencies": {
     "@deepseek-ai/dsh": "0.2.0-rc.2",

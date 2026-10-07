@@ -5,6 +5,12 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { restoreStartupDefault } from '../startup-default.mjs';
 
+test('ordinary detached startup preserves the operator model selection', () => {
+  const launcher = readFileSync(new URL('../start-dsh-detached.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(launcher, /restoreStartupDefault\s*\(/);
+  assert.match(launcher, /ensureOutputBudgetPatch\(root\)/);
+});
+
 test('fresh startup restores local model, clears cloud effort, and preserves other settings', () => {
   const dir = mkdtempSync(join(tmpdir(), 'dsh-startup-default-'));
   try {

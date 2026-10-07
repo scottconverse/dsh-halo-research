@@ -12,10 +12,29 @@ Web's lean preset. Their other optional tool groups remain preset-specific.
 
 ## Wigolo on demand
 
-Use stock web_search and web_fetch for routine research when they work.
-If search reports a missing provider or authentication, state that accurately.
-For that case, explicit Wigolo requests, or deeper research, call the existing
-Wigolo CLI through pwsh. This does not enable its MCP catalog or change DSH
+Use stock web_search and web_fetch for routine research when they return usable evidence.
+HTTP success is not content success. A missing provider/authentication error,
+empty body, JavaScript shell, navigation without article text, or truncation
+that omits the requested evidence triggers fallback after ONE unusable result.
+Load this skill and try the existing Wigolo CLI through pwsh before repeating
+stock fetches. Also use Wigolo for explicit requests or deeper research.
+Truncation alone does not establish a paywall. Never retry a dead URL unchanged.
+
+Fetch the same source with Wigolo and inspect the actual body. For a JavaScript
+shell, try --render-js=always. Bound output with --max-content-chars and
+--max-tokens-out; retrieve a needed section when evidence is truncated.
+If that also fails, try one alternative primary source and record the access
+gap. Do not bypass authentication or claim verification from snippets alone.
+
+For explicit Reddit requests, practitioner experience, product opinions,
+troubleshooting, community consensus, or local community signals, load
+reddit-search before Reddit retrieval. Follow its RSS-first discovery,
+structural validation, sequential pacing, configured Redlib enrichment and
+partial-coverage rules. Retrieve RSS/XML through PowerShell and the skill's
+bundled parser when markdown extraction loses required fields. In reporting,
+Reddit supplies leads or attributed community statements, not primary proof.
+
+This uses the existing CLI without enabling its MCP catalog or changing DSH
 configuration. Run help for unfamiliar options rather than inventing them.
 
 ```powershell

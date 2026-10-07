@@ -24,16 +24,16 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   try {
     const source = settings['llm-pi-ai'].providers;
-    assert.equal(source['lmstudio-brain'].baseURL, source.lmstudio.baseURL);
-    assert.deepEqual(source['lmstudio-brain'].models.map(m => m.id), ['halo-brain-35b', 'halo/qwen3.6-35b-a3b']);
-    assert.deepEqual(source.lmstudio.models.map(m => m.id), ['halo-coder-q4km', 'halo/qwen3-coder-30b-a3b-q4km']);
-    assert.deepEqual(settings['agent-default-model'], { provider: 'ollama', model: 'deepseek-v4.1-flash:cloud' });
-    assert.deepEqual(settings['subagent-model-selection'].allowedModels[0], { provider: 'lmstudio-brain', model: 'halo-brain-35b' });
-    const providers = structuredClone({ 'lmstudio-brain': source['lmstudio-brain'], lmstudio: source.lmstudio });
+    assert.equal(source['web-fast'].baseURL, source.lmstudio.baseURL);
+    assert.deepEqual(source['web-fast'].models.map(m => m.id), ['halo/qwen3.6-35b-a3b-q6']);
+    assert.deepEqual(source.lmstudio.models.map(m => m.id), ['halo-coder-q4km']);
+    assert.deepEqual(settings['agent-default-model'], { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'high' });
+    const providers = structuredClone({ 'web-fast': source['web-fast'], lmstudio: source.lmstudio });
     for (const route of Object.values(providers)) route.baseURL = `http://127.0.0.1:${server.address().port}/v1`;
     let adapter;
     apply({
       get: name => name === 'credentials' ? { resolve: async () => ({ value: 'local-test-placeholder' }) } : undefined,
+      fiber: { entry: { options: { id: 'llm-pi-ai' } } }, on() {},
       inject() {}, logger: console,
       llm: {
         registerConfigurableProviders() { return { replace() {} }; },
@@ -41,16 +41,16 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
         registerAdapter(routes, value) { adapter = value; return { replace() {} }; },
       },
     }, Config({ providers }));
-    const brain = await adapter.resolveModel('lmstudio-brain', 'halo-brain-35b');
+    const brain = await adapter.resolveModel('web-fast', 'halo/qwen3.6-35b-a3b-q6');
     assert.equal(brain.reasoning.defaultEffort, 'high');
     assert.deepEqual(brain.reasoning.efforts.map(e => e.id), ['off', 'high']);
     const coder = await adapter.resolveModel('lmstudio', 'halo-coder-q4km');
     assert.equal(coder.reasoning, undefined);
-    assert.equal(brain.context.contextWindow, 131072);
+    assert.equal(brain.context.contextWindow, 65536);
     assert.equal(coder.context.contextWindow, 131072);
     for (const selection of [
-      { provider: 'lmstudio-brain', model: 'halo-brain-35b' },
-      { provider: 'lmstudio-brain', model: 'halo-brain-35b', reasoningEffort: 'off' },
+      { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' },
+      { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'off' },
       { provider: 'lmstudio', model: 'halo-coder-q4km' },
     ]) {
       for await (const chunk of adapter.stream({ ...selection, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' }] }], maxTokens: 8 })) {
@@ -58,7 +58,7 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
       }
     }
     assert.equal(captured.length, 3);
-    assert.deepEqual(captured.map(r => r.model), ['halo-brain-35b', 'halo-brain-35b', 'halo-coder-q4km']);
+    assert.deepEqual(captured.map(r => r.model), ['halo/qwen3.6-35b-a3b-q6', 'halo/qwen3.6-35b-a3b-q6', 'halo-coder-q4km']);
     assert.deepEqual(captured.map(r => r.reasoning_effort), ['high', 'none', undefined]);
   } finally {
     server.closeAllConnections();
