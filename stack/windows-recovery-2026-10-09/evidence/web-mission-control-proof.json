@@ -1,0 +1,42 @@
+{
+  "time": "2026-10-09T04:17:00.4595654-06:00",
+  "keys": [
+    "build",
+    "time",
+    "node",
+    "services",
+    "models",
+    "modelRecovery",
+    "fleet",
+    "sessions",
+    "latestCompletedRun",
+    "liveDecode",
+    "liveEngineDecode",
+    "recentLiveEngineDecode",
+    "recentMeasuredDecode",
+    "sessionsSource",
+    "stalledSessions",
+    "contextPressure",
+    "today",
+    "presets",
+    "plugins",
+    "dshData",
+    "routeRuntime",
+    "residentRoles",
+    "jobs",
+    "memory",
+    "loaders",
+    "brainConfigMismatch",
+    "ram",
+    "gpu",
+    "disk",
+    "machineTotalRamGiB",
+    "validation",
+    "historySpark"
+  ],
+  "build": {
+    "sourceFile": "C:\\Users\\scott\\.dsh-stock\\mission-control\\mission-control.mjs",
+    "sourceSha256": "14F0930DA4C811464541207A1E1744F82F36B19103750D3383B5581EE248B347"
+  },
+  "health": null
+}

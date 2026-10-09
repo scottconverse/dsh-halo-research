@@ -1,5 +1,11 @@
 # Halo stack guide
 
+## Windows recovery — October 9, 2026
+
+Desktop and Web are restored and were tested one at a time. The existing classic LM Studio 0.4.21 in Program Files is in use; no installer ran and Bionic remains excluded. Original Node/PowerShell paths were restored. Desktop's offline-Ollama catalog crash and duplicate preset registrations were repaired, preserving its tuned 27B route. Mission Control now launches through the executable its stop script checks. Wigolo's native SQLite dependency was rebuilt for the restored Node runtime. Both DSH apps and all models are stopped/unloaded after testing.
+
+Desktop passed actual model/file and PowerShell tests at 128K context/24K output. Web passed model/PowerShell/HTTP retrieval at 64K context/24K output, High reasoning. All 36 old session files matched their saved hashes. These are bounded app recovery tests, not a completed news pipeline or full compaction test. Ollama/cloud routes remain unverified and currently unavailable. See [recovery details and evidence](HALO-DSH-IMPLEMENTATION-2026-10-09-WINDOWS-RECOVERY.md).
+
 ## Codex coding-worker transport repair — September 16
 
 Bounded DeepSeek coding workers now have a separate custom Responses route to the signed-in Ollama server at `http://[::1]:11434/v1`. The one-model catalog avoids the incompatible built-in search path; apps, plugins, memories and nested-agent tools are excluded only from this worker invocation. The original `ollama-deepseek` full profile remains available. Main desktop, DSH, Claude and LM Studio settings were not changed by this repair. Because this installed CLI cannot combine the global desktop settings with the isolated profile reliably, use the installed skill's reproducible launcher rather than copying the old `--profile` command.

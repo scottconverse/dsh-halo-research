@@ -106,7 +106,8 @@ if ($null -ne $existingResponse) {
     return
 }
 
-$node = (Get-Command node -ErrorAction Stop).Source
+$node = 'C:\Program Files\nodejs\node.exe'
+if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { throw "Node.js was not found at $node." }
 $logDir = Join-Path ([IO.Path]::GetFullPath($DshRoot)) 'logs'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 $stdoutLog = Join-Path $logDir 'mission-control.stdout.log'

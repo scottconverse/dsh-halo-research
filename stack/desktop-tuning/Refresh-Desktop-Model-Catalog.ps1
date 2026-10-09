@@ -181,7 +181,7 @@ if ($null -ne $ollamaTags) {
         $oldBlock = $profile.Substring($start, $end - $start)
         $oldOllamaStart = $oldBlock.IndexOf('      ollama-local:', [StringComparison]::Ordinal)
         if ($oldOllamaStart -ge 0) {
-            $library.AddRange(@($oldBlock.Substring($oldOllamaStart).TrimEnd("`r", "`n").Split("`n") | ForEach-Object { $_.TrimEnd("`r") }))
+            $library.AddRange([string[]]@($oldBlock.Substring($oldOllamaStart).TrimEnd("`r", "`n").Split("`n") | ForEach-Object { $_.TrimEnd("`r") }))
         }
     }
     $library.Add('      # END generated Desktop model library')

@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "sessionId": "session-976dd447-7567-416b-aeb0-fffe131cc399",
+  "file": "C:\\Users\\scott\\.dsh-stock\\sessions\\--C-Users-scott-Desktop-Code-dsh-halo-research-work-windows-recovery-2026-10-08-web-smoke--\\session-976dd447-7567-416b-aeb0-fffe131cc399\\session.v4.jsonl.zstd",
+  "end": {
+    "type": "turn/end",
+    "seq": 37,
+    "time": 1791541012991,
+    "data": {
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  },
+  "calls": [
+    "pwsh",
+    "web_fetch",
+    "pwsh",
+    "pwsh"
+  ]
+}

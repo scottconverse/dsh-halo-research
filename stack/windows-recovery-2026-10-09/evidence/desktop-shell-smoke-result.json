@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "sessionId": "session-b998e7ec-b714-4f55-8c53-5fe745cf0cc9",
+  "file": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\sessions\\--C-Users-scott-Desktop-Code-dsh-halo-research-work-windows-recovery-2026-10-08-desktop-shell-smoke--\\session-b998e7ec-b714-4f55-8c53-5fe745cf0cc9\\session.v4.jsonl.zstd",
+  "end": {
+    "type": "turn/end",
+    "seq": 24,
+    "time": 1791540866870,
+    "data": {
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  },
+  "toolEventTypes": [
+    "tool/call",
+    "tool/result"
+  ]
+}

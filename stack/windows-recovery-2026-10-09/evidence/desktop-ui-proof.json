@@ -1,0 +1,31 @@
+{
+  "time": "2026-10-09T04:15:13.3601356-06:00",
+  "windows": [
+    {
+      "Id": 11036,
+      "MainWindowTitle": "DeepSeek Harness"
+    },
+    {
+      "Id": 15368,
+      "MainWindowTitle": ""
+    },
+    {
+      "Id": 32584,
+      "MainWindowTitle": ""
+    },
+    {
+      "Id": 40336,
+      "MainWindowTitle": ""
+    },
+    {
+      "Id": 46196,
+      "MainWindowTitle": ""
+    }
+  ],
+  "listeners": [
+    {
+      "LocalPort": 19387,
+      "OwningProcess": 40336
+    }
+  ]
+}

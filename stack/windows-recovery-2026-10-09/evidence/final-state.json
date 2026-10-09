@@ -1,0 +1,15 @@
+{
+  "time": "2026-10-09T04:23:50.1220046-06:00",
+  "loadedModels": null,
+  "dshListeners": [],
+  "runtimeVersions": [
+    "v24.21.0"
+  ],
+  "missionControlTestsPassed": 149,
+  "focusedWebTestsPassed": 51,
+  "optionalWebTestsSkipped": 1,
+  "launcherRetestsPassed": 20,
+  "desktopConfigTestsPassed": 3,
+  "lmStudioInstallerRan": false,
+  "bionicInstalled": false
+}
