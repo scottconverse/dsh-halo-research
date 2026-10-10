@@ -9,7 +9,9 @@ param(
     [string] $MissionControlDataDir,
     [string] $StartDshScript,
     [ValidateRange(1, 300)]
-    [int] $HealthTimeoutSeconds = 30,
+    [int] $HealthTimeoutSeconds = 120,
+    [ValidateRange(1, 300)]
+    [int] $HealthRequestTimeoutSeconds = 30,
     [switch] $NoBrowser
 )
 
@@ -71,14 +73,15 @@ if (-not $NoBrowser) {
 # Reopening the desktop shortcut must reuse an already-running installed build.
 # Never start a duplicate or stop the existing process just to open its page.
 $existingResponse = $null
+$requestTimeout = [Math]::Min($HealthRequestTimeoutSeconds, $HealthTimeoutSeconds)
 try {
-    $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $HealthTimeoutSeconds
+    $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $requestTimeout
 } catch { } # An unavailable service proceeds to the normal cold-start path.
 if ($null -ne $existingResponse) {
     for ($sample = 0; $sample -lt 2; $sample++) {
         if ($sample -gt 0) {
             Start-Sleep -Milliseconds 200
-            $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $HealthTimeoutSeconds
+            $existingResponse = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $requestTimeout
         }
         $existingStatus = $existingResponse.Content | ConvertFrom-Json
         $existingSource = [IO.Path]::GetFullPath([string] $existingStatus.build.sourceFile)
@@ -151,7 +154,12 @@ try {
         }
 
         try {
-            $response = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec 1
+            # /api/status gathers Windows GPU/CIM and LM Studio telemetry. A
+            # one-second request timeout can reject an otherwise healthy cold
+            # server forever. Give each sample time, bounded by the total deadline.
+            $remainingSeconds = [Math]::Ceiling(($deadline - [DateTime]::UtcNow).TotalSeconds)
+            $sampleTimeout = [Math]::Max(1, [Math]::Min($HealthRequestTimeoutSeconds, $remainingSeconds))
+            $response = Invoke-WebRequest -UseBasicParsing -Uri $HealthUri -TimeoutSec $sampleTimeout
             if ($response.StatusCode -eq 200) {
                 $status = $response.Content | ConvertFrom-Json
                 $reportedSource = [IO.Path]::GetFullPath([string] $status.build.sourceFile)

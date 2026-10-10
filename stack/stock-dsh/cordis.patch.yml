@@ -21,7 +21,7 @@
       transport: stdio
       command: C:\Program Files\nodejs\node.exe
       args:
-      - C:\Users\scott\AppData\Roaming\npm\node_modules\@modelcontextprotocol\server-memory\dist\index.js
+      - C:\Users\scott\Desktop\Code\dsh-halo-research\stack\stock-dsh\node_modules\@modelcontextprotocol\server-memory\dist\index.js
       cwd: C:\Users\scott\Desktop\Code
       env:
         MEMORY_FILE_PATH: C:\Users\scott\.dsh-stock\memory\memory.json

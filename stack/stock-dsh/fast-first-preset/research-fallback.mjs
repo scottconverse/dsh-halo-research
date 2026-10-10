@@ -98,6 +98,33 @@ export function createResearchHook({ invoke = run, redditSearch } = {}) {
   };
 }
 
+// A named subreddit is a search boundary, not text to send to global search.
+export function redditRssRequest(query) {
+  const subreddits = new Map();
+  const capture = (_match, subreddit) => {
+    subreddits.set(subreddit.toLowerCase(), subreddit);
+    return ' ';
+  };
+  let terms = query.replace(/(?:^|\s)(?:site:)?(?:https?:\/\/)?(?:(?:www|old)\.)?reddit\.com\/r\/([a-z0-9_]+)\/?(?=\s|$)/gi, capture);
+  terms = terms.replace(/(?:^|\s)\/?r\/([a-z0-9_]+)\/?(?=\s|$)/gi, capture);
+  if (subreddits.size > 1) throw new Error('Multiple Reddit subreddit scopes in one query; coverage partial. Split them into separate searches.');
+  const subreddit = subreddits.values().next().value;
+  const url = new URL(subreddit ? `https://www.reddit.com/r/${subreddit}/search.rss` : 'https://www.reddit.com/search.rss');
+  url.searchParams.set('q', terms.replace(/\bsite:(?:(?:www|old)\.)?reddit\.com\/?(?=\s|$)/gi, '').trim());
+  if (subreddit) url.searchParams.set('restrict_sr', 'on');
+  url.searchParams.set('sort', 'new');
+  return { url, subreddit };
+}
+
+export function isRedditPostInScope(link, subreddit) {
+  try {
+    const url = new URL(link);
+    const match = url.pathname.match(/^\/r\/([a-z0-9_]+)\/comments\/[a-z0-9]+\/[^/]+\/?$/i);
+    return url.protocol === 'https:' && !url.username && !url.password &&
+      url.hostname === 'www.reddit.com' && Boolean(match) &&
+      (!subreddit || match[1].toLowerCase() === subreddit.toLowerCase());
+  } catch { return false; }
+}
 let redditQueue = Promise.resolve();
 let lastRedditRequest = 0;
 let redditBlockedUntil = 0;
@@ -106,6 +133,7 @@ export async function redditRssSearch(queries, signal) {
     const sources = [];
     for (const query of queries.slice(0, 2)) {
       signal?.throwIfAborted();
+      const { url, subreddit } = redditRssRequest(query);
       if (Date.now() < redditBlockedUntil) throw new Error('Reddit RSS rate limited; coverage partial. No further request sent.');
       const wait = Math.max(0, 8000 - (Date.now() - lastRedditRequest));
       if (wait) await new Promise((resolve, reject) => {
@@ -115,9 +143,6 @@ export async function redditRssSearch(queries, signal) {
         signal?.addEventListener('abort', abort, { once: true });
       });
       signal?.throwIfAborted();
-      const url = new URL('https://www.reddit.com/search.rss');
-      url.searchParams.set('q', query.replace(/site:reddit\.com/gi, '').trim());
-      url.searchParams.set('sort', 'new');
       lastRedditRequest = Date.now();
       const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 HaloResearch/1.0' },
         signal: AbortSignal.any([signal || new AbortController().signal, AbortSignal.timeout(15000)]) });
@@ -134,13 +159,13 @@ export async function redditRssSearch(queries, signal) {
       const records = Array.isArray(parsed) ? parsed : parsed.threads || [];
       for (const record of records.slice(0, 6)) {
         const link = record.canonical_reddit_url;
-        if (link && new URL(link).hostname === 'www.reddit.com') sources.push({ url: link,
+        if (isRedditPostInScope(link, subreddit)) sources.push({ url: link,
           ...(record.title ? { title: record.title } : {}),
           ...(record.body_text ? { snippet: record.body_text.slice(0, 800) } : {}),
           ...(record.created_at ? { publishedAt: record.created_at } : {}) });
       }
     }
-    if (!sources.length) throw new Error('No validated Reddit records; coverage partial.');
+    if (!sources.length) throw new Error('No validated Reddit posts matching the requested scope; coverage partial.');
     return { isError: false, value: { sources, truncated: true,
       content: 'Reddit RSS discovery through reddit-search parser. Comment coverage is unknown. Posts are attributed community statements and leads, not primary verification.' } };
   };

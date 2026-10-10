@@ -11,7 +11,7 @@ const { parse } = stock('yaml');
 const { apply, Config } = await import(pathToFileURL(stock.resolve('@deepseek-ai/dsh-llm-pi-ai')));
 const settings = parse(readFileSync(process.env.HALO_SETTINGS_UNDER_TEST || new URL('../settings.yaml', import.meta.url), 'utf8'));
 
-test('stock adapter sends High by default, none for explicit Off, and no reasoning for coder', async () => {
+test('stock adapter defaults Off, preserves explicit High, and sends no reasoning for coder', async () => {
   const captured = [];
   const server = createServer(async (req, res) => {
     let body = '';
@@ -27,7 +27,7 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
     assert.equal(source['web-fast'].baseURL, source.lmstudio.baseURL);
     assert.deepEqual(source['web-fast'].models.map(m => m.id), ['halo/qwen3.6-35b-a3b-q6']);
     assert.deepEqual(source.lmstudio.models.map(m => m.id), ['halo-coder-q4km']);
-    assert.deepEqual(settings['agent-default-model'], { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'high' });
+    assert.deepEqual(settings['agent-default-model'], { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'off' });
     const providers = structuredClone({ 'web-fast': source['web-fast'], lmstudio: source.lmstudio });
     for (const route of Object.values(providers)) route.baseURL = `http://127.0.0.1:${server.address().port}/v1`;
     let adapter;
@@ -42,7 +42,7 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
       },
     }, Config({ providers }));
     const brain = await adapter.resolveModel('web-fast', 'halo/qwen3.6-35b-a3b-q6');
-    assert.equal(brain.reasoning.defaultEffort, 'high');
+    assert.equal(brain.reasoning.defaultEffort, 'off');
     assert.deepEqual(brain.reasoning.efforts.map(e => e.id), ['off', 'high']);
     const coder = await adapter.resolveModel('lmstudio', 'halo-coder-q4km');
     assert.equal(coder.reasoning, undefined);
@@ -51,15 +51,16 @@ test('stock adapter sends High by default, none for explicit Off, and no reasoni
     for (const selection of [
       { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' },
       { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'off' },
+      { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'high' },
       { provider: 'lmstudio', model: 'halo-coder-q4km' },
     ]) {
       for await (const chunk of adapter.stream({ ...selection, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' }] }], maxTokens: 8 })) {
         assert.notEqual(chunk.type, 'error');
       }
     }
-    assert.equal(captured.length, 3);
-    assert.deepEqual(captured.map(r => r.model), ['halo/qwen3.6-35b-a3b-q6', 'halo/qwen3.6-35b-a3b-q6', 'halo-coder-q4km']);
-    assert.deepEqual(captured.map(r => r.reasoning_effort), ['high', 'none', undefined]);
+    assert.equal(captured.length, 4);
+    assert.deepEqual(captured.map(r => r.model), ['halo/qwen3.6-35b-a3b-q6', 'halo/qwen3.6-35b-a3b-q6', 'halo/qwen3.6-35b-a3b-q6', 'halo-coder-q4km']);
+    assert.deepEqual(captured.map(r => r.reasoning_effort), ['none', 'none', 'high', undefined]);
   } finally {
     server.closeAllConnections();
     await new Promise(resolve => server.close(resolve));

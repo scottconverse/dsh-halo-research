@@ -140,7 +140,7 @@ test('version-pinned adapter patch is idempotent, guarded, and backup-backed', (
   const partial = source.split(ARGUMENTS_MARKER).join('removed-marker');
   assert.throws(() => patchSource(partial), /Partially patched|Unexpected|refusing a blind patch/);
   assert.throws(() => patchSource(source.replace(REASONING_MARKER, 'drifted-reasoning-marker')), /Partially patched|Unexpected/);
-  const backup = new URL('../runtime-patch-backups/dsh-llm-pi-ai-0.2.0-rc.2-index.js.original', import.meta.url);
+  const backup = new URL(`../runtime-patch-backups/dsh-llm-pi-ai-${PATCHED_VERSION}-index.js.original`, import.meta.url);
   assert.ok(existsSync(backup), 'pristine backup must exist');
   const pristine = readFileSync(backup, 'utf8');
   assert.equal(createHash('sha256').update(pristine).digest('hex').toUpperCase(), PRISTINE_SHA256);

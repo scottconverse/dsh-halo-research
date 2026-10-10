@@ -182,14 +182,15 @@ test('legacy flat agent-default-model YAML remains readable', () => {
   });
 });
 
-test('launcher and helper expose no model load, unload, or forced-pair controls', () => {
+test('launcher and helper expose no unload or forced-pair controls', () => {
   const launcher = readFileSync(new URL('../Start-StockDSH.ps1', import.meta.url), 'utf8');
   const helper = readFileSync(new URL('../launcher-model-route.mjs', import.meta.url), 'utf8');
   const combined = launcher + '\n' + helper;
-  assert.doesNotMatch(combined, /\blms\s+(?:load|unload)\b/i);
+  assert.doesNotMatch(combined, /\blms\s+unload\b/i);
+  assert.doesNotMatch(launcher, /['"]unload['"]/i);
   assert.doesNotMatch(combined, /\bUnload-Model\b/i);
   assert.doesNotMatch(combined, /approved\s+(?:set|pair|models)/i);
-  assert.doesNotMatch(combined, /loaded\.Count\s*-ne/);
+  assert.match(launcher, /Ensure-SelectedModel/);
   assert.match(launcher, /Get-ResidentModels/);
   assert.match(launcher, /Assert-SelectedResidency/);
 });
@@ -232,4 +233,124 @@ test('production launcher prefers active Web profile over a stale legacy file', 
     const child = spawnSync('powershell.exe', ['-NoProfile', '-Command', script], { encoding: 'utf8', windowsHide: true });
     assert.equal(child.status, 0, child.stderr); assert.equal(child.stdout.trim(), profile);
   } finally { rmSync(dir, { recursive: true }); }
+});
+
+
+// Extract the real startup functions without executing the launcher top level.
+// The fixture LMS script cannot contact a service or load weights.
+function runStartupResidency({ residents = [], provider = provider35b, selected = selected35b,
+  loadFailure = false, loadResult } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-autoload-'));
+  const psQuote = value => "'" + String(value).replaceAll("'", "''") + "'";
+  try {
+    const fixture = join(dir, 'fixture.json');
+    const calls = join(dir, 'calls.json');
+    const state = join(dir, 'residents.json');
+    const mockLms = join(dir, 'mock-lms.ps1');
+    const settings = join(dir, 'profile.yml');
+    writeFileSync(fixture, JSON.stringify({ loadFailure, loadResult: loadResult ?? resident35b }));
+    writeFileSync(calls, '[]');
+    writeFileSync(state, JSON.stringify(residents));
+    writeFileSync(settings, JSON.stringify([{ id: 'agent-default-model', config: selected },
+      { id: 'llm-pi-ai', config: { providers: { [selected.provider]: provider } } }]));
+    writeFileSync(mockLms, `param([Parameter(ValueFromRemainingArguments=$true)][string[]] $CliArgs)
+$fixture=Get-Content -LiteralPath ${psQuote(fixture)} -Raw|ConvertFrom-Json
+$global:LASTEXITCODE=0
+if($CliArgs[0] -eq 'ps'){Get-Content -LiteralPath ${psQuote(state)} -Raw;return}
+if($CliArgs[0] -ne 'load'){throw 'Unexpected mock command'}
+$prior=Get-Content -LiteralPath ${psQuote(calls)} -Raw|ConvertFrom-Json
+$prior+=,[object[]]$CliArgs
+ConvertTo-Json -InputObject @($prior) -Depth 20 -Compress|Set-Content -LiteralPath ${psQuote(calls)}
+if($fixture.loadFailure){$global:LASTEXITCODE=7;return}
+ConvertTo-Json -InputObject @($fixture.loadResult) -Depth 20 -Compress|Set-Content -LiteralPath ${psQuote(state)}
+`);
+    const launcher = fileURLToPath(new URL('../Start-StockDSH.ps1', import.meta.url));
+    const deploy = fileURLToPath(new URL('..', import.meta.url));
+    const script = `$ErrorActionPreference='Stop';Set-StrictMode -Version Latest
+$ast=[System.Management.Automation.Language.Parser]::ParseFile(${psQuote(launcher)},[ref]$null,[ref]$null)
+$names=@('Get-ResidentModels','Resolve-SelectedRoute','Resolve-SelectedTransport','Resolve-SelectedProvider','Assert-SelectedResidency','Ensure-SelectedModel')
+$defs=$ast.FindAll({param($item) $item -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $names -contains $item.Name},$false)
+. ([scriptblock]::Create(($defs.Extent.Text -join [Environment]::NewLine)))
+$deploy=${psQuote(deploy)};$node=${psQuote(process.execPath)};$lms=${psQuote(mockLms)};$logs=${psQuote(dir)}
+try{$selection=Resolve-SelectedRoute ${psQuote(settings)};$transport=Resolve-SelectedTransport ${psQuote(settings)}
+$result=Ensure-SelectedModel ${psQuote(settings)} $selection $transport
+[pscustomobject]@{ok=$true;result=$result}|ConvertTo-Json -Depth 20 -Compress
+}catch{[pscustomobject]@{ok=$false;error=$_.Exception.Message}|ConvertTo-Json -Compress}
+`;
+    const child = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', script],
+      { encoding: 'utf8', windowsHide: true });
+    assert.equal(child.status, 0, child.stderr);
+    const result = JSON.parse(child.stdout.trim());
+    result.calls = JSON.parse(readFileSync(calls, 'utf8').replace(/^\uFEFF/, ''));
+    result.residents = JSON.parse(readFileSync(state, 'utf8').replace(/^\uFEFF/, ''));
+    return result;
+  } finally { rmSync(dir, { recursive: true }); }
+}
+
+test('production startup autoloads only the saved model when residency is empty', () => {
+  const result = runStartupResidency();
+  assert.equal(result.ok, true, result.error);
+  assert.equal(result.calls.length, 1);
+  assert.deepEqual(result.calls[0], ['load', selected35b.model, '--identifier', selected35b.model,
+    '--context-length', '65536', '--parallel', '1', '--gpu', 'max', '--yes']);
+  assert.equal(result.residents.length, 1);
+});
+
+test('production startup reuses selected residency and preserves other models without loading', () => {
+  for (const residents of [[resident35b], [resident35b, unknownResident]]) {
+    const result = runStartupResidency({ residents });
+    assert.equal(result.ok, true, result.error);
+    assert.deepEqual(result.calls, []);
+    assert.deepEqual(result.residents, residents);
+  }
+});
+
+test('production startup refuses another resident or wrong envelope without loading or unloading', () => {
+  for (const residents of [[unknownResident], [{ ...resident35b, contextLength: 32768 }]]) {
+    const result = runStartupResidency({ residents });
+    assert.equal(result.ok, false);
+    assert.match(result.error, /Selected local route/);
+    assert.deepEqual(result.calls, []);
+    assert.deepEqual(result.residents, residents);
+  }
+});
+
+test('production startup cloud bypass never invokes LMS even when local residency is empty', () => {
+  const result = runStartupResidency({ selected: cloudDefault,
+    provider: { baseURL: 'http://127.0.0.1:11434/v1' } });
+  assert.equal(result.ok, true, result.error);
+  assert.deepEqual(result.calls, []);
+  assert.deepEqual(result.residents, []);
+});
+
+test('production startup stops after a failed load and validates the returned capacity', () => {
+  const failed = runStartupResidency({ loadFailure: true });
+  assert.equal(failed.ok, false);
+  assert.match(failed.error, /Could not automatically load selected model/);
+  assert.equal(failed.calls.length, 1);
+  assert.deepEqual(failed.residents, []);
+  const wrongCapacity = runStartupResidency({ loadResult: { ...resident35b, contextLength: 32768 } });
+  assert.equal(wrongCapacity.ok, false);
+  assert.match(wrongCapacity.error, /expects 65536/);
+  assert.equal(wrongCapacity.calls.length, 1);
+});
+
+test('production startup uses model context override and requires positive capacity before loading', () => {
+  const overridden = runStartupResidency({ provider: { ...provider35b, defaultContextWindow: 131072 },
+    loadResult: resident35b });
+  assert.equal(overridden.ok, true, overridden.error);
+  assert.equal(overridden.calls[0][5], '65536');
+  const inherited = runStartupResidency({ provider: { baseURL: provider35b.baseURL, defaultContextWindow: 32768, defaultParallel: 2 },
+    loadResult: { ...resident35b, contextLength: 32768, parallel: 2 } });
+  assert.equal(inherited.ok, true, inherited.error);
+  assert.equal(inherited.calls[0][5], '32768');
+  assert.equal(inherited.calls[0][7], '2');
+  const defaultParallel = runStartupResidency({ provider: { baseURL: provider35b.baseURL, defaultContextWindow: 65536 } });
+  assert.equal(defaultParallel.ok, true, defaultParallel.error);
+  assert.equal(defaultParallel.calls[0][7], '1');
+  const invalid = runStartupResidency({ provider: { ...provider35b,
+    models: [{ id: selected35b.model, contextWindow: 0 }] } });
+  assert.equal(invalid.ok, false);
+  assert.match(invalid.error, /requires a positive context window/);
+  assert.deepEqual(invalid.calls, []);
 });

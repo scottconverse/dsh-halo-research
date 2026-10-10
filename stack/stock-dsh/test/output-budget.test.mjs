@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { OPT_OUT, patchSource, locateSdk } from '../output-budget-patch.mjs';
+import { OPT_OUT, PATCHED_VERSION, patchSource, locateSdk } from '../output-budget-patch.mjs';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
@@ -32,7 +32,7 @@ test('version-pinned patch is idempotent and rejects unknown implementations', (
 });
 
 test('pristine installed SDK backup receives exactly the scoped opt-out', () => {
-  const pristine = readFileSync(new URL('../runtime-patch-backups/pi-ai-0.87.1-simple-options.js.original', import.meta.url), 'utf8');
+  const pristine = readFileSync(new URL(`../runtime-patch-backups/pi-ai-${PATCHED_VERSION}-simple-options.js.original`, import.meta.url), 'utf8');
   assert.ok(!pristine.includes(OPT_OUT));
   const patched = patchSource(pristine);
   assert.ok(patched.includes(`process.env.${OPT_OUT} === "1"`));

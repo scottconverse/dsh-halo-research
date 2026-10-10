@@ -79,11 +79,11 @@ function Wait-ForWigoloMcpChild([int] $TimeoutSeconds = 60) {
 }
 
 function Get-ResidentModels {
-    # Read-only inventory. This launcher validates operator choices but never
-    # changes LM Studio residency.
+    # Read-only inventory; only Ensure-SelectedModel may load into an empty inventory.
     $json = & $lms ps --json | Out-String
     if ($LASTEXITCODE -ne 0) { throw 'LM Studio did not return its loaded-model inventory.' }
-    return @($json | ConvertFrom-Json)
+    $parsed = $json | ConvertFrom-Json
+    foreach ($resident in $parsed) { if ($null -ne $resident) { Write-Output $resident } }
 }
 
 function Resolve-SelectedRoute([string] $SettingsPath) {
@@ -117,6 +117,46 @@ function Resolve-SelectedTransport([string] $SettingsPath) {
     catch { throw 'The DSH selected-route helper returned invalid provider JSON.' }
 }
 
+function Resolve-SelectedProvider([string] $SettingsPath, [string] $Provider) {
+    $helper = Join-Path $deploy 'launcher-model-route.mjs'
+    $providerJson = (& $node $helper provider --settings-file $SettingsPath --provider $Provider 2>&1 | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0) { throw "Could not read the selected provider capacity: $providerJson" }
+    try { return ($providerJson | ConvertFrom-Json) }
+    catch { throw 'The DSH selected-route helper returned invalid provider JSON.' }
+}
+
+function Ensure-SelectedModel([string] $SettingsPath, [object] $Selected, [object] $Transport) {
+    $route = "$($Selected.provider)/$($Selected.model)"
+    if ($Transport.kind -ne 'lmstudio') {
+        return [pscustomobject]@{ message = "Selected provider-managed route $route; LM Studio residency was not inspected or changed." }
+    }
+    if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
+    $residents = @(Get-ResidentModels)
+    if ($residents.Count -gt 0) {
+        # Reuse the selected resident, or report a mismatch. Never add a second model.
+        return (Assert-SelectedResidency $SettingsPath $residents)
+    }
+    $provider = Resolve-SelectedProvider $SettingsPath $Selected.provider
+    if (-not $provider) { throw "The selected local provider $($Selected.provider) has no capacity configuration." }
+    $models = if ($provider.PSObject.Properties['models']) { @($provider.models) } else { @() }
+    $configuredModel = @($models | Where-Object { $_.id -eq $Selected.model }) | Select-Object -First 1
+    $context = if ($configuredModel -and $configuredModel.PSObject.Properties['contextWindow']) { [int]$configuredModel.contextWindow }
+        elseif ($provider.PSObject.Properties['defaultContextWindow']) { [int]$provider.defaultContextWindow } else { 0 }
+    $parallel = if ($provider.PSObject.Properties['defaultParallel']) { [int]$provider.defaultParallel } else { 1 }
+    if ($context -le 0 -or $parallel -le 0) { throw "Selected route $route requires a positive context window and parallel count before automatic loading." }
+    # The saved route is the exact model key and serving identifier. LM Studio's
+    # saved alias retains its tuning; no speculative-decoding override is imposed.
+    $safeLogName = [string]$Selected.model -replace '[^A-Za-z0-9_.-]', '_'
+    $modelLog = Join-Path $logs "$safeLogName-load.log"
+    $loadArgs = @('load', [string]$Selected.model, '--identifier', [string]$Selected.model,
+        '--context-length', [string]$context, '--parallel', [string]$parallel, '--gpu', 'max', '--yes')
+    & $lms @loadArgs *> $modelLog
+    if ($LASTEXITCODE -ne 0) { throw "Could not automatically load selected model $route. See $modelLog." }
+    $residents = @(Get-ResidentModels)
+    if ($residents.Count -ne 1) { throw "Expected only the selected model after automatic loading; LM Studio returned $($residents.Count) residents. No models were unloaded. Inspect LM Studio before restarting." }
+    return (Assert-SelectedResidency $SettingsPath $residents)
+}
+
 function Install-MissionControlIfNeeded {
     if (-not (Test-Path -LiteralPath $missionControlSource -PathType Leaf)) {
         throw "Mission Control source is missing: $missionControlSource"
@@ -143,8 +183,8 @@ if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { throw "Node.js was not
 # Optional Wigolo CLI is checked only when invoked.
 $missionControlChanged = Install-MissionControlIfNeeded
 
-# Select the local route named by the DSH configuration. This is read-only:
-# the launcher reports a mismatch but never loads, unloads, or replaces a model.
+# Preserve the saved route. Load it only when LM Studio has no resident models;
+# otherwise reuse it or report a mismatch without loading or unloading anything.
 $legacySettings = Join-Path $dshHome 'settings.yaml'
 $profileSettings = Join-Path $dshHome 'profiles\web\cordis.patch.yml'
 $settingsPath = if (Test-Path -LiteralPath $profileSettings -PathType Leaf) { $profileSettings } else { $legacySettings }
@@ -152,14 +192,8 @@ if (-not (Test-Path -LiteralPath $settingsPath -PathType Leaf)) { throw "DSH con
 $selectedRoute = Resolve-SelectedRoute $settingsPath
 $transport = Resolve-SelectedTransport $settingsPath
 $routeSummary = "$($selectedRoute.provider)/$($selectedRoute.model)"
-if ($transport.kind -ne 'lmstudio') {
-    Write-StackLog "Selected provider-managed route $routeSummary; LM Studio residency was not inspected or changed."
-} else {
-    if (-not (Test-Path -LiteralPath $lms -PathType Leaf)) { throw "LM Studio CLI was not found at $lms." }
-    $residents = @(Get-ResidentModels)
-    $residency = Assert-SelectedResidency $settingsPath $residents
-    Write-StackLog $residency.message
-}
+$residency = Ensure-SelectedModel $settingsPath $selectedRoute $transport
+Write-StackLog $residency.message
 
 $dshStarted = $false
 if (-not (Assert-DshPortOwner 3080)) {

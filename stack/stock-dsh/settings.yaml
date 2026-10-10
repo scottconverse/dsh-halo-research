@@ -3,7 +3,7 @@ permission:
 agent-default-model:
   provider: web-fast
   model: halo/qwen3.6-35b-a3b-q6
-  reasoningEffort: high
+  reasoningEffort: off
 agent-presets:
   default: fast-first
 llm-pi-ai:
@@ -132,7 +132,7 @@ llm-pi-ai:
       - text
       defaultContextWindow: 65536
       defaultMaxTokens: 24576
-      reasoning: high
+      reasoning: off
       streamIdleTimeoutMs: 600000
       models:
       - id: halo/qwen3.6-35b-a3b-q6

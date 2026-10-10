@@ -1,3 +1,17 @@
+## October 9, 2026: current Web deployment after upgrade and audit
+
+DSH Web now runs **0.2.1-alpha.2**, the newest upstream GitHub release checked today. This is a prerelease; npm's ordinary latest tag still selected 0.2.0-rc.2 at the upgrade. Active stock packages and profile module resolution were aligned with alpha.2 rather than leaving old profile-local packages in use.
+
+The approved Web default is **Qwen 35B Q6 through LM Studio**, serving identifier `halo/qwen3.6-35b-a3b-q6`, **65,536 context / 24,576 maximum output / parallel 1 / reasoning Off**. Fresh provider headers and actual LM Studio residency confirmed these values. Explicit effort choices remain available. The earlier generic 128K brain/worker notes below do not describe this Web route.
+
+Double-click **Start DSH Web**. If LM Studio has no resident model, the launcher loads the exact saved local selection. If that selection is already resident, it reuses it. A different resident model causes a clear mismatch error; it does not add or unload a model or silently adopt the other selection. Cloud selections bypass local loading. **Stop DSH + Wigolo** stops the owned Web/Mission Control processes while preserving LM Studio residency. The real Chrome launch path passed after this upgrade.
+
+Wigolo's CLI fallback worked in an actual model session after native search lacked credentials. Reddit subreddit RSS routing was repaired and verified in a resumed session using only r/Longmont results. **Redlib belongs to the reddit-search skill** as optional full-post/comment enrichment. The surviving pinned Redlib installation at `C:\Users\scott\TownReporterTools\Redlib` passed its live usable gate on loopback 18080 (HTTP 200, 25 posts); RSS success and Redlib usability are separate checks of the same skill workflow. The automatic Web search hook returns RSS discovery; it does not itself perform Redlib enrichment.
+
+Mission Control passed 215 live acceptance checks, including installed build/receipt identity, configuration, model residency, memory writer/store, snapshots and the restored hourly/startup memory snapshot task. Its slow cold-start timeout was repaired. The missing memory MCP dependency now uses the pinned deployment-local package. Host memory health does not imply that memory tools are exposed by the lean session catalog.
+
+Web regression gates passed 61 tests with one optional live article test skipped; the Mission Control runner passed 149 tests and the two new slow-start tests passed separately. Live tests covered file/PowerShell tools, skill loading, LSP, web fetch, research fallbacks, persisted-session resume and cancellation. Browser automation returned ERR_BLOCKED_BY_CLIENT, so visual UI acceptance remains unconfirmed. A complete news pipeline and automatic full compaction were not exercised. See [upgrade audit and evidence](HALO-DSH-IMPLEMENTATION-2026-10-09-WEB-ALPHA2.md). Earlier dated sections below are historical snapshots and may describe superseded settings.
+
 ## October 9, 2026: Web shortcut startup error repaired
 
 The restored Start DSH Web shortcut reached the launcher but failed because LM Studio had no resident model. The selected route was web-fast/halo/qwen3.6-35b-a3b-q6. Loaded only that model at context 65536, parallel 1, and verified the exact Launch-StockDSH.ps1 path opened Chrome with DSH and Mission Control. Mission Control returned HTTP 200; DSH listened on 3080; loaded-model inventory contained only the selected 35B Q6 model.

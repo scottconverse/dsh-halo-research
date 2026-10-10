@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createResearchHook, needsFallback, parseCliJson, wigoloFetch, redditRssSearch } from './research-fallback.mjs';
+import { createResearchHook, needsFallback, parseCliJson, wigoloFetch, redditRssSearch, redditRssRequest, isRedditPostInScope } from './research-fallback.mjs';
 import { apply } from './tool-catalog.mjs';
 
 const signal = new AbortController().signal;
@@ -58,11 +58,73 @@ test('CLI payload parser ignores prefixed log lines and rejects malformed result
   assert.equal(parseCliJson('{"log":"ready"}\n' + payload).http_status, 200);
   assert.throws(() => parseCliJson('no JSON'));
 });
-test('Reddit RSS is normalized by the real skill parser, then rate limits stop further requests', async () => {
+test('named subreddit queries select the restricted RSS endpoint and remove the scope from search terms', () => {
+  for (const query of ['site:reddit.com/r/Longmont local news', 'site:www.reddit.com/r/Longmont/ local news', 'r/Longmont local news']) {
+    const { url, subreddit } = redditRssRequest(query);
+    assert.equal(subreddit, 'Longmont');
+    assert.equal(url.pathname, '/r/Longmont/search.rss');
+    assert.equal(url.searchParams.get('restrict_sr'), 'on');
+    assert.equal(url.searchParams.get('q'), 'local news');
+    assert.equal(url.searchParams.get('sort'), 'new');
+  }
+  assert.throws(() => redditRssRequest('site:reddit.com/r/Longmont site:reddit.com/r/Boulder news'), /Multiple.*partial/);
+});
+test('ordinary global Reddit queries retain global discovery without an invented subreddit scope', () => {
+  for (const query of ['Reddit Longmont', 'site:reddit.com Longmont']) {
+    const { url, subreddit } = redditRssRequest(query);
+    assert.equal(subreddit, undefined);
+    assert.equal(url.pathname, '/search.rss');
+    assert.equal(url.searchParams.has('restrict_sr'), false);
+    assert.equal(url.searchParams.get('q'), query.startsWith('site:') ? 'Longmont' : query);
+  }
+});
+test('canonical thread validation requires the requested subreddit rather than hostname alone', () => {
+  assert.equal(isRedditPostInScope('https://www.reddit.com/r/longmont/comments/abc123/council/', 'Longmont'), true);
+  for (const link of ['https://www.reddit.com/r/AIdaily_news/comments/abc123/council/',
+    'https://www.reddit.com/r/Longmont/', 'https://www.reddit.com/login',
+    'https://www.reddit.com.evil.example/r/Longmont/comments/abc123/council/',
+    'https://user@www.reddit.com/r/Longmont/comments/abc123/council/', 'not a URL'])
+    assert.equal(isRedditPostInScope(link, 'Longmont'), false, link);
+});
+test('scoped RSS drops unrelated posts, rejects unrelated-only discovery and respects cancellation during pacing', async () => {
   const originalFetch = globalThis.fetch;
   let requests = 0;
-  globalThis.fetch = async () => {
+  const unrelated = '<entry><title>Unrelated news</title><link href="https://www.reddit.com/r/AIdaily_news/comments/abc123/news/"/><content type="html">Unrelated statement.</content></entry>';
+  const relevant = '<entry><title>Local question</title><link href="https://www.reddit.com/r/longmont/comments/def456/local_question/"/><content type="html">A local statement.</content></entry>';
+  globalThis.fetch = async url => {
     requests++;
+    assert.equal(url.pathname, '/r/Longmont/search.rss');
+    assert.equal(url.searchParams.get('q'), 'local news');
+    assert.equal(url.searchParams.get('restrict_sr'), 'on');
+    return new Response('<feed xmlns="http://www.w3.org/2005/Atom">' + unrelated + (requests === 1 ? relevant : '') + '</feed>');
+  };
+  try {
+    const result = await redditRssSearch(['site:reddit.com/r/Longmont local news'], signal);
+    assert.equal(result.isError, false);
+    assert.equal(result.value.sources.length, 1);
+    assert.match(result.value.sources[0].url, /\/r\/longmont\/comments\/def456\//);
+    const controller = new AbortController();
+    const pending = redditRssSearch(['site:reddit.com/r/Longmont local news'], controller.signal);
+    const timer = setTimeout(() => controller.abort(), 20);
+    try {
+      const cancelled = await pending;
+      assert.equal(cancelled.isError, true);
+      assert.match(cancelled.content[0].text, /abort/i);
+      assert.equal(requests, 1);
+    } finally { clearTimeout(timer); }
+    const unrelatedOnly = await redditRssSearch(['site:reddit.com/r/Longmont local news'], signal);
+    assert.equal(unrelatedOnly.isError, true);
+    assert.match(unrelatedOnly.content[0].text, /No validated.*requested scope.*partial/);
+    assert.equal(unrelatedOnly.value, undefined);
+    assert.equal(requests, 2);
+  } finally { globalThis.fetch = originalFetch; }
+});test('Reddit RSS is normalized by the real skill parser, then rate limits stop further requests', async () => {
+  const originalFetch = globalThis.fetch;
+  let requests = 0;
+  globalThis.fetch = async url => {
+    requests++;
+    assert.equal(url.pathname, '/search.rss');
+    assert.equal(url.searchParams.has('restrict_sr'), false);
     if (requests > 1) return new Response('', { status: 429, headers: { 'retry-after': '60' } });
     return new Response('<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>Local question</title><link href="https://www.reddit.com/r/Longmont/comments/abc123/local_question/"/><updated>2026-10-07T12:00:00Z</updated><content type="html">A community statement.</content></entry></feed>', { status: 200 });
   };

@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 
 // Deployment-scoped opt-out. Other pi-ai consumers keep the upstream behavior.
 export const OPT_OUT = 'HALO_DSH_DISABLE_ESTIMATED_OUTPUT_CLAMP';
+export const PATCHED_VERSION = '1.0.2';
 const original = 'export function clampMaxTokensToContext(model, context, maxTokens) {\n';
 const replacement = original +
   '    // Halo DSH: explicit output budgets must not be overwritten by a character estimate.\n' +
@@ -26,7 +27,7 @@ export function locateSdk(root = dirname(fileURLToPath(import.meta.url))) {
   const adapter = createRequire(cli).resolve('@deepseek-ai/dsh-llm-pi-ai/package.json');
   const sdk = join(dirname(adapter), '..', '..', '@earendil-works', 'pi-ai');
   const version = JSON.parse(readFileSync(join(sdk, 'package.json'), 'utf8')).version;
-  if (version !== '0.87.1') throw new Error(`Unreviewed pi-ai version ${version}; expected 0.87.1.`);
+  if (version !== PATCHED_VERSION) throw new Error(`Unreviewed pi-ai version ${version}; expected ${PATCHED_VERSION}.`);
   return sdk;
 }
 
@@ -35,14 +36,14 @@ export function ensureOutputBudgetPatch(root) {
   const target = join(sdk, 'dist', 'api', 'simple-options.js');
   const before = readFileSync(target, 'utf8');
   const after = patchSource(before);
-  if (before.replace(/\r\n/g, '\n') === after) return { changed: false, version: '0.87.1' };
+  if (before.replace(/\r\n/g, '\n') === after) return { changed: false, version: PATCHED_VERSION };
   const backupDir = join(root || dirname(fileURLToPath(import.meta.url)), 'runtime-patch-backups');
   mkdirSync(backupDir, { recursive: true });
-  const backup = join(backupDir, 'pi-ai-0.87.1-simple-options.js.original');
+  const backup = join(backupDir, `pi-ai-${PATCHED_VERSION}-simple-options.js.original`);
   if (!existsSync(backup)) writeFileSync(backup, before);
   writeFileSync(target, after);
   if (!readFileSync(target, 'utf8').includes(replacement)) throw new Error('Patch readback failed.');
-  return { changed: true, version: '0.87.1' };
+  return { changed: true, version: PATCHED_VERSION };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

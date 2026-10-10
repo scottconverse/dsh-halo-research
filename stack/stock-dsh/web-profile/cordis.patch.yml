@@ -306,7 +306,7 @@
           - text
         defaultContextWindow: 65536
         defaultMaxTokens: 24576
-        reasoning: high
+        reasoning: off
         streamIdleTimeoutMs: 600000
         models:
           - id: halo/qwen3.6-35b-a3b-q6
@@ -385,7 +385,7 @@
                 community statement, not primary verification of a news claim. Do not
                 automatically invoke pairing-team. Exact counts come from code. Keep
                 tool output concise. Finish once the requested outcome is verified.
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied in the runtime context.
 
           - id: lean-tool-catalog
             name: 'file:///C:/Users/scott/.dsh-stock/.agent-presets/fast-first/tool-catalog.mjs'
@@ -534,11 +534,11 @@
           # ── identity ────────────────────────────────────────────────────────────────
 
           # The preset's own persona, shadowing the deployment default for this agent.
-          # `{{model}}` and `{{cwd}}` resolve from the agent's own route and workspace.
+          # `{{model}}` resolves from the agent route; runtime context supplies the working directory.
           - id: persona
             name: '@deepseek-ai/dsh-persona'
             config:
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied in the runtime context.
               prefix: >-
                 You are a coding agent powered by the {{model}} model. For
                 Reddit or subreddit research, load the reddit-search skill and
@@ -872,11 +872,11 @@
           # ── identity ────────────────────────────────────────────────────────────────
 
           # The preset's own persona, shadowing the deployment default for this agent.
-          # `{{model}}` and `{{cwd}}` resolve from the agent's own route and workspace.
+          # `{{model}}` resolves from the agent route; runtime context supplies the working directory.
           - id: persona
             name: '@deepseek-ai/dsh-persona'
             config:
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied in the runtime context.
               prefix: >-
                 You are a coding agent powered by the {{model}} model. For
                 Reddit or subreddit research, load the reddit-search skill and
@@ -1196,7 +1196,7 @@
                 instructions, inspect relevant code, implement the requested
                 change, and run focused verification. Keep tool output concise.
                 Finish once the requested outcome is verified.
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied in the runtime context.
 
           - id: lean-tool-catalog
             name: 'file:///C:/Users/scott/.dsh-stock/.agent-presets/local-lean/tool-catalog.mjs'

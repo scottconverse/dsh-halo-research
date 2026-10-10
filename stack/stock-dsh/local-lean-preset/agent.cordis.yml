@@ -7,7 +7,7 @@
   config:
     prefix: >-
       You are a coding agent powered by {{model}}. Read project instructions, inspect relevant code, implement the requested change, and run focused verification. Keep tool output concise. Finish once the requested outcome is verified.
-    suffix: Your working directory is {{cwd}}.
+    suffix: Use the working directory supplied in the runtime context.
 
 - id: lean-tool-catalog
   name: './tool-catalog.mjs'
