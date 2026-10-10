@@ -99,7 +99,7 @@ function Assert-SelectedResidency([string] $SettingsPath, [object[]] $Residents)
     $residentsFile = Join-Path ([System.IO.Path]::GetTempPath()) ("dsh-residents-{0}.json" -f [guid]::NewGuid())
     try {
         [System.IO.File]::WriteAllText($residentsFile, (ConvertTo-Json -InputObject @($Residents) -Depth 20 -Compress), [System.Text.UTF8Encoding]::new($false))
-        $resultJson = & $node $helper validate --settings-file $SettingsPath --residents $residentsFile
+        $resultJson = (& $node $helper validate --settings-file $SettingsPath --residents $residentsFile 2>&1 | Out-String).Trim()
         if ($LASTEXITCODE -ne 0) { throw "Selected route validation failed: $resultJson" }
         try { return ($resultJson | ConvertFrom-Json) }
         catch { throw 'The DSH selected-route helper returned invalid JSON.' }

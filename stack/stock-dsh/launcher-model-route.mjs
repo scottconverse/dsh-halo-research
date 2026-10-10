@@ -137,6 +137,7 @@ const invokedDirectly = process.argv[1] && (
 );
 
 if (invokedDirectly) {
+  try {
   let modeIndex = process.argv.findIndex(arg => ['route', 'provider', 'validate', 'transport'].includes(arg));
   if (modeIndex < 0) modeIndex = 1;
   const mode = process.argv[modeIndex];
@@ -166,4 +167,8 @@ if (invokedDirectly) {
     throw new Error('Usage: node launcher-model-route.mjs <route|provider|validate> ...');
   }
   process.stdout.write(JSON.stringify(result));
+  } catch (error) {
+    process.stderr.write(`${error.message}\n`);
+    process.exitCode = 1;
+  }
 }
