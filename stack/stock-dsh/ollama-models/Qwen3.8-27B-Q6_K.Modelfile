@@ -1,0 +1,12 @@
+FROM C:\Users\scott\.lmstudio\models\lmstudio-community\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q6_K.gguf
+TEMPLATE {{ .Prompt }}
+RENDERER qwen3.8
+PARSER qwen3.5
+PARAMETER num_ctx 131072
+PARAMETER num_predict 24576
+PARAMETER temperature 1
+PARAMETER top_k 20
+PARAMETER top_p 0.95
+PARAMETER min_p 0
+PARAMETER repeat_penalty 1
+PARAMETER presence_penalty 0

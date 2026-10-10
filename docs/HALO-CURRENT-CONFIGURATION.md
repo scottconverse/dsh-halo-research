@@ -1,5 +1,10 @@
 ## October 9, 2026: current Web deployment after upgrade and audit
 
+## DSH Web default — October 10, 2026
+
+Web now uses **Qwen3.8 27B Q6_K through Ollama with observed ROCm**, thinking Off, 128K context and 24K output allowance. All 30 previous picker entries remain; the new route makes 31. One real Longmont homepage fetch completed through Wigolo. Desktop was unchanged. Comparison-only installs and the temporary 35B test model were removed. See [installation and verification](HALO-DSH-IMPLEMENTATION-2026-10-10-WEB-OLLAMA-27B.md).
+
+
 DSH Web now runs **0.2.1-alpha.2**, the newest upstream GitHub release checked today. This is a prerelease; npm's ordinary latest tag still selected 0.2.0-rc.2 at the upgrade. Active stock packages and profile module resolution were aligned with alpha.2 rather than leaving old profile-local packages in use.
 
 The approved Web default is **Qwen 35B Q6 through LM Studio**, serving identifier `halo/qwen3.6-35b-a3b-q6`, **65,536 context / 24,576 maximum output / parallel 1 / reasoning Off**. Fresh provider headers and actual LM Studio residency confirmed these values. Explicit effort choices remain available. The earlier generic 128K brain/worker notes below do not describe this Web route.
