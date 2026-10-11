@@ -1100,3 +1100,14 @@ Mission Control GET /api/status on correct port3090 at23:20:08.275UTC returned i
 The screenshot-only Desktop observation with accessibility disabled stalled and was aborted after160.8seconds without an image. This is a failed observation, not evidence Desktop or its picker is defective. No model selection/inference occurred. Haiku55 is saved and the correct Desktop profile was launched after the edit, but its displayed row remains independently unverified. Do not repeat the same UI call or claim a pass. Live compaction still has no verified end-to-end result; discarded custom code was not rebuilt.
 
 Latest combined recorded Codex totals: raw 277456747, cached input 269043072, uncached input 7470326, output 943349. This snapshot includes root, descendant task workers and discovered platform reviews through 2026-10-11T23:22:25.090Z; later publication/final response add usage. Historical unretained local inference is unknown, not zero. Full session breakdown is in LATEST-COMBINED-USAGE.json.
+
+
+## Retained timeout evidence and current runtime — 2026-10-11T23:30:48Z
+
+Read-only Ollama log inspection found server-1.log retains the whole 19:23:04Z–19:33:05Z failed-compaction interval. There are startup/scheduler INFO records and five model_show_cache warnings, but no retained per-request prefill, generation, completion, abort, or token metrics. No causal repair is justified from these logs; a ten-minute pi-ai stream-idle timeout is established, its underlying cause is not. No further inference or compaction request was started.
+
+Current existing reporting-session journal has 583 events and ends with session/end-seed seq581 at22:27:00.201Z. The discarded replacement compaction has start seq580 but no matching end or command/done; this is not a successful checkpoint. Current elevated HTTP status at23:30:48.435Z returned streamConnected=true, lastFrameAgeS=25, active=[], queuedInputs=0, dataStale=false. Ollama /api/ps returned models=[]. A worker's sandbox socket failure was resolved by the established elevated read path, not treated as a server fault.
+
+Goal remains active and incomplete: live compaction success and independent observation of the Haiku5.5 picker row remain unverified. No repeated UI capture, benchmark, new model request, session interruption or speculative source/config change occurred in this continuation. Unrelated dirty work was preserved.
+
+Combined recorded Codex accounting through 2026-10-11T23:30:31.128Z: raw total 282543284; input 281563517; cached input 273840000 (subset); uncached input 7723517; output 979767; reasoning 488187 (subset of output). Subsequent publication/final response adds usage. Full resumed-session rows and disjoint-window method are in LATEST-COMBINED-USAGE.json. Historical unretained local inference remains unknown.

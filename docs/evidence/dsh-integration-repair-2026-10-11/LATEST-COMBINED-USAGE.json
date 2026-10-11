@@ -1,31 +1,51 @@
 {
-  "asOfUtc": "2026-10-11T23:22:25.090Z",
+  "asOfUtc": "2026-10-11T23:30:31.128Z",
+  "method": "Sum three disjoint retained windows; cached input is a subset of input, reasoning is a subset of output.",
+  "sourceFiles": [
+    "INCIDENT-USAGE-2026-10-11.json",
+    "INCIDENT-CLOSEOUT-USAGE.json",
+    "RESUMED-REPAIR-USAGE.json"
+  ],
   "totals": {
-    "input_tokens": 276513398,
-    "cached_input_tokens": 269043072,
+    "input_tokens": 281563517,
+    "cached_input_tokens": 273840000,
     "cache_write_input_tokens": 0,
-    "output_tokens": 943349,
-    "reasoning_output_tokens": 469534,
-    "total_tokens": 277456747
+    "output_tokens": 979767,
+    "reasoning_output_tokens": 488187,
+    "total_tokens": 282543284
   },
-  "uncachedInput": 7470326,
-  "resumedSessions": [
+  "uncachedInput": 7723517,
+  "caveats": [
+    "Subsequent tool calls and final response are outside this snapshot.",
+    "Historical unretained local inference is unknown, not zero.",
+    "Raw traffic is not current context size or a billable token total."
+  ],
+  "latestVerification": {
+    "utc": "2026-10-11T23:30:48.435Z",
+    "streamConnected": true,
+    "lastFrameAgeS": 25,
+    "active": [],
+    "queuedInputs": 0,
+    "dataStale": false,
+    "ollamaModels": []
+  },
+  "resumedRows": [
     {
       "id": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
       "source": "vscode",
       "file": "C:/Users/scott/.codex/sessions/2026/09/10/rollout-2026-09-10T18-51-41-01a08df2-e63f-7eb2-bc40-dc699bcdf778.jsonl",
-      "records": 190,
+      "records": 210,
       "first": "2026-10-11T22:14:11.101Z",
-      "last": "2026-10-11T23:22:15.284Z",
+      "last": "2026-10-11T23:30:24.132Z",
       "usage": {
-        "input_tokens": 31780430,
-        "cached_input_tokens": 31424640,
-        "output_tokens": 58697,
-        "reasoning_output_tokens": 18482,
-        "total_tokens": 31839127
+        "input_tokens": 34697046,
+        "cached_input_tokens": 34233472,
+        "output_tokens": 70376,
+        "reasoning_output_tokens": 21280,
+        "total_tokens": 34767422
       },
-      "uncachedInput": 355790,
-      "lastInput": 185857,
+      "uncachedInput": 463574,
+      "lastInput": 118257,
       "maxInput": 216168
     },
     {
@@ -250,19 +270,19 @@
       },
       "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
       "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T17-01-42-01a12d33-5bb8-7be0-98f2-fa7486b0eb81.jsonl",
-      "records": 11,
+      "records": 12,
       "first": "2026-10-11T23:01:47.039Z",
-      "last": "2026-10-11T23:22:18.896Z",
+      "last": "2026-10-11T23:22:35.415Z",
       "usage": {
-        "input_tokens": 1021551,
-        "cached_input_tokens": 914688,
-        "output_tokens": 1472,
-        "reasoning_output_tokens": 711,
-        "total_tokens": 1023023
+        "input_tokens": 1133416,
+        "cached_input_tokens": 1025024,
+        "output_tokens": 1568,
+        "reasoning_output_tokens": 736,
+        "total_tokens": 1134984
       },
-      "uncachedInput": 106863,
-      "lastInput": 110897,
-      "maxInput": 110897
+      "uncachedInput": 108392,
+      "lastInput": 111865,
+      "maxInput": 111865
     },
     {
       "id": "01a12d35-8988-7b80-9b16-78b2cd8bb2a9",
@@ -459,29 +479,58 @@
       "uncachedInput": 15823,
       "lastInput": 50329,
       "maxInput": 50329
+    },
+    {
+      "id": "01a12d47-91d5-7473-a1b4-81b1bba45a15",
+      "source": {
+        "subagent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+            "depth": 1,
+            "agent_path": "/root/luna_compaction_cause",
+            "agent_nickname": "Leibniz",
+            "agent_role": null
+          }
+        }
+      },
+      "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T17-23-47-01a12d47-91d5-7473-a1b4-81b1bba45a15.jsonl",
+      "records": 24,
+      "first": "2026-10-11T23:23:53.144Z",
+      "last": "2026-10-11T23:30:27.325Z",
+      "usage": {
+        "input_tokens": 1949856,
+        "cached_input_tokens": 1871872,
+        "output_tokens": 24499,
+        "reasoning_output_tokens": 15746,
+        "total_tokens": 1974355
+      },
+      "uncachedInput": 77984,
+      "lastInput": 112166,
+      "maxInput": 112166
+    },
+    {
+      "id": "01a12d4d-1ed5-7152-a61f-77e0f226480d",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T17-29-51-01a12d4d-1ed5-7152-a61f-77e0f226480d.jsonl",
+      "records": 1,
+      "first": "2026-10-11T23:29:54.134Z",
+      "last": "2026-10-11T23:29:54.134Z",
+      "usage": {
+        "input_tokens": 71782,
+        "cached_input_tokens": 5888,
+        "output_tokens": 144,
+        "reasoning_output_tokens": 84,
+        "total_tokens": 71926
+      },
+      "uncachedInput": 65894,
+      "lastInput": 71782,
+      "maxInput": 71782
     }
-  ],
-  "missionControl": {
-    "observedUtc": "2026-10-11T23:20:08.275Z",
-    "durationMs": 8968,
-    "streamConnected": true,
-    "lastFrameAgeS": 35,
-    "active": [],
-    "queuedInputs": 0,
-    "dataStale": false
-  },
-  "desktopPickerObservation": {
-    "screenshotOnly": true,
-    "accessibility": false,
-    "imageReturned": false,
-    "abortedAfterSeconds": 160.8,
-    "modelSelected": false,
-    "inference": false
-  },
-  "caveats": [
-    "Raw includes cached input; reasoning is included in output.",
-    "Original incident, publication closeout, resumed work windows are disjoint.",
-    "Historical local compaction inference tokens remain unknown.",
-    "Snapshot excludes subsequent publication and final response."
   ]
 }
