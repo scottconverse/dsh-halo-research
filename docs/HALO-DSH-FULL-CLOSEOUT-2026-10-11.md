@@ -1092,3 +1092,11 @@ Desktop profile commit 773c7ee3 contains Claude model ID claude-haiku-5-5 in bot
 The latest correct-port Mission Control status had jobs.active=[], queuedInputs=0, dataStale=false. A subsequent read showed streamConnected=false and no lastFrameAgeS; active/queued counts and stream health are separate claims. No further Web service probe was made.
 
 Live maintenance compaction remains unverified. The custom multi-chunk compactor remains discarded and the stock one-pass text-only baseline restored. The original reporting job was not resumed.
+
+## Final stream observation and UI-tool limitation — 2026-10-11T23:22:25.090Z
+
+Mission Control GET /api/status on correct port3090 at23:20:08.275UTC returned in8968ms: streamConnected=true, lastFrameAgeS=35, active=[], queuedInputs=0, dataStale=false. Earlier8second diagnostic expired too soon. Source reconnect code implements backoff/watchdog; no persistent stream defect was established and no source repair was made.
+
+The screenshot-only Desktop observation with accessibility disabled stalled and was aborted after160.8seconds without an image. This is a failed observation, not evidence Desktop or its picker is defective. No model selection/inference occurred. Haiku55 is saved and the correct Desktop profile was launched after the edit, but its displayed row remains independently unverified. Do not repeat the same UI call or claim a pass. Live compaction still has no verified end-to-end result; discarded custom code was not rebuilt.
+
+Latest combined recorded Codex totals: raw 277456747, cached input 269043072, uncached input 7470326, output 943349. This snapshot includes root, descendant task workers and discovered platform reviews through 2026-10-11T23:22:25.090Z; later publication/final response add usage. Historical unretained local inference is unknown, not zero. Full session breakdown is in LATEST-COMBINED-USAGE.json.
