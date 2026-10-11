@@ -4,7 +4,7 @@ Accounting snapshot: 2026-10-11T22:45:53.096Z. This document supersedes earlier 
 
 ## Outcome
 
-The deployment is restored to a usable Web startup state, but the entire original goal is not proven complete. The custom multi-chunk compactor was discarded; live one-pass compaction and Desktop/native picker UI remain unverified. The original reporting job was not resumed.
+The custom multi-chunk compactor was discarded and the stock one-pass path restored; live compaction remains unverified, so the original goal is incomplete. The documented Desktop evaluation launcher now starts with the intended profile, but Haiku 5.5 picker visibility has not been independently observed. The original reporting job was not resumed.
 
 ## Changes completed
 
@@ -13,7 +13,7 @@ The deployment is restored to a usable Web startup state, but the entire origina
 - Web profile remained byte-for-byte unchanged: Ollama qwen3.8:27b-q6_K, thinking Off, context 131072, maximum output 24576. Configured context and output allowance are separate limits.
 - The supported launcher refused a competing LM Studio resident. Its queue was checked idle/zero before only that exact model was unloaded. The source of its earlier load remains unknown.
 - After the sequential Desktop launcher check, supported Web startup succeeded. Last retained Mission Control receipt at 22:34:47 UTC (4:34:47 PM MDT) reported DSH up, Ollama API healthy, no listed models, and zero queued inputs. That is the last observed runtime state, not a fresh poll at report-writing time. No inference followed it.
-- Desktop launcher exited 0; saved cloud default ollama/deepseek-v4.1-flash:cloud, reasoning Off, and its 9-row generated library were preserved. Native window/picker was not observed; exit 0 is not a UI pass.
+- The documented Launch-DeepSeek-Harness-Evaluation.vbs started Desktop at 2026-10-11T23:11:55.651Z, after the edited profile mtime 22:57:39Z. Main PID 61072 has title DeepSeek Harness; host PID 50224 command line loads dsh-desktop-eval/home/profiles/desktop. The earlier bare executable launch used the unrelated C:\Users\scott\.dsh profile and showed first-run sign-in; Scott closed that instance. No data-loss claim is made. Claude/Codex picker entries were user-confirmed; Haiku 5.5 visibility remains unobserved. No inference or model load occurred.
 
 ## Earlier end-to-end evidence retained
 
@@ -28,10 +28,10 @@ The deployment is restored to a usable Web startup state, but the entire origina
 ## Still broken, unresolved, or not verified
 
 1. Live maintenance compaction: earlier failures/timeouts and the seq580 attempt produced no verified accepted summary/checkpoint/history reduction. Removing the custom chunk planner does not establish that the baseline works. No further compaction test was run.
-2. Desktop actual window and native/provider picker integration: unverified. All model/preset combinations were not exercised. Desktop headless mode was not built.
+2. Claude/Codex picker presence is user-confirmed; Haiku 5.5 row visibility remains unverified despite the saved profile being loaded. Other models and presets were not exhaustively exercised. Desktop headless mode was not built.
 3. The one resumed Web smoke request was stopped prematurely by the operator at 77.079 seconds, before the agreed 3-minute bound. It returned no final answer. Only optional-tool skill loading was observed. This is inconclusive, not a Wigolo failure or success. It consumed 16,050 locally reported tokens and should not have been presented as verification.
 4. Longmont report completion is not established; the stopped reporting job was not restarted.
-5. GitHub publication of the rollback: local commit exists, but automatic approval review rejected pushing origin/master, citing a no-push/publication authorization conflict. It was not retried or bypassed. Remote publication therefore remains blocked.
+5. GitHub publication: root successfully pushed six existing commits to origin/master, advancing 3124a85f to b6ab48db. The earlier automatic-review rejection is retained only as historical chronology; publication is no longer blocked.
 6. Historical current/running descriptions remain in the chronological repair document beneath an explicit superseding section. They are historical evidence, not present status.
 
 ## Resource and conduct failures
@@ -1083,3 +1083,12 @@ Updated combined recorded Codex totals through this snapshot: raw 253051687; cac
 Added the verified Claude model ID claude-haiku-5-5 to the Desktop native-provider model list and metadata. The canonical profile and deployed profile are byte-identical at SHA-256 BBB53DE3337C22A5DF20EC342F196AEBE68C8D3105CDD16E6FE4B8CA900CB255; root audit confirmed only the two additive rows changed and existing model/default settings remain intact. The official Anthropic sources are [Haiku overview](https://www.anthropic.com/claude/haiku) and [Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5).
 
 A YAML parse was not run: the Desktop process was absent at the bounded check and the checked runtime dependency directory was absent. No substitute parser was used. No app reload or inference occurred; runtime picker visibility remains pending a profile reload. Receipt: HAIKU55-PICKER-RECEIPT-SANITIZED.json.
+## Latest current status — 2026-10-11T23:14:38.061Z
+
+GitHub publication succeeded: six existing commits were pushed to origin/master, from 3124a85f to b6ab48db. The earlier automatic-review rejection remains historical and is superseded by this receipt.
+
+Desktop profile commit 773c7ee3 contains Claude model ID claude-haiku-5-5 in both canonical and evaluation profiles. After a mistaken bare-executable start used the unrelated default .dsh profile and displayed first-run sign-in, Scott closed that instance. The documented Launch-DeepSeek-Harness-Evaluation.vbs then set DSH_HOME to the evaluation home and started main PID 61072 at 2026-10-11T23:11:55.651Z; host PID 50224 loaded the exact evaluation profiles/desktop path, after profile mtime 22:57:39Z. No inference or model load occurred. Claude and Codex picker presence is user-confirmed; Haiku 5.5 picker visibility remains unobserved.
+
+The latest correct-port Mission Control status had jobs.active=[], queuedInputs=0, dataStale=false. A subsequent read showed streamConnected=false and no lastFrameAgeS; active/queued counts and stream health are separate claims. No further Web service probe was made.
+
+Live maintenance compaction remains unverified. The custom multi-chunk compactor remains discarded and the stock one-pass text-only baseline restored. The original reporting job was not resumed.

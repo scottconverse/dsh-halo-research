@@ -1,17 +1,40 @@
 {
-  "asOfUtc": "2026-10-11T22:59:19.079Z",
-  "commit": "773c7ee3",
+  "asOfUtc": "2026-10-11T23:14:38.061Z",
+  "publishedCommit": "b6ab48db",
+  "publication": "six existing commits pushed to origin/master from 3124a85f",
+  "haikuCommit": "773c7ee3",
   "model": "claude-haiku-5-5",
   "sourceLiveMatch": true,
   "unrelatedContentPreserved": true,
-  "yamlParse": "not run: Desktop process absent and checked runtime dependency directory absent; no substitute parser used",
-  "runningAppReloaded": false,
-  "inferenceRun": false,
+  "sourceLiveSha256": "BBB53DE3337C22A5DF20EC342F196AEBE68C8D3105CDD16E6FE4B8CA900CB255",
   "officialSources": [
     "https://www.anthropic.com/claude/haiku",
     "https://www.anthropic.com/claude-haiku-5-5"
   ],
-  "sourceLiveSha256": "BBB53DE3337C22A5DF20EC342F196AEBE68C8D3105CDD16E6FE4B8CA900CB255",
-  "runtimeProcessCheck": "DeepSeek Harness process not found at this check",
-  "checkedRuntimeDependencyDirectory": "C:\\Users\\scott\\AppData\\Local\\Programs\\DeepSeek Harness\\resources\\app.asar.unpacked\\node_modules (absent)"
+  "pickerRows": {
+    "claudeCodex": "user-confirmed",
+    "haiku55": "not independently observed"
+  },
+  "desktop": {
+    "dshHome": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home",
+    "startUtc": "2026-10-11T23:11:55.651Z",
+    "launcher": "Launch-DeepSeek-Harness-Evaluation.vbs",
+    "profilePath": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\profiles\\desktop",
+    "hostPid": 50224,
+    "mainPid": 61072,
+    "title": "DeepSeek Harness",
+    "profileMtimeUtc": "2026-10-11T22:57:39Z"
+  },
+  "missionControl": {
+    "latestLastFrameAgeS": null,
+    "url": "http://127.0.0.1:3090/api/status",
+    "active": [],
+    "queuedInputs": 0,
+    "latestStreamConnected": false,
+    "dataStale": false
+  },
+  "wrongProfileLaunch": "A bare executable launch used C:\\Users\\scott\\.dsh\\profiles\\desktop and displayed first-run sign-in; Scott closed it. No data-loss claim.",
+  "inferenceRun": false,
+  "modelLoad": false,
+  "compaction": "unverified; custom multi-chunk code discarded; stock one-pass text-only path restored"
 }

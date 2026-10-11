@@ -2,7 +2,13 @@
 
 ## Current status
 
-Updated 2026-10-11 22:32 UTC. This is the current status. The detailed status and compaction-plan text below is an earlier audit snapshot; any “pending,” “running,” or proposed chunked-repair wording there is historical and superseded by this section.
+Updated 2026-10-11 23:14 UTC. This is the current status; the detailed status below includes earlier audit snapshots, superseded wherever it conflicts with this section.
+
+
+
+GitHub publication succeeded: six existing commits were pushed to origin/master, 3124a85f to b6ab48db. The prior review rejection is historical.
+Desktop: the documented evaluation VBS loaded the edited profile after its mtime; main PID 61072 and host PID 50224 use the evaluation profile path. The earlier bare executable selected the wrong default profile and showed first-run sign-in; Scott closed that instance. Claude/Codex picker entries are user-confirmed; Haiku 5.5 row visibility is not yet observed. No inference or model load occurred.
+Mission Control at 3090 most recently reported active=[] and queuedInputs=0 with dataStale=false; a subsequent status read reported streamConnected=false and no lastFrameAgeS. Compaction remains unverified; the custom chunked implementation remains discarded.
 
 The custom multi-chunk compactor has been discarded. `stack/stock-dsh/compaction-text-only.mjs` and its focused test file were restored byte-for-byte to the `6e24164` baseline. The deployed Web profile points to that source file. This restores the original one-pass, text-only stock-handler path; it is not evidence that live compaction succeeds. The output-budget, Ollama Undici transport, and retrieval repairs were preserved. No new `/compact` command, chunk harness, or model inference was used to test compaction. The earlier seq580 attempt still has no verified successful checkpoint or history reduction.
 

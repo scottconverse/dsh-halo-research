@@ -26,3 +26,5 @@ from this directory with:
 ```powershell
 Get-ChildItem -File -Recurse | Where-Object Name -ne 'SHA256SUMS.txt' | Sort-Object FullName | ForEach-Object { $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash.ToLowerInvariant(); '{0}  {1}' -f $hash, $_.FullName.Substring((Get-Location).Path.Length + 1) } | Set-Content -Encoding utf8 SHA256SUMS.txt
 ```
+
+Current closeout: FULL-REPAIR-CLOSEOUT-2026-10-11.md. The combined accounting snapshot and non-overlapping post-snapshot delta are FULL-CLOSEOUT-ACCOUNTING.json and POST-SNAPSHOT-USAGE.json. The sanitized Desktop Haiku 5.5 receipt is HAIKU55-PICKER-RECEIPT.json.
