@@ -1,0 +1,17 @@
+{
+  "asOfUtc": "2026-10-11T22:59:19.079Z",
+  "commit": "773c7ee3",
+  "model": "claude-haiku-5-5",
+  "sourceLiveMatch": true,
+  "unrelatedContentPreserved": true,
+  "yamlParse": "not run: Desktop process absent and checked runtime dependency directory absent; no substitute parser used",
+  "runningAppReloaded": false,
+  "inferenceRun": false,
+  "officialSources": [
+    "https://www.anthropic.com/claude/haiku",
+    "https://www.anthropic.com/claude-haiku-5-5"
+  ],
+  "sourceLiveSha256": "BBB53DE3337C22A5DF20EC342F196AEBE68C8D3105CDD16E6FE4B8CA900CB255",
+  "runtimeProcessCheck": "DeepSeek Harness process not found at this check",
+  "checkedRuntimeDependencyDirectory": "C:\\Users\\scott\\AppData\\Local\\Programs\\DeepSeek Harness\\resources\\app.asar.unpacked\\node_modules (absent)"
+}

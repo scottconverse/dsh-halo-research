@@ -1077,3 +1077,9 @@ Updated combined recorded Codex totals: raw 249692494; cached input 242252288; u
 A later process check found five DeepSeek Harness processes at the installed executable path, including a titled Reddit thread retrieval verification window. This supersedes the earlier no-process snapshot; no new launch occurred. The launcher starts asynchronously, so exit0 alone does not prove readiness. No launcher defect was established. A read-only accessibility query with screenshots disabled returned no control tree and was aborted after64.3seconds. No window activation, typing, provider selection, or model load occurred. Picker visibility remains unverified; user confirmation was requested. No compaction rebuild, tests, or inference occurred.
 
 Updated combined recorded Codex totals through this snapshot: raw 253051687; cached input 245535104; uncached input 6687646; output 828937. Unknown local historical usage and post-snapshot output caveats remain.
+
+## Desktop Haiku 5.5 picker update — 2026-10-11
+
+Added the verified Claude model ID claude-haiku-5-5 to the Desktop native-provider model list and metadata. The canonical profile and deployed profile are byte-identical at SHA-256 BBB53DE3337C22A5DF20EC342F196AEBE68C8D3105CDD16E6FE4B8CA900CB255; root audit confirmed only the two additive rows changed and existing model/default settings remain intact. The official Anthropic sources are [Haiku overview](https://www.anthropic.com/claude/haiku) and [Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5).
+
+A YAML parse was not run: the Desktop process was absent at the bounded check and the checked runtime dependency directory was absent. No substitute parser was used. No app reload or inference occurred; runtime picker visibility remains pending a profile reload. Receipt: HAIKU55-PICKER-RECEIPT-SANITIZED.json.
