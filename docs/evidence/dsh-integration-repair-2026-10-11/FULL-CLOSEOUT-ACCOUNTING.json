@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2026-10-11T22:49:00.214Z",
+  "asOfUtc": "2026-10-11T22:53:01.470Z",
   "windows": [
     {
       "startUtc": "2026-10-11T17:10:22.000Z",
@@ -11,18 +11,18 @@
     },
     {
       "startUtc": "2026-10-11T22:14:01.667Z",
-      "endUtc": "2026-10-11T22:49:00.214Z"
+      "endUtc": "2026-10-11T22:53:01.470Z"
     }
   ],
   "totals": {
-    "input_tokens": 248877133,
-    "cached_input_tokens": 242252288,
+    "input_tokens": 252222750,
+    "cached_input_tokens": 245535104,
     "cache_write_input_tokens": 0,
-    "output_tokens": 815361,
-    "reasoning_output_tokens": 396382,
-    "total_tokens": 249692494
+    "output_tokens": 828937,
+    "reasoning_output_tokens": 405500,
+    "total_tokens": 253051687
   },
-  "uncachedInput": 6624845,
+  "uncachedInput": 6687646,
   "compactionMarkers": [
     {
       "session": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
@@ -112,18 +112,18 @@
       "id": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
       "source": "vscode",
       "file": "C:/Users/scott/.codex/sessions/2026/09/10/rollout-2026-09-10T18-51-41-01a08df2-e63f-7eb2-bc40-dc699bcdf778.jsonl",
-      "records": 86,
+      "records": 101,
       "first": "2026-10-11T22:14:11.101Z",
-      "last": "2026-10-11T22:48:53.072Z",
+      "last": "2026-10-11T22:52:54.947Z",
       "usage": {
-        "input_tokens": 15235910,
-        "cached_input_tokens": 14950144,
-        "output_tokens": 32204,
-        "reasoning_output_tokens": 8045,
-        "total_tokens": 15268114
+        "input_tokens": 17294286,
+        "cached_input_tokens": 17000064,
+        "output_tokens": 35748,
+        "reasoning_output_tokens": 8957,
+        "total_tokens": 17330034
       },
-      "uncachedInput": 285766,
-      "lastInput": 132455,
+      "uncachedInput": 294222,
+      "lastInput": 138745,
       "maxInput": 216168
     },
     {
@@ -141,18 +141,18 @@
       },
       "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
       "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-17-17-01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620.jsonl",
-      "records": 102,
+      "records": 112,
       "first": "2026-10-11T22:17:23.640Z",
-      "last": "2026-10-11T22:48:42.723Z",
+      "last": "2026-10-11T22:52:31.751Z",
       "usage": {
-        "input_tokens": 9639841,
-        "cached_input_tokens": 9423360,
-        "output_tokens": 89065,
-        "reasoning_output_tokens": 62573,
-        "total_tokens": 9728906
+        "input_tokens": 10812333,
+        "cached_input_tokens": 10571776,
+        "output_tokens": 98808,
+        "reasoning_output_tokens": 70660,
+        "total_tokens": 10911141
       },
-      "uncachedInput": 216481,
-      "lastInput": 105116,
+      "uncachedInput": 240557,
+      "lastInput": 123057,
       "maxInput": 164932
     },
     {
@@ -256,19 +256,42 @@
       },
       "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
       "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-43-48-01a12d22-f70a-7f43-839d-af1d524a9f2a.jsonl",
-      "records": 2,
+      "records": 3,
       "first": "2026-10-11T22:43:51.232Z",
-      "last": "2026-10-11T22:46:15.327Z",
+      "last": "2026-10-11T22:49:22.013Z",
       "usage": {
-        "input_tokens": 145266,
-        "cached_input_tokens": 74240,
-        "output_tokens": 326,
-        "reasoning_output_tokens": 169,
-        "total_tokens": 145592
+        "input_tokens": 229385,
+        "cached_input_tokens": 149760,
+        "output_tokens": 473,
+        "reasoning_output_tokens": 229,
+        "total_tokens": 229858
       },
-      "uncachedInput": 71026,
-      "lastInput": 76525,
-      "maxInput": 76525
+      "uncachedInput": 79625,
+      "lastInput": 84119,
+      "maxInput": 84119
+    },
+    {
+      "id": "01a12d28-99a2-7461-a101-aff5a94fd3e0",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-49-57-01a12d28-99a2-7461-a101-aff5a94fd3e0.jsonl",
+      "records": 1,
+      "first": "2026-10-11T22:50:00.899Z",
+      "last": "2026-10-11T22:50:00.899Z",
+      "usage": {
+        "input_tokens": 30630,
+        "cached_input_tokens": 8960,
+        "output_tokens": 142,
+        "reasoning_output_tokens": 59,
+        "total_tokens": 30772
+      },
+      "uncachedInput": 21670,
+      "lastInput": 30630,
+      "maxInput": 30630
     }
   ]
 }
