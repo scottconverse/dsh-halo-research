@@ -1,12 +1,16 @@
 param(
-    [string]$ProfilePath = "$PSScriptRoot\home\profiles\desktop\cordis.patch.yml"
+    [string]$ProfilePath = "$PSScriptRoot\home\profiles\desktop\cordis.patch.yml",
+    [string]$LmsPath = (Join-Path $env:USERPROFILE '.lmstudio\bin\lms.exe'),
+    [string]$LmStudioBaseUrl = 'http://127.0.0.1:1234'
 )
 
 $ErrorActionPreference = 'Stop'
 $modelPolicy = Get-Content -LiteralPath 'C:\Users\scott\Desktop\Code\dsh-halo-research\stack\desktop-tuning\model-policy.json' -Raw | ConvertFrom-Json
-$lmsPath = Join-Path $env:USERPROFILE '.lmstudio\bin\lms.exe'
 if (-not (Test-Path -LiteralPath $ProfilePath)) { throw "Desktop profile missing: $ProfilePath" }
-if (-not (Test-Path -LiteralPath $lmsPath)) { throw "LM Studio CLI missing: $lmsPath" }
+if (-not (Test-Path -LiteralPath $LmsPath)) {
+    Write-Warning "LM Studio CLI unavailable; preserving the complete saved Desktop catalog and selected route. Cloud startup does not require LM Studio."
+    return
+}
 
 function Quote-Yaml([string]$value) {
     return ($value | ConvertTo-Json -Compress -Depth 2)
@@ -30,13 +34,21 @@ function Replace-Block([string]$text, [string]$begin, [string]$end, [string]$anc
 $profile = [IO.File]::ReadAllText($ProfilePath)
 $newline = if ($profile.Contains("`r`n")) { "`r`n" } else { "`n" }
 
-$lmsOutput = & $lmsPath ls --json 2>&1
-if ($LASTEXITCODE -ne 0) { throw "Could not list LM Studio models: $lmsOutput" }
+$lmsOutput = & $LmsPath ls --json 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning 'LM Studio inventory unavailable; preserving the complete saved Desktop catalog and selected route.'
+    return
+}
 $lmModels = @($lmsOutput -join "`n" | ConvertFrom-Json | Where-Object { $_.type -eq 'llm' })
 # The CLI inventory omits reasoning capabilities. Read the native catalog; no
 # model is loaded and no inference request is made by this discovery endpoint.
 $lmCapabilities = @{}
-$nativeModels = (Invoke-RestMethod -Uri 'http://127.0.0.1:1234/api/v1/models' -TimeoutSec 10).models
+try {
+    $nativeModels = (Invoke-RestMethod -Uri ($LmStudioBaseUrl.TrimEnd('/') + '/api/v1/models') -TimeoutSec 10).models
+} catch {
+    Write-Warning 'LM Studio metadata unavailable; preserving the complete saved Desktop catalog and selected route. Catalog refresh will retry on the next launch.'
+    return
+}
 foreach ($native in $nativeModels) {
     if ($native.type -eq 'llm') { $lmCapabilities[[string]$native.key] = $native.capabilities.reasoning }
 }
@@ -61,7 +73,7 @@ foreach ($item in $lmExtras) {
     if ($context -lt 8192) { $context = 8192 }
     $quant = if ($item.quantization.name) { " $($item.quantization.name)" } else { '' }
     $library.Add("          - id: $(Quote-Yaml $item.modelKey)")
-    $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned (startup default)' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
+    $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
     $library.Add("            name: $(Quote-Yaml $label)")
     $library.Add("            contextWindow: $context")
     $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens }

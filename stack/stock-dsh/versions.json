@@ -1,9 +1,19 @@
 {
-  "defaultWorkerModel": "halo-coder-q4km",
-  "dshVersion": "0.1.6-alpha.1",
+  "dshVersion": "0.2.1-alpha.2",
   "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
-  "dshSourceCommit": "0a15e36e7f82b6ed45af6fa9759f29b40dcd965d",
-  "deployedAt": "2026-09-15T19:59:24.247853+00:00",
-  "optionalPlannerModel": "halo-brain-35b",
-  "defaultModel": "halo-coder-q4km"
+  "defaultProvider": "ollama-local",
+  "defaultModel": "qwen3.8:27b-q6_K",
+  "reasoningEffort": "off",
+  "defaultWorkerModel": "qwen3.8:27b-q6_K",
+  "verifiedAt": "2026-10-11T18:31:10.267Z",
+  "sourceVerification": "Installed @deepseek-ai/dsh package.json; current settings.yaml. The old source commit is historical, not the npm release identity.",
+  "previousDeployment": {
+    "defaultWorkerModel": "halo-coder-q4km",
+    "dshVersion": "0.1.6-alpha.1",
+    "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
+    "dshSourceCommit": "0a15e36e7f82b6ed45af6fa9759f29b40dcd965d",
+    "deployedAt": "2026-09-15T19:59:24.247853+00:00",
+    "optionalPlannerModel": "halo-brain-35b",
+    "defaultModel": "halo-coder-q4km"
+  }
 }

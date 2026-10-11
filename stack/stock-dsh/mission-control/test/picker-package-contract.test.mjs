@@ -24,10 +24,10 @@ test('stock DSH pins the reviewed release instead of carrying the retired picker
   assert.equal(fs.existsSync(path.join(stockDsh, 'packages', 'deepseek-ai-dsh-client-ui-model-selection-0.1.1-rc.2.tgz')), false);
 });
 
-test('Web catalog retains saved-session aliases and defaults new sessions to the current 35B route', () => {
+test('Web catalog retains saved-session aliases and defaults new sessions to the approved Ollama 27B route', () => {
   const ids = localModels.map(model => model.id);
   assert.deepEqual(ids, ['halo-brain-35b', 'halo-coder-q4km']);
-  assert.deepEqual(parse(settings)['agent-default-model'], { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6', reasoningEffort: 'off' });
+  assert.deepEqual(parse(settings)['agent-default-model'], { provider: 'ollama-local', model: 'qwen3.8:27b-q6_K', reasoningEffort: 'off' });
   assert.deepEqual(providers.ollama.models.map(model => model.id), [
     'deepseek-v4.1-flash:cloud', 'glm-5.3:cloud', 'kimi-k3:cloud', 'minimax-m3:cloud', 'glm-5.3-flash:cloud',
   ]);

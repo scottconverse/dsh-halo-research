@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createResearchHook, needsFallback, parseCliJson, wigoloFetch, redditRssSearch, redditRssRequest, isRedditPostInScope } from './research-fallback.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { createResearchHook, createRedditAdapter, needsFallback, parseCliJson, wigoloFetch, redditRssSearch, redditRssRequest, isRedditPostInScope } from './research-fallback.mjs';
 import { apply } from './tool-catalog.mjs';
 
 const signal = new AbortController().signal;
@@ -11,13 +16,73 @@ const unusable = { ...page, content: [{ type: 'text', text: 'Navigation\n(Conten
 const payload = JSON.stringify({ url: 'https://example.com/story', http_status: 200,
   markdown: 'Recovered article body with relevant evidence.' });
 
-test('installed plugin registers the native execution hook and preserves catalog filtering', async () => {
+test('Redlib thread output obeys the installed web_fetch schema and retains evidence in its body', async () => {
+  const require = createRequire(import.meta.url);
+  const stock = createRequire(require.resolve('@deepseek-ai/dsh/package.json'));
+  const base = createRequire(stock.resolve('@deepseek-ai/dsh-base/package.json'));
+  const web = await import(pathToFileURL(base.resolve('@deepseek-ai/dsh-tool-web')).href);
+  const {validateJsonSchemaValue}=await import(pathToFileURL(base.resolve('@deepseek-ai/dsh-tools')).href);
+  let definition;
+  web.applyWebFetchTool({systemPrompt:{section(){},getSectionOrder(){return 0;}},
+    tools:{register(value){definition=value;}}},30000,14000);
+  const cacheDir = fs.mkdtempSync(path.join(os.tmpdir(),'halo-reddit-contract-'));
+  const url='https://www.reddit.com/r/Longmont/comments/abc123/ballot/';
+  const record={coverage:'partial',threads:[{canonical_reddit_url:url,title:'Ballot',
+    retrieved_comment_count:1,reported_comment_count:2,comments:[{body_text:'Retrieved comment'}]}]};
+  try {
+    const adapter=createRedditAdapter({baseUrl:'http://127.0.0.1:18080',cacheDir,
+      fetchImpl:async()=>new Response('fixture'),invoke:async()=>JSON.stringify(record)});
+    const result=await adapter.fetch(url,signal);
+    assert.equal(result.isError,false);
+    const schema=definition.output.schema;
+    assert.equal(schema.additionalProperties,false);
+    assert.equal(schema.properties.evidenceFile.type,'string');
+    assert.equal(schema.properties.coverage.type,'string');
+    const compiled=schema;
+    assert.deepEqual(validateJsonSchemaValue(compiled,result.value),[]);
+    assert.ok(validateJsonSchemaValue(compiled,{...result.value,evidenceFile:42}).length);
+    assert.ok(validateJsonSchemaValue(compiled,{...result.value,coverage:{invented:true}}).length);
+    assert.ok(validateJsonSchemaValue(compiled,{...result.value,arbitraryField:true}).length);
+    for(const key of Object.keys(result.value))assert.ok(key in schema.properties,`undeclared web_fetch field: ${key}`);
+    for(const [key,property] of Object.entries(schema.properties))if(property.required)assert.ok(key in result.value);
+    assert.match(result.value.body.content,/coverage partial/);
+    assert.match(result.value.body.content,/Retrieved 1 of 2/);
+    assert.equal(result.value.coverage,'partial');
+    assert.equal(typeof result.value.evidenceFile,'string');
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(cacheDir,fs.readdirSync(cacheDir)[0]),'utf8')),record);
+    assert.match(definition.output.render({},result.value)[0].text,/Retrieved comment/);
+  } finally {fs.rmSync(cacheDir,{recursive:true});}
+});
+
+test('installed plugin registers retrieval without hiding browser or memory schemas', async () => {
   const hooks = new Map();
   apply({ on: (name, handler) => hooks.set(name, handler) });
   assert.ok(hooks.has('tools/execute'));
-  const assembly = await hooks.get('system-prompt/assemble')({}, {}, async () => ({ tools: [{name:'web_fetch'}, {name:'mcp__hidden'}], sections: [] }));
-  assert.deepEqual(assembly.tools.map(tool => tool.name), ['web_fetch']);
+  assert.equal(hooks.has('system-prompt/assemble'), false);
   assert.equal(await hooks.get('tools/execute')({ name: 'web_fetch', arguments: { url: page.value.url }, signal }, async () => page), page);
+});
+
+test('RSS failure uses configured Redlib, canonicalizes scope and rejects unrelated results', async () => {
+  const urls = [];
+  const reddit = createRedditAdapter({ rss: async () => ({isError:true,error:{message:'Reddit RSS HTTP 403'}}),
+    baseUrl:'http://127.0.0.1:18080', fetchImpl: async url => { urls.push(url.href); return new Response('fixture'); },
+    invoke: async (_file, args) => { assert.ok(args.includes('redlib-search')); return JSON.stringify({threads:[
+      {canonical_reddit_url:'https://www.reddit.com/r/Longmont/comments/abc123/ballot/',title:'Ballot'},
+      {canonical_reddit_url:'https://www.reddit.com/r/Boulder/comments/abc123/ballot/',title:'Wrong scope'}]}); } });
+  const result=await reddit.search(['site:reddit.com/r/Longmont ballot'],signal);
+  assert.equal(result.isError,false);
+  assert.equal(result.value.sources.length,1);
+  assert.match(urls[0],/127\.0\.0\.1:18080\/r\/Longmont\/search\?/);
+  assert.match(result.value.content,/comments not yet examined/);
+});
+
+test('successful RSS and cancellation never enter Redlib fallback', async () => {
+  const reddit=createRedditAdapter({rss:async()=>page,baseUrl:()=>{throw new Error('must not enter');}});
+  assert.equal(await reddit.search(['Reddit Longmont'],signal),page);
+  const controller=new AbortController();controller.abort();
+  const cancelled={isError:true,error:{message:'aborted'}};
+  const other=createRedditAdapter({rss:async()=>cancelled,baseUrl:()=>{throw new Error('must not enter');}});
+  assert.equal(await other.search(['Reddit Longmont'],controller.signal),cancelled);
 });
 
 test('HTTP 200 truncation triggers exactly one automatic CLI fetch', async () => {

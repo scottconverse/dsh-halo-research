@@ -1,0 +1,50 @@
+{
+  "source": "Locally retained native-provider-verification.json; values below are extracted allowlisted metadata only.",
+  "records": [
+    {
+      "provider": "claude-cli",
+      "model": "claude-haiku-4-5-20251001",
+      "started": "2026-10-11T18:32:06.626Z",
+      "finished": "2026-10-11T18:32:18.976Z",
+      "durationMs": 12345.2457,
+      "ok": true,
+      "status": "completed",
+      "exitCode": 0,
+      "continuityResumed": false
+    },
+    {
+      "provider": "claude-cli",
+      "model": "claude-haiku-4-5-20251001",
+      "started": "2026-10-11T18:32:18.984Z",
+      "finished": "2026-10-11T18:32:29.825Z",
+      "durationMs": 10839.0798,
+      "ok": true,
+      "status": "completed",
+      "exitCode": 0,
+      "continuityResumed": true
+    },
+    {
+      "provider": "codex-cli",
+      "model": "gpt-6-luna",
+      "started": "2026-10-11T18:32:29.828Z",
+      "finished": "2026-10-11T18:32:36.223Z",
+      "durationMs": 6393.5519,
+      "ok": true,
+      "status": "completed",
+      "exitCode": 0,
+      "continuityResumed": false
+    },
+    {
+      "provider": "codex-cli",
+      "model": "gpt-6-luna",
+      "started": "2026-10-11T18:32:36.227Z",
+      "finished": "2026-10-11T18:32:40.047Z",
+      "durationMs": 3818.0243,
+      "ok": true,
+      "status": "completed",
+      "exitCode": 0,
+      "continuityResumed": true
+    }
+  ],
+  "interpretation": "Each native CLI adapter completed an initial request and a same-thread continuation. The receipt proves CLI adapter continuity only; it does not verify a stock model-picker row. Prompts, response bodies, native thread identifiers, process identifiers, and raw CLI logs are excluded."
+}

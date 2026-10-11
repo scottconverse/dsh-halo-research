@@ -320,9 +320,9 @@ test('the five-second status update refreshes Memory status and checks graph cha
   const memory = { ok: true, file: 'memory.json', mtimeMs: 1234 };
   const refresh = new Function(
     'fetch', 'document', 'renderStrip', 'applyLoaderLabels', 'renderOverview', 'renderSystem', 'renderMemoryStatus', 'refreshMemoryGraphIfChanged',
-    `var currentTab='memory',lastStatus=null; ${extractFunction('refreshStatus')}; return refreshStatus;`,
+    `var currentTab='memory',lastStatus=null,statusPending=false,lastStatusSuccess=0; ${extractFunction('refreshStatus')}; return refreshStatus;`,
   )(
-    async () => ({ json: async () => ({ time: new Date().toISOString(), memory }) }),
+    async () => ({ ok: true, json: async () => ({ time: new Date().toISOString(), services: {}, memory }) }),
     { getElementById: () => ({ textContent: '' }) }, () => {}, () => {}, () => {}, () => {},
     value => { assert.equal(value, memory); memoryStatusCalls++; },
     value => { assert.equal(value, memory); graphRefreshCalls++; },

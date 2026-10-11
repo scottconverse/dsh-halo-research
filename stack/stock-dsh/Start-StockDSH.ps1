@@ -192,6 +192,10 @@ if (-not (Test-Path -LiteralPath $settingsPath -PathType Leaf)) { throw "DSH con
 $selectedRoute = Resolve-SelectedRoute $settingsPath
 $transport = Resolve-SelectedTransport $settingsPath
 $routeSummary = "$($selectedRoute.provider)/$($selectedRoute.model)"
+$preflight = & $node (Join-Path $deploy 'model-startup-preflight.mjs') --settings-file $settingsPath 2>&1 | Out-String
+if ($LASTEXITCODE -ne 0) { throw "Selected model startup check failed: $preflight" }
+$preflightResult = $preflight | ConvertFrom-Json
+Write-StackLog $preflightResult.message
 $residency = Ensure-SelectedModel $settingsPath $selectedRoute $transport
 Write-StackLog $residency.message
 

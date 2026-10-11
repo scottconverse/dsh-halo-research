@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { win32 as path } from 'node:path';
 import { StringDecoder } from 'node:string_decoder';
 
@@ -67,14 +67,26 @@ export function nativeCliEnvironment({ env = process.env, userHome = env.USERPRO
   return result;
 }
 
-export function findNativeCli(provider, { env = process.env, userHome = env.USERPROFILE, exists = existsSync } = {}) {
+export function claudeDesktopCandidates(userHome, readDir = readdirSync) {
+  function directories(root) { try {return readDir(root,{withFileTypes:true}).filter(e=>e.isDirectory()).map(e=>e.name);}catch{return [];} }
+  const packages=path.join(userHome,'AppData/Local/Packages');
+  const roots=[path.join(userHome,'AppData/Roaming/Claude/claude-code')];
+  for(const pkg of directories(packages).filter(n=>/^Claude_[a-z0-9]+$/i.test(n))) roots.push(path.join(packages,pkg,'LocalCache/Roaming/Claude/claude-code'));
+  const candidates=[];
+  for(const root of roots)for(const version of directories(root).filter(n=>/^\d+\.\d+\.\d+$/.test(n)).sort((a,b)=>b.localeCompare(a,undefined,{numeric:true})))
+    for(const hash of directories(path.join(root,version))) candidates.push(path.join(root,version,hash,'claude.exe'));
+  return candidates;
+}
+
+export function findNativeCli(provider, { env = process.env, userHome = env.USERPROFILE, exists = existsSync, readDir = readdirSync } = {}) {
   if (!providers.has(provider)) throw new Error(`Unsupported CLI provider: ${provider}`);
   if (!userHome) return null;
   const npm = path.join(userHome, 'AppData', 'Roaming', 'npm', 'node_modules');
   const candidates = provider === 'claude' ? [
     env.CLAUDE_CLI_PATH, path.join(userHome, '.local', 'bin', 'claude.exe'),
     path.join(npm, '@anthropic-ai', 'claude-code', 'bin', 'claude.exe'),
-    path.join(npm, '@anthropic-ai', 'claude-code', 'node_modules', '@anthropic-ai', 'claude-code-win32-x64', 'claude.exe')
+    path.join(npm, '@anthropic-ai', 'claude-code', 'node_modules', '@anthropic-ai', 'claude-code-win32-x64', 'claude.exe'),
+    ...claudeDesktopCandidates(userHome, readDir)
   ] : [env.CODEX_CLI_PATH, path.join(npm, '@openai', 'codex', 'node_modules', '@openai', 'codex-win32-x64', 'vendor', 'x86_64-pc-windows-msvc', 'bin', 'codex.exe')];
   return candidates.find(file => file && path.isAbsolute(file) && /\.exe$/i.test(file) && exists(file)) ?? null;
 }

@@ -82,25 +82,28 @@ test('relative module paths and !!js tags survive mirror generation', () => {
   }
 });
 
-test('default delegation uses resident 35B and optional 27B remains selectable', () => {
+test('default delegation uses main Ollama route and preserves optional LM Studio choices', () => {
   const { presets } = readEmbeddedPresets();
   const fastFirst = presets.find((preset) => preset.presetId === 'fast-first');
   const delegation = fastFirst.plugins.toJSON().find((row) => row.id === 'delegation');
   const subagent = delegation.config.find((row) => row.id === 'tool-subagent');
   assert.deepEqual(subagent.config.agentOptions, {
-    provider: 'web-fast',
-    model: 'halo/qwen3.6-35b-a3b-q6',
-    reasoningEffort: 'high',
+    provider: 'ollama-local',
+    model: 'qwen3.8:27b-q6_K',
+    reasoningEffort: 'off',
     maxTokens: 24576,
   });
   const profile = fs.readFileSync(path.join(import.meta.dirname, '..', 'web-profile', 'cordis.patch.yml'), 'utf8');
   assert.match(profile, /subagent-model-selection-settings[\s\S]*provider: web-fallback[\s\S]*model: halo\/qwen3\.8-27b-q6-fast/);
   const selection = parseDocument(profile).toJSON().find(row => row.id === 'subagent-model-selection-settings');
   assert.deepEqual(selection.config.allowedModels, [
+    { provider: 'ollama-local', model: 'qwen3.8:27b-q6_K' },
     { provider: 'web-fast', model: 'halo/qwen3.6-35b-a3b-q6' },
     { provider: 'web-fallback', model: 'halo/qwen3.8-27b-q6-fast' },
   ]);
-  assert.doesNotMatch(subagent.config.agentOptions.model, /27b/i);
+  const main = parseDocument(profile).toJSON().find(row => row.id === 'agent-default-model').config;
+  assert.equal(subagent.config.agentOptions.provider, main.provider);
+  assert.equal(subagent.config.agentOptions.model, main.model);
 });
 
 test('checkPresets reports drift without mutating the mirror', () => {
@@ -111,7 +114,7 @@ test('checkPresets reports drift without mutating the mirror', () => {
   const fakeFs = {
     readFileSync: (file, encoding) => {
       if (file !== target) return fs.readFileSync(file, encoding);
-      return original.replace('35b-a3b-q6', '27b-q6-fast');
+      return original.replace('qwen3.8:27b-q6_K', 'different-model');
     },
   };
   const results = checkPresets({ fsApi: fakeFs });
@@ -125,7 +128,7 @@ test('sync rewrites an embedded edit, then remains idempotent', () => {
   const target = externalPathForPreset(fastFirst);
   const original = fs.readFileSync(target, 'utf8');
   const files = new Map(presets.map(preset => [externalPathForPreset(preset), fs.readFileSync(externalPathForPreset(preset), 'utf8')]));
-  files.set(target, original.replace('35b-a3b-q6', '27b-q6-fast'));
+  files.set(target, original.replace('qwen3.8:27b-q6_K', 'different-model'));
   const fakeFs = {
     readFileSync: file => files.get(file),
     mkdirSync: () => {},

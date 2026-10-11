@@ -624,9 +624,11 @@ test('configured route locality is derived from the exact Web-profile provider t
         baseURL: http://192.0.2.10:1234/v1
 `;
   assert.deepEqual(profileProviderTransport(profile, 'local-library'), {
-    providerBaseURL: 'http://127.0.0.1:1234/v1', localModelProvider: true,
+    providerBaseURL: 'http://127.0.0.1:1234/v1', localModelProvider: true, runtime: 'lmstudio',
   });
-  assert.equal(profileProviderTransport(profile, 'local-cloud-proxy').localModelProvider, false);
+  assert.deepEqual(profileProviderTransport(profile, 'local-cloud-proxy'), {
+    providerBaseURL: 'http://127.0.0.1:11434/v1', localModelProvider: true, runtime: 'ollama',
+  });
   assert.equal(profileProviderTransport(profile, 'remote-lmstudio').localModelProvider, false);
   assert.equal(profileProviderTransport(profile, 'missing').localModelProvider, false);
 });

@@ -1,0 +1,108 @@
+{
+  "recordedAt": "2026-10-11T19:44:00.550Z",
+  "installedWebRelease": "0.2.1-alpha.2",
+  "scope": "End-to-end repair and verification of missed DSH integrations; no benchmarks.",
+  "webOllama": {
+    "configuredRoute": "ollama-local/qwen3.8:27b-q6_K",
+    "reasoningEffort": "off",
+    "contextWindow": 131072,
+    "maxOutputTokens": 24576,
+    "desktopDefaultChanged": false,
+    "transportRepairChangedPickerCatalog": false,
+    "catalogEntryRemoval": false,
+    "catalogNote": "Earlier Web route work added the configured Qwen model as an allowed catalog entry; the transport repair did not modify picker/catalog entries.",
+    "startupTests": {
+      "passed": 7,
+      "failed": 0
+    },
+    "launcherTests": {
+      "passed": 19,
+      "failed": 0
+    },
+    "oneModelProtection": "Supported preflight blocked while a conflicting idle LM Studio model was resident. The exact idle model was unloaded after a fresh zero-job check; empty inventory was confirmed before DSH restart. Source of the model reappearance was not established."
+  },
+  "desktopCatalogAndDefaults": {
+    "savedDefaultsPreserved": true,
+    "offlineAndMissingCliCatalogPreservedProfileSha256": true,
+    "catalogEntryRemoval": false,
+    "everyPickerEntryTested": false
+  },
+  "missionControl": {
+    "uiContractTestsPassed": 84,
+    "serviceAndStatusTestsPassed": 12,
+    "liveStatusObserved": "Fresh status identified the configured Ollama route; no active or queued jobs were present before the maintenance compact. Configured route and actual model residency were reported separately."
+  },
+  "outputBudgetAndCompactionPolicy": {
+    "focusedTestsPassed": 13,
+    "focusedTestsFailed": 0,
+    "configuredMaxOutputTokens": 24576,
+    "boundedContextOverflowFallback": true,
+    "rawProviderLogsArchived": false,
+    "yamlWarnings": "Eight nonfatal unresolved !!js process.platform warnings occurred while reading stock profile YAML in the focused test command."
+  },
+  "webRetrieval": {
+    "redditSchemaFallback": {
+      "sessionId": "5450c05f-fb9f-49dc-afdb-e7653a024a62",
+      "httpStatus": 200,
+      "result": "Ballot initiative 3A; 41 of 43 reported comments; partial coverage preserved"
+    },
+    "browserAndReferenceMemory": {
+      "sessionId": "9821c554-faf9-4e2f-8dd2-0d5e1af14230",
+      "result": "Read-only reference-memory search, Chrome navigation, and page snapshot completed"
+    }
+  },
+  "desktopRetrieval": {
+    "automaticWigolo": {
+      "sessionId": "a7e88496-b032-4a36-8720-19f3866cc72b",
+      "result": "Official Library page fetched with HTTP 200 through automatic Wigolo fallback"
+    },
+    "reddit": {
+      "sessionId": "ed366f05-119f-42f6-9bf6-90ddf189a47e",
+      "result": "41 of 43 reported comments; partial coverage preserved"
+    }
+  },
+  "nativeCliAdapters": {
+    "requests": 4,
+    "successful": 4,
+    "sameThreadContinuations": 2,
+    "pickerUiVerified": false,
+    "detailsFile": "native-provider-summary.json"
+  },
+  "lmStudioNormalGui": {
+    "observed": "Normal LM Studio GUI showed Select a model to load with no resident model",
+    "headlessDesktopBuildVerified": false
+  },
+  "transportRepair": {
+    "providerScope": "ollama-local only",
+    "undiciVersion": "8.10.2",
+    "sdkTimeoutMs": 600000,
+    "streamIdleTimeoutMs": 600000,
+    "undiciHeadersAndBodyTimeoutMs": 601000,
+    "requestAbortSignalPreserved": true,
+    "otherProviderTransportChanged": false,
+    "patcherReadback": "Idempotent; version 0.2.1-alpha.2"
+  },
+  "runtimeAtLastCheck": {
+    "checkedAt": "2026-10-11T19:39:28.548Z",
+    "supportedDshStartSucceeded": true,
+    "lastMissionControlObservation": {
+      "checkedAt": "2026-10-11T19:25:18.483Z",
+      "jobsActive": 0,
+      "queuedInputs": 0,
+      "dataStale": false
+    },
+    "maintenanceCompactStatus": "failed at pi-ai stream idle timeout after 600000ms",
+    "maintenanceCompactId": "0d6a4308-d3c3-4909-8e63-a1ce78287621",
+    "maintenanceCompactStartSequence": 575,
+    "maintenanceCompactEndSequence": 576,
+    "maintenanceCompactStartTime": "2026-10-11T19:23:04.803Z",
+    "maintenanceCompactEndTime": "2026-10-11T19:33:04.831Z",
+    "maintenanceCompactDurationMs": 600028,
+    "maintenanceCompactCommandId": "cmd-1906363e-1",
+    "startedFrom": "Codex In-App Browser, browser 2 tab 1; existing session only",
+    "afterFailureInventory": "Ollama /api/ps was empty. llama-server PID 43520 was parented by LM Studio PID 31308; model residency was not inferred from that process.",
+    "reportingTurnResumed": false,
+    "summaryFidelityVerified": false,
+    "historyReductionMeasured": false
+  }
+}

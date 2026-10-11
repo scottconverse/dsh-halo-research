@@ -1,0 +1,11 @@
+Command: node --test test/adapter-integrity.test.mjs test/ollama-timeout-fetch.test.mjs
+Result: 14 tests passed; 0 failed; duration 530.397 ms.
+Coverage: guarded/idempotent installed adapter patch; timeout math; per-timeout+implementation Agent reuse across equivalent profile snapshots; request input/method/headers/body/AbortSignal preservation; distinct implementation gets a distinct Agent; actual OpenAI SDK 7.19.0 SSE streaming through the custom Undici fetch/Agent.
+
+Command: node adapter-integrity-patch.mjs
+Result: {"changed":false,"version":"0.2.1-alpha.2"}
+
+Command: pnpm install --frozen-lockfile --ignore-scripts
+Result: Already up to date; Done using pnpm v11.25.0.
+
+Limitation: These are focused SDK and patch-contract tests. They do not demonstrate that the existing-history compaction completes after more than five minutes. The separate bounded `/compact` attempt is recorded in ../compaction-attempts.json.

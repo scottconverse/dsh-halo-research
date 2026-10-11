@@ -1,4 +1,7 @@
 import { execFile } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const NODE = 'C:/Program Files/nodejs/node.exe';
 const WIGOLO = 'C:/Users/scott/Desktop/Code/wigolo/dist/index.js';
@@ -77,10 +80,12 @@ async function wigoloSearch(queries, signal, invoke) {
     truncated: sources.length > 8 || queries.length > 2 } };
 }
 
-export function createResearchHook({ invoke = run, redditSearch } = {}) {
+export function createResearchHook({ invoke = run, redditSearch, redditFetch } = {}) {
   return async (exec, next) => {
     if (!['web_fetch', 'web_search'].includes(exec.name)) return next();
     const args = exec.arguments;
+    if (exec.name === 'web_fetch' && redditFetch && isRedditPostInScope(args.url))
+      return redditFetch(args.url, exec.signal);
     if (exec.name === 'web_search' && redditSearch &&
       args.queries?.some(query => /\breddit\b|site:reddit\.com/i.test(query)))
       return redditSearch(args.queries, exec.signal);
@@ -95,6 +100,91 @@ export function createResearchHook({ invoke = run, redditSearch } = {}) {
         'Stock web retrieval was unusable and the bounded Wigolo fallback failed. Coverage is partial. ' +
         String(error.message).slice(0, 400) }], error: { message: 'Research fallback failed' } };
     }
+  };
+}
+
+// Use the skill's configured, user-owned instance; never rotate public instances.
+function configuredRedlib() {
+  const raw = JSON.parse(fs.readFileSync(path.join(process.env.LOCALAPPDATA || 'C:/Users/scott/AppData/Local', 'RedditSearch/config.json'), 'utf8').replace(/^\uFEFF/, ''));
+  if (raw.schemaVersion !== 1 || raw.mode !== 'redlib') throw new Error('No configured Redlib mode');
+  return raw.baseUrl;
+}
+
+let redlibQueue = Promise.resolve();
+let lastRedlibRequest = 0;
+async function pacedRedlib(url, signal, fetchImpl) {
+  const operation = async () => {
+    const wait = Math.max(0, 8000 - (Date.now() - lastRedlibRequest));
+    if (wait) await new Promise((resolve, reject) => {
+      const timer = setTimeout(resolve, wait);
+      function abort() { clearTimeout(timer); reject(new Error('Redlib request aborted')); }
+      signal?.addEventListener('abort', abort, { once: true });
+      setTimeout(() => signal?.removeEventListener('abort', abort), wait);
+    });
+    signal?.throwIfAborted();
+    lastRedlibRequest = Date.now();
+    const response = await fetchImpl(url, { signal: AbortSignal.any([signal || new AbortController().signal, AbortSignal.timeout(20000)]) });
+    if (!response.ok) throw new Error(`Redlib HTTP ${response.status}; coverage partial.`);
+    const text = await response.text();
+    if (text.length > 2 * 1024 * 1024) throw new Error('Oversized Redlib response; coverage partial.');
+    return text;
+  };
+  const pending = redlibQueue.then(operation);
+  redlibQueue = pending.catch(() => {});
+  return pending;
+}
+
+export function createRedditAdapter({ rss = redditRssSearch, baseUrl = configuredRedlib,
+  fetchImpl = fetch, invoke = run, cacheDir = 'C:/Users/scott/.dsh-stock/research-cache/reddit' } = {}) {
+  async function retrieve(url, kind, signal) {
+    const base = new URL(typeof baseUrl === 'function' ? baseUrl() : baseUrl);
+    if (!['127.0.0.1', 'localhost', '[::1]'].includes(base.hostname) || base.username || base.password)
+      throw new Error('Configured Redlib must be a credential-free local instance.');
+    const target = new URL(url.pathname + url.search, base);
+    const html = await pacedRedlib(target, signal, fetchImpl);
+    // Parser validates Redlib identity, required structures, canonical permalinks and thread identity.
+    const record = JSON.parse(await invoke('python', [REDDIT_PARSER, 'parse', kind, '--source-url', target.href], signal, html));
+    return { record, target };
+  }
+  return {
+    async search(queries, signal) {
+      const initial = await rss(queries, signal);
+      if (!initial.isError || signal?.aborted || /abort|cancel|denied|blocked by policy/i.test(initial.error?.message || '')) return initial;
+      try {
+        const sources = [];
+        for (const query of queries.slice(0, 2)) {
+          const { url, subreddit } = redditRssRequest(query);
+          url.pathname = subreddit ? `/r/${subreddit}/search` : '/search';
+          const { record } = await retrieve(url, 'redlib-search', signal);
+          for (const row of (record.threads || []).slice(0, 6)) {
+            if (isRedditPostInScope(row.canonical_reddit_url, subreddit)) sources.push({ url: row.canonical_reddit_url,
+              title: row.title, snippet: (row.body_text || '').slice(0, 800), publishedAt: row.created_at });
+          }
+        }
+        if (!sources.length) throw new Error('No validated Redlib posts in requested scope');
+        return { isError: false, value: { sources, truncated: true, content:
+          'Reddit RSS unavailable; retrieved through configured local Redlib and reddit-search parser. Coverage partial; comments not yet examined. Community statements are leads, not primary verification.' } };
+      } catch (error) {
+        return { isError: true, content: [{ type: 'text', text: `${initial.error?.message || 'RSS failed'} Local Redlib also failed: ${error.message}. Coverage partial.` }] };
+      }
+    },
+    async fetch(url, signal) {
+      try {
+        const canonical = new URL(publicUrl(url));
+        if (!isRedditPostInScope(canonical.href)) throw new Error('Expected a canonical Reddit post permalink');
+        const { record } = await retrieve(canonical, 'redlib-thread', signal);
+        fs.mkdirSync(cacheDir, { recursive: true });
+        const file = path.join(cacheDir, createHash('sha256').update(canonical.href).digest('hex').slice(0, 20) + '.json');
+        fs.writeFileSync(file, JSON.stringify(record, null, 2));
+        const thread = record.threads[0];
+        const text = JSON.stringify(record, null, 2);
+        return { isError: false, value: { url: thread.canonical_reddit_url, statusCode: 200,
+          body: { kind: 'text', content: `Local Redlib thread; coverage ${record.coverage}. Full normalized evidence: ${file}\nRetrieved ${thread.retrieved_comment_count} of ${thread.reported_comment_count ?? 'unknown'} reported comments. Read the saved JSON for comments beyond this preview.\n\n${text.slice(0, 7000)}` },
+          truncated: text.length > 7000, evidenceFile: file, coverage: record.coverage } };
+      } catch (error) {
+        return { isError: true, content: [{ type: 'text', text: `Local Redlib thread failed: ${error.message}. Coverage partial.` }] };
+      }
+    },
   };
 }
 

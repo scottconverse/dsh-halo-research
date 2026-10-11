@@ -16,6 +16,7 @@ llm-pi-ai:
       reasoning: off
       defaultContextWindow: 131072
       defaultMaxTokens: 24576
+      timeoutMs: 600000
       streamIdleTimeoutMs: 600000
       models:
         - id: qwen3.8:27b-q6_K

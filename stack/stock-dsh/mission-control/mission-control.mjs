@@ -392,12 +392,13 @@ function parseValidationDiagnostics(text, max = 50) {
 function describeRouteRuntime(route, models) {
   const model = route?.model || null;
   const configured = route?.provider && model ? `${route.provider}/${model}` : null;
-  const localLlm = (models || []).filter(m => m?.originKind === 'local' && (!m?.type || m.type === 'llm'));
+  const runtime = route?.runtime || 'lmstudio';
+  const localLlm = (models || []).filter(m => (!m.provider || m.provider === runtime) && m?.originKind === 'local' && (!m?.type || m.type === 'llm'));
   let matches = [];
   let matchBasis = null;
   // Provider ids are operator-defined in the Web profile. Locality comes from
   // that provider's transport, not a stale allow-list of historical names.
-  const localRoute = route?.localModelProvider === true
+  const localRoute = runtime === 'ollama' || route?.localModelProvider === true
     || (route?.localModelProvider == null && ['lmstudio', 'lmstudio-brain'].includes(route?.provider));
   if (localRoute && model) {
     matches = localLlm.filter(m => m?.identifier === model || m?.modelKey === model);
@@ -422,7 +423,8 @@ function describeRouteRuntime(route, models) {
     model,
     residencyApplicable: localRoute,
     exactResident,
-    exactGenerating: !!exact && exact.status === 'generating',
+    runtime,
+    exactGenerating: exact?.provider === 'ollama' ? null : !!exact && exact.status === 'generating',
     matchedIdentifier: exact?.identifier || null,
     matchBasis,
     ambiguous: matches.length > 1,
@@ -500,7 +502,7 @@ function parseGpuCounterOutput(stdout) {
     if (parts.length !== 3) continue;
     const counterPath = parts[0].toLowerCase();
     const value = Number(parts[2]);
-    if (!Number.isFinite(value) || value < 0) continue;
+    if (!parts[2].trim() || !Number.isFinite(value) || value < 0) continue;
     if (counterPath.includes('dedicated usage')) { dedicatedBytes += value; dedicatedCount++; }
     else if (counterPath.includes('shared usage')) { sharedBytes += value; sharedCount++; }
   }
@@ -800,14 +802,24 @@ async function lmsVersionStr() {
   return null;
 }
 
-// LM Studio app version isn't exposed live anywhere we can query — the closest
-// honest signal is the app's own migration-history file. Label it as such.
-function lmStudioAppVersion() {
+// Migration history can contain llmster's version. Read the actual Windows
+// executable instead, caching by path/mtime so dashboard polling is cheap.
+let lmVersionCache = { key: null, value: null };
+async function lmStudioAppVersion() {
   try {
-    const data = JSON.parse(fs.readFileSync(LMSTUDIO_VERSION_FILE, 'utf8'));
-    const hist = data.targetHistories;
-    const v = (Array.isArray(hist) && hist.length ? hist[hist.length - 1].lastRecordedAppVersion : null) || data.lastRecorderdAppVersion || null;
-    return v ? `${v} (last recorded)` : null;
+    const candidates = [path.join(process.env.ProgramFiles || 'C:/Program Files', 'LM Studio/LM Studio.exe'),
+      path.join(HOME, 'AppData/Local/Programs/LM Studio/LM Studio.exe')];
+    const executable = candidates.find(file => fs.existsSync(file));
+    if (!executable) return null;
+    const key = executable + ':' + fs.statSync(executable).mtimeMs;
+    if (lmVersionCache.key === key) return lmVersionCache.value;
+    const quoted = executable.replace(/'/g, "''");
+    const result = await safeExecFile('powershell', ['-NoProfile', '-NonInteractive', '-Command',
+      `(Get-Item -LiteralPath '${quoted}').VersionInfo.ProductVersion`], { windowsHide: true, timeout: 5000, encoding: 'utf8' });
+    const version = result.stdout.trim();
+    if (!/^\d+\.\d+\.\d+(?:[.+-][\w.-]+)?$/.test(version)) return null;
+    lmVersionCache = { key, value: `${version} (installed executable)` };
+    return lmVersionCache.value;
   } catch { return null; }
 }
 
@@ -1677,13 +1689,37 @@ function entryInstanceSuffix(entryId) {
 
 // ─────────────────────────── GPU / disk / ram ───────────────────────────
 
+async function ollamaResidents() {
+  try {
+    const response = await fetch('http://127.0.0.1:11434/api/ps', { signal: AbortSignal.timeout(4000) });
+    if (!response.ok) throw new Error('Ollama HTTP ' + response.status);
+    const body = await response.json();
+    if (!Array.isArray(body.models)) throw new Error('Ollama returned no model inventory');
+    return { ok: true, sampledAt: Date.now(), error: null, models: body.models.map(m => ({
+      identifier: m.name || m.model, modelKey: m.model || m.name, provider: 'ollama',
+      type: 'llm', quant: m.details?.quantization_level || '?', context: m.context_length || null,
+      status: 'loaded', gb: gb(m.size), vramGiB: gib(m.size_vram),
+      origin: 'this device (Ollama)', originKind: 'local', deviceId: null,
+    })) };
+  } catch (error) { return { ok: false, sampledAt: null, error: String(error.message), models: [] }; }
+}
+
 const gpuCache = { at: 0, sampledAt: null, dedicatedBytes: null, sharedBytes: null, ok: false, error: null };
 async function gpuMemory() {
   if (Date.now() - gpuCache.at < 10000 && gpuCache.at) return gpuCache;
   try {
     const cmd = "(Get-Counter '\\GPU Adapter Memory(*)\\Dedicated Usage','\\GPU Adapter Memory(*)\\Shared Usage').CounterSamples | ForEach-Object { '{0}|{1}|{2}' -f $_.Path, $_.InstanceName, $_.CookedValue }";
-    const { stdout } = await safeExecFile('powershell', ['-NoProfile', '-Command', cmd], { timeout: 8000 });
-    const counters = parseGpuCounterOutput(stdout);
+    let counters;
+    try {
+      const { stdout } = await safeExecFile('powershell', ['-NoProfile', '-Command', cmd], { timeout: 8000, windowsHide: true });
+      counters = parseGpuCounterOutput(stdout);
+      gpuCache.source = 'Windows Get-Counter';
+    } catch {
+      const fallback = "$ErrorActionPreference='Stop'; Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUAdapterMemory | ForEach-Object { 'Dedicated Usage|{0}|{1}' -f $_.Name,$_.DedicatedUsage; 'Shared Usage|{0}|{1}' -f $_.Name,$_.SharedUsage }";
+      const { stdout } = await safeExecFile('powershell', ['-NoProfile', '-Command', fallback], { timeout: 8000, windowsHide: true });
+      counters = parseGpuCounterOutput(stdout);
+      gpuCache.source = 'Windows CIM GPUAdapterMemory';
+    }
     gpuCache.dedicatedBytes = counters.dedicatedBytes;
     gpuCache.sharedBytes = counters.sharedBytes;
     gpuCache.ok = true;
@@ -2097,8 +2133,8 @@ async function catalog() {
 // ─────────────────────────── status() — the 5 s poll ───────────────────────────
 
 async function status() {
-  const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus, snapshotTask] = await Promise.all([
-    tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(),
+  const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus, snapshotTask, ollama] = await Promise.all([
+    tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(), ollamaResidents(),
   ]);
   // Today totals and context selection need the complete session inventory,
   // not whichever 50 happen to sort first. The UI still renders a short slice.
@@ -2114,6 +2150,7 @@ async function status() {
     return {
       identifier: m.identifier,
       modelKey: m.modelKey,
+      provider: 'lmstudio',
       publisher: m.publisher || null,
       type: m.type || null,
       quant: m.quantization?.name || '?',
@@ -2127,6 +2164,7 @@ async function status() {
       deviceId: origin.deviceId || null,
     };
   });
+  modelsWithOrigin.push(...ollama.models);
   const unknownOrigin = modelsWithOrigin.filter(m => m.originKind === 'unknown');
   const accountCache = readLmLinkAccountCache();
   const stalledSessions = summarizeStalledSessions(sc.sessions || []);
@@ -2171,10 +2209,11 @@ async function status() {
       lmsCli: models !== null,
       dshVersionPin: installedDshVersion(),
       lmsCliVersion: lmsVer,
-      lmStudioVersion: lmStudioAppVersion(),
+      lmStudioVersion: await lmStudioAppVersion(),
       engine: engineStr,
       engineChanged,
     },
+    ollama,
     models: modelsWithOrigin,
     modelRecovery,
     fleet: {
@@ -2253,6 +2292,7 @@ async function status() {
     ram: { totalGiB: gib(winTotal), freeGiB: gib(winFree), usedGiB: gib(winTotal - winFree) },
     gpu: {
       ok: gpu.ok,
+      source: gpu.source || null,
       dedicatedGiB: gpu.ok ? gib(gpu.dedicatedBytes) : null,
       sharedGiB: gpu.ok ? gib(gpu.sharedBytes) : null,
       carveoutGiB: carveoutBytes != null ? gib(carveoutBytes) : null,
@@ -2460,7 +2500,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <div class="card"><h2>Activity</h2><div id="ov-activity"></div></div>
 <div class="card"><h2>Memory pools</h2><div id="ov-pools"></div></div>
 <div class="card"><h2>Cadence &amp; drift</h2><div id="ov-cadence"></div></div>
-<div class="card span2"><h2>Fleet (LM Link)</h2><div id="ov-fleet"></div></div>
+<div class="card span2"><h2>Resident models &amp; LM Link</h2><div id="ov-fleet"></div></div>
 <div class="card"><h2>Disk</h2><div id="ov-disk"></div></div>
 <div class="card"><h2>Knowledge graph</h2><div id="ov-knowledge"></div></div>
 <div class="card wide">
@@ -2486,7 +2526,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
 <label class="mut toggle" title="LM Link merges models from connected peers into lms ls. Local-only is the truthful default for this machine."><input type="checkbox" id="showFleetModels" onchange="loadModels()"> also show LM Link peer catalogs</label>
 <span class="danger-cluster">
 <button class="danger" onclick="act('unload-worker')">Unload Worker</button>
-<button class="danger" onclick="act('unload-all')">Unload All</button>
+<button class="danger" onclick="act('unload-all')">Unload All LM Studio</button>
 </span>
 </div>
 <div id="models-table" class="table-scroll">loading model catalog&hellip;</div>
@@ -2908,7 +2948,8 @@ function computeLights(s){
   var unknownResident=(s.fleet&&s.fleet.unknownOriginResident)||[];
   var unknownGenerating=(s.fleet&&s.fleet.unknownOriginGenerating)||[];
   var localGenerating=s.models.some(function(m){return m.originKind==='local'&&m.status==='generating'});
-  if(!s.services.lmsCli) lights.MODELS={level:'r',cause:'lms CLI failed'};
+  if(s.routeRuntime&&s.routeRuntime.configured&&s.routeRuntime.runtime==='ollama'&&!s.ollama.ok) lights.MODELS={level:'r',cause:'Ollama inventory unavailable: '+s.ollama.error};
+  else if(!s.services.lmsCli&&!s.ollama.ok) lights.MODELS={level:'r',cause:'lms CLI failed'};
   else if(s.routeRuntime&&s.routeRuntime.configError) lights.MODELS={level:'r',cause:'configured route cannot be read: '+s.routeRuntime.configError};
   else if(s.routeRuntime&&s.routeRuntime.ambiguous) lights.MODELS={level:'r',cause:'configured route matches multiple resident models; routing is ambiguous'};
   else if(s.models.length===0) lights.MODELS={level:'a',cause:'zero models loaded'};
@@ -2924,7 +2965,7 @@ function computeLights(s){
   // MEMORY
   if(!s.gpu||!s.gpu.ok) lights.MEMORY={level:'a',cause:'GPU memory counters unavailable'};
   else if(s.ram.freeGiB<3) lights.MEMORY={level:'r',cause:'Windows free RAM '+s.ram.freeGiB+' GiB < 3 GiB'};
-  else if(s.gpu.sharedGiB>8) lights.MEMORY={level:'a',cause:'GPU shared usage '+s.gpu.sharedGiB+' GiB > 8 GiB (model bytes leaking into Windows pool)'};
+  else if(s.gpu.sharedGiB>8) lights.MEMORY={level:'a',cause:'GPU shared usage '+s.gpu.sharedGiB+' GiB > 8 GiB (above shared-memory warning threshold; allocation owner and leak status unknown)'};
   else if(s.ram.freeGiB<6) lights.MEMORY={level:'a',cause:'Windows free RAM '+s.ram.freeGiB+' GiB < 6 GiB'};
   else lights.MEMORY={level:'g',cause:null};
   // "MEMORY" meant machine RAM here but the model store on the tab bar - four
@@ -3024,7 +3065,7 @@ function applyLoaderLabels(s){
     var routeHtml='<span class="slot"><b>Configured DSH route:</b> <span class="mono">'+esc(route.configured||'not declared')+'</span>'+
       (route.warning?' <span class="badge badge-amber">'+esc(route.warning)+'</span>'
         :(route.configured&&route.residencyApplicable===false?' <span class="badge">local residency N/A</span>':''))+'</span>';
-    var others=((s.residentRoles&&s.residentRoles.other)||[]).map(function(m){return '<span class="mono">'+esc(m.identifier)+'</span>';}).join(', ');
+    var others=((s.residentRoles&&s.residentRoles.other)||[]).map(function(m){return '<span class="mono">'+esc(m.identifier)+' ('+esc(m.provider||'LM Studio')+') ctx '+(m.context||0).toLocaleString()+' &middot; '+(m.gb||0)+' GB</span>';}).join(', ');
     slots.innerHTML=routeHtml+say('Resident Brain:',brain)+say('Resident Worker:',worker)+
       (others?'<span class="slot"><b>Other resident:</b> '+others+'</span>':'')+
       '<span class="mut">resident '+local.length+' &middot; '+local.reduce(function(t,m){return t+(m.gb||0)},0).toFixed(1)+' GB</span>';
@@ -3036,6 +3077,7 @@ function renderOverview(s){
   var svcRows=[
     ['Cockpit (:3080)',s.services.cockpit],
     ['LM Studio API (:1234)',s.services.lmstudio],
+    ['Ollama API (:11434)',s.ollama&&s.ollama.ok],
     ['lms CLI',s.services.lmsCli],
   ];
   document.getElementById('ov-services').innerHTML=svcRows.map(function(r){
@@ -3063,7 +3105,7 @@ function renderOverview(s){
   // when the process that would hold it is not running. IDLE means "up and
   // waiting"; a dead brain is DOWN.
   if(!s.services.cockpit){ cls='down'; word='COCKPIT DOWN'; }
-  else if(!s.services.lmstudio){ cls='down'; word='BRAIN DOWN'; }
+  else if(!s.services.lmstudio&&!(s.ollama&&s.ollama.ok)){ cls='down'; word='MODEL SERVICES DOWN'; }
   else if(genModels.length||running.length||s.jobs.active.length){ cls='busy'; word='WORKING'; }
   hero='<span class="st '+cls+'">'+word+'</span>';
   if(cls==='busy'){
@@ -3075,10 +3117,10 @@ function renderOverview(s){
   } else if(cls==='idle'){
     hero+='<span class="mut">last inference '+(latest?fmtRel(latest.mtime):'not yet this boot')+'</span>';
   }
-  hero+='<span class="mut">'+(!s.services.lmstudio
+  hero+='<span class="mut">'+(!s.services.lmstudio&&!(s.ollama&&s.ollama.ok)
     ? 'nothing can be resident &mdash; LM Studio (:1234) is down; any model shown below is last-known, not live'
     : (localRes.length
-        ? localRes.map(function(m){return esc(m.identifier)+' resident &middot; ctx '+(m.context||0).toLocaleString()}).join(' &nbsp;|&nbsp; ')
+        ? localRes.map(function(m){return esc(m.identifier)+' ('+esc(m.provider||'LM Studio')+') resident &middot; ctx '+(m.context||0).toLocaleString()}).join(' &nbsp;|&nbsp; ')
         : 'no local model resident'))+'</span>';
   if(s.jobs.queuedInputs) hero+='<span class="v-warn">'+s.jobs.queuedInputs+' queued</span>';
   document.getElementById('ov-hero').innerHTML=hero;
@@ -3097,8 +3139,8 @@ function renderOverview(s){
   var gpuRows=gpuOk
     ? ('<div class="row" style="margin-top:8px"><span class="k">GPU carveout</span><span class="'+(gpuPct>=95?'v-bad':(gpuPct>=80?'v-warn':''))+'">'+(haveCarve?gpuPct+'% used of '+s.gpu.carveoutGiB+' GiB':'capacity unknown')+'</span></div>'+
        (haveCarve?'<div class="bar '+barCls(gpuPct)+'"><i style="width:'+gpuPct+'%"></i></div>':'')+
-       '<div class="row" style="margin-top:8px"><span class="k">GPU shared</span><span class="'+sharedCls+'">'+s.gpu.sharedGiB+' GiB'+(sharedCls?' &mdash; leaking':'')+'</span></div>'+
-       '<div class="mut" style="margin-top:2px">a steady ~1.5 GiB here is normal (Vulkan staging buffers + desktop); watch for <em>growth</em> &mdash; that is model bytes spilling out of the carveout</div>')
+       '<div class="row" style="margin-top:8px"><span class="k">GPU shared</span><span class="'+sharedCls+'">'+s.gpu.sharedGiB+' GiB'+(sharedCls?' &mdash; elevated usage':'')+'</span></div>'+
+       '<div class="mut" style="margin-top:2px">Adapter-wide usage across processes. Shared GPU memory can include application buffers and desktop allocations. The 8 GiB warning threshold is not a capacity limit; high usage alone does not establish a memory leak.</div>')
     : '<div class="v-warn" style="margin-top:8px">GPU memory counters unavailable'+(s.gpu&&s.gpu.error?': '+esc(s.gpu.error):'')+'; no usage value is asserted</div>';
   document.getElementById('ov-pools').innerHTML=
     '<div class="row"><span class="k">Windows pool</span><span class="'+freeCls+'">'+s.ram.freeGiB+' GiB free of '+s.ram.totalGiB+'</span></div>'+
@@ -3198,7 +3240,7 @@ function renderOverview(s){
   }).join('');
   var pool=fc.pool||[];
   fleetHtml+='<div class="mut" style="margin-top:8px;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em">Resident pool'
-    +(!s.services.lmstudio?' <span class="badge badge-amber">last known &mdash; LM Studio down</span>':'')+'</div>';
+    +(!s.services.lmstudio?' <span class="badge badge-amber">LM Studio unavailable; Ollama listed independently</span>':'')+'</div>';
   // P6: with the brain down these rows are a cached snapshot, not live state.
   // Labelling them keeps the card from asserting residency nothing verified.
   fleetHtml+= pool.length? pool.map(function(m){
@@ -4343,9 +4385,23 @@ function selectMemoryConn(i){
 }
 
 // ── master poll ──
+var statusPending=false, lastStatusSuccess=0;
+function statusWarning(message){
+  var banner=document.getElementById('status-health');
+  if(!banner){banner=document.createElement('div');banner.id='status-health';banner.setAttribute('role','alert');banner.style.cssText='padding:12px;background:#642626;color:white;position:sticky;top:0;z-index:999';document.body.prepend(banner);}
+  banner.textContent=message;banner.hidden=false;
+}
 async function refreshStatus(){
+  if(statusPending)return;
+  statusPending=true;
   try{
-    var s=await (await fetch('/api/status')).json();
+    var response=await fetch('/api/status',{signal:AbortSignal.timeout(20000),cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    var s=await response.json();
+    if(!s.time||!s.services)throw new Error('invalid status response');
+    if(Date.now()-Date.parse(s.time)>30000)throw new Error('backend returned stale status');
+    lastStatusSuccess=Date.now();
+    var banner=document.getElementById('status-health');if(banner)banner.hidden=true;
     lastStatus=s;
     document.getElementById('stamp').textContent=new Date(s.time).toLocaleTimeString();
     renderStrip(s);
@@ -4357,7 +4413,7 @@ async function refreshStatus(){
       renderMemoryStatus(s.memory);
       await refreshMemoryGraphIfChanged(s.memory);
     }
-  }catch(e){ document.getElementById('stamp').textContent='status fetch failed' }
+  }catch(e){ document.getElementById('stamp').textContent='STALE — status fetch failed';statusWarning('Dashboard data is stale or unavailable. Last successful refresh: '+(lastStatusSuccess?new Date(lastStatusSuccess).toLocaleTimeString():'never')+'. '+e.message); }finally{statusPending=false;}
 }
 // Activate the initial tab only after every later global (notably
 // vitalsHours and the memory graph state) has been initialized.  Calling this
@@ -4365,6 +4421,7 @@ async function refreshStatus(){
 showTab((location.hash||'#overview').slice(1) || 'overview');
 refreshStatus();
 setInterval(function(){
+  if(lastStatusSuccess&&Date.now()-lastStatusSuccess>30000)statusWarning('Dashboard data is stale — no successful refresh in 30 seconds.');
   refreshStatus();
   if(currentTab==='models') loadModels();
   if(currentTab==='sessions') loadSessions();
@@ -4413,7 +4470,9 @@ function profileProviderTransport(raw, provider) {
       && ['127.0.0.1', 'localhost'].includes(parsed.hostname)
       && parsed.port === '1234';
   } catch { /* absent or invalid transport is never assumed local */ }
-  return { providerBaseURL: baseURL, localModelProvider };
+  let runtime = null;
+  try { const url = new URL(baseURL); if (['127.0.0.1', 'localhost'].includes(url.hostname)) runtime = url.port === '11434' ? 'ollama' : url.port === '1234' ? 'lmstudio' : null; } catch {}
+  return { providerBaseURL: baseURL, localModelProvider: localModelProvider || runtime === 'ollama', runtime };
 }
 
 function locateProfileField(raw, scope, field, routeOverride = null) {

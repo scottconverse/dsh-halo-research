@@ -1,0 +1,70 @@
+{
+  "targetSessionId": "44bc0b27-fc26-4044-b8db-d6928ccbcf3d",
+  "sessionTitle": "Report Local News Longmont Colorado",
+  "reportingTurnResumed": false,
+  "attempts": [
+    {
+      "startSequence": 565,
+      "endSequence": 566,
+      "compactionId": "d43b547e-3851-473e-9772-028503ed0349",
+      "started": "2026-10-11T18:33:18.219Z",
+      "ended": "2026-10-11T18:38:24.801Z",
+      "durationMs": 306582,
+      "result": "Checkpoint generation did not complete: error",
+      "causeProven": false,
+      "summaryProduced": false
+    },
+    {
+      "startSequence": 570,
+      "endSequence": 571,
+      "compactionId": "0cd4c8a8-c08a-41bf-803f-f5d3903a1769",
+      "started": "2026-10-11T18:51:51.363Z",
+      "ended": "2026-10-11T18:56:58.668Z",
+      "durationMs": 307305,
+      "result": "Node.js fetch timed out waiting for response headers; the SDK diagnostic requires a matching Undici fetchOptions.dispatcher Agent with headersTimeout reaching the SDK timeout.",
+      "causeProven": true,
+      "causeScope": "This attempt only. The earlier generic failure does not independently prove the same cause.",
+      "summaryProduced": false
+    },
+    {
+      "startSequence": 575,
+      "endSequence": 576,
+      "compactionId": "0d6a4308-d3c3-4909-8e63-a1ce78287621",
+      "commandId": "cmd-1906363e-1",
+      "started": "2026-10-11T19:23:04.803Z",
+      "ended": "2026-10-11T19:33:04.831Z",
+      "durationMs": 600028,
+      "status": "failed",
+      "error": "Checkpoint generation did not complete: error (TIMEOUT: pi-ai stream idle timeout after 600000ms)",
+      "undiciHeaderTimeoutObserved": false,
+      "summaryProduced": false,
+      "startedFrom": "Codex In-App Browser, browser 2 tab 1",
+      "configuredRoute": "ollama-local/qwen3.8:27b-q6_K",
+      "reportingTurnResumed": false,
+      "summaryFidelityVerified": false,
+      "historyReductionMeasured": false,
+      "lastIndependentMissionControlObservation": {
+        "checkedAt": "2026-10-11T19:25:18.483Z",
+        "activeJobs": 0,
+        "queuedInputs": 0,
+        "dataStale": false
+      },
+      "reconstructedInput": {
+        "surfaceNodeCount": 161,
+        "selectedShadowedNodeCount": 158,
+        "retainedBalancedTailNodes": 2,
+        "inputMessageCountIncludingSystemHead": 159,
+        "roleCounts": { "system": 1, "user": 6, "assistant": 69, "tool": 83 },
+        "serializedMessagesChars": 308921,
+        "serializedMessagesUtf8Bytes": 309567,
+        "outgoingPromptCharacters": 309843,
+        "installedDshHeuristicTokenEstimate": 77474,
+        "activePresetSummarizerMaxTokens": 8192,
+        "toolSchemasForwarded": 0,
+        "toolResultsWereSerializedOnceEachInSelectedSurface": true,
+        "claimLimit": "Reconstructed from persisted surface and installed range selector; not a captured HTTP request or provider tokenizer count. Offline SessionProjectionRegistry plugins are not applied."
+      }
+    }
+  ],
+  "providerDiagnosticPolicy": "Keep raw session/provider logs local. Publish only a bounded cause description and approved lifecycle metadata."
+}

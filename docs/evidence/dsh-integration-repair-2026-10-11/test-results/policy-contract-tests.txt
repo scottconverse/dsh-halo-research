@@ -1,0 +1,4 @@
+Command: node --test test/output-budget.test.mjs test/compaction-budget.test.mjs test/compaction-text-only.test.mjs
+Result: 13 tests passed; 0 failed; duration 909.5217 ms.
+The 13 passing cases cover installed headroom, per-route compaction budgets, the single bounded full-prefix fallback, summary validation and cancellation, no conversation tools/system prompt in the summarizer, rejection of incomplete/non-text checkpoint output, sanitized provider diagnostics, real stock stream assembly, patch idempotence/drift rejection, pristine backup patching, character-estimate clamp behavior, provider request serialization, and installed DSH adapter metadata/default output.
+Eight nonfatal YAML warnings reported unresolved !!js process.platform tags while reading the stock profile definitions. They did not fail any test.

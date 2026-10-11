@@ -1,0 +1,137 @@
+{
+  "checkedAt": "2026-10-11T19:45:35.531Z",
+  "frames": 328,
+  "eventCount": 579,
+  "compactionEventCount": 50,
+  "recentCompactions": [
+    {
+      "type": "compaction/start",
+      "sequence": 512,
+      "time": "2026-10-11T16:50:51.454Z",
+      "compactionId": "92cb7b86-4044-41a4-a7ee-a8e3e3ed0e21",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 513,
+      "time": "2026-10-11T16:51:08.625Z",
+      "compactionId": "92cb7b86-4044-41a4-a7ee-a8e3e3ed0e21",
+      "result": "failed",
+      "durationMs": 17171,
+      "error": {
+        "category": "provider_error",
+        "code": null
+      }
+    },
+    {
+      "type": "compaction/start",
+      "sequence": 528,
+      "time": "2026-10-11T17:07:55.579Z",
+      "compactionId": "200df4b0-5d27-47f3-82ca-d50cfa909b91",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 529,
+      "time": "2026-10-11T17:08:53.305Z",
+      "compactionId": "200df4b0-5d27-47f3-82ca-d50cfa909b91",
+      "result": "failed",
+      "durationMs": 57726,
+      "error": {
+        "category": "provider_error",
+        "code": null
+      }
+    },
+    {
+      "type": "compaction/start",
+      "sequence": 541,
+      "time": "2026-10-11T17:20:07.696Z",
+      "compactionId": "291ff095-a950-4060-9e28-cb007331ef2a",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 544,
+      "time": "2026-10-11T17:26:18.075Z",
+      "compactionId": "291ff095-a950-4060-9e28-cb007331ef2a",
+      "result": "completed",
+      "durationMs": 370379,
+      "error": null
+    },
+    {
+      "type": "compaction/start",
+      "sequence": 565,
+      "time": "2026-10-11T18:33:18.219Z",
+      "compactionId": "d43b547e-3851-473e-9772-028503ed0349",
+      "commandId": "cmd-db14462b-1",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 566,
+      "time": "2026-10-11T18:38:24.801Z",
+      "compactionId": "d43b547e-3851-473e-9772-028503ed0349",
+      "commandId": "cmd-db14462b-1",
+      "result": "failed",
+      "durationMs": 306582,
+      "error": {
+        "category": "provider_error",
+        "code": null
+      }
+    },
+    {
+      "type": "compaction/start",
+      "sequence": 570,
+      "time": "2026-10-11T18:51:51.363Z",
+      "compactionId": "0cd4c8a8-c08a-41bf-803f-f5d3903a1769",
+      "commandId": "cmd-3b74419f-1",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 571,
+      "time": "2026-10-11T18:56:58.668Z",
+      "compactionId": "0cd4c8a8-c08a-41bf-803f-f5d3903a1769",
+      "commandId": "cmd-3b74419f-1",
+      "result": "failed",
+      "durationMs": 307305,
+      "error": {
+        "category": "undici_response_headers_timeout",
+        "code": null
+      }
+    },
+    {
+      "type": "compaction/start",
+      "sequence": 575,
+      "time": "2026-10-11T19:23:04.803Z",
+      "compactionId": "0d6a4308-d3c3-4909-8e63-a1ce78287621",
+      "commandId": "cmd-1906363e-1",
+      "result": "started",
+      "durationMs": null,
+      "error": null
+    },
+    {
+      "type": "compaction/end",
+      "sequence": 576,
+      "time": "2026-10-11T19:33:04.831Z",
+      "compactionId": "0d6a4308-d3c3-4909-8e63-a1ce78287621",
+      "commandId": "cmd-1906363e-1",
+      "result": "failed",
+      "durationMs": 600028,
+      "error": {
+        "category": "pi_ai_stream_idle_timeout",
+        "code": null
+      }
+    }
+  ]
+}

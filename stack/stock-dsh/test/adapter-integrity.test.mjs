@@ -18,6 +18,7 @@ const {
   PATCHED_VERSION,
   PRISTINE_SHA256,
   REASONING_MARKER,
+  OLLAMA_FETCH_MARKER,
   ensureAdapterIntegrityPatch,
   isFullyPatched,
   locateAdapter,
@@ -134,6 +135,7 @@ test('version-pinned adapter patch is idempotent, guarded, and backup-backed', (
   assert.equal(version, PATCHED_VERSION);
   const source = readFileSync(target, 'utf8');
   assert.ok(isFullyPatched(source), 'installed adapter must expose the full expected patched shape');
+  assert.ok(source.includes(OLLAMA_FETCH_MARKER), 'only the configured Ollama profile should receive the timeout fetch');
   assert.equal(patchSource(source), source);
   assert.throws(() => patchSource('function mapUsage() { return {}; }'), /Unexpected/);
   // Remove both parseArguments error messages so only the usage repair remains: a genuine partial patch.
@@ -147,6 +149,7 @@ test('version-pinned adapter patch is idempotent, guarded, and backup-backed', (
   const patched = patchSource(pristine);
   assert.ok(patched.includes(REASONING_MARKER));
   assert.ok(patched.includes(ARGUMENTS_MARKER));
+  assert.ok(patched.includes(OLLAMA_FETCH_MARKER));
   assert.ok(isFullyPatched(patched));
   assert.equal(patchSource(patched), patched);
   assert.deepEqual(ensureAdapterIntegrityPatch(), { changed: false, version: PATCHED_VERSION });

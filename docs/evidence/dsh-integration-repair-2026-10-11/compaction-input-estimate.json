@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-10-11T19:40:33.162Z",
+  "sourceSessionId": "44bc0b27-fc26-4044-b8db-d6928ccbcf3d",
+  "sourceEventCount": 578,
+  "installedVersion": "0.2.1-alpha.2",
+  "reconstruction": {
+    "method": "Installed Session.create, stock tool-pair range boundary, compaction wrapper checkpointRequest, and DSH fixed-density estimate API",
+    "surfaceNodeCount": 161,
+    "selectedShadowedNodeCount": 158,
+    "retainedBalancedTailNodes": 2,
+    "inputMessageCountIncludingSystemHead": 159,
+    "roleCounts": { "system": 1, "user": 6, "assistant": 69, "tool": 83 },
+    "sourceEventTypes": { "user/message": 6, "assistant/message": 69, "tool/result": 83 },
+    "serializedMessagesChars": 308921,
+    "serializedMessagesUtf8Bytes": 309567,
+    "outgoingCheckpointPromptCharacters": 309843,
+    "dshHeuristicRequestTokenEstimate": 77474,
+    "route": "ollama-local/qwen3.8:27b-q6_K",
+    "activePresetSummarizerMaxTokens": 8192,
+    "toolSchemasForwardedByWrapper": 0,
+    "largestSerializedMessageChars": 10103,
+    "largestSerializedToolResultChars": 7699
+  },
+  "limitations": [
+    "This is a reconstruction from durable history and installed code, not the captured HTTP request.",
+    "The 77,474 figure is the DSH fixed-density heuristic; the provider tokenizer usage was not captured.",
+    "The offline Session reconstruction did not register runtime-only projection plugins.",
+    "No persisted stream event records prompt-evaluation or generation progress for the failed attempt.",
+    "The trace shows each current-surface tool result once; it does not establish duplicated tool-result serialization as the cause."
+  ]
+}

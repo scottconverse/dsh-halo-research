@@ -9,6 +9,9 @@ export const PRISTINE_SHA256 = 'ACC61EC5DF9878094E078C25BED6B49EABD26467378FE647
 export const INVALID_TOOL_ARGUMENTS_CODE = 'INVALID_TOOL_ARGUMENTS';
 export const REASONING_MARKER = 'Number.isFinite(usage.reasoning)';
 export const ARGUMENTS_MARKER = 'cannot be replayed because its tool-call arguments';
+export const OLLAMA_FETCH_MARKER = 'createOllamaTimeoutFetch(profile)';
+
+const ollamaFetchUrl = new URL('./ollama-timeout-fetch.mjs', import.meta.url).href;
 
 function block(lines) {
 	return lines.join('\n');
@@ -101,12 +104,28 @@ const patchedMapUsage = block([
 	'}'
 ]);
 
+const originalOllamaImport = 'import { resolve } from "node:path";';
+const patchedOllamaImport = block([
+	originalOllamaImport,
+	`import { createOllamaTimeoutFetch } from "${ollamaFetchUrl}";`
+]);
+
+const originalProfileOptionsFetch = '\t\t...profile.cacheRetention === void 0 ? {} : { cacheRetention: profile.cacheRetention },';
+const patchedProfileOptionsFetch = block([
+	originalProfileOptionsFetch,
+	'\t\t...profile.provider === "ollama-local" ? { fetch: createOllamaTimeoutFetch(profile) } : {},'
+]);
+
 const PATCH_BLOCKS = [
+	['Ollama transport import', originalOllamaImport, patchedOllamaImport],
+	['Ollama profile fetch', originalProfileOptionsFetch, patchedProfileOptionsFetch],
 	['parseArguments', originalParseArguments, patchedParseArguments],
 	['pi-ai chat history tool call', originalForeignCallsite, patchedForeignCallsite],
 	['replayed tool call', originalReplayCallsite, patchedReplayCallsite],
 	['mapUsage', originalMapUsage, patchedMapUsage]
 ];
+
+const PATCH_BLOCKS_WITH_PRESERVED_ANCHORS = new Set(['Ollama transport import', 'Ollama profile fetch']);
 
 function normalize(source) {
 	return source.replace(/\r\n/g, '\n');
@@ -114,6 +133,11 @@ function normalize(source) {
 
 function count(source, needle) {
 	return needle.length === 0 ? 0 : source.split(needle).length - 1;
+}
+
+function blockApplied(source, label, original, patched) {
+	return count(source, patched) === 1
+		&& (PATCH_BLOCKS_WITH_PRESERVED_ANCHORS.has(label) || !source.includes(original));
 }
 
 function replaceExactlyOnce(source, from, to, label) {
@@ -134,8 +158,8 @@ function applyBlocks(source, present) {
 
 export function isFullyPatched(source) {
 	const normalized = normalize(source);
-	return PATCH_BLOCKS.every(([, original, patched]) =>
-		normalized.includes(patched) && !normalized.includes(original));
+	return PATCH_BLOCKS.every(([label, original, patched]) =>
+		blockApplied(normalized, label, original, patched));
 }
 
 // Re-applies the exact expected patch over any prior deployment patch that used the
@@ -143,11 +167,11 @@ export function isFullyPatched(source) {
 // correct patched deployment yields byte-identical output, and drift is rejected.
 export function patchSource(source) {
 	const normalized = normalize(source);
-	const alreadyPatched = PATCH_BLOCKS.filter(([, original, patched]) =>
-		normalized.includes(patched) && !normalized.includes(original));
+	const alreadyPatched = PATCH_BLOCKS.filter(([label, original, patched]) =>
+		blockApplied(normalized, label, original, patched));
 	if (!isFullyPatched(normalized)) {
 		const migrated = applyBlocks(normalized, (label, original, patched) =>
-			normalized.includes(patched) && !normalized.includes(original));
+			blockApplied(normalized, label, original, patched));
 		return migrated;
 	}
 	if (normalized.includes(ARGUMENTS_MARKER) || normalized.includes(REASONING_MARKER)) {

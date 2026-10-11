@@ -4,6 +4,18 @@ import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
 import { runNativeCli, findNativeCli, nativeCliEnvironment, probeNativeCli } from './cli-runtime.mjs';
 
+test('Claude discovery finds the newest actual MSIX CLI without selecting the desktop UI executable', () => {
+  const home='C:\\Users\\fixture';
+  const root=home+'\\AppData\\Local\\Packages';
+  const cliRoot=root+'\\Claude_fixture\\LocalCache\\Roaming\\Claude\\claude-code';
+  const tree=new Map([[root,['Claude_fixture','Other_app']],[cliRoot,['2.1.9','2.1.10','not-a-version']],
+    [cliRoot+'\\2.1.9',['oldhash']],[cliRoot+'\\2.1.10',['newhash']]]);
+  const readDir=(path)=>{if(!tree.has(path))throw new Error('missing');return tree.get(path).map(name=>({name,isDirectory:()=>true}));};
+  const newest=cliRoot+'\\2.1.10\\newhash\\claude.exe';
+  const result=findNativeCli('claude',{env:{},userHome:home,readDir,exists:path=>path===newest||path===cliRoot+'\\2.1.9\\oldhash\\claude.exe'});
+  assert.equal(result,newest);
+});
+
 function harness(action) {
   const calls = [];
   const child = new EventEmitter();

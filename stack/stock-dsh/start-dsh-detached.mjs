@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {dirname,join} from 'node:path';
 import {ensureOutputBudgetPatch, OPT_OUT} from './output-budget-patch.mjs';
 import {ensureAdapterIntegrityPatch} from './adapter-integrity-patch.mjs';
+import {ensureWebFetchEvidencePatch} from './web-fetch-evidence-patch.mjs';
 import {checkPresets} from './preset-sync.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 if (checkPresets().some(preset => preset.drift))
@@ -12,6 +13,7 @@ if (checkPresets({profilePath:'C:/Users/scott/.dsh-stock/profiles/web/cordis.pat
  throw new Error('Installed Web preset composition differs from the reviewed recovery mirrors. Synchronize the profile before startup.');
 ensureOutputBudgetPatch(root);
 ensureAdapterIntegrityPatch(root);
+ensureWebFetchEvidencePatch(root);
 // The persisted operator selection is authoritative. Startup must not reset it.
 const out=openSync(join(root,'logs/dsh.stdout.log'),'w'),err=openSync(join(root,'logs/dsh.stderr.log'),'w');
 try{
