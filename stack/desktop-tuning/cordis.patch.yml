@@ -288,6 +288,7 @@
           - claude-opus-5-5
           - claude-sonnet-5-5
           - claude-haiku-4-5-20251001
+          - claude-haiku-5-5
         claudeMetadata:
           - slug: claude-opus-5-5
             display_name: Claude Opus 5.5
@@ -309,6 +310,8 @@
               - effort: max
           - slug: claude-haiku-4-5-20251001
             display_name: "Claude Haiku 4.5 â€” no effort control"
+          - slug: claude-haiku-5-5
+            display_name: "Claude Haiku 5.5"
 
 - insert:
     - id: halo-desktop-qwen27-sampling
