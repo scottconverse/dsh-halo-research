@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2026-10-11T22:45:53.096Z",
+  "asOfUtc": "2026-10-11T22:49:00.214Z",
   "windows": [
     {
       "startUtc": "2026-10-11T17:10:22.000Z",
@@ -11,18 +11,18 @@
     },
     {
       "startUtc": "2026-10-11T22:14:01.667Z",
-      "endUtc": "2026-10-11T22:45:53.096Z"
+      "endUtc": "2026-10-11T22:49:00.214Z"
     }
   ],
   "totals": {
-    "input_tokens": 245992031,
-    "cached_input_tokens": 239414016,
+    "input_tokens": 248877133,
+    "cached_input_tokens": 242252288,
     "cache_write_input_tokens": 0,
-    "output_tokens": 804131,
-    "reasoning_output_tokens": 389749,
-    "total_tokens": 246796162
+    "output_tokens": 815361,
+    "reasoning_output_tokens": 396382,
+    "total_tokens": 249692494
   },
-  "uncachedInput": 6578015,
+  "uncachedInput": 6624845,
   "compactionMarkers": [
     {
       "session": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
@@ -106,5 +106,169 @@
     "Historical local Ollama compaction usage was not retained; exact ALL-provider total is unknowable from current receipts.",
     "Final response generation occurs after this snapshot.",
     "Internal review billing and quota treatment unknown."
+  ],
+  "resumedSessions": [
+    {
+      "id": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "source": "vscode",
+      "file": "C:/Users/scott/.codex/sessions/2026/09/10/rollout-2026-09-10T18-51-41-01a08df2-e63f-7eb2-bc40-dc699bcdf778.jsonl",
+      "records": 86,
+      "first": "2026-10-11T22:14:11.101Z",
+      "last": "2026-10-11T22:48:53.072Z",
+      "usage": {
+        "input_tokens": 15235910,
+        "cached_input_tokens": 14950144,
+        "output_tokens": 32204,
+        "reasoning_output_tokens": 8045,
+        "total_tokens": 15268114
+      },
+      "uncachedInput": 285766,
+      "lastInput": 132455,
+      "maxInput": 216168
+    },
+    {
+      "id": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "source": {
+        "subagent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+            "depth": 1,
+            "agent_path": "/root/luna_finish_bounded",
+            "agent_nickname": "Chandrasekhar",
+            "agent_role": null
+          }
+        }
+      },
+      "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-17-17-01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620.jsonl",
+      "records": 102,
+      "first": "2026-10-11T22:17:23.640Z",
+      "last": "2026-10-11T22:48:42.723Z",
+      "usage": {
+        "input_tokens": 9639841,
+        "cached_input_tokens": 9423360,
+        "output_tokens": 89065,
+        "reasoning_output_tokens": 62573,
+        "total_tokens": 9728906
+      },
+      "uncachedInput": 216481,
+      "lastInput": 105116,
+      "maxInput": 164932
+    },
+    {
+      "id": "01a12d0c-2f00-7ce1-a5c5-9fbbd35588e9",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-18-55-01a12d0c-2f00-7ce1-a5c5-9fbbd35588e9.jsonl",
+      "records": 15,
+      "first": "2026-10-11T22:18:58.128Z",
+      "last": "2026-10-11T22:29:49.024Z",
+      "usage": {
+        "input_tokens": 845413,
+        "cached_input_tokens": 747776,
+        "output_tokens": 947,
+        "reasoning_output_tokens": 443,
+        "total_tokens": 846360
+      },
+      "uncachedInput": 97637,
+      "lastInput": 94363,
+      "maxInput": 94363
+    },
+    {
+      "id": "01a12d17-4ac9-7403-9fec-7aeb4d31f57d",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-31-03-01a12d17-4ac9-7403-9fec-7aeb4d31f57d.jsonl",
+      "records": 4,
+      "first": "2026-10-11T22:31:06.178Z",
+      "last": "2026-10-11T22:32:52.994Z",
+      "usage": {
+        "input_tokens": 102200,
+        "cached_input_tokens": 72704,
+        "output_tokens": 686,
+        "reasoning_output_tokens": 386,
+        "total_tokens": 102886
+      },
+      "uncachedInput": 29496,
+      "lastInput": 33876,
+      "maxInput": 33876
+    },
+    {
+      "id": "01a12d19-c6d0-7862-abdf-da0c588841fe",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-33-46-01a12d19-c6d0-7862-abdf-da0c588841fe.jsonl",
+      "records": 4,
+      "first": "2026-10-11T22:33:49.817Z",
+      "last": "2026-10-11T22:34:21.189Z",
+      "usage": {
+        "input_tokens": 134624,
+        "cached_input_tokens": 102400,
+        "output_tokens": 578,
+        "reasoning_output_tokens": 307,
+        "total_tokens": 135202
+      },
+      "uncachedInput": 32224,
+      "lastInput": 39550,
+      "maxInput": 39550
+    },
+    {
+      "id": "01a12d1a-a833-7ab0-bc88-fef37be5a6b4",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-34-44-01a12d1a-a833-7ab0-bc88-fef37be5a6b4.jsonl",
+      "records": 8,
+      "first": "2026-10-11T22:34:46.529Z",
+      "last": "2026-10-11T22:36:02.965Z",
+      "usage": {
+        "input_tokens": 313419,
+        "cached_input_tokens": 266240,
+        "output_tokens": 903,
+        "reasoning_output_tokens": 349,
+        "total_tokens": 314322
+      },
+      "uncachedInput": 47179,
+      "lastInput": 51108,
+      "maxInput": 51108
+    },
+    {
+      "id": "01a12d22-f70a-7f43-839d-af1d524a9f2a",
+      "source": {
+        "subagent": {
+          "other": "guardian"
+        }
+      },
+      "parent": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "file": "C:\\Users\\scott\\.codex\\sessions\\2026\\10\\11\\rollout-2026-10-11T16-43-48-01a12d22-f70a-7f43-839d-af1d524a9f2a.jsonl",
+      "records": 2,
+      "first": "2026-10-11T22:43:51.232Z",
+      "last": "2026-10-11T22:46:15.327Z",
+      "usage": {
+        "input_tokens": 145266,
+        "cached_input_tokens": 74240,
+        "output_tokens": 326,
+        "reasoning_output_tokens": 169,
+        "total_tokens": 145592
+      },
+      "uncachedInput": 71026,
+      "lastInput": 76525,
+      "maxInput": 76525
+    }
   ]
 }

@@ -1063,3 +1063,10 @@ Local rollback commit: b5d93be2. The earlier full incident, with both appendices
   }
 ]
 ```
+
+
+## Subsequent source audit — 2026-10-11T22:49:00.214Z
+
+This supersedes the accounting snapshot above. Native provider source wiring is present: Desktop profile loads halo-native-cli-provider; cli-provider.mjs implements listModels and registers claude-cli and codex-cli. Codex cache has 10 models, 7 picker-visible. Five curated Ollama cloud rows are retained separately from discovered local models. No missing implementation was established; actual native picker visibility remains unobserved. One exact-name process lookup found no DeepSeek Harness.exe process. No application was launched, no files/configuration repaired, and no tests or inference were run. The goal remains active and incomplete.
+
+Updated combined recorded Codex totals: raw 249692494; cached input 242252288; uncached input 6624845; output 815361; reasoning subset 396382. Updated resumed-session full records are in FULL-CLOSEOUT-ACCOUNTING.json. The source-audit continuation added 2,896,332 raw tokens, overwhelmingly cached context; it was still too expensive for a read-only finding. Unknown historical local inference and final-response accounting caveats remain.
