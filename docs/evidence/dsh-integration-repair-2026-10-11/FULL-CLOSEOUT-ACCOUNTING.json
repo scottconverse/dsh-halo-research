@@ -1,0 +1,110 @@
+{
+  "asOfUtc": "2026-10-11T22:45:53.096Z",
+  "windows": [
+    {
+      "startUtc": "2026-10-11T17:10:22.000Z",
+      "endUtc": "2026-10-11T21:50:19.999Z"
+    },
+    {
+      "startUtc": "2026-10-11T21:50:20.000Z",
+      "endUtc": "2026-10-11T22:14:01.667Z"
+    },
+    {
+      "startUtc": "2026-10-11T22:14:01.667Z",
+      "endUtc": "2026-10-11T22:45:53.096Z"
+    }
+  ],
+  "totals": {
+    "input_tokens": 245992031,
+    "cached_input_tokens": 239414016,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 804131,
+    "reasoning_output_tokens": 389749,
+    "total_tokens": 246796162
+  },
+  "uncachedInput": 6578015,
+  "compactionMarkers": [
+    {
+      "session": "01a08df2-e63f-7eb2-bc40-dc699bcdf778",
+      "timestamp": "2026-10-11T22:36:48.928Z",
+      "type": "compacted"
+    },
+    {
+      "session": "01a12d0a-b0bc-7dd0-8706-d6c4bcb4e620",
+      "timestamp": "2026-10-11T22:30:50.427Z",
+      "type": "compacted"
+    }
+  ],
+  "localResumedRequest": {
+    "input": 16022,
+    "output": 28,
+    "total": 16050,
+    "durationSeconds": 77.079,
+    "outcome": "Operator stopped early; inconclusive"
+  },
+  "nativeProviderReceipts": [
+    {
+      "index": 0,
+      "provider": "claude-cli",
+      "durationMs": 12345.2457,
+      "rawEventType": "result",
+      "usage": {
+        "input_tokens": 17,
+        "output_tokens": 303,
+        "cache_creation_input_tokens": 37870,
+        "cache_read_input_tokens": 37546
+      },
+      "reportedCostUsd": 0.0810266,
+      "costCaveat": "CLI-reported value; actual billing/subscription treatment and cumulative semantics not independently verified"
+    },
+    {
+      "index": 1,
+      "provider": "claude-cli",
+      "durationMs": 10839.079800000001,
+      "rawEventType": "result",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 81,
+        "cache_creation_input_tokens": 1799,
+        "cache_read_input_tokens": 37870
+      },
+      "reportedCostUsd": 0.0888266,
+      "costCaveat": "CLI-reported value; actual billing/subscription treatment and cumulative semantics not independently verified"
+    },
+    {
+      "index": 2,
+      "provider": "codex-cli",
+      "durationMs": 6393.551900000002,
+      "rawEventType": "turn.completed",
+      "usage": {
+        "input_tokens": 46791,
+        "output_tokens": 123,
+        "cached_input_tokens": 24064,
+        "reasoning_output_tokens": 0
+      },
+      "reportedCostUsd": null,
+      "costCaveat": "CLI-reported value; actual billing/subscription treatment and cumulative semantics not independently verified"
+    },
+    {
+      "index": 3,
+      "provider": "codex-cli",
+      "durationMs": 3818.0242999999973,
+      "rawEventType": "turn.completed",
+      "usage": {
+        "input_tokens": 74511,
+        "output_tokens": 138,
+        "cached_input_tokens": 47360,
+        "reasoning_output_tokens": 0
+      },
+      "reportedCostUsd": null,
+      "costCaveat": "CLI-reported value; actual billing/subscription treatment and cumulative semantics not independently verified"
+    }
+  ],
+  "caveats": [
+    "Raw input includes cached input; reasoning is a subset of output.",
+    "These are this incident and closeout windows, not lifetime thread or account totals.",
+    "Historical local Ollama compaction usage was not retained; exact ALL-provider total is unknowable from current receipts.",
+    "Final response generation occurs after this snapshot.",
+    "Internal review billing and quota treatment unknown."
+  ]
+}
