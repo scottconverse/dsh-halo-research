@@ -1,0 +1,115 @@
+{
+  "recordType": "bounded-compaction-live-attempt",
+  "recordVersion": 1,
+  "updatedAtUtc": "2026-10-11T20:33:36.807Z",
+  "status": "command-shown-running-no-terminal-event",
+  "authorizationScope": "One existing Web session maintenance /compact; no resume, reporting task, benchmark, or second model request.",
+  "sessionId": "44bc0b27-fc26-4044-b8db-d6928ccbcf3d",
+  "compaction": {
+    "compactionId": "58e29ad0-bfd1-4f9c-ab2f-e045f8b5bc60",
+    "sourceCommandId": "cmd-06f15faf-1",
+    "startSequence": 580,
+    "startTimeUtc": "2026-10-11T20:06:16.413Z",
+    "lastAuthoritativeCheckUtc": "2026-10-11T20:26:20.513Z",
+    "lastEventSequence": 580,
+    "persistedEventCount": 582,
+    "compressedFrames": 330,
+    "terminal": false,
+    "resultSummary": null,
+    "surfaceReduction": null
+  },
+  "selectedRoute": {
+    "provider": "ollama-local",
+    "model": "qwen3.8:27b-q6_K",
+    "reasoningEffort": "off",
+    "configuredMaxTokens": 24576
+  },
+  "offlinePlan": {
+    "source": "selected session snapshot; no model call",
+    "selectedMessages": 159,
+    "atomicGroups": 76,
+    "toolGroups": 68,
+    "sourceChunkCount": 11,
+    "mergeCallCount": 1,
+    "expectedTotalCalls": 12,
+    "sourceInputTokenBudgetHeuristic": 8384,
+    "sourceOutputTokenCap": 1536,
+    "sourceChunkInputTokenEstimates": [
+      8102,
+      6433,
+      7424,
+      8236,
+      8014,
+      8344,
+      7287,
+      7372,
+      8301,
+      7923,
+      4510
+    ],
+    "maximumChunkEstimate": 8344,
+    "messageCoverage": "All source indexes 0-158 exactly once and in order; tool-call/result groups remain atomic.",
+    "mergeReservationEstimate": 17485,
+    "mergeInputTokenGuard": 24576,
+    "mergeReservationCaveat": "Reservation is an approximate planning estimate, not a guaranteed upper bound; the actual merge request has a separate hard heuristic guard.",
+    "finalOutputTokenCap": 8192
+  },
+  "implementation": {
+    "source": "stack/stock-dsh/compaction-text-only.mjs",
+    "tests": "stack/stock-dsh/test/compaction-text-only.test.mjs",
+    "behavior": "Retain one-pass for small history; otherwise summarize ordered bounded chunks serially, then merge notes once. No tools, partial summary writes, silent truncation, or source-message mutation.",
+    "progressLogger": "Per-chunk plan/start/completion/failure fields only; no raw messages or summaries.",
+    "observabilityFinding": "Installed Cordis logger buffers INFO records in memory by default. No Web/CLI exporter or profile log-level setting was found; DSH stdout/stderr contain no checkpoint records. The actual plan and chunk starts remain unverified for this attempt.",
+    "testResult": "17/17 focused tests passed before this live attempt; `git diff --check` was clean."
+  },
+  "runtimeEvidence": {
+    "latestSessionHeaderConfig": "Ollama Qwen3.8 27B Q6_K, reasoning off, maxTokens 24576.",
+    "ollamaObservedAtUtc": "2026-10-11T20:15:19Z",
+    "ollamaResidentModel": "qwen3.8:27b-q6_K",
+    "ollamaObservedSize": "30 GB",
+    "ollamaObservedProcessor": "100% GPU",
+    "ollamaObservedContext": 131072,
+    "ollamaRunnerTtlAtObservation": "37 seconds",
+    "providerPromptTokenMetadata": "Not available; no raw prompt was inspected or emitted.",
+    "dshStdout": "Only startup/Wigolo lines; excluded from archived evidence because its startup URL includes a local authentication token.",
+    "dshStderr": "MCP startup/update informational messages; no compaction error or chunk progress.",
+    "commandUiCheck": {
+      "observedAtUtc": "2026-10-11T20:29:10Z",
+      "surface": "Codex In-app Browser, existing DSH Web session",
+      "selectedSession": "Report Local News Longmont Colorado",
+      "commandState": "Running",
+      "commandIndicator": "Compacting context…",
+      "selectedRoute": "Qwen3.8 27B Q6_K (Ollama ROCm), reasoning Off",
+      "displayedCounters": "2.5 tok/s; 5.3M tok; cache hit 96%; context panel 64%",
+      "caveat": "UI indicators are not a provider prompt-token count, chunk-progress receipt, final summary, or reduction result."
+    },
+    "missionControlStatus": {
+      "observedAtUtc": "2026-10-11T20:28:08.834Z",
+      "dshDataAvailable": true,
+      "dataStale": false,
+      "streamConnected": true,
+      "activeJobs": [],
+      "queuedInputs": 0,
+      "interpretation": "The supported status API does not list this maintenance compact as an active regular job; the DSH session UI separately shows the command as Running."
+    },
+    "ollamaRunner": {
+      "processId": 63032,
+      "name": "llama-server",
+      "currentCumulativeCpuSeconds": 1029.40625,
+      "currentSampleAtUtc": "2026-10-11T20:28:48Z",
+      "shortWindowSeconds": 5,
+      "shortWindowCpuDeltaSeconds": 0,
+      "earlierCumulativeCpuSeconds": 742.89,
+      "earlierSampleAtUtc": "approximately 2026-10-11T20:17Z",
+      "cumulativeDeltaBetweenSparseSamplesSeconds": 286.51625,
+      "caveat": "Process CPU counters show activity over a sparse interval only; the short sample was flat and neither observation identifies compaction chunk execution or GPU utilization."
+    },
+    "planExecutionEvidence": "No persistent per-chunk plan/progress event is available. The 11-chunk-plus-merge plan is offline preflight only; current UI activity does not prove this handler or plan executed."
+  },
+  "limits": [
+    "The current in-app session UI shows the single maintenance compact as Running, but the compressed journal has no terminal event or accepted output as of its 2026-10-11T20:26:20.513Z parse.",
+    "The offline 12-call plan is not runtime execution evidence; installed logger INFO output is buffered in memory and no persistent per-chunk sink was found.",
+    "No final output has been accepted; task/constraints/evidence/PARTIAL content, atomic stock commit, and reduction still require verification after terminal event.",
+    "No reporting prompt, duplicate compact, model switch, or restart has been issued during this attempt."
+  ]
+}

@@ -2,34 +2,15 @@
 
 ## Current status
 
-This record supersedes older October 11 sections that still call the Ollama
-transport or native provider checks pending. The focused code and SDK-contract
-checks pass, and the supported Web/Mission Control restart loaded the repair.
-The single bounded `/compact` attempt on the already-failed news session ended
-at 19:33:04.831 UTC with `TIMEOUT: pi-ai stream idle timeout after 600000ms`
-(seq576; 600.028 s after seq575). This was an existing-session maintenance
-command initiated from Codex's In-App Browser (browser 2, tab 1). It produced no
-summary or history reduction, and the news reporting turn was not resumed. No
-second retry was started. The session stream contains no prompt-usage or
-generation-progress receipt for the attempt. A privacy-safe offline
-reconstruction estimates the checkpoint prompt at 309,843 characters and
-77,474 DSH heuristic tokens; it is not a captured provider request or tokenizer
-count. Details and limitations are in
-`docs/evidence/dsh-integration-repair-2026-10-11/compaction-input-estimate.json`.
+This section supersedes the older October 11 status blocks below. The Ollama-only Undici transport repair is deployed; its focused SDK/transport checks passed 14/14 and frozen pnpm installation passed. The original output-budget/text-only policy suite passed 13/13 before the bounded chunk regressions were added. The bounded chunked text-only compaction implementation is now present in stack/stock-dsh/compaction-text-only.mjs, with regression coverage in stack/stock-dsh/test/compaction-text-only.test.mjs. The current focused bounded/policy suite passes 17/17. It preserves ordered source coverage, keeps each tool-call/result group atomic, sends chunks serially, uses no tools, and writes no partial checkpoint. Small histories keep the existing single-pass path.
 
-Ollama reported one configured Qwen model on demand during the request. A
-post-failure inventory at 19:39:28.548 UTC found no Ollama resident model.
-`llama-server.exe` PID 43520 was parented by LM Studio PID 31308; this process
-observation does not establish a loaded model. The last independent Mission Control observation, at 19:25:18 UTC during the
-request, showed fresh data, zero active jobs, and zero queued inputs. This is not
-a post-failure status check. No reporting prompt or new assignment was sent.
+The offline plan for existing session 44bc0b27-fc26-4044-b8db-d6928ccbcf3d contains 159 messages, 76 groups (68 tool groups), and plans 11 source chunks plus one merge; every selected source index 0–158 appears exactly once in order. Per-chunk token figures and the merge reservation are estimator-based preflight only. They are not provider request counts, prompt-token measurements, or proof the live handler used this plan.
 
-The active Web route remains `ollama-local/qwen3.8:27b-q6_K`, reasoning off,
-131,072 context, and 24,576 maximum output. Mission Control reported the route
-as Ollama, with no model resident before the maintenance request. During the request, Ollama loaded the configured model on demand; the last
-independent Mission Control snapshot was at 19:25:18 UTC and reported no active
-or queued jobs with fresh job data. The post-failure Ollama inventory found no
-resident model; no separate post-failure Mission Control read was performed.
+The one maintenance /compact currently shown Running in the DSH In-App Browser is ID 58e29ad0-bfd1-4f9c-ab2f-e045f8b5bc60, source command cmd-06f15faf-1, start seq580 at 20:06:16.413 UTC. A full journal parse at 20:26:20.513 UTC had 330 frames and 582 events, ending at compaction/start seq580. At the 20:29 UTC UI refresh, DSH still displayed “Compacting context…” for this existing session and selected Ollama Qwen 27B Q6_K, Off. Mission Control’s fresh 20:28:08.834 UTC status was connected and not stale, but listed no regular active jobs and no queued inputs. The compact is not represented in that regular-job list.
+
+Runtime progress remains partly unobservable. The installed Cordis logger buffers INFO records in memory by default, and the inspected DSH stdout/stderr contain no per-chunk receipt. No provider prompt-token metadata is available and no raw prompt was read. The runner CPU counter increased between sparse samples (742.89s around 20:17Z to 1029.40625s at 20:28:48Z), while a five-second sample ending at 20:28:48Z showed no change. These are process-level activity observations only; they do not establish chunk execution or GPU utilization. The UI's token/context indicators are not a captured provider request or compaction progress log.
+
+As of this record, the journal has no terminal event, accepted summary, fidelity review, atomic checkpoint commit, or measured history reduction. Do not report compaction success or reduction. No duplicate request, reporting turn, model switch, or restart has been issued during this attempt. The attempt remains untouched. The first generic failure cause is unproven; the Undici headers-timeout cause is established for the second failed attempt only; the later 600-second pi-ai stream-idle failure was distinct.
 
 ## What was already verified in this audit
 
@@ -59,10 +40,10 @@ are in `docs/evidence/dsh-integration-repair-2026-10-11/`; the folder's
 | Desktop saved-default/catalog preservation | Guarded and fixture-tested. | Both saved defaults in `desktop-default-verification.json` stayed unchanged; missing CLI/offline model metadata preserved the same profile SHA-256 in `desktop-offline-verification.json`. The refresh script retains the complete saved catalog. No claim that every picker entry was exercised. |
 | Mission Control | Deployed and live status API verified. | Focused suites: 84 UI contracts and 12 service/status checks passed. The live API identified the correct Ollama resident/provider, reported fresh `jobs.active=[]` and `queuedInputs=0`, and distinguished the configured route from actual residency. See `HALO-DSH-IMPLEMENTATION-2026-10-11-MISSION-CONTROL.md`. |
 | Output-budget guard | Deployed through supported startup. | `stack/stock-dsh/output-budget-patch.mjs` is version-pinned and backup-backed; its focused regression is `stack/stock-dsh/test/output-budget.test.mjs`. It preserves true provider capacity while disabling only the SDK character-estimate clamp. It does not raise the configured 24,576 output maximum. |
-| Output-budget and text-only compaction policy | Deployed; focused regression contracts pass. | `node --test test/output-budget.test.mjs test/compaction-budget.test.mjs test/compaction-text-only.test.mjs` passed 13/13 on October 11. It covers output headroom, bounded stock fallback, text-only summary constraints, provider-failure diagnostics, and 24K request serialization. Eight nonfatal YAML `!!js process.platform` warnings appeared while loading stock profiles. The live existing-history attempt below remains the separate end-to-end gate. |
+| Output-budget and text-only compaction policy | Deployed; focused regression contracts pass. | `node --test test/output-budget.test.mjs test/compaction-budget.test.mjs test/compaction-text-only.test.mjs` passed 17/17 on October 11, after the bounded-chunk regressions were added; the earlier policy-only result was 13/13. It covers output headroom, bounded stock fallback, text-only summary constraints, ordered source coverage, atomic tool-call/result groups, provider-failure diagnostics, and 24K request serialization. Eight nonfatal YAML `!!js process.platform` warnings appeared while loading stock profiles. The live existing-history attempt below remains the separate end-to-end gate. |
 | Retrieval integrations | Actual Web and Desktop requests passed. | Details and partial Reddit limits are in the earlier integration table. Wigolo and Redlib outputs are not conflated; Reddit's 41/43 coverage remains explicitly partial. |
 | Native subscription providers | Four requests and same-thread continuation passed. | Claude and Codex native CLI adapters each completed an initial request and same-thread continuation. Adapter proof does not establish a stock model-picker row. |
-| Existing-history Web compaction | Failed after the transport repair; unresolved. | The sole post-repair attempt ended at the 600,000 ms pi-ai stream-idle timeout; it produced no checkpoint, fidelity result, or history reduction. No further retry was started. |
+| Existing-history Web compaction | Current bounded maintenance compact is pending. | One /compact started at seq580, ID 58e29ad0-bfd1-4f9c-ab2f-e045f8b5bc60. The session UI still shows Running; the latest parsed journal has no terminal event/result. The 11+1 plan is offline only; chunk execution, summary fidelity, atomic commit, and history reduction are not yet verified. |
 | Desktop headless mode / complete picker matrix | Not verified. | No headless build was made; no claim that all picker models or presets were exercised. |
 
 ## Compaction failures and confirmed cause
@@ -78,6 +59,7 @@ concatenated Zstandard JSONL; `session-status.mjs` decodes every frame and write
 | 565–566 | `d43b547e-3851-473e-9772-028503ed0349` | 18:33:18.219 | 18:38:24.801 | 306.582 s | Generic `Checkpoint generation did not complete: error`; no useful summary. |
 | 570–571 | `0cd4c8a8-c08a-41bf-803f-f5d3903a1769` | 18:51:51.363 | 18:56:58.668 | 307.305 s | The checkpoint failed because Node.js fetch timed out waiting for response headers. The SDK error explicitly called for a matching Undici fetch and `fetchOptions.dispatcher` Agent whose `headersTimeout` reaches the SDK timeout. |
 | 575–576 | `0d6a4308-d3c3-4909-8e63-a1ce78287621` | 19:23:04.803 | 19:33:04.831 | 600.028 s | Failed at the pi-ai 600,000 ms stream-idle timeout; no checkpoint summary or reduction. |
+| 580–pending | `58e29ad0-bfd1-4f9c-ab2f-e045f8b5bc60` | 20:06:16.413 | — | Pending | The same existing-session /compact remains Running in the UI; journal last ends at start seq580. No terminal result, summary, fidelity review, or reduction. |
 
 The pi-ai `streamIdleTimeoutMs: 600000` had already been propagated through the
 Ollama profile. That setting does not control Undici's default response-header
@@ -223,17 +205,24 @@ change the persisted picker/default.
 
 ## Remaining limits
 
-The latest existing-history compaction attempt failed at the pi-ai stream-idle
-timeout and produced no checkpoint. Do not claim compaction success or history
-reduction; a bounded chunked-summary design is recorded as a proposal only.
-Do not claim every model-picker choice or preset was exercised. Desktop
-headless mode was not built or verified. Preserve the partial Reddit coverage
-indicators and the native-provider receipt locally; do not publish raw logs or
-credentials.
+The current existing-session maintenance `/compact` remains pending. The last
+UI observation at 20:29:10 UTC showed it Running; the last parsed journal at
+20:26:20.513 UTC still ended at the start event (seq580), with no terminal
+event. The bounded chunked summarizer is implemented and its focused tests
+passed 17/17 before this attempt, but the offline 11-chunk-plus-merge plan does
+not prove live execution. Do not claim a final summary, fidelity, checkpoint
+commit, compaction success, or history reduction until those results are
+observed and reviewed. Do not claim every model-picker choice or preset was
+exercised. Desktop headless mode was not built or verified. Preserve the partial
+Reddit coverage indicators and native-provider receipt locally; do not publish
+raw logs or credentials.
 
 
-## Terminal update — 19:44 UTC
+## Historical snapshot — 19:44 UTC (superseded by current status above)
 
-The status matrix and chronology above supersede earlier pending text retained below. The sole post-repair attempt terminated at 19:33:04.831 UTC with `TIMEOUT: pi-ai stream idle timeout after 600000ms` after 600.028 seconds (seq575–576, compaction ID `0d6a4308-d3c3-4909-8e63-a1ce78287621`). It produced no checkpoint, summary, fidelity result, or history reduction. No further retry was launched and the reporting turn was not resumed. A bounded chunked summarizer remains a proposal only.
+At 19:44 UTC, the sole post-transport-repair attempt had terminated at 19:33:04.831 UTC with `TIMEOUT: pi-ai stream idle timeout after 600000ms` after 600.028 seconds (seq575–576, compaction ID `0d6a4308-d3c3-4909-8e63-a1ce78287621`). It produced no checkpoint, summary, fidelity result, or history reduction. As of that snapshot, no further retry had been launched and the reporting turn had not been resumed; the bounded chunked summarizer was still only a proposal. The implementation and later pending attempt are recorded in the current status above and the receipt below.
 
 The last independent Mission Control observation was 19:25:18.483 UTC during the attempt and showed fresh data, zero active jobs, and zero queued inputs; there was no post-failure Mission Control read. Post-failure Ollama `/api/ps` at 19:39:28.548 UTC was empty. The in-repo reconstruction is explicitly estimated and does not establish that prompt size caused the timeout. The first generic failure's cause remains unknown; the second failure's Undici response-header cause is proven for that attempt only. A prior Mission Control wrapper false count was corrected using direct `jobs.active`, `queuedInputs`, and `dataStale` fields.
+## Bounded compaction attempt — current pending record, 20:33 UTC
+
+The bounded implementation and 17/17 focused regression result are documented above. The full sanitized runtime receipt is evidence/bounded-compaction-live-attempt-2026-10-11.json, updated at 20:33:36.807 UTC. It records the UI state, last journal parse, Mission Control status, runner-counter samples, offline plan, logger limitation, and strict claim limits. The receipt hash is in the evidence package SHA256SUMS.txt. The 19:44 snapshot above is historical and superseded by this record and the current status at the top.

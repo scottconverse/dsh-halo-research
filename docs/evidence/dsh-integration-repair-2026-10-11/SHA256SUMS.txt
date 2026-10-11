@@ -9,3 +9,4 @@ fcf7e035d67fca835ef7a09773e6e9f30efafc654c4a344f84eb5a28394a504d  compaction-inp
 e5387e4e8affc55b7e7e2c91a29b5f40c99b02d9cae076deca47d1118a41c334  scripts\summarize-native-receipt.mjs
 6929cea0fe08aed6a1794efd75dde4ab72eaddeaa02cd18e42df25e3fa9c703a  test-results\policy-contract-tests.txt
 a3b11a1614916cdfeb388f3ec6d8d3b0f5618089a2e825abf968ad3cfdeee220  test-results\transport-contract-tests.txt
+d21b561cdb26a108c918157ea90fd3f9c3345b520b49741687d221180157956f  ../../../evidence\bounded-compaction-live-attempt-2026-10-11.json
