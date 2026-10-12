@@ -1,0 +1,33 @@
+{
+  "recordedAtUtc": "2026-10-11T23:59:45.054Z",
+  "fix": {
+    "module": "stack/stock-dsh/interrupted-command-recovery-patch.mjs",
+    "startup": "stack/stock-dsh/start-dsh-detached.mjs",
+    "packageVersion": "0.2.1-alpha.2",
+    "pristineSha256": "74D80A6C843483458018596CB52B26D12AE014D3CFAFE1531AE5626F46403BF0",
+    "patchedSha256": "389432BCE06350F00DA773611696CCF0EE9B119705F50CA1D56E12B53809F139",
+    "behavior": "Existing resume recovery appends command/done kind:error for unmatched command/run, preserving original events and completed commands; adds no compaction summary."
+  },
+  "recovery": {
+    "sessionId": "44bc0b27-fc26-4044-b8db-d6928ccbcf3d",
+    "commandDoneSeq": 582,
+    "sourceEventSeq": 579,
+    "text": "Interrupted by previous runtime shutdown",
+    "uiObserved": true
+  },
+  "verification": {
+    "commandId": "cmd-b369cde7-1",
+    "compactionId": "6a6c707e-1559-409f-a524-0801ddfb5627",
+    "startSeq": 585,
+    "startUtc": "2026-10-11T23:57:24.423Z",
+    "status": "running-no-terminal-result-yet",
+    "model": "ollama-local/qwen3.8:27b-q6_K",
+    "reasoningEffort": "off",
+    "maxTokens": 24576
+  },
+  "corrections": [
+    "session/end-seed denotes a seed boundary, not session termination.",
+    "Empty composer Send disabled is normal; editability and enabled Send after text entry were verified."
+  ],
+  "scope": "Web-only idle-safe restart; no Mission Control/Wigolo/LM Studio/Desktop process stopped; no benchmark or reporting task."
+}

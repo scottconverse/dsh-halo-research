@@ -1111,3 +1111,14 @@ Current existing reporting-session journal has 583 events and ends with session/
 Goal remains active and incomplete: live compaction success and independent observation of the Haiku5.5 picker row remain unverified. No repeated UI capture, benchmark, new model request, session interruption or speculative source/config change occurred in this continuation. Unrelated dirty work was preserved.
 
 Combined recorded Codex accounting through 2026-10-11T23:30:31.128Z: raw total 282543284; input 281563517; cached input 273840000 (subset); uncached input 7723517; output 979767; reasoning 488187 (subset of output). Subsequent publication/final response adds usage. Full resumed-session rows and disjoint-window method are in LATEST-COMBINED-USAGE.json. Historical unretained local inference remains unknown.
+
+
+## Orphaned Web command recovery repair — 2026-10-11
+
+A native Chrome observation exposed a real restart-recovery defect: original compact command cmd-06f15faf-1 remained Running after its owning Web process had ended. Current Web process start22:34:23Z was later than compact start20:06:16Z, with no resident Ollama model and no active or queued job. Reloading preserved the stuck row and exposed no native cancel control. This was not evidence that old inference remained live.
+
+The alpha.2 Web reducer reconstructs compact Running from an unmatched command/run. Existing interruptedTurnClosers closed interrupted turns, steps and tool calls but omitted commands. The Web history-follow path promotes a prepared session through agents.resume and AgentLoop.resumeWith, which invokes that recovery hook. Added the version/hash/anchor-checked interrupted-command-recovery-patch.mjs and its existing startup-loader call. It appends command/done kind:error for unmatched starts on resume, preserves completed commands and original history, and adds no fake summary. Both patch files and installed package passed syntax checks; no test suite or benchmark was run.
+
+After current idle checks, restarted only the verified Web process via its existing Web-only launcher. Mission Control and Wigolo remained running. Native reopening recovered command/done seq582, sourceEventSeq579, with Interrupted by previous runtime shutdown displayed. The composer accepted input. A disabled Send on an empty composer was normal and was not treated as a defect. Correction: session/end-seed is a seed-prefix boundary, not a session terminal event.
+
+One native maintenance compact was submitted after recovery, with unchanged Qwen27B Q6 Off route: command cmd-b369cde7-1, compaction6a6c707e-1559-409f-a524-0801ddfb5627, startseq585 at2026-10-11T23:57:24.423Z. This entry records the running attempt, not a success claim; its terminal result is pending. No reporting task was resumed. Receipt: ORPHAN-COMMAND-RECOVERY-RECEIPT.json.
