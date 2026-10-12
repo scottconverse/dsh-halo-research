@@ -20,14 +20,64 @@
     "compactionId": "6a6c707e-1559-409f-a524-0801ddfb5627",
     "startSeq": 585,
     "startUtc": "2026-10-11T23:57:24.423Z",
-    "status": "running-no-terminal-result-yet",
+    "status": "success",
     "model": "ollama-local/qwen3.8:27b-q6_K",
     "reasoningEffort": "off",
-    "maxTokens": 24576
+    "maxTokens": 24576,
+    "summarySeq": 586,
+    "endSeq": 588,
+    "commandDoneSeq": 589,
+    "commandDoneKind": "success",
+    "commandDoneSourceEventSeq": 586,
+    "endUtc": "2026-10-12T00:23:15.4Z",
+    "durationMs": 1550977,
+    "shadowedTokenCount": 60337,
+    "shadowedSeqCount": 158,
+    "summaryMaxTokens": 8192,
+    "usage": {
+      "inputTokens": 99918,
+      "outputTokens": 1837,
+      "totalTokens": 101755
+    },
+    "uiCompletion": {
+      "result": "Compacted 158 history items (~60337 tokens)",
+      "contextPercentBefore": 64,
+      "contextPercentAfter": 19,
+      "composer": "editable-idle"
+    },
+    "completionRecordedAtUtc": "2026-10-12T00:25:52.0997111Z",
+    "shadowedSeqMin": 19,
+    "shadowedSeqMax": 543
   },
   "corrections": [
     "session/end-seed denotes a seed boundary, not session termination.",
     "Empty composer Send disabled is normal; editability and enabled Send after text entry were verified."
   ],
-  "scope": "Web-only idle-safe restart; no Mission Control/Wigolo/LM Studio/Desktop process stopped; no benchmark or reporting task."
+  "scope": "Web-only idle-safe restart; no Mission Control/Wigolo/LM Studio/Desktop process stopped; no benchmark or reporting task.",
+  "summaryFidelity": {
+    "assessment": "Useful but incomplete for resuming the assignment; retained the focused Ballot Issue 3A work and unfinished deliverables.",
+    "limitations": [
+      "Omits required actual Wigolo use, observed browser-pool fallback, Reddit RSS failure, and exact queries; Wigolo coverage must not be assumed.",
+      "Omits assignment date (2026-10-10), no external publication/request-for-comment constraint, and Reddit-as-leads/attributed-discussion-only rule.",
+      "The typical-residential-assessment-rate explanation for the $75 discrepancy is unsupported in the summary and remains an editor caveat.",
+      "Includes extraneous environment assertions about danger-full-access and approval prompts being disabled; do not rely on them."
+    ]
+  },
+  "modelUnload": {
+    "endpoint": "http://127.0.0.1:11434/api/generate",
+    "request": {
+      "model": "qwen3.8:27b-q6_K",
+      "keep_alive": 0,
+      "prompt": "omitted"
+    },
+    "preUnloadModels": [
+      "qwen3.8:27b-q6_K"
+    ],
+    "response": {
+      "done": true,
+      "done_reason": "unload"
+    },
+    "postUnloadModels": [],
+    "postUnloadCount": 0
+  }
 }
