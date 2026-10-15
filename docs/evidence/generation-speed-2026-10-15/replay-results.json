@@ -1,0 +1,66 @@
+[
+  {
+    "host": "web",
+    "label": "Q6",
+    "beforeTokens": 94,
+    "afterTokens": 61,
+    "beforeTps": 12.920962199312713,
+    "afterTps": 8.388338833883388
+  },
+  {
+    "host": "web",
+    "label": "Q4",
+    "beforeTokens": 94,
+    "afterTokens": 61,
+    "beforeTps": 40.67503245348334,
+    "afterTps": 26.42980935875217
+  },
+  {
+    "host": "web",
+    "label": "coding",
+    "beforeTokens": 1170,
+    "afterTokens": 352,
+    "beforeTps": 75.90009730781706,
+    "afterTps": 22.86011170281855
+  },
+  {
+    "host": "web",
+    "label": "Web",
+    "beforeTokens": 169,
+    "afterTokens": 84,
+    "beforeTps": 10.312423724676592,
+    "afterTps": 8.268530367162121
+  },
+  {
+    "host": "desktop",
+    "label": "Q6",
+    "beforeTokens": 94,
+    "afterTokens": 61,
+    "beforeTps": 12.920962199312713,
+    "afterTps": 8.388338833883388
+  },
+  {
+    "host": "desktop",
+    "label": "Q4",
+    "beforeTokens": 94,
+    "afterTokens": 61,
+    "beforeTps": 40.67503245348334,
+    "afterTps": 26.42980935875217
+  },
+  {
+    "host": "desktop",
+    "label": "coding",
+    "beforeTokens": 1170,
+    "afterTokens": 352,
+    "beforeTps": 75.90009730781706,
+    "afterTps": 22.86011170281855
+  },
+  {
+    "host": "desktop",
+    "label": "Web",
+    "beforeTokens": 169,
+    "afterTokens": 84,
+    "beforeTps": 10.312423724676592,
+    "afterTps": 8.268530367162121
+  }
+]

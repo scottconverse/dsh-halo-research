@@ -28,5 +28,8 @@ Rates come from actual Gufo server records, not the DSH footer's cross-step stre
 
 Saved Desktop default restored after the model selection. Gufo Q4/DFlash2 remains loaded. No other models or settings changed. Conclusion is limited to successful repair of this small module; no general coding-quality claim is made.
 
-DSH footer showed76tok/s. The journal reproduces this as1170tokens across all8steps divided by15.398seconds of final-answer text streaming. The final explanation alone was352/15.398=22.86tokens/s, consistent with Gufo22.9. Treat76as the same cross-step UI accounting discrepancy, not measured engine throughput.
+DSH footer showed76tok/s. Source replay later reproduced this as1170tokens across all8steps divided by approximately15.415seconds of measured streaming, including tiny buffered-tool delivery intervals. Final-answer text alone took15.398seconds. The final explanation alone was352/15.398=22.86tokens/s, consistent with Gufo22.9. Treat76as the same cross-step UI accounting discrepancy, not measured engine throughput.
+
+
+Follow-up: [confirmed DSH reporting repair](HALO-DSH-GENERATION-SPEED-2026-10-15.md) and [complete work record](HALO-GUFO-WORK-RECORD-2026-10-15.md). The corrected Desktop footer is23tok/s(text).
 
