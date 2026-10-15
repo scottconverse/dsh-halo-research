@@ -1,0 +1,1 @@
+Work only in C:\Users\scott\Documents\Codex\2026-10-15\gufo-coding-job. Read README.md and the two JavaScript files. Find and fix the implementation bugs, leaving the tests unchanged. Run node --test sales-summary.test.mjs. Do not install, delegate, or access other projects. Finish with a concise explanation of each fix and the test result.

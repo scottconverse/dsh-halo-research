@@ -1,0 +1,78 @@
+{
+  "session": "session-c1268711-b956-4137-9c01-ca32016f204a",
+  "start": "2026-10-15T16:48:51.817Z",
+  "end": "2026-10-15T16:49:58.874Z",
+  "elapsedSeconds": 67.057,
+  "steps": 8,
+  "generatedTokens": 1170,
+  "approxCombinedDecodeTps": 28.354890737913937,
+  "perPass": [
+    {
+      "request": "r15",
+      "generatedTokens": 119,
+      "decodeTps": 31.9,
+      "prefillTokens": 8197,
+      "cachedTokens": 0,
+      "draftAcceptance": 94.8
+    },
+    {
+      "request": "r18",
+      "generatedTokens": 63,
+      "decodeTps": 35.2,
+      "prefillTokens": 317,
+      "cachedTokens": 8316,
+      "draftAcceptance": 85
+    },
+    {
+      "request": "r19",
+      "generatedTokens": 114,
+      "decodeTps": 33,
+      "prefillTokens": 220,
+      "cachedTokens": 8696,
+      "draftAcceptance": 73
+    },
+    {
+      "request": "r20",
+      "generatedTokens": 141,
+      "decodeTps": 28.7,
+      "prefillTokens": 1488,
+      "cachedTokens": 9030,
+      "draftAcceptance": 77.4
+    },
+    {
+      "request": "r21",
+      "generatedTokens": 128,
+      "decodeTps": 35,
+      "prefillTokens": 58,
+      "cachedTokens": 10659,
+      "draftAcceptance": 89.7
+    },
+    {
+      "request": "r22",
+      "generatedTokens": 163,
+      "decodeTps": 32.2,
+      "prefillTokens": 58,
+      "cachedTokens": 10845,
+      "draftAcceptance": 83.8
+    },
+    {
+      "request": "r23",
+      "generatedTokens": 90,
+      "decodeTps": 27.4,
+      "prefillTokens": 58,
+      "cachedTokens": 11066,
+      "draftAcceptance": 72
+    },
+    {
+      "request": "r24",
+      "generatedTokens": 352,
+      "decodeTps": 22.9,
+      "prefillTokens": 176,
+      "cachedTokens": 11214,
+      "draftAcceptance": 69.1
+    }
+  ],
+  "newInputTokens": 10572,
+  "cacheReadTokens": 69826,
+  "finalAnswer": "All 6 tests pass. Three bugs fixed in [sales-summary.mjs](C:\\Users\\scott\\Documents\\Codex\\2026-10-15\\gufo-coding-job\\sales-summary.mjs):\n\n1. **Exclusive end date** (line 6): the filter used `sale.date < end`, dropping sales on the `to` boundary. The contract says `from` and `to` are inclusive, so it's now `sale.date <= end`.\n\n2. **Input mutation** (lines 4–5): `sales.sort(...)` sorts the caller's array in place, violating \"must not change the input array.\" The sort was also unnecessary for the summary, so I removed it and kept only the non-mutating `filter`.\n\n3. **Wrong cents math** (line 12): `Math.round(Number(unitPrice) * quantity) * 100` rounded the *dollar* total before converting to cents, so e.g. `0.29 × 3` became `100` cents instead of `87`. Now it converts the unit price to integer cents first (`Math.round(Number(unitPrice) * 100)`) and then multiplies by the integer quantity, which is exact.\n\nI also replaced the lexicographic `String(b.totalCents).localeCompare(String(a.totalCents))` revenue sort with a numeric `b.totalCents - a.totalCents` — string comparison would misorder values like 900 vs 10000.\n\nTest result: `node --test sales-summary.test.mjs` → **6 pass, 0 fail**."
+}
