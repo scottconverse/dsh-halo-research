@@ -1,0 +1,177 @@
+b3667174845e823bc9c8bd99d6fb36f173fa2011	2026-10-15T11:11:38-06:00	Document Gufo work, speed investigation and saved replay evidence
+5b4178c711a85c31c12d9b582e77354a7c81c44d	2026-10-15T11:08:02-06:00	Fix DSH client throughput for buffered tool-call delivery
+40687b8fee3702f8892d7e69129238df6d15fec4	2026-10-15T10:52:36-06:00	Record single Gufo coding repair and actual throughput
+c3848ebe700ea35930cf3f5872b20f127a1a7351	2026-10-15T10:41:43-06:00	Add verified Gufo recommended Q4 DFlash2 model variant
+8980e3e4531007c23454331891f18b58fada760d	2026-10-15T10:02:13-06:00	Add pinned Gufo Windows Q6 route to Web and Desktop
+1ff1d42d1d60192e50fd9be09e936bb8fa59b95d	2026-10-11T18:32:10-06:00	Record native recovery completion, fidelity limits and full usage
+d855afe49c6f794b60e6e78fd1e03f3cc3e17fa3	2026-10-11T18:01:01-06:00	Recover interrupted Web commands when resuming persisted sessions
+311cef7f69dffd809bc7011c86f4ab71dd31a5c4	2026-10-11T17:31:29-06:00	Record retained compaction evidence and current runtime status
+5c495f4aa98500c9bfab7048b692c8577f96d97e	2026-10-11T17:22:25-06:00	Record recovered Mission Control stream and final observation limits
+144a649d3c599d82fd829d2a1498a581ce42b5c3	2026-10-11T17:15:48-06:00	Record configured Desktop restart, publication receipt, and full usage
+b6ab48db56d4d11eb1c2563b094689ac5aaefd62	2026-10-11T17:01:47-06:00	Document Haiku 5.5 Desktop catalog deployment and verification limits
+773c7ee37deef4982a142a0f68ee6b5828a6d178	2026-10-11T16:58:59-06:00	Add Claude Haiku 5.5 to Desktop native model catalog
+aa8f702886889ce1f2a397def73dde3bb93b0fab	2026-10-11T16:53:11-06:00	Record Desktop process evidence and accessibility observation limit
+eabb49229d890a6ec0275b26e7b18ef0f5c94f46	2026-10-11T16:49:22-06:00	Clarify native picker wiring and update usage snapshot
+a786008813390eaec8940f67e5a4a6cffe4677d0	2026-10-11T16:46:15-06:00	Record DSH repair closeout and complete observed usage accounting
+b5d93be2c0d167a19b143a7b52aefe61d94378a9	2026-10-11T16:35:56-06:00	Restore stock text-only compaction baseline
+3124a85f339a6e632a42eeb790633584a3f3db2d	2026-10-11T14:37:05-06:00	Update DSH status record with pending compaction
+e63f0dc5a02f8fc266db69adf904d8765cabef32	2026-10-11T14:36:06-06:00	Document bounded DSH compaction repair
+6e24164a9b9796f255d442a8812c469e787f3f17	2026-10-11T13:48:54-06:00	Repair DSH research integrations and record verification
+04012fc5d8da342646f0281d44261c500368cd41	2026-10-10T15:29:49-06:00	Use Ollama Qwen 27B Q6 for Web while preserving the full picker
+faf94b9e492f8cbed51193830cecfa9a7534eada	2026-10-09T22:50:05-06:00	Upgrade DSH Web to alpha.2 and repair recovery integrations
+35ec898c39cacd0a73ccc027eeb2992e7baf06ac	2026-10-09T22:10:25-06:00	Preserve actionable DSH Web launcher route errors
+cae7dfd622312f439ba443302e1f7da91cfccf9f	2026-10-09T12:53:05-06:00	Default DSH reasoning to off and record restored Ollama cloud access
+23abf1527a4d5718761908b968593a5ab02d5d96	2026-10-09T04:25:22-06:00	Record verified empty model inventory as an array
+a34540087f90d37fcd5489398d5f3727fd95bf70	2026-10-09T04:24:44-06:00	Restore Windows DSH launchers and verify serial model workflows
+eb4e55787a0c7244ccb211ad6716f405508c8e02	2026-10-07T17:46:15-06:00	Complete Halo DSH audit repairs and deterministic recovery
+f3fe2849b263a07de9066ecd7e0fff25c2ff513a	2026-10-07T16:35:10-06:00	Preserve DSH Web output budgets and repair compaction headroom
+056c7b4d4232061a492bb65f313f805da0b8b044	2026-10-02T13:33:41-06:00	Repair Mission Control compatibility with DSH 0.2 profiles
+b05d4d6197b9145ff290ed3f221520fc093757f8	2026-10-02T01:18:15-06:00	Activate LM Studio effort controls and raise Orca output budget
+c8f8f40d1bd439c0fa2ac6d76e37e88056d292b9	2026-10-02T01:00:21-06:00	Discover LM Studio effort capabilities for generated Halo models
+910f00fc12e80bdbe9b18edc1066b18850194ea0	2026-10-02T00:44:20-06:00	Replace stale Sonnet 5 with Sonnet 5.5 in both Halo pickers
+a9de1120d968e84182fdc9a5deb8b95b6904e412	2026-10-02T00:07:59-06:00	Integrate DSH 0.2.0-rc.2 into Halo Desktop and Web
+4d694256d19b37862342db852539e961b477153b	2026-10-01T17:13:07-06:00	Persist on-demand Wigolo host policy and shared CLI skill
+cd95db6235b854b3940f809a7cf2edc8a835945d	2026-10-01T17:12:03-06:00	Merge current Web catalog tooling and preserve cleaned Web defaults
+1d298b2ec1460668cbaa3f39f0f4eb9814abf1b2	2026-10-01T17:10:20-06:00	Clean up Web and Desktop DSH presets, Qwen limits, and startup defaults
+b471f9b00ddb50724e07ef584c3d54f68e4f4a56	2026-09-27T11:04:59-06:00	Clarify live Web profile file locations
+7a92327247ce3d807ff65e84c0c521530f96e023	2026-09-27T11:04:20-06:00	Align Web DSH model catalog with Desktop and preserve local residency
+1d1883de47ced6a4172fb8ad0f37c203a75185d5	2026-09-27T01:48:38-06:00	Tune Desktop Qwen27 Q4 defaults and effort-specific sampling
+3d15387b540e1f4d2ea44cf0affada1180288627	2026-09-27T01:09:45-06:00	Curate native Desktop model picker and verified effort controls
+8162c0c8afaba599b6d065dde06b77e6346d72d4	2026-09-27T00:42:12-06:00	Reduce Desktop default tool catalog and keep Wigolo on demand
+2f146dd28c4896509637b764639b6cfb4e89c78a	2026-09-25T15:36:42-06:00	Chart settled decode steps from running DSH sessions
+0e4cba4cbe603772edb73a1b23b967b81df7da12	2026-09-25T15:25:23-06:00	Show measured live llama.cpp decode rate in Mission Control
+e030e811e99d99d26550f37314a93010bac671e4	2026-09-25T15:01:38-06:00	Use measured DSH decode counters for Mission Control tps
+19ec895e1d3dc05127dc11c1db0f5428dd9b0cf3	2026-09-25T14:34:19-06:00	Show estimated live decode pace in Mission Control
+58a82c26f19c4d27b5cf373fb79c3ef7538527b1	2026-09-25T14:18:14-06:00	Use session log activity for Mission Control liveness
+60ac7ca8e2c4d2e2eb0d6c37618336d7ad355af3	2026-09-23T13:45:00-06:00	Expose five selected Ollama Cloud models in DSH
+c83e4723f6784c07f07c88da8fe26c04bfa36a17	2026-09-18T17:12:22-06:00	docs: add DSH coordinator-coder pairing skill
+733082c2e4116208d50221f43f97b380bdd439c5	2026-09-18T11:40:11-06:00	docs: clarify DSH provider setup and access
+3fc8e83c349119c71a1ab3f2c8989c6afbd3b857	2026-09-16T13:59:29-06:00	Repair Codex worker final-text validation
+121a6ee11e93c87f080d7afc2980cf011e09c904	2026-09-16T12:46:19-06:00	Isolate Ollama coding worker transport and record unassisted trial
+18ef7662cb7208a5d0d8290b2796a627e5ccc5af	2026-09-16T12:13:28-06:00	Default Codex delegation to DeepSeek and tuned local helpers
+cb133da8d1f262cb352db73343bc1ab8acf560e9	2026-09-16T11:44:22-06:00	Refresh stale Mission Control process during desktop launch
+15d58d50f500a9165b7da85b732fad5b73a29ff5	2026-09-16T11:25:22-06:00	Default brain to High on separate stock LM Studio provider
+13429d8d7aa4048cebf82cd4a97e26dbc3af60a0	2026-09-16T10:59:23-06:00	docs: record clean paired brain reasoning comparison
+b5c7148be302c691c768111c782c9494b7c7404c	2026-09-16T09:11:52-06:00	Align remaining Halo context defaults and diagnostics with 131072
+2f8a36a7e2d1ddd4fe7290596a287e53170830fa	2026-09-15T23:32:50-06:00	Document independent DSH recovery after agent app restart
+43e065dcf05bf24fe481c8506bdf063186943008	2026-09-15T23:15:32-06:00	Restore approved local default on fresh DSH launch
+ff734eb260c603358b65b03cb6b30ce17ffe01ef	2026-09-15T22:41:39-06:00	Fix cloud model compatibility and hide unconfigured DeepSeek route
+1943c2f06e8cb486c0bff639cde20e65e6d85e87	2026-09-15T22:22:57-06:00	fix: recover approved models after LM Studio engine exits
+2a9c7a897c0d2e596b2d843f4f9afe97ca75b57c	2026-09-15T21:47:07-06:00	Connect Ollama Cloud and add quota-aware Codex worker routing
+f66111b40e3a6912ab6f6d76d5e70abc31c70871	2026-09-15T19:28:26-06:00	Add optional lean local coding preset with measured acceptance
+564a561484742d2ca8273ee60ec2c325540e3735	2026-09-15T17:10:23-06:00	Distinguish active models from completed-session speed in Mission Control
+2d8ae1373b070dab1113d6080194da33d21c3ff9	2026-09-15T16:13:27-06:00	Document exact SuperGrok OAuth installation and alpha compatibility handoff
+772299eb029249c6ba48af90554df40e6fb12672	2026-09-15T15:44:00-06:00	Show last-used model and provider beside Mission Control decode speed
+e554579c2d43f3ccb4d5de727f9bac569b547c73	2026-09-15T14:31:03-06:00	Add SuperGrok OAuth provider with DSH alpha compatibility patch
+5f543c9be9081bd305378b4a315d3d490ff60e68	2026-09-15T14:22:44-06:00	Upgrade Halo DSH to 0.1.6 alpha with stock agent capabilities
+09a3bc77e945f3308170fe8c180f9d59e1bcbef1	2026-09-15T13:08:22-06:00	Document stock DSH reuse audit and completed-work publication rules
+82fbba07833c17630822ad5494845b08a44584c9	2026-09-15T12:59:09-06:00	Apply measured Halo model tuning and record five investigations
+0e886d19cd5f6f2cdf6b7d926aa8bbfc7c5713ca	2026-09-15T11:52:48-06:00	Tune existing Halo models for 128K context and faster prompt processing
+954ed062f229b69f3ad07950ac8768b83682fe44	2026-09-14T23:01:36-06:00	feat: bundle Reddit research skill with Halo DSH
+342d0a5ac782c731bdef16324c9a3f51ebb18281	2026-09-14T14:07:18-06:00	feat: activate stock DSH persistent memory
+4b5ee19b624791a0cccee7508937604d6fdf5437	2026-09-14T02:33:05-06:00	Open DSH alongside Mission Control
+80c83f673d1f246308ee7380ee36d8c546f08b5c	2026-09-13T22:33:58-06:00	Add Mission Control to stock DSH
+2221513dee5327e479da0d9176dbbe0f10a8dde8	2026-09-13T20:31:48-06:00	Open DSH in Google Chrome
+0d477a218f4995b9005f744371c5d1806ac45013	2026-09-13T20:28:47-06:00	Open DSH in a visible browser window
+60770d8cb04716727b482933134f81d995d976d3	2026-09-13T20:22:41-06:00	Adopt stock DSH with capacity-aware Halo models
+abd0ebd1669e38d0ab4a7ea55adf562ae26c44fa	2026-09-13T20:20:19-06:00	Retire deprecated Halo research runtime artifacts
+5afc775620b7331eb52ba2cc3090b810b8abce1f	2026-09-10T18:30:13-06:00	Set explicit reasoning default for qwen3.8-27b alias
+2d9f535f30c024b63926798e903b307f894e15ca	2026-09-10T18:17:04-06:00	Add Qwen 3.8 family findings; correct ECI claim on Qwen 3.8 27B
+3dc85a389d02cc44970c18506193533fd1623391	2026-09-09T16:32:05-06:00	docs(halo): coding-model evidence check across Epoch, SWE-rebench, Artificial Analysis, Aider and local roundups
+8abcecd0a5f84f152a466e5ac3e31968cf05885e	2026-09-09T16:17:09-06:00	docs(halo): candidate test plan slot 3 = Qwen 3.8 27B (on disk) instead of GLM 4.7 Flash
+f062b6ec35f919b13af12c5730cc5974d0098d25	2026-09-09T16:13:33-06:00	docs(halo): add Epoch Benchmarking Hub evidence (ECI) to the model alternatives record
+577832f08d28714e9e8d76ef18eb9bdb1184e37c	2026-09-09T15:44:22-06:00	test(halo-router-dev): add candidate-acceptance runner for the approved model test plan
+20f5a09e1031702a8b766eb2d660bf0840cddd5c	2026-09-09T15:36:49-06:00	docs(halo): model alternatives review and approved candidate test plan (2026-09-09)
+9ba86f2da3c87c54005cd415391622672d5b788b	2026-09-09T15:13:23-06:00	docs(halo): record source-control state (DSH private remote, Gateway PR #4 merged)
+3324267e66b61b57a14c3c24bbd79e49cc2c6c44	2026-09-09T14:54:22-06:00	docs(halo): record 2026-09-09 takeover assessment, Gateway runtime-root repair and Mission Control restore
+6eecbb920fefa3302ac56c1cf7d3c13d000279a2	2026-09-08T11:40:53-06:00	Reconnect production DSH to research gateway and verify local model tool calls
+40a1751b6468ef37d0641d6aae347fef77cfca30	2026-09-08T09:51:40-06:00	Deploy audited Halo Router 0.3.0 to production with acceptance and recovery records
+5b971fffaddfd2673e6245776514f8a58b6bf6ac	2026-09-08T08:29:53-06:00	fix(router): close requirement, session race and evidence audit findings
+786f4c636c0bf0baf96d3f78e3a05fe9ffa492b0	2026-09-08T00:21:16-06:00	docs(halo-router): record live routing acceptance and recovery delivery
+8a45357f0cacf7d10c094ab071c7217c8f87218d	2026-09-08T00:21:07-06:00	feat(halo-router): add active DEV routing and native human controls
+7168aae5268ce5d257f601f57b5cba1b18136fcb	2026-09-07T23:11:11-06:00	docs(halo-router): retain live reuse acceptance and verified recovery evidence
+6a0039559b9b6d247845ce2063cd5582a4c27104	2026-09-07T23:10:12-06:00	feat(halo-router): directly reuse donor admission and verify DEV integrations
+2c9a08314dfc59b9ed05a55351027f9c083624c1	2026-09-07T19:42:01-06:00	docs(router): preserve DEV runtime proofs and operator recovery bundle
+6e1e54c63fc10cf7a1ce60ba75c3574a65c2f636	2026-09-07T19:41:46-06:00	feat(router): add dev-only shadow observation and deterministic policy
+378d95bc5e15d95424d851da95e6d0ae2ce9fdf7	2026-09-03T19:53:01-06:00	fix(dsh): preserve exact research job lifecycle receipts
+01e0a04c4efefedfc1bd0fb3b44662c09973a2d0	2026-09-03T15:14:17-06:00	fix(dsh): verify research evidence across compaction
+f5abf47b45b0e4ca23af33277ef5398cdea46858	2026-09-02T16:10:25-06:00	Document Workflowwright release critique and independent evidence verification
+354c86cfb0cd208019c81b44aa848149c5ecc5f0	2026-09-02T15:57:14-06:00	Record production delivery commits and final picker verification
+bb9fa12aeca4a15b0276a9fa4cd11050521e537a	2026-09-02T15:55:54-06:00	Promote native providers, persistent picker and continuity to production Halo
+ee35c7b0ca683c2cb089f6c89849ad9a2314be5d	2026-09-02T15:51:29-06:00	Repair production Mission Control shortcut and preserve reopening evidence
+1beaeacbf5973f52776dddc8b69e3941abdddb46	2026-09-02T15:51:29-06:00	Preserve provider research and mark historical Halo spec superseded
+fa72a0f15f6efac338fe97c7eb384798287efd39	2026-09-02T15:51:28-06:00	Preserve native agent access with optional staged Halo verification
+092d29c1ee08ca133b3e58b393844b7ff3063b0c	2026-09-01T22:16:57-06:00	Finish tuned-pair startup and additive model discovery; record Bionic cloud boundary
+e9b3614485591ec380a089cd41c8c1f837030da0	2026-09-01T20:54:37-06:00	docs(halo): record approved snapshot task and successful scheduled run
+73d1eb627d655d50a8604fb8d8b9fd8ef5c9ae3a	2026-09-01T20:28:00-06:00	docs(halo): verify fresh picker defaults and disclose remaining canary
+6e4340137e087cb375a7b88e99a0e0f7151e0f59	2026-09-01T20:16:31-06:00	docs(halo): record picker and monitoring deployment evidence and pending task
+87ddc83975c2efe70b05a324d8020cfae9f12004	2026-09-01T20:14:37-06:00	fix(mission-control): verify live data, deployment, and memory UI
+a7c5abbb77c24f6d26c7e1384a939a7099106d32	2026-09-01T20:14:06-06:00	fix(halo-picker): repair alternate homes and same-version package replacement
+a94a34903743976bb70bdd0faa94160a40fe14cf	2026-09-01T17:42:09-06:00	fix: report DSH reasoning contracts honestly
+0144ed5907df7ad53a451535470aa99ac2c1979a	2026-09-01T17:16:26-06:00	docs: record reproducible picker override
+b8c92b2218fa9d822c51fdd1a399d5e9a80cb427	2026-09-01T17:15:24-06:00	fix: deploy direct-open DSH model picker
+e4c05f54393a657fda8fe4deb7987083c66f12c1	2026-09-01T01:52:52-06:00	feat: route Halo research through local gateway
+c37c0d23f76249650cce7c2d51c7acaed1cc2fa3	2026-08-30T19:31:44-06:00	Halo runtime: enforce autonomous build boundary
+e7c587baafe07642657153aacb7f30c893a3ec3e	2026-08-30T15:38:00-06:00	Halo handoff: transfer state and correct autonomy claims
+bf2310042e600c9d68218c650d1abfcc9ca7679d	2026-08-30T15:28:08-06:00	Halo evidence: preserve prompt-only Q6 to-do trial
+776fe4feaedcb4331e71634fc1748f2f8ac0d9c4	2026-08-30T15:27:23-06:00	Halo Mission Control: reconcile data sources and responsive UI
+73176b554eec3ce91f31a76fbdb192726fe1b26d	2026-08-30T15:27:10-06:00	Halo runtime: preserve Q6 audition and persistent memory
+ffa332851fa91dfa6ab5dcac944a1eeaf2c16a8f	2026-08-30T14:28:18-06:00	Halo docs: add compaction restart handoff
+937960ec044ce62ef54a7179bd5bc810a2274033	2026-08-30T14:18:26-06:00	Halo spec: govern the verified 64/64 configuration
+7b63487d4756453116471f3d8e2706a6e622b445	2026-08-30T14:15:59-06:00	Halo: validate and record 64/64 daily stack
+bcc8cf886ff0fe10160fe8556552420dc91b74a5	2026-08-30T14:15:59-06:00	Halo docs: add Strix quantization and VGM review
+67850b5c8f20b3110ba6f2d9346e3a82bd1ab3ca	2026-08-30T13:03:19-06:00	Halo docs: record telemetry audit and vision pairing
+60efb3b191ebba7841f98c4bc324786b5d4b3ce6	2026-08-30T13:03:03-06:00	Halo runtime: repair Mission Control truth sources
+785464891264ccafeeff3e1cfeba55e9d63280a6	2026-08-30T12:40:34-06:00	Halo docs: publish current v3.2 spec and reconcile slot evidence
+4b1be626b016e0b64f8a545f87be8add996145c7	2026-08-30T12:40:17-06:00	Halo runtime: promote dual-resident MoE pair and verified coder gate
+109b4f7963f1b47d25193ebac73a468ea8745425	2026-08-29T17:53:11-06:00	Handoff ledger: absolute paths for cross-repo and archive citations
+40a338974383514adecba885d5bd9b2c3895af9c	2026-08-29T17:52:35-06:00	Handoff ledger: real citations; correct the 9/11 claim - envelope now 11/11, security regressed to 2/11
+34b9955969a09d7034ba535b5667286f9c246358	2026-08-29T17:50:30-06:00	Handoff: add verification ledger; flag two STALE citations superseded by commit 181fc3dd (loader residency Phase 0)
+704197327ff11280afe305528296706a01cbd512	2026-08-27T00:29:00-06:00	Phase 0 fix: GGUF context patcher — 262K to 32K
+69c4f7ec5606ba14397b7905e65764a14ea3c963	2026-08-27T00:22:21-06:00	Fix Mission Control launcher path (was double-nested)
+9fa885b6e97a0ead7f8457878ae3ba6120f98398	2026-08-27T00:14:21-06:00	Phase 4: replace stub with full archived Mission Control (3,270 lines, 7 tabs)
+d760ef289c846ebabe18c9dc03d70cea39d66277	2026-08-27T00:11:07-06:00	Phase 4: add Mission Control desktop launcher (Halo Status)
+67dcb66a4f84e1e06b703d5cd9c229e0618cfe28	2026-08-27T00:07:36-06:00	Phases 4-5: Mission Control at :3090 + cleanup
+1d1e19d70d270968c62fcd9601ef3394ef7157fa	2026-08-26T15:14:16-06:00	Phase 2: replace 'don't build here' persona with cockpit-as-coordinator build workflow
+c4f0ad0be228377c4ffe67c6cb7bd596f00f3d53	2026-08-26T15:13:04-06:00	Phase 1: register subagent_coder tool (30B coder via DSH native subagent system)
+181fc3ddacabe46aa33610c5bcee32c05a7a8378	2026-08-26T14:35:22-06:00	Phase 0: fix loader residency — measure and document the --context-length silent-ignore, sequential swap only
+abf61bdbcfea0eaafc5ddf4d2fe39dc97682d2e6	2026-08-26T14:03:33-06:00	X article: restore Written/Fate column labels lost in table conversion
+59087b76ba76049e5b707a3a53aab1258d318bab	2026-08-26T14:03:13-06:00	X Article version: same content, tables and code fences converted to lists (X Articles support neither)
+2839abcd57dd6710a0dcac1cc8e5b466b39a418d	2026-08-26T13:53:20-06:00	Claims evidence: 134 proven/verified sentences mined for this project only; three shown false by the model's own records (incl. both-models-resident contradicting the hardware claim)
+afa14e4ceb1d7e14bed66b62f00d7cdb5fc3e2ea	2026-08-26T13:50:56-06:00	ALL-CLAIMS.txt: every proven/verified/completion claim mined from all session transcripts (194 deduped, 141 halo-relevant)
+645dbd756f2e712395c4fc8f5715e84a93c23fde	2026-08-26T13:32:39-06:00	CORRECTIONS-2026-08-26: name every false claim in this repo (hardware limit, s31 vs s18.5.2, zero-lines metric, THE STACK IS WORKING, missing operator interface); rewritten incident report with discarded-code accounting
+d6d95ba3e6e6fa6b9846a3e0d83cc47ba3418de6	2026-08-26T12:12:42-06:00	Handoff document: what was asked for, what was delivered, the MCP wiring that was missing, and the operating rules
+8c796329472493ae20569a8403c651ee01785388	2026-08-26T09:56:20-06:00	Conductor state + guide: operator is point-and-click only; Halo Console is the human face, Halo-Code the machine API
+565fd333ed32f831cbb9405025ff98c494595158	2026-08-26T09:55:52-06:00	Halo Console: the point-and-click operator surface (Scott never uses a CLI); fixes a real list-arg bug across the GUI boundary; harness 15/15
+88b9a33a6c2664e9cc63b29b092cedc800d1ffbb	2026-08-26T05:22:16-06:00	Night complete: 2 units shipped via Halo-Code (verified 12/12); B3/B8 preserved at 9/11 with resume notes; Prove-Halo 7/7; morning report final
+4d0fc3ef12b4ee8bf3d49cc40173158bafc71abd	2026-08-26T04:44:13-06:00	Spec v3.0: the stack as a product (s31 - entry point, frozen-spec defense fired on a real SSRF cheat, the unit-sizing law); B2b GREEN verified 12/12; deliverables copied to both locations
+5809accb0d36e783308211d0410e62ab126080d5	2026-08-26T03:49:15-06:00	Night run 1: B2a GREEN via Halo-Code (verified); three units at 23/30 tests; surgical per-defect briefs + night-run-2
+0d1772b2bcd1a6be6bbbdb91509a58495ec5a07f	2026-08-26T02:49:24-06:00	Guide: document -CollectCmd flag
+a41502b21e15f1f3e0a0b96139398f6782e7a0a3	2026-08-26T02:33:58-06:00	Conductor state rewritten for the public-interface stack: proven results, standing rules, known gaps
+ced45b183f87e3a476f7a43a5c989b28bbc7b58b	2026-08-26T02:33:08-06:00	Prove-Halo.ps1 (one-click morning proof, 7/7) + desktop shortcut; morning report draft; retract hollow B3-v2 green in ledger; tripwire fired live on A7
+2204c4dd4dcfc0152e5550e9b0ef237b8a29ee51	2026-08-26T02:29:26-06:00	Halo Stack public interface: Halo-Code.ps1 (one command, any frontier coordinator) + generic verifier + coordinator guide; harness 14/14 incl. driver tests; surgical micro-unit briefs; frozen-test defense caught a real SSRF-weakening rewrite
+16ed27ce878c92deef99dc09ffbd791d4529a5fa	2026-08-25T23:28:51-06:00	v2.9: blind-feedback root cause + conductor failure record (s30.6); full-stop close-out; evidence-archive rows; both locations updated
+3a4713b83684544f487eb598cde05d3558168206	2026-08-25T23:05:59-06:00	ROOT CAUSE fix: gate fed EMPTY feedback all day (2>&1 vs Write-Host); Run-Verdict now *>&1, proven by harness T4b (11/11); A7 relaunch seeded from A6 forensics
+2cfef0b4a5570fe86e01c0fe3c9f78367feaa319	2026-08-25T22:51:16-06:00	Playbook adoption: trip-wire early stop + ENV failure classification in gate; evidence archive w/ SHA256 + verdict detail in runner; rules 8-10 (adversarial tests, escalation packet, RESULT contract); harness 10/10
+492fa52d2bd06c6392938a280a04368be203422d	2026-08-25T21:43:41-06:00	Test-first conductor: dry-run harness 9/9, frozen-tests gate, A6 staged; spec v2.8 (conductor findings, sizing duty); A5 post-mortem
+3111168c2b0dcd852c096b00833c1de03ec4e31a	2026-08-25T19:55:42-06:00	Conductor: A4 post-mortem (died at compaction; hollow B2 pass caught), gate anti-shrinkage check, self-contained B2-v4 brief, batch A5 launched
+706a8310ae48f2d0071ecda5a745df74d6adeef9	2026-08-25T17:20:55-06:00	Conductor state + v2/v3 rebriefs + B3 unit + lane escalation + red-preservation (pre-compaction checkpoint)
+2290cf67c0c047cb43c23bae77eacfd08c2693f6	2026-08-25T10:29:07-06:00	Gateway conductor kit: batch runner, fail-closed verifiers, unit briefs A/B1/B2/B5, ledger (local-most build mode)
+60bfb4e0884ff0b711a9eb6739cbff36017635db	2026-08-25T09:16:07-06:00	Sanitized public version of the 2026-08-25 issue report (for anthropics/claude-code)
+91662e54b2dfc0e1fc68b66f19310ca6d61d2d34	2026-08-25T09:10:11-06:00	Anthropic issue report (recurrence): model does not retain its own lessons - 4+ record-skipping incidents in 48h under self-authored rules; follow-up to the 2026-08-23 report
+49f816c7d482825f57ba65dd21faa2eb183ad171	2026-08-25T08:53:20-06:00	v2.7 correction: the reasoning throttle is a REdiscovery - rc.7 era had shipped the effort map at medium (transcript ~L2905); second pointer-rule failure recorded; operator order executed: xhigh stopped, medium wired as 27B default
+8f3537f918ebdf1ff078aa649131f280c7b580a1	2026-08-25T08:44:57-06:00	Spec v2.7: reasoning throttle found (12.6b - top-level reasoning_effort works, none=0 tokens, T-23 resolved in mechanism); 13-citation external cross-check (24.4c: 12 verified, 1 failed, 1 partial); T-2b 64GB Vulkan wall; LM Studio read-only look; probe evidence preserved
+f001cac3e4dadd449cc84f5eab61d4abc01653fd	2026-08-25T08:14:53-06:00	Spec v2.6: the stack as built (19.3), model-pinning/settings-layer finding (18.6), T-29 built+proven, evidence rules, cockpit routing persona, point-and-click operator launcher (verified HTTP 200); launcher + shortcut installer committed
+fee928d8bb1e4b099b30bb7f640903551fe2ce8f	2026-08-25T08:07:52-06:00	Cockpit standing build-routing rule (Option 1): web persona routes builds to Gate-Build and relays verdicts; HALO-CADENCE-BRIEF marker exempts gate-launched 27B builds. Seam verified before wiring: no settings override in plugin source + live sentinel probe (HALO-ROUTE-42) + composed-config check. Deployed to ~/.dsh/profiles/web/cordis.patch.yml (backup kept), canonical copy in stack/
+5f2bb6f01515f328bf63da86967f7d3d8f8f2065	2026-08-25T08:02:51-06:00	Gate cockpit lane: -Lane cockpit runs the 27B native with the forced-cadence brief auto-stamped into AGENTS.md (generalized from tc2e-instructions, marked n=0 until first real pass); proven on the seeded-bug check (PASS 3.3 min, 42/42 server-log lines = 27B)
+b952bd55b9901e2a8c4aa790847a4c8a686fc9bb	2026-08-25T07:48:06-06:00	Stack enforcement at the evidence layer: gate is the only documented build path; Probe-Worker stamps ungated runs NOT EVIDENCE; Check-Done enforces no-gate-log-no-done (proven both directions)
+06e9c222a877a0d07679f80c84557ab6b5b31233	2026-08-25T06:57:09-06:00	Halo v1 stack bring-up: gate (T-29) proven fail-closed and repair-to-green on the real coder lane; worker DSH_HOME pattern (patch cannot pin model - settings user layer wins); cockpit+worker smokes verified by server log
+fe0823a96f5960a1cdc2fbb5bd2ea4747b077f3c	2026-08-25T06:30:11-06:00	Spec v2.5: current-stack Code-vs-Standard 2x2 merged (12.12) - Code Mode wins hard tasks, all cells falsely claim success; T-12 closed both states; T-28 runtime-verified; build lane = Code/32K + verifier gate (T-29); risks 21.15/21.16; records map updated
+0d55c621b20ca5d0a860b398b3f754573af1033c	2026-08-25T00:44:47-06:00	v2.4 audit pass: reattach T-28 table row, blank line before s29, reconcile four 131K summary lines and three stale Code-Mode lines, quote exactness in 17.4, self-exit marks, 12.9/12.11 precision, 18.5.2 model id, s1 findings count, Q25 ablation framing
+1c5bc0ef464dc0a6293a8b7550dd1fe1e944b47d	2026-08-25T00:34:05-06:00	Spec v2.4: tuning merge (sweep + T-C battery + forced-cadence recipe), $18.1 contextWindow amendment, recovered rc.7 bench-day record (17.4), pointer rule (21.14), standing config (19.1), records map (29)
+142e7439ac9e7993f497c7e88ed5aa79a3428b3b	2026-08-24T23:45:37-06:00	Handoff addendum K: tc2e final, DSH web-access finding, crawl4ai assessment, v2.4 queue
+bafcfa8c07a2640473ed9e9849e22cf43fbd09bf	2026-08-24T23:31:37-06:00	Handoff live-state superseded note: T-C2e full pass
+15e03ef68e3107fd4d86d33d41fc2bdb8d51d34e	2026-08-24T23:31:14-06:00	T-C2e: FULL PASS 15/15 - local model autonomously builds complete TownReporter in 49.7m via computer-forced cadence; battery closed, report appended
+38f3f0bf73fb0a142ba5257d98f6010708a696f7	2026-08-24T23:18:12-06:00	Handoff document for successor agent (full context, results, harness, traps, operator rules, file map, live state)
+b3c499a2e3d75f49295570abd741600f3fef3539	2026-08-24T22:41:46-06:00	T-C final report: emission-stall pathology, compaction root cause (missing contextWindow, fix applied), two-model validation, decomposition recipe
+1e07d9efea58a5e3ae08f22fc231c50fa445bc80	2026-08-24T22:38:49-06:00	DSH Strix Halo research: spec v2.1-v2.3, bench+tuning harnesses, sweep + T-C battery evidence (initial capture)

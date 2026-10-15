@@ -1,0 +1,143 @@
+
+
+Below is the complete stock `headless` autonomous-run composition on current `master`/`0.1.0-rc.8`: 81 configured plugin entries—78 from `dsh-base` and three added by `dsh-headless`. Four are normally inactive in a stock headless run: HMR, the skill badge, and the two shell entries for the wrong operating system. User patches and environment settings can change that composition. [Base configuration](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/base/cordis.patch.yml), [headless configuration](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/headless/cordis.patch.yml).
+A useful selection rule:
+
+* Use subagents for bounded delegation.
+* Use workflow for programmable fan-out/fan-in orchestration.
+* Use goals for repeated work in the same conversation.
+* Use Ralph for repeated fresh-agent attempts using the workspace as memory.
+* Use plan mode when a human must review the plan before implementation.
+* Use headless when one process should run one task and exit.
+
+Autonomous-agent and orchestration plugins
+1. `@deepseek-ai/dsh-headless/startup`
+This is the command-line provider for the headless application. It reads `ctx.cmdlineArgs`, accepts one nonblank positional task, handles headless-specific help and validation, and publishes the resulting `headlessStartup` service for the runner. Use it when launching autonomous jobs through `dsh --profile headless "task"`; it is unnecessary in an SDK embedding, Web application, or custom service where your own code supplies tasks directly. [Headless README](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/headless/README.md).
+2. `@deepseek-ai/dsh-headless`
+This is the actual one-shot runner. It selects the default model, creates a fresh persisted agent, submits the task, waits for that agent to become idle, flushes its session, derives the last assistant response from the durable event interval, prints it, and exits with a status based on `turn/end`. Choose it for CI jobs, batch processing, evaluations, and shell automation; do not choose it when the process must accept follow-ups, serve multiple simultaneous users, or remain alive for scheduled/background activity. It opens no server or browser interface. [Headless README](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/headless/README.md).
+3. `@deepseek-ai/dsh-code-runtime-worker-thread`
+This supplies the worker-thread backend behind Code Mode’s `run_code`. Every program gets a fresh Node worker, empty environment, compute and wall-clock limits, a heap cap, an output cap, and hard worker termination; calls back into Harness tools cross a validated message bridge. It is valuable when an agent should programmatically combine many tool calls or transform large results. The worker provides containment—not a security boundary—and processes launched from inside it can survive worker termination, so use a real OS/container sandbox for hostile code. [Worker-thread runtime](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/code-runtime/code-runtime-worker-thread/README.md).
+4. `@deepseek-ai/dsh-agent`
+This defines the public `Agent` interface, live-agent registry, initiator scope, lifecycle events, delivery methods, cancellation, and idle observation. Other plugins should program against this seam instead of importing `agent-loop`, which makes the concrete loop replaceable. Nearly every agent composition should retain it; a custom agent implementation would still normally register through this package rather than replacing its public vocabulary. [Agent interface](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/core/agent/README.md).
+5. `@deepseek-ai/dsh-agent-default-model`
+This owns the provider/model/reasoning selection used when an entry point creates a session without an explicit selection. It can read and save the selection through the settings service, but remains usable when no settings backend exists. Keep it when several entry points should share a configurable default; omit or bypass it only when every caller supplies an explicit immutable route, such as a fixed evaluation harness.
+6. `@deepseek-ai/dsh-agent-loop`
+This is the repository’s only concrete reasoning loop. It creates or resumes agents, claims queued input, opens turns and steps, assembles prompts and history, calls the selected LLM, executes tools, records every model-visible fact, and manages parallel tool calls. Use it as the standard driver unless you are deliberately implementing a different loop contract. DeepSeek’s architecture expects new policies to attach to its events and tool pipeline rather than modifying this package, which keeps behavior composable and the loop replaceable. [Agent-loop README](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/core/agent-loop/README.md), [core flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/core.md).
+7. `@deepseek-ai/dsh-agent-instructions`
+This contributes repository/workspace instructions to model requests, bounded to 65,536 bytes in the stock composition. It is useful for coding agents that must discover and obey project conventions, repository-specific rules, testing commands, and local agent instructions without putting them permanently into the global persona. Keep it for general coding agents; disable it for narrow evaluations requiring a fully controlled prompt or for non-repository workloads where local instruction discovery is undesirable. [Context packages](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/context/README.md).
+8. `@deepseek-ai/dsh-jobs-local`
+This is the process-local registry for background work created by shells, terminals, and subagents. It owns job identities, status, output, completion, stopping, and a configurable per-owner concurrency limit—ten by default. Use it when any tool can return before its operation finishes. It is not durable or distributed, so a restarted process cannot recover its running-job registry; use an external queue for restart-safe production automation. [Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md).
+9. `@deepseek-ai/dsh-tool-jobs`
+This exposes `job_list`, `job_output`, and `job_kill` to the model and delivers completion notices for registered background jobs. Mount it whenever `bash`, terminal actions, or subagents may run in the background; otherwise the agent can start work it cannot subsequently inspect or terminate. If all producers are configured as foreground-only, removing this plugin reduces tool-catalog size and prevents the model from assuming background execution is available. [Tool catalog](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/tool-catalog.md).
+10. `@deepseek-ai/dsh-subagent`
+This is the provider-neutral subagent service and named-provider registry. It defines delegation requests, child results, lineage, continuable-child behavior, provider capability checks, and discovery while leaving the actual transport to sibling providers. Keep it when an agent may delegate focused work; omit the whole subagent family for simpler single-agent deployments. Because providers are named, you can mount in-process, ACP, Codex, Claude Code, or remote Harness providers beside one another without changing the core loop. [Subagent subsystem](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/subagent.md).
+11. `@deepseek-ai/dsh-subagent-spawn-in-process`
+This registers the stock `spawn` provider, which starts a fresh in-process child rather than copying the parent’s completed conversation. The child shares the workspace and lineage but should receive a complete standalone prompt. Choose it for independent research, isolated implementation tasks, tests, or parallel review where inheriting the parent’s long history would waste tokens or bias the child. Because it runs in the same process, it offers low overhead but not process isolation.
+12. `@deepseek-ai/dsh-subagent-fork-in-process`
+This registers the stock `fork` provider, which creates a child from the parent’s completed history. It is appropriate when the child genuinely needs decisions, evidence, or context already accumulated in the conversation and restating that information would be difficult. Forking carries more prompt history, may reduce cache efficiency, and can inherit irrelevant assumptions, so prefer fresh spawning for self-contained work. The stock `subagent_fork` tool keeps these children one-shot. [Subagent package map](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/subagent/README.md).
+13. `@deepseek-ai/dsh-tool-subagent` — `subagent` instance
+The first configured instance binds the tool name `subagent` to the `spawn` provider. In the base profile it uses continuable background behavior, allowing the parent to receive settlement reports and send later messages instead of treating the child as a single blocking function. Use this for longer independent jobs or concurrent delegation. For deterministic one-shot headless automation, consider foreground behavior or explicit job draining because a continuable child’s lifecycle differs from the parent agent’s own idle interval. This final caution is an inference from the documented headless and continuable-child lifecycles. [Tool behavior](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/tool-catalog.md).
+14. `@deepseek-ai/dsh-tool-subagent` — `subagent_fork` instance
+The second instance uses the same package but registers `subagent_fork`, routes it through the fork provider, and configures one-shot behavior. Select it when the child needs the parent’s existing conversation and should return one result directly rather than remain available for follow-up. Avoid it for broad fan-out because each fork carries inherited history; `subagent` with a carefully written standalone prompt is usually cheaper and easier to reason about.
+15. `@deepseek-ai/dsh-tool-subagent-control`
+This contributes `send_message` and `interrupt_agent` for continuable background children. `send_message` queues another turn after the child’s current activity; it does not redirect a turn already underway or synchronously return the child’s response. `interrupt_agent` requests cancellation of the current turn while leaving the child and queued messages available. Include this when children are long-lived collaborators; remove it when every child is one-shot and immutable after launch. [Subagent controls](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/tool-catalog.md).
+16. `@deepseek-ai/dsh-tool-subagent-control/list-agents`
+This separately loaded subpath registers `list_agents`, backed by live agents and durable session projections. It lets a parent rediscover its children or descendants and their identities without using completion polling. Keep it when several background children may coexist or when the model needs to address a child after other work; omit it for strictly foreground delegation where the tool call itself returns the only needed result.
+17. `@deepseek-ai/dsh-tool-subagent-report`
+This provides the `report` tool inside continuable child scopes, allowing a child to send selected progress or a final result to its direct parent. The parent does not automatically receive the child’s transcript, reasoning, or tool output, so this is the intentional information boundary. Its delivery can wake the parent or quietly add context depending on configuration. Use it for asynchronous collaboration; for simple one-shot calls, the ordinary returned subagent result may be sufficient. [Report contract](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/tool-catalog.md).
+18. `@deepseek-ai/dsh-workflow-worker-thread`
+This implements the workflow engine using one Node worker thread per workflow script while child agents remain on the host. It is designed for programmatic orchestration—fan-out, sequencing, result combination, conditionals, and bounded repetition—without putting that orchestration into `agent-loop`. Choose it when the task structure is better represented as code than as a sequence of model decisions. Worker separation protects the host event loop but is not a security boundary for untrusted scripts. [Workflow engine](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/workflow/workflow-worker-thread/README.md).
+19. `@deepseek-ai/dsh-tool-workflow`
+This makes the general workflow engine model-facing through the `workflow` tool. It lets the model author an orchestration script that invokes subagents through typed bindings. Enable it for complex, dynamic tasks where model-generated fan-out/fan-in can save context and latency. Remove it when orchestration must remain predetermined, audited, or application-owned; a fixed workflow invoked by your code is easier to test than allowing arbitrary model-written scripts. [Workflow family](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/workflow/README.md).
+20. `@deepseek-ai/dsh-goal`
+This defines a durable, revisioned objective attached to an existing session, including active, paused, blocked, and complete phases plus a round cap. A goal is state—not a scheduler, separate agent, or new conversation. Use it when the same agent should continue an objective over several rounds while retaining its whole conversation and workspace state. Do not use it for independent attempts that should begin with clean context; Ralph or fresh subagents are a better fit. [Goal terminology](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/glossary.md).
+21. `@deepseek-ai/dsh-goal-round-driver`
+This watches an armed active goal and, whenever the owning agent becomes idle, admits another same-session goal round until completion, blocking, pausing, or the configured cap. Each round adds a retained goal prompt to the existing history, so accumulated reasoning and tool results remain available. Choose it for iterative work that benefits from conversational continuity. It does not independently judge success, retry abnormal failures, or impose token/cost/time budgets, so production deployments need separate resource and evaluation policies. [Goal-round driver](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/goal/goal-round-driver/README.md).
+22. `@deepseek-ai/dsh-command-goal`
+This contributes the human-facing `/goal` command for examining and changing the current goal without turning that command into model input. It is helpful in interactive Web or terminal clients where a user needs direct lifecycle control. It adds little value in a fully unattended headless service whose application API owns goal creation and resumption, so it can be omitted from minimal automation profiles.
+23. `@deepseek-ai/dsh-tool-goal`
+This exposes `create_goal`, `get_goal`, and `update_goal` so the model can manage the durable objective. Mutations enforce authority rules: direct-human root activity can create or substantially change goals, while an authorized goal round can complete or report a sufficiently repeated blocker. Enable it when goal lifecycle decisions legitimately belong to the agent; omit it when an external controller must be the only authority deciding completion and continuation. [Goal tools](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/tool-catalog.md).
+24. `@deepseek-ai/dsh-tool-ralph`
+This implements a fixed foreground Ralph loop: each round starts a fresh child with the same immutable objective, no copied conversation, a shared workspace, and one bounded structured handoff from the previous round. Use it for stubborn implementation tasks where repeated clean attempts and workspace inspection are more valuable than retaining conversational reasoning. It is more expensive than a same-session goal and provides no independent evaluator—the child reports its own completion—so reserve it for explicitly requested fresh-agent iteration rather than ordinary delegation. [Ralph tool](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/workflow/tool-ralph/README.md).
+25. `@deepseek-ai/dsh-tool-todo`
+This contributes `todo_write`, a per-agent checklist whose entire value is replaced on every call and persisted as a session event. It gives the model and UI a visible account of multi-step progress, but it does not schedule work or coordinate multiple agents; each child has its own list. Enable it for transparency and task discipline. Do not treat it as a durable project tracker—the displayed standing plan clears at the next turn boundary. [Todo tool](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md).
+26. `@deepseek-ai/dsh-plan-mode`
+This supplies durable per-agent planning state, a deployment-owned planning prompt, `/plan`, and the reviewed `exit_plan_mode` tool. It is well suited to interactive coding workflows where the agent should inspect and design first, then require human approval before implementation. Plan mode is soft guidance rather than enforcement: sandbox and approval plugins must independently prohibit mutations if that restriction matters. It is usually unnecessary for unattended autonomous runs because approval requires an interaction provider. [Plan-mode reference](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/plan/plan-mode/README.md).
+27. `@deepseek-ai/dsh-repeat-tool-reminder`
+This observes consecutive identical tool calls per agent and injects escalating reminders at configured thresholds—three, five, and eight in the stock profile. It neither blocks nor rewrites calls, making it a low-risk default defense against simple model loops. Keep it in most autonomous deployments, but exclude legitimate polling or idempotent bookkeeping tools when repeated calls are expected. It detects exact canonical argument matches only and forgets its counters after process restart. [Repeat reminder](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/guard/repeat-tool-reminder/README.md).
+28. `@deepseek-ai/dsh-tool-call-timeout-policy`
+This wraps tool execution and enforces the timeout declared by each individual tool, returning a structured `TOOL_TIMEOUT` result when the deadline wins. It has no configuration and does nothing to tools that declare no deadline. Keep it as a general reliability layer, but understand that cancellation is cooperative: a provider that ignores the supplied abort signal may continue running, and there is no blanket timeout for shell or filesystem operations. [Timeout policy](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/guard/timeout-policy/README.md).
+Remaining plugins, each with a short description
+Model, prompt, and tool infrastructure — 11 entries
+
+* `@deepseek-ai/dsh-llm` — Defines message/content vocabulary and the provider-neutral LLM adapter registry.
+* `@deepseek-ai/dsh-llm-deepseek` — Native DeepSeek model adapter using live settings and credential references.
+* `@deepseek-ai/dsh-llm-pi-ai` — Optional multi-provider adapter; remains dormant until provider profiles are added to settings.
+* `@deepseek-ai/dsh-llm-retry` — Applies the configured retry policy to failed model requests while preserving attempt records outside model history.
+* `@deepseek-ai/dsh-tools` — Scoped tool registry and guarded execution pipeline; also contributes `run_code` when Code Mode is enabled.
+* `@deepseek-ai/dsh-system-prompt` — Assembles ordered prompt sections, runtime variables, context snapshots, and model-visible tool schemas.
+* `@deepseek-ai/dsh-user-questions` — Provider-neutral service for pausing work and obtaining structured human answers.
+* `@deepseek-ai/dsh-token-meter` — Measures request-token pressure for context budgeting and compaction decisions.
+* `@deepseek-ai/dsh-api-gateway` — Exposes registered Harness APIs through the Typert-backed RPC gateway.
+* `@deepseek-ai/dsh-typert-registry` — Runtime registry for generated RPC service and type metadata.
+* `@deepseek-ai/dsh-typert-loader` — Loads generated Typert artifacts into the runtime registry.
+
+Sessions, persistence, and context control — 14 entries
+
+* `@deepseek-ai/dsh-session` — Append-only event-sourced session log and in-memory session store; the authoritative record of model-visible behavior.
+* `@deepseek-ai/dsh-session-title` — Maintains durable session titles and supplies a deterministic fallback.
+* `@deepseek-ai/dsh-session-title-first-prompt-llm` — Generates a short title from the first user prompt through an LLM.
+* `@deepseek-ai/dsh-session-persistence-jsonl` — Persists sessions as compressed append-only JSONL under the Harness home.
+* `@deepseek-ai/dsh-session-query-sqlite` — Provides exact session reads, lineage, and optional full-text search through SQLite; stock search is configured off.
+* `@deepseek-ai/dsh-session-projection` — Folds event logs into reusable derived state such as agent listings, goals, plans, and todos.
+* `@deepseek-ai/dsh-session-telemetry-otel` — Exports session telemetry through OTLP/HTTP; mounted but disabled unless telemetry is explicitly enabled.
+* `@deepseek-ai/dsh-attachment-local` — Stores durable attachment bytes locally using content-addressed identities.
+* `@deepseek-ai/dsh-session-checkpoint-policy` — Flushes required durable state before model requests and top-level dispatches.
+* `@deepseek-ai/dsh-spill-local` — Local backend for saving oversized tool output and returning a locator.
+* `@deepseek-ai/dsh-spill-policy` — Diverts tool results larger than the configured inline limit—50,000 bytes by default—to spill storage.
+* `@deepseek-ai/dsh-compaction-basic` — Default conversation compactor for context pressure and request-size recovery.
+* `@deepseek-ai/dsh-compaction-tool-result-pruner` — Shortens oversized tool results before general conversation compaction; stock threshold is 8,192 characters.
+* `@deepseek-ai/dsh-command-compact` — Provides the human `/compact` command for requesting an immediate useful reduction.
+
+Sandboxing, permissions, shell, and filesystem — 15 entries
+
+* `@deepseek-ai/dsh-subprocess-local` — Runs local subprocesses with process-tree handling and cross-platform cancellation support.
+* `@deepseek-ai/dsh-sandbox-local` — Local provider for launching operations under the selected sandbox boundary.
+* `@deepseek-ai/dsh-sandbox-policy` — Resolves the active sandbox mode and workspace root; stock mode is `workspace-write`.
+* `@deepseek-ai/dsh-bash-sandbox` — Sandboxed Bash executor used on non-Windows systems.
+* `@deepseek-ai/dsh-pwsh-sandbox` — Sandboxed PowerShell executor used on Windows.
+* `@deepseek-ai/dsh-user-approval` — Implements the approval policy that decides when an operation must ask the user.
+* `@deepseek-ai/dsh-permission-presets` — Maps named presets such as read-only, workspace-write, and danger-full-access to sandbox and approval settings.
+* `@deepseek-ai/dsh-shell-env` — Supplies managed `DSH_*` environment variables and Harness runtime facts to shell commands.
+* `@deepseek-ai/dsh-tool-bash` — Model-facing Bash execution tool for non-Windows compositions, including optional background execution.
+* `@deepseek-ai/dsh-tool-pwsh` — Windows counterpart of the Bash tool, using PowerShell syntax and paths.
+* `@deepseek-ai/dsh-fs-observation-policy` — Enforces the filesystem read/observation-before-mutation policy.
+* `@deepseek-ai/dsh-fs-sandbox` — Filesystem provider constrained by the active sandbox policy.
+* `@deepseek-ai/dsh-tool-fs` — Supplies model-facing `read`, `read_image`, `write`, and `edit` operations.
+* `@deepseek-ai/dsh-tool-fs-search` — Supplies `glob` and `grep` using packaged ripgrep rather than relying on a host installation.
+* `@deepseek-ai/dsh-tool-str-replace-editor` — Alternative editor supporting view, create, unique literal replacement, and line insertion.
+
+Skills and commands — 6 entries
+
+* `@deepseek-ai/dsh-skill` — Provider-neutral skill registry and lifecycle service.
+* `@deepseek-ai/dsh-skill-filesystem` — Discovers and loads skills from the local filesystem.
+* `@deepseek-ai/dsh-skill-badge` — Optional active-skill annotation/badge contribution; present but disabled in the stock base profile.
+* `@deepseek-ai/dsh-tool-skill` — Model-facing skill catalog and loader tool.
+* `@deepseek-ai/dsh-commands` — Registry and dispatch service for human slash commands.
+* `@deepseek-ai/dsh-command-feedback` — Human command for recording feedback through the session/telemetry plane.
+
+Web research — 3 entries
+
+* `@deepseek-ai/dsh-web` — Provider-neutral registry for web search and fetch capabilities.
+* `@deepseek-ai/dsh-web-search-deepseek` — DeepSeek-backed search provider using the configured DeepSeek credential.
+* `@deepseek-ai/dsh-tool-web` — Model-facing web tools; the stock profile enables `web_search` and disables arbitrary `web_fetch`.
+
+Platform and configuration — 4 entries
+
+* `@deepseek-ai/cordis-plugin-timer` — Cordis timer service used by plugins requiring lifecycle-owned timers.
+* `@deepseek-ai/cordis-plugin-hmr` — Watches and reloads plugin configuration; explicitly disabled in headless runs.
+* `@deepseek-ai/dsh-settings-file` — Hot-reloaded `$DSH_HOME/settings.yaml` provider for user and model configuration.
+* `@deepseek-ai/dsh-credentials-local` — Resolves credentials from environment variables, managed credential storage, and `.env` fallbacks.
+
+Bootstrap components not counted among the 81 entries
+The composed tree also sits on Node.js, the Cordis runtime, `cordis-plugin-loader`, the include/group infrastructure, `dsh-app-boot`, and launcher-provided `dsh-cmdline`. These are bootstrap/runtime dependencies rather than rows in the base-plus-headless plugin composition. The repository currently requires Node `^22.19.0` or `>=24.0.0`; source development uses pnpm 11.7.0. [Root manifest](https://github.com/deepseek-ai/deepseek-harness/blob/master/package.json).

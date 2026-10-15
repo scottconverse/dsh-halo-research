@@ -1,0 +1,1086 @@
+> Historical source recovered October 15, 2026. Claims and instructions describe the original period; this is not a current deployment guide or a new verification. See the [history index](../../../README.md).
+
+# HALO Stack — User Manual
+
+Daily operation of the local AI stack. For design rationale and bench data, see the
+[build log](https://quartz-entry-ptf2.here.now/) (archived in this repo as
+`docs/build-log-snapshot-2026-08-22.html`).
+
+## The pieces and their addresses
+
+| Piece | Where | Started by |
+|---|---|---|
+| Cockpit (DeepSeek Harness) | `http://127.0.0.1:3080` | Desktop icon **DeepSeek Harness** |
+| Mission Control dashboard | `http://127.0.0.1:3090` | Desktop icon **Mission Control** |
+| LM Studio inference server | `http://127.0.0.1:1234` | Runs as a service at login |
+| OpenCode | its own app | On demand (autostart removed on purpose) |
+
+This table is enforced, not just documented: `scripts\Deploy-ToLive.ps1` ends
+every run with an **audit stage** that checks each row (plus the memory-snapshot
+task, desktop icons, and subagent plugins) against the live machine and prints
+PASS/MISSING per row. The install steps themselves live in one place — the
+README's **Full machine rebuild** checklist.
+
+## Architecture
+
+Two interactive surfaces share one inference server; the harness owns
+orchestration; a thin dashboard watches everything and owns nothing.
+
+```mermaid
+flowchart TD
+    OP(["Operator — two desktop icons, zero terminals"])
+
+    OP --> DSH
+    OP --> OC
+
+    subgraph INTERACTIVE["Interactive surfaces"]
+        DSH["DeepSeek Harness cockpit · :3080<br/>pinned 0.1.1-rc.2 · halo-standard preset<br/>full-drive access via one env var"]
+        OC["OpenCode<br/>independent sibling UI<br/>same local model + cloud routes"]
+    end
+
+    DSH --> LMS
+    OC --> LMS
+
+    subgraph INFERENCE["One inference server — one iGPU, one memory bus"]
+        LMS["LM Studio API · :1234"]
+        LMS --> BRAIN["BRAIN · Qwen3.8-27B Q5_K_XL<br/>resident ~27 GB · 131,072 ctx · KV q8_0 · vision<br/>prefill cached across turns (8.1×)"]
+        LMS --> WORKER["WORKER · Qwen3 Coder 30B MoE<br/>on-demand · 2 h TTL · ~16 GB returned idle<br/>fan-out at 4.3× task speed"]
+    end
+
+    subgraph REACH["Reach (from any cockpit session)"]
+        SUB["Subagents<br/>Codex · Claude Code · OpenCode (ACP)"]
+        WEB["Web<br/>Exa search + fetch (keyed MCP)<br/>Reddit via RSS skill · Jina fallback reader"]
+        MEM["Memory graph<br/>survives sessions and reboots"]
+        SKILLS["Skills<br/>/delta-scan-halo · /reddit-search"]
+    end
+
+    DSH --> SUB
+    DSH --> WEB
+    DSH --> MEM
+    DSH --> SKILLS
+
+    MC["Mission Control · :3090<br/>7-tab console + alarm strip<br/>reads native state every 5 s"]
+    MC -.observes.-> DSH
+    MC -.observes.-> LMS
+```
+
+**Why it's fast despite slow silicon** — the request shape is the load-bearing
+decision. Every harness request is a byte-exact extension of the previous one,
+so the expensive prompt-reading step (prefill) is paid once per session, not
+every turn:
+
+```mermaid
+sequenceDiagram
+    participant S as Session
+    participant L as LM Studio (KV cache)
+    S->>L: Turn 1 — system + tools + message (≈10K tok)
+    Note over L: cold prefill ≈ 2 min (once)
+    L-->>S: reply
+    S->>L: Turn 2 — same prefix + new content
+    Note over L: cache hit — prefill in seconds (8.1× faster)
+    L-->>S: reply
+    S->>L: /compact (~52K tok) — history → checkpoint
+    Note over L: one planned re-prefill, then cached again
+    L-->>S: continues with full working knowledge
+```
+
+**How the launcher boots everything in the right order** (the desktop icon):
+
+```mermaid
+flowchart LR
+    A["Double-click<br/>DeepSeek Harness"] --> C["Wait for LM Studio<br/>API (≤60 s)"]
+    C --> D{"Brain resident<br/>LOCALLY?<br/>(deviceIdentifier null)"}
+    D -- no --> E["Load via loader script<br/>logged, one retry"]
+    D -- yes --> F
+    E --> F{":3080 already<br/>serving?"}
+    F -- no --> G["Start harness<br/>(pnpm dlx, pinned)<br/>wait ≤3 min"]
+    F -- yes --> Z["Open browser"]
+    G --> Z
+```
+
+The brain check runs on **every** launch — an evicted brain reloads even
+when the cockpit is already up (the old early-exit skipped it), the check
+is federation-safe (a fleet device publishing the same identity can't
+satisfy it), and failures land in `~\.dsh\launcher.log` instead of
+vanishing.
+
+Diagrams render on GitHub's repo view. The full architecture rationale —
+source-level findings, config composition, permission model, bench data —
+lives in the [build log](https://quartz-entry-ptf2.here.now/) (archived here
+as `build-log-snapshot-2026-08-22.html`).
+
+## Technology stack — what runs, why, and the proofs
+
+This section is for developers who want the design specifics, not just the
+operating instructions above. Every number below is measured on this machine
+or read from a live config file — proofs are cited inline and collected in
+the index table at the end. Where the record has a caveat (a split that can
+drift, a bug still open, a claim that got refuted by a later audit), that
+caveat is kept, not smoothed over.
+
+### 1. Silicon — AMD Strix Halo
+
+**What:** an AMD Strix Halo APU with 128 GiB of physical unified memory
+shared between CPU and iGPU (no discrete VRAM). The 128 GiB is split into a
+Windows-visible pool and a GPU carveout — currently 64 GiB / 64 GiB — set in
+AMD Adrenalin's VGM control, not by this stack. Memory bandwidth is
+~256 GB/s.
+
+**Why:** unified memory is the entire reason a 21 GB-class dense brain, a
+16 GB-class MoE worker, and a 131,072-token KV cache (q8_0) can all be resident at
+once on one box. A discrete 16–24 GB card cannot hold this working set —
+this stack's two-model, long-context design would not fit on one. The
+~256 GB/s bandwidth ceiling (vs. a 5090's ~1,792 GB/s) is the real constraint
+behind almost every other decision in this document: it's why prefill reuse
+(§4e below) matters so much more here than on fast discrete silicon, and why
+decode throughput, not compute, is what every model and engine choice below
+is measured against.
+
+**Proof:** Mission Control measures rather than assumes: the GPU carveout
+capacity is read at runtime from the display driver's registry entry
+(`qwMemorySize` — reports the VGM carveout on this APU and true VRAM on
+discrete cards; the 5070 Ti port forced this fix after an earlier
+hardcoded-128-GiB assumption produced nonsense on foreign hardware), and
+the Windows-visible pool comes from `os.totalmem()`. The
+~256 GB/s bandwidth figure and the 5090 comparison are recorded in
+`Claude-Harness-HALO-Design-v2.md` §2 and `HALO-Stack-Monitor-Prompt.md`. If
+you're reading this on different hardware, nothing needs re-deriving — the
+monitoring reads your machine's real numbers.
+
+### 2. Inference server — LM Studio + llama.cpp Vulkan engine
+
+**What:** LM Studio, running the llama.cpp Vulkan backend, serving both
+models from one process at `127.0.0.1:1234`.
+
+**Why Vulkan, not ROCm:** measured, not assumed. LM Studio's Windows ROCm
+runtime for this chip (gfx1151) crashes on non-small models — the exact
+crash case is this stack's 21 GB Q5 brain (`lmstudio-ai/lms` issue #494) —
+and mis-sizes unified memory (`lms` issue #589). The upstream fix for #589
+landed in `llama.cpp` build b10472's HIP UMA change but has not shipped in
+an LM Studio engine build yet. Two ripeness gates are tripwired in the
+`delta-scan-halo` skill (issue #494 closed, and b10472+ shipped in an
+LM Studio engine) — Vulkan stays until both clear.
+
+**Why LM Studio's wrapper, not bare llama.cpp:** benched head-to-head, same
+GGUF, same machine, MTP engaged on both. A bare `llama-server` at b10472
+matched LM Studio within noise (19.5K-token fresh prefill: 177.8 tok/s /
+110.0 s vs. LM Studio's 181 tok/s / 108.6 s; decode 20.2 vs. 19.7 tok/s;
+cached follow-up turn 15.6 s vs. 13.4 s — LM Studio's cached-turn handling
+was slightly *better*). The management layer — stable model identities,
+`lms ps --json`, the on-demand loader/TTL scripts — costs nothing measured
+and is kept.
+
+**Truth-source discipline:** `lms ps --json` is the only reliable report of
+what's actually loaded. The REST catalog (`/api/v0/models`) lies about
+quantization for aliased identifiers — Mission Control's Models tab and
+every bench script in this repo read `lms ps --json`, never the REST
+catalog.
+
+**Service-broker pattern:** both models are pinned under stable API
+identifiers (`qwen/qwen3.8-27b`, `qwen3-coder-30b-a3b-instruct`) by the
+loader scripts in `lmstudio/*.mjs`, so a model swap, quant change, or
+reload never perturbs a consumer (OpenCode, the harness, a subagent) —
+they all keep talking to the same identity. This is the Cordis paper's
+*service broker* pattern (§6.2), arrived at independently and then
+recognized as the sanctioned pattern in `AUDIT-cordis-concepts-2026-08-18.md`.
+
+**MTP speculative decoding:** stock configuration — `speculativeDraftMaxTokens: 4`,
+`speculativeDraftMinContinueProbability: 0.5` — measured optimal. A sweep
+tool (`lmstudio/Sweep-MTP.mjs`) exists specifically to challenge this, and a
+deeper-drafting sweep lost. Draft acceptance is content-dependent and was
+logged at 52.4% on prose vs. 86.5% on structured content.
+
+**Proof:** ROCm crash/mis-sizing citations and the Vulkan-vs-bare-llama.cpp
+bench table are in `docs/phases/bench-day-2-results.md`. The gates are
+recorded in `dsh/skills/delta-scan-halo/SKILL.md`. The truth-source rule and
+service-broker framing are in `docs/USER-MANUAL.md` (Model operations,
+below) and `docs/AUDIT-cordis-concepts-2026-08-18.md`. MTP config values are
+live in `lmstudio/Load-OpenCode-Qwen.mjs` and `lmstudio/Sweep-MTP.mjs`;
+acceptance rates are in `docs/phases/bench-day-2-results.md`.
+
+### 3. Models
+
+**Brain — Qwen3.8-27B UD-Q5_K_XL** (unsloth dynamic quant), dense, loaded at
+131,072-token context (adopted 2026-08-19, `docs/phases/bench-window-131k.md` — KV q8_0 makes the doubled window cost what 65,536/f16 did), vision-capable, under the stable identity
+`qwen/qwen3.8-27b`. Resident memory measured at 19.7 GB (the architecture
+diagram above rounds this to 21 GB). Measured on a 19.6K-token probe
+prompt: fresh prefill 181 tok/s (TTFT 108.6 s cold) → 13.4 s cached
+(**8.1×** speedup, `contextCheckpoints: 32`). Decode 26.9 tok/s solo, 19.0
+tok/s under concurrent load (**−29%** — two models sharing one memory bus
+contend, see §2).
+
+Reasoning-effort mapping (live in `dsh/settings.yaml`): the composer's
+**High** setting maps to `medium` on this model — Qwen3.8 has no real "high"
+tier (only low/medium/xhigh), and `xhigh` burns 17–22K thinking tokens per
+turn on this box. At the model's own thinking-token decode rate (~27 tok/s,
+per `dsh/skills/delta-scan-halo/SKILL.md`), that's roughly 10–14 minutes of
+decode before the model produces a visible answer — a derived estimate from
+those two measured figures, not a separately timed one. `xhigh` is
+explicit opt-in only; nothing in this stack selects it by default.
+
+**Worker — Qwen3-Coder-30B-A3B MoE Q4_K_S**, resident ~16.3 GB, loaded
+on-demand with a 2-hour TTL (`lmstudio/Load-Worker-Coder.mjs`). Measured:
+fresh prefill 615 tok/s, decode 90.9 tok/s solo / 87.8 tok/s concurrent
+(only −3%, vs. the brain's −29% — the smaller active-parameter footprint
+contends less). On a real two-bug harness repair task, the worker finished
+in 41 s vs. the brain's 176 s — **4.3× wall-clock** at equal correctness
+(4/4, both runs). This is the fan-out workhorse: subagent, workflow, and
+Ralph tasks route here, not to the brain.
+
+**Proof:** all figures above are in `docs/phases/phase2-bench-results.md`
+(the probe and harness-task tables) and `docs/phases/bench-day-2-results.md`
+(MTP acceptance, ROCm/bare-llama.cpp challenges). Reasoning-effort mapping
+is live in `dsh/settings.yaml`. Model identifiers and load parameters are
+live in `lmstudio/Load-OpenCode-Qwen.mjs` and `lmstudio/Load-Worker-Coder.mjs`.
+Verdicts (why the brain stays Standard-mode dense, why the worker is
+on-demand not resident) are recorded in `docs/phases/phase2-bench-results.md`
+§Verdicts and reconfirmed in `docs/phases/bench-day-2-results.md`.
+
+### 4. The kernel — DeepSeek Harness (pinned `0.1.1-rc.2`) on Cordis
+
+This is the layer worth going deep on if you're extending this stack.
+
+**(a) Everything is a plugin.** The running harness is composed from 166
+config rows (visible live in Mission Control's Plugins tab) — MCP servers,
+subagents, compaction/pruning, permission, the model route, all of it are
+rows in the same config surface, not special-cased code paths.
+
+**(b) The formal model underneath.** The harness's Cordis kernel implements
+the model from *"A Programming Paradigm for Spatiotemporal Composability"*
+(Shi, Zhang, Cui — Peking University / DeepSeek-AI). Three concepts a
+developer working on this stack needs:
+- **Revertible effects** — every change a plugin makes carries a tracked
+  inverse; teardown is *derived*, not hand-written, so unloading a plugin
+  provably leaves no trace.
+- **Reactive coeffects** — a plugin declares its dependencies and
+  activates/deactivates automatically as they appear or disappear (this is
+  why a "waiting" plugin — dependency not yet satisfied — is not an alarm
+  condition, just a state).
+- **Confluence theorem** — the config file alone determines the running
+  system's final state, regardless of the sequence of edits that got there.
+  History leaves no trace; a `disabled: true` toggle is the sanctioned
+  reversible operation, not row deletion.
+
+**(c) Config reconciliation is LIVE — proven on this machine.** A row
+(`web-search-deepseek`) was toggled in `~\.dsh\cordis.patch.yml` while the
+harness was serving production sessions. The fiber activated ~20 seconds
+after save (plugin inventory 136→137 active), and disabling it again
+withdrew the effect cleanly (137→136) — both directions, zero restart, zero
+disturbance to running sessions. Every restart this stack used to do for a
+config change was unnecessary; the flip side is that a *bad* edit reaches
+production in the same ~20 seconds, which is why deploys are transactional
+(§7 below).
+
+**(d) Config layering — the footgun developers need to know about.**
+Layers apply in this order, later wins: **bundles → profile
+`cordis.patch.yml` → home `cordis.patch.yml` → `--patch` overlays**, and
+overlays stack (validated: `dsh --patch <overlay> --dump-config` composes
+correctly with multiple overlays applied). The footgun: **a patch row
+replaces the targeted row's entire config — there is no deep merge.**
+Patch a row meaning to change one field, and every other field in that
+row's config reverts to whatever the patch provides (or nothing, if
+omitted). `--dump-config` (vs. `--dump-default-config`) is the validation
+gate that catches this — both `Sync-FromLive.ps1` and `Deploy-ToLive.ps1`
+run it and treat unmatched/warning output as a failure. `DSH_HOME` is the
+environment variable that overrides the config root entirely; this stack's
+transactional deploy uses it to compose and validate a fully staged config
+tree in a sandbox directory before anything touches the live home.
+
+**(e) The prefix-cache request invariant.** Every request the harness sends
+is a byte-exact extension of the previous request in the session — the
+session log is append-only, and compaction/pruning/plan-mode are all
+engineered as cache-safe surface replacements. This means prefill (the
+expensive prompt-reading step) is paid once per session, not once per turn
+— the 8.1× TTFT figure in §3 above is this invariant cashing out in a real
+measurement. Compaction is the one planned exception. **Note (2026-08-21):**
+the original settings quoted here (80% trigger / 16% retain / 8,192-token
+summary cap) could **not** converge at the 131,072 window — they asked the
+summarizer to fold ~84,000 tokens into 8,192 (10:1), which truncated every
+time and re-triggered, producing the 2026-08-20 runaway (five failed
+compactions, ~95 minutes). The current settings are **75% trigger / 50% retain
+/ 12,288-token summary cap** (2.7:1), which converges in one pass; see
+`dsh/settings.yaml` for the authoritative values and the reasoning. Treat
+compaction as a safety net, not a routine step: bound work so it does not fire.
+
+**(f) Five known Windows bugs and their workarounds** are already
+listed in the README and are not duplicated here. **These were verified on
+`0.1.0-rc.7`; re-verification against the current `0.1.1-rc.2` pin is pending
+(2026-08-21 migration) — some may already be fixed upstream. The workarounds are
+harmless if a bug is gone, so they stay documented until each is re-checked live.**
+
+**Proof:** the formal-model summary and the live reconciliation experiment
+are both in `docs/AUDIT-cordis-concepts-2026-08-18.md`. Config layering and
+the replace-not-merge rule are documented in
+`docs/Claude-Harness-HALO-Design-v2.md` §4 and enforced live by
+`scripts/Sync-FromLive.ps1` / `scripts/Deploy-ToLive.ps1`. The 166-row count
+and plugin-tab behavior are in this manual's Mission Control section above.
+Compaction settings and the ~80 s re-prefill cost are in
+`docs/phases/phase4-harden-results.md`.
+
+### 5. Reach — search, subagents, skills, memory
+
+**Web search:** Exa's keyed MCP server — free tier funds roughly 1,400
+searches/month recurring once `EXA_API_KEY` is set in `~\.dsh\.env`
+(`dsh/dot-env.template`); the key is referenced by environment variable
+everywhere it's used and is never committed. **Reddit is reached only via
+the `reddit-search` skill's RSS procedure** — Exa serves zero reddit.com
+results (a licensing hole, confirmed by the skill's own measurement notes),
+Jina's reader is blocked by Reddit, and the skill's own JSON API 403s this
+machine. Reddit's `.rss` feeds are the one path that works, paced at ≥8
+seconds between requests to respect the ~10 req/min anonymous rate limit
+(operator-local: `~/.agents/skills/reddit-search/SKILL.md`; no longer shipped in this repo).
+
+**Subagents:** a trio — `codex`, `claude-code`, `opencode` (via ACP) — each
+on existing local auth, registered as host-plane rows in
+`dsh/cordis.patch.yml`. Windows-specific note: the OpenCode ACP provider
+must be spawned as `cmd /c opencode acp`, because npm's `.ps1`/`.cmd` shims
+aren't directly spawnable by the ACP client.
+
+**Skills:** the sanctioned extension surface for adding capability without
+writing plugin code. `delta-scan-halo` runs a weekly self-audit of the
+stack's own upstream (harness releases, the five known bugs, new quants,
+llama.cpp changes, community findings) and tracks scan state in the memory
+graph. Skills live in a **shared root** (`~\.agents\skills`) that's visible
+to both Claude Code and the harness — `reddit-search` is written once and
+usable from either.
+
+**Memory:** an MCP knowledge-graph server (`@modelcontextprotocol/server-memory`)
+backed by `~\.dsh\memory\memory.json`, recalling facts across sessions and
+reboots. The boundary caveat, in the Cordis paper's own terms: this file is
+an *emission* — a write the harness's revertible-effects machinery cannot
+undo, sitting outside the Cordis realm boundary entirely (the memory MCP's
+real isolation point is an `env.MEMORY_FILE_PATH` handed to a spawned
+subprocess, not the `isolate` mechanism the loader actually implements —
+confirmed by source read, not assumption). Two compensations follow
+directly from that finding: an hourly change-detected snapshot task
+(`dsh/memory/Snapshot-Memory.ps1`, SHA256 dedup, last-60 rotation,
+registered as scheduled task **HALO Memory Snapshot**), and bench/overlay
+sessions pointed at a wholesale-replaced `mcp-memory` row targeting a
+scratch graph (`dsh/overlays/bench-overlay-*.yml`) so experiments can never
+write the production knowledge graph.
+
+**Proof:** Exa tier and key handling are in `dsh/dot-env.template` and
+`dsh/cordis.patch.yml`. Reddit access facts are in
+`~/.agents/skills/reddit-search/SKILL.md` (operator-local; no longer shipped in this repo). The subagent trio and the ACP
+Windows fix are live in `dsh/cordis.patch.yml`. Skills and the shared root
+are documented in `dsh/skills/delta-scan-halo/SKILL.md` and the shared-root
+comment in `scripts/Sync-FromLive.ps1`. The memory boundary finding,
+snapshot compensation, and bench-overlay isolation are all in
+`docs/AUDIT-cordis-concepts-2026-08-18.md` §4 and §6.
+
+### 6. Observability — Mission Control
+
+**What:** `mission-control/mission-control.mjs` — a single Node file, a few
+thousand lines, zero dependencies — serving a seven-tab operator
+console (Overview / Models / Sessions / Plugins / System / Memory / Settings)
+behind a master alarm strip at `127.0.0.1:3090`.
+
+**Why built custom, and why thin:** an earlier self-grade claimed Mission
+Control "duplicates nothing." An adversarial audit refuted that — the
+harness already ships session/workspace/job/plugin-inventory RPCs
+(`apiproxy`) and a WebSocket event stream (`events.mux`) that Mission
+Control was hand-parsing the sessions directory instead of consuming. It
+was refactored the same night to consume those native RPCs and the
+WebSocket stream when the cockpit is up, falling back to a directory scrape
+only when the harness is down (its intended watchdog role). What's
+legitimately custom: the LM Studio model card, RAM/GPU pool readings, and
+the "start the cockpit when the harness is dead" role — none of which the
+harness exposes.
+
+**What it reads and owns:** native surfaces only — `dsh` `apiproxy` RPCs,
+the `events.mux` WebSocket, the `lms` CLI, and GPU/RAM perf counters via
+`os.totalmem()` and the Adrenalin-visible carveout split. It owns no state
+of its own beyond two small trend/cadence files (`mc-state.json`,
+`mc-history.jsonl`).
+
+**The plugin card speaks the Cordis lifecycle**, not an ad hoc
+enabled/abnormal binary: **active / disabled / waiting / transitioning /
+failed**, plus a **stuck** flag when a fiber sits in the same transitional
+phase for more than 60 seconds (`STUCK_MS = 60000` in source). This
+encodes real semantics: "waiting" (an unsatisfied dependency) is benign —
+the fiber self-activates once its dependency appears, no alarm; a stuck
+`UNLOADING` phase is a withdrawal guard waiting on dependents and *is*
+flagged; `failed` is terminal and always actionable, because the Cordis
+calculus never auto-retries a failed fiber until the config itself is
+touched.
+
+**Memory pools are reported in GiB** (Windows pool / GPU carveout / GPU
+shared), including a shared-pool leak alarm: model bytes appearing in the
+GPU *shared* pool (rather than the dedicated carveout) is the failure mode
+that caused an out-of-memory incident on 2026-08-16.
+
+**What the shared pool normally holds** (measured 2026-08-19, per-process
+GPU counters, because "it should be near zero" is wrong and invites exactly
+this question): about **1.5 GiB is the healthy resting floor** — roughly
+1.2 GiB of it is `llama-server`'s own Vulkan host-visible memory (staging
+buffers for CPU↔GPU transfers and host-side scratch, allocated at model
+load) and about 0.4 GiB is the desktop compositor and browsers. It is
+plumbing between the CPU and the iGPU, not weights that failed to fit.
+
+Two measurements say it is not a spill: it held a median of 1.50 GiB across
+2,347 samples over 39 hours with a model resident throughout, and it barely
+moved when the context window was **doubled** from 65,536 to 131,072 (1.12 →
+1.60 GiB) while the dedicated carveout jumped 25.6 → 32.3 GiB. If the shared
+pool were carrying KV cache, doubling the window would have doubled it. The
+KV went where it belongs.
+
+So the signal to watch is **growth, not presence** — which is why the alarm
+threshold is 8 GiB rather than zero, and why the vitals strip draws this as
+a flat sliver whose *shape* is the tell.
+
+**Serves with `Cache-Control: no-store`** — deliberately, because the app
+ships inline in the same file it serves; a browser-cached copy would
+silently diverge from what's actually running.
+
+**Proof:** file size and zero-dep claim are verifiable directly in
+`mission-control/mission-control.mjs`. The refactor-from-refuted-claim
+story is in `docs/AUDIT-redundancy-2026-08-17.md` ("Mission Control"
+finding). The Cordis lifecycle states and stuck-detection constant are live
+in `mission-control/mission-control.mjs` and explained in
+`docs/AUDIT-cordis-concepts-2026-08-18.md` finding 3. The 128 GiB total and
+"don't hardcode the split" note are in the same file (see §1 above). The
+Aug-16 OOM incident is referenced in this manual's Mission Control section
+(above).
+
+### 7. Operations — the reproducibility machinery
+
+**Sync-FromLive.ps1** (live → repo): copies every live config surface back
+into the repo, then runs `dsh web --dump-config` as a validation gate,
+surfacing any "warn"/"unmatched" output before you commit.
+
+**Deploy-ToLive.ps1** (repo → live) is transactional, five stages, visible
+directly in the script's own stage banners:
+1. **Drift guard** — aborts (naming the files) if any live target is newer
+   than and different from its repo source, i.e. there are unsynced live
+   edits a deploy would silently clobber. Override with `DEPLOY_FORCE=1`.
+2. **YAML pre-validation** — parses every staged YAML file with a schema
+   that tolerates `cordis.patch.yml`'s custom `!!js` tag (inline JS template
+   strings) as an opaque scalar, so that tag alone never counts as invalid.
+3. **Staged compose-validation** — builds a full sandbox home (junctioning
+   the untouched `profiles/` tree, overlaying this deploy's staged files) and
+   runs the same `--dump-config` gate against it via a `DSH_HOME` override,
+   *before* touching anything live.
+4. **Timestamped backup** — every live file about to be overwritten is
+   copied to `~\.dsh\ConfigBackups\deploy-<stamp>\` first.
+5. **Apply, then live validation, then automatic rollback on failure** — a
+   failed post-apply `--dump-config` restores every backed-up file and
+   re-validates the rollback itself before declaring success.
+
+**The drift-guard incident (2026-08-18), told honestly:** the transactional
+deploy's own live test ran while four sets of fresh live edits (a Mission
+Control upgrade, overlay isolation work, a skill edit, and an AGENTS.md
+edit) had not yet been synced back to the repo — the deploy overwrote all
+of them with older repo copies. What the incident actually proved: the
+backup stage had captured every one of those six clobbered files seconds
+before the overwrite, so recovery was a copy-back, not a re-do — the
+transactional design paid for itself against its own test. The missing
+piece was drift *detection*, so stage 1 above (the drift guard) was added
+and verified against the real post-incident state — it caught
+exactly the six affected files.
+
+**Telemetry, audited clean:** all 199 installed DeepSeek-authored packages
+were swept (code and config) for external hosts, the telemetry subsystem's
+disabled-mode code path was read at source (no OpenTelemetry SDK object is
+constructed at all when disabled), and live process sockets were inspected
+directly — exactly one established connection, `127.0.0.1:1234` (LM
+Studio). Zero third-party analytics of any kind.
+
+**Backup story, end to end:** `~\.dsh` itself is backed up
+(`DSH-home-backup-<stamp>`); every deploy leaves a timestamped
+`ConfigBackups\deploy-<stamp>\`; the memory graph gets hourly
+change-detected snapshots with 60-deep rotation. Nothing in this stack has
+a single point of unrecoverable failure for its own config.
+
+**Proof:** stage-by-stage behavior is directly readable in
+`scripts/Deploy-ToLive.ps1` and `scripts/Sync-FromLive.ps1`. The drift-guard
+incident and its lesson are told in `docs/AUDIT-cordis-concepts-2026-08-18.md`
+("Incident during this work"). The telemetry sweep is in
+`docs/AUDIT-telemetry-2026-08-17.md`. Backup locations are named directly in
+`docs/phases/phase4-harden-results.md` and `dsh/memory/Snapshot-Memory.ps1`.
+
+### Proof index
+
+| Claim | Number | Proven in |
+|---|---|---|
+| Unified memory total / GPU carveout | 128 GiB / measured at runtime from driver registry | `mission-control/mission-control.mjs` (`vramCapacityBytes`) |
+| VGM split (current — re-measure, don't assume) | 64 GiB carveout / 64 GiB Windows | `mission-control/mission-control.mjs` comment; `HALO-Stack-Monitor-Prompt.md` |
+| Memory bandwidth | ~256 GB/s | `Claude-Harness-HALO-Design-v2.md` §2 |
+| ROCm gfx1151 crash on non-small models | `lmstudio-ai/lms` #494 | `docs/phases/bench-day-2-results.md` |
+| ROCm unified-memory mis-sizing | `lms` #589; fix in llama.cpp b10472, not yet shipped | `docs/phases/bench-day-2-results.md` |
+| Bare llama-server vs. LM Studio | 177.8 tok/s prefill / 20.2 tok/s decode vs. 181 / 19.7 | `docs/phases/bench-day-2-results.md` |
+| MTP stock config optimal | n=4 draft tokens, p=0.5 continue-probability | `lmstudio/Load-OpenCode-Qwen.mjs`, `lmstudio/Sweep-MTP.mjs` |
+| MTP draft acceptance | 52.4% prose / 86.5% structured | `docs/phases/bench-day-2-results.md` |
+| Brain resident memory | 19.7 GB measured (21 GB in diagram) | `docs/phases/phase2-bench-results.md` |
+| Brain context window | 131,072 tokens (KV q8_0; bench-window-131k.md) | `dsh/settings.yaml` |
+| Brain fresh prefill / cold TTFT | 181 tok/s / 108.6 s (19.6K-tok probe) | `docs/phases/phase2-bench-results.md` |
+| Brain cached TTFT | 13.4 s (8.1×) | `docs/phases/phase2-bench-results.md` |
+| Brain decode, solo / concurrent | 26.9 / 19.0 tok/s (−29%) | `docs/phases/phase2-bench-results.md` |
+| xhigh thinking-token cost | 17–22K tokens/turn | `dsh/settings.yaml` |
+| Worker resident memory | 16.3 GB | `docs/phases/phase2-bench-results.md` |
+| Worker fresh prefill / TTFT | 615 tok/s / 31.8 s | `docs/phases/phase2-bench-results.md` |
+| Worker decode, solo / concurrent | 90.9 / 87.8 tok/s (−3%) | `docs/phases/phase2-bench-results.md` |
+| Worker task speedup | 4.3× (41 s vs. 176 s), equal correctness | `docs/phases/phase2-bench-results.md` |
+| Config reconciliation latency | ~20 s, both directions (136→137→136 active rows) | `docs/AUDIT-cordis-concepts-2026-08-18.md` |
+| Total config rows | 166 | Mission Control Plugins tab (this manual, above) |
+| Compaction settings | 80% trigger / 16% retain / 8,192-token summary | `Claude-Harness-HALO-Design-v2.md` §4 |
+| Compaction re-prefill cost | ~80 s | `docs/phases/phase4-harden-results.md` |
+| Reddit RSS request pacing | ≥8 s between requests | operator-local skill (not shipped in this repo) |
+| Exa keyed free-tier volume | ~1,400 searches/month | `dsh/dot-env.template` |
+| Memory snapshot rotation | hourly, last 60 kept | `dsh/memory/Snapshot-Memory.ps1` |
+| Harness pin | `0.1.1-rc.2` | `docs/phases/pin-record.txt` |
+| Telemetry default | DISABLED, no SDK constructed | `docs/AUDIT-telemetry-2026-08-17.md` |
+| Live external sockets (audit time) | 1 (`127.0.0.1:1234` only) | `docs/AUDIT-telemetry-2026-08-17.md` |
+| Mission Control size | one file, a few thousand lines, zero dependencies (`wc -l` for the exact number — a literal count here went stale twice in one day) | `mission-control/mission-control.mjs` |
+
+## Starting and stopping
+
+**Start:** double-click **DeepSeek Harness**. The launcher checks LM Studio, loads the
+Q5 brain if it isn't resident, starts the harness, and opens the browser only when the
+page will actually load. Cold boot after a reboot takes 1–3 minutes (pnpm dlx + 21 GB model);
+if it's already running, the icon just opens the page. Nothing to babysit.
+
+**Stop:** close the browser tab (session is safe — it lives on the server), and if you
+want the memory back, open Mission Control → **Unload All**. The harness server itself
+is a hidden process; it dies with logoff/reboot, or leave it running — it idles free.
+
+## Using the cockpit
+
+- **New session:** pick workspace **Desktop-Code** (not C-Drive — known Windows bug, verified on rc.7: drive
+  roots never bind; your sessions have full-drive permission regardless of workspace).
+  Preset defaults to **HALO Standard**; model defaults to the local Q5 at **Medium**
+  reasoning. Both changeable per-session in the composer.
+- **First turn is the slow one.** A fresh session pre-reads ~10K tokens of system prompt
+  and tools (up to ~2 min). Every later turn rides the prefix cache — expect seconds of
+  wait, not minutes. The one planned slow turn afterward is right after a compaction.
+- **Reading the stats bar** (bottom): high TTFT = it was reading (prefill); low TTFT with
+  a long run = it was thinking/writing. "Cache hit 0%" is cosmetic — LM Studio doesn't
+  report cache fields; trust the TTFT.
+- **Slash commands:** `/compact` squeezes history into a checkpoint (continuity is
+  proven — it keeps working knowledge). `/permission <mode>` switches access mid-session.
+- **Subagents** (HALO Standard preset): the model can call `subagent_codex`,
+  `subagent_claude_code`, and `subagent_opencode` — ask it to "get a second opinion from
+  Claude" or "hand this to Codex" in plain language. They run on your existing logins.
+- **Memory:** say "remember this: …" and it stores a fact in the knowledge graph
+  (`~\.dsh\memory\memory.json`) that any future session can recall — survives reboots.
+  Ask "what's in your memory about X" to retrieve.
+- **Web search & page reading:** every session has `mcp__exa__` tools — live web
+  search plus fetch-any-URL-as-markdown — now **keyed** (free Exa account:
+  ~1,400 funded searches/month recurring; key in `~\.dsh\.env`, referenced by
+  env everywhere, never committed). Ask naturally: "search the web for…".
+  Fallback page reader for stubborn non-Reddit pages: `r.jina.ai/<url>` (plain
+  HTTP, keyless). The built-in DeepSeek search stays disabled.
+- **Reddit research:** type **`/reddit-search`** (shared skill, works in Claude
+  Code too). Reddit is unreachable via Exa (licensing hole) and Jina (blocked);
+  the skill uses Reddit's own RSS feeds — search, subreddit, and per-thread
+  comment feeds (188 comments verified from one megathread) — paced ≥8 s
+  between requests to respect anonymous rate limits.
+- **Trajectory button:** the per-turn transparency view — exactly what entered
+  the context (every block), every tool call, and every result, step by step.
+  When a turn goes wrong, read the trajectory before blaming the model: it
+  shows what the model actually saw, which is usually the answer.
+- **Creator mode** (the **Cordis** preset in the picker): the agent can build
+  new plugins — tools, services, even whole UI panels — onto the *running*
+  cockpit from plain English, using the same Cordis machinery documented in
+  [`AUDIT-cordis-concepts-2026-08-18.md`](AUDIT-cordis-concepts-2026-08-18.md).
+  Facts that matter before using it: dynamic plugins live in **process memory
+  only** and vanish on restart — ask the agent to *register it permanently* if
+  you want to keep one; the Cordis plugin panel keeps **prior versions** of an
+  in-progress plugin, so you can roll a broken iteration back instead of
+  starting over; and a kept plugin is real code on this machine — sync it into
+  the repo like every other config surface so it's versioned and auditable.
+- **Session log:** top-right button downloads the full append-only log of any session.
+
+## Mission Control (the operator console)
+
+`http://127.0.0.1:3090` — seven tabs behind a master alarm strip. Every screen
+below is a real screenshot of this machine, not a mockup.
+
+### The alarm strip — read this first, then stop
+
+![Mission Control Overview](images/mission-control-overview.png)
+
+The strip across the top carries **six watched signals**, and it is the only
+thing you have to read when you glance:
+
+| Light | Green means | It goes amber/red when |
+|---|---|---|
+| **HARNESS** | the cockpit is serving and every plugin fiber is healthy | :3080 is down, a plugin failed (Cordis never auto-retries a failed fiber), or one is stuck mid-transition >60 s |
+| **MODELS** | the loaded set is sane | the `lms` CLI is unreachable, nothing is loaded, something is loaded at ≥200K context, the live brain diverges from its loader profile (the eviction trap below), or a fleet model is competing for the GPU |
+| **RAM** | machine memory has headroom | Windows free RAM drops under 6 GiB, or model bytes leak into the GPU **shared** pool (the failure behind an August OOM) |
+| **CONTEXT** | no session is near its window limit | a session passes 70% (amber) or 85% (red) of its context window — past there a large reply silently truncates |
+| **DISK** | over 150 GB free | under 150 GB (amber) or 50 GB (red) — models are large |
+| **STREAM** | the harness event WebSocket is connected | the live job feed dropped |
+
+The banner reads **"Nominal on all six watched signals"** rather than "all
+systems nominal": it is a claim you can check, scoped to what is actually
+watched. When something is wrong the banner is replaced by the specific
+cause, and clicking any light jumps to the tab that explains it.
+
+**The state line** under the tabs answers "what is it doing right now" in one
+sentence — `IDLE · last inference 2h ago · qwen/qwen3.8-27b resident · ctx
+131,072`, or `WORKING · <model> generating · 2 sessions running`. It exists
+because a screen full of zeros next to a card showing a decode rate reads as
+broken data rather than as an idle machine.
+
+**Machine vitals** (the full-width panel) is the only view with a time axis.
+Three strips share one timeline, each auto-fitted to *its own* range so you
+see variation rather than a flat slab:
+
+- **GPU dedicated** — what the resident models occupy. Steps in this line are
+  model loads and unloads; the drop at 15:40 in the screenshot is the brain
+  reloading at the new 131,072 context.
+- **GPU shared** — the leak signal, with a red threshold line at the 8 GiB
+  alarm point. On a healthy machine this is a flat sliver. Growth here means
+  model bytes are spilling into Windows memory, which is what precedes an
+  out-of-memory stall.
+- **decode t/s** — felt speed. The line *breaks* across idle periods rather
+  than drawing a straight line through time when nothing ran.
+
+Hover anywhere for a crosshair and the exact values at that moment; the
+1h / 6h / 24h / 7d buttons re-read the 60-second history the stack has been
+recording since day one.
+
+### Overview cards
+
+- **Services** — cockpit, LM Studio API, and `lms` CLI with their ports. The
+  button is state-aware: "Open cockpit" while it is up, "Start cockpit" only
+  when it is down.
+- **Activity** — sessions today, tokens in/out, and the last run's decode and
+  TTFT against their bench baselines (amber when decode falls well below).
+- **Memory pools** — *proportions*: free RAM against total, percent of GPU
+  carveout used, and the shared pool against its alarm point. Bars colour
+  themselves at 80% and 95%, so a full gauge cannot look like an empty one.
+- **Cadence & drift** — when the weekly upstream `delta-scan` last ran and
+  when it is due, the selected inference engine, and the last config
+  validation result.
+- **Fleet (LM Link)** — the linked machines, which models each one holds, and
+  the resident pool with an origin badge per model. This is how you tell a
+  local model from one running on the other box.
+- **Disk** and **Knowledge graph** — free space, and how many entities the
+  local models have remembered against the 50-entity upgrade tripwire.
+
+### Models — the whole catalog, and what is actually resident
+
+![Mission Control Models tab](images/mission-control-models.png)
+
+The **slot line** at the top names the current occupant of each role —
+`Brain: qwen/qwen3.8-27b Q5_K_XL · ctx 131,072` / `Worker: empty` — so the
+"Load Brain" and "Load Worker" buttons have a visible target rather than
+being magic. Those buttons carry the quant they will load, read from the
+deployed loader script itself, so they cannot drift from reality.
+
+The table is the **entire on-disk catalog**, not just what is loaded, with
+resident models pinned to the top. Reading a row:
+
+- **Model** — display name plus its quantization, because two builds of the
+  same model would otherwise be indistinguishable rows. Non-chat entries
+  (embedding models, MTP draft heads, vision encoders, metadata shards) are
+  badged as components, so a 0.7 GB row does not read as corruption.
+- **State** — `idle`/`generating`, applied context, and the auto-unload TTL
+  in plain units (`TTL 23h 8m`). Amber badge if anything is loaded at ≥200K
+  context, the silent-huge-context trap.
+- **Origin** — `local`, or the fleet device it actually runs on. A model
+  running on another machine shows no Load/Unload controls and links to the
+  Fleet card instead: unloading it from here would kill it on *that* box,
+  and the server refuses the request even if something tries.
+- **Actions** — per-row Load (asks for a context length) and Unload. The
+  global **Unload Worker / Unload All** sit apart in red and confirm by
+  naming exactly which models they will evict and how much memory that frees.
+
+### Sessions — the output-token wall, made visible
+
+![Mission Control Sessions tab](images/mission-control-sessions.png)
+
+The header leads with risk: *"2 of 3 over 50% context"*, and rows sort by
+context risk so the session about to truncate is the first one you see.
+
+**The Context column is the point of this screen.** A reply can never be
+longer than the room left in its context window, and the harness *discards*
+a tool call that gets truncated — so a session near its limit fails silently
+on exactly the large outputs you care about. The column shows the percentage
+(muted under 50%, amber from 50%, red from 85%), then the headroom in tokens,
+then used-of-window. When a session goes amber, move large generation work to
+a fresh session — or hand it to the [budgeted-emit pipeline](#generating-large-artifacts--the-budgeted-emit-pipeline),
+which measures this same number before every chunk.
+
+TTFT and decode dim on idle sessions, where they are history rather than live
+readings. Sessions opened on a drive root are hidden by default behind a
+labelled toggle: they are a known Windows bug (verified on rc.7) and cannot bind a workspace at all.
+
+### Plugins — finding the broken one
+
+![Mission Control Plugins tab](images/mission-control-plugins.png)
+
+166 configuration rows, each with a **plain-language description** mined from
+the harness's own package metadata on disk — not invented, and not the module
+path restated. The state counts across the top are **filters**: click
+`31 disabled` to see only those, `all` to come back. Problems sort to the top
+regardless, because a failure on row 140 of 166 may as well not be rendered.
+
+A failed fiber is always actionable: Cordis never auto-retries one, so it will
+stay failed until a config row changes. `waiting` is benign — it means the
+plugin is waiting on a dependency and will self-activate.
+
+### System — deep detail and the live log
+
+![Mission Control System tab](images/mission-control-system.png)
+
+RAM and GPU gauges (colour-graded, with the shared pool measured against its
+8 GiB alarm point), disk, exact version pins for every component, and a
+**Validate config** button that runs the harness's own `--dump-config` and
+reports unmatched patch rows.
+
+The **log tail** filters LM Studio's routine polling chatter by default —
+tens of thousands of authentication lines that bury every real event — and
+tells you how many it hid, with a "show raw" link. Lines colour by level, so
+an error does not carry the same weight as "listing models".
+### Memory — what the local models remember
+
+![Mission Control Memory tab](images/mission-control-memory.png)
+
+The knowledge graph as an actual graph: force-directed layout, nodes coloured
+by entity type with a legend, labelled relation edges with direction arrows.
+Wheel-zoom at the cursor, drag to pan, drag a node and its neighbours follow
+(the physics keeps running). Click any node to read its observations — the
+actual remembered facts — and its connections, each clickable.
+
+The palette deliberately contains **no red or amber**: those are the alarm
+channel everywhere else in this console, and spending them on a neutral
+entity type would leave nothing to signal a real problem with.
+
+Entities grow when a session writes to the graph — say *"remember this: …"*
+in the cockpit. The file is `~\.dsh\memory\memory.json`, snapshotted hourly
+by the **HALO Memory Snapshot** scheduled task, so a bad write is recoverable.
+(Origin story: this view was first prototyped by the local brain itself as a
+Creator-mode cockpit plugin — `docs/experiments/creator-mode-2026-08-18.md`.)
+
+  **This graph ships in the repo — it is not a HALO-only tool.** It lives
+  entirely inside `mission-control/mission-control.mjs` (in master since
+  the v0.2.0 line, commits `895f9ad` + `1dd9e49`), self-contained per
+  Mission Control's zero-dependency rule: no CDN scripts, works fully
+  offline. It reads the **standard MCP memory-server JSONL format**
+  (`@modelcontextprotocol/server-memory`: one record per line, `entity`
+  rows with `name`/`entityType`/`observations`, `relation` rows with
+  `from`/`to`/`relationType`) with no HALO-specific fields — verified
+  2026-08-19 by pointing an isolated Mission Control instance at a
+  foreign machine's memory file: parse, force layout, labeled edges,
+  and the click-through detail panel all rendered it unmodified. Any
+  box that deploys from master and restarts Mission Control gets the
+  identical graph against its own `~\.dsh\memory\memory.json`. If a
+  deployed box shows the older text-list memory panel instead, its
+  clone predates these commits: `git pull`, `scripts\Deploy-ToLive.ps1`,
+  restart Mission Control.
+- **System** — memory/disk gauges, full version + engine list, a
+  **Validate config** button (runs the harness's own `--dump-config` and
+  reports unmatched patch rows), the memory-graph browser with the
+  50-entity upgrade tripwire, and a live LM Studio log tail.
+
+### Settings — change the stack without editing YAML
+
+The seventh tab is the config surface. Before it existed, every tunable on this
+machine required hand-editing `~\.dsh\settings.yaml`, which is how the stack
+ended up mis-tuned in the first place.
+
+It shows the values that actually govern a session — context window, compaction
+threshold and retain ratios, summary budget, stream idle timeout, LLM retries,
+reasoning default — and, underneath them, **the arithmetic they produce**:
+
+> compact at 98,304 · retain 65,536 · summarize 32,768 into 12,288 = 2.67:1 ✓
+
+Edit a value and the maths updates as you type. **A change that would re-arm a
+known failure is refused before it is written** — retain at or above the
+threshold (compaction can never shrink the context, so it loops forever), a
+summary ratio worse than 4:1 (the 2026-08-20 treadmill), an idle timeout below
+10 minutes (the retry storm), or a zero window. The Apply button stays disabled
+while the edit would be refused, and the reason is spelled out.
+
+Applying edits the whitelisted keys **in place**, so the file's explanatory
+comments survive, and writes a timestamped backup first. dsh hot-reloads within
+about 20 seconds. Your live config is then ahead of the repo — commit it with
+`scripts\Sync-FromLive.ps1`.
+
+Only those keys are editable from here. Anything else is still a deliberate
+file edit.
+
+## Large jobs — reviewing a repository without melting the context
+
+**When you need this:** any ask that means reading a whole repository, a
+directory tree, or a doc corpus — "review this repo", "audit these docs",
+"summarize this corpus". Not for "fix this function".
+
+**Why it exists:** on 2026-08-20 exactly that job was attempted as one
+conversation turn. It ran 4 h 41 m, burned 2.4 M input tokens on a single turn,
+compacted five times without ever converging, and produced **nothing**. The
+window is a ceiling, not a target: forty small contexts finish, one enormous one
+dies.
+
+**How to use it:** just ask. The session loads the `large-job` skill and follows
+the protocol:
+
+1. **SIZE** — walks the tree and returns a verdict: `single-pass` (it fits, do
+   it normally), `decompose`, or `refuse` (it will not fit even split up — it
+   tells you the numbers and stops rather than starting something that cannot
+   finish).
+2. **PLAN** — packs the files into small units. Units carry file *references*,
+   not file bodies; each child opens its own files.
+3. **MAP** — one fresh local child per unit, **one at a time** (the brain serves
+   one prediction at a time; spawning ten does not go ten times faster, it makes
+   ten children queue until they time out). A failed unit is recorded and the run
+   continues; repeated identical failures trip a breaker and stop it.
+4. **REDUCE** — one child reads only the findings and writes `REPORT.md`.
+5. **COVERAGE** — a script, not a model, decides whether the job is done. It
+   fails if the report hides a gap (a unit not attempted, a file truncated) or if
+   a child reached off the machine.
+
+Everything lands under `runs/<id>/` in your workspace. **A stopped or crashed run
+resumes** — re-running skips units that already have valid findings.
+
+**Measured:** the job that produced nothing in 4 h 41 m now completes unattended
+in ~66 minutes with zero compaction events and zero idle-timeout retries
+(`docs/design/halo2/G1-EVIDENCE.md` records the full result, including its
+limits).
+
+**Keeping the work local.** Run large jobs under the `halo-ljp` agent preset
+(pick it in the cockpit's preset selector). It is the standard preset minus the
+Codex / Claude Code / OpenCode subagent tools, so a decomposed job does not
+quietly escalate to a cloud model. Be precise about what that buys: it removes
+those *tools*, but shells stay available and those CLIs are already
+authenticated on this machine, so it is a harness-level wall, not a sandbox.
+COVERAGE scans the run's output for signs of an escape and fails the run if it
+finds one — treat a hit as "investigate", and do not treat a miss as proof.
+
+## Model operations
+
+- **Truth source:** `lms ps --json` (or Mission Control's Models tab —
+  it uses exactly that). Never trust the REST catalog's quantization field.
+- **Load/unload:** any model in the catalog from Mission Control → Models;
+  quick buttons for *Load Brain*, *Load Worker*, *Unload Worker*, *Unload
+  All*. The worker auto-unloads after 2 h idle and returns ~16 GB.
+- **Sharing:** the cockpit and OpenCode share one brain slot. Simultaneous turns queue —
+  nothing breaks, the second one just waits. Watch queue depth in Mission Control.
+
+## When something looks wrong
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| "Connection refused" at :3080 | Server not started | Desktop icon, or Mission Control → *Start cockpit* |
+| Typing doesn't paint / text overwrites itself | Stale pre-restart tab, or Chrome auto-translate | Close tab, open fresh one; keep translate disabled for the site |
+| "Deep diving…" for minutes | First-turn prefill, or queued behind another local request | Check Mission Control queue; it finishes — patience, not restart |
+| OpenCode on a cloud model unexpectedly | It raced the boot before the model loaded | Click the model name → pick "Local Daily Driver" |
+| Workspace won't select in composer | You picked C-Drive | Use Desktop-Code (known bug, verified on rc.7; permissions unaffected) |
+| Harness won't boot at all | A bad MCP/plugin row (e.g. BrowserMCP) | Check the row `disabled: true` flags in `~\.dsh\cordis.patch.yml` |
+| :3080 listening but frozen (0-byte responses, process alive) | Upstream Windows deadlock loading session logs >1 MB ([discussion 2165](https://github.com/deepseek-ai/deepseek-harness/discussions/2165), found by `/delta-scan-halo`) | **The launcher now detects this itself** — its readiness check is an HTTP identity check, not a bare port check, so a frozen server is treated as not-serving and cleared on the next launch. If you hit it live, just double-click **DeepSeek Harness** again. To prevent it, keep `~\.dsh\sessions\` small (archive old session dirs). |
+
+**Mission Control operations (2026-08-21).** The console distinguishes three
+session states, not two: **running**, **idle**, and **STALLED** — a session the
+harness still reports as running but whose durable log has not advanced for 5+
+minutes. A stalled session trips the top (HARNESS) alarm with the elapsed time,
+because the harness's own `running` flag alone once showed a dead run as healthy
+for 4h41m. Each running session has a **Stop** button that cancels just that
+session through the harness (findings already written to disk are kept) instead
+of forcing you to kill the whole process. Launcher failures are captured to
+`~\.dsh\launcher.log` plus a per-run `~\.dsh\logs\dsh-server-<timestamp>.log`;
+both are pruned automatically by the deploy.
+
+Full bug list with root causes: README §Known issues and `docs/phases/phase3-reach-results.md`.
+
+## Maintenance
+
+- **Weekly delta scan:** type **`/delta-scan-halo`** in a fresh cockpit session.
+  The stack audits its own upstream (harness releases, your five known bugs,
+  new quants, llama.cpp changes, community findings via Exa) and tracks scan
+  state in its memory graph. Installed as a harness skill at
+  `~\.dsh\skills\delta-scan-halo\`; prompt version kept in
+  [`HALO-Stack-Monitor-Prompt.md`](HALO-Stack-Monitor-Prompt.md) as the
+  reference source. Originally written by the stack's own model.
+
+- **Config changes apply LIVE — no restart.** Proven 2026-08-18: the harness
+  watches `~\.dsh\cordis.patch.yml` (and `settings.yaml`) and reconciles
+  plugins in place within ~20 seconds of a save, both directions — enabling a
+  row activates it, disabling one withdraws its effects cleanly, and running
+  sessions are untouched. Edit → watch Mission Control's plugin card flip →
+  done. (This is the Cordis kernel's config reconciliation; see
+  [`AUDIT-cordis-concepts-2026-08-18.md`](AUDIT-cordis-concepts-2026-08-18.md).)
+  The flip side: a *bad* edit also propagates in ~20 seconds — which is why
+  deploys are transactional (below). Restarts are now only for harness
+  upgrades and the >1 MB-session deadlock workaround.
+- **After any live config change** (settings.yaml, patch, preset, launcher, loader):
+  run `scripts\Sync-FromLive.ps1`, review `git diff`, commit with the reason. That's the
+  whole discipline — it keeps every tuning decision diffable.
+- **Deploying config TO the machine** (`scripts\Deploy-ToLive.ps1`) is
+  transactional: staged files are YAML-validated first, live files are backed
+  up to `~\.dsh\ConfigBackups\deploy-<stamp>\`, and a failed post-apply
+  `--dump-config` gate rolls everything back automatically. A deploy can be
+  wrong, but it can't stay broken.
+- **Memory-graph snapshots:** the knowledge graph (`~\.dsh\memory\memory.json`)
+  is the one thing the harness *cannot* revert — a bad write by a session or
+  plugin is permanent. Compensation: the scheduled task **HALO Memory
+  Snapshot** takes hourly change-detected snapshots into
+  `~\.dsh\memory\snapshots\` (rotation: last 60). Restoring = copy a snapshot
+  back over `memory.json`.
+- **Backups:** point-in-time snapshots live in
+  `Documents\Codex\ConfigBackups\` (pin record, config dumps, phase results, `.dsh` home).
+- **Upgrading the harness:** deliberate act, never casual. Change the pin
+  (`0.1.1-rc.2`) in both launchers, re-run the Phase 1 smoke tests (repo discovery,
+  edit, test, outside-repo write), and re-check the six known bugs — preview releases
+  move fast in both directions.
+- **Rebuild from nothing:** README §Workflow — install Node 22+, pnpm 11, LM Studio +
+  the two GGUFs, run `scripts\Deploy-ToLive.ps1`, recreate the two desktop shortcuts,
+  install per-profile subagent plugins (deploy script prints the command).
+
+## Porting the stack to other hardware — PROVEN
+
+The full stack installed and runs on a second machine: an RTX 5070 Ti 16GB
+(Blackwell/CUDA) box, 2026-08-18. Not a sandbox — the repo's own
+`Deploy-ToLive.ps1` ran clean end-to-end three times, and the live install
+(loaders, launcher, desktop icons, subagent plugins for both profiles,
+Mission Control at :3090) is serving there. Warm launcher-to-cockpit: 20 s.
+The installed config runs the standard harness coding task in **73 s vs
+HALO's 176 s**, with 1,668 tok/s prefill (9.2× HALO), 0.33 s cached TTFT,
+and 42 tok/s decode at 30K depth. Full port record, all three measurement
+passes, and the complete adaptation list:
+[`docs/ports/tester-5070ti-bench-2026-08-18.md`](ports/tester-5070ti-bench-2026-08-18.md).
+
+**What transfers as-is:** the harness pin, deploy/backup/rollback pipeline,
+Mission Control, flash attention, `parallel: 1`, contextCheckpoints, the
+documented Windows workarounds (nothing new surfaced).
+
+**What every port must adapt** (measured, not theoretical):
+- **Engine tuning is per-engine:** MTP off + KV q8_0 on CUDA/16 GB
+  (q8_0 *doubles* deep decode there); MTP n=4 + KV f16 on HALO's Vulkan —
+  both directions measured, neither default transfers.
+- **Weights sized to VRAM:** the 21 GB Q5 brain and two-model residency are
+  physically impossible in 16 GB; the port runs UD-Q3_K_XL all-GPU.
+- **Fleet identity:** on an LM Link-linked box the stock identity resolves to
+  the *remote HALO device* — an unadapted deploy silently runs the cockpit on
+  HALO's compute. Every port pins a device-suffixed local identity
+  (`qwen/qwen3.8-27b-5070ti`) and the brain-presence check must filter
+  `deviceIdentifier -eq null` (see Fleet below).
+
+**Advisory for 16 GB-class deploys** (measured on the 5070 Ti box, issue #5):
+- **Cap worker requests well below 19K context.** The Coder MoE Q4_K_S
+  (16.3 GB weights + ~4.6 GB forced into the GPU shared pool) is rock-solid
+  in its designed fan-out role (2.5–3.1 s per two-bug task, three in a row)
+  but reliably killed its instance at ~19.5K+ tokens — three deaths across
+  three load configs, and the repeated crashes eventually took the whole
+  engine host down. If long-context worker use matters on a 16 GB box, use
+  a Q3-class MoE quant that fits VRAM entirely.
+- **Watch for the eviction JIT-reload.** On any box where eviction is
+  routine (16 GB can't hold both models), a evicted brain reloads on the
+  next API call with *server defaults*, not the loader profile — measured
+  17.5 vs 49 tok/s. The launcher re-checks on every icon click, and Mission
+  Control now alarms MODELS amber when the loaded brain's quant/context
+  don't match the loader profile ("eviction JIT-reload suspected").
+- **LM Studio auto-sizes context to leftover VRAM** on current builds
+  (requested 32768 → applied 32000 with f16 KV, 40448 with q8_0). HALO's
+  loader asserts `contextLength === 131072` exactly; if an LM Studio update
+  brings that behavior here, the assertion may start failing for this
+  reason rather than a real misconfiguration.
+
+**Port-discovered bugs, fixed or documented:** Mission Control's carveout
+math hardcoded 128 GiB (fixed — VRAM capacity now read from the driver
+registry, portable); the Models tab offered live Unload buttons on *remote*
+fleet models (fixed — UI hides controls and the endpoint refuses server-side);
+clean-machine deploy-order bug (run `pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 web
+--dump-config` once before first deploy — the YAML validator borrows js-yaml
+from the dsh profile install); eviction JIT-reloads the brain with server
+defaults, not the loader profile (measured 17.5 vs 49 tok/s — re-run the
+loader after any eviction). NVIDIA silent killers: driver memory-clock
+parking (`nvidia-smi --query-gpu=clocks.mem,pstate` under load) and the
+server's default 4 parallel slots. Stack policy adopted from the port's
+download corruption incident: sha256-gate every model file against the HF
+API (`?blobs=true` lfs.oid) before it is benched or shipped.
+
+## Fleet: LM Link (multi-device model pooling)
+
+This machine has LM Studio's **LM Link** enabled (account-level, up to 5
+devices; enrolled 2026-08-13). Linked machines form **one model pool**:
+any device can list, load, and run models that live on another device —
+the load executes where the weights live, and only prompts/tokens cross
+the LAN. HALO's HTTP server stays bound to 127.0.0.1; LM Link traffic
+rides its own device channel. Discovered the hard way (a foreign load
+contaminated a bench — see the contention incident in
+`docs/phases/bench-day-3-results.md`), kept deliberately for what it
+enables.
+
+**What it's for here:**
+- **Right-box routing:** dispatch speed-critical work to the CUDA box's
+  fast small model; borrow HALO's big-memory models from boxes that can't
+  hold them. Model-level fleet distribution with zero clustering
+  infrastructure.
+- **Clean-room cross-model audits:** fire an audit prompt at a *different
+  model family on a different machine* with zero shared history —
+  independent eyes on demand.
+- One catalog across the fleet.
+
+**The discipline (non-negotiable, learned live):**
+1. **Identity convention:** HALO's canonical identities stay unsuffixed
+   (`qwen/qwen3.8-27b`, …). Every OTHER device suffixes its identities
+   with its device name (live example: `qwen/qwen3.8-27b-5070ti`).
+   Nothing may ever resolve somewhere surprising.
+2. **No benches while the pool is shared.** Bench sessions must verify no
+   foreign-origin model is resident/generating before starting, and abort
+   a cell if one appears mid-run (retain contaminated rows, marked).
+   For controlled windows, pause LM Link in LM Studio's settings.
+3. **Mission Control labels origin** on every resident model (local /
+   device / FLEET-unknown) and alarms on live cross-origin contention —
+   a remote load must never be a mystery again.
+
+## Generating large artifacts — the budgeted-emit pipeline
+
+The stack's one measured hard limit is the output-token wall: a single reply
+can never exceed the room left in the context window, the harness discards
+truncated tool calls entirely, and "continue" is a fresh generation, not a
+resume (all code-traced; proposals filed upstream as deepseek-harness
+discussion #3303). The window doubling to 131,072 moves the wall; the
+pipeline in [`pipeline/`](../pipeline/) makes it structurally unreachable
+for artifact generation:
+
+- Room is **measured** before every emission (never assumed), chunks are
+  capped deterministically below it, and the model only ever produces
+  bounded text ending in a completion sentinel — deterministic code is the
+  only thing that touches files.
+- Failures retry in **fresh context** (never against the fuller window that
+  just truncated), every loop is bounded, and exhaustion parks with a
+  decision record instead of stalling on a silent "continue" prompt.
+- Review is a **clean-room call to the local brain** — fresh, stateless, it
+  did not write what it judges. Cost-direction rule: an autonomous local
+  pipeline never calls a paid frontier model for a role the local model can
+  fill.
+
+Run it with `pipeline\run.ps1` after dropping a `task-brief.md` into
+`pipeline\runs\latest\`. Design and spec: `docs/design/budgeted-emit-*`;
+first validated run (19 emissions, zero stalls, reviewer catching real
+defects): `docs/design/budgeted-emit-dryrun-2026-08-19.md`.
+
+## Instruction file
+
+Every cockpit session automatically loads `C:\Users\scott\Desktop\Code\AGENTS.md`
+(dsh's shipped instruction mechanism, 64KB budget) — it carries the workspace
+rule, bug workarounds, search-stack facts, and conduct rules, so fresh sessions
+start informed instead of blind. Edit it there; it syncs to the repo as
+`workspace/AGENTS.md`. See also `AUDIT-redundancy-2026-08-17.md` for what an
+adversarial audit found about this stack's build choices (one refuted claim,
+two fixes, one documented trade-off).
+
+## Privacy
+
+Nothing in this stack phones home — audited, not assumed. See
+[AUDIT-telemetry-2026-08-17.md](AUDIT-telemetry-2026-08-17.md) for the full sweep
+(all DeepSeek packages, telemetry source read, live socket proof). Short version:
+Qwen models are inert weights; the harness's telemetry exporter ships DISABLED and
+builds no sending machinery at all; the only network touches are ones you chose
+(Exa search, subagents on your own auth, npm installs). `/delta-scan-halo` guards
+the telemetry default on every future release.
+
+## Parked, by choice
+
+- **Hermes operations plane** — cold-session cron + phone messaging; revisit when
+  remote workflows outgrow the cloud-agent apps.
+- **BrowserMCP** — blocked on an upstream Windows crash; config row ships disabled.
+- **Cockpit autostart** — cleared to enable (reboot test passed); currently manual by
+  preference.
+- **Self-hosted SearXNG** — evaluated 2026-08-17 as the fully sovereign search option
+  (uncapped, VPN-covered, runs in the existing WSL2 Ubuntu, no Docker needed). Passed
+  over in favor of keyless Exa for zero moving parts. Revisit if the 150/day cap
+  pinches or the Exa dependency chafes.

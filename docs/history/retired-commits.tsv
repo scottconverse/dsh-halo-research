@@ -1,0 +1,163 @@
+bc8c4867c4f5b911a6ced9e4ad3346e49210af05	2026-08-22T23:37:30-06:00	Initial commit
+6f4b9d7bfd81d312aa240ec36df2fb3e65c838ff	2026-08-22T23:04:12-06:00	CI: never cancel a master run
+fcd46de3b76c5ab48cfbb948612d183a19513b31	2026-08-22T23:03:33-06:00	Publication gate: a deletion is not a publication
+922cd8a3a35de38139a2609ff09aa9d5b0343e73	2026-08-22T23:02:01-06:00	Plugin-catalogue audit: the verification the spec claimed was done
+0fba6d1c5faf14fdff773683e63bf7f87cafe60f	2026-08-22T22:58:03-06:00	WIP checkpoint: loader identity extraction + issue #15 origin fix, tree valid
+95fe4c8b1b5457099457e3f5e6dacf7465feef6a	2026-08-22T22:51:35-06:00	CI: run the gates somewhere other than my own machine
+0b996fd595b9e91be48febaf37a5cc8572babd78	2026-08-22T18:55:48-06:00	README said v0.1.0 six releases later; gate it like the site pill
+03a1bbeb334d2e56dcd0617fd76873c9887c24c4	2026-08-22T17:25:21-06:00	Build log: record what shipped, and republish both here.now pages
+10291e26b7374555ec7dbde6c0af050831f32373	2026-08-22T14:45:14-06:00	Release prep: real clean-clone evidence, accurate suite count
+26fd589ade0a67c8573b25897500ebdf4c3236ad	2026-08-22T14:43:02-06:00	HALO 2.0: the Large-Job Protocol (0.7.0)
+6c300d3f80d895d129054e280019b341e1764168	2026-08-22T14:43:01-06:00	Test suite: kill the two defects that let it lie, and gate both
+3660c3ce7b3c5be95ed5b2e480503ac0f8b1060e	2026-08-22T14:31:53-06:00	MC: render the Sync-FromLive path with its backslash (HTML entity, not escape-counting)
+8735e73fae826269cf2542cfbae7a4720c9b537f	2026-08-22T14:28:53-06:00	Containment: a description of an escape is not an escape
+b913fa4df6d3da1b1682e8d2f7b29d1dd1fd02a9	2026-08-22T14:14:12-06:00	GauntletGate re-verification: fix what I claimed was fixed but was not
+d631d30d514e30d07667fef804536f5332530280	2026-08-22T13:36:59-06:00	GauntletGate: last two findings -- SIZE's empty-tree message, and the stale public claim
+9c27a71651cf889b6aef2cdb4478fe986bd432eb	2026-08-22T13:35:17-06:00	GauntletGate Eng minors: PATH hardening, info exposure, TOCTOU, regex drift
+9e9ccd88696d514d17e66456ac11fee20b58c57d	2026-08-22T13:31:05-06:00	GauntletGate UX sweep: the Settings tab's Minors and Nits, verified in the browser
+a17b1e41144e27ecc38466ad9f3332a8c0ebbe05	2026-08-22T13:26:15-06:00	GauntletGate M5/F5: the breaker could not see a soft failure, and miscounted skips
+e586357e002d1628b13ec03f7e8f3bb60a956d6d	2026-08-22T13:10:56-06:00	GauntletGate docs-M2: document HALO 2.0 where users actually look
+d2e40970b2058960cde89da6533619050dc6407a	2026-08-22T12:51:05-06:00	GauntletGate Majors: determinism, silent drops, advisory refusal, UI truth
+c5929638e5f9e38471f71f2c54fac263ead44831	2026-08-22T12:46:49-06:00	GauntletGate tests-F3: H7 judged raw text, so a commented-out deploy entry passed
+0f11af894c344fedd213b04ffa6c98a2810659bc	2026-08-22T12:43:36-06:00	GauntletGate: clear the Blocker and 8 Criticals
+504a75304ad5128c097e7e17797322d530bc5e30	2026-08-22T12:00:13-06:00	GauntletGate walkthrough: fix two gates that lied, one about the brain
+c490793ed7a732c7facd285fc38a67019e329dbb	2026-08-22T11:49:35-06:00	G1 evidence + harden the containment tripwire (case-insensitive)
+649210c3863b00cf8d269d0a26acf568d51f711c	2026-08-22T11:47:39-06:00	G1 GREEN: fix two COVERAGE defects the first unattended run exposed
+65a7eb37b718557a29057ec6f70a80a454e5aae5	2026-08-22T10:35:40-06:00	Fix the duplicate provider registration that killed every dsh app boot
+78e439e828c796abfea38a5441ba8986dcebb0ec	2026-08-22T09:37:46-06:00	HALO 2.0: fix the 3 bugs the first live LJP run found in its own scripts
+c76a092b7598d182c05f4c935406aeae04a3e9bd	2026-08-22T09:19:52-06:00	HALO 2.0: fix the MAP template's schema/return mismatch (proven live)
+8abc208a75827fd9783d260621ea98d7e3960d93	2026-08-22T08:35:52-06:00	HALO 2.0 WP6/WP7: maxResultChars on the merge path + AGENTS.md large-job pointer
+e5524a4c3a3d7269119bff9c4d725085d5fbc706	2026-08-22T08:22:41-06:00	MC Settings: correct the panel copy now that editing works (G7)
+9ba542ca8244fbf809ece5830e584b5292cf2097	2026-08-22T08:20:01-06:00	HALO 2.0 WP5: Mission Control Settings write-path (G7 operator autonomy)
+ca88c573b4478803efb8eeae3c5e3f4900cd142a	2026-08-22T07:58:38-06:00	HALO 2.0 WP5: Mission Control Settings tab (read + live math + refusal, G5)
+fb9d0f86b0d1686e671755c665885a461cc5595b	2026-08-22T07:39:20-06:00	HALO 2.0 WP2: validate the MAP workflow template control flow (H8)
+49f3a4fb8e56e332964e57f3592f7ca703926161	2026-08-22T07:21:06-06:00	HALO 2.0 WP2/WP3 deploy integration: stage scripts, skill, restricted preset
+2058b646bb065a6003541dc7f49d0091144096e0	2026-08-22T06:53:01-06:00	HALO 2.0 WP2/WP3 (skill + tests): large-job skill, H5/H6 + mutations
+2280f8524ffdaa97a2be6bc6c71420ac692182be	2026-08-22T00:49:00-06:00	HALO 2.0 WP2/WP3 (code): resume filter, MAP template, restricted preset
+be2ad3a0f66775be95ea6e89fd34fffde7996fa7	2026-08-22T00:31:17-06:00	Merge pull request #47 from scottconverse/feat/halo2-wp1
+fcb3725b97f04a9b03aaa3b5d1c2aef6bf4b614b	2026-08-22T00:30:44-06:00	HALO 2.0 WP1: deterministic Large-Job Protocol scripts (size/plan/coverage)
+6ccd440480152a151e24303506286a4af5182910	2026-08-22T00:12:00-06:00	v2.1 audit disposition: WP1 approved; close maxResultChars; harden containment
+a08911c43ca738beb7f72144afb660a856752a2f	2026-08-22T00:03:24-06:00	Sync SPEC §8 matrix to resolved-from-source status (V4/V5/V6/V9/V-A); §9 -> v2.1
+02c2633119928f97287737f72f9e455bdf6a4dac	2026-08-21T23:53:23-06:00	SPEC v2.1 header + order: v2 audit pass recorded as complete
+0044afbeba401014f949e453131e0c83f9a71a39	2026-08-21T23:52:14-06:00	SPEC v2.1: fold the v2 external audit, correct 6 real defects
+fa8ae9c6d387721cb7d07c18231ad480f5cb82fd	2026-08-21T23:38:59-06:00	Scope decision: v2.0 ships single-machine; federation is its own milestone
+76425734bcb164269c8c27b2b7a3242c2988cf36	2026-08-21T23:24:21-06:00	HALO 2.0 implementation plan: matrix resolved from source, build sequenced
+e4dafe2513273b8c73799c14ea9bfa95aa3cc19b	2026-08-21T22:56:32-06:00	SPEC v2: audit-incorporated, 0.1.1-rc.2 source-verified, layer decision
+28f9210621de9e37acdcd563227783d1cd7ecc37	2026-08-21T22:51:19-06:00	Merge branch 'master' into spec/halo2-redesign
+6c1d91f6e332856bed1c511a6fe1aeef279edabf	2026-08-21T12:39:57-06:00	Release v0.6.0: rc.7 -> 0.1.1-rc.2 migration + gate remediation
+3e229e19c23665a056430250ac1780541c746871	2026-08-21T12:39:13-06:00	Merge pull request #46 from scottconverse/migrate/rc8
+319d3085b6d9a270fbe8d6dab459210b48e30cfc	2026-08-21T12:38:23-06:00	Migration docs: version-honest across active files + historical banners
+207f92caf186a1f3ce7539889add0c5c6517ea9a	2026-08-21T12:35:53-06:00	GauntletGate migration fixes: PE-M1 fan-out cap never attached, 2 test Criticals, plugin skew, docs
+bb0f78221432a602339ed1c81553a41a590a95eb	2026-08-21T12:01:33-06:00	Migrate dsh rc.7 -> 0.1.1-rc.2, install via pnpm dlx (npm resolver hangs on Node 25)
+37533eedf1bdacbd7e11fdb1a4d5f7195ab81bb6	2026-08-21T10:33:12-06:00	Merge pull request #45 from scottconverse/fix/gate-blocker-and-criticals
+7757f2efbf6736fc23109bb24c85bc56d9517638	2026-08-21T10:32:29-06:00	Clear the GauntletGate punch list: W1, PE-2, W2, QA5, doc criticals, and prove the tests fail closed
+32c4fa90fe0f9ab5bf5d035cafacbbdf507b5209	2026-08-21T10:05:57-06:00	Fix PE-1 Blocker: RCE in Mission Control action endpoints; auth all state-changing POSTs
+b1cb22a15083558f960da9cb763e92380e404534	2026-08-21T02:03:06-06:00	Merge pull request #44 from scottconverse/fix/armed-defects-and-false-claims
+608075a2d440ae97d37b5a1bee6d07fc618270e3	2026-08-21T02:02:36-06:00	Disarm the live defects, correct the false public claims, add a test suite that fails closed
+acd61e0e71a2376deb2289221df06c1f91f39a10	2026-08-21T01:32:10-06:00	Merge pull request #43 from scottconverse/fix/repo-has-never-worked-for-anyone
+9bba0ee2377275df0297f1a048fdb7dd5768e3fc	2026-08-21T01:31:38-06:00	Fix the three defects that made this repo unusable by anyone who downloaded it
+2bfc13526f72501f239667baf6108994faa0d9aa	2026-08-20T19:49:40-06:00	HALO 2.0 redesign spec: build on the harness's native autonomy primitives
+80683bd1dfb943793d225f28bc433bdc780e1086	2026-08-20T18:58:00-06:00	Merge pull request #41 from scottconverse/fix/compaction-and-idle-timeout-for-131k
+d5b12c5de5dc5e749023eb759a0e694f622d41f9	2026-08-20T18:57:48-06:00	Retune compaction and stream idle timeout for the 131K window
+0a7a4f8529a76883dd2983219ef736962ab8c7f9	2026-08-20T18:42:34-06:00	Merge pull request #38 from scottconverse/fix/5070ti-profile-context-window
+4baaeb60a5e1a52b2bf9c2d297f25aad2a7b3a15	2026-08-20T18:30:51-06:00	5070ti profile: override contextWindow/maxTokens (master now advertises 131K)
+f5674e8f92af3e6e7cdd1889c3a534b9b7b9c176	2026-08-20T00:44:53-06:00	Merge pull request #37 from scottconverse/release/v0.5.0
+2202f1ee70dd56d37781fe7925d6cf1f1e9e885a	2026-08-20T00:44:44-06:00	Release v0.5.0: AGENTS.md scope gate, profile file swaps, deploy dry-run
+30668010a3465c157a848590560c38da2c1f2ce2	2026-08-20T00:17:56-06:00	Merge pull request #36 from scottconverse/fix/agents-scope-and-profile-files
+ff1e2cd2bef088ac86d518a9b8af6d2abe2e2300	2026-08-20T00:17:28-06:00	AGENTS.md is a prompt, not a config: scope gate + profile file swaps (#35)
+5d8f37921bdf6be9c511cdc5703f65907d517d51	2026-08-19T22:23:44-06:00	Merge pull request #34 from scottconverse/feat/publication-gate
+b2bf669a89a096ed04a5f3edeb4663a493e3b95c	2026-08-19T22:23:14-06:00	Publication gate: a stated constraint must be checked against what is ALREADY public
+56f671874bd0f8d96a92faf0e1673888ff1247a2	2026-08-19T22:15:55-06:00	Merge pull request #33 from scottconverse/fix/reddit-skill-giveup
+e65759e116acf75d8b2bfcd695370c70c96e9e1a	2026-08-19T22:15:49-06:00	reddit-search: bound the back-off
+80593d621851c6bcbe758ae914ec1f9e65902f31	2026-08-19T22:14:22-06:00	Merge pull request #32 from scottconverse/fix/reddit-skill-concurrency
+8d27dca77dc25882d307518aa6df41d8305cbd94	2026-08-19T22:13:56-06:00	reddit-search: per-IP concurrency rule, parse trap, sub discovery
+dd0ef61ff20e6967a0ace60988a729ecf39a97a5	2026-08-19T19:34:00-06:00	Merge pull request #31 from scottconverse/release/v0.4.0
+3d053927d3cac299d1a4bae5e15b5f06499d0087	2026-08-19T19:33:55-06:00	v0.4.0: annotated console screenshots in the docs; path-mangling fix
+c97f326a19cbc751c2b4925e536ca8cc3de45883	2026-08-19T19:07:12-06:00	Merge pull request #30 from scottconverse/fix/review-remainder
+3dd0545e367eef69faa7dfc7cd60e99f5329aef5	2026-08-19T19:07:06-06:00	MC: finish the review - no findings left parked
+2e1d223df47e76328c97f3081a18615a8603a7c7	2026-08-19T18:19:05-06:00	Merge pull request #29 from scottconverse/fix/review-all-tabs
+5cc5aa1508967aae6169ecba2356690b6b44d3e7	2026-08-19T18:19:01-06:00	MC: act on the clean-room review of all six tabs
+2a3f92860e911e59202385dffb6e99757ff57206	2026-08-19T17:25:36-06:00	Merge pull request #28 from scottconverse/fix/mc-tab-sweep
+556d3c1b93469521e29ef11671862e9b34e57ec7	2026-08-19T17:25:31-06:00	MC: fixes found sweeping the remaining tabs
+801efaf77cfbd6cff3bd16873a13fb1dff7bb690	2026-08-19T17:19:33-06:00	Merge pull request #27 from scottconverse/fix/overview-design-review
+3beedf70dc541a3eebf84a4629f15653aed3dace	2026-08-19T17:19:27-06:00	MC Overview: all five remaining design-review findings
+94c51be54e50c2b640ecbb9446d1995fa0241241	2026-08-19T17:11:32-06:00	Merge pull request #26 from scottconverse/fix/vitals-chart-readable
+c33bcf343acfbe503d5759bab95827c572bfaa33	2026-08-19T17:11:27-06:00	MC: vitals chart rebuilt as three auto-fitted strips (design review #1)
+31d012e695b3553b2d47f6d7c35e2a8edf7cdde2	2026-08-19T15:54:36-06:00	Merge pull request #25 from scottconverse/feat/mc-vitals-timeline
+92c75ee24530363a10fd462e8682c146236c15bc	2026-08-19T15:54:30-06:00	MC: Machine vitals timeline + visible context token counts
+206021317a223adcd4fce10baabc693ce828ea0f	2026-08-19T15:37:28-06:00	Merge pull request #24 from scottconverse/feat/mc-context-fill
+8097b4fd24c329d78917f7620ec6e44eeb1892b6	2026-08-19T15:37:20-06:00	MC: context-fill column - surface the projection we already fetched
+cce0b99c9dc19c5ec8df94029dee4569d4722e34	2026-08-19T13:07:52-06:00	Merge pull request #23 from scottconverse/release/v0.3.0
+57de77e70b86ff5766ff8e64877e4e970a761f49	2026-08-19T13:07:46-06:00	changelog: seal 0.3.0; landing pill follows
+4cf6759aa970554a3d6f1581bb124ed4a5900030	2026-08-19T12:50:00-06:00	Merge pull request #22 from scottconverse/docs/fleet-story
+862fce4083b0cca54d81357be84fe8a5c8518681	2026-08-19T12:49:55-06:00	docs: tell the fleet story properly on README + landing
+75d01162ac74c27533dd3c545c529e79bfd25c06	2026-08-19T12:45:27-06:00	Merge pull request #21 from scottconverse/docs/spec-currency-audit
+fdc1d09133eaf1e414154f348d135fee6bde2efe	2026-08-19T12:45:21-06:00	docs: currency audit - every surface now states the real current specs
+44596378fe48cf06574b8054e40c149a25568412	2026-08-19T02:17:39-06:00	Merge pull request #20 from scottconverse/chore/pyc-ignore
+c7d189e125824304091621595f1160708c994940	2026-08-19T02:17:34-06:00	chore: ignore __pycache__ in pipeline
+f3ca3fe88db661815a6fac0cf00414c08a45fdd8	2026-08-19T02:17:20-06:00	Merge pull request #19 from scottconverse/fix/pipeline-dryrun-lessons
+814813d82dd234edad4f9da7582e4ec1193c084e	2026-08-19T02:17:15-06:00	pipeline: dry-run validated; payload contract + attempt semantics fixed
+dd9489349279bed3750ab1d2fdadeb6d48f656f2	2026-08-19T01:18:47-06:00	Merge pull request #18 from scottconverse/feat/window-131k
+14709751e71929195c91c9c27821a1e6e12263f5	2026-08-19T01:18:42-06:00	Adopt ctx 131072 + KV q8_0 for the brain (bench-window-131k ADOPT verdict)
+6be807749800ce305a798e5de58d24129c5668a9	2026-08-19T00:57:22-06:00	Merge pull request #17 from scottconverse/feat/budgeted-emit-pipeline
+ce9da5ac9b59c7be5f63a80d288ab47d76547f42	2026-08-19T00:57:12-06:00	pipeline: budgeted-emit scaffold, fully implemented; reviewer goes local
+8f6173b03b92bf29d71ec23a35e7d9d25de17558	2026-08-19T00:33:07-06:00	Merge pull request #16 from scottconverse/design/output-wall-plan
+d14736ba3fbcb0201e282e86d4142d41d3f6bc53	2026-08-19T00:33:02-06:00	design: budgeted-emit pipeline + output-wall fix plan (code-traced)
+f84f6dc84ad1ff4a6d9da73cc981b16a26ae5201	2026-08-19T00:18:49-06:00	Merge pull request #13 from scottconverse/fix/deploy-freshness-check
+f91c771d1070342eca63064bbd6ff851df80c413	2026-08-19T00:18:45-06:00	Deploy: freshness stage - warn loudly when the clone is behind origin
+2b5686acea942723e40311cef6c5e5d78abc6210	2026-08-19T00:14:53-06:00	Merge pull request #12 from scottconverse/fix/system-memcard-label
+ee1d2a6fea878821394ac2151ff17dfcbeda3453	2026-08-19T00:14:49-06:00	MC: System-tab memory card renamed - it is a list, not the graph
+05106ed4d63cd2f7efbd37deebc218d38957ca67	2026-08-19T00:09:40-06:00	Merge pull request #11 from scottconverse/docs/memory-graph-provenance
+dbebebe4f31ebeb2aa172f81017ead05b850df31	2026-08-19T00:09:28-06:00	docs: memory graph provenance - it ships in the repo, format is standard MCP JSONL
+643eb7e8daf2ca8ca935d068acc6a136397e25fb	2026-08-19T00:03:04-06:00	Merge pull request #10 from scottconverse/feat/machine-profiles
+dbfebb9cd4181b2a632285b4074b8d3902e397cf	2026-08-19T00:02:52-06:00	Per-machine profiles: one master serves every box (issue #6)
+845e8a177e0a673a6da6b895bc792d322ffbf89b	2026-08-18T23:56:46-06:00	Merge pull request #9 from scottconverse/feat/brain-config-alarm
+715bffce8e2d7509987ad8f6933f94c2311d8d86	2026-08-18T23:56:34-06:00	MC: eviction JIT-reload alarm; manual: 16GB-class deploy advisory (issue #5)
+9e51ac4bd7411b6fc1e40c315bad9307ee93f031	2026-08-18T23:54:43-06:00	Merge pull request #8 from scottconverse/feat/self-enforcing-install
+207dd850cc0e8de5e6394311461a1b73c5acbd28	2026-08-18T23:54:29-06:00	Deploy: self-enforcing install (register + audit stages), canonical README checklist
+293a891eafa0cee059f0edc0c8093285e705bc53	2026-08-18T23:50:51-06:00	Merge pull request #7 from scottconverse/fix/mc-loader-labels
+1dd8849ddad5596e55183374d1dbb77d3a94a755	2026-08-18T23:50:38-06:00	MC: loader-derived button labels, not hardcoded quant strings (issue #3)
+2d3615782a0cad0f5b5ba7b88f4e0dd13d2c175e	2026-08-18T23:49:16-06:00	Merge pull request #1 from scottconverse/fix/launcher-hardening
+210aa5a2e29d774ebccdf6f70b1a912d756e0a82	2026-08-18T23:39:31-06:00	Harden Start-DSH.ps1: no silent failures, brain check on every launch
+14c1e2ce1182502b03577747aaef7ef9bb556a66	2026-08-18T23:38:36-06:00	5070Ti port: full adaptation + bench/install report (reference branch, do not merge)
+891c898ac1439013e3d03af1d9832cdd25d334ff	2026-08-18T22:01:57-06:00	docs: remove time-spent claims from all surfaces
+1af5fde85b2674058062cf107c5bc2190c155ed8	2026-08-18T19:55:51-06:00	landing: publish port stat + Ported-and-measured section to Pages copy
+ee88f472c69a96b472f2c96eac3c6166f54e4abc	2026-08-18T19:55:32-06:00	changelog: seal 0.2.0
+335ed3e63d4e9c7c407e883d05b431e3bd63bdaa	2026-08-18T19:55:18-06:00	Port proven + Bench Day 3 + LM Link fleet adoption
+fe238c67cabc49c05e58cfb3de6ad355957715cd	2026-08-18T17:29:40-06:00	ports: 5070 Ti Blackwell bench filed - engine half answered, harness half owed
+743cebc48637c2b9877b15cd563b6af1ee20384b	2026-08-18T17:22:26-06:00	experiment record closed: Appendix A - the window, not the cap, was the wall
+1dd9e49ca790f54f653d2c131ef45b34088e65c9	2026-08-18T17:03:43-06:00	memory graph: living physics + self-explanation + escape hatches
+895f9ad2522007838630f796231f680bc29d3e80	2026-08-18T16:35:27-06:00	mission control: Memory graph tab (full v3 interactions) + experiment record
+cfce561bb85c570a306aefcaa26a2cfc86b8abc1	2026-08-18T15:03:56-06:00	research: Strix Halo deep dive (4-scout sweep) + delta-scan corrections
+e64660070a062bc7b97dd0cbb54ff28e848aeab2	2026-08-18T14:31:56-06:00	delta-scan: NPU hybrid-mode tripwire + MTP null-config check
+a9ef9d1e98aa7885db33dc9818e3994f2aabe7ae	2026-08-18T10:15:46-06:00	landing: honest origin stat (operator correction); manual: trajectory + creator mode
+a799c85f7c31279659de3440b418d217e429130a	2026-08-18T10:10:45-06:00	v0.1.0: full developer documentation + first versioned release
+1c58376edb7409d2f8df6ac15c9aaa4af48d9ea6	2026-08-18T09:55:34-06:00	cordis paper applied: live config ops, transactional deploys, lifecycle MC, isolation, compensation
+dbbde88d88363ca5e94a414059f1a8498d75b2f9	2026-08-18T09:22:45-06:00	settings: composer High now maps to medium reasoning - xhigh is opt-in only
+dba59b4687ce95620bffcfb7deba25270860db25	2026-08-18T09:20:32-06:00	delta-scan: ThinkingCap-for-3.8 watch, abliterated do-not-chase, Exa tier fact fix
+bf0a7b069288cc04032cc81d25bb4fb8e8235c2d	2026-08-18T01:10:39-06:00	docs: user manual reflects mission control v3 console
+5b7a01952c1a124eac01135cbc805552903a1a7f	2026-08-18T01:09:51-06:00	mission control v3: operator console rebuild per PM/EM design pass
+98fdceff14da9f6541cf07645f9987871f4b6762	2026-08-18T00:23:04-06:00	mission control: full telemetry by operator directive — plugin health (166 rows), preset roster w/ broken detection, session tokens/throughput, live jobs via events.mux WebSocket; v2.md correction closed
+3da78f024b1b48660b128e421f86b138b195341f	2026-08-18T00:07:10-06:00	build log: publish MC retraction+correction on the public page (closing tonight's honesty gap)
+da9470265ae96d8c17ced52c5a6580692745badf	2026-08-17T23:59:20-06:00	mission control: consume dsh apiproxy RPCs (boundary fix per audits) with disk-scrape fallback; README repositioned as workstation distribution; memory reclassified as sanctioned pattern
+409eb984960293c7670d1f1ebf3291e9f501abcc	2026-08-17T23:52:15-06:00	redundancy audit: MC claim refuted (refactor tracked), AGENTS.md written + auto-loaded, dump-config gate added to sync, credential trade-off documented
+5e49090f65ae1574004615c26a0712f4232016b5	2026-08-17T23:47:10-06:00	readme: defensible-claims wording (benchmarked and documented, per external doc review)
+4190ba23397fc889a4604d163459d7fa6d8b74d9	2026-08-17T23:43:29-06:00	delta-scan: memory-layer upgrade watch with shortlist, scale triggers, and mandatory-audit rule
+e696b92b6475cca6ac77ed5804948875721ea794	2026-08-17T21:59:49-06:00	manual: architecture section with three mermaid diagrams (system map, prefix-cache sequence, launcher boot flow)
+2683d90cc9f0b7141f09be8307d7d6b4ebf073d8	2026-08-17T21:48:53-06:00	readme: GitHub Pages is the primary landing URL
+acf07514ffbee006311924fe1ecfd6a6c59d83a7	2026-08-17T21:47:51-06:00	pages: serve landing from docs/ for GitHub Pages
+1daac73b7568f97863a07da8779fa6110b64139e	2026-08-17T21:42:27-06:00	site: GitHub repo link (now public) in hero CTA and footer
+9eb7acaef10c92780cfebe52e66970abce72d391	2026-08-17T21:12:38-06:00	bench day 2 complete: llama-server parity (LM Studio stays), ROCm gated, Nemotron DNS on engine lag (incumbent worker retains) — three challengers, zero changes, all re-opens tripwired in delta-scan
+438fe752924252829e0de00a2e91d3c4060cb66c	2026-08-17T20:53:59-06:00	delta-scan: ROCm ripeness gates from deep research (lms #494 crash + b10472 UMA fix propagation); Vulkan stays daily engine until both clear
+691e90cf4ec37eedc02fe561e7f521e6df1abc8e	2026-08-17T20:39:39-06:00	reddit-search: end-to-end validated by the local model (7 paced requests, 0 429s, contested-claim discipline); RSS body-truncation limitation recorded
+4e4528be6c6b7083f8f645e843797713d1779d48	2026-08-17T20:23:46-06:00	manual: large-session deadlock symptom+workaround (upstream disc. 2165, surfaced by first /delta-scan-halo baseline run)
+b62369ad5289284b34d0ec1f1b06d8af0f807ef9	2026-08-17T20:21:05-06:00	search stack: keyed Exa (env-referenced, never committed) + /reddit-search shared skill (Reddit RSS — the only working path; Exa/Jina verified blocked) + Jina reader fallback; secret-safe sync (dot-env.template); manual updated
+721df8731f265602c209db15ed14b12edbc6f695	2026-08-17T19:42:41-06:00	docs: telemetry audit surfaced everywhere — README privacy section, landing page, build log, manual; both pages republished
+711c0191b4ec957d6e918f6b80d7b093c4dbeb18	2026-08-17T19:40:22-06:00	audit: telemetry sweep of all DeepSeek code + Qwen artifacts — clean; exporter default-DISABLED source-verified, zero external sockets live; delta-scan now guards telemetry defaults on upgrades
+91c009f03106ca7b10f251cb2685a71613baf887	2026-08-17T19:33:18-06:00	skills: /delta-scan-halo installed and catalog-verified; sync/deploy mappings; manual updated; discovered ~/.agents/skills is shared with Claude Code
+083484f85a0bb92192158ea261b747bffde97c89	2026-08-17T19:24:36-06:00	docs: HALO monitor prompt (authored by the stack's own model, improved: Exa tools for community layer, memory-tracked scan state) + manual link
+83a1eef8063bc7c87f409fd1588b0feeb0ff20e6	2026-08-17T19:20:47-06:00	docs: sync all surfaces — search wiring in v2 design, landing page, refreshed build-log snapshot; both here.now pages republished
+36d59f57cda04a4f025b1943cbaab4550722fd1d	2026-08-17T19:19:22-06:00	docs: record SearXNG evaluation — staying with keyless Exa (zero moving parts) by owner decision
+64610c0e88d31e9569d52b33e2b79ceba4605316	2026-08-17T19:03:14-06:00	search: keyless Exa MCP (search+fetch) replaces unkeyed DeepSeek backend; tool-web disabled; manual updated — validated live (found Node v26.7.0 with sources)
+2c0cc8eecf1cf1531f701ed6bcc6883ca997b435	2026-08-17T18:50:11-06:00	site: landing page (published) + user manual + archived build-log snapshot + README links
+ae27bcbdd70ab89e36b218f0560a0f3376ccfb7b	2026-08-17T18:44:19-06:00	halo-stack: initial state — dsh rc.7 cockpit, two-model routing, mission control, phases 1-4+6 complete

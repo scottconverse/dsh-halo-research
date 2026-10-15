@@ -1,0 +1,2666 @@
+[
+  {
+    "source": "research",
+    "path": "AGENTS.md",
+    "bytes": 872,
+    "status": "local-only",
+    "reason": "Instruction file; not historical evidence"
+  },
+  {
+    "source": "research",
+    "path": "ALL-CLAIMS.txt",
+    "bytes": 28661,
+    "sha256": "6a699ef650e0448693fedd093c8520345f64a0add1e9e7f4026ffb80c42d5755",
+    "status": "already-represented",
+    "repository_path": "ALL-CLAIMS.txt"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-INCIDENT-REPORT-2026-08-25-blind-gate-public.md",
+    "bytes": 9168,
+    "sha256": "395c0e98bdf8ed06ec22cca08779aaf6757cb2075fdeedc7de45f067a820ecb1",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-INCIDENT-REPORT-2026-08-25-blind-gate-public.md"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-INCIDENT-REPORT-2026-08-25-blind-gate.md",
+    "bytes": 9274,
+    "sha256": "b8f9845c251c289f17e219b050da6215f6bab5adbaa84408c1608ffbc77f5bd6",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-INCIDENT-REPORT-2026-08-25-blind-gate.md"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-ISSUE-2026-08-26-FINAL-public.md",
+    "bytes": 19988,
+    "sha256": "3156b53e0a272cc521166f5d92639bb47f7313adbe616dca2d5158f900a41506",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-ISSUE-2026-08-26-FINAL-public.md"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-ISSUE-2026-08-26-FINAL.docx",
+    "bytes": 22208,
+    "sha256": "26f29eaf35ff5435532888db22be55eb0afa94f8e18a2dac8dd8bf9e02a088a0",
+    "status": "recovered",
+    "repository_path": "docs/history/research/ANTHROPIC-ISSUE-2026-08-26-FINAL.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "06180345437363edfd4dc57049da33d0b22ada6e372df126695c62c8af2db4aa"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-ISSUE-2026-08-26-FINAL.md",
+    "bytes": 19988,
+    "sha256": "3156b53e0a272cc521166f5d92639bb47f7313adbe616dca2d5158f900a41506",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-ISSUE-2026-08-26-FINAL-public.md"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-ISSUE-REPORT-2026-08-25-public.md",
+    "bytes": 12721,
+    "sha256": "3986fba1fa557716f48eb6b43583a783a5809d750b1704d2d7c59ad692fa053e",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-ISSUE-REPORT-2026-08-25-public.md"
+  },
+  {
+    "source": "research",
+    "path": "ANTHROPIC-ISSUE-REPORT-2026-08-25.md",
+    "bytes": 13114,
+    "sha256": "fc8d2ead10241a0c07b6b19b5bba4b4bb0fac7f51eccdc1a3095437a58e1cfb1",
+    "status": "already-represented",
+    "repository_path": "ANTHROPIC-ISSUE-REPORT-2026-08-25.md"
+  },
+  {
+    "source": "research",
+    "path": "APP-RESTART-HANDOFF-2026-09-02.md",
+    "bytes": 5422,
+    "sha256": "5c34917c76282371b0580c6b06417248e30d415fce6dd947d81c90016f413764",
+    "status": "already-represented",
+    "repository_path": "stack/APP-RESTART-HANDOFF-2026-09-02.md"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-BASELINE-2026-08-27.md",
+    "bytes": 2920,
+    "sha256": "d715076c431a72efaa8ea9268f60b586e56e686c3da2baec4c691322e42d94c7",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-BASELINE-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "bb52a51f96439ea9ba0336931b6d3baab3806ffe76846d83abbeb40dcda7bf2f"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-CITATION-GATE-EVIDENCE-2026-08-27.md",
+    "bytes": 8149,
+    "sha256": "1840d07564db4a3bb30440309205c5316c760950c0f2d810f68fa1f6fbec1921",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-CITATION-GATE-EVIDENCE-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "484cf813cf6bef2d93303f37e3e54f5dcfcac67bedb79ec224acdb8f239ee25a"
+  },
+  {
+    "source": "research",
+    "path": "audit-lite-halo-router-2026-09-08.md",
+    "bytes": 10736,
+    "sha256": "551d7726b52a864ed66f7fe191e8d603a5355ca2ecd139d4ffe6cec9cdbbf776",
+    "status": "already-represented",
+    "repository_path": "stack/audit-lite-halo-router-2026-09-08.md"
+  },
+  {
+    "source": "research",
+    "path": "audit-lite-halo-router-recheck-2026-09-08.md",
+    "bytes": 7185,
+    "sha256": "f0c42049d762f6cf7f6a7a15ee11e5d1ab65bfc93b053e50749b6bb8964d5b54",
+    "status": "already-represented",
+    "repository_path": "stack/audit-lite-halo-router-recheck-2026-09-08.md"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-PROJECT-STATE-REVIEW-2026-08-30.md",
+    "bytes": 13030,
+    "sha256": "0e7327a33a6ddf42530b3f672f066be58224696a98d2d23a99ec1ad262d82613",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-PROJECT-STATE-REVIEW-2026-08-30.md",
+    "redactions": 0,
+    "published_sha256": "7a47d064963edb7d131f14657c5ca4b1fc5ba9e8a5e4c820aa76289aeb2bc3a0"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-STAGE-1-VERDICT-2026-08-27.md",
+    "bytes": 9553,
+    "sha256": "7dcadfc32e78957d4d0af61925532aa16fb33d9eb8dd27f5552004023233bdf8",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-STAGE-1-VERDICT-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "c1ceec99570796439e30f412e5f8f2ecd3dc98fa7ed6a31afe6d99a2ec07c8a7"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-STAGE-2-VERDICT-2026-08-27.md",
+    "bytes": 8951,
+    "sha256": "92e0ab88319b96145028e4dd906a034543ff3a761b0af849253bbd53a5610568",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-STAGE-2-VERDICT-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "63b5f4741df7421f1ab834b7852665324d4f15567cd53da5699648bf161af41e"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-STAGE-3-DESIGN-REVIEW-2026-08-27.md",
+    "bytes": 12781,
+    "sha256": "24ceb2f104ff90db859c9e56aea7b55d0935f3b01f74d14a12dbc41865d61ea5",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-STAGE-3-DESIGN-REVIEW-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "d2341d7b3037514e40fe683c30e672a230ac7f3663484b030369604863feb079"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-STAGE-3-REVIEW-ADDENDUM-2026-08-27.md",
+    "bytes": 6067,
+    "sha256": "496bc94f1d8499e76014636a0d3061570af83d00238b0d44dafe320f0be556bd",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-STAGE-3-REVIEW-ADDENDUM-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "3440347992bdc63795393e6b5852cadf8870f9643fe5449fce38665c89f7ba6d"
+  },
+  {
+    "source": "research",
+    "path": "AUDIT-STAGE-4-VERDICT-2026-08-29.md",
+    "bytes": 5800,
+    "sha256": "ee4e9b8c6089fdc1eb9e0168da1e9f1820093ff226ee8ea7a5738eeff1af76c8",
+    "status": "recovered",
+    "repository_path": "docs/history/research/AUDIT-STAGE-4-VERDICT-2026-08-29.md",
+    "redactions": 0,
+    "published_sha256": "325e21ed3d2eec9bb1a9a8a00fcaea6c726167be574bb2996e2e2435e8cdd68d"
+  },
+  {
+    "source": "research",
+    "path": "CLAUDE-AUDITOR-HANDOFF-2026-08-30.md",
+    "bytes": 5527,
+    "sha256": "695c9403aba60dbd47d2f78ae6f1c591faf7bbd865e9f9456bf4786a745cd380",
+    "status": "recovered",
+    "repository_path": "docs/history/research/CLAUDE-AUDITOR-HANDOFF-2026-08-30.md",
+    "redactions": 0,
+    "published_sha256": "e811149f3f2b27ff2474a1e181dc9c1541ac842af5adb4acc4ce3a321a70bcf1"
+  },
+  {
+    "source": "research",
+    "path": "Claude-Harness-HALO-Design-v2.html",
+    "bytes": 35469,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "Claude-Harness-HALO-Design-v2.md",
+    "bytes": 25576,
+    "sha256": "6992e17010eba2db820e46546f07b154cd0c208115136ad6fde5c412082fd682",
+    "status": "recovered",
+    "repository_path": "docs/history/research/Claude-Harness-HALO-Design-v2.md",
+    "redactions": 0,
+    "published_sha256": "3d38c39197ea3bd9e11c43d6beeb4155acfc1093217b33f1f5a214411ff4dd5f"
+  },
+  {
+    "source": "research",
+    "path": "Claude-Harness-HALO-Design.html",
+    "bytes": 29397,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "Claude-Harness-HALO-Design.md",
+    "bytes": 18533,
+    "sha256": "688a285cd5c738f01272059c893deb8d25e5c1bc0cbb3e8c0ea491ee9c6011aa",
+    "status": "recovered",
+    "repository_path": "docs/history/research/Claude-Harness-HALO-Design.md",
+    "redactions": 0,
+    "published_sha256": "209875dc582b91de1e67795dde01706fd48575fc699f815927e937ed6ee409df"
+  },
+  {
+    "source": "research",
+    "path": "Clean-Room Research Prompt \u2014 DeepSeek Harness on AMD Strix Halo - Windows 11.md",
+    "bytes": 31798,
+    "sha256": "0fde44e1f3c504fff7d64acf7bd6947e5d0a5a8da9af31fc7a7db4eb6c46f655",
+    "status": "recovered",
+    "repository_path": "docs/history/research/Clean-Room Research Prompt \u2014 DeepSeek Harness on AMD Strix Halo - Windows 11.md",
+    "redactions": 0,
+    "published_sha256": "d91b200f51ebd741b50fcc87de104c6090d7ee80285cd8b1a2b889c454780281"
+  },
+  {
+    "source": "research",
+    "path": "CODEX-APP-UPDATE-HANDOFF-2026-08-30.md",
+    "bytes": 2875,
+    "sha256": "06974c5f7cbc9faa5a28f217f2e7ddfb1e96c227d392d4f0b042a0ac4fe36a52",
+    "status": "recovered",
+    "repository_path": "docs/history/research/CODEX-APP-UPDATE-HANDOFF-2026-08-30.md",
+    "redactions": 0,
+    "published_sha256": "041ad1a7272496d1e7df7de0aa888097c000033d4052a78ab0219b285e3025a4"
+  },
+  {
+    "source": "research",
+    "path": "CODEX-DEEPSEEK-FINAL-HANDOFF-2026-09-16.md",
+    "bytes": 41219,
+    "sha256": "caeac8c4e7a85dc73cf548e5f6f6b2e62b43fd71a7f87876cfc39651c5cc069f",
+    "status": "recovered",
+    "repository_path": "docs/history/research/CODEX-DEEPSEEK-FINAL-HANDOFF-2026-09-16.md",
+    "redactions": 0,
+    "published_sha256": "da648666d51796d6d62bb8dddf0a08c3a635647e725642f8569b86198b7ac0f8"
+  },
+  {
+    "source": "research",
+    "path": "Codex-Harness-Halo v1.html",
+    "bytes": 35939,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "Codex-Harness-Halo v1.md",
+    "bytes": 29782,
+    "sha256": "bad6890dc6d232e13b1356b9bc9ee29a2bcd5cc8815a6d22195b8492a17c1005",
+    "status": "recovered",
+    "repository_path": "docs/history/research/Codex-Harness-Halo v1.md",
+    "redactions": 0,
+    "published_sha256": "0a86fb94cf1a820031ba8faa73d6833ce08278ca7e024af7fffe9b8e3b5653bb"
+  },
+  {
+    "source": "research",
+    "path": "DeepSeek Harness on AMD Strix Halo \u2014 Research Report and Build Specification (2026-08-23) rev2.docx",
+    "bytes": 320319,
+    "sha256": "ffbd1f24192ac554c433448de0b7283f4e7d87e6fcb2c742ed22d45a58b22965",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DeepSeek Harness on AMD Strix Halo \u2014 Research Report and Build Specification (2026-08-23) rev2.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "6f656feb654fb6df3b30f6b851bf90e53258441bfe7b0c590b894685cd5a0911"
+  },
+  {
+    "source": "research",
+    "path": "DSH Full plugin list.txt",
+    "bytes": 26295,
+    "sha256": "6037d4abad53bdbe2ba6133b1ed11a2a08747b1369e4249ceac5beb85c2b9e2d",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH Full plugin list.txt",
+    "redactions": 0,
+    "published_sha256": "85814dff639404b5c07c207ae2db56f22985313136eefea75af400a9bd912405"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-BROWSER-ACCEPTANCE-2026-09-02.md",
+    "bytes": 4165,
+    "sha256": "7c144a98af1197aa99727d94f2cf8fe84afa69f0d377aacde01aff8477d0a961",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-BROWSER-ACCEPTANCE-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "8238bf6d73bd74d9ce47efd5a5905e892e0fa3b823e1ce1b756113b62a114939"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-INTEGRATION-2026-09-02.md",
+    "bytes": 8890,
+    "sha256": "47a3f7a0e7c2781be49d7ab1395a2a2ad460059aa81315e665c8ecc1f57d4c6e",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-CLI-INTEGRATION-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "7201d06fd4398c67a1f80a5f656978fd4d5c9c9124e9b8735fd43b718dcb6a86"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-LIVE-2026-09-02.json",
+    "bytes": 14679,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-METRICS-2026-09-02.md",
+    "bytes": 9695,
+    "sha256": "4a27ff8820e4caea07cf1a8677dc56eda954376a6e7f25e230c1970e18af2249",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-CLI-METRICS-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "ab3081147ee504a8ac87369982a30b76ff1e0a9d45b7bd8e96f2115591b7463a"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-METRICS-FINAL-2026-09-02.json",
+    "bytes": 5618,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-METRICS-LIVE-2026-09-02.json",
+    "bytes": 5085,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-REVIEW-2026-09-02.md",
+    "bytes": 10324,
+    "sha256": "cf6a35dbc54e8bf4f5a5e9ff81acc3a7693ed9be584c3d13b6520905c18224dd",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-CLI-REVIEW-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "eb51f8ec409d8850c6f3b4db2947a86eab6deefda71060c8d39337cd4a50766f"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-CLI-RUNTIME-2026-09-02.md",
+    "bytes": 8004,
+    "sha256": "cc507df26b13fffa1dbfd8ff8189d74bfc6a04040f1c88c64685a84cd0acc805",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-CLI-RUNTIME-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "a6448cbb05b2919998a7837e6966994680ec594409acc4fea61731adb3cdb08c"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-COPY-MANIFEST-2026-09-02.json",
+    "bytes": 4705,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-FILE-MANIFEST-2026-09-02.json",
+    "bytes": 10393,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-ISOLATION-REVIEW-2026-09-02.md",
+    "bytes": 15694,
+    "sha256": "77d430f9af449de8c03fdc4f65c976559a0b630c98e60eb9623d749c84580b18",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-ISOLATION-REVIEW-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "d59a6f322488ca0b91cb7b39d7f7d3efe35c27d228d42e253a36621ccaaf5bc4"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-PROVIDER-ACCESS-2026-09-02.md",
+    "bytes": 14495,
+    "sha256": "cf8d588d2396f0911a436fedf643f8ac7d37fc1de19c5b3c8e8787235705a19b",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-PROVIDER-ACCESS-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "1a930dd8dfbb30d953cf31a1139fc306218ff0bf72e5f91b1bc7581aec16f253"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-README-2026-09-02.md",
+    "bytes": 7622,
+    "sha256": "c9acf40f729249c112af2a9aed81b64c3c9be824b05469f1db6d10a8463cbf40",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-README-2026-09-02.md",
+    "redactions": 0,
+    "published_sha256": "58b8b24b695b450a21a55e2d5de8dcde84a3a01b88d94501646356792c8eb8a4"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-RESEARCH-COPY-MANIFEST-2026-09-02.json",
+    "bytes": 2352,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-TESTS-2026-09-02.json",
+    "bytes": 2844,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "DSH-DEVELOPMENT-TESTS-2026-09-02.txt",
+    "bytes": 11245,
+    "sha256": "24aa4dd2d8af6ce99cd7521f030824e5956260115c6a79ff75bff38054622221",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-DEVELOPMENT-TESTS-2026-09-02.txt",
+    "redactions": 0,
+    "published_sha256": "4db93b2b10e02ec8a61c748f14daa37beeea25e499d2550eb4f82383e9d8532d"
+  },
+  {
+    "source": "research",
+    "path": "DSH-HALO-CLOUD-SUBAGENT-INTEGRATION-GUIDE-v1.0.md",
+    "bytes": 28617,
+    "sha256": "a88e4441a131d8f58d0b070168f24dbea3e120a5ae6b98a89726b5d062fdee06",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-HALO-CLOUD-SUBAGENT-INTEGRATION-GUIDE-v1.0.md",
+    "redactions": 0,
+    "published_sha256": "c78f40d3a90f559059b3d534f5cf468b0cfe0b0a16c096c8717638a00b999c30"
+  },
+  {
+    "source": "research",
+    "path": "DSH-HOST-PLUGIN-INVENTORY-2026-09-15.md",
+    "bytes": 13803,
+    "sha256": "8e3c9b3983270ac8d78b22bb759f7df6805a9e3841eb5d1dbfcbef5b31583f7a",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-HOST-PLUGIN-INVENTORY-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-LEAN-CODING-2026-09-15.md",
+    "bytes": 5699,
+    "sha256": "3e7c8b77d3780b9096dac07dd8cfa58fe913fa5b7384c14542ba9bdd9f9b2408",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-LEAN-CODING-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-OLLAMA-CLOUD-2026-09-15.md",
+    "bytes": 3308,
+    "sha256": "2c10df2dd205cb21067ec7ae9e43149d49c1dc09d71a33ad43c67a8164fba68f",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-OLLAMA-CLOUD-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-STOCK-CAPABILITY-REUSE-REVIEW-2026-09-15.md",
+    "bytes": 17461,
+    "sha256": "30ce3187402f0c651e1289a8859ff74dfdaeebadd321803998221c170a72de44",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-STOCK-CAPABILITY-REUSE-REVIEW-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.4.docx",
+    "bytes": 142462,
+    "sha256": "4ece7199a6b1f6fbb03d5d45b1a9a2cfe48d7646d13053d83c3ac18a08b835db",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.4.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "03eac08faf660ae007ec80db68b59b00ad4c2a82e69547742d8d65def1c593d7"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.4.md",
+    "bytes": 235403,
+    "sha256": "bc5104e5c4643aecce8eacb7dd4344ff139464fd307573d8e90b44b60ec95430",
+    "status": "already-represented",
+    "repository_path": "DSH-Strix-Halo-Report-v2.4.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.5.docx",
+    "bytes": 150054,
+    "sha256": "6064294b31731e73f1022fd17e1ac352b40d30546b84a725b5abd96c99121978",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.5.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "a17b0d97ff571fdd6c2e4328c2ec71b96e6663b752dd6e8af2f17b03c242db27"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.5.md",
+    "bytes": 249234,
+    "sha256": "de40def11af07bc5c178d81c9f296ca1c1f0e095d9d1aca8dbb6d25e7fb9fbcf",
+    "status": "already-represented",
+    "repository_path": "DSH-Strix-Halo-Report-v2.5.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.6.docx",
+    "bytes": 155032,
+    "sha256": "134dfd34c2e121919cdfbe8c3d97acc2fe30bcf379cda8648149abb09047f84d",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.6.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "7efac618f4912f3109b8084afe1a5fd9b43399008a840e3f1651e9d1165c46ab"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.6.md",
+    "bytes": 258241,
+    "sha256": "af3eb7cdb2ee8d905a3054fe9f7c7993ff0276e7c14a1a0cedede05b8997e930",
+    "status": "already-represented",
+    "repository_path": "DSH-Strix-Halo-Report-v2.6.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.7.docx",
+    "bytes": 161386,
+    "sha256": "21a6e649ca0ebbf75b3d2de3163938d5e8489d6ac8d653d021a519f866d39835",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.7.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "6073eeae7a504d83c57f53d4310edb0c2aea4d7255906b95e4effccebc87d0c9"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.7.md",
+    "bytes": 269418,
+    "sha256": "9f1875ba0d63031e93c8864937663180c02bf7e81e513351591e84d303fa04d0",
+    "status": "already-represented",
+    "repository_path": "DSH-Strix-Halo-Report-v2.7.md"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.8.docx",
+    "bytes": 166136,
+    "sha256": "09043b3632b0fce1e626c60564e0f847c13b84e3ea8565733f95fefde0c2a46c",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.8.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "ff0cede2358e1a329fc40910bd7180d65630bdb0d9eff3f88aa44a1fac0bb6c5"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v2.9.docx",
+    "bytes": 169418,
+    "sha256": "6efb4cd5a0870624565a4fa6fb8c3e1fd7ed013edf50569a20284ae15a0c87b7",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v2.9.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "071e152f9aa325db6975e94745917e1376621c4c530bd0f7a2f85b47abed1c16"
+  },
+  {
+    "source": "research",
+    "path": "DSH-Strix-Halo-Report-v3.0.docx",
+    "bytes": 173719,
+    "sha256": "78a807f69f29ddf33a665343ebf725748c12ecbbfc0eab45f8ec5024d2b52af6",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH-Strix-Halo-Report-v3.0.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "565b1e52561adf6962a77e8e537676ae773388a6aaf2858ebbb1d7566b3aec60"
+  },
+  {
+    "source": "research",
+    "path": "DSH-SUPERGROK-2026-09-15.md",
+    "bytes": 3483,
+    "sha256": "7f92cf254e7c39517d87342336aea5264734fc64fb36542061770c2b041da888",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-SUPERGROK-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "DSHStrixHaloReportv2.1.docx",
+    "bytes": 107288,
+    "sha256": "2af6ef81ffac3d64c154cd6e4e8e5da8f85d45fcd57fb4019e70f2d164a6b1b3",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSHStrixHaloReportv2.1.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "54e4ba34612fdc3a6cf513ee5c2ec3922eb37b6265a07ecc9fc7a3586e4aa8dc"
+  },
+  {
+    "source": "research",
+    "path": "DSHStrixHaloReportv2.2.1.docx",
+    "bytes": 125236,
+    "sha256": "db7c0fd2ae482b3257823f07fd520e334e346f838cb8670621883627afa5dec6",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSHStrixHaloReportv2.2.1.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "19d444a8e57c1e66de1a1e2c873f12e007d24c5bc2089576a4dd000c14fc169c"
+  },
+  {
+    "source": "research",
+    "path": "DSHStrixHaloReportv2.2.docx",
+    "bytes": 123366,
+    "sha256": "a8e9e28cba40c8c12ac6b32c03cfb6ce7e86718b0ec5c72df22e18cbf1232adc",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSHStrixHaloReportv2.2.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "1b5a8ac674049b046105ef99bdfd8c47d60750cc0c9b8d85c9c596ad06cb3aff"
+  },
+  {
+    "source": "research",
+    "path": "DSHStrixHaloReportv2.3.docx",
+    "bytes": 129066,
+    "sha256": "28db06239b891b7a00b6836fc974c1917eac39c47ebb682e7e06e8ed03f7aefb",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSHStrixHaloReportv2.3.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "694f1f5d3d37109694a5120d2948434d2370b717cd8b0237325c24ffd8ab3b4f"
+  },
+  {
+    "source": "research",
+    "path": "DSH_Strix_Halo_v2.2.1_Reconciliation_Handoff.docx",
+    "bytes": 44982,
+    "sha256": "d42cd1b63f7290575cdb8f64f676dcc8eb9e186012a08b0f636289d50893a042",
+    "status": "recovered",
+    "repository_path": "docs/history/research/DSH_Strix_Halo_v2.2.1_Reconciliation_Handoff.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "12bc4f7f89a3520782f1af6841801a2c8dfcb74b0b9dd3e74d90350a66bb9093"
+  },
+  {
+    "source": "research",
+    "path": "gptoss-120b-load-memory-20260829.csv",
+    "bytes": 1941,
+    "sha256": "d823123d118f24af7e49003b0b6d78c170f70f56f45ce1dd01619f225101d69d",
+    "status": "recovered",
+    "repository_path": "docs/history/research/gptoss-120b-load-memory-20260829.csv",
+    "redactions": 0,
+    "published_sha256": "36565bcaead9fb9b39895ea9de51177b236d7359d7aa6e57b0abf1b9a5e0f23f"
+  },
+  {
+    "source": "research",
+    "path": "gptoss-120b-load-memory-mmap-20260829.csv",
+    "bytes": 4147,
+    "sha256": "58d80166bf81a47a3f78decfa78cb6b69f5bc0725c7d3d5e6c9486d8f9a7675d",
+    "status": "recovered",
+    "repository_path": "docs/history/research/gptoss-120b-load-memory-mmap-20260829.csv",
+    "redactions": 0,
+    "published_sha256": "db79fc3c8482908e94ce6b725439603b90d97321892b301e38acb2e21beac415"
+  },
+  {
+    "source": "research",
+    "path": "HALO-64GB-POST-REBOOT-VALIDATION-2026-08-30.md",
+    "bytes": 3855,
+    "sha256": "e2acee8a88e4c157401a726881fbea621df8f3af885a39efd31ec09145c33030",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-64GB-POST-REBOOT-VALIDATION-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md",
+    "bytes": 4666,
+    "sha256": "b6c4da12fed14d2d7d8e84627d80d4e7dd565dff13d3e0ef52dd50f0ef5a112d",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-96GB-RUNTIME-EVIDENCE-2026-08-29.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md",
+    "bytes": 35912,
+    "sha256": "69bf9f76bd70aaee8ffd61aea1fdeb8298703025c163b5e0bed6f260a8e6ca89",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md",
+    "redactions": 0,
+    "published_sha256": "64ae149c32eafe22257cd31bcb4090c6223f781b8945a4f91a7dc79c6fe20634"
+  },
+  {
+    "source": "research",
+    "path": "HALO-AUTONOMY-REPAIR-2026-08-30.md",
+    "bytes": 4180,
+    "sha256": "6e1f5b593ee60a2959128daa87dcbca480ec393976115c3f26852e6a674dbabd",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-AUTONOMY-REPAIR-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-CLEANUP-2026-10-01.md",
+    "bytes": 3424,
+    "sha256": "bb81bb86b655bb01ad75ddf1586072bb4c9163e2132af6b7c818803a5f3b5a4e",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-CLEANUP-2026-10-01.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-CODEX-TRANSPORT-RESEARCH-2026-09-16.md",
+    "bytes": 10158,
+    "sha256": "08b16dca0db8ec53c968d572e3e8fe2612685babf7235f27ef9c058aab6a3ea2",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-CODEX-TRANSPORT-RESEARCH-2026-09-16.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-CODEX-WORKER-REPAIR-2026-09-16.md",
+    "bytes": 4671,
+    "sha256": "a44d0869ee82dbc76e91264133918a7ec7efff49aa920d3a99c5dbe8b98a216b",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-CODEX-WORKER-REPAIR-2026-09-16.md",
+    "redactions": 0,
+    "published_sha256": "b53dc2018985eb3abccb448c18a79e70111b38c89063258e20f908a0f81718c9"
+  },
+  {
+    "source": "research",
+    "path": "HALO-CURRENT-CONFIGURATION.md",
+    "bytes": 56656,
+    "sha256": "df83e48f7dafb4b74c1223246d58fc934047e0edce294e9ad5a3796fc44aa37b",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-CURRENT-CONFIGURATION.md",
+    "redactions": 0,
+    "published_sha256": "209e110c86e3f04a118aa0a08b0711e473b3d901dd6a8a030af3a9a784ff3f9a"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-AUDIT-2026-10-07.md",
+    "bytes": 7679,
+    "sha256": "be4d39b2005241bd047fa2d242180de23ef3146452f46faaff7f1f3b730bb973",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-AUDIT-2026-10-07.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-GENERATION-SPEED-2026-10-15.md",
+    "bytes": 3077,
+    "sha256": "01d0c734b980069645257a427476cf96f6ba5b3480ba333f71dacbaff407f5cc",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-GENERATION-SPEED-2026-10-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-01.md",
+    "bytes": 18669,
+    "sha256": "bd1b7053c163b7c7e5303b1787d1efa190444f1779606959ca3dde9ebeaa3f6d",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-DSH-IMPLEMENTATION-2026-09-01.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-07.md",
+    "bytes": 11580,
+    "sha256": "581d4adc59c908f6c3f3a0d5cc052dba31f390ca8fd54c1deca5445155316240",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-DSH-IMPLEMENTATION-2026-09-07.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-13.md",
+    "bytes": 8940,
+    "sha256": "c9d713c245f8109aac377d3ed3778b7f694ead0514575c0a7aa61111e246bdb3",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-13.md",
+    "redactions": 0,
+    "published_sha256": "5ac96893b1f38ffd7c6560827cce1343a533b4d1991c510a685dedaa1adaa8fa"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-14-REDDIT-SKILL.md",
+    "bytes": 1504,
+    "sha256": "9498322b16a1cf091197277c5e8a21b5a739f77be791036fd63cdfc4f4293045",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-14-REDDIT-SKILL.md",
+    "redactions": 0,
+    "published_sha256": "548e598ba8ea7bbce20616a08d1d02fdcecec44886f8c618a6b294b0fc7f4cc8"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-128K-TUNING.md",
+    "bytes": 6250,
+    "sha256": "621de86fd244a12d3d8f936705a95e5fafa9ed8dc2227ec0beabf89361d2f903",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-15-128K-TUNING.md",
+    "redactions": 0,
+    "published_sha256": "f605d2965462e2685cc473277511cdc3bf853845ddf9b51bd837b05ce297f2e2"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-ACTIVITY-MODEL.md",
+    "bytes": 686,
+    "sha256": "d68cfba6882217ee7c672ca809dffa92480721cacb317696fa5c5ea66a5839b2",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-ACTIVITY-MODEL-LABEL-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-ALPHA-UPGRADE.md",
+    "bytes": 7051,
+    "sha256": "5a7c152e031099c61ca2d3dc1533b2601913dca9905190bb09c51ea10ede2013",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-ALPHA-UPGRADE-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-CLOUD-REPAIR.md",
+    "bytes": 4293,
+    "sha256": "e895299db91bb95b06116a682ae944b5efc4718da3f838a4b08a1b8e5fb93c18",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-15-CLOUD-REPAIR.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-FIVE-INVESTIGATIONS.md",
+    "bytes": 9928,
+    "sha256": "030542b1951e6759a951c198409f8c875b4ab0b1d20a1a0de1ddcd14ad6d91a6",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-15-FIVE-INVESTIGATIONS.md",
+    "redactions": 0,
+    "published_sha256": "d5ec09714373143dd60b9561d87074004ac891f81ec0394039a16fab6b338188"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-LEAN-CODING.md",
+    "bytes": 5699,
+    "sha256": "3e7c8b77d3780b9096dac07dd8cfa58fe913fa5b7384c14542ba9bdd9f9b2408",
+    "status": "already-represented",
+    "repository_path": "docs/DSH-LEAN-CODING-2026-09-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-MODEL-RECOVERY.md",
+    "bytes": 4091,
+    "sha256": "327990845ce6fd8fd809c3902961fb25c39436f0f98af92e3a24eea8bc68b369",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-15-MODEL-RECOVERY.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md",
+    "bytes": 7025,
+    "sha256": "cdcf3bf49792cf58764f5db1e9a7cfa3de244e74fbab6354a938f6976aee3692",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-15-OLLAMA.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-STARTUP-DEFAULT.md",
+    "bytes": 1909,
+    "sha256": "a77962e69b273a9e7d740bb80f99b055abb5b53e428f4c306d66b06d33a9bd62",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-15-STARTUP-DEFAULT.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-15-SUPERGROK.md",
+    "bytes": 3019,
+    "sha256": "6a3fe1f5f747f665c432c2a8514ee82d4711075d85b3ee162508872a08330287",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-15-SUPERGROK.md",
+    "redactions": 0,
+    "published_sha256": "286a80dfd96bb89876b862c4c10519d250c636d812e23683795ada84d263f1e3"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-16-BRAIN-HIGH.md",
+    "bytes": 3299,
+    "sha256": "2c35a858f70cd39e54a0dd401d3cb519524f22788b3d6f55965d9f44d25c37be",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-16-BRAIN-HIGH.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md",
+    "bytes": 8970,
+    "sha256": "df8907ddace124d89897c30c30fbecaf9d51d73317255c598339ecc24d79fef5",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-16-CODEX-DELEGATION.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-16-CONTEXT-CONSISTENCY.md",
+    "bytes": 1892,
+    "sha256": "c54fa66eebf36b8ae0b5b28370258a254ba56b06872b5867044d2f239afaf74f",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-16-CONTEXT-CONSISTENCY.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-16-LAUNCH-RECOVERY.md",
+    "bytes": 1984,
+    "sha256": "58c6c53d7b8793bc2c656ab0c561a7b53d2cd7ac4e4e6ffb97bd75296d0d0cc0",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-16-LAUNCH-RECOVERY.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-PICKER.md",
+    "bytes": 7610,
+    "sha256": "820d34def01289615c5c050ce7d937ad7cf9a0e345c4a3278e32a2843b3fabec",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-PICKER.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-SMALL-CATALOG.md",
+    "bytes": 6377,
+    "sha256": "fbf9592b970520df1cfd9dc31ef1f606c1bcbf25e92c17688c547942d88cd38a",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-27-DESKTOP-SMALL-CATALOG.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-27-Q4-TUNING.md",
+    "bytes": 8333,
+    "sha256": "e19225af0b08ea4847df3af4cbafb874d1d4b3976d6318e4cd1bffcc4e741dda",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-09-27-Q4-TUNING.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-09-27-WEB-MODEL-PARITY.md",
+    "bytes": 2901,
+    "sha256": "2f69ac26d6d2fd2761481d67ab4c215930803d185c32ccbed2202147cd3caccb",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-09-27-WEB-MODEL-PARITY.md",
+    "redactions": 0,
+    "published_sha256": "e5bb965a088c91e08e80783b7f71af59cd7a6972ae310dced1bf48c11fd02fd1"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-01.md",
+    "bytes": 5050,
+    "sha256": "ff15a48c463916fdccab0d5403e6f58632140589080296550dbc40f983bb1834",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-10-01.md",
+    "redactions": 0,
+    "published_sha256": "a119e536d10152702eb5cfddc69cee0269e1999407f4cb37b4871de0d6bdb773"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-07-AUDIT-REPAIRS.md",
+    "bytes": 5324,
+    "sha256": "e1923f9fb8bb3c59cbd2d2141a917b8ace246db3fba69e3f23342f647b0965de",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-07-AUDIT-REPAIRS.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-07-RESEARCH-ROUTING.md",
+    "bytes": 2840,
+    "sha256": "901bc8b9ccb0237daec8072fc1e9bdcdb05500aa62808d77e707313015fc2e32",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-07-RESEARCH-ROUTING.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-09-CLOUD-DEFAULTS.md",
+    "bytes": 880,
+    "sha256": "e83e38f748a448cd974d52e890e0724167925364710321d9fa65df157900cd5d",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-09-CLOUD-DEFAULTS.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-09-LAUNCHER-ERROR.md",
+    "bytes": 1090,
+    "sha256": "f5ff65b76f79767e1e77568007b176f5ca1ca9ec07536cd8e5cda79e854bf09a",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-09-LAUNCHER-ERROR.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-09-WEB-ALPHA2.md",
+    "bytes": 10673,
+    "sha256": "bbb46662894f8ee3a5dcd31d43985a0a789be6090c203f1a105bb190004a7923",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-09-WEB-ALPHA2.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-09-WINDOWS-RECOVERY.md",
+    "bytes": 3719,
+    "sha256": "456f279f1c4965e18d20fbfcaae51ff98d7993014fd11fd1c9ba195ecacc2a2d",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-09-WINDOWS-RECOVERY.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-10-WEB-OLLAMA-27B.md",
+    "bytes": 3648,
+    "sha256": "829b13705fa369959fa4c95aa38901ef7a966e601dbc6e4d940fa7b9fa85e161",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-10-WEB-OLLAMA-27B.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-11-INTEGRATION-AUDIT.md",
+    "bytes": 8509,
+    "sha256": "4f54cfe3e6b856c13f1ee5845b77090186a834c57f6d5989ffc972ae40f7ffbd",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-10-11-INTEGRATION-AUDIT.md",
+    "redactions": 0,
+    "published_sha256": "1010a77d44c3be346c101e431587a36d9b0e205a2b5ead464e6cb263551f8d24"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-11-MISSION-CONTROL.md",
+    "bytes": 2567,
+    "sha256": "e59b25cf43c332820e6e1a372df7f5d582779a5c85b2c764290157659e4094cc",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-IMPLEMENTATION-2026-10-11-MISSION-CONTROL.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-11-TRANSPORT-COMPACTION.md",
+    "bytes": 18891,
+    "sha256": "79f3236b4cf93bc6320704245b5b9c19e348ea1c33fd00e3ddd9926ff81f98fc",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-10-11-TRANSPORT-COMPACTION.md",
+    "redactions": 0,
+    "published_sha256": "e34614e766d3ef596451030cac1f12f58d2513b5c74815bfc7d2926c0cbd235f"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-11.md",
+    "bytes": 7712,
+    "sha256": "8cbd387083fdbb825e8ad8a914746178530dbfdf9e25ad625f7ed7abcfa06111",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-DSH-IMPLEMENTATION-2026-10-11.md",
+    "redactions": 0,
+    "published_sha256": "ba59883ddd9a86f89e2b0f97ac28718425f1a41a09914d6433a644052e790439"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-15-GUFO-RECOMMENDED.md",
+    "bytes": 4969,
+    "sha256": "60bf4fad80eedf1671cda4f0920d20be58234bcbd72c4bd2bdf2f3c3f320eb9f",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-GUFO-RECOMMENDED-MODEL-2026-10-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-IMPLEMENTATION-2026-10-15-GUFO.md",
+    "bytes": 6116,
+    "sha256": "5bf2b21d9a0fac6158cc347f63be6cd60fc62b3bbfc18d7d1d1d0264076c07b7",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-GUFO-WINDOWS-2026-10-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-DSH-UPDATE-2026-10-02.md",
+    "bytes": 7412,
+    "sha256": "c259ba85fb59ee3917c983677314d91cbb83ac723d327d6114a45146bf7a612a",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-DSH-UPDATE-2026-10-02.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-GUFO-CODING-2026-10-15.md",
+    "bytes": 4185,
+    "sha256": "db02061bf72460b1c2f3465b18d8ba1810d6bb45e5e59dfd0c81e8135b2d3511",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-GUFO-CODING-2026-10-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-GUFO-WORK-RECORD-2026-10-15.md",
+    "bytes": 4732,
+    "sha256": "5e6a1c083bc6be3c9d6d39e97e57a243c30999f286b874f55b658b4ea76e169f",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-GUFO-WORK-RECORD-2026-10-15.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-IMPROVEMENT-BASELINE-2026-08-30.md",
+    "bytes": 4854,
+    "sha256": "a7f9203c2a6d6acb83731333b6a44b64b8e5b342819278110741dc122ffd0856",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-IMPROVEMENT-BASELINE-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-LIVE-GATE-PASS-VERDICT-2026-08-29.json",
+    "bytes": 1424,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "HALO-LLMSTER-IMPLEMENTATION-PLAN-v1.0.md",
+    "bytes": 8188,
+    "sha256": "7bb90d825fcb0e4dfc361bc4a9881fbdfad01600c66cf71278c39d719a9edee8",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-LLMSTER-IMPLEMENTATION-PLAN-v1.0.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-LLMSTER-SPEC-v1.0.md",
+    "bytes": 14313,
+    "sha256": "f65a2a17e5c1c976e37b7fdadcfbde62bcc5c65f50542dc662886a69cb95d4e4",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-LLMSTER-SPEC-v1.0.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-LMSTUDIO-EFFORT-CATALOG-2026-10-02.md",
+    "bytes": 2904,
+    "sha256": "055cbf0549f5984f579b430e9b60c6b261b1223fa981f922af222fc45e9ab5f2",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-LMSTUDIO-EFFORT-CATALOG-2026-10-02.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-LMSTUDIO-EFFORT-EVIDENCE-2026-10-02.json",
+    "bytes": 2785,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md",
+    "bytes": 6142,
+    "sha256": "aa0dec7ed10510b7e901fbb512aba522ea486fb867606af6440ca8cf719b1b5b",
+    "status": "already-represented",
+    "repository_path": "docs/HALO-MISSION-CONTROL-020-REPAIR-2026-10-02.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MISSION-CONTROL-AUDIT-2026-08-30.md",
+    "bytes": 5863,
+    "sha256": "16ce747155f53a87417b00ac6bc6bff4d70b1fb1a860be90672345be5b6bad29",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-MISSION-CONTROL-AUDIT-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MODEL-ALTERNATIVES-2026-09-09.md",
+    "bytes": 10806,
+    "sha256": "1aee78562f900421ffe3af53fda82be9a200b6bf0107cb6c8e92261d65ee0db5",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-MODEL-ALTERNATIVES-2026-09-09.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MODEL-CANDIDATE-TEST-PLAN-2026-09-09.md",
+    "bytes": 7782,
+    "sha256": "e9f465aeec091cd97fa819ee4c3849d234b17966ba95cd5ae05b2b11f824d884",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-MODEL-CANDIDATE-TEST-PLAN-2026-09-09.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md",
+    "bytes": 4704,
+    "sha256": "99dd5b92cbe8558bcf5c0df507c23554100172553357237f2738c6a64c8f4be2",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-MODEL-LIBRARY-CLEANUP-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-MODEL-PROVIDER-RESEARCH-2026-09-02.md",
+    "bytes": 15178,
+    "sha256": "41006e1b05bc9de2358b637a66ca14c7e37a0a560bfb01a52058dde777aa8ec2",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-MODEL-PROVIDER-RESEARCH-2026-09-02.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md",
+    "bytes": 8883,
+    "sha256": "b84a773830b6e28b943dc8b1c768702cf46a183291ef635e0936ecba8234a87e",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-PARALLEL-REVIEW-RECONCILIATION-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-PARALLEL-SLOT-TEST-2026-08-30.md",
+    "bytes": 6946,
+    "sha256": "aeee04e704d00d328c4657befbd3d2db578e2dea9b94c1cae426257228445181",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-PARALLEL-SLOT-TEST-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-PROVIDER-PROMOTION-2026-09-02.md",
+    "bytes": 7392,
+    "sha256": "af643af7e90cc11ffafa090a9d890fb5af35c23bba2504507cc14950f8e3dfcc",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-PROVIDER-PROMOTION-2026-09-02.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-QWEN38-FAMILY-2026-09-10.md",
+    "bytes": 12808,
+    "sha256": "bfe4fd04d18d6ae87cf893368186117373a7464d67d923cbdd4e755a75572fe3",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-QWEN38-FAMILY-2026-09-10.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-DEV-README.md",
+    "bytes": 14018,
+    "sha256": "a3e6fee381e1140392e9326448a4ba2ae6d2996bf1156b42ad080f1959a49c9e",
+    "status": "already-represented",
+    "repository_path": "stack/halo-router-dev/README.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-DIRECT-REUSE-2026-09-07.md",
+    "bytes": 8521,
+    "sha256": "0eb28ebdf357d1e343eacfb74d738ab7b24c07b906610b37b878c9ee3b4b032d",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-ROUTER-DIRECT-REUSE-2026-09-07.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md",
+    "bytes": 5606,
+    "sha256": "e08cf0ad7912d0f23097d351e76f75f67ad9b93f31170f60dcd4a8c5e7d4a19c",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-ROUTER-HUMAN-RELEASE-2026-09-08.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-PLUGIN-SPEC-v0.1.md",
+    "bytes": 34423,
+    "sha256": "3114609cb5c11848cce94c847ef99a62c04aedacfe1d6d52817e6d440cd94a72",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-ROUTER-PLUGIN-SPEC-v0.1.md",
+    "redactions": 0,
+    "published_sha256": "3c51562438ceb53edd8ebef33cfc619934fec6ee722fb62ea5ee43b5a62e52a4"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-PRODUCTION-2026-09-08.md",
+    "bytes": 6583,
+    "sha256": "d31ac47b90fe38049d10691cf43dcaba16f80bd1be768b1ef8267ee67377f49e",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-ROUTER-PRODUCTION-2026-09-08.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-ROUTER-REAUDIT-2026-09-07.md",
+    "bytes": 11507,
+    "sha256": "684df26b3a6e52e3934c78d22faa7ac987cb9793b4cf59edb4bd3bbedbfc87aa",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-ROUTER-REAUDIT-2026-09-07.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md",
+    "bytes": 4759,
+    "sha256": "1f9adf4b503d1b1d3ff9846bd18b547e1ffa2e134742cb5ef4c2645c98f73a95",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-SIMPLIFIED-CODER-EVIDENCE-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-STACK-GUIDE.md",
+    "bytes": 55670,
+    "sha256": "4655edaa43124a8afb74cb824c49cc1f5a731b707eb071b6206089e3df47b164",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HALO-STACK-GUIDE.md",
+    "redactions": 0,
+    "published_sha256": "7f7713259d1eb1cee60cf3b076de04f3c2fb08e27cac74c06a85ed2853fa3edc"
+  },
+  {
+    "source": "research",
+    "path": "HALO-STAGE-3-DSH-NATIVE-GATE-DESIGN-v1.1.md",
+    "bytes": 3288,
+    "sha256": "01c71f2074bfa3ee2be558224501c27d065a6df7c9af61b2ed7c880ae887c3da",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-STAGE-3-DSH-NATIVE-GATE-DESIGN-v1.1.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-STARTUP-AND-BIONIC-2026-09-01.md",
+    "bytes": 11467,
+    "sha256": "542c83162106f7d5037b5ce44c357f1e51edd4fd030bffd41502e84811ee1069",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-STARTUP-AND-BIONIC-2026-09-01.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-STRIX-QUANTIZATION-AND-VGM-COMMUNITY-REVIEW-2026-08-30.md",
+    "bytes": 14162,
+    "sha256": "35188b2a22ad9652feab26245726c102a0456fcb109405d48ec570a8f5508673",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-STRIX-QUANTIZATION-AND-VGM-COMMUNITY-REVIEW-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HALO-WORKFLOW-REVIEW-2026-09-02.md",
+    "bytes": 6034,
+    "sha256": "3858ca6660deb1e33d618cc274d571ccb71e612206f5abfd31570adea90756ba",
+    "status": "already-represented",
+    "repository_path": "stack/workflow-review-2026-09-02/REVIEW.md"
+  },
+  {
+    "source": "research",
+    "path": "halo2.0misc.md",
+    "bytes": 78503,
+    "sha256": "d396d0738224c9dff8b032776470627143e9a884a1785af8639e9122aecf1b26",
+    "status": "recovered",
+    "repository_path": "docs/history/research/halo2.0misc.md",
+    "redactions": 0,
+    "published_sha256": "c668ea34d4edf18c909545d26c2868e6b81cd3cafbc139bfcb48feff66afdb5c"
+  },
+  {
+    "source": "research",
+    "path": "HALOROUTERSPECv0.3.md",
+    "bytes": 25900,
+    "sha256": "96043c4613a2fd577eead2620c243b8780f5d65ff4a455e134051eaa6db3fdce",
+    "status": "already-represented",
+    "repository_path": "stack/halo-router-dev/HALOROUTERSPECv0.3.md"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-AFTER-COMPACTION-2026-08-30.md",
+    "bytes": 6593,
+    "sha256": "aa39079cb24c43e1ab232c0fe1fb1dcfb730db7929aed1ea240d40b78c42626d",
+    "status": "already-represented",
+    "repository_path": "stack/HANDOFF-AFTER-COMPACTION-2026-08-30.md"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-TO-NEXT-AGENT.docx",
+    "bytes": 30041,
+    "sha256": "cd2b2cecfe23625774c1fd599b93f833e019e764935e8c088b9007a5fa1c5154",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-TO-NEXT-AGENT.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "c6af7b1506bc0c4b76bf59fe19d396f31752b2dedfc5b7d99b187a40e18b680e"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-TO-NEXT-AGENT.md",
+    "bytes": 30418,
+    "sha256": "f4bf58389b956cef13be44c825d7050fcc27d931245ec653050ab765f51b4e0a",
+    "status": "already-represented",
+    "repository_path": "HANDOFF-TO-NEXT-AGENT.md"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-TO-NEXT-AGENT1.md",
+    "bytes": 30418,
+    "sha256": "f4bf58389b956cef13be44c825d7050fcc27d931245ec653050ab765f51b4e0a",
+    "status": "already-represented",
+    "repository_path": "HANDOFF-TO-NEXT-AGENT.md"
+  },
+  {
+    "source": "research",
+    "path": "MORNING-REPORT-2026-08-26.md",
+    "bytes": 11837,
+    "sha256": "41af3c2550927d4ec0029d1e2913434a263e6086b7606ecebf577ed6bbeb23ac",
+    "status": "already-represented",
+    "repository_path": "MORNING-REPORT-2026-08-26.md"
+  },
+  {
+    "source": "research",
+    "path": "REBOOT-HANDOFF-2026-08-27.md",
+    "bytes": 1981,
+    "sha256": "1239f03f382fc2121ca43165a1ad04ca78cb3c665f1692a9abebba4e816a27d3",
+    "status": "already-represented",
+    "repository_path": "stack/REBOOT-HANDOFF-2026-08-27.md"
+  },
+  {
+    "source": "research",
+    "path": "REBOOT-STATE-2026-08-27.md",
+    "bytes": 3191,
+    "sha256": "b94dcd95362e9c49068821c3f68e666ac5183f54ded4b1b78a639007e7702e3c",
+    "status": "recovered",
+    "repository_path": "docs/history/research/REBOOT-STATE-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "21b56d87afd4cebb83f18e5162f31faf22b53e5ecb490998a81f809561845828"
+  },
+  {
+    "source": "research",
+    "path": "RECOVERY-SNAPSHOT-README.md",
+    "bytes": 4636,
+    "sha256": "796ef30edb78bfd13f72eadc89d0e82cace3cb983c7f068335ea0a8d6d29e67b",
+    "status": "already-represented",
+    "repository_path": "stack/RECOVERY-SNAPSHOT-README.md"
+  },
+  {
+    "source": "research",
+    "path": "SessionTranscript.docx",
+    "bytes": 842020,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "SessionTranscript.md",
+    "bytes": 1773629,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "SessionTranscriptwiththinking.docx",
+    "bytes": 1230694,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "SessionTranscriptwiththinking.md",
+    "bytes": 2903897,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "Spec-Gap-Analysis-Session-vs-Report-v2.2.1.docx",
+    "bytes": 42593,
+    "sha256": "39b409563556084883a5aedc2c154a4a569834e326d1e02e3bbe99a4a37182bf",
+    "status": "recovered",
+    "repository_path": "docs/history/research/Spec-Gap-Analysis-Session-vs-Report-v2.2.1.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "af33f534a9cbf099995c5f381da141596f73455b3ceadc87a64560957109490d"
+  },
+  {
+    "source": "research",
+    "path": "SPEC.md",
+    "bytes": 29306,
+    "sha256": "bc6abbfa3d2802dd90580aea19d86ac694e6ba3d7f2545e9b66f2236cfe12626",
+    "status": "recovered",
+    "repository_path": "docs/history/research/SPEC.md",
+    "redactions": 0,
+    "published_sha256": "2ef82c83ac8d14396e90141534e3a554296f1e8c93e9df72e54db754a4bfcb55"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-1-RUNTIME-EVIDENCE-2026-08-27.md",
+    "bytes": 5602,
+    "sha256": "26662d4535900206faf0dc52bcf8678a61702429718b5a87527eaa8530dcdeae",
+    "status": "already-represented",
+    "repository_path": "stack/STAGE-1-RUNTIME-EVIDENCE-2026-08-27.md"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-2-RUNTIME-EVIDENCE-2026-08-27.md",
+    "bytes": 5719,
+    "sha256": "583ae3c363edaf0504798334aca65a849ff840a21ff421b4195dd4bbe9995903",
+    "status": "already-represented",
+    "repository_path": "stack/STAGE-2-RUNTIME-EVIDENCE-2026-08-27.md"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-3-DESIGN-EVIDENCE-2026-08-27.md",
+    "bytes": 4431,
+    "sha256": "fac8596430a636b661db1485454ed79d8149274866f2e9dfdcf72f08dedf6b7d",
+    "status": "already-represented",
+    "repository_path": "stack/STAGE-3-DESIGN-EVIDENCE-2026-08-27.md"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-3-HANDOFF-TO-CODEX-2026-08-27.md",
+    "bytes": 10058,
+    "sha256": "665d2060421c6910bffdfe93334208d3e4a44ccae7088f2835e17374e97b0445",
+    "status": "recovered",
+    "repository_path": "docs/history/research/STAGE-3-HANDOFF-TO-CODEX-2026-08-27.md",
+    "redactions": 0,
+    "published_sha256": "57d3db5776269460de734cf74e34deac565486c83898ce23bf5edcafe2644f6f"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-3-IMPLEMENTATION-EVIDENCE-2026-08-27.md",
+    "bytes": 2845,
+    "sha256": "6d4bc6b385e5aadfaefaea3a7609caf82f27a86e216a881176e446650ee0c5d1",
+    "status": "already-represented",
+    "repository_path": "stack/STAGE-3-IMPLEMENTATION-EVIDENCE-2026-08-27.md"
+  },
+  {
+    "source": "research",
+    "path": "STAGE-5-HARDGATE-REAL-WORLD-VERDICT-2026-08-29.md",
+    "bytes": 7768,
+    "sha256": "aea2c9bf033269dd567a339828d66ddc29a0752b58852ec5a9eb15cc148af322",
+    "status": "recovered",
+    "repository_path": "docs/history/research/STAGE-5-HARDGATE-REAL-WORLD-VERDICT-2026-08-29.md",
+    "redactions": 0,
+    "published_sha256": "efde07606aeb4a2f6ce824f609a4215b594f9547bd3b9c4a659a273f36723022"
+  },
+  {
+    "source": "research",
+    "path": "SUPERGROK-OAUTH-INSTALL-HANDOFF.md",
+    "bytes": 10282,
+    "sha256": "7f51e54ea8f3f93c6e6cef5cddfb465f1fa9b890492c2cd34014c6e289c1a52f",
+    "status": "already-represented",
+    "repository_path": "docs/SUPERGROK-OAUTH-INSTALL-HANDOFF.md"
+  },
+  {
+    "source": "research",
+    "path": "TC-FINAL-REPORT.md",
+    "bytes": 12713,
+    "sha256": "b35c9ecfc4a40d883f15c769da5765f2c016dda51b52faadd4be48ac72810c58",
+    "status": "already-represented",
+    "repository_path": "tuning/tc/TC-FINAL-REPORT.md"
+  },
+  {
+    "source": "research",
+    "path": "Transcript.txt",
+    "bytes": 21276,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "transcript2.txt",
+    "bytes": 19738,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "research",
+    "path": "X-ARTICLE-2026-08-26.md",
+    "bytes": 19978,
+    "sha256": "f1073d1be9500234128877d17748b71bcbac47c9c814218bd246962c749d2a3c",
+    "status": "already-represented",
+    "repository_path": "X-ARTICLE-2026-08-26.md"
+  },
+  {
+    "source": "research",
+    "path": "archived research/DeepSeek Harness on AMD Strix Halo \u2014 Research Report and Build Specification (2026-08-23).docx",
+    "bytes": 305055,
+    "sha256": "499b2fdc75b0ee908ab5ca0047d3f0794e00c7730538d156b3fc9b9d051908be",
+    "status": "recovered",
+    "repository_path": "docs/history/research/archived research/DeepSeek Harness on AMD Strix Halo \u2014 Research Report and Build Specification (2026-08-23).docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "b5767221439bab81e8a9efcdbba2e087441a53da9bffc1084e56dcb5830164d5"
+  },
+  {
+    "source": "research",
+    "path": "archived research/deepseek-harness-strix-halo-spec-2026-08-23.docx",
+    "bytes": 64545,
+    "sha256": "586a3bc81116fa0497cf021463ab24d8651d32e9692096486df600e3fbc19425",
+    "status": "recovered",
+    "repository_path": "docs/history/research/archived research/deepseek-harness-strix-halo-spec-2026-08-23.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "cfa84b77fa37ec467e174f8dad36610e8cda54c89eac429f18327e95b2d85ae3"
+  },
+  {
+    "source": "research",
+    "path": "archived research/DeepSeek_Harness_AMD_Strix_Halo_Architecture_Report.docx",
+    "bytes": 57452,
+    "sha256": "f1116b96b965381737c75dbab549004d5d3ca613b770fdde472639e68e86ee28",
+    "status": "recovered",
+    "repository_path": "docs/history/research/archived research/DeepSeek_Harness_AMD_Strix_Halo_Architecture_Report.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "ac52b8c93e59e3d9261970b055c6003ed19db4c19d4c8016fb7c92fb59f1dd2c"
+  },
+  {
+    "source": "research",
+    "path": "archived research/DSH_Strix_Halo_Architecture_Spec_2026-08-23.docx",
+    "bytes": 20907,
+    "sha256": "db9a9590a9506a5a949cd8b1db6cef00f18e16131b9061c62d299caba8c94c36",
+    "status": "recovered",
+    "repository_path": "docs/history/research/archived research/DSH_Strix_Halo_Architecture_Spec_2026-08-23.docx.md",
+    "redactions": 0,
+    "transformation": "Word document body text extraction",
+    "published_sha256": "94f15057ff06679d899c2459c3b033f894d514776ce717c954b0b5b19faa1c39"
+  },
+  {
+    "source": "research",
+    "path": "evidence/dsh-alpha-acceptance-2026-09-15.json",
+    "bytes": 15677,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/dsh-alpha-deployment-2026-09-15.json",
+    "bytes": 14494,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/dsh-catalog-review-2026-09-15.json",
+    "bytes": 118815,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/dsh-supergrok-2026-09-15.json",
+    "bytes": 769,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/lean-preset-2026-09-15/AGENTS.md",
+    "bytes": 125,
+    "status": "local-only",
+    "reason": "Instruction file; not historical evidence"
+  },
+  {
+    "source": "research",
+    "path": "evidence/lean-preset-2026-09-15/package.json",
+    "bytes": 67,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/lean-preset-2026-09-15/ranges.original.txt",
+    "bytes": 326,
+    "sha256": "2b1dd1c7589177f0a1cae597eb60ab059117a86d590df73db5d7aae53e649e79",
+    "status": "already-represented",
+    "repository_path": "docs/evidence/lean-preset-2026-09-15/ranges.original.txt"
+  },
+  {
+    "source": "research",
+    "path": "evidence/lean-preset-2026-09-15/results.json",
+    "bytes": 11239,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "evidence/lean-preset-2026-09-15/tsconfig.json",
+    "bytes": 156,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/BUNDLE-SHA256.json",
+    "bytes": 6650,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/POST-HANDOFF-UPDATE-2054.md",
+    "bytes": 2399,
+    "sha256": "bec9d0470b1519de402c586cae18eb052f8a4d0dff9509e112be1ee8e75b90c4",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/POST-HANDOFF-UPDATE-2054.md",
+    "redactions": 0,
+    "published_sha256": "92c1adba83774f2508716e46f73a45b0799c49b6172c535202dbaaad8cc7db30"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/START-HERE.md",
+    "bytes": 3678,
+    "sha256": "4b7706a23c5d799c3a343bb4a5296119779df30c62f816d2a823faa65dc83b0f",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/START-HERE.md",
+    "redactions": 0,
+    "published_sha256": "c20eb7e03eef97effbff67c94173ee57d279d047a4a557723b6cf5267256dea9"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/gateway-host-integration.md",
+    "bytes": 1784,
+    "sha256": "7b536996db51eeaba8d19e0e211b6fe6db15e366da6f4ec2423562d70c6a0474",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/gateway-host-integration.md",
+    "redactions": 0,
+    "published_sha256": "c650d30a6eb5dc8e2d5aa5ea32cdae9ff7dc54bbac7792e0c7d86070eeb6cce3"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/gateway-skill-limitations.md",
+    "bytes": 1884,
+    "sha256": "b3f49c6ca84d68954981194dd39c3859c0e2d6101684f0ce018e976eb5929fbc",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/gateway-skill-limitations.md",
+    "redactions": 0,
+    "published_sha256": "46c9f016f953e6060c49ba1b7cb82ad77b26465c201bda8f54ed72d6736807ef"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/github-cursor-followup.md",
+    "bytes": 1620,
+    "sha256": "3b6d55546dbc1830f7798378a91ffca866edd7940c29dcc1410fd294cbb64bf7",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/github-cursor-followup.md",
+    "redactions": 0,
+    "published_sha256": "804075608caac4932342000bad780d4fdd31e90cebae5a1937b172091acc229a"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/parallel-dsh-implementation-report-2054.md",
+    "bytes": 18669,
+    "sha256": "bd1b7053c163b7c7e5303b1787d1efa190444f1779606959ca3dde9ebeaa3f6d",
+    "status": "already-represented",
+    "repository_path": "stack/HALO-DSH-IMPLEMENTATION-2026-09-01.md"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/parallel-dsh-implementation-report.md",
+    "bytes": 15826,
+    "sha256": "567df84e4f4431bad2bfa6851efb6cd68080f8abbe6578e41767c4f1237b5d50",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/evidence/parallel-dsh-implementation-report.md",
+    "redactions": 0,
+    "published_sha256": "f7172698bfce80be40407ded08cb8d346ea51a50fdaaf9ca7f3c06a56a9b222b"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/pre-repair/README.md",
+    "bytes": 1203,
+    "sha256": "f0fe761a7bd292e30c8d49babc445672893d62e18a9aa2b5bb84c6ffc35e3e68",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/pre-repair/README.md",
+    "redactions": 0,
+    "published_sha256": "f7053c8e70a66697500e8d8700f3558da020a03e90ff5e7e19220745ad948913"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/pre-repair/operator-docs/MANIFEST-SHA256.txt",
+    "bytes": 15069,
+    "sha256": "30e0f2538ccdc0255aaef2d4b8fe3cc2ce9f5205403c56a2b04f006c0a1c5922",
+    "status": "recovered",
+    "repository_path": "docs/history/research/HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/pre-repair/operator-docs/MANIFEST-SHA256.txt",
+    "redactions": 0,
+    "published_sha256": "982425af7a5ced9c4c845a2a24c671de561ffb341a670a0aeaaf0ea8fbd6153c"
+  },
+  {
+    "source": "research",
+    "path": "HANDOFF-2026-09-01-GATEWAY-NATIVE-ACCESS/repair-current-source/stack/halo-verified-coder/README.md",
+    "bytes": 2013,
+    "sha256": "05415f66ddea71aca9370a112988b7a9be4591116a3e97fcb3b1d6aa89b71659",
+    "status": "already-represented",
+    "repository_path": "stack/halo-verified-coder/README.md"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/checkpoint-evidence-index.md",
+    "bytes": 1990,
+    "sha256": "88f5d10dd81f038e87cc877c3bf61190925dc4cf4d8dc994da1e9e75c3c21ef3",
+    "status": "already-represented",
+    "repository_path": "stack/workflow-review-2026-09-02/checkpoint-evidence-index.md"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/evidence-check.json",
+    "bytes": 2034,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/independent-review.md",
+    "bytes": 2592,
+    "sha256": "8ab5d69269114462dc372b232f574e49b2705c3baeb92ff8d41171f17bcf83be",
+    "status": "already-represented",
+    "repository_path": "stack/workflow-review-2026-09-02/independent-review.md"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/REVIEW.md",
+    "bytes": 6034,
+    "sha256": "3858ca6660deb1e33d618cc274d571ccb71e612206f5abfd31570adea90756ba",
+    "status": "already-represented",
+    "repository_path": "stack/workflow-review-2026-09-02/REVIEW.md"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/spec.json",
+    "bytes": 4107,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/rendered/halo-release-review-design.md",
+    "bytes": 6077,
+    "sha256": "944d1503718be186dfc718da61d39691817b6b3af3087359fd3e48ba38eb0612",
+    "status": "already-represented",
+    "repository_path": "stack/workflow-review-2026-09-02/rendered/halo-release-review-design.md"
+  },
+  {
+    "source": "research",
+    "path": "workflow-review-2026-09-02/rendered/halo-release-review.html",
+    "bytes": 10810,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "ARCHIVE.sqlite",
+    "bytes": 14721024,
+    "status": "local-only",
+    "reason": "Binary search index; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "GUIDE.md",
+    "bytes": 4778,
+    "sha256": "531afd97a80ee4460e7b4e1ff4c7a2038826ab586d4dd234eaff9f6e05e80896",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/GUIDE.md",
+    "redactions": 0,
+    "published_sha256": "e68415cdf7b7730f0dd6809ac6b320dcab0b055c49de1ec4c059dfe590b39096"
+  },
+  {
+    "source": "old-archive",
+    "path": "INDEX.md",
+    "bytes": 8234,
+    "sha256": "d30ea1b929533f98abbd186eb657a9694074b7d3b55a2297bfa787dc2ad2cd42",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/INDEX.md",
+    "redactions": 0,
+    "published_sha256": "bad1d4e9a590aeebeb994b4d874085803f8a31c2d643259ae93f0b813ca5ccb8"
+  },
+  {
+    "source": "old-archive",
+    "path": "MANIFEST.md",
+    "bytes": 4713,
+    "sha256": "e4a8d2b2f6679fade38a4ed9ae9fe5ea55fac4d5e714a783ad5eed4cd07bc5ec",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/MANIFEST.md",
+    "redactions": 0,
+    "published_sha256": "1065dd6a6a2418fb64864416476f47a48be5a0777d2de39116e1b47929495a39"
+  },
+  {
+    "source": "old-archive",
+    "path": "NEXT.md",
+    "bytes": 3786,
+    "sha256": "9d853ca003ad3aee9b0219be48f9f989bcdeaf9bb4d7ccc65c1a543bca4d58ee",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/NEXT.md",
+    "redactions": 0,
+    "published_sha256": "994cd29572304a008298daeb7a90279147f412eb8cf0fead19dbc17f39738a98"
+  },
+  {
+    "source": "old-archive",
+    "path": "POSTMORTEM.md",
+    "bytes": 17377,
+    "sha256": "b958b1c08571caf69b4e5edd614c4b139a4c8e0d1452619462b558abc2b10136",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/POSTMORTEM.md",
+    "redactions": 0,
+    "published_sha256": "b8a37a7a3951c17cb7ed0bc1d38dc321860510da3dc0a0031df8df2d34067070"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/ANTHROPIC-ISSUE-REPORT-2026-08-23.md",
+    "bytes": 8671,
+    "sha256": "75b1ce0c5cbe107080be4a05e1f1c7807aa79df80a9a671dc373df29caf7c66d",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/ANTHROPIC-ISSUE-REPORT-2026-08-23.md",
+    "redactions": 0,
+    "published_sha256": "572a9843a594052b15be34dc0552f016041daca52e67a6385b40e3ab99e0505b"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/CHANGELOG.md",
+    "bytes": 28720,
+    "sha256": "dbb2e0c8010b3682b8b12bf6df9e9f7c81640fa65678c6cfe99bf1ae8b587fb8",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/CHANGELOG.md",
+    "redactions": 0,
+    "published_sha256": "0302d0dc8676b89bca2032d0070d7eebdcc5819df9dc598560797c7091816cb1"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/publication-policy.json",
+    "bytes": 2720,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/README.md",
+    "bytes": 12201,
+    "sha256": "128e2074ecd9c21159c095326a2c6da85fcb9df732892e11165a4043cb1a7cdd",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/README.md",
+    "redactions": 0,
+    "published_sha256": "f90eb339a51606dd93dea45240a685d6013d974cfe90004ced124604e6e7eb02"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/reg2.json",
+    "bytes": 253790,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/.herenow/state.json",
+    "bytes": 212,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/AUDIT-cordis-concepts-2026-08-18.md",
+    "bytes": 6842,
+    "sha256": "b5ab5fef9b792289db2c746caf847048617e84d1b8aba10db94f7340a209ea5e",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/AUDIT-cordis-concepts-2026-08-18.md",
+    "redactions": 0,
+    "published_sha256": "b1d41b7705879b5d16d12ce2bfea9b8e4fb32d16da118f74fbb1a778d05c51a2"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/AUDIT-redundancy-2026-08-17.md",
+    "bytes": 4983,
+    "sha256": "cf4fa4e8d9871e22cf68dc55d5d56b230ab9a082d1b001a42c16a99234ac3ffb",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/AUDIT-redundancy-2026-08-17.md",
+    "redactions": 0,
+    "published_sha256": "d1929d39f28e52fb1c32e15c16677168ad76923daed9e4fd90dbc4f927afbfa2"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/AUDIT-telemetry-2026-08-17.md",
+    "bytes": 3105,
+    "sha256": "6e9a4e9350588a8a1360d62ef1eab889be3e46dde13578eb89933d6342cb3b2b",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/AUDIT-telemetry-2026-08-17.md",
+    "redactions": 0,
+    "published_sha256": "7c7dc8c8e96876d9b0ecf5ffac7e66abbca0e3dd45e7383e84067bd6da9985d2"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/build-log-snapshot-2026-08-17.html",
+    "bytes": 35469,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/build-log-snapshot-2026-08-22.html",
+    "bytes": 41377,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Claude-Harness-HALO-Design-v2.html",
+    "bytes": 41377,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Claude-Harness-HALO-Design-v2.md",
+    "bytes": 26368,
+    "sha256": "a66e5d693cc12094fb53049a434f384a7e083f61165ea6f4ee8c6f3b480a15a4",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/Claude-Harness-HALO-Design-v2.md",
+    "redactions": 0,
+    "published_sha256": "57f23207555702d7f46a4002085b18a5236bb1daa4d7baa1977fa624411e294c"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Claude-Harness-HALO-Design.html",
+    "bytes": 29397,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Claude-Harness-HALO-Design.md",
+    "bytes": 19295,
+    "sha256": "fea48811aeeb4dd850f1fc7bab83d991aa76c3058e5ab597604f75b99c4c3019",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/Claude-Harness-HALO-Design.md",
+    "redactions": 0,
+    "published_sha256": "93808405ae34676f95b10af8678793b0f15c494d826f89b976361b2115cd3917"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Codex-Harness-Halo v1.html",
+    "bytes": 35939,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Codex-Harness-Halo v1.md",
+    "bytes": 29782,
+    "sha256": "bad6890dc6d232e13b1356b9bc9ee29a2bcd5cc8815a6d22195b8492a17c1005",
+    "status": "already-represented",
+    "repository_path": "docs/history/research/Codex-Harness-Halo v1.md"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/HALO-Stack-Monitor-Prompt.md",
+    "bytes": 5499,
+    "sha256": "a524d90f87034510e0d4c48880f3ecaf4c17bfd8dc20eee11c38447ac111caf4",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/HALO-Stack-Monitor-Prompt.md",
+    "redactions": 0,
+    "published_sha256": "fbd09268ca50ec303145648f939f4e71f40b1bde4cd929f78b6cdbd5091078bd"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/index.html",
+    "bytes": 28850,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/Transcript.txt",
+    "bytes": 21276,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/transcript2.txt",
+    "bytes": 19738,
+    "status": "local-only",
+    "reason": "Private/raw conversation or credential-related filename; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/USER-MANUAL.md",
+    "bytes": 64657,
+    "sha256": "b4d75e4d105eee369a04cdce0bd4bfb3f835cd442136b3028a5f8398ec3ae0dd",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/USER-MANUAL.md",
+    "redactions": 0,
+    "published_sha256": "ac7779e468fea0ab94b709d72135b4a62cf472fba367624a67bccf112daefd27"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/audits/AUDIT-first-run-and-launchers-2026-08-21.md",
+    "bytes": 15661,
+    "sha256": "925ad6195161740a804ecd22bfa62e280696a7328a87f8dc3da5e034adb7f981",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/audits/AUDIT-first-run-and-launchers-2026-08-21.md",
+    "redactions": 0,
+    "published_sha256": "c4d59e93f919d554aa49451373e8782301431cc4c8ad57db81f6b91503c655b7"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/budgeted-emit-dryrun-2026-08-19.md",
+    "bytes": 3528,
+    "sha256": "d1e777d25268fc14e10e49a66b7dbf24b25da107a0facc7b05a294b4ec06a706",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/budgeted-emit-dryrun-2026-08-19.md",
+    "redactions": 0,
+    "published_sha256": "a35626b968443549d38e3308c4c116f0cd0fd2be123f43fa21e0a32ec6682371"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/budgeted-emit-pipeline-design.md",
+    "bytes": 12426,
+    "sha256": "aa9f1248f92647e9a00521f37f97672b1af5fa7af5ee8a0f0d15c4b906ae99b2",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/budgeted-emit-pipeline-design.md",
+    "redactions": 0,
+    "published_sha256": "64703c13e1122bf77112661bdab95feabd31f8412a1e2844b8dd87ff963af003"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/budgeted-emit-pipeline.html",
+    "bytes": 20042,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/budgeted-emit-pipeline.spec.json",
+    "bytes": 11679,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/halo2/G1-EVIDENCE.md",
+    "bytes": 7946,
+    "sha256": "e1ce5ed85d3e71be75deee8db246ecb7d52b29d158a795391f14938830038f8b",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/halo2/G1-EVIDENCE.md",
+    "redactions": 0,
+    "published_sha256": "484f5a9b4daf0b3d5e7f9930cc1eb5f3772c23aebb082c5f998581250efa06b8"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/halo2/IMPLEMENTATION-PLAN.md",
+    "bytes": 12382,
+    "sha256": "209366404fc95c81ad37f79e1c668fd3d6806a88e62aeffdf37c31626463d325",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/halo2/IMPLEMENTATION-PLAN.md",
+    "redactions": 0,
+    "published_sha256": "be86c6576fea56fa8838ae69a8521d775b60e61cd54f0d6ec3797dce568722ea"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/halo2/PLUGIN-AUDIT.md",
+    "bytes": 9366,
+    "sha256": "9025b0c6120082e4f0fc8e5cc8af16c57465c5019910148eb8a24de403d41819",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/halo2/PLUGIN-AUDIT.md",
+    "redactions": 0,
+    "published_sha256": "d0e811f7373b8eb7fed653d97067106888ed72c8ae47a333236b8b390c808a2e"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/design/halo2/SPEC.md",
+    "bytes": 56009,
+    "sha256": "d145e14b774c9e7b7ad8d4914959fbf67d3520ede8d8e27da136854cf2f4a844",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/design/halo2/SPEC.md",
+    "redactions": 0,
+    "published_sha256": "80fbe49e6a2247c7b3cae8e262a34bce9d19fea1de42144fc20eae1acabcab86"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/experiments/creator-mode-2026-08-18.md",
+    "bytes": 11016,
+    "sha256": "180f5d5fa2800da11f9a7683ffeebc26ca08e07d0d42ca31558b6c4ccb2e921d",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/experiments/creator-mode-2026-08-18.md",
+    "redactions": 0,
+    "published_sha256": "94a4f63b6c8d052d67ff7bd912ef3ea6c2a280c3adf18bfe563d1cb59f390539"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/bench-day-2-results.md",
+    "bytes": 2956,
+    "sha256": "e1f3308adf4f80bed42ab5f9f66afe0f966b830f362efc597eea9a7cadd2af99",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/bench-day-2-results.md",
+    "redactions": 0,
+    "published_sha256": "cd5de718dac2fd6b550da7fac5905d07ed63cc3e38fe785a7bc4929ea0407964"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/bench-day-3-results.md",
+    "bytes": 13593,
+    "sha256": "d62556dc8399cb0b50ddbd70a84bf39084811df0eaefc8c01452a85a9218ca07",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/bench-day-3-results.md",
+    "redactions": 0,
+    "published_sha256": "190f7f3d32e29462afa817dd3d47f6331825dcba74856b8dc5b3a588d0641470"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/bench-window-131k.md",
+    "bytes": 11365,
+    "sha256": "e9956cc977a86ab22ea94f624bbda8393f18494c45868c80240b0e45da975ad4",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/bench-window-131k.md",
+    "redactions": 0,
+    "published_sha256": "be47a162283861c8bad5f750bc81642101e95dfbef536f02ad508e82b83bbf70"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/phase2-bench-results.md",
+    "bytes": 2107,
+    "sha256": "c16079984a0eb12b21cb734a97753a89aa93c33db012f2e75cf0e30bf76f5abb",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/phase2-bench-results.md",
+    "redactions": 0,
+    "published_sha256": "9f83db0cd05d0ddb73349ddc5324939c174f0568070058ffaebad17431c6827e"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/phase3-reach-results.md",
+    "bytes": 2540,
+    "sha256": "678c6a8c429860215b6672601c54031aefbf49480c3dbaba95d6dbb8030ae9d8",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/phase3-reach-results.md",
+    "redactions": 0,
+    "published_sha256": "636abcce7c0a433c930b8119de3e800b7355a27315dcfb44ed73984df6839b39"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/phase4-harden-results.md",
+    "bytes": 2606,
+    "sha256": "c3ec960e46de3c3cad3be98f36ebef8460ae26cad086c5ecb057127b612fa051",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/phase4-harden-results.md",
+    "redactions": 0,
+    "published_sha256": "914b6a35d2b79b8b85adb8c463b00d39374ad2fbc38f32c28173b088c4b32ef0"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/phases/pin-record.txt",
+    "bytes": 673,
+    "sha256": "bcaaafee0a7e91befabe33881f84c6a69bb8974f880de987baece1aefaa49fbd",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/phases/pin-record.txt",
+    "redactions": 0,
+    "published_sha256": "439ca4e17d3cd5720475bbc54bf2c4f3bec972a6e4f19992d259e56d3033fe5a"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/ports/tester-5070ti-bench-2026-08-18.md",
+    "bytes": 17092,
+    "sha256": "70751478549d4a0ed5dd3c14e3d19ace6d6130d8b60e8fcaf0850357be57a709",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/ports/tester-5070ti-bench-2026-08-18.md",
+    "redactions": 0,
+    "published_sha256": "db8e60c512a18f1ce2a10baccbcc8bcd784c8164916d07435a304805b3d2d9c2"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/docs/research/strix-halo-deep-dive-2026-08-18.md",
+    "bytes": 8492,
+    "sha256": "639e37a65ff2c2c0ab6d4dcc2fc3ac08092a80ae0c05e409965046c3b25c4425",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/docs/research/strix-halo-deep-dive-2026-08-18.md",
+    "redactions": 0,
+    "published_sha256": "3f772597d87ad315c7d7aa7a08e078003687f4e752269b9a51a42bf0fa383cf5"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/00-walkthrough.md",
+    "bytes": 7861,
+    "sha256": "eb6e51156336d35cc29c799aa8dd496557c238be823b1c1aab7386c4b0288e9f",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/00-walkthrough.md",
+    "redactions": 0,
+    "published_sha256": "dec758e4daf8ffab8e0124d5509a581f65a105ad372f54689cac8f50a873a595"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/01-engineering.md",
+    "bytes": 21915,
+    "sha256": "b2b7d59de6dc426d6d710c1a8684dfbbbd061041fd051597d3d3df9ef5d8dad4",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/01-engineering.md",
+    "redactions": 0,
+    "published_sha256": "f23e40780cd299cee26ee18d2e3f291c3b12638bb2041cde6190b4aa1fab8f8c"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/01-lite.md",
+    "bytes": 3659,
+    "sha256": "4508c3e577af24e08105af53109a4e7d474614fd6246b00728383ac0d0e9a049",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/01-lite.md",
+    "redactions": 0,
+    "published_sha256": "b48398319ad6a4a56767d781e6c46b584f4d90e72a2f546e4139c92340b6d011"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/02-ux.md",
+    "bytes": 25040,
+    "sha256": "bae7dab1643369e86425927ffa6ac42b34d48aec744b4d23f3640c37b77ca4a8",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/02-ux.md",
+    "redactions": 0,
+    "published_sha256": "9c04ae11ebd4486c91114d557d36d0b5a9699f2b1767e0b539f48e4643d96836"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/03-docs.md",
+    "bytes": 19989,
+    "sha256": "79bab6630c50cee63bc51c4850b28198caf1071c0991aa11b9b2cb272cb30fb1",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/03-docs.md",
+    "redactions": 0,
+    "published_sha256": "846291c24f69f184e524e1f938556738a8908c9a217dabc709dfb0bc1f20187b"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/04-test.md",
+    "bytes": 23374,
+    "sha256": "3ec0c4cb5a55a7ba6893873f31ae2e444b0f1754e2449df26dbb45dbf6e255c0",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/04-test.md",
+    "redactions": 0,
+    "published_sha256": "92d97abf1e3a5c3e4a28ea187e72867edaba072f279b01e316df39763423d726"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/05-qa.md",
+    "bytes": 18942,
+    "sha256": "9bb085c0f58b1770eae1191afe498de8bb6e5119471336a0dd33c20d67a1b828",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/05-qa.md",
+    "redactions": 0,
+    "published_sha256": "3af9017263f5a24dbbb5d7b8c182134ffeac6a935cf90f310c2ba2c6731bfaf3"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo-stack-2026-08-21/GATE-REPORT.md",
+    "bytes": 8235,
+    "sha256": "fa2edd78b27ad744255ea977bbf76aae2edb74254b582debbe60c15427a5ad34",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo-stack-2026-08-21/GATE-REPORT.md",
+    "redactions": 0,
+    "published_sha256": "7e7d1d5a79b4985418b9a552d7a961378e99c7fd4c02a82cf397f9564e1db1ff"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/01-engineering.md",
+    "bytes": 38931,
+    "sha256": "fce5765954fd912ba6a6ff61322e1e55238a3247f77af5a8431be1b0e98f6031",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/01-engineering.md",
+    "redactions": 0,
+    "published_sha256": "8647aaa68e707cb63537ca91208de648caf61dcb32e4e051861fa849ab4fb71b"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/02-ux.md",
+    "bytes": 25532,
+    "sha256": "877626ba6961239e3860ba66770e289a22f8d25148361edaef1cd9401c3415fb",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/02-ux.md",
+    "redactions": 0,
+    "published_sha256": "0ba032cae7e1b0b486815d9b581312921dd80020e0a705b4c9f39070a76b6ffa"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/03-docs.md",
+    "bytes": 25231,
+    "sha256": "c69001237e6d452fca945560459eb8a98a0bf10caa315427fbdcc1eebd603ba1",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/03-docs.md",
+    "redactions": 0,
+    "published_sha256": "e97fcadc1df8d9257658e82aa7af4c068687079efd6f89b06ccc07e1842b05fc"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/04-tests.md",
+    "bytes": 29962,
+    "sha256": "8eb7db9c2b73e67a1da5aadd160cb301a73ec4aa300a0fa39579bd069d2148c7",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/04-tests.md",
+    "redactions": 0,
+    "published_sha256": "786565338489d6984a830b1048c91667edbff39cf4c838c6bee5795ad20d6cd6"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/05-qa.md",
+    "bytes": 26253,
+    "sha256": "1390fde079939510a1ca6eb3bae9a8ed08dde6693bfed7a1562debf98388914d",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/05-qa.md",
+    "redactions": 0,
+    "published_sha256": "1a5fe587777f310b464b1275a5318639221b9ba905f7343cb88bcabcf522eb82"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/reverify-docs.md",
+    "bytes": 15061,
+    "sha256": "306d61947ac03f9ff36e9ed274995e2452d20c16455d3668cad76d9ec4cb799c",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/reverify-docs.md",
+    "redactions": 0,
+    "published_sha256": "30786939791d9deeda3cb1185f995d4eddbfbdc9b10a1ca2cc2359e3c52175ab"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/reverify-engineering.md",
+    "bytes": 15787,
+    "sha256": "89c8d3dece9eb53d253b78335bf603caa919996ea5995f381ba1e40e65df7e6c",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/reverify-engineering.md",
+    "redactions": 0,
+    "published_sha256": "8f50fb1fad174ac9419e9b42828cec7ad5ad4cbbfc28e3349de498597618995c"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/reverify-qa.md",
+    "bytes": 10792,
+    "sha256": "f2538f0f755419cf7714650406ae8bf8079cbc78b6297220705e6229cca51efc",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/reverify-qa.md",
+    "redactions": 0,
+    "published_sha256": "d8ca038941e7d3a676069a4c87b05f31ad6070a834f1bee493bc587dfb9e05e6"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/reverify-tests.md",
+    "bytes": 14630,
+    "sha256": "d8787151b13cead057c52a98729e029b9dadaf6aaa68547d42eeed380b3a3c04",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/reverify-tests.md",
+    "redactions": 0,
+    "published_sha256": "25a8ebabbc48dd16bc8a9727f1b9544071b1c0fe6b3f6e8f89437a904f0dc821"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-halo2-2026-08-22/reverify-ux.md",
+    "bytes": 11340,
+    "sha256": "efb810caea8a20ee10d9dfe42c17cee8678a3f1ba8f7eb6b1420c1f7e462bc8f",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-halo2-2026-08-22/reverify-ux.md",
+    "redactions": 0,
+    "published_sha256": "74e54522b22507ff82aba14a57e7197bc8a3a27307001bad1b4d62c8b568527e"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-migration-rc8-2026-08-21/docs.md",
+    "bytes": 22257,
+    "sha256": "f19d0197a4d6fa81edb7f457104ad8179fa778a22f5788b7265185c88d911a8e",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-migration-rc8-2026-08-21/docs.md",
+    "redactions": 0,
+    "published_sha256": "6894171405b65d7cb7d0feadd2fee1abaeb486339459cd786716194169a00245"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-migration-rc8-2026-08-21/eng.md",
+    "bytes": 24033,
+    "sha256": "97a1c62d29c29e038bc61a35589029dbfdcc456cd12feaebcc61bc33512aebcf",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-migration-rc8-2026-08-21/eng.md",
+    "redactions": 0,
+    "published_sha256": "0fb5222aa7f48a3683335501e76fe6da3d9d0406f1b3ce71492c8db29c453ebc"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-migration-rc8-2026-08-21/qa.md",
+    "bytes": 15276,
+    "sha256": "bd03ab915aeddb136ca39765da5c78e6f660f8ebff005e54d7409cc4070e0123",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-migration-rc8-2026-08-21/qa.md",
+    "redactions": 0,
+    "published_sha256": "87ec5cbbfa4e7988edeb6f9eda552af56b2d6c7302e54df8c99234264eadf5c6"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-migration-rc8-2026-08-21/security-perf.md",
+    "bytes": 14240,
+    "sha256": "381653efcb29e677f51f8c86b831f96df502a31b25b03850ff977c51e9ba96ad",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-migration-rc8-2026-08-21/security-perf.md",
+    "redactions": 0,
+    "published_sha256": "64a07ba0bc0d07096148378c555f9ce08f2b611d8fc9ede542787f86031a54d2"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/gate-migration-rc8-2026-08-21/test.md",
+    "bytes": 15242,
+    "sha256": "39e17f46eba8c78f096440617c9b21fca397771ace742b6244236adf48c05e87",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/gate-migration-rc8-2026-08-21/test.md",
+    "redactions": 0,
+    "published_sha256": "a44e3b794369233478d1fb26ce4ec4943bde450eaab5cd080baceb77b55bf9c0"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/lmstudio/package.json",
+    "bytes": 393,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/machines/README.md",
+    "bytes": 5636,
+    "sha256": "3482a8f5e11ea2e297c0b918d5b4059ee5118a6a849ed6a590a9fba6bf432ae2",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/machines/README.md",
+    "redactions": 0,
+    "published_sha256": "c0d698abbb6dab39f10767910444dde85ed407e28871a0023527a2df295f0e5a"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/machines/files/5070ti/AGENTS.md",
+    "bytes": 4687,
+    "status": "local-only",
+    "reason": "Instruction file; not historical evidence"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/opencode/opencode.json",
+    "bytes": 6588,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/README.md",
+    "bytes": 10830,
+    "sha256": "aeaef548efc97e0170d3235daef5e39da3ac6cc7729c5dd5ace1116fdd581aa3",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/README.md",
+    "redactions": 0,
+    "published_sha256": "7f89572790ecd67e6c2c33de069b93322ad3982dc314fdda15f9b51be4764abf"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/spec.json",
+    "bytes": 12969,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/prompts/emit_chunk.md",
+    "bytes": 1450,
+    "sha256": "857eeae919703d977c6c6ce40a6fda77da02f39ba69c9f3a3920ee257d6470de",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/prompts/emit_chunk.md",
+    "redactions": 0,
+    "published_sha256": "17dfdc3a9defd2ae953d207c6e97c2cbbabd7b826e5faf503e95cfa5fcbca843"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/prompts/plan_chunks.md",
+    "bytes": 2277,
+    "sha256": "0db4b411c3b05ada2a1799912c7ace3dba6b4ac7d1d12e712cf3e8cc2945566e",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/prompts/plan_chunks.md",
+    "redactions": 0,
+    "published_sha256": "0c05afc5cdfd8921349933ca3ce558c62a5f40e7b27df5919bba3cf15a9b72bf"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/prompts/review.md",
+    "bytes": 1541,
+    "sha256": "0fa433870d6395474cc17a53dec6ff0444328481d396ae46349aa17ea551f1a5",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/prompts/review.md",
+    "redactions": 0,
+    "published_sha256": "e6b7b6eeba55851863966965cf71c6ae85c52488a6a1145f9d3b55c82e088e9d"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/driver-state.json",
+    "bytes": 299,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/emit-check.txt",
+    "bytes": 59,
+    "sha256": "ecf4d7a5e52f0b08a84bf8752de9ce1af58d161d866c9b784bbc385a5e764faa",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/emit-check.txt",
+    "redactions": 0,
+    "published_sha256": "ecf4d7a5e52f0b08a84bf8752de9ce1af58d161d866c9b784bbc385a5e764faa"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/emit-plan.json",
+    "bytes": 3346,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/emit-state.json",
+    "bytes": 3395,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/integrate-report.txt",
+    "bytes": 33,
+    "sha256": "11fd9d30a1bf5dac9df9707ee504f2af09cdfff7bb15769631c2c8b6644d5873",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/integrate-report.txt",
+    "redactions": 0,
+    "published_sha256": "11fd9d30a1bf5dac9df9707ee504f2af09cdfff7bb15769631c2c8b6644d5873"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/next-chunk.json",
+    "bytes": 124,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/plan-check.txt",
+    "bytes": 33,
+    "sha256": "6d47e028438030d112fe29d7421f8ce494a8205f6546624cba6daf390ac24b3c",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/plan-check.txt",
+    "redactions": 0,
+    "published_sha256": "6d47e028438030d112fe29d7421f8ce494a8205f6546624cba6daf390ac24b3c"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/review-gate.txt",
+    "bytes": 32,
+    "sha256": "01305dff72814424158e7f752a4fedc26806429a7457580f77cf9d17f1ffda36",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/review-gate.txt",
+    "redactions": 0,
+    "published_sha256": "01305dff72814424158e7f752a4fedc26806429a7457580f77cf9d17f1ffda36"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/review-input.md",
+    "bytes": 12878,
+    "sha256": "d642d593f80b7be0b7c35c6d9a4c2e38c410e2838131fbdcde17c7e7d1bc265b",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/review-input.md",
+    "redactions": 0,
+    "published_sha256": "dc8960d8a36366b1ac95dcb95255ffd44dc3291badbf3810316f53e8fa113f0f"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/review.json",
+    "bytes": 1776,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/rework.json",
+    "bytes": 1605,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/room.json",
+    "bytes": 100,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/pipeline/runs/latest/task-brief.md",
+    "bytes": 1517,
+    "sha256": "8997ddbe2d910383f835736061532565285395bd583fc9a3ee8a415493f65558",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/pipeline/runs/latest/task-brief.md",
+    "redactions": 0,
+    "published_sha256": "d110a91fec41a7e253c89e3be39afad821d1b55454074160e2c1424e1e7f36b5"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/site/index.html",
+    "bytes": 28850,
+    "status": "local-only",
+    "reason": "Raw structured/runtime record; local only"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/skills/large-job/SKILL.md",
+    "bytes": 6919,
+    "sha256": "21e7d962ee39e6909bdc31bcf1eb5a1ce2539c0d702dbeee1b77e0becd69ff42",
+    "status": "recovered",
+    "repository_path": "docs/history/old-archive/repo-working-tree/skills/large-job/SKILL.md",
+    "redactions": 0,
+    "published_sha256": "020084b259d676c110afd02d10fd12150cc5624fe267eb966fa3521b30096be7"
+  },
+  {
+    "source": "old-archive",
+    "path": "repo-working-tree/workspace/AGENTS.md",
+    "bytes": 4486,
+    "status": "local-only",
+    "reason": "Instruction file; not historical evidence"
+  }
+]
