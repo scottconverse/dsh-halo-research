@@ -25,6 +25,35 @@
   name: "@deepseek-ai/dsh-llm-pi-ai"
   config:
     providers:
+      gufo:
+        displayName: Gufo Windows ROCm
+        apiKeyEnv: LMSTUDIO_API_KEY
+        api: openai-completions
+        baseURL: http://127.0.0.1:8080/v1
+        defaultInput:
+          - text
+        defaultContextWindow: 131072
+        defaultMaxTokens: 24576
+        streamIdleTimeoutMs: 600000
+        compat:
+          supportsStore: false
+          supportsStrictMode: false
+          supportsReasoningEffort: true
+          supportsUsageInStreaming: true
+          maxTokensField: max_tokens
+        models:
+          - id: halo-gufo-qwen38-27b-q6
+            name: Qwen3.8 27B Q6_K (Gufo Windows ROCm)
+            contextWindow: 131072
+            maxTokens: 24576
+            input:
+              - text
+            reasoningEfforts:
+              off: none
+              low: low
+              medium: medium
+              high: high
+              xhigh: xhigh
       lmstudio:
         displayName: LM Studio local
         apiKeyEnv: LMSTUDIO_API_KEY
