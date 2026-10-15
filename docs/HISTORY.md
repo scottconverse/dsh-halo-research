@@ -7,3 +7,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Hipfire assessment for a future Linux Halo (October 15)](HALO-HIPFIRE-ASSESSMENT-2026-10-15.md): release/source research only; no installation or inference.
 
 - [mikealanni Gufo Halo/NPU fork assessment (October 15)](HALO-GUFO-NPU-FORK-ASSESSMENT-2026-10-15.md): Linux Flash-Next specialization, source verification, performance and reliability caveats; research only.
+
+- [StrixHalo and DeepSeekHarness community developments (October 15)](HALO-REDDIT-DEVELOPMENTS-2026-10-15.md): 246 unique candidates, 37 selected thread pages, coverage metadata and primary-source qualifications; research only.

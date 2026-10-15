@@ -1,0 +1,2972 @@
+{
+  "fetched_on": "2026-10-15",
+  "listing_summary": {
+    "strix-rss": {
+      "count": 100,
+      "coverage": "unknown",
+      "warnings": []
+    },
+    "strix-new": {
+      "count": 100,
+      "coverage": "unknown",
+      "warnings": []
+    },
+    "strix-month": {
+      "count": 100,
+      "coverage": "unknown",
+      "warnings": []
+    },
+    "dsh-rss": {
+      "count": 100,
+      "coverage": "unknown",
+      "warnings": []
+    },
+    "dsh-month": {
+      "count": 62,
+      "coverage": "unknown",
+      "warnings": []
+    }
+  },
+  "unique_candidates": {
+    "StrixHalo": 146,
+    "DeepSeekHarness": 100
+  },
+  "selected_thread_pages": {
+    "DeepSeekHarness": 19,
+    "StrixHalo": 18
+  },
+  "retrieved_comment_nodes": 368,
+  "coverage_counts": {
+    "partial": 6,
+    "complete": 26,
+    "unknown": 5
+  },
+  "method": "Listing discovery plus selected thread enrichment. OPs and selected comment excerpts reviewed, not a claim that every candidate or every comment was read. Raw files remain local.",
+  "pages": [
+    {
+      "title": "Agent loops are burning tokens, what are you using to stop them? (And has anyone tried dsh-circuit-breaker?)",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wmp304/agent_loops_are_burning_tokens_what_are_you_using/",
+      "date": "Sep 21 2026, 20:52:19 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 6,
+      "retrieved_comments": 5,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1wmp304.json",
+      "sha256": "d875737b296b00c6a239a881254d76db600d5e9eabb5c8c9a4d4509a90b9dc6c"
+    },
+    {
+      "title": "The built-in web_search spent my whole DeepSeek budget \u2014 so I moved it to my own gateway",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wp6uwq/the_builtin_web_search_spent_my_whole_deepseek/",
+      "date": "Sep 24 2026, 16:48:04 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 2,
+      "retrieved_comments": 2,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wp6uwq.json",
+      "sha256": "20228d2737630abb06a103a23b0f9eb732996db979e6a67f02ff9b57fc6be28e"
+    },
+    {
+      "title": "What I learned letting a local 27B run overnight long-horizon coding on my own rig",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wq4x58/what_i_learned_letting_a_local_27b_run_overnight/",
+      "date": "Sep 25 2026, 19:06:00 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": false,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wq4x58.json",
+      "sha256": "07563639ccf1aed38a9e4309bb6c82149ea4e151e36ab7bd0ab4206cd6f29bb7"
+    },
+    {
+      "title": "Less per-turn overthinking in DSH Qwen3.8 Q3 on a 3090",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1ws3q4x/less_perturn_overthinking_in_dsh_qwen38_q3_on_a/",
+      "date": "Sep 28 2026, 03:23:08 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1ws3q4x.json",
+      "sha256": "7dcc8c66aa1a20bbe4dc76f8118bbf09dc1dd2476bea0f5f7bbfc75018ef3024"
+    },
+    {
+      "title": "Hey guys tell me your favorite plugins",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wsanil/hey_guys_tell_me_your_favorite_plugins/",
+      "date": "Sep 28 2026, 10:09:40 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 18,
+      "retrieved_comments": 18,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wsanil.json",
+      "sha256": "a11e93d26ac8e3a40331b7c6cf3922a36f0a5ae42885b4594cdc9fc7d014d3dc"
+    },
+    {
+      "title": "any plugin to take notes?",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wsj297/any_plugin_to_take_notes/",
+      "date": "Sep 28 2026, 16:18:28 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 4,
+      "retrieved_comments": 4,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wsj297.json",
+      "sha256": "e970313256fe8fe1132be154b2d4f8d25e4f77aaf11137ef9c09081a9d1f3cff"
+    },
+    {
+      "title": "TokenSlash: Cordis plugin for DSH that slashes 3K\u20138K prompt tokens per turn with dynamic tool pruning, Jev triage, and tokenslash_peek",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wt5d27/tokenslash_cordis_plugin_for_dsh_that_slashes/",
+      "date": "Sep 29 2026, 09:17:22 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 7,
+      "retrieved_comments": 7,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wt5d27.json",
+      "sha256": "c4a06bc9bf3c48d230f4fc28c427884c0deda2aea0f40f4f898b95e07f7d99cc"
+    },
+    {
+      "title": "AMD Boosting AI/LLM Performance For Radeon iGPUs As Much As 18~23% With Linux 7.4",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtl5wb/amd_boosting_aillm_performance_for_radeon_igpus/",
+      "date": "Sep 29 2026, 20:27:24 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 13,
+      "retrieved_comments": 13,
+      "has_op_body": false,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wtl5wb.json",
+      "sha256": "b9d419ae5c547c3241feca7dc2631f6d386f4aeeb1ac3579e1125f6b54bf8b9d"
+    },
+    {
+      "title": "FastFlowLM can now run Qwen3.8 27B on Strix Halo's NPU!",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wuczmb/fastflowlm_can_now_run_qwen38_27b_on_strix_halos/",
+      "date": "Sep 30 2026, 18:37:45 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 20,
+      "retrieved_comments": 21,
+      "has_op_body": true,
+      "coverage": "unknown",
+      "warnings": [],
+      "local_file": "thread-1wuczmb.json",
+      "sha256": "d868df6041d82cd6dc4a8529e45141dad97eaf8c191177c7ed4cbfa572ad17b6"
+    },
+    {
+      "title": "Another day another fork - Gufo for Windows with GUI.",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wv56sn/another_day_another_fork_gufo_for_windows_with_gui/",
+      "date": "Oct 01 2026, 17:11:35 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 14,
+      "retrieved_comments": 15,
+      "has_op_body": false,
+      "coverage": "unknown",
+      "warnings": [],
+      "local_file": "thread-1wv56sn.json",
+      "sha256": "dfd60dc18fefc8ceff959229aff00418a952176f53b18fcb24aab6d20381ceb3"
+    },
+    {
+      "title": "DSH 0.2.0-rc.2 - Context management great improvement",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wvsam7/dsh_020rc2_context_management_great_improvement/",
+      "date": "Oct 02 2026, 12:17:41 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 9,
+      "retrieved_comments": 9,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wvsam7.json",
+      "sha256": "5074571bbab57534314afec402d5d19bcf228e9dc09abd334a993e2a5c570bf5"
+    },
+    {
+      "title": "Qwen3.8-Flash-Next vs Qwen3.8-27B on 128 GB, is it worth giving up the second model?",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ww0mt6/qwen38flashnext_vs_qwen3827b_on_128_gb_is_it/",
+      "date": "Oct 02 2026, 18:02:23 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 77,
+      "retrieved_comments": 81,
+      "has_op_body": true,
+      "coverage": "unknown",
+      "warnings": [],
+      "local_file": "thread-1ww0mt6.json",
+      "sha256": "4448f4fd44523d8ad97480188ffc7355927aea9ee481870b44fd0435e644b4c8"
+    },
+    {
+      "title": "Qwen 3.8 flash next: does gufo make more errors than llama.cpp?",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwz2io/qwen_38_flash_next_does_gufo_make_more_errors/",
+      "date": "Oct 03 2026, 21:53:54 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 17,
+      "retrieved_comments": 17,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wwz2io.json",
+      "sha256": "d8fb391891f6b5cbfc08281df5c4016354fc3cc570d7188dfb7d173a86274ed7"
+    },
+    {
+      "title": "I tested Qwen3.8-Flash-Next on my Bosgame M5 (128 GB). Here are the numbers across three backends",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxf2c2/i_tested_qwen38flashnext_on_my_bosgame_m5_128_gb/",
+      "date": "Oct 04 2026, 12:57:00 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 40,
+      "retrieved_comments": 38,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1wxf2c2.json",
+      "sha256": "d83001a663ccfe3f04165e3e001af373728547dcffe6233226b407fc7531ada3"
+    },
+    {
+      "title": "Daily driving Qwen 3.8 Flash instead of Claude.",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxn9eq/daily_driving_qwen_38_flash_instead_of_claude/",
+      "date": "Oct 04 2026, 18:48:00 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": false,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wxn9eq.json",
+      "sha256": "9b920d3ef6daf5b223b086e3ac0e05d92ec87f52fc3c44f5dc2686e924a4c9c8"
+    },
+    {
+      "title": "DCP Proxy: A local AI gateway that prunes/compresses context for every client at once (OpenCode, anything OpenAI-compatible) (Windows)",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxq0aa/dcp_proxy_a_local_ai_gateway_that/",
+      "date": "Oct 04 2026, 20:40:43 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 1,
+      "retrieved_comments": 1,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wxq0aa.json",
+      "sha256": "36faed40bf708c80097c76ec714c287364499a4079087b4eb1a10ebec2fa1e1d"
+    },
+    {
+      "title": "Output token limit reached, Jinja Exception: No user query found in messages",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wyxump/output_token_limit_reached_jinja_exception_no/",
+      "date": "Oct 06 2026, 09:07:58 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 1,
+      "retrieved_comments": 1,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1wyxump.json",
+      "sha256": "b780105627a7e78ef4785af44b0b95c81ce5d317cb04ebb2f18505aead7b4660"
+    },
+    {
+      "title": "pixmaate/gufo + qwen3.8 27b cache takes so much memory",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzxop3/pixmaategufo_qwen38_27b_cache_takes_so_much_memory/",
+      "date": "Oct 07 2026, 14:16:05 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 7,
+      "retrieved_comments": 9,
+      "has_op_body": true,
+      "coverage": "unknown",
+      "warnings": [],
+      "local_file": "thread-1wzxop3.json",
+      "sha256": "0e9215425ffbe796c65f9f53981595f1733efe99697d95024a5812125e6fbae1"
+    },
+    {
+      "title": "Compacta\u00e7\u00e3o de contexto do DSH-compact-basic",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x01le7/compacta\u00e7\u00e3o_de_contexto_do_dshcompactbasic/",
+      "date": "Oct 07 2026, 16:47:33 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 2,
+      "retrieved_comments": 2,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x01le7.json",
+      "sha256": "9918fa72bc21d9e43b5b7d3fd8f0e45d83d6e147ee43f6a7d998be21b6992eb0"
+    },
+    {
+      "title": "Strix Halo 128GB on Windows: what fixed my local AI setup",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0hnpb/strix_halo_128gb_on_windows_what_fixed_my_local/",
+      "date": "Oct 08 2026, 04:28:36 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 16,
+      "retrieved_comments": 15,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1x0hnpb.json",
+      "sha256": "8bbdef906aba59384ba3febfedf27c2cf554b9433a60e56ebcfae60f83680d2d"
+    },
+    {
+      "title": "TIL: Check your preserve_thinking settings",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0m35r/til_check_your_preserve_thinking_settings/",
+      "date": "Oct 08 2026, 09:03:40 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 7,
+      "retrieved_comments": 7,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x0m35r.json",
+      "sha256": "732b8e0c56b59f2d51b5e5749ef06fd930e691a2bfcee5a6d7cbe4bf4f705222"
+    },
+    {
+      "title": "i made dsh-session-tabs because i hate scrolling large session across many repo",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x16gtu/i_made_dshsessiontabs_because_i_hate_scrolling/",
+      "date": "Oct 08 2026, 23:46:50 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x16gtu.json",
+      "sha256": "5dde6b9627f8bd18aa79bacb8aecd69d07b9315bb54da4e46ac0d0330d059f64"
+    },
+    {
+      "title": "Qwen3.8-27B: 159 tok/s on R9700, 64 tok/s on Strix Halo",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1apcc/qwen3827b_159_toks_on_r9700_64_toks_on_strix_halo/",
+      "date": "Oct 09 2026, 03:18:12 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": false,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x1apcc.json",
+      "sha256": "5e875325a128f345d1dd873647411fae964ea7baef41099103915ceb61651b0a"
+    },
+    {
+      "title": "ds-harness-remote plugin: The most comprehensive remote access solution, as recommended by the community.",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1i9bp/dsharnessremote_plugin_the_most_comprehensive/",
+      "date": "Oct 09 2026, 10:53:42 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 4,
+      "retrieved_comments": 3,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1x1i9bp.json",
+      "sha256": "fe5def4d4a3abb3297e8bbc2cb2420ee11b57419e8aacb98ef7f833ea5faca6f"
+    },
+    {
+      "title": "I've created Feature Map plugin so your agents will have an idea what files to look for and what they are doing",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1ospy/ive_created_feature_map_plugin_so_your_agents/",
+      "date": "Oct 09 2026, 15:46:07 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": false,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x1ospy.json",
+      "sha256": "c8b9c1c55c201196367c2d30053a7d9bfcb263c3f076928d2b51f51461d28d13"
+    },
+    {
+      "title": "slotpin: cache-maxing scheduler and dashboard for llama-server and Gufo",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2ner9/slotpin_cachemaxing_scheduler_and_dashboard_for/",
+      "date": "Oct 10 2026, 19:11:41 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 5,
+      "retrieved_comments": 4,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1x2ner9.json",
+      "sha256": "4993a85cf7ae93c5bf75c6fe2cfa86aa2435856936a44f333cea8d1abe4ded62"
+    },
+    {
+      "title": "strix-llama new branch: prompt processing +21\u201354% over Vulkan and up to 2.7\u00d7 over stock ROCm at 128k, same outputs",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3s2t9/strixllama_new_branch_prompt_processing_2154_over/",
+      "date": "Oct 12 2026, 04:06:35 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 9,
+      "retrieved_comments": 9,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x3s2t9.json",
+      "sha256": "ea23239e9b429a485f9430ad67f06d432b17a4269efce1e382559316eacdfbb2"
+    },
+    {
+      "title": "Updated my plugin panel for MCP Settings now supports SSE",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x3wjfm/updated_my_plugin_panel_for_mcp_settings_now/",
+      "date": "Oct 12 2026, 08:36:33 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x3wjfm.json",
+      "sha256": "ef470c9e728fab4ee1373916fe774ee7efd3421362669679ad91f5e56450e9ad"
+    },
+    {
+      "title": "A second Strix Halo",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4dk48/a_second_strix_halo/",
+      "date": "Oct 12 2026, 20:50:18 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 24,
+      "retrieved_comments": 24,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x4dk48.json",
+      "sha256": "34123dfb7158f75a847375f561b55e70cfd7da519f2057f4afe29706f58c9494"
+    },
+    {
+      "title": "What's the best model you guys are running on Strix Halo right now?",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4l1t5/whats_the_best_model_you_guys_are_running_on/",
+      "date": "Oct 13 2026, 02:31:53 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 25,
+      "retrieved_comments": 26,
+      "has_op_body": true,
+      "coverage": "unknown",
+      "warnings": [],
+      "local_file": "thread-1x4l1t5.json",
+      "sha256": "704cc71ce17df16f7e149f8c96427a353a27bdd8117eb4f662f8631085eeb5ba"
+    },
+    {
+      "title": "made a small activity view plugin for deepseek harness (dsh) web ui",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x4po2s/made_a_small_activity_view_plugin_for_deepseek/",
+      "date": "Oct 13 2026, 06:50:48 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 1,
+      "retrieved_comments": 1,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x4po2s.json",
+      "sha256": "7340014ec58cf4870977ae8017e4b36a1101bedac5d752d56d9c440435d80162"
+    },
+    {
+      "title": "Happy Halowin Season! Bubo: Another opinionated Gufo fork tuned for Windows (especially laptops)",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4x8j3/happy_halowin_season_bubo_another_opinionated/",
+      "date": "Oct 13 2026, 13:52:39 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 16,
+      "retrieved_comments": 15,
+      "has_op_body": true,
+      "coverage": "partial",
+      "warnings": [
+        "Reddit reported comments not present in the retrieved HTML"
+      ],
+      "local_file": "thread-1x4x8j3.json",
+      "sha256": "9338600c8e9440de9a7d10142258bd3d2c60d683603b90c326a920e5a12d0de2"
+    },
+    {
+      "title": "Zed AI models provider for DSH",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x4y4fr/zed_ai_models_provider_for_dsh/",
+      "date": "Oct 13 2026, 14:27:35 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 2,
+      "retrieved_comments": 2,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x4y4fr.json",
+      "sha256": "f3569df33b65699f1d0ca799c35d3848ab399816db65343896d75884c985712a"
+    },
+    {
+      "title": "Lemonade as single endpoint - Gofu, Hipfire, Halogen, etc.",
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x59igm/lemonade_as_single_endpoint_gofu_hipfire_halogen/",
+      "date": "Oct 13 2026, 21:36:35 UTC",
+      "subreddit": "StrixHalo",
+      "reported_comments": 12,
+      "retrieved_comments": 12,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x59igm.json",
+      "sha256": "12c6e9521c4bc04ee33e78f8f21288a060a25539dcb1e7e37360831d5d35c917"
+    },
+    {
+      "title": "Is there a good plugin to set personalization prompt (similar to Claude/Codex)",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x5haqv/is_there_a_good_plugin_to_set_personalization/",
+      "date": "Oct 14 2026, 03:49:23 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 2,
+      "retrieved_comments": 2,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x5haqv.json",
+      "sha256": "b7859557affec9adcef791b4490f82b424c38f2f5ace46db5c867be3e1a0902c"
+    },
+    {
+      "title": "Anyone else having issues with the new DSH update (0.2.0-rc.2)?",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x6epq8/anyone_else_having_issues_with_the_new_dsh_update/",
+      "date": "Oct 15 2026, 06:54:27 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 5,
+      "retrieved_comments": 5,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x6epq8.json",
+      "sha256": "f45863e21193555cdfaa616e87682904bcfe3d9ecee593411d6b420ff0f7f9f7"
+    },
+    {
+      "title": "Forking at random points",
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x6f6qz/forking_at_random_points/",
+      "date": "Oct 15 2026, 07:24:50 UTC",
+      "subreddit": "DeepSeekHarness",
+      "reported_comments": 0,
+      "retrieved_comments": 0,
+      "has_op_body": true,
+      "coverage": "complete",
+      "warnings": [],
+      "local_file": "thread-1x6f6qz.json",
+      "sha256": "82338e1cc476f2d161ab0563cb4eca234246f9815d9e2aa680ef0873da58f3e9"
+    }
+  ],
+  "candidate_index": [
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x6fulq/running_3d_cad_alongside_a_llm/",
+      "title": "Running 3D cad alongside a LLM.",
+      "date": "2026-10-15T08:08:03+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x6bvba/hipfire_0421_qwen38flash_125_gb_moe_on_strix_halo/",
+      "title": "hipfire 0.4.2.1: Qwen3.8-Flash (125 GB MoE) on Strix Halo, 16K prefill at 2,372 tok/s with the NPU next to the iGPU",
+      "date": "2026-10-15T04:04:29+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x67nso/qwen38_flashnext_prefill_on_strix_halo_gpu_xdna2/",
+      "title": "Qwen3.8 Flash-Next prefill on Strix Halo: GPU + XDNA2 NPU 2,013 PP",
+      "date": "2026-10-15T00:28:07+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x6421k/framework_computers_triples_their_financial/",
+      "title": "Framework Computers Triples Their Financial Support To CachyOS",
+      "date": "2026-10-14T21:45:28+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x61nzp/rocprofgui/",
+      "title": "ROCprofGUI",
+      "date": "2026-10-14T20:08:16+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x5jsyx/gufo_fork_for_alephalphakolibri1/",
+      "title": "Gufo fork for Aleph-Alpha/Kolibri-1",
+      "date": "2026-10-14T06:17:16+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x5j5oj/got_tired_of_my_npu_sitting_idle_so_i_cobuilt_a/",
+      "title": "Got tired of my NPU sitting idle, so I co-built a pipeline with AI to run 5 vision models on my 8845's Ryzen AI block",
+      "date": "2026-10-14T05:37:14+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x5b42v/paseo_pi_halogenflash_server_bliss/",
+      "title": "Paseo + Pi + Halogen-Flash server = bliss",
+      "date": "2026-10-13T22:45:53+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x5a4y8/how_do_you_guys_feel_about_a_10in_server_rack/",
+      "title": "How do you guys feel about a 10in server rack mounted Bosgame M5?",
+      "date": "2026-10-13T22:03:04+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x59x74/oko_os_opensource_operating_system_for_localllm/",
+      "title": "OKO OS - open-source operating system for localLLM workloads.",
+      "date": "2026-10-13T21:54:09+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x59igm/lemonade_as_single_endpoint_gofu_hipfire_halogen/",
+      "title": "Lemonade as single endpoint - Gofu, Hipfire, Halogen, etc.",
+      "date": "2026-10-13T21:36:35+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4zd84/e_gpu_usb_4_sur_strix_halo/",
+      "title": "E gpu usb 4 sur strix Halo",
+      "date": "2026-10-13T15:15:43+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4x8j3/happy_halowin_season_bubo_another_opinionated/",
+      "title": "Happy Halowin Season! Bubo: Another opinionated Gufo fork tuned for Windows (especially laptops)",
+      "date": "2026-10-13T13:52:39+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4l1t5/whats_the_best_model_you_guys_are_running_on/",
+      "title": "What's the best model you guys are running on Strix Halo right now?",
+      "date": "2026-10-13T02:31:53+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4isxz/halogenui/",
+      "title": "halogen-ui",
+      "date": "2026-10-13T00:41:52+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4ew8h/egpu_rtx_3090_or_rx_7900_xtx_nuc13_vs_strix_halo/",
+      "title": "eGPU (RTX 3090 or RX 7900 XTX) + NUC13 vs Strix Halo",
+      "date": "2026-10-12T21:43:40+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x4dk48/a_second_strix_halo/",
+      "title": "A second Strix Halo",
+      "date": "2026-10-12T20:50:18+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x49d73/rocm_10_opencl_vs_mesa_263dev_rusticl_performance/",
+      "title": "ROCm 10 OpenCL vs. Mesa 26.3-dev Rusticl performance on AMD Strix Halo",
+      "date": "2026-10-12T18:13:51+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x456j1/capabilities_of_framework_desktop_32gb/",
+      "title": "Capabilities of Framework Desktop 32GB",
+      "date": "2026-10-12T15:39:46+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x42yoe/cant_get_gufo_to_run_on_strix_halo_plz_help/",
+      "title": "Can\u2019t get GUFO to run on Strix Halo plz help!",
+      "date": "2026-10-12T14:13:07+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x42jyd/preordered_medusa_halo/",
+      "title": "Pre-ordered Medusa Halo",
+      "date": "2026-10-12T13:56:57+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x40w9w/song_covers_with_voice_conversion_on_strix_halo/",
+      "title": "Song covers with voice conversion on Strix Halo - Seed-VC singing conversion in ComfyUI, 6.2x faster vocoder",
+      "date": "2026-10-12T12:45:30+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3zsnt/gufo_diffusiongemma_26ba4b_on_strix_halo_27s_ttft/",
+      "title": "Gufo DiffusionGemma 26B-A4B on Strix Halo: 2.7s ttft, up to ~115 tks/s",
+      "date": "2026-10-12T11:51:34+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3zo0t/llc_lightweight_openwebui_alt_now_with/",
+      "title": "LLC: lightweight OpenWebUI alt now with Agents+MCP+RAG+Image Editing",
+      "date": "2026-10-12T11:44:38+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3y5b3/qwen38flashnext_glm53flash_and_mimov26flash_on_a/",
+      "title": "Qwen3.8-Flash-Next, GLM-5.3-Flash and MiMo-V2.6-Flash on a Strix Halo vs their cloud versions (voxel pagoda, same prompt)",
+      "date": "2026-10-12T10:17:49+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3s2t9/strixllama_new_branch_prompt_processing_2154_over/",
+      "title": "strix-llama new branch: prompt processing +21\u201354% over Vulkan and up to 2.7\u00d7 over stock ROCm at 128k, same outputs",
+      "date": "2026-10-12T04:06:35+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3oe3p/another_benchmark_no_one_asked_for_with_a_bonus/",
+      "title": "Another benchmark no one asked for... with a bonus DGX GB10 comparison - Qwen3.8 Flash-Next",
+      "date": "2026-10-12T00:53:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3i6ax/gemma_4_on_strix_halo_my_gufo_fork_runs_26ba4b/",
+      "title": "Gemma 4 on Strix Halo: my Gufo fork runs 26B-A4B and 31B up to 2x faster than llama.cpp",
+      "date": "2026-10-11T20:10:38+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3gtdh/qwen38_flashnext_prefill_past_1800_toks_on_strix/",
+      "title": "Qwen3.8 Flash-Next prefill past 1800+ tok/s on Strix Halo by putting the NPU to work",
+      "date": "2026-10-11T19:16:22+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x3a3oq/strix_halo_llm_models_selection/",
+      "title": "Strix Halo LLM Models selection",
+      "date": "2026-10-11T14:49:30+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2y6bo/strix_halo_laptop_with_oculink/",
+      "title": "Strix Halo Laptop with Oculink",
+      "date": "2026-10-11T03:50:04+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2wxoz/looking_for_strix_halo_testers_image_generation/",
+      "title": "Looking for Strix Halo testers: image generation (FLUX, Z-Image) on the XDNA 2 NPU",
+      "date": "2026-10-11T02:43:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2ner9/slotpin_cachemaxing_scheduler_and_dashboard_for/",
+      "title": "slotpin: cache-maxing scheduler and dashboard for llama-server and Gufo",
+      "date": "2026-10-10T19:11:41+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2lu3w/waterblocks_for_the_framework_desktop/",
+      "title": "Waterblocks for the Framework Desktop?",
+      "date": "2026-10-10T18:05:37+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2jfag/qwen3635ba3b_on_the_strix_halo_with_64gb_of_memory/",
+      "title": "qwen3.6-35b-a3b on the Strix Halo with 64GB of memory",
+      "date": "2026-10-10T16:25:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2g3pp/evox3_vs_mss1_max_which_is_the_better_choice/",
+      "title": "EVO-X3 vs MS-S1 MAX: Which is the better choice?",
+      "date": "2026-10-10T14:03:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2fh0r/veda_sparse_attention_on_strix_halo_189x_faster/",
+      "title": "Veda sparse attention on Strix Halo: 1.89x faster MiniMax H3 video gen (691s -> 366s)",
+      "date": "2026-10-10T13:35:08+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x2c1mj/halogengufo_but_for_strix_point_hardware/",
+      "title": "Halogen/Gufo but for Strix Point hardware?",
+      "date": "2026-10-10T10:34:43+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x25x4j/gufo_engine_seems_a_good_open_source_choice_vs/",
+      "title": "Gufo engine seems a good open source choice vs. the closed Halogen",
+      "date": "2026-10-10T04:21:45+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x250mu/best_way_to_cluster_4x_ryzen_495_192gb_systems/",
+      "title": "Best way to cluster 4x Ryzen 495+ 192GB systems?",
+      "date": "2026-10-10T03:32:14+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x21jsy/qwen38flashnext_feedback_beyond_benchmarks/",
+      "title": "Qwen3.8-Flash-Next -- feedback beyond benchmarks?",
+      "date": "2026-10-10T00:31:13+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1ylfx/flow_13_64gb_or_risk_it_with_gmtek_evox3_bosgame/",
+      "title": "Flow 13 64gb or risk it with GMTek EVO-X3 / Bosgame M5",
+      "date": "2026-10-09T22:13:50+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1wsmj/strix_halohalogen_flash_next_outputs_are/",
+      "title": "Strix Halo/halogen flash next outputs are preferred by family over frontier models",
+      "date": "2026-10-09T20:56:49+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1wrl5/gufo_crashing/",
+      "title": "gufo crashing",
+      "date": "2026-10-09T20:55:40+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1rtpe/qwen38flashnext_on_ryzen_ai_max_395_radeon_8060s/",
+      "title": "Qwen3.8-Flash-Next on Ryzen AI Max+ 395 / Radeon 8060S \u2014 ~69 tok/s decode, 1.1\u20131.6k tok/s prefill",
+      "date": "2026-10-09T17:42:18+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1jplp/finally_decided_to_pull_the_trigger_on_gmktek_evo/",
+      "title": "Finally decided to pull the trigger on gmktek evo x3",
+      "date": "2026-10-09T12:10:55+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x1apcc/qwen3827b_159_toks_on_r9700_64_toks_on_strix_halo/",
+      "title": "Qwen3.8-27B: 159 tok/s on R9700, 64 tok/s on Strix Halo",
+      "date": "2026-10-09T03:18:12+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x13phr/using_gufo_with_qwen3827b/",
+      "title": "Using gufo with Qwen-3.8-27B",
+      "date": "2026-10-08T21:42:43+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0xtx5/what_port_of_guff_are_you_using_on_win/",
+      "title": "What port of guff are you using on win",
+      "date": "2026-10-08T17:56:40+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0wx70/the_npu_in_your_strix_halo_is_finally_doing_real/",
+      "title": "The NPU in your Strix Halo is finally doing real work: 13.6 vs 18.7 min on the same bug fix",
+      "date": "2026-10-08T17:22:42+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0tza8/glm53flash_321b_moe_running_locally_on_amd_rx/",
+      "title": "GLM-5.3-Flash (321B MoE) running locally on AMD: RX 7900 XT, R9700, Strix \u258e Halo",
+      "date": "2026-10-08T15:30:31+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0qhha/strata_halo_strix_64gb/",
+      "title": "Strata + Halo Strix 64GB",
+      "date": "2026-10-08T13:08:45+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0o32k/halogen_qwen_flash_next_keeps_getting_better/",
+      "title": "Halogen + Qwen Flash Next keeps getting better",
+      "date": "2026-10-08T11:07:27+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0m35r/til_check_your_preserve_thinking_settings/",
+      "title": "TIL: Check your preserve_thinking settings",
+      "date": "2026-10-08T09:03:40+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x0hnpb/strix_halo_128gb_on_windows_what_fixed_my_local/",
+      "title": "Strix Halo 128GB on Windows: what fixed my local AI setup",
+      "date": "2026-10-08T04:28:36+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1x01sfb/ran_some_quick_benchmarks_for_gufo_090_and/",
+      "title": "Ran some quick benchmarks for Gufo 0.9.0 and Halogen 0.16.4",
+      "date": "2026-10-07T16:55:01+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzxop3/pixmaategufo_qwen38_27b_cache_takes_so_much_memory/",
+      "title": "pixmaate/gufo + qwen3.8 27b cache takes so much memory",
+      "date": "2026-10-07T14:16:05+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzumh8/dlss_5_on_amd_ai_max_395_64_gb_ram_anyone/",
+      "title": "DLSS 5 on AMD AI Max 395+ 64 Gb Ram, anyone ???",
+      "date": "2026-10-07T11:59:00+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzu8d8/does_these_numbers_good_for_my_gufo_branch_on/",
+      "title": "Does these numbers good for my Gufo branch on UD-IQ4_XS, while xmrig using 32 CPU, frigate with 2 camera, immich, TeslaLogger, Unifi controller, and 6 other containers.",
+      "date": "2026-10-07T11:38:20+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzoi26/has_anyone_exceeded_500k_context_w_halogen_flash/",
+      "title": "Has anyone exceeded 500k context w/ halogen flash?",
+      "date": "2026-10-07T05:35:02+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wzbzmx/w7900_in_a_tb5_egpu_box_on_a_strix_halo_laptop/",
+      "title": "W7900 in a TB5 eGPU box on a Strix Halo laptop, llama-halo-hybrid numbers",
+      "date": "2026-10-06T19:35:35+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wz4cux/strix_halo_newbie_where_do_i_start/",
+      "title": "Strix Halo Newbie - where do I start?",
+      "date": "2026-10-06T14:41:31+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wz3m2j/anybody_run_the_latest_amd_provided_updates/",
+      "title": "Anybody run the latest AMD provided updates?",
+      "date": "2026-10-06T14:10:48+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wyzv9b/story_time_qwen38flashnext_on_my_strix_halo/",
+      "title": "Story time: Qwen3.8-Flash-Next on my Strix Halo laptop vs Claude Opus 5.5 on the same feature",
+      "date": "2026-10-06T11:12:17+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wyvwjd/qwen38flashnext_on_strata/",
+      "title": "Qwen3.8-Flash-Next on Strata",
+      "date": "2026-10-06T06:56:28+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wyvhds/darthstar_deepseekv4flash_gguf_for_strix_halo_two/",
+      "title": "DarthStar: DeepSeek-V4-Flash GGUF for Strix Halo: two layers promoted to Q4_K, 26/50 vs. 21/50 on a coding suite",
+      "date": "2026-10-06T06:29:24+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wynjpn/comfyui_on_local_network/",
+      "title": "comfyUI on local network",
+      "date": "2026-10-05T23:27:09+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wynf6o/best_nofuss_linux_distro_for_gufo_setup/",
+      "title": "Best no-fuss Linux distro for Gufo setup?",
+      "date": "2026-10-05T23:21:11+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wylvjw/qwen38flashnext_on_a_ryzen_ai_max_395_built_this/",
+      "title": "Qwen3.8-Flash-Next on a Ryzen AI Max+ 395 built this WebGL black hole demo from scratch",
+      "date": "2026-10-05T22:11:29+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wykwho/forked_gufo_to_run_udiq4_xs_as_my_machine_need/",
+      "title": "Forked Gufo to run UD-IQ4_XS as my machine need some ram to run other containers",
+      "date": "2026-10-05T21:30:36+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wybfqe/qwen38flashnext_125b_on_a_single_strix_halo_mini/",
+      "title": "Qwen3.8-Flash-Next (125B) on a single Strix Halo mini PC: 44-59 tok/s with speculative decoding, ~1,400 tok/s prefill, engine is open",
+      "date": "2026-10-05T15:26:20+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wy7ffo/doom_for_unified_memory_pc/",
+      "title": "Doom for unified memory PC?",
+      "date": "2026-10-05T12:36:00+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxythz/anyone_running_strix_halo_with_5080_on_egpu/",
+      "title": "Anyone running Strix Halo with 5080 on eGPU",
+      "date": "2026-10-05T03:53:06+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxralx/dwarfstar_supports_cuda_and_rocm/",
+      "title": "Dwarfstar - supports Cuda and ROCm",
+      "date": "2026-10-04T21:35:42+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxqegf/gufo_now_available_as_native_archlinux_package_in/",
+      "title": "Gufo now available as native ArchLinux package in AUR",
+      "date": "2026-10-04T20:57:27+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxq0aa/dcp_proxy_a_local_ai_gateway_that/",
+      "title": "DCP Proxy: A local AI gateway that prunes/compresses context for every client at once (OpenCode, anything OpenAI-compatible) (Windows)",
+      "date": "2026-10-04T20:40:43+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxp6xj/why_does_every_ai_max_395_have_to_be_a_mini_pc/",
+      "title": "Why does every ai max+ 395 have to be a mini PC?",
+      "date": "2026-10-04T20:06:33+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxn9eq/daily_driving_qwen_38_flash_instead_of_claude/",
+      "title": "Daily driving Qwen 3.8 Flash instead of Claude.",
+      "date": "2026-10-04T18:48:00+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxn3e2/running_the_rocmfpx_variant_of_qwen3827b_on_strix/",
+      "title": "Running the ROCmFPX variant of qwen3.8-27b on strix point",
+      "date": "2026-10-04T18:41:12+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxmipf/been_running_the_bosgame_m5_for_2_months_now/",
+      "title": "Been Running the Bosgame M5 for 2 months now.",
+      "date": "2026-10-04T18:18:03+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxlxp7/im_a_complete_beginner_with_strix/",
+      "title": "I\u2019m a complete beginner with Strix.",
+      "date": "2026-10-04T17:54:16+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxiwad/halogen_0162_on_windowswsl2_qwen38flashnext_at/",
+      "title": "Halogen 0.16.2 on Windows/WSL2: Qwen3.8-Flash-Next at 1925 tok/s prefill; 48.42 tok/s decode",
+      "date": "2026-10-04T15:48:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxhgq5/help_with_gufo_setup/",
+      "title": "Help with Gufo setup",
+      "date": "2026-10-04T14:47:39+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wxf2c2/i_tested_qwen38flashnext_on_my_bosgame_m5_128_gb/",
+      "title": "I tested Qwen3.8-Flash-Next on my Bosgame M5 (128 GB). Here are the numbers across three backends",
+      "date": "2026-10-04T12:57:00+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwz2io/qwen_38_flash_next_does_gufo_make_more_errors/",
+      "title": "Qwen 3.8 flash next: does gufo make more errors than llama.cpp?",
+      "date": "2026-10-03T21:53:54+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwvvlz/gufo_and_ram_usage_is_it_ok_19gb_ram_consumption/",
+      "title": "Gufo and RAM usage: is it ok ~19GB RAM consumption having 20GB free VRAM?",
+      "date": "2026-10-03T19:34:54+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwoy35/two_300b_moe_models_each_on_one_128_gb_mini_pc/",
+      "title": "Two ~300B MoE models, each on ONE 128 GB mini PC (AMD Strix Halo): GLM-5.3-Flash at ~580 tok/s prefill, MiMo-V2.6-Flash up to 44 tok/s decode. EXL3 weights + open ROCm engine",
+      "date": "2026-10-03T14:43:06+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwobcq/gsqhalocpp_another_day_another_fork_this_one_is/",
+      "title": "GSQHalo.cpp - Another day, another fork. This one is for the memory constraint folks. 2\u00d7256K + MTP, 1386 t/s prefill and 44 t/s decode at 128K using GSQ-RCO Quants on a 96GB machine, KV cache storage on SSD",
+      "date": "2026-10-03T14:15:15+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwiio5/benchmarking_strix_halo_on_realworld_work_one/",
+      "title": "Benchmarking Strix Halo on real-world work. One coding test from my setup, and the only model I\u2019ve found fast and capable enough for daily use (qwen 3.8 flash next)",
+      "date": "2026-10-03T08:58:49+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wwfs2g/gufoqwen3635ba3bq6dense_3095toks_prefill_190_toks/",
+      "title": "gufo-Qwen3.6-35B-A3B-Q6dense - 3095tok/s prefill; 190 tok/s decode on Strix Halo",
+      "date": "2026-10-03T06:07:19+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ww407o/rog_flow_z13_2025_128gb_qwen38_flashnext/",
+      "title": "ROG Flow Z13 2025 128GB - Qwen3.8 Flash-Next benchmarks with Halogen, Gufo and Rulith (60W vs 93W, up to 200K context)",
+      "date": "2026-10-02T20:15:57+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ww0mt6/qwen38flashnext_vs_qwen3827b_on_128_gb_is_it/",
+      "title": "Qwen3.8-Flash-Next vs Qwen3.8-27B on 128 GB, is it worth giving up the second model?",
+      "date": "2026-10-02T18:02:23+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ww0393/anyone_who_has_tried_2_strix_halo_machines_for/",
+      "title": "Anyone who has tried 2 strix halo machines for inference?",
+      "date": "2026-10-02T17:40:57+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wvv6vn/custom_strix_halo_enclosure_what_do_you_think/",
+      "title": "Custom Strix Halo Enclosure: what do you think? (Minisforum MS-S1 Max)",
+      "date": "2026-10-02T14:25:32+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wvu1wu/are_you_a_nerd_here_is_a_gufo_dashboard/",
+      "title": "Are you a nerd? here is a gufo dashboard.",
+      "date": "2026-10-02T13:37:50+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wvfrj0/halogenflashserver_0160_strix_halo_npu_now_serves/",
+      "title": "halogen-flash-server 0.16.0: Strix Halo NPU now serves embeddings, reranking and classifiers beside Qwen3.8-Flash-Next. Nearly 10,000 tok/s",
+      "date": "2026-10-02T00:25:11+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wvavty/linux_users_gnome_extension_to_know_the_pmode/",
+      "title": "Linux users: Gnome extension to know the P-MODE button physical position",
+      "date": "2026-10-01T20:48:57+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wvahxw/96gb_please_share_your_stack/",
+      "title": "96GB- please share your stack.",
+      "date": "2026-10-01T20:33:23+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wv56sn/another_day_another_fork_gufo_for_windows_with_gui/",
+      "title": "Another day another fork - Gufo for Windows with GUI.",
+      "date": "2026-10-01T17:11:35+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new",
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wv3r3g/strixhalo_64gb_what_is_the_best_windows_based/",
+      "title": "StrixHalo 64GB: what is the best Windows based setup to gain 20+ tok/s on Qwen3.8-27B?",
+      "date": "2026-10-01T16:17:23+00:00",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-rss",
+        "strix-new"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wox73l/gufo_the_allinone_strix_halo_inference_engine/",
+      "title": "Gufo: the all-in-one strix halo inference engine",
+      "date": "Sep 24 2026, 09:40:27 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ws2un3/gufo_vs_halogen_ryzen_ai_max_395_128gb/",
+      "title": "Gufo vs Halogen | Ryzen AI Max+ 395 128GB | Qwen3.8-Flash-Next",
+      "date": "Sep 28 2026, 02:38:30 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wl3weh/i_benchmarked_12_quantizations_of_qwen38flashnext/",
+      "title": "I benchmarked 12 quantizations of Qwen3.8-Flash-Next on Strix Halo \u2014 here's what actually works",
+      "date": "Sep 20 2026, 01:47:30 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wmqzf0/strix_halo_within_23_of_dgx_spark_on_mlperfs_new/",
+      "title": "Strix Halo within 2.3% of DGX Spark on MLPerf's new Agentic benchmark (peer-reviewed, same engine, same quant), and it NOW runs natively on Windows",
+      "date": "Sep 21 2026, 22:04:44 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wpm2tn/just_a_quick_whatever_is_the_opposite_of_a_rant/",
+      "title": "Just a quick (whatever is the opposite of a ) rant",
+      "date": "Sep 25 2026, 03:42:18 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wovpwl/just_want_to_send_my_appreciation_halogen_flash/",
+      "title": "Just want to send my appreciation: Halogen flash server is the best use case so far for this Strix box",
+      "date": "Sep 24 2026, 08:04:15 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtl5wb/amd_boosting_aillm_performance_for_radeon_igpus/",
+      "title": "AMD Boosting AI/LLM Performance For Radeon iGPUs As Much As 18~23% With Linux 7.4",
+      "date": "Sep 29 2026, 20:27:24 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wqag3o/strix_llama_qwen38flashnext_125b_moe_at_1180_ts/",
+      "title": "Strix Llama: Qwen3.8-Flash-Next (125B MoE) at ~1180 t/s prefill and 33-41 tok/s decode on a Ryzen AI Max+ 395 (Windows installer, open source)",
+      "date": "Sep 25 2026, 22:53:45 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wq28ss/ciru_amd_halo_qwen_21_turbo_10x_speed_boost/",
+      "title": "Ciru AMD Halo Qwen 2.1 Turbo - 10x+ speed boost",
+      "date": "Sep 25 2026, 17:20:57 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wim6f1/deepseek_v41_on_a_single_strix_halo_amd_strix/",
+      "title": "DeepSeek V4.1 on a single Strix Halo (AMD Strix Halo, 128 GB unified)",
+      "date": "Sep 17 2026, 06:32:40 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wuczmb/fastflowlm_can_now_run_qwen38_27b_on_strix_halos/",
+      "title": "FastFlowLM can now run Qwen3.8 27B on Strix Halo's NPU!",
+      "date": "Sep 30 2026, 18:37:45 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wrc4ti/qwen38flashnext_balanced21_78_gb_one_box_full/",
+      "title": "Qwen3.8-Flash-Next BALANCED-2.1 (78 GB, one box): full 262K window checked at every depth, on u/ilintar's ROCm branch + a small MTP fix",
+      "date": "Sep 27 2026, 05:47:55 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtn6vu/vmlinuxqwen38flashnextuncensoredgufoq4mixgguf/",
+      "title": "vmlinux/Qwen3.8-Flash-Next-Uncensored-Gufo-Q4Mix-GGUF \u00b7 Hugging Face",
+      "date": "Sep 29 2026, 21:47:14 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wusyi0/qwen38flashnext_125b_on_one_strix_halo_vulkan/",
+      "title": "Qwen3.8-Flash-Next 125B on one Strix Halo (Vulkan): tool calls 2\u00d7 faster, agent loop +46 %, every number checked against full-precision logits. Open source, and the model wrote one of the fixes itself.",
+      "date": "Oct 01 2026, 07:19:27 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wu0nvv/benchmarks_best_engine_for_qwen_38flashnext_on/",
+      "title": "Benchmarks: Best engine for Qwen 3.8-Flash-Next on Strix Halo",
+      "date": "Sep 30 2026, 09:45:01 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wrva8v/do_you_love_pp_2300pp_for_qwen_35b_a3_q8_instead/",
+      "title": "Do you love PP? 2300+pp for qwen 35B A3 Q8 instead of 1200",
+      "date": "Sep 27 2026, 20:50:34 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtjzkq/halogen_flash_server_freaking_nuts/",
+      "title": "Halogen Flash Server freaking nuts",
+      "date": "Sep 29 2026, 19:43:02 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wj6z07/september_2026_updated_chart_of_strix_halo_mini/",
+      "title": "September 2026 updated chart of strix halo mini pc size chart",
+      "date": "Sep 17 2026, 21:30:23 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1ws844h/gmktec_evox5_pro_amd_ryzen_ai_max_pro_495_ai_mini/",
+      "title": "GMKtec EVO-X5 Pro AMD Ryzen\u2122 AI Max+ PRO 495 AI Mini PC",
+      "date": "Sep 28 2026, 07:32:54 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wqix0w/gufo_windows_port_38_flash_next_testers_needed/",
+      "title": "Gufo windows port - 3.8 Flash Next Testers Needed",
+      "date": "Sep 26 2026, 06:05:32 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wm7k8j/i_wrote_100_facts_into_qwen38flashnexts_engram/",
+      "title": "I wrote 100 facts into Qwen3.8-Flash-Next's Engram table without touching a single weight. It works well. Not well well yet.",
+      "date": "Sep 21 2026, 09:07:55 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wp4xcw/github_jtsylvehgnspec_cleanroom_spec_of_halogens/",
+      "title": "GitHub - jtsylve/hgn-spec: Clean-room spec of halogen's HGN weight format and quants, with test vectors and porting guides.",
+      "date": "Sep 24 2026, 15:35:41 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wlnn0s/looking_for_advice_best_simple_setup_for_a_128gb/",
+      "title": "Looking for advice: best simple setup for a 128GB Strix Halo machine for local AI + coding agents v2",
+      "date": "Sep 20 2026, 17:46:46 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wi3cul/qwen38_nvfp4_running_natively_on_strix_halo_206/",
+      "title": "Qwen3.8 NVFP4 running natively on Strix Halo (20.6 tok/s & 17.8tok/s for Linux/Windows respectively) as MLPerf v6.1\u2019s sole cross-arch submitter for Edge Agentic Inference (GB10 + Strix Halo)",
+      "date": "Sep 16 2026, 17:12:21 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wq6f1d/halogen_numbers_but_on_windows_qwen_38_flash_next/",
+      "title": "Halogen numbers, but on Windows: Qwen 3.8 Flash Next on 128GB Strix Halo",
+      "date": "Sep 25 2026, 20:05:05 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wt0fmd/qwen3827b_rocmfp4_on_one_strix_halo_3_serving/",
+      "title": "Qwen3.8-27B ROCmFP4 on one Strix Halo: 3 serving profiles (Chat, Code, Long), full 262K window checked on each, open Vulkan build",
+      "date": "Sep 29 2026, 04:20:11 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wqnvq8/strix_halo_vs_dgx_spark_vs_mac_studio/",
+      "title": "Strix Halo vs DGX Spark vs Mac Studio",
+      "date": "Sep 26 2026, 11:11:40 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wsx3ed/til_strix_is_a_genus_of_owls_and_gufo_is_owl_in/",
+      "title": "TIL Strix is a genus of owls and Gufo is owl in Italian",
+      "date": "Sep 29 2026, 01:35:34 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wubq2e/strix_halo_egpu/",
+      "title": "Strix Halo + eGPU?",
+      "date": "Sep 30 2026, 17:50:58 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtvbey/i_tested_my_new_engine_for_qwen38_flash_next/",
+      "title": "I tested my new engine for Qwen3.8 Flash Next locally:",
+      "date": "Sep 30 2026, 04:11:46 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtdufj/halogen_v015/",
+      "title": "Halogen v.0.15",
+      "date": "Sep 29 2026, 15:53:58 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wv2x6c/rulith_inference_formerly_strix_llama_04_125b_moe/",
+      "title": "Rulith Inference (formerly Strix Llama) 0.4: 125B MoE on a 395 under Windows, ~100 tok/s across 8 conversations, and how I use it as a local worker for coding agents",
+      "date": "Oct 01 2026, 15:46:29 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wpos8f/what_flagsargs_do_you_run_for_halogengufo/",
+      "title": "What flags/args do you run for Halogen/Gufo?",
+      "date": "Sep 25 2026, 06:15:20 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wndqjl/qwen38flashnext_agentic_loops_on_strix_halo/",
+      "title": "Qwen3.8-Flash-Next agentic loops on Strix Halo \u2014 anyone found a stable config?",
+      "date": "Sep 22 2026, 16:08:31 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wjz2kw/4xstrix_halo_128gb_minisforum_mss1max_how_would/",
+      "title": "4xStrix Halo 128gb (Minisforum MS-S1-Max) how would you make best use of these machines. Should i cluster them to run bigger models or should i run different smaller models on eatch?",
+      "date": "Sep 18 2026, 18:58:35 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wimdxb/thinking_on_purchasing_strixhalo_cluster/",
+      "title": "Thinking on purchasing StrixHalo cluster",
+      "date": "Sep 17 2026, 06:44:42 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wll0bp/abliterated_qwen_38_flash_can_do_anything/",
+      "title": "Abliterated Qwen 3.8 flash can do anything",
+      "date": "Sep 20 2026, 16:06:32 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wkmciw/linux_driver_and_ui_to_show_performance_level_of/",
+      "title": "Linux driver and UI to show performance level of Corsair AI Workstation 300 Series",
+      "date": "Sep 19 2026, 13:31:42 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wuf2a3/orcarouterqwen38flashnextuncensored_gufo/",
+      "title": "orcarouter/Qwen3.8-Flash-Next-Uncensored GUFO",
+      "date": "Sep 30 2026, 19:56:22 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wtf6nt/gufo_win_27b_and_35ba3b_support/",
+      "title": "GUFO_WIN 27b and 35BA3B support",
+      "date": "Sep 29 2026, 16:43:18 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wohka3/strix_halo_bios_performence_mode_in_bios/",
+      "title": "Strix Halo Bios performence mode in bios",
+      "date": "Sep 23 2026, 20:39:09 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1whdhe3/my_benchmarks_from_my_strix_halo_overwhelmed_with/",
+      "title": "My Benchmarks from my strix halo, overwhelmed with Tiel Coder / Cyber Tiel Coder 35 A3B",
+      "date": "Sep 15 2026, 21:27:48 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wi88v8/mss1_max_radeon_ai_pro_r9700_over_oculink_no/",
+      "title": "MS-S1 MAX + Radeon AI PRO R9700 over OCuLink: no enumeration with three adapters; GTX 1080 works \u2014 seeking matched working configurations",
+      "date": "Sep 16 2026, 20:06:31 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wuetyr/update_strix_halo_r9700_with_llamahalohybrid_now/",
+      "title": "Update: Strix Halo + R9700 with llama-halo-hybrid - now beats DGX Spark",
+      "date": "Sep 30 2026, 19:47:24 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wqsv03/yet_another_windows_strix_halo_q38fn_attempt/",
+      "title": "Yet another Windows Strix Halo Q-3.8-FN attempt",
+      "date": "Sep 26 2026, 15:07:42 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/StrixHalo/comments/1wmpi7i/minisforum_n5_max_ai_nas_owners/",
+      "title": "Minisforum N5 MAX AI NAS owners",
+      "date": "Sep 21 2026, 21:08:00 UTC",
+      "subreddit": "StrixHalo",
+      "listings": [
+        "strix-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x6f6qz/forking_at_random_points/",
+      "title": "Forking at random points",
+      "date": "2026-10-15T07:24:50+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x6epq8/anyone_else_having_issues_with_the_new_dsh_update/",
+      "title": "Anyone else having issues with the new DSH update (0.2.0-rc.2)?",
+      "date": "2026-10-15T06:54:27+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x5impk/i_built_a_novel_writing_analyzer_plugin_for/",
+      "title": "I built a novel writing analyzer plugin for DeepSeek Harness , if u guys may give me star on my repo",
+      "date": "2026-10-14T05:05:19+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x5haqv/is_there_a_good_plugin_to_set_personalization/",
+      "title": "Is there a good plugin to set personalization prompt (similar to Claude/Codex)",
+      "date": "2026-10-14T03:49:23+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x4y4fr/zed_ai_models_provider_for_dsh/",
+      "title": "Zed AI models provider for DSH",
+      "date": "2026-10-13T14:27:35+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x4po2s/made_a_small_activity_view_plugin_for_deepseek/",
+      "title": "made a small activity view plugin for deepseek harness (dsh) web ui",
+      "date": "2026-10-13T06:50:48+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x3wjfm/updated_my_plugin_panel_for_mcp_settings_now/",
+      "title": "Updated my plugin panel for MCP Settings now supports SSE",
+      "date": "2026-10-12T08:36:33+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1rgw0/i_built_new_ai_harness_it_is_similar_to_dsh_and/",
+      "title": "I built new AI Harness (it is similar to DSH and different at the same time)",
+      "date": "2026-10-09T17:28:54+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1ospy/ive_created_feature_map_plugin_so_your_agents/",
+      "title": "I've created Feature Map plugin so your agents will have an idea what files to look for and what they are doing",
+      "date": "2026-10-09T15:46:07+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1i9bp/dsharnessremote_plugin_the_most_comprehensive/",
+      "title": "ds-harness-remote plugin: The most comprehensive remote access solution, as recommended by the community.",
+      "date": "2026-10-09T10:53:42+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x1b2sn/how_i_explained_an_ai_harness_to_my_mom_with_help/",
+      "title": "How I Explained an AI Harness to My Mom (With Help From my Cat)",
+      "date": "2026-10-09T03:37:56+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x16gtu/i_made_dshsessiontabs_because_i_hate_scrolling/",
+      "title": "i made dsh-session-tabs because i hate scrolling large session across many repo",
+      "date": "2026-10-08T23:46:50+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x0vlps/made_a_70second_motion_graphics_film_with/",
+      "title": "Made a 70-second motion graphics film with DeepSeek and harness for ~$1 in credit",
+      "date": "2026-10-08T16:32:06+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x0mw08/the_harness_is_lacking_executive_pdf_generation/",
+      "title": "The Harness is lacking Executive pdf generation plugin",
+      "date": "2026-10-08T09:56:21+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x02cjb/introducing_pibolt_the_same_pi_you_all_with_35/",
+      "title": "Introducing Pi-Bolt \u26a1,the same Pi you all \u2764\ufe0f with 35\u00d7 faster large file writes, 2.4\u00d7 less CPU, 3.3\u00d7 less memory",
+      "date": "2026-10-07T17:15:48+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1x01le7/compacta\u00e7\u00e3o_de_contexto_do_dshcompactbasic/",
+      "title": "Compacta\u00e7\u00e3o de contexto do DSH-compact-basic",
+      "date": "2026-10-07T16:47:33+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wyxump/output_token_limit_reached_jinja_exception_no/",
+      "title": "Output token limit reached, Jinja Exception: No user query found in messages",
+      "date": "2026-10-06T09:07:58+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wwl39k/dshlocalepack_26_ui_languages_for_the_dsh_desktop/",
+      "title": "dsh-locale-pack: 26 UI languages for the DSH desktop app",
+      "date": "2026-10-03T11:37:13+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wvsam7/dsh_020rc2_context_management_great_improvement/",
+      "title": "DSH 0.2.0-rc.2 - Context management great improvement",
+      "date": "2026-10-02T12:17:41+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wvpync/one_small_feature_request_to_change_to_my_life/",
+      "title": "One small feature request to change to my life.",
+      "date": "2026-10-02T10:08:11+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wvm19j/ai_agent_device_build_for_the_deepseek_harness/",
+      "title": "AI agent device, build for the Deepseek Harness",
+      "date": "2026-10-02T05:55:43+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wv1h96/about_installing_deepseek_harness_plugin/",
+      "title": "About installing Deepseek Harness Plugin",
+      "date": "2026-10-01T14:51:16+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wuzort/how_to_install_notion_github_mcp/",
+      "title": "How to install Notion + GitHub MCP?",
+      "date": "2026-10-01T13:38:47+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wuy6z4/dsh_third_party_models/",
+      "title": "DSH + Third party models?",
+      "date": "2026-10-01T12:31:19+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wudbjt/built_a_phone_first_rc_interface/",
+      "title": "Built a phone first rc interface",
+      "date": "2026-09-30T18:50:18+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wts108/what_are_the_bottlenecks_when_running_ai_agents/",
+      "title": "What are the bottlenecks when running AI agents as a fleet?",
+      "date": "2026-09-30T01:25:36+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wt5d27/tokenslash_cordis_plugin_for_dsh_that_slashes/",
+      "title": "TokenSlash: Cordis plugin for DSH that slashes 3K\u20138K prompt tokens per turn with dynamic tool pruning, Jev triage, and tokenslash_peek",
+      "date": "2026-09-29T09:17:22+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wsw1vf/atualiza\u00e7oes_e_quebras_de_plugins/",
+      "title": "Atualiza\u00e7oes e quebras de plugins",
+      "date": "2026-09-29T00:45:54+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wsj297/any_plugin_to_take_notes/",
+      "title": "any plugin to take notes?",
+      "date": "2026-09-28T16:18:28+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wsanil/hey_guys_tell_me_your_favorite_plugins/",
+      "title": "Hey guys tell me your favorite plugins",
+      "date": "2026-09-28T10:09:40+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1ws6gsm/anyone_else/",
+      "title": "Anyone else?",
+      "date": "2026-09-28T05:53:42+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1ws3q4x/less_perturn_overthinking_in_dsh_qwen38_q3_on_a/",
+      "title": "Less per-turn overthinking in DSH Qwen3.8 Q3 on a 3090",
+      "date": "2026-09-28T03:23:08+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wr38ju/i_made_a_desktop_shell_with_system_tray_and/",
+      "title": "I made a desktop shell with system tray and notifications for DeepSeek Harness on Linux",
+      "date": "2026-09-26T22:16:29+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wq4x58/what_i_learned_letting_a_local_27b_run_overnight/",
+      "title": "What I learned letting a local 27B run overnight long-horizon coding on my own rig",
+      "date": "2026-09-25T19:06:00+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wq10dl/best_plugins_for_local_hosting_a_personal/",
+      "title": "Best plugins for local hosting a personal assistant build?",
+      "date": "2026-09-25T16:33:11+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wptk9i/judging_is_easy_articulating_is_hard_so_i_made_an/",
+      "title": "Judging is easy, articulating is hard \u2014 so I made an AI writing tool where you only tap \ud83d\udc4d/\ud83d\udc4e",
+      "date": "2026-09-25T11:13:21+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wpgzvk/\u5b98\u65b9\u684c\u9762\u9884\u89c8\u7248\u9002\u7528\u4e8ewindows\u548cmac/",
+      "title": "\u5b98\u65b9\u684c\u9762\u9884\u89c8\u7248\u9002\u7528\u4e8eWindows\u548cMac",
+      "date": "2026-09-24T23:30:49+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wpaakw/connect_your_apple_devices_to_deepseek_harness/",
+      "title": "Connect your Apple Devices to DeepSeek Harness (Free, Open-Source & Private!)",
+      "date": "2026-09-24T18:55:57+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wp6uwq/the_builtin_web_search_spent_my_whole_deepseek/",
+      "title": "The built-in web_search spent my whole DeepSeek budget \u2014 so I moved it to my own gateway",
+      "date": "2026-09-24T16:48:04+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wp6tj3/standard_vs_ptc_vs_minimal_mode/",
+      "title": "Standard vs PTC vs Minimal Mode",
+      "date": "2026-09-24T16:46:43+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wp4gr3/i_built_a_few_dsh_plugins_and_documented_the/",
+      "title": "I built a few DSH plugins and documented the workflow I kept repeating",
+      "date": "2026-09-24T15:18:05+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1woyuow/i_built_an_opensource_discord_adapter_for/",
+      "title": "I built an open-source Discord adapter for DeepSeek Harness \u2014 @mention your coding agent from your phone, get streaming answers and approval buttons back",
+      "date": "2026-09-24T11:15:44+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wom2un/demo_running_deepseek_and_codex_agents_along_with/",
+      "title": "[DEMO]: Running Deepseek and Codex agents along with as workers to Claude Code agents",
+      "date": "2026-09-23T23:46:00+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1woevyq/dshv017rc1/",
+      "title": "Dsh-v0.1.7-rc1",
+      "date": "2026-09-23T18:58:42+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wobggh/windows_nvidia_deepseek_harness_smoketest_a_gpu/",
+      "title": "Windows + NVIDIA + DeepSeek Harness smoke-test a GPU monitor plugin? (local inference)",
+      "date": "2026-09-23T16:52:22+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wo7u62/branching_from_an_earlier_harness_turn_a/",
+      "title": "Branching from an earlier Harness turn: a ThoughtDAG update after the first bug reports",
+      "date": "2026-09-23T14:39:21+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wo1rep/i_benched_6_harnesses_x_11_models_x_226_tasks/",
+      "title": "I benched 6 harnesses x 11 models x 226 tasks",
+      "date": "2026-09-23T10:04:13+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wnxbjh/i_gave_my_ai_coding_agent_a_cheap_second_opinion/",
+      "title": "I gave my AI coding agent a cheap second opinion: Jev! It judges every command before the command runs, and it refuses the ones it shouldn't run, agents can also ask it questions.",
+      "date": "2026-09-23T05:41:05+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wndp0i/output_token_limit_reached_error/",
+      "title": "Output token limit reached error",
+      "date": "2026-09-22T16:06:56+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wnd4pr/how_to_set_up_subagentclaudecode/",
+      "title": "How to set up subagent-claude-code",
+      "date": "2026-09-22T15:46:28+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wn2b5m/plugin_plugin_dock_collapse/",
+      "title": "Plugin - plugin dock collapse",
+      "date": "2026-09-22T07:03:37+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wmp304/agent_loops_are_burning_tokens_what_are_you_using/",
+      "title": "Agent loops are burning tokens, what are you using to stop them? (And has anyone tried dsh-circuit-breaker?)",
+      "date": "2026-09-21T20:52:19+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wm1xso/dsh_deserves_more_respect/",
+      "title": "dsh deserves more respect",
+      "date": "2026-09-21T03:51:29+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wm1bk6/does_deepseek_direct_api_retain_data_prompts_and/",
+      "title": "Does deepseek direct API retain data, prompts and trains on your data?",
+      "date": "2026-09-21T03:20:03+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wlkupl/isso_\u00e9_um_saco/",
+      "title": "Isso \u00e9 um saco",
+      "date": "2026-09-20T16:00:38+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wld08o/dshcli_v1048_out_support_for_newer_dsh_some_bug/",
+      "title": "dsh-cli v1.0.48 out \u2014 support for newer dsh + some bug fixes",
+      "date": "2026-09-20T10:00:06+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wklqel/harness_implementation_of_long_term_memory/",
+      "title": "Harness Implementation of Long Term Memory",
+      "date": "2026-09-19T13:04:28+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wkev2r/just_hit_my_ath_usage_for_a_day/",
+      "title": "Just hit my ATH usage for a day",
+      "date": "2026-09-19T06:47:09+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wjhkva/how_to_get_mcp_that_need_web_oauth_to_work_on/",
+      "title": "How to get mcp that need web Oauth to work on 0.1.6.alpha2 ?",
+      "date": "2026-09-18T05:39:33+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wj4j9j/dsh016alpha2/",
+      "title": "Dsh-0.1.6-alpha.2",
+      "date": "2026-09-17T19:58:18+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wicrlo/plugin_provider_disabler/",
+      "title": "Plugin, Provider disabler",
+      "date": "2026-09-16T23:03:42+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wi7frp/vision_model_not_getting_detected_as_image/",
+      "title": "Vision Model Not Getting Detected as Image Detection Model",
+      "date": "2026-09-16T19:37:03+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1whwsc1/dsh_office\u63d2\u4ef6\u6f14\u793a/",
+      "title": "dsh office\u63d2\u4ef6\u6f14\u793a",
+      "date": "2026-09-16T13:09:09+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1whs7xy/dshv016alpha1/",
+      "title": "Dsh-v0.1.6-alpha.1",
+      "date": "2026-09-16T09:21:35+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss",
+        "dsh-month"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wgbnlb/heimdall_an_opensource_cpu_only_local_memory/",
+      "title": "Heimdall: An Open-Source CPU Only Local Memory System",
+      "date": "2026-09-14T18:26:23+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wfkew5/used_dsh_to_make_a_balancepeak_pill_section/",
+      "title": "Used DSH to make a Balance/Peak pill section.",
+      "date": "2026-09-13T21:33:35+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wfer5j/help_on_connecting_mcp_to_dsh/",
+      "title": "Help on connecting mcp to dsh",
+      "date": "2026-09-13T18:00:00+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wf4v0a/i_studied_deepseek_harness_to_answer_whats_the/",
+      "title": "I studied DeepSeek Harness to answer: what's the minimum architecture a modern agent harness actually needs?",
+      "date": "2026-09-13T11:12:41+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wf4jzr/is_there_a_dsh_desktop_version_that_allows_for_a/",
+      "title": "Is there a DSH desktop version that allows for a remote base URL?",
+      "date": "2026-09-13T10:56:44+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1weyhn1/dshcli_a_native_terminal_tui_client_for_deepseek/",
+      "title": "dsh-cli: A native terminal TUI client for DeepSeek Harness",
+      "date": "2026-09-13T05:06:17+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1weoh9l/how_to_use_dsh_on_vs_code/",
+      "title": "How to use DSH on VS Code?",
+      "date": "2026-09-12T21:14:54+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wehpwq/i_measured_my_agents_real_api_bill_from_its_own/",
+      "title": "I measured my agent's real API bill from its own session logs: 25% of my spend was cache history re-billed at full price",
+      "date": "2026-09-12T16:54:58+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1weh953/what_are_your_top_5_plugins_youre_using_at_the/",
+      "title": "What are your top 5 plugins you\u2019re using at the moment?",
+      "date": "2026-09-12T16:36:44+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1webxlw/nvidia_api_limit/",
+      "title": "Nvidia api limit",
+      "date": "2026-09-12T12:55:56+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1we6wb7/a_followup_in_my_harness_plugin_was_resetting_the/",
+      "title": "A follow-up in my Harness plugin was resetting the agent's tools",
+      "date": "2026-09-12T08:22:51+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1we4un5/your_claude_code_login_now_works_inside_dsh_no/",
+      "title": "Your Claude Code login now works inside dsh. No API key.",
+      "date": "2026-09-12T06:27:15+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1we14vw/dsh_office\u63d2\u4ef6/",
+      "title": "dsh office\u63d2\u4ef6",
+      "date": "2026-09-12T03:14:31+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wdzjab/is_this_pricing_normal_per_the_token_amount_or_am/",
+      "title": "Is this pricing normal per the token amount? or am I doing sum wrong",
+      "date": "2026-09-12T01:57:17+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wdav88/dsh015rc1_rc2/",
+      "title": "Dsh-0.1.5-rc.1 & rc.2",
+      "date": "2026-09-11T09:03:26+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcvlf7/does_a_small_transparent_agent_core_beat_a_big/",
+      "title": "Does a small, transparent agent core beat a big framework?",
+      "date": "2026-09-10T20:56:10+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcp0ho/we_officially_released_the_deepseekv41flash_model/",
+      "title": "We officially released the DeepSeek-V4.1-Flash model",
+      "date": "2026-09-10T17:02:12+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcmq8p/qwen38flashnext_125b_moe_at_38_ts_on_windows/",
+      "title": "Qwen3.8-Flash-Next (125B MoE) at 38 t/s on Windows \u2014 Strix Halo, working MTP, full guide + tools (MIT)",
+      "date": "2026-09-10T15:39:57+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcl3mb/did_something_change_with_deepseek_its_not_the/",
+      "title": "Did something change with DeepSeek? It\u2019s not the same anymore\u2026",
+      "date": "2026-09-10T14:39:44+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wce48f/help_me_to_connect_with_opencodego/",
+      "title": "help me to connect with opencode-go",
+      "date": "2026-09-10T09:24:16+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcdmao/dev_bridge_for_dsh_extension_chrome_free/",
+      "title": "Dev Bridge for DSH Extension Chrome - Free",
+      "date": "2026-09-10T08:56:25+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wcd8lz/error_creating_plugin/",
+      "title": "Error creating plugin",
+      "date": "2026-09-10T08:34:00+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wccuhz/any_prompt_or_skill_to_reduce_the_self_back_and/",
+      "title": "Any prompt or skill to reduce the self back and forth of the models?",
+      "date": "2026-09-10T08:11:15+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wc8ubc/multi_user_multi_auth/",
+      "title": "Multi user multi auth?",
+      "date": "2026-09-10T04:33:50+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wc3anz/dshv015alpha2/",
+      "title": "Dsh-v0.1.5-alpha.2",
+      "date": "2026-09-10T00:21:57+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wbpixe/dsh_is_the_fastest_in_frontierharness_eval_whats/",
+      "title": "DSH is the fastest in FrontierHarness Eval, what's the catch?",
+      "date": "2026-09-09T15:55:37+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wbib47/issues_overtime_with_compact/",
+      "title": "Issues overtime with Compact",
+      "date": "2026-09-09T10:57:57+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wbc418/dshv015alpha1/",
+      "title": "Dsh-v0.1.5-alpha.1",
+      "date": "2026-09-09T05:06:17+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wbbxvt/my_deepseek_shipped_30_dsh_themes_while_i_slept/",
+      "title": "My DeepSeek shipped 30+ DSH themes while I slept",
+      "date": "2026-09-09T04:57:29+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wayv8q/watch_skill_for_deepseek_harness_searchable/",
+      "title": "Watch Skill for DeepSeek Harness: searchable recordings and independent verification",
+      "date": "2026-09-08T19:44:05+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1waunh7/acp_agents_support/",
+      "title": "ACP Agents support",
+      "date": "2026-09-08T17:17:36+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wam4iw/deepseekv41flashbeta_is_relase/",
+      "title": "deepseek-v4.1-flash\uff08beta\uff09 is relase",
+      "date": "2026-09-08T11:46:44+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1waaspq/mosaik_agentic_browser_automation_built_from/",
+      "title": "mosaik: Agentic browser automation built from small, reusable pieces.",
+      "date": "2026-09-08T01:37:58+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1wa95fr/is_there_a_way_to_specific_different_models_for/",
+      "title": "Is there a way to specific different models for sub agents to use",
+      "date": "2026-09-08T00:22:40+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1w9xgbh/the_low_effort_effect_in_ai_agents_why_your/",
+      "title": "The \"Low Effort\" Effect in AI Agents: Why Your Provider Choice Destroys Agent Quality",
+      "date": "2026-09-07T16:49:05+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    },
+    {
+      "url": "https://www.reddit.com/r/DeepSeekHarness/comments/1w9wcnw/dshv013alpha2/",
+      "title": "Dsh-v0.1.3-alpha.2",
+      "date": "2026-09-07T16:08:04+00:00",
+      "subreddit": "DeepSeekHarness",
+      "listings": [
+        "dsh-rss"
+      ]
+    }
+  ]
+}
