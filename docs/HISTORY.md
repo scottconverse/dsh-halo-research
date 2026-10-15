@@ -5,3 +5,5 @@ Start with the [recovered history and source inventory](history/README.md). It c
 The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo and the speed-reporting correction.
 
 - [Hipfire assessment for a future Linux Halo (October 15)](HALO-HIPFIRE-ASSESSMENT-2026-10-15.md): release/source research only; no installation or inference.
+
+- [mikealanni Gufo Halo/NPU fork assessment (October 15)](HALO-GUFO-NPU-FORK-ASSESSMENT-2026-10-15.md): Linux Flash-Next specialization, source verification, performance and reliability caveats; research only.
