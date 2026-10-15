@@ -1,0 +1,24 @@
+# Hipfire assessment for a future Linux Strix Halo — October 15, 2026
+
+Research only. No installation, model download, inference, partition change or runtime change was performed. Sources accessed October 15, 2026; pinned documentation v0.4.2.1 where possible. Latest release observed: v0.4.2.1, October 14.
+
+## Judgment
+Hipfire is a worthwhile Linux inference-engine candidate for this 128GB Strix Halo, particularly its Qwen3.8 27B target plus paired DFlash draft. It is not established as faster or more reliable than the installed Windows Gufo stack on Scott's work. Trying it on the existing machine's future Linux partition is a stronger evidence basis than buying a second machine solely on the published speed claims. A separate Linux box would provide simultaneous Windows desktop use and dedicated inference; it does not itself prove better output quality.
+
+## Product and hardware fit
+Hipfire is a Rust/HIP inference engine and HTTP server, with its own kernels and quantization formats, model registry and CLI. It specifically targets gfx1151 Strix Halo. It runs beneath a harness; DSH would remain the tool/agent host. The release notes provide Halo-specific results rather than only discrete Radeon figures. [Repository](https://github.com/warpfront/hipfire)
+
+The maintainers report 27B XTS with paired DFlash improving code decode from 97.9 to135.3tok/s and prose from19.0 to26.3tok/s on two committed prompts, three fresh processes per arm. These are fixture-specific maintainer measurements, not independent replication or expected whole-job speeds. The disparity between code and prose is itself evidence against treating135tok/s as a general rate. NPU-assisted Flash-Next prefill reports approximately10% lower16K TTFT; this is not a demonstrated27B NPU gain. Known issues include cold-JIT on Halo, sampled Flash-Next reproducibility and unresolved batching latency/slow-mode behavior. [v0.4.2 release](https://github.com/warpfront/hipfire/releases/tag/v0.4.2)
+
+v0.4.2.1 broadens the built-in Halo NPU calibration beyond the original kernel/firmware/PCI identity, with a5% selection margin on mismatched hosts. It also fixes exact token replay for Flash-Next tool-turn cache reuse. [v0.4.2.1](https://github.com/warpfront/hipfire/releases/tag/v0.4.2.1)
+
+## Models and realistic starting point
+The documented27B MQ4-XTS target is14.99GB before draft/cache/workspace. MQ6 tiers also exist. These are Hipfire artifacts, not Scott's existing Q6 GGUF or Gufo's Unsloth Q4 weights. GGUF conversion is deprecated because it double-quantizes; use the published Hipfire artifact or original weights, not a claim that conversion preserves the existing model. Flash-Next's125.3GB base plus sidecars is a materially different memory proposition on128GB total. Listing128GB support does not establish comfortable simultaneous serving or long-context headroom. [Models](https://raw.githubusercontent.com/warpfront/hipfire/v0.4.2.1/docs/MODELS.md)
+
+## Integration and operational qualifications
+OpenAI chat completions, streaming, function tools and reasoning controls make DSH integration plausible through an additional provider entry, but no DSH integration was exercised. Existing Wigolo/Reddit MCP execution would remain in DSH. The server exposes engine-derived prefill/decode metrics, separate from gateway latency; they are preferable to inferring engine speed from buffered tool delivery. Important compatibility gap: response_format is accepted but unenforced on the standard route; JSON-schema enforcement exists only on the documented multi-slot path. Messages/Responses adapters are partial compatibility surfaces, not full hosted-provider feature equivalence. [Serving](https://raw.githubusercontent.com/warpfront/hipfire/v0.4.2.1/docs/SERVE.md)
+
+Current docs contradict the Linux-only premise: WSL2 is documented, and native Windows is best-effort. The latter lacks retained Redline PM4, certified VMM KV and multi-GPU features. Native Linux remains the fullest path; gfx1151 requires ROCm7.2+. Prebuilt kernel packs must match their admitted ROCm range, otherwise local compilation is required. A second-box connection requires explicit network exposure: the default endpoint is loopback11435, with no built-in authentication or TLS, so use controlled network access or an authenticated proxy. [Getting started](https://raw.githubusercontent.com/warpfront/hipfire/v0.4.2.1/docs/GETTING_STARTED.md)
+
+## Evidence boundary
+No direct Linux-versus-Windows, Hipfire-versus-Gufo, quality or reliability comparison was performed. Public release claims are credible candidates for investigation, not a proven winner. Exact OS/driver/NPU setup and usable memory on Scott's prospective Linux installation remain unverified. Some additional GitHub issue/benchmark-guide fetches failed; no independent replication was established during this review.
