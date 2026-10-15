@@ -1,0 +1,28 @@
+{
+  "name": "dsh-profile-desktop",
+  "private": true,
+  "dependencies": {
+    "@deepseek-ai/dsh-browser-use": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-lsp": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-lsp-stdio": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-subagent-codex": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-tool-lsp": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-tool-session-query": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-tool-terminal": "0.2.0-rc.2",
+    "dsh-xai": "github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b",
+    "dsh-activity-view": "github:vec715/dsh-activity-view#4f6140ad0ef5e9a04354639461ac63ac00e9c9b4",
+    "dsh-session-tabs": "github:rifkyazizf/dsh-session-tabs#f839aec07b276a94e79c44c7c33a22768e8ff022",
+    "dsh-plugin-mcp-settings": "github:cyberofficial/dsh-plugin-mcp-settings#8573c29ac338b6f06442d7cb517260562d975a98"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-activity-view",
+        "dsh-plugin-mcp-settings"
+      ]
+    }
+  }
+}

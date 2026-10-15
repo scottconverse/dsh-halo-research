@@ -1,0 +1,23 @@
+{
+  "web": {
+    "version": "0.2.1-alpha.2",
+    "activityToggle": "off/on verified",
+    "sessionTabs": "existing Library Homepage selected successfully",
+    "mcpPanel": [
+      "mcp-wigolo disabled",
+      "memory-mcp-reference connected"
+    ]
+  },
+  "desktop": {
+    "version": "0.2.0-rc.2",
+    "activityView": "rendered",
+    "sessionTabs": "existing Library Opening Hours selected successfully",
+    "mcpPanel": [
+      "mcp-wigolo disabled",
+      "memory-mcp-reference disabled"
+    ]
+  },
+  "modelJobs": 0,
+  "benchmarks": 0,
+  "connectionMutations": 0
+}

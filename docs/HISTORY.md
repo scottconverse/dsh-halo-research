@@ -11,3 +11,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [StrixHalo and DeepSeekHarness community developments (October 15)](HALO-REDDIT-DEVELOPMENTS-2026-10-15.md): 246 unique candidates, 37 selected thread pages, coverage metadata and primary-source qualifications; research only.
 
 - [Installed Gufo cache review (October 15)](HALO-GUFO-CACHE-REVIEW-2026-10-15.md): successful reuse in existing Q6/Q4 logs; no confirmed cache defect, no runtime changes or new inference.
+
+- [Activity View, Session Tabs and MCP Settings installation (October 15)](HALO-DSH-UI-PLUGINS-2026-10-15.md): pinned compatible plugins, actual Web/Desktop UI checks and configuration preservation; no inference or benchmarks.

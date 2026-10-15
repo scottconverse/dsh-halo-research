@@ -1134,3 +1134,8 @@
     preference: dark
 
 # END Halo 0.2 registered presets
+
+# Community session tabs, pinned in package.json (2026-10-15).
+- insert:
+    - id: ui-session-tabs
+      name: dsh-session-tabs

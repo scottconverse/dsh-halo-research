@@ -1,0 +1,17 @@
+[
+  {
+    "sha": "4f6140ad0ef5e9a04354639461ac63ac00e9c9b4",
+    "repo": "vec715/dsh-activity-view",
+    "name": "activity"
+  },
+  {
+    "sha": "f839aec07b276a94e79c44c7c33a22768e8ff022",
+    "repo": "rifkyazizf/dsh-session-tabs",
+    "name": "tabs"
+  },
+  {
+    "sha": "8573c29ac338b6f06442d7cb517260562d975a98",
+    "repo": "cyberofficial/dsh-plugin-mcp-settings",
+    "name": "mcp"
+  }
+]

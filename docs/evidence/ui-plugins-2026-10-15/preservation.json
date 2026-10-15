@@ -1,0 +1,28 @@
+{
+  "web": {
+    "preserved": true,
+    "added_dependencies": [
+      "dsh-activity-view",
+      "dsh-session-tabs",
+      "dsh-plugin-mcp-settings"
+    ],
+    "bundles": [
+      "dsh-activity-view",
+      "dsh-plugin-mcp-settings"
+    ],
+    "patch_sha256": "c459d0a64959ab800bb81006be3e4537b34546c985a6fdbea140dde630c5a47c"
+  },
+  "desktop": {
+    "preserved": true,
+    "added_dependencies": [
+      "dsh-activity-view",
+      "dsh-session-tabs",
+      "dsh-plugin-mcp-settings"
+    ],
+    "bundles": [
+      "dsh-activity-view",
+      "dsh-plugin-mcp-settings"
+    ],
+    "patch_sha256": "81b1c31e6e7e7894f9ceda20524bcaab41d12ac826ba3225a6254109e420cb93"
+  }
+}

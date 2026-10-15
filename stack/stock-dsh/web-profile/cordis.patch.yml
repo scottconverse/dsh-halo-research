@@ -1342,3 +1342,8 @@
         model: halo/qwen3.6-35b-a3b-q6
       - provider: web-fallback
         model: halo/qwen3.8-27b-q6-fast
+
+# Community session tabs, pinned in package.json (2026-10-15).
+- insert:
+    - id: ui-session-tabs
+      name: dsh-session-tabs
