@@ -84,6 +84,18 @@
               medium: medium
               high: high
               xhigh: xhigh
+          - id: halo-gufo-qwen38-27b-q4-dflash2
+            name: Qwen3.8 27B UD-Q4_K_XL + DFlash2 (Gufo Windows ROCm)
+            contextWindow: 131072
+            maxTokens: 24576
+            input:
+              - text
+            reasoningEfforts:
+              off: none
+              low: low
+              medium: medium
+              high: high
+              xhigh: xhigh
       lmstudio:
         displayName: LM Studio local
         apiKeyEnv: LMSTUDIO_API_KEY

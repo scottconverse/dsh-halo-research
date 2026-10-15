@@ -67,7 +67,7 @@ export async function checkModelStartup({selected,providerConfig,fetchImpl=fetch
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href){
   try{
     if(process.argv[2]==='--gufo-start'){
-      console.log(JSON.stringify(await checkModelStartup({selected:{provider:'gufo',model:'halo-gufo-qwen38-27b-q6'},providerConfig:{baseURL:'http://127.0.0.1:8080/v1'},allowMissingGufo:true})));
+      console.log(JSON.stringify(await checkModelStartup({selected:{provider:'gufo',model:process.argv[3]||'halo-gufo-qwen38-27b-q6'},providerConfig:{baseURL:'http://127.0.0.1:8080/v1'},allowMissingGufo:true})));
     }else{
     if(process.argv[2]!=='--settings-file'||!process.argv[3])throw new Error('Expected --settings-file <profile>');
     const text=fs.readFileSync(process.argv[3],'utf8'),selected=parseSelectedRoute(text);
