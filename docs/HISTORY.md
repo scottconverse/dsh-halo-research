@@ -15,3 +15,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Activity View, Session Tabs and MCP Settings installation (October 15)](HALO-DSH-UI-PLUGINS-2026-10-15.md): pinned compatible plugins, actual Web/Desktop UI checks and configuration preservation; no inference or benchmarks.
 
 - [XERJ neural installation and two real DSH retrievals (October 17)](HALO-XERJ-INSTALLATION-2026-10-17.md): verified Windows release, shared local service, Web/Desktop MCP execution, exact prompts and preservation evidence; no benchmarks.
+
+- [XERJ embedding-model review (October 17)](HALO-XERJ-EMBEDDING-REVIEW-2026-10-17.md): pinned-source compatibility, MiniLM origin, quality-first Qwen3-8B candidate and alternatives; research only, no runtime changes or benchmarks.
