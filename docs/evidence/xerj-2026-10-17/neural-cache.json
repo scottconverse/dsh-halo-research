@@ -1,0 +1,37 @@
+[
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\blobs\\53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db.lock",
+    "bytes": 0,
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\blobs\\72b987fd805cfa2b58c4c8c952b274a11bfd5a00.lock",
+    "bytes": 0,
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\blobs\\cb202bfe2e3c98645018a6d12f182a434c9d3e02.lock",
+    "bytes": 0,
+    "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\refs\\main",
+    "bytes": 40,
+    "sha256": "D36D67E02523717E3871DBCCE928F122ED24AFBCD375CA81600D4474CB618134"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\snapshots\\1110a243fdf4706b3f48f1d95db1a4f5529b4d41\\config.json",
+    "bytes": 612,
+    "sha256": "953F9C0D463486B10A6871CC2FD59F223B2C70184F49815E7EFBCAB5D8908B41"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\snapshots\\1110a243fdf4706b3f48f1d95db1a4f5529b4d41\\model.safetensors",
+    "bytes": 90868376,
+    "sha256": "53AA51172D142C89D9012CCE15AE4D6CC0CA6895895114379CACB4FAB128D9DB"
+  },
+  {
+    "path": "C:\\Users\\scott\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2\\snapshots\\1110a243fdf4706b3f48f1d95db1a4f5529b4d41\\tokenizer.json",
+    "bytes": 466247,
+    "sha256": "BE50C3628F2BF5BB5E3A7F17B1F74611B2561A3A27EEAB05E5AA30F411572037"
+  }
+]

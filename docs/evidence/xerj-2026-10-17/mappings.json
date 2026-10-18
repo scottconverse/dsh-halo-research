@@ -1,0 +1,44 @@
+{
+  "halo-records-docs": {
+    "mappings": {
+      "properties": {
+        "body": {
+          "type": "semantic_text"
+        },
+        "section": {
+          "type": "long"
+        },
+        "title": {
+          "type": "text"
+        },
+        "ax_path": {
+          "type": "keyword"
+        },
+        "ax_paths": {
+          "type": "keyword"
+        },
+        "ax_file": {
+          "type": "keyword"
+        },
+        "ax_locator": {
+          "type": "keyword"
+        },
+        "ax_dataset": {
+          "type": "keyword"
+        },
+        "ax_run": {
+          "type": "keyword"
+        },
+        "ax_format": {
+          "type": "keyword"
+        },
+        "impl": {
+          "type": "text"
+        },
+        "end_line": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}

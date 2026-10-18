@@ -1,0 +1,208 @@
+{
+  "web": {
+    "session": {
+      "type": "session",
+      "version": 4,
+      "id": "session-5c5080cd-9a03-4c3e-ab75-a24f30f3872b",
+      "createdAt": 1792298203255,
+      "cwd": "C:\\Users\\scott\\Desktop\\Code",
+      "isSeeded": false,
+      "delegationDepth": 0,
+      "agentPreset": "fast-first"
+    },
+    "start": "2026-10-18T04:37:01.683Z",
+    "end": "2026-10-18T04:37:03.470Z",
+    "seconds": 1.787,
+    "reason": {
+      "kind": "completed"
+    },
+    "provider": "ollama",
+    "model": "deepseek-v4.1-flash:cloud",
+    "returnedModel": "deepseek-v4.1-flash",
+    "prompt": [
+      {
+        "type": "text",
+        "text": "Use XERJ’s xerj_semantic_search tool on index halo-records-docs, field body, query \"What did the installed Gufo cache review conclude, and what could it not establish?\", k 3, max_tokens 1800. Answer in under 100 words and cite the retrieved filename and passage or line location. Do not use shell, web, skills, or other tools."
+      }
+    ],
+    "tool": "mcp__xerj__xerj_semantic_search",
+    "arguments": {
+      "index": "halo-records-docs",
+      "field": "body",
+      "query": "What did the installed Gufo cache review conclude, and what could it not establish?",
+      "k": 3,
+      "max_tokens": 1800
+    },
+    "toolSeconds": 0.033,
+    "searchTookMs": 14,
+    "hits": [
+      {
+        "index": "halo-records-docs",
+        "id": "7e51ac466b1488bb47245f234f91c46a",
+        "score": 0.8688079,
+        "source": {
+          "title": "# Installed Gufo cache review — October 15, 2026",
+          "section": 0,
+          "body": "# Installed Gufo cache review — October 15, 2026\n\n## Outcome\nNo cache defect was confirmed in the existing installed-build logs. No repair or runtime/configuration change was made. Models, picker entries, defaults, launchers, cache options and loaded-model state were not changed by this task. No inference request, benchmark, restart, model load/unload, binary execution or new cache trial was performed.\n\nThe inspected installation remains the recorded pixmaate Windows release windows-2026-10-03. Its Q6 and recommended Q4/DFlash2 logs show successful memory-cache reuse. Community reports about other builds are not evidence this installation needs their source patches or cache flags.\n\n## Sources and method\nThe two authoritative log snapshots were:\n- Existing Q6 run: `C:\\Users\\scott\\Documents\\Codex\\2026-10-15\\gufo-install\\gufo.stderr.log`, 135lines, 09:43:50–10:37:04 local time.\n- Q4/DFlash2 launcher log: `C:\\Users\\scott\\AppData\\Local\\Gufo\\stderr.log`, 374lines at snapshot, 10:38:00–13:26:05 local time.\n\nTimes are October15 America/Denver as emitted by the existing logger. Historical copies under gufo-recommended were not counted as additional experiments. Snapshots and SHA-256 were preserved under `C:\\Users\\scott\\Documents\\Codex\\2026-10-15\\gufo-cache-review`. Parsed metadata and the analyzer are adjacent in the repository evidence folder. No prompts or answer text are included in that metadata.\n\nThe analyzer reads all lines, selects completed generation requests and separately identifies the small title-like requests. Main requests in these saved jobs have more than1000prompt tokens; the classification is specific to this data, not a general Gufo rule. Request identities/timings correspond to the previously documented library and coding jobs.\n\n## Measured observations\n| Existing run | Main requests | Memory-cache hits | Cached fraction on cache-hit requests | Longest main prompt |\n| --- | ---: | ---: | ---: | ---: |\n| Q6 library jobs |5|3|92.26%|20,113tokens|\n| Q4 library/coding jobs |10|8|96.57%|11,390tokens|",
+          "ax_path": "HALO-GUFO-CACHE-REVIEW-2026-10-15.md",
+          "ax_paths": [
+            "HALO-GUFO-CACHE-REVIEW-2026-10-15.md"
+          ],
+          "ax_file": "axf2-180c8943fa7766c570d25d1cf77262a4-153d",
+          "ax_locator": "s0",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "34d1a3ab713c276b4a4f92e211eee974",
+        "score": 0.80224127,
+        "source": {
+          "title": "# Installed Gufo cache review — October 15, 2026",
+          "section": 2,
+          "body": "s values were2,774,159,364forQ6 and1,969,057,884forQ4. This per-request snapshot-size field must not be interpreted as an aggregate RAM cache budget or proof all snapshots are retained simultaneously.\n\nNo byte_capacity, skipped-snapshot or eviction warning was present in these snapshots. No Q4 warning/error entry was found. Q6 contains oneHTTP400bad_request with blank method/path at09:54:41; it is not a generation-cache error. Other completed model requests in the reviewed record returned200.\n\n## What this does and does not establish\n- Confirmed: memory-cache reuse works on the saved short/medium-context jobs; repeated full-prefill failure is not present in these records.\n- Not confirmed: the20–30GB snapshot-growth behavior from the Reddit report, zero-free-memory detection, a too-small snapshot budget, or a preserve-thinking mismatch. The saved jobs used thinking off.\n- Unverified: sustained128K workloads, cache eviction across many independent conversations, disk persistence across restart, exact configured RAM snapshot capacity, and present total system/GPU memory. The log says disk_cache=off; that is a configuration choice, not a defect.\n- The canonical Start-Gufo.ps1 does not specify a RAM cache cap. Absence of a cap is not itself evidence of failure, and no unverified CLI option or hypothetical optimization was added.\n\n## Decision\nLeave the working deployment alone. If an existing future job shows cache_snapshot skips, repeated cold continuation or excessive retained memory, that new evidence can justify a narrow fix. This task did not manufacture such a workload to extend verification.\n\n## Records\n[Parsed request/cache evidence](evidence/gufo-cache-review-2026-10-15/cache-evidence.json) and [analyzer used](evidence/gufo-cache-review-2026-10-15/analyze.py). The analyzer is machine-specific and reads saved logs; it is not an inference test or portable benchmark. Local source snapshots preserve exactly the bytes hashed in the evidence.",
+          "ax_path": "HALO-GUFO-CACHE-REVIEW-2026-10-15.md",
+          "ax_paths": [
+            "HALO-GUFO-CACHE-REVIEW-2026-10-15.md"
+          ],
+          "ax_file": "axf2-180c8943fa7766c570d25d1cf77262a4-153d",
+          "ax_locator": "s2",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "4870d59150642521635e5d82761ea656",
+        "score": 0.79564404,
+        "source": {
+          "title": "# Gufo installation, real jobs and DSH speed correction — October 15, 2026",
+          "section": 0,
+          "body": "# Gufo installation, real jobs and DSH speed correction — October 15, 2026\n\nThis index preserves the work and its limits in one place. Reports below record the full job prompts, model identities, timing, usage and findings. No new jobs were run to create this documentation.\n\n## Work performed and reports\n1. [Windows installation and integration](HALO-GUFO-WINDOWS-2026-10-15.md): pinned Windows Gufo release, checksum, existing 27B Q6 weights, additive providers in Web and Desktop, serialized real library lookups, startup protection, launchers, original defaults restored. Includes the failed initial Web provider setup and its correction.\n2. [Recommended model configuration](HALO-GUFO-RECOMMENDED-MODEL-2026-10-15.md): downloaded Unsloth 27B Q4 target and z-lab DFlash2 draft, verified published hashes, added picker entries, one real Desktop lookup. These are recommended third-party weights, not Gufo-trained weights. Web exposes the entry but this Q4 configuration was not separately exercised there.\n3. [Short coding job](HALO-GUFO-CODING-2026-10-15.md): verbatim prompt, four planted defects, unchanged visible tests, successful repair, 67.057-second elapsed duration, eight model passes and server-derived timing. It finished sooner than the requested few minutes; no work was added to prolong it.\n4. [DSH speed-reporting repair](HALO-DSH-GENERATION-SPEED-2026-10-15.md): actual shared source bug, exact scope of the local Web/Desktop repair, saved-record verification, observed UI results, rollback and upgrade limitations.\n\n## Why the numbers differed\nThe initial runtime rates came from Gufo server decode records. DSH's footer used its own stream-event timing. The coding job's original 76 tok/s and library job's 41 tok/s were not comparable engine measurements. Source inspection confirmed DSH counted buffered tool-call output tokens against almost no apparent streaming time. This explains the inflated footer without implying intentional inflation.",
+          "ax_path": "HALO-GUFO-WORK-RECORD-2026-10-15.md",
+          "ax_paths": [
+            "HALO-GUFO-WORK-RECORD-2026-10-15.md"
+          ],
+          "ax_file": "axf2-c9e94005a3e7b55670e9edc6025ffc60-127c",
+          "ax_locator": "s0",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      }
+    ],
+    "answer": "The review found no confirmed cache defect: Q6 hit cache on 3 of 5 main requests (92.26% cached) and Q4 on 8 of 10 (96.57%). It could not verify the reported 20–30GB snapshot growth, eviction, disk persistence across restart, sustained 128K workloads, or configured RAM capacity. No changes were made.\n\nSource: `HALO-GUFO-CACHE-REVIEW-2026-10-15.md`, section 2 (locator `s2`), \"What this does and does not establish\".",
+    "usage": {
+      "inputTokens": 27337,
+      "outputTokens": 268,
+      "cacheReadTokens": 25216,
+      "totalTraffic": 52821
+    }
+  },
+  "desktop": {
+    "session": {
+      "type": "session",
+      "version": 4,
+      "id": "session-fd9b3edb-f2e1-46b8-b559-ed9245638e64",
+      "createdAt": 1792298288857,
+      "cwd": "C:\\Users\\scott\\Documents\\deepseek-harness\\default-workspace",
+      "isSeeded": false,
+      "delegationDepth": 0,
+      "agentPreset": "local"
+    },
+    "start": "2026-10-18T04:38:30.980Z",
+    "end": "2026-10-18T04:38:32.560Z",
+    "seconds": 1.58,
+    "reason": {
+      "kind": "completed"
+    },
+    "provider": "ollama",
+    "model": "deepseek-v4.1-flash:cloud",
+    "returnedModel": "deepseek-v4.1-flash",
+    "prompt": [
+      {
+        "type": "text",
+        "text": "Use XERJ’s xerj_semantic_search tool on index halo-records-docs, field body, query \"Why is the legacy Wigolo MCP entry disabled, and how are Wigolo and Reddit/Redlib still connected?\", k 3, max_tokens 1800. Answer in under 100 words and cite the retrieved filename and passage or line location. Do not use shell, web, skills, or other tools."
+      }
+    ],
+    "tool": "mcp__xerj__xerj_semantic_search",
+    "arguments": {
+      "index": "halo-records-docs",
+      "field": "body",
+      "query": "Why is the legacy Wigolo MCP entry disabled, and how are Wigolo and Reddit/Redlib still connected?",
+      "k": 3,
+      "max_tokens": 1800
+    },
+    "toolSeconds": 0.027,
+    "searchTookMs": 15,
+    "hits": [
+      {
+        "index": "halo-records-docs",
+        "id": "90f35c43285f91fa9c8ab161d6ce8ff0",
+        "score": 0.8132129,
+        "source": {
+          "title": "# DSH Activity View, Session Tabs and MCP Settings — October 15, 2026",
+          "section": 2,
+          "body": "tched their baselines. Every pre-existing lockfile importer dependency retained its exact specifier and resolved version. Evidence: docs/evidence/ui-plugins-2026-10-15/preservation.json and pins.json.\n\nThe first backup helper failed on YAML module resolution before copying files. The shell then continued to the Web install; this was an execution error. Before further changes, the original Web package was recovered from the existing canonical profile and verified semantically identical to the installed package after removing only the three new dependencies and two bundle entries. The original lockfile was recovered from the canonical pre-install copy. Web patch/workspace and all Desktop baseline files were backed up before editing. Local before.json explicitly records which two files were recovered; the failed backup is not represented as successful.\n\nAll prior provider definitions, model IDs, presets, effort/default values, context/output limits, Wigolo/Reddit/Redlib instructions and hooks inside the profiles passed preservation comparison. No runtime search/retrieval files were edited. This proves configuration preservation, not a fresh end-to-end research run. Existing completed conversations were opened only to verify navigation. Their per-session model selection can differ from the saved new-session default; no model picker selection was changed.\n\n## UI observations and limits\nWeb MCP inventory showed mcp-wigolo Off/Disabled and memory-mcp-reference Connected/Enabled. Desktop showed both entries Off/Disabled. Those were existing states and were left intact. The deployed automatic research adapter is separate from the legacy disabled Wigolo MCP loader row. Reddit/Redlib is wired through the existing retrieval adapter/skill rather than a separately named MCP loader row, so its absence from this panel is expected. The panel lists MCP client loader entries, not every tool or adapter in a session preset.",
+          "ax_path": "HALO-DSH-UI-PLUGINS-2026-10-15.md",
+          "ax_paths": [
+            "HALO-DSH-UI-PLUGINS-2026-10-15.md"
+          ],
+          "ax_file": "axf2-7c95abd3b9bb22717ca50b79328dcc73-1bd9",
+          "ax_locator": "s2",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "1dc0a008454e6784217594da36c4a168",
+        "score": 0.691634,
+        "source": {
+          "title": "# DSH Activity View, Session Tabs and MCP Settings — October 15, 2026",
+          "section": 3,
+          "body": "ieval adapter/skill rather than a separately named MCP loader row, so its absence from this panel is expected. The panel lists MCP client loader entries, not every tool or adapter in a session preset.\n\nMCP add/edit/remove/toggle/retry controls rendered; none were invoked against existing connections. Write operations, new-server creation, legacy SSE bridging and credential editing were not exercised. Activity View unread notifications were not tested by generating new responses. Session Tabs initially includes older engaged/nonempty sessions; Web therefore has a long horizontally scrollable row. Closing a tab dismisses it from the strip rather than deleting its conversation. Rename/delete behavior was not exercised. No claim of compatibility with future DSH releases is made.\n\n## Recovery and operating instructions\nActivity View: use its switch beside View options to return to the normal workspace tree. Session Tabs: select an existing tab to navigate; the row scrolls. MCP Settings: Web Settings > MCP Servers; Desktop account menu > Settings > MCP Servers. Leave existing disabled rows unchanged unless intentionally changing research routing.\n\nCanonical Web dependency/lock files are stack/stock-dsh/web-profile. Canonical Desktop dependency/lock files are stack/desktop-tuning/ui-plugins-profile; its patch remains stack/desktop-tuning/cordis.patch.yml. Do not overwrite a live profile wholesale from these records. For recovery, stop the idle target app, merge only these three pinned dependencies and the two bundle names into its current package, install using its profile package manager, and ensure the single Session Tabs insert row exists. Keep the actual Desktop evaluation DSH_HOME. Removing these plugins reverses only those additions and reinstalls that profile; it does not require changing providers or deleting sessions.",
+          "ax_path": "HALO-DSH-UI-PLUGINS-2026-10-15.md",
+          "ax_paths": [
+            "HALO-DSH-UI-PLUGINS-2026-10-15.md"
+          ],
+          "ax_file": "axf2-7c95abd3b9bb22717ca50b79328dcc73-1bd9",
+          "ax_locator": "s3",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "b68f8578b80827bf730beb7bca178ffb",
+        "score": 0.6632004,
+        "source": {
+          "title": "# DSH Activity View, Session Tabs and MCP Settings — October 15, 2026",
+          "section": 0,
+          "body": "# DSH Activity View, Session Tabs and MCP Settings — October 15, 2026\n\n## Result\nInstalled all three community plugins on the existing Web 0.2.1-alpha.2 and Desktop 0.2.0-rc.2. Verified their rendered interfaces in each application. DSH core versions, models, saved defaults and existing research configuration were preserved. No benchmark, model generation, new reporting task or tool-driven research job was run.\n\n| Plugin | Version | Pinned source | Compatibility and observed behavior |\n|---|---|---|---|\n| Activity View | 0.1.0 | vec715/dsh-activity-view @ 4f6140ad0ef5e9a04354639461ac63ac00e9c9b4 | Declares DSH >=0.2.0-rc.2, Node >=22; both hosts show the activity switch and attention/today groups. Web switch restored the ordinary session tree and returned to Activity View. |\n| Session Tabs | 0.1.0 | rifkyazizf/dsh-session-tabs @ f839aec07b276a94e79c44c7c33a22768e8ff022 | No manifest engine range; README targets Desktop 0.2.0-rc.2. Both hosts render the strip and clicking an existing tab switches the conversation. |\n| MCP Settings | 0.3.0 | cyberofficial/dsh-plugin-mcp-settings @ 8573c29ac338b6f06442d7cb517260562d975a98 | Requires DSH >=0.1.7-rc.2 remote plugin-management services. Both hosts render Settings > MCP Servers and load the actual MCP inventory. |\n\n## What changed\nWeb home: C:\\Users\\scott\\.dsh-stock; profile web. Desktop home: C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home; profile desktop. The Desktop version was read from its installed executable and rendered Settings; Web version from its installed package/CLI and rendered Settings. The client platform named web in plugin manifests also applies to Electron's embedded DSH web client.",
+          "ax_path": "HALO-DSH-UI-PLUGINS-2026-10-15.md",
+          "ax_paths": [
+            "HALO-DSH-UI-PLUGINS-2026-10-15.md"
+          ],
+          "ax_file": "axf2-7c95abd3b9bb22717ca50b79328dcc73-1bd9",
+          "ax_locator": "s0",
+          "ax_dataset": "docs",
+          "ax_run": "run-20261018T043445Z-abd8-0000-g1",
+          "ax_format": "md"
+        }
+      }
+    ],
+    "answer": "**HALO-DSH-UI-PLUGINS-2026-10-15.md**, section 2 (\"UI observations and limits\"): the legacy Wigolo MCP loader row is left Off/Disabled as a pre-existing state, and the live automatic research adapter is separate from it. Reddit/Redlib runs through that existing retrieval adapter/skill, not a named MCP loader row — so its absence from the panel is expected; the panel lists only MCP client loaders.",
+    "usage": {
+      "inputTokens": 19955,
+      "outputTokens": 248,
+      "cacheReadTokens": 17920,
+      "totalTraffic": 38123
+    }
+  }
+}

@@ -1,0 +1,13 @@
+
+# Shared local XERJ neural retrieval (2026-10-17).
+- insert:
+    - id: mcp-xerj
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: xerj
+        transport: stdio
+        command: C:/Program Files/nodejs/node.exe
+        args:
+          - C:/Users/scott/Desktop/Code/dsh-halo-research/stack/xerj/mcp-launch.cjs
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false

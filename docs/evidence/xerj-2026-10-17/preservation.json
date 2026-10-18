@@ -1,0 +1,16 @@
+{
+  "web": {
+    "unchangedExceptXerjInsert": true,
+    "unchangedFiles": {
+      "package.json": "84c86aeb7fca342278e9c6306ae14b112f3267b44fbf95e1110b17747e79d048",
+      "pnpm-lock.yaml": "3e9823f6fa614fa5db245abf3c24c441eb8987ca47f0474833011398dfa7abb4"
+    }
+  },
+  "desktop": {
+    "unchangedExceptXerjInsert": true,
+    "unchangedFiles": {
+      "package.json": "018b68b6fa9682280e04beb1a2ccd8bb4e4d32a80a496b281a2c13d091a57957",
+      "pnpm-lock.yaml": "a283bcddc78adbc8a0f926bada5c283b453c90c56306a164a09923aa5b39486b"
+    }
+  }
+}

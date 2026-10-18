@@ -13,3 +13,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Installed Gufo cache review (October 15)](HALO-GUFO-CACHE-REVIEW-2026-10-15.md): successful reuse in existing Q6/Q4 logs; no confirmed cache defect, no runtime changes or new inference.
 
 - [Activity View, Session Tabs and MCP Settings installation (October 15)](HALO-DSH-UI-PLUGINS-2026-10-15.md): pinned compatible plugins, actual Web/Desktop UI checks and configuration preservation; no inference or benchmarks.
+
+- [XERJ neural installation and two real DSH retrievals (October 17)](HALO-XERJ-INSTALLATION-2026-10-17.md): verified Windows release, shared local service, Web/Desktop MCP execution, exact prompts and preservation evidence; no benchmarks.
