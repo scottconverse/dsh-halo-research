@@ -25,3 +25,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [DeepSeek 1017 default and Ollama cloud picker cleanup (October 19)](HALO-DEEPSEEK-1017-DEFAULT-2026-10-19.md): Web live verification, Desktop saved configuration, preservation checks, worker failures and usage accounting.
 
 - [Desktop existing-session model repair (October 19)](HALO-DESKTOP-SESSION-MODEL-REPAIR-2026-10-19.md): all four stale Ollama selections migrated through the real picker; existing-session response and new-session default verified, no subagents or benchmarks.
+
+- [Web existing-session model repair (October 19)](HALO-WEB-SESSION-MODEL-REPAIR-2026-10-19.md): five retired selections migrated with effort Off; reporting history repaired and opened; archived missing-workspace limitation preserved; no subagents or inference.
