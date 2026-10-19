@@ -19,3 +19,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [XERJ embedding-model review (October 17)](HALO-XERJ-EMBEDDING-REVIEW-2026-10-17.md): pinned-source compatibility, MiniLM origin, quality-first Qwen3-8B candidate and alternatives; research only, no runtime changes or benchmarks.
 
 - [Halogen native-Linux inference assessment (October 17)](HALO-HALOGEN-ASSESSMENT-2026-10-17.md): Flash-Next versus 27B, Windows/WSL limits, disk cache, concurrency, memory and published speed qualifications; research only.
+
+- [Linux Halo engine choice for journalism (October 19)](HALO-LINUX-ENGINE-CHOICE-2026-10-19.md): provisional Halogen recommendation, current Gufo cache/performance evidence and accuracy limitations; research only.
