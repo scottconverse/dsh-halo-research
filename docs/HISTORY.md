@@ -21,3 +21,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Halogen native-Linux inference assessment (October 17)](HALO-HALOGEN-ASSESSMENT-2026-10-17.md): Flash-Next versus 27B, Windows/WSL limits, disk cache, concurrency, memory and published speed qualifications; research only.
 
 - [Linux Halo engine choice for journalism (October 19)](HALO-LINUX-ENGINE-CHOICE-2026-10-19.md): provisional Halogen recommendation, current Gufo cache/performance evidence and accuracy limitations; research only.
+
+- [DeepSeek 1017 default and Ollama cloud picker cleanup (October 19)](HALO-DEEPSEEK-1017-DEFAULT-2026-10-19.md): Web live verification, Desktop saved configuration, preservation checks, worker failures and usage accounting.

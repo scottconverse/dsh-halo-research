@@ -1,14 +1,14 @@
 # Dedicated stateless profile for bounded DeepSeek coding workers.
 # The stock-router ollama-deepseek profile remains the restore and web-research path.
-model = "deepseek-v4.1-flash:cloud"
+model = "deepseek-v4.1-flash:1017-cloud"
 model_provider = "ollama-code-worker"
-model_reasoning_effort = "high"
+model_reasoning_effort = "none"
 model_catalog_json = "C:/Users/scott/.codex/ollama-deepseek-code-worker-models.json"
 web_search = "disabled"
 
 [model_providers.ollama-code-worker]
 name = "Ollama code worker"
-base_url = "http://[::1]:11434/v1"
+base_url = "http://127.0.0.1:11434/v1"
 wire_api = "responses"
 requires_openai_auth = false
 supports_websockets = false

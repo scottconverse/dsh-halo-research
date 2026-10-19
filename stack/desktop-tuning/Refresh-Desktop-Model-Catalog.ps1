@@ -116,13 +116,13 @@ foreach ($item in $lmExtras) {
 }
 
 # Ollama's local tags include cloud pointers; remote_model distinguishes them.
-# Keep five curated cloud rows; discover local models only.
+# Keep single curated cloud row; discover local models only.
 $ollamaTags = $null
 try { $ollamaTags = @( (Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/tags' -TimeoutSec 10).models ) }
 catch { Write-Warning "Ollama catalog unavailable; preserving its existing Desktop entries: $($_.Exception.Message)" }
 
 if ($null -ne $ollamaTags) {
-    $cloudKnown = @('deepseek-v4.1-flash:cloud', 'glm-5.3:cloud', 'kimi-k3:cloud', 'minimax-m3:cloud', 'glm-5.3-flash:cloud')
+    $cloudKnown = @('deepseek-v4.1-flash:1017-cloud')
     $cloudExtras = [Collections.Generic.List[string]]::new()
     $cloudExtras.Add('          # BEGIN generated Ollama Cloud models')
     $localModels = [Collections.Generic.List[string]]::new()
@@ -130,7 +130,7 @@ if ($null -ne $ollamaTags) {
         $name = [string]$item.name
         if (-not $name) { continue }
         $remote = -not [string]::IsNullOrWhiteSpace([string]$item.remote_model) -or $name.EndsWith(':cloud')
-        if ($remote) { continue } # Only the five curated cloud rows are offered.
+        if ($remote) { continue } # Only the single curated cloud row are offered.
         $details = $null
         $capabilities = @()
         $context = if ($remote) { 131072 } else { 32768 }
@@ -212,4 +212,4 @@ if ($profile -ne $original) {
         if ([IO.File]::Exists($tempPath)) { [IO.File]::Delete($tempPath) }
     }
 }
-Write-Output "Desktop catalog: $($lmModels.Count) LM Studio chat models; $($(if ($null -ne $ollamaTags) { $ollamaTags.Count } else { 'cached' })) Ollama tags discovered; only five curated cloud rows offered."
+Write-Output "Desktop catalog: $($lmModels.Count) LM Studio chat models; $($(if ($null -ne $ollamaTags) { $ollamaTags.Count } else { 'cached' })) Ollama tags discovered; only single curated cloud row offered."
