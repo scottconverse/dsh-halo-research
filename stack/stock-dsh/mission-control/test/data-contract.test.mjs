@@ -798,3 +798,15 @@ test('stock paths and session fallback preserve truthful workspace identity', ()
   assert.match(source, /readSessionHeader/);
   assert.match(source, /\[stored workspace:/);
 });
+
+test('Ollama remote metadata exempts only the matching cloud route from local residency', () => {
+  const { describeRouteRuntime } = dataContractFunctions();
+  const inventory = { remoteModels: [{ name: 'deepseek-v4.1-flash:1017-cloud' }] };
+  const cloud = describeRouteRuntime({ provider: 'ollama', runtime: 'ollama', model: 'deepseek-v4.1-flash:1017-cloud' }, [], inventory);
+  assert.equal(cloud.residencyApplicable, false);
+  assert.equal(cloud.warning, null);
+  assert.equal(cloud.executionLocation, 'cloud via Ollama');
+  const local = describeRouteRuntime({ provider: 'ollama-local', runtime: 'ollama', model: 'qwen3.8:27b-q6_K' }, [], inventory);
+  assert.equal(local.residencyApplicable, true);
+  assert.match(local.warning, /not resident/);
+});

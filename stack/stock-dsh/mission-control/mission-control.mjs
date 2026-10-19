@@ -389,7 +389,7 @@ function parseValidationDiagnostics(text, max = 50) {
   return diagnostics;
 }
 
-function describeRouteRuntime(route, models) {
+function describeRouteRuntime(route, models, ollama = {}) {
   const model = route?.model || null;
   const configured = route?.provider && model ? `${route.provider}/${model}` : null;
   const runtime = route?.runtime || 'lmstudio';
@@ -398,8 +398,9 @@ function describeRouteRuntime(route, models) {
   let matchBasis = null;
   // Provider ids are operator-defined in the Web profile. Locality comes from
   // that provider's transport, not a stale allow-list of historical names.
-  const localRoute = runtime === 'ollama' || route?.localModelProvider === true
-    || (route?.localModelProvider == null && ['lmstudio', 'lmstudio-brain'].includes(route?.provider));
+  const cloudModel = runtime === 'ollama' && (ollama.remoteModels || []).find(m => m.name === model);
+  const localRoute = !cloudModel && (runtime === 'ollama' || route?.localModelProvider === true
+    || (route?.localModelProvider == null && ['lmstudio', 'lmstudio-brain'].includes(route?.provider)));
   if (localRoute && model) {
     matches = localLlm.filter(m => m?.identifier === model || m?.modelKey === model);
     if (matches.length === 1) matchBasis = 'exact key or identifier';
@@ -422,6 +423,7 @@ function describeRouteRuntime(route, models) {
     configured,
     model,
     residencyApplicable: localRoute,
+    executionLocation: cloudModel ? 'cloud via Ollama' : localRoute ? 'local' : 'remote/provider-managed',
     exactResident,
     runtime,
     exactGenerating: exact?.provider === 'ollama' ? null : !!exact && exact.status === 'generating',
@@ -1450,6 +1452,17 @@ function recentLiveEngineDecode(now = Date.now()) {
 setInterval(() => { void pollLlamaDecode(); }, 2000).unref();
 void pollLlamaDecode();
 
+// DSH's public modelSelection view exposes lastUsed but omits pending state.
+// Read only the saved projection row; never activate an Agent to inspect it.
+function savedPendingSelection(sessionId) {
+  if (!/^session-[a-zA-Z0-9-]+$/.test(sessionId)) return null;
+  try {
+    const cached = JSON.parse(fs.readFileSync(path.join(DSH_HOME, 'storages', 'session_projcache', 'sessions', sessionId + '.json'), 'utf8'));
+    const pending = cached.record?.rows?.modelSelection?.val?.pending;
+    return typeof pending?.provider === 'string' && typeof pending?.model === 'string' ? pending : null;
+  } catch { return null; }
+}
+
 async function listSessionsApi(limit = 500) {
   const sess = await dshRpc('session/list', { _request: {} });
   // DSH's list updatedAt can remain at the last completed turn while a long
@@ -1462,6 +1475,7 @@ async function listSessionsApi(limit = 500) {
     .slice(0, limit)
     .map(s => {
       const v = s.projections?.values || {};
+      const pendingSelection = v.modelSelection?.pending || savedPendingSelection(s.sessionId);
       const st = v.sessionStats || {};
       observeDecodeTotals(s.sessionId, v.title || s.sessionId,
         v.modelSelection?.lastUsed?.model || null, st);
@@ -1510,6 +1524,9 @@ async function listSessionsApi(limit = 500) {
         // Use the model that produced output, not a queued selection or global default.
         provider: v.modelSelection?.lastUsed?.provider || null,
         model: v.modelSelection?.lastUsed?.model || null,
+        lastUsedReasoningEffort: v.modelSelection?.lastUsed?.reasoningEffort ?? null,
+        nextSelection: pendingSelection || v.modelSelection?.lastUsed || null,
+        nextSelectionSource: pendingSelection ? 'saved selection' : v.modelSelection?.lastUsed ? 'last used (no pending override)' : 'default at request time',
         turns: st.turns ?? null,
         kTokIn: Math.round(((tk.uncachedInputTokens || 0) + (tk.cacheReadTokens || 0)) / 1000 * 10) / 10,
         kTokOut: Math.round((tk.outputTokens || 0) / 1000 * 10) / 10,
@@ -1695,7 +1712,15 @@ async function ollamaResidents() {
     if (!response.ok) throw new Error('Ollama HTTP ' + response.status);
     const body = await response.json();
     if (!Array.isArray(body.models)) throw new Error('Ollama returned no model inventory');
-    return { ok: true, sampledAt: Date.now(), error: null, models: body.models.map(m => ({
+    // Local Ollama can proxy remote models; /ps alone cannot establish locality.
+    let remoteModels = [], remoteMetadataError = null;
+    try {
+      const tags = await fetch('http://127.0.0.1:11434/api/tags', { signal: AbortSignal.timeout(4000) });
+      if (!tags.ok) throw new Error('Ollama tags HTTP ' + tags.status);
+      const inventory = await tags.json();
+      remoteModels = (inventory.models || []).filter(m => m.remote_host).map(m => ({ name: m.name || m.model }));
+    } catch (error) { remoteMetadataError = String(error.message); }
+    return { ok: true, sampledAt: Date.now(), error: null, remoteModels, remoteMetadataError, models: body.models.map(m => ({
       identifier: m.name || m.model, modelKey: m.model || m.name, provider: 'ollama',
       type: 'llm', quant: m.details?.quantization_level || '?', context: m.context_length || null,
       status: 'loaded', gb: gb(m.size), vramGiB: gib(m.size_vram),
@@ -2168,7 +2193,7 @@ async function status() {
   const unknownOrigin = modelsWithOrigin.filter(m => m.originKind === 'unknown');
   const accountCache = readLmLinkAccountCache();
   const stalledSessions = summarizeStalledSessions(sc.sessions || []);
-  const routeRuntime = describeRouteRuntime(configuredRouteData(), modelsWithOrigin);
+  const routeRuntime = describeRouteRuntime(configuredRouteData(), modelsWithOrigin, ollama);
   const profiles = roleProfiles();
   const brainRole = resolveExactResidentRole(profiles.brain, modelsWithOrigin);
   const workerRole = resolveExactResidentRole(profiles.worker, modelsWithOrigin);
@@ -2952,6 +2977,7 @@ function computeLights(s){
   else if(!s.services.lmsCli&&!s.ollama.ok) lights.MODELS={level:'r',cause:'lms CLI failed'};
   else if(s.routeRuntime&&s.routeRuntime.configError) lights.MODELS={level:'r',cause:'configured route cannot be read: '+s.routeRuntime.configError};
   else if(s.routeRuntime&&s.routeRuntime.ambiguous) lights.MODELS={level:'r',cause:'configured route matches multiple resident models; routing is ambiguous'};
+  else if(s.models.length===0&&s.routeRuntime&&s.routeRuntime.residencyApplicable===false) lights.MODELS={level:'g',cause:'remote route; no local model required (provider availability is not tested)'};
   else if(s.models.length===0) lights.MODELS={level:'a',cause:'zero models loaded'};
   else if(s.routeRuntime&&s.routeRuntime.residencyApplicable&&s.routeRuntime.configured&&!s.routeRuntime.exactResident) lights.MODELS={level:'a',cause:s.routeRuntime.warning||'configured local route is not resident'};
   else if(s.models.some(function(m){return m.context>=200000})) lights.MODELS={level:'a',cause:'a loaded model has context \u2265 200K (silent-huge-context trap)'};
@@ -3064,7 +3090,7 @@ function applyLoaderLabels(s){
     var route=s.routeRuntime||{};
     var routeHtml='<span class="slot"><b>Configured DSH route:</b> <span class="mono">'+esc(route.configured||'not declared')+'</span>'+
       (route.warning?' <span class="badge badge-amber">'+esc(route.warning)+'</span>'
-        :(route.configured&&route.residencyApplicable===false?' <span class="badge">local residency N/A</span>':''))+'</span>';
+        :(route.configured&&route.residencyApplicable===false?' <span class="badge">'+esc(route.executionLocation||'remote route')+'; local residency N/A</span>':''))+'</span>';
     var others=((s.residentRoles&&s.residentRoles.other)||[]).map(function(m){return '<span class="mono">'+esc(m.identifier)+' ('+esc(m.provider||'LM Studio')+') ctx '+(m.context||0).toLocaleString()+' &middot; '+(m.gb||0)+' GB</span>';}).join(', ');
     slots.innerHTML=routeHtml+say('Resident Brain:',brain)+say('Resident Worker:',worker)+
       (others?'<span class="slot"><b>Other resident:</b> '+others+'</span>':'')+
@@ -3537,6 +3563,9 @@ async function loadSessions(){
         '<td><button type="button" onclick="toggleSessionDetail('+i+')" style="background:none;border:0;color:inherit;padding:0;text-align:left;cursor:pointer">'+esc(s.title||s.id)+'</button>'+bug+(s.goal?'<br><span class="mut">'+esc(s.goal.slice(0,80))+'</span>':'')+'</td>'+
         '<td>'+esc(s.workspace)+'</td>'+
         '<td>'+esc(s.preset||'—')+'</td>'+
+        '<td><b>Next request (saved):</b> '+esc(s.nextSelection ? s.nextSelection.provider+'/'+s.nextSelection.model : 'default at request time')+
+        (s.nextSelection&&s.nextSelection.reasoningEffort!=null?' <span class="mut">effort '+esc(s.nextSelection.reasoningEffort)+'</span>':'')+
+        '<br><span class="mut">Last used: '+esc(s.model ? (s.provider||'unknown')+'/'+s.model : 'no request recorded')+'</span></td>'+
         // STALLED is its own state, never folded into running or idle. A
         // session claiming to run while its log has not moved is the single
         // most expensive thing this console can misreport (2026-08-20: 4h41m).
@@ -3558,7 +3587,7 @@ async function loadSessions(){
           ? '<button class="btn btn-sm" onclick="event.stopPropagation();stopSession(&quot;'+esc(s.sessionId)+'&quot;,&quot;'+esc((s.title||s.id).replace(/"/g,'')) +'&quot;)">stop</button>'
           : '')+'</td>'+
         '</tr>';
-      var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="12"><div class="detail">'+
+      var detail='<tr id="sdetail-'+i+'" style="display:none"><td colspan="13"><div class="detail">'+
         '<div>sessionId: <span class="mono">'+esc(s.sessionId)+'</span></div>'+
         (s.ctxPct!=null?'<div>estimated next provider prompt: '+s.ctxUsed.toLocaleString()+' / '+s.ctxWindow.toLocaleString()+' tokens ('+s.ctxPct+'%)</div>':'')+
         (s.ctxLastPromptTokens!=null?'<div>last provider prompt: '+s.ctxLastPromptTokens.toLocaleString()+' tokens <span class="mut">(may lag while streaming)</span></div>':'')+
@@ -3568,7 +3597,7 @@ async function loadSessions(){
         '</div></td></tr>';
       return main+detail;
     }).join('');
-    document.getElementById('sessions-table').innerHTML='<table class="tbl"><thead><tr><th>Title</th><th>Workspace</th><th>Preset</th><th>State</th><th>Turns</th><th title="cumulative tokens sent to the model">Tokens in</th><th title="cumulative tokens generated">Tokens out</th><th title="how full this session’s context window is — a full window truncates large replies">Context</th><th title="time to first token, session aggregate">TTFT</th><th title="decode rate, session aggregate">Decode</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    document.getElementById('sessions-table').innerHTML='<table class="tbl"><thead><tr><th>Title</th><th>Workspace</th><th>Preset</th><th>Model selection / history</th><th>State</th><th>Turns</th><th title="cumulative tokens sent to the model">Tokens in</th><th title="cumulative tokens generated">Tokens out</th><th title="how full this session’s context window is — a full window truncates large replies">Context</th><th title="time to first token, session aggregate">TTFT</th><th title="decode rate, session aggregate">Decode</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
   }catch(e){ document.getElementById('sessions-table').innerHTML='<div class="mut">sessions fetch failed</div>' }
 }
 function toggleSessionDetail(i){
