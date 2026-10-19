@@ -29,3 +29,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Web existing-session model repair (October 19)](HALO-WEB-SESSION-MODEL-REPAIR-2026-10-19.md): five retired selections migrated with effort Off; reporting history repaired and opened; archived missing-workspace limitation preserved; no subagents or inference.
 
 - [Mission Control cloud and model display repair (October 19)](HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md): exact Ollama remote metadata, saved next selection versus last-used model, current successful validation; installed UI verified, no model jobs.
+
+- [Stock DSH v0.3.1 release](../RELEASE-NOTES-stock-dsh-v0.3.1.md): October 19 cloud/session repairs and Mission Control source release; unrelated local changes excluded.
