@@ -8,7 +8,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 |---|---|
 | DSH Web | `0.2.1-rc.2`, loopback `http://127.0.0.1:3080` |
 | DSH Desktop | `0.2.1-rc.2`, separate preserved Desktop profile |
-| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low** |
+| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low**, maximum output **32,768 tokens** |
 | Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
 | Live-web research | Wigolo through the deployment's research integration |

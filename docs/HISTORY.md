@@ -43,3 +43,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Web active-preset listing wiring correction (October 19)](HALO-WEB-LISTING-WIRING-2026-10-19.md): fixes stale deployed adapter import missed by v0.3.3; one actual Web listing fetch verified25 posts through Redlib in2.173s; no extra tests.
 
 - [DeepSeek 1017 Low effort everywhere (October 19)](HALO-DEEPSEEK-1017-LOW-2026-10-19.md): Web/Desktop defaults, 14 saved session selections, provider fallback and dedicated worker profiles; other models preserved, no inference jobs.
+
+- [DeepSeek 1017 output raised to 32K (October 20)](HALO-DEEPSEEK-32K-2026-10-20.md): Web/Desktop model limits and recovery profiles set to 32,768; Low effort and all other configuration preserved.
