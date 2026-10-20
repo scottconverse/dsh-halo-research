@@ -134,7 +134,7 @@
           - id: deepseek-v4.1-flash:1017-cloud
             name: DeepSeek V4.1 Flash 1017 (Ollama Cloud)
             contextWindow: 1048576
-            maxTokens: 32768
+            maxTokens: 65536
             input:
               - text
               - image
