@@ -1,0 +1,306 @@
+{
+  "evidence": [
+    {
+      "run": "session-evidence.jsonl",
+      "type": "turn/start",
+      "seq": 4,
+      "time": 1792528026108,
+      "data": {
+        "turn": 1
+      }
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "seq": 11,
+      "time": 1792528026175,
+      "type": "request/header",
+      "config": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:1017-cloud",
+        "reasoningEffort": "low",
+        "maxTokens": 65536
+      },
+      "toolCount": 47
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "type": "tool/call",
+      "seq": 17,
+      "time": 1792528027454,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "callId": "call_88ec1lno",
+        "name": "lsp",
+        "arguments": "{\"operation\":\"goToDefinition\",\"file_path\":\"C:/Users/scott/Documents/Codex/2026-10-20/automatic-compaction/Desktop-LSP-Verification.js\",\"line\":94,\"character\":21}"
+      }
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "type": "tool/result",
+      "seq": 18,
+      "time": 1792528028209,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_88ec1lno"
+          },
+          "toolCallId": "call_88ec1lno",
+          "content": [
+            {
+              "type": "text",
+              "text": "Desktop-LSP-Verification.js:12:17"
+            }
+          ],
+          "isError": false,
+          "id": "1a37196e-f77c-4137-add0-5f4ab4aaea5d"
+        }
+      },
+      "sourceEventSeqs": [
+        17
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "type": "tool/call",
+      "seq": 22,
+      "time": 1792528028888,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "callId": "call_492ep4p4",
+        "name": "session_search",
+        "arguments": "{\"query\":\"LIME-AUTO-20\",\"session_ids\":[\"session-326bc19c-34ad-4138-940f-d483d727e1ea\"],\"event_types\":[\"assistant/message\"],\"event_seq_from\":31,\"event_seq_to\":31}"
+      }
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "type": "tool/result",
+      "seq": 23,
+      "time": 1792528028943,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_492ep4p4"
+          },
+          "toolCallId": "call_492ep4p4",
+          "content": [
+            {
+              "type": "text",
+              "text": "No prior session matches found."
+            }
+          ],
+          "isError": false,
+          "id": "3a3e05ba-6eee-469e-8ac7-e15ae9288cfb"
+        }
+      },
+      "sourceEventSeqs": [
+        22
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "type": "turn/end",
+      "seq": 28,
+      "time": 1792528029733,
+      "data": {
+        "turn": 1,
+        "reason": {
+          "kind": "completed"
+        }
+      }
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "type": "turn/start",
+      "seq": 4,
+      "time": 1792528147031,
+      "data": {
+        "turn": 1
+      }
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "seq": 11,
+      "time": 1792528147114,
+      "type": "request/header",
+      "config": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:1017-cloud",
+        "reasoningEffort": "low",
+        "maxTokens": 65536
+      },
+      "toolCount": 47
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "type": "tool/call",
+      "seq": 17,
+      "time": 1792528147769,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "callId": "call_vhpokxrp",
+        "name": "session_search",
+        "arguments": "{\"query\":\"LIME-AUTO-20\",\"session_ids\":[\"session-326bc19c-34ad-4138-940f-d483d727e1ea\"],\"event_types\":[\"assistant/message\"],\"event_seq_from\":31,\"event_seq_to\":31}"
+      }
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "type": "tool/result",
+      "seq": 18,
+      "time": 1792528147803,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "call_vhpokxrp"
+          },
+          "toolCallId": "call_vhpokxrp",
+          "content": [
+            {
+              "type": "text",
+              "text": "Session search results (1):\n\n1. Session session-326bc19c-34ad-4138-940f-d483d727e1ea — This is one isolated automatic-compactio\n   Created: 2026-10-20T15:59:09.011Z\n   Parent: root\n   Availability: persisted\n   Best match: seq 31 | assistant/message | current | 2026-10-20T20:17:44.103Z\n   Snippet: **Retained task code:** LIME-AUTO-20. **Main correctness concern (inferred, not verified):** Page cursors are unsigned `base64url(identity:rev:seq)`. Anyone holding one can re-encode the same revision with a different valid `seq`, and `#de…"
+            }
+          ],
+          "isError": false,
+          "id": "a1b389e6-a82c-4361-943b-48f4474184b7"
+        }
+      },
+      "sourceEventSeqs": [
+        17
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "type": "turn/end",
+      "seq": 23,
+      "time": 1792528148399,
+      "data": {
+        "turn": 1,
+        "reason": {
+          "kind": "completed"
+        }
+      }
+    }
+  ],
+  "rawUsage": [
+    {
+      "run": "session-evidence.jsonl",
+      "seq": 16,
+      "usage": {
+        "inputTokens": 1607,
+        "outputTokens": 243,
+        "totalTokens": 18274,
+        "cacheReadTokens": 16424
+      }
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "seq": 21,
+      "usage": {
+        "inputTokens": 151,
+        "outputTokens": 146,
+        "totalTokens": 18441,
+        "cacheReadTokens": 18144
+      }
+    },
+    {
+      "run": "session-evidence.jsonl",
+      "seq": 26,
+      "usage": {
+        "inputTokens": 145,
+        "outputTokens": 145,
+        "totalTokens": 18602,
+        "cacheReadTokens": 18312
+      }
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "seq": 16,
+      "usage": {
+        "inputTokens": 1521,
+        "outputTokens": 142,
+        "totalTokens": 18087,
+        "cacheReadTokens": 16424
+      }
+    },
+    {
+      "run": "search-session-evidence.jsonl",
+      "seq": 21,
+      "usage": {
+        "inputTokens": 310,
+        "outputTokens": 93,
+        "totalTokens": 18361,
+        "cacheReadTokens": 17958
+      }
+    }
+  ],
+  "preservation": [
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+      "sha256": "d853ccd688afa6d43b2cdc68b8cfc3a2e0b700438382d785fa4eaad12a1c5103",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+      "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/package.json",
+      "sha256": "d63fecb9d0fcf2d3acad9d565b4774941f1f7e73a00657b7485224c8b74804fd",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-workspace.yaml",
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-lock.yaml",
+      "sha256": "5244f37e147e187518199faed4accc2103f22305a9f2385f12d870b47412fd39",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+      "sha256": "7da04586b136b80f0acb3c707d7fd1c80a1f7163a49a03047167d9d2713aefe0",
+      "unchanged": true
+    }
+  ],
+  "processes": [
+    {
+      "pid": 17648,
+      "startedAt": "2026-10-20T20:27:04.629Z",
+      "expected": "one Desktop turn with one LSP request and one session search, no compaction; shutdown owned host",
+      "cancel": "IPC shutdown only this owned isolated Desktop host",
+      "exitCode": 0,
+      "signal": null,
+      "endedAt": "2026-10-20T20:27:10.510Z"
+    },
+    {
+      "pid": 57188,
+      "startedAt": "2026-10-20T20:29:05.301Z",
+      "expected": "one Desktop turn with one LSP request and one session search, no compaction; shutdown owned host",
+      "cancel": "IPC shutdown only this owned isolated Desktop host",
+      "exitCode": 0,
+      "signal": null,
+      "endedAt": "2026-10-20T20:29:09.386Z"
+    }
+  ],
+  "compactionEvents": 0
+}

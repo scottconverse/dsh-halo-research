@@ -1,0 +1,1 @@
+Use session_search exactly once with {"query":"LIME-AUTO-20","session_ids":["session-326bc19c-34ad-4138-940f-d483d727e1ea"],"event_types":["assistant/message"],"event_seq_from":31,"event_seq_to":31}. Report the matching session ID, event sequence and short matching passage. Do not use any other tools. No compaction, shell or writes. Under 100 words.

@@ -61,3 +61,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Installed Desktop-host automatic compaction (October 20)](HALO-DESKTOP-NATIVE-COMPACTION-2026-10-20.md): one actual Desktop-host session recovered below a temporary threshold; normal profiles unchanged. Two unrelated consumers excluded only in test copy after dependency failures; semantic-fidelity and cleanup limits recorded.
 
 - [Desktop dependency finding corrected (October 20)](HALO-DESKTOP-DEPENDENCY-CORRECTION-2026-10-20.md): earlier missing-peer finding was an isolation artifact. Physical-copy Desktop run passed with LSP/session-query enabled and no installed settings/dependency changes; staged peer install discarded.
+
+- [Desktop real LSP and session-query execution (October 20)](HALO-DESKTOP-REAL-TOOLS-2026-10-20.md): actual definition resolution and persisted history hit; workspace fixture mismatch documented, normal settings preserved, no compaction tests.
