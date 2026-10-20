@@ -55,3 +55,5 @@ The1.298M number is the sum of request traffic across24 calls, primarily repeate
 [Initial prompt](evidence/deepseek-coding-stress-2026-10-20/PROMPT.md), [cap prompt](evidence/deepseek-coding-stress-2026-10-20/CAP-PROMPT.md), [retention prompt](evidence/deepseek-coding-stress-2026-10-20/RETENTION-PROMPT.md), [hidden test result](evidence/deepseek-coding-stress-2026-10-20/hidden-result.txt), [checkpoint](evidence/deepseek-coding-stress-2026-10-20/COMPACTION-SUMMARY.md), [retention response](evidence/deepseek-coding-stress-2026-10-20/RETENTION-RESPONSE.md), [usage](evidence/deepseek-coding-stress-2026-10-20/usage.json).
 
 No Desktop run, new packages, provider changes, benchmark matrix or production-code repair was performed. The local synthetic project is test material only.
+
+Subsequent repair: the hardcoded-Off wrapper discrepancy described above was fixed after this test; see [Low summary repair](HALO-COMPACTION-LOW-FIX-2026-10-20.md). The historical test observations remain unchanged.

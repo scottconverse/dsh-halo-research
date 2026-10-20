@@ -9,7 +9,8 @@ const { BlockAssembler } = await import(pathToFileURL(basicRequire.resolve('@dee
 
 export const headings = ['Task and constraints', 'Verified evidence', 'Access gaps and uncertainty', 'Completed work', 'Remaining work', 'Next action'];
 export function checkpointRequest(input, target, maxTokens, sessionId, signal) {
-  return { provider: target.provider, model: target.model, reasoningEffort: 'off', maxTokens,
+  const reasoningEffort = target.provider === 'ollama' && target.model === 'deepseek-v4.1-flash:1017-cloud' ? 'low' : 'off';
+  return { provider: target.provider, model: target.model, reasoningEffort, maxTokens,
     sessionId, purpose: 'compaction', ...(signal ? { signal } : {}),
     tools: [], messages: [
       { role: 'system', content: [{ type: 'text', text:
