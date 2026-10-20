@@ -1,5 +1,7 @@
 # Desktop-host automatic compaction verification — October 20, 2026
 
+> **Correction:** The dependency-failure attribution below was caused by the test whole-node_modules junction crossing Desktop’s profile-resolution boundary, not a confirmed installed dependency defect. A corrected Desktop-host run with a physical dependency copy passed compaction with LSP and all five session-query tools enabled. See [HALO-DESKTOP-DEPENDENCY-CORRECTION-2026-10-20.md](HALO-DESKTOP-DEPENDENCY-CORRECTION-2026-10-20.md). The earlier results and failures remain below as historical evidence.
+
 ## Result
 
 **Automatic compaction passed in the installed Desktop host and Desktop local agent preset.** This was not the headless CLI carrier used previously. The installed Electron executable ran its own packaged Desktop host with a separate DSH home and copied Desktop profile. The follow-up was submitted through Desktop's session/prompt RPC, the same host API used by the client. No GUI clicks or visual indicator check is claimed.

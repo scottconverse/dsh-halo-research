@@ -1,0 +1,2 @@
+xerj-mcp v1.0.0-rc.96 — MCP stdio server, proxying to http://127.0.0.1:9200
+dsh web: http://127.0.0.1:59278/?token=[redacted]

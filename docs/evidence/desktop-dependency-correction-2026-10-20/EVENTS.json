@@ -1,0 +1,138 @@
+[
+  {
+    "seq": 20,
+    "type": "compaction/start",
+    "time": 1792527457323,
+    "data": {
+      "compactionId": "b847a5f5-4ee8-45e6-b8be-617ca4935cd1",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 21,
+    "type": "compaction/summary",
+    "time": 1792527462479,
+    "data": {
+      "compactionId": "b847a5f5-4ee8-45e6-b8be-617ca4935cd1",
+      "shadowedRange": {
+        "start": 8,
+        "end": 13
+      },
+      "shadowedTokenCount": 51083,
+      "summary": [
+        {
+          "type": "text",
+          "text": "## Task and constraints\n- User requested a review, under 220 words, of supplied `SPEC.md`, `ledger.mjs`, and `ledger.test.mjs` for a concrete correctness concern or “none found,” plus two testing limitations.\n- Constraints: no tools, delegation, browsing, file writes, or execution; do not claim tests were run. Node standard library only, no network/external dependencies; files only inside project; do not modify spec or smoke tests; do not search for hidden tests.\n- Retain task code **LIME-AUTO-20** as instructed by user. Note supplied spec cites **AMBER-LEDGER-64**; user instruction controls retention.\n- Model: `deepseek-v4.1-flash:1017-cloud`. CWD: `C:\\Users\\scott\\Documents\\Codex\\2026-10-20\\automatic-compaction`. File policy: read-only; approval policy: ask.\n\n## Verified evidence\n- The prompt contains the full spec, implementation, and tests; these were not filesystem-verified and no code was executed.\n- Agent response (not independently verified) flagged cursor integrity: cursors are unsigned `base64url(identity:rev:seq)`, allowing a holder to re-encode a same-revision cursor with another existing `seq`; `#decodeCursor` would allegedly accept it.\n- Agent listed testing gaps: no cursor decode/re-encode tamper test; no timestamp boundary tests near years 0000/9999 with large offsets; no canonical tests for arrays with extra/non-enumerable properties.\n- Agent explicitly stated it did not run tests.\n\n## Access gaps and uncertainty\n- No tools or execution were used, so the cursor concern and all test outcomes remain unverified.\n- Hidden acceptance tests were not available or searched.\n- Read-only policy prevents edits without an approved escalation path.\n- Whether token tampering falls inside the spec’s “no cryptographic-security promise” disclaimer is unresolved.\n\n## Completed work\n- Delivered a concise review identifying the cursor-authentication concern and two testing limitations, while retaining code **LIME-AUTO-20** and stated constraints.\n- No implementation or test files were changed.\n\n## Remaining work\n- If continuing, validate whether cursor tampering violates the intended “reject forged” requirement and, if so, fix cursor design and add focused tests.\n- Add boundary timestamp and canonical array-property tests as appropriate.\n- Produce final fixed implementation, focused tests, and `NOTES.md` if the original deliverable scope resumes.\n\n## Next action\n- Await the user’s follow-up; do not claim verification or test success."
+        }
+      ],
+      "usage": {
+        "inputTokens": 57005,
+        "outputTokens": 1186,
+        "totalTokens": 58191
+      },
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:1017-cloud",
+      "maxTokens": 8192
+    }
+  },
+  {
+    "seq": 23,
+    "type": "compaction/end",
+    "time": 1792527462480,
+    "data": {
+      "compactionId": "b847a5f5-4ee8-45e6-b8be-617ca4935cd1",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 29,
+    "type": "request/header",
+    "time": 1792527462602,
+    "data": {
+      "config": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:1017-cloud",
+        "reasoningEffort": "low",
+        "maxTokens": 65536
+      },
+      "tools": [
+        "ask_user_question",
+        "create_goal",
+        "edit",
+        "exit_plan_mode",
+        "get_goal",
+        "glob",
+        "grep",
+        "job_kill",
+        "job_list",
+        "job_output",
+        "list_mcp_resource_templates",
+        "list_mcp_resources",
+        "load_workspace_dependencies",
+        "lsp",
+        "mcp__xerj__xerj_brain_ego",
+        "mcp__xerj__xerj_brain_link",
+        "mcp__xerj__xerj_brain_overview",
+        "mcp__xerj__xerj_brain_unlink",
+        "mcp__xerj__xerj_code_search",
+        "mcp__xerj__xerj_hub_ask",
+        "mcp__xerj__xerj_hub_def",
+        "mcp__xerj__xerj_hub_find",
+        "mcp__xerj__xerj_hybrid_search",
+        "mcp__xerj__xerj_map",
+        "mcp__xerj__xerj_memory_recall",
+        "mcp__xerj__xerj_memory_store",
+        "mcp__xerj__xerj_plan",
+        "mcp__xerj__xerj_search",
+        "mcp__xerj__xerj_semantic_search",
+        "mcp__xerj__xerj_vector_search",
+        "present",
+        "pwsh",
+        "read",
+        "read_image",
+        "read_mcp_resource",
+        "session_event_read",
+        "session_event_search",
+        "session_event_trace",
+        "session_search",
+        "session_trace",
+        "skill",
+        "todo_write",
+        "update_goal",
+        "web_fetch",
+        "web_search",
+        "working_directory",
+        "write"
+      ]
+    }
+  },
+  {
+    "seq": 31,
+    "type": "assistant/message",
+    "time": 1792527464103,
+    "data": {
+      "usage": {
+        "inputTokens": 18528,
+        "outputTokens": 361,
+        "totalTokens": 18889
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "**Retained task code:** LIME-AUTO-20.\n\n**Main correctness concern (inferred, not verified):** Page cursors are unsigned `base64url(identity:rev:seq)`. Anyone holding one can re-encode the same revision with a different valid `seq`, and `#decodeCursor` appears to accept it — so cursor integrity rests only on structural checks, not authenticity. Whether the spec's \"no cryptographic-security promise\" clause excuses this is unresolved.\n\n**Testing limitations (inferred):**\n1. No test decodes and re-encodes a cursor with a tampered `seq` or identity to confirm rejection.\n2. No boundary tests for timestamps near years 0000/9999 with large timezone offsets.\n3. No canonical-form tests for arrays carrying extra or non-enumerable properties.\n\n**Verified vs inferred:** I verified only that the prompt contained the spec, implementation, and tests, and that the review text above matches what was written. I did not run the tests or the code, did not inspect the filesystem, and did not confirm the cursor behaviour empirically. Every claim about runtime behaviour and test coverage is a reading-based inference."
+        }
+      ]
+    }
+  },
+  {
+    "seq": 33,
+    "type": "turn/end",
+    "time": 1792527464104,
+    "data": {
+      "turn": 2,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  }
+]

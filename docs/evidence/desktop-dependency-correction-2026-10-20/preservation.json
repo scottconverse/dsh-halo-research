@@ -1,0 +1,32 @@
+[
+  {
+    "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+    "sha256": "d853ccd688afa6d43b2cdc68b8cfc3a2e0b700438382d785fa4eaad12a1c5103",
+    "unchanged": true
+  },
+  {
+    "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+    "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+    "unchanged": true
+  },
+  {
+    "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/package.json",
+    "sha256": "d63fecb9d0fcf2d3acad9d565b4774941f1f7e73a00657b7485224c8b74804fd",
+    "unchanged": true
+  },
+  {
+    "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-workspace.yaml",
+    "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+    "unchanged": true
+  },
+  {
+    "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-lock.yaml",
+    "sha256": "5244f37e147e187518199faed4accc2103f22305a9f2385f12d870b47412fd39",
+    "unchanged": true
+  },
+  {
+    "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+    "sha256": "7da04586b136b80f0acb3c707d7fd1c80a1f7163a49a03047167d9d2713aefe0",
+    "unchanged": true
+  }
+]

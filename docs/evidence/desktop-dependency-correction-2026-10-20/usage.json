@@ -1,0 +1,7 @@
+{
+  "scope": "Only the new checkpoint and follow-up; excludes historical generation and Codex coordination",
+  "inputTokens": 75533,
+  "cacheReadTokens": 0,
+  "outputTokens": 1547,
+  "totalTokens": 77080
+}
