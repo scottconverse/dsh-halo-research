@@ -124,7 +124,7 @@
             reasoningEfforts: false
       ollama:
         displayName: Ollama Cloud
-        reasoning: off
+        reasoning: low
         apiKeyEnv: LMSTUDIO_API_KEY
         api: openai-completions
         baseURL: http://127.0.0.1:11434/v1

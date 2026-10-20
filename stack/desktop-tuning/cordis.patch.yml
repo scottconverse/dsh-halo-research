@@ -20,7 +20,7 @@
   config:
     provider: ollama
     model: deepseek-v4.1-flash:1017-cloud
-    reasoningEffort: off
+    reasoningEffort: low
 - id: llm-pi-ai
   name: "@deepseek-ai/dsh-llm-pi-ai"
   config:
@@ -87,7 +87,7 @@
             reasoningEfforts: false
       ollama:
         displayName: Ollama Cloud
-        reasoning: off
+        reasoning: low
         apiKeyEnv: LMSTUDIO_API_KEY
         api: openai-completions
         baseURL: http://127.0.0.1:11434/v1

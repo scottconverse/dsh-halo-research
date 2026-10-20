@@ -3,7 +3,7 @@
   "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
   "defaultProvider": "ollama",
   "defaultModel": "deepseek-v4.1-flash:1017-cloud",
-  "reasoningEffort": "off",
+  "reasoningEffort": "low",
   "defaultWorkerModel": "qwen3.8:27b-q6_K",
   "verifiedAt": "2026-10-20T00:37:42.791Z",
   "sourceVerification": "Installed Web and Desktop core package manifests; official upstream tag and Windows feed. Models/defaults preserved against pre-upgrade profile snapshots.",

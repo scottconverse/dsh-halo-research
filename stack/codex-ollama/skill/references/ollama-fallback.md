@@ -4,7 +4,7 @@ This reference applies only when the owner explicitly requests this worker integ
 
 ## Select the authorized route
 
-The checked-in worker profile selects `deepseek-v4.1-flash:1017-cloud` through the dedicated `ollama-code-worker` provider at `http://127.0.0.1:11434/v1`, with reasoning effort `none` (Off). Read the selected profile rather than restoring a historical model ID or endpoint from this document. Do not change an installed profile as part of repository documentation work.
+The checked-in worker profile selects `deepseek-v4.1-flash:1017-cloud` through the dedicated `ollama-code-worker` provider at `http://127.0.0.1:11434/v1`, with reasoning effort `low` (Low). Read the selected profile rather than restoring a historical model ID or endpoint from this document. Do not change an installed profile as part of repository documentation work.
 
 A configured integration does not establish that a native `spawn_agent` tool accepts its model. Use only a provider/control path actually exposed in the active environment. Do not invent a native DeepSeek subagent option or substitute a separately billed API key.
 

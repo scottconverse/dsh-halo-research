@@ -8,7 +8,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 |---|---|
 | DSH Web | `0.2.1-rc.2`, loopback `http://127.0.0.1:3080` |
 | DSH Desktop | `0.2.1-rc.2`, separate preserved Desktop profile |
-| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Off** |
+| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low** |
 | Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
 | Live-web research | Wigolo through the deployment's research integration |
@@ -19,6 +19,8 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
 The repository release [v0.3.2](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.2) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
+
+The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 
 ## Daily use
 
