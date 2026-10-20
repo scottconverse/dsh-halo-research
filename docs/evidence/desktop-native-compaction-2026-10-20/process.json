@@ -1,0 +1,9 @@
+{
+  "pid": 66392,
+  "startedAt": "2026-10-20T17:52:26.254Z",
+  "expected": "one restored Desktop session follow-up, one automatic compaction, terminal turn; shutdown owned host",
+  "cancel": "IPC shutdown only this owned isolated Desktop host",
+  "exitCode": null,
+  "signal": "SIGTERM",
+  "endedAt": "2026-10-20T17:52:38.367Z"
+}

@@ -1,0 +1,7 @@
+{
+  "scope": "Only new model requests from the single isolated Desktop session; excludes historical fixture and Codex coordinator",
+  "inputTokens": 17358,
+  "cacheReadTokens": 56876,
+  "outputTokens": 2222,
+  "totalTokens": 76456
+}

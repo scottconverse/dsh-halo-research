@@ -1,0 +1,21 @@
+{
+  "host": "installed Electron Desktop host, app.asar/dsh/node_modules/@deepseek-ai/dsh-desktop-host/lib/index.js",
+  "version": "0.2.1-rc.2",
+  "profile": "full copied Desktop profile, local preset",
+  "temporaryThresholdRatio": 0.03,
+  "temporaryThresholdTokens": 31457,
+  "temporaryRetainRatio": 0.001,
+  "headroomTokens": 8192,
+  "summaryMaxTokens": 8192,
+  "conversation": {
+    "provider": "ollama",
+    "model": "deepseek-v4.1-flash:1017-cloud",
+    "reasoningEffort": "low",
+    "maxTokens": 65536
+  },
+  "disabledOnlyInIsolatedCopy": [
+    "tool-lsp",
+    "tool-session-query"
+  ],
+  "homeLevelPatch": "copied installed patch; session-search.db path redirected into isolated home"
+}
