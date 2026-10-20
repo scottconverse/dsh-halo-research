@@ -1,0 +1,31 @@
+{
+  "deployed": {
+    "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml": {
+      "beforeSha256": "e0dedac950b89175e2fdcbf771217bb99d0a59f5fb8654a3e26780da500811bd",
+      "afterSha256": "d853ccd688afa6d43b2cdc68b8cfc3a2e0b700438382d785fa4eaad12a1c5103",
+      "changedOnly": "three compaction module names"
+    },
+    "C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-tuning/cordis.patch.yml": {
+      "beforeSha256": "dabc7f61c491a110d09099bc08fcd7a623ed10e9db4e48d57caa6998465270d2",
+      "afterSha256": "fdfd22e63565a2e2f264a9f346cee5268dcd6e4b9e0ef37a05a79db21a339275",
+      "changedOnly": "three compaction module names"
+    },
+    "C:/Users/scott/Desktop/Code/dsh-halo-research/stack/windows-recovery-2026-10-09/desktop-cordis.patch.yml": {
+      "beforeSha256": "51b803ad5a9bd9260ce5b06855e1543111fef173b97c1c836fa0619169caa330",
+      "afterSha256": "37f5c3e35848204f898b90c24b6d316e67d6ec5a4a306dd24ff21e7a85aad3b6",
+      "changedOnly": "three compaction module names"
+    }
+  },
+  "preserved": [
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+      "sha256": "d853ccd688afa6d43b2cdc68b8cfc3a2e0b700438382d785fa4eaad12a1c5103",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+      "sha256": "7da04586b136b80f0acb3c707d7fd1c80a1f7163a49a03047167d9d2713aefe0",
+      "unchanged": true
+    }
+  ]
+}

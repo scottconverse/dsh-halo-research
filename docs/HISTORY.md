@@ -55,3 +55,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Isolated automatic compaction verification (October20)](HALO-AUTOMATIC-COMPACTION-2026-10-20.md): automatic trigger and two checkpoints observed; retained40K reasoning tail defeated artificial9437-token threshold and a retry was rejected. Normal profiles unchanged; temporary override removed. Mixed result, not a clean pressure-recovery pass.
 
 - [Oversized retained-response compaction repair (October 20)](HALO-RETAINED-RESPONSE-FIX-2026-10-20.md): exact failing history recovered with one automatic checkpoint in 6.315s; next input 1,326 below temporary 9,437 threshold; eight affected checks passed, normal profiles unchanged.
+
+- [Desktop automatic compaction repair (October 20)](HALO-DESKTOP-AUTOMATIC-COMPACTION-2026-10-20.md): all three presets use the shared retained-response compactor; one isolated headless replay plus actual Desktop host load, normal settings preserved.

@@ -487,7 +487,7 @@
               toolResultPruner: true
             config:
               - id: compaction-basic
-                name: '@deepseek-ai/dsh-compaction-basic'
+                name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
                   thresholdRatio: 0.7
@@ -829,7 +829,7 @@
               toolResultPruner: true
             config:
               - id: compaction-basic
-                name: '@deepseek-ai/dsh-compaction-basic'
+                name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
                   thresholdRatio: 0.7
@@ -1058,7 +1058,7 @@
               toolResultPruner: true
             config:
               - id: compaction-basic
-                name: '@deepseek-ai/dsh-compaction-basic'
+                name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
                   thresholdRatio: 0.7

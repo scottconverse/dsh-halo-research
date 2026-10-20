@@ -1,0 +1,7 @@
+{
+  "scope": "Only new isolated verification requests; excludes historical fixture and Codex coordinator",
+  "inputTokens": 984,
+  "cacheReadTokens": 57202,
+  "outputTokens": 1123,
+  "totalTokens": 59309
+}
