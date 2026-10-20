@@ -31,3 +31,7 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Mission Control cloud and model display repair (October 19)](HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md): exact Ollama remote metadata, saved next selection versus last-used model, current successful validation; installed UI verified, no model jobs.
 
 - [Stock DSH v0.3.1 release](../RELEASE-NOTES-stock-dsh-v0.3.1.md): October 19 cloud/session repairs and Mission Control source release; unrelated local changes excluded.
+
+- [Local-change review and publication (October 19)](HALO-LOCAL-CHANGE-PUBLICATION-2026-10-19.md): README corrected, optional workflow and invocation IDs published; historical reports labeled; unreliable accounting prototype and private files retained locally.
+
+- Newly published historical records: [September build reference](HALO-SYSTEM-BUILD-REFERENCE.md) and [October 1 consolidated archive review](HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md). Neither is a current-default specification.

@@ -1,17 +1,17 @@
 ---
 name: openai-multi-agent
-description: Complete development work using Ollama DeepSeek and tuned local helpers by default, with Astra coordination and selective Sol, Terra, and Luna checks. Use for requested multi-agent development, usage-aware routing, or resuming its task board.
+description: Optional worker/delegation helper for an explicitly requested multi-agent task. Follow current owner model choices, scope and usage limits; do not invoke for generic coding work.
 ---
 
 # OpenAI Multi-Agent
 
-Own the requested development outcome with the smallest effective team. For implementation and tests, use Ollama `deepseek-v4.1-flash:cloud` and tuned local helpers from the start. Target more than 90% of task work to cloud DeepSeek and local helpers, 1–5% to Astra coordination and bounded high-judgment work, and 6–9% to selective native Sol/Terra/Luna checks. These are workload targets, not guarantees or quota thresholds. This skill supplies workflow instructions; it does not install an orchestrator or change the current lead model.
+Use this workflow only when the owner explicitly requests delegation. Current owner instructions take precedence over historical routing, ratios and review mandates. Use the owner-selected coordinator and worker models/effort; do not impose DeepSeek/local defaults, token-share targets, additional reviewers or minimum spend. Preserve existing provider integrations and reasoning settings. This skill supplies optional instructions; it does not install an orchestrator or change any app default.
 
 If asked to edit or review the skill itself, perform that task without launching its project workflow. Otherwise use the user's accompanying task and existing project context as the brief. Ask one concise question for the project/problem and source only when these are missing.
 
 ## Preserve the selected scope
 
-- Follow Scott's usage-aware routing in [ollama-fallback.md](references/ollama-fallback.md). Check live quota at the start of substantial work, before dispatch when the reading is older than five minutes, and at task boundaries about every 15 minutes during sustained work. Below 10% remaining in either available main Codex window, do not start new premium OpenAI workers. At 10% or more, selective native workers are available when useful. Missing quota is unknown, not zero. Do not redeem reset credits automatically or use a separately billed OpenAI fallback.
+- Follow the current owner task and [optional worker connection guidance](references/ollama-fallback.md). Check quota only when needed for an authorized dispatch; missing quota is unknown, not zero. Do not redeem reset credits, add a separately billed fallback, or create work to improve a token ratio.
 - Keep Claude and Fable outside delegation, review, and fallback paths. Incorporate ideas the user brings back from private brainstorming without contacting those services.
 - Use the bounded local `ask_local.py` helper only for its supported one-shot brain or coder tasks. It calls the configured LM Studio instance directly; it is not an autonomous agent and does not run a custom tool loop. See [local-trial.md](references/local-trial.md). Do not tune models or change global settings as part of task routing.
 - Treat reported machine and model details as user-reported unless verified live. Avoid treating hardware allocations as free memory.
@@ -39,7 +39,7 @@ Use `MODE: SINGLE_AGENT` for straightforward work when delegation adds overhead.
 | Ollama `deepseek-v4.1-flash:cloud` | Default implementation, diagnosis, and tests through the packaged `run_ollama_code_worker.py` launcher, which drives the stock Codex CLI tool loop. |
 | Tuned local coder helper | Bounded coding drafts, mechanical changes, and other tasks suited to a one-shot answer. |
 | Tuned local brain helper | High-reasoning bounded review or analysis. |
-| Astra | Coordination and bounded high-judgment work. |
+| Owner-selected coordinator | Coordination and bounded decisions; no silent model escalation. |
 | Sol `gpt-5.6-sol`, Terra `gpt-5.6-terra`, Luna `gpt-5.6-luna` | Selective bounded checks or implementation when quota and task value support them. |
 
 Treat workload targets as starting preferences, not measured performance guarantees. Native subagents are authorized when they materially help, but are not mandatory. Inspect actual runtime controls and model-selection support; use the exposed model ID and a fresh, self-contained brief when required. Preserve the current lead; identify its model only when exposed. Do not claim to switch it by assigning a role. Report `DELEGATION: VERIFIED | PARTIAL | UNAVAILABLE` when relevant, distinguishing planned assignments, successful invocations, confirmed model identities, and returned results. Mark unexposed facts unknown. If required independent review cannot occur, retain it as outstanding.
@@ -51,6 +51,8 @@ For multi-agent work, read [coordination.md](references/coordination.md) before 
 Keep product decisions, interfaces, ticket scope, integration, and final acceptance with the lead. Give each worker or helper a bounded task with a source snapshot and acceptance criteria. Drive code workers through `run_ollama_code_worker.py` and accept only on a receipt with `"success": true`, a nonempty authoritative `--output-last-message` that agrees with any stdout `agent_message`, an actual diff, and executed tests; exit 0 alone is not success. Continue a stopped worker with `--resume <SESSION_ID>` from the receipt rather than replaying the coordinator conversation. Use file-based briefs to reduce repeated lead-context replay. Require actual artifacts, tests/checks that were run, limitations, and a handoff; inspect the returned artifacts and results rather than treating a process exit code as proof of success. Review actual source and diffs against observable acceptance criteria. Use focused behavioral verification and required project gates. Distinguish personally executed checks from reported results.
 
 After two unsuccessful attempts on a bounded task, split or revise it, escalate with the reason, or have the lead take over; do not retry indefinitely. Preserve the original artifact and distinguish ticket/tool failures from implementation failures. Call lead-only review `SELF_REVIEW`. A fresh session of the same model is separate review but not model diversity. Mark a ticket DONE only after the lead accepts the actual result; retain unmet required review or platform checks as outstanding. Continue useful authorized work while another ticket is blocked.
+
+For a bounded task, prefer **one dispatch and one acceptance pass**: hand the whole bounded change to a single worker, manage waits in the tools (batch polling, use `notify()` in the primary orchestrator) instead of waking the lead every minute, and accept once against the receipt, diff, and executed tests. Stop once the relevant checks and delivery are complete; do not keep auditing or start extra work to improve a ratio, and do not impose a fixed artificial minimum token spend. When a session becomes long and repetitive, checkpoint the state and hand off to a fresh worker instead of replaying the same long context.
 
 ## Continue across sessions
 

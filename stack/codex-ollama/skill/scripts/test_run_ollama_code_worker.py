@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -17,6 +18,7 @@ import run_ollama_code_worker as launcher
 SCRIPTS = Path(__file__).resolve().parent
 REPO_ROOT = next(parent for parent in SCRIPTS.parents if (parent / ".git").exists())
 PROFILE = REPO_ROOT / "stack" / "codex-ollama" / "ollama-deepseek-code-worker.config.toml"
+PROFILE_VALUES = tomllib.loads(PROFILE.read_text(encoding="utf-8"))
 FAKE_CODEX = Path(r"C:\fake\codex.exe")
 
 AGENT_DONE = {"type": "item.completed", "item": {"type": "agent_message", "text": "done"}}
@@ -89,10 +91,10 @@ class WorkerLauncherTests(unittest.TestCase):
     def assert_shared_overrides(self, command):
         joined = "\n".join(self.config_values(command))
         self.assertIn('approval_policy="never"', joined)
-        self.assertIn('model="deepseek-v4.1-flash:cloud"', joined)
+        self.assertIn('model=' + json.dumps(PROFILE_VALUES["model"]), joined)
         self.assertIn('model_provider="ollama-code-worker"', joined)
         self.assertIn('features.multi_agent=false', joined)
-        self.assertIn('model_providers.ollama-code-worker.base_url="http://[::1]:11434/v1"', joined)
+        self.assertIn('model_providers.ollama-code-worker.base_url=' + json.dumps(PROFILE_VALUES["model_providers"]["ollama-code-worker"]["base_url"]), joined)
 
     def test_fresh_command_shape_and_launch(self):
         with tempfile.TemporaryDirectory() as root:
@@ -244,7 +246,7 @@ class WorkerLauncherTests(unittest.TestCase):
             self.assertEqual(receipt["thread_id"], "thread-1")
             self.assertEqual(receipt["session_id"], "session-1")
             self.assertEqual(receipt["usage"], {"input_tokens": 10, "output_tokens": 3, "total_tokens": 13})
-            self.assertEqual(receipt["model"], "deepseek-v4.1-flash:cloud")
+            self.assertEqual(receipt["model"], PROFILE_VALUES["model"])
             self.assertEqual(receipt["provider"], "ollama-code-worker")
             self.assertEqual(receipt["final_text_length"], len("done"))
             self.assertEqual(receipt["final_text_source"], "output-last-message")
@@ -254,6 +256,28 @@ class WorkerLauncherTests(unittest.TestCase):
             self.assertEqual(receipt["malformed_event_count"], 0)
             self.assertEqual(receipt["mode"], "fresh")
             self.assertEqual(paths["result"].read_text(encoding="utf-8"), "done")
+
+    def test_receipt_records_distinct_invocation_ids_for_fresh_and_resume(self):
+        with tempfile.TemporaryDirectory() as root:
+            fresh_args, fresh_paths = self.make_args(root)
+            fresh_runner = FakeRunner(stdout=jsonl(THREAD_STARTED, AGENT_DONE, TURN_COMPLETED), result="done")
+            self.assertEqual(launcher.main(fresh_args, runner=fresh_runner), 0)
+            fresh = json.loads(fresh_paths["receipt"].read_text(encoding="utf-8"))
+
+            resume_root = Path(root) / "resume"
+            resume_root.mkdir()
+            resume_args, resume_paths = self.make_args(str(resume_root), resume="session-1")
+            resumed = {"type": "thread.started", "thread_id": "thread-1", "session_id": "session-1"}
+            resume_runner = FakeRunner(stdout=jsonl(resumed, AGENT_DONE, TURN_COMPLETED), result="done")
+            self.assertEqual(launcher.main(resume_args, runner=resume_runner), 0)
+            again = json.loads(resume_paths["receipt"].read_text(encoding="utf-8"))
+
+            self.assertEqual(fresh["mode"], "fresh")
+            self.assertEqual(again["mode"], "resume")
+            self.assertEqual(fresh["session_id"], again["session_id"])
+            self.assertTrue(fresh["invocation_id"])
+            self.assertTrue(again["invocation_id"])
+            self.assertNotEqual(fresh["invocation_id"], again["invocation_id"])
 
     def test_output_last_message_used_as_fallback(self):
         with tempfile.TemporaryDirectory() as root:

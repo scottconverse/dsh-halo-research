@@ -36,17 +36,19 @@ The earlier live acceptance receipt is `C:/Users/scott/Tools/model-trial/codex-o
 
 Worker totals are counted once per worker from `worker-checkpoint-usage.json`; cumulative snapshots are not added repeatedly:
 
-- stopped owner: **8,481,562** total tokens
+- stopped owner: **8,481,562** total tokens (interrupted owner; cumulative mid-run checkpoint, counted once)
 - implementation: **1,935,971** total tokens
 - live acceptance: **827,034** total tokens
-- finalizer/correctness repair: **203,788** total tokens
-- DeepSeek/local total: **11,448,355** total tokens
+- finalizer/correctness repair: **1,231,272** total tokens (completed receipt `finalizer/receipt.json`: input **1,186,907** + output **44,365**)
+- DeepSeek/local total: **12,475,839** total tokens
 
-The finalizer total is the latest `token_count` `total_token_usage` in session `01a0abc9-e8f8-7ae2-89ab-8c1a52c3dcdb`.
+An earlier version of this report gave the finalizer/correctness repair as **203,788** tokens. That number came from a mid-run `token_count` snapshot and was provisional, not final. The completed finalizer receipt at `C:/Users/scott/Tools/model-trial/codex-offload-80-2026-09-16/finalizer/receipt.json` records input **1,186,907** + output **44,365** = **1,231,272** tokens, which is the figure used above. Its session id `01a0abc9-e8f8-7ae2-89ab-8c1a52c3dcdb` identifies a session, not an invocation: valid resumes reuse a session, so a session id is not an invocation identity.
 
 Using `measure_usage.py collect([exact root log])` and filtering the latest root turn `01a0ab94-2e64-7e20-80cc-d35a03b61e4e`, the root per-response total is **7,856,436** tokens, including **7,575,168** cached input. The previous handoff snapshot was 6.913M root and 11.245M DeepSeek; the finalizer changes the measured totals but does not change the conclusion.
 
-Raw-token share is approximately **59.3%** for the DeepSeek/local workers (**11.448M** of **19.305M** recorded in these two accounting streams). It remains **below the 80% target**. This is a raw-token share, not a useful-work measurement, bill, or proof that the target was achieved.
+Raw-token share is approximately **61.4%** for the DeepSeek/local workers (**12.476M** of **20.332M** recorded in these two accounting streams). It remains **below the 80% target** on this measured basis. This whole-repair share is **provisional, not final**: the current task's own receipt cannot exist before its final turn, so a model cannot finalize its own accounting. Final accounting requires deterministic post-processing after the turn ends. The local `report_offload_usage.py` prototype is not included in the published repository: its independent completed/partial deduplication can count an invocation twice. Do not rely on it for final accounting. This is a raw-token share, not a useful-work measurement, bill, or proof that the target was achieved.
+
+Legacy evidence limits: the supplied receipts predate the `invocation_id` field, so the finalizer receipt is identified by canonical path only, and the stopped-owner total is a cumulative mid-run checkpoint rather than a per-invocation total. New launcher receipts add `invocation_id` so repeated invocations that reuse a session id are still counted once each, and completed receipts are never silently dropped or treated as zero.
 
 The root still consumes roughly **130k cached input tokens per wakeup**. Progress polling should be batched in tools, using `notify()` in the primary orchestrator, instead of waking the root for each minute. The root follow-up pattern now does that.
 
@@ -60,4 +62,4 @@ The final synchronization copies the launcher and its test, skill, and reference
 
 - The final empty/mismatch contract is covered by passing mocked regressions; no additional live cloud call was made for it.
 - The single successful live acceptance pair does not establish general reliability or first-pass autonomy.
-- The 80% target remains unmet on the measured raw tokens. Future work should preserve the separation between raw-token share and useful-work value.
+- The whole-repair share stays **below 80%** on the measured raw tokens, but it is a **provisional snapshot**, not a final whole-repair figure: a model cannot finalize the share for its own turn before that turn's receipt exists. A corrected, verified post-processing method would be needed after the turn to establish a final number. Future work should preserve the separation between raw-token share and useful-work value.

@@ -1,106 +1,68 @@
-# DSH for the Halo workstation
+# DSH for the Halo Windows workstation
 
-This repository maintains the local DeepSeek Harness deployment used on the Halo Windows workstation. The supported runtime is stock DeepSeek Harness with a small, reviewable machine profile under `stack/stock-dsh`.
+This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
 
-## Supported stack
+## Current setup - October 19, 2026
 
-- DeepSeek Harness `0.1.6-alpha.1`
-- LM Studio on `127.0.0.1:1234`
-- Wigolo connected over MCP stdio as the primary research provider
-- DSH native `web_search` and `web_fetch` exposed as fallback tools
-- Full local Windows access through DSH's `danger-full-access` permission preset
+| Component | Current configuration / record |
+|---|---|
+| DSH Web | `0.2.1-alpha.2`, loopback `http://127.0.0.1:3080` |
+| DSH Desktop | Separate installed app and Desktop profile; preserved alongside Web |
+| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Off** |
+| Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
+| Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
+| Live-web research | Wigolo through the deployment's research integration |
+| Reddit research | Reddit RSS / local Redlib workflow and retrieval adapter |
+| Retained-document search | XERJ over MCP with the installed MiniLM neural embeddings; retained alongside Wigolo |
+| Mission Control | Loopback `http://127.0.0.1:3090`; cloud-aware status and saved-versus-historical model display |
 
-The deployment uses two approved local models, each loaded at a verified 32,768-token context window with one parallel slot:
+The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-| Runtime identifier | Role | Input |
-|---|---|---|
-| `halo-coder-q4km` | Default coding and tool-using agent | Text |
-| `halo-brain-35b` | Optional planning, synthesis, and vision | Text and image |
+The repository release [stock-dsh-v0.3.1](https://github.com/scottconverse/dsh-halo-research/releases/tag/stock-dsh-v0.3.1) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
 
-The 35B model is retained because its weights and 32K load envelope have passed earlier planner work. Stock-tool reliability has not been requalified on the simplified release, so the coder remains the automatic default.
+## Daily use
 
-## Start and stop
+Use the existing desktop shortcuts:
 
-Use the **DSH + Wigolo** desktop shortcut. The launcher:
+- **Start DSH Web** starts/reuses Web and opens the operator surfaces.
+- **Stop DSH + Wigolo** runs the scoped Web shutdown path.
+- **DSH Halo Desktop** opens the separate Desktop app.
 
-1. verifies the LM Studio server;
-2. unloads resident models outside the approved pair;
-3. reloads an approved model if its model key, context window, or parallel-slot count is wrong;
-4. verifies the final two-model capacity envelope; and
-5. starts or reuses DSH and its Wigolo MCP child;
-6. promotes the tested Mission Control build into `C:\Users\scott\.dsh-stock\mission-control`; and
-7. opens Mission Control and the authenticated DSH page as two tabs in Google Chrome.
+The Web launcher validates the selected provider/transport. Its LM Studio-specific path reuses the selected resident model or loads into an empty inventory; it does not describe every route as a mandatory two-model load. A cloud route does not require local model residency. See the current [launcher source](stack/stock-dsh/Start-StockDSH.ps1) and [startup/integration history](docs/HISTORY.md) for the applicable behavior and limitations. Manual model changes remain separate from routine repository publication.
 
-Repeated launches reuse healthy DSH and Mission Control processes. The **Stop DSH + Wigolo** shortcut stops Mission Control, DSH, and the Wigolo child process. LM Studio and the approved models stay resident.
+Web's live profile is `%USERPROFILE%\.dsh-stock\profiles\web\cordis.patch.yml`. Desktop uses its own profile/home; do not apply Web paths to Desktop. Accounts, credentials, session histories, memory data, downloaded models and runtime caches stay outside Git. Older checked-in settings and dated guides are historical evidence unless the current implementation record explicitly identifies them as active.
+
+## Research tools
+
+Wigolo discovers and reads live web sources. Reddit RSS and local Redlib handle community posts and comments. XERJ searches already-indexed evidence; it does not replace general web discovery. These integrations are retained together.
+
+The legacy Wigolo MCP loader can be disabled while the research adapter remains active. The MCP Settings panel lists loader entries, so an absent named Reddit row does not alone establish a broken retrieval path. See [the UI integration record](docs/HALO-DSH-UI-PLUGINS-2026-10-15.md) and [XERJ installation](docs/HALO-XERJ-INSTALLATION-2026-10-17.md) for observed behavior and limits.
+
+The bundled [reddit-search skill](stack/stock-dsh/skills/reddit-search/SKILL.md) includes the parser and Windows Redlib lifecycle instructions. On this machine Redlib uses `http://127.0.0.1:18080`. A process or HTTP response alone is not proof that Reddit-backed content was retrieved; use the evidence in the dated reports.
 
 ## Mission Control
 
-Mission Control is the operator surface for the stock Halo deployment. Its seven tabs preserve the complete earlier console feature set:
+The seven tabs are **Overview, Models, Sessions, Plugins, System, Memory and Settings**. They cover service/model state, session activity, tool inventory, machine resources, persistent memory and bounded configuration controls.
 
-- **Overview** shows stack health, active work, throughput, alerts, and common actions.
-- **Models** joins the downloaded LM Studio catalog to the exact resident model instances and provides guarded load and unload controls.
-- **Sessions** groups DSH sessions by workspace, shows context and activity, and can stop one selected session.
-- **Plugins** shows the complete current Cordis inventory, phases, overrides, and failures.
-- **System** shows RAM, GPU pools, disk, runtime versions, configuration validation, and recent LM Studio logs.
-- **Memory** visualizes the optional Halo memory store, writer health, recovery task, and snapshots.
-- **Settings** exposes a bounded editor for the approved model, compaction, retry, and stream-timeout settings.
+- Ollama cloud classification uses the exact model's remote-host metadata rather than assuming that a local Ollama endpoint means local inference.
+- Sessions distinguish **Next request (saved)**, including effort, from **Last used**. Historical usage and speed stay associated with past requests.
+- System validation uses the installed DSH build. The October 19 validation passed with zero warnings; the dashboard marks it stale when relevant configuration/version changes.
+- Memory reads the deployment's existing store and writer/snapshot state; absent or stale evidence is not presented as healthy.
 
-The status strip treats missing or stale evidence as unavailable or degraded. Persistent Halo memory is not configured in the stock deployment today, so the Memory tab must report that fact; it does not create an empty store or present missing memory as healthy.
+See the [Mission Control repair record](docs/HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md) for the installed build hash, checks and recovery information. Mutation routes retain the existing per-launch authorization and loopback-origin controls.
 
-Mutation routes use a random per-launch Mission Control token and exact loopback-origin checks. DSH's launch token and authentication cookie stay on the local server side and are not returned through the dashboard, history, receipts, or logs.
+## Optional development helpers
 
-## Search behavior
+The [Ollama/Codex worker helper](stack/codex-ollama/skill/SKILL.md) is an optional integration. Its receipts now contain a distinct invocation ID so separate invocations that resume the same session can be distinguished. This does not by itself establish correct aggregate accounting or authorize delegation.
 
-For Reddit and subreddit research, the local preset directs the agent to load the bundled `reddit-search` skill and follow its RSS/Redlib workflow. For other search, page retrieval, and research, Wigolo is the first provider. The agent makes at most one revised Wigolo attempt when a result is empty. It then uses DSH's native web tools after an MCP availability failure, timeout, or lack of usable evidence.
+The [pairing-team skill](stack/stock-dsh/skills/pairing-team/SKILL.md) is opt-in. Current owner instructions, provider selections, scope limits and existing action authorization take precedence over older workflow rules. Do not automatically spawn workers or add review stages for ordinary work. Its plugin inventory is explicitly a historical snapshot.
 
-Native `web_fetch` is keyless. Native DeepSeek `web_search` requires a `DEEPSEEK_API_KEY`; without that credential, it remains visible but reports a structured credential error. Secrets belong only in the ignored local `stack/stock-dsh/.env` file or the DSH credential store.
+The unpublished usage-reporting prototype and personal voice-skill copies remain local. They are not part of this repository release. Backups, private work files, credentials and raw session histories are excluded as well.
 
-## Reddit research skill
+## Records and recovery
 
-The local DSH preset discovers the repository-owned `reddit-search` skill from
-`stack/stock-dsh/skills`. Ask DSH to use the Reddit research skill for community
-experience or explicitly select it from the skill menu. Its instructions use
-Reddit RSS for discovery and optional local Redlib for full posts and comments.
-The skill is not an MCP server and does not change the general search provider.
+Start with [the history index](docs/HISTORY.md). Current October 19 records include [default selection](docs/HALO-DEEPSEEK-1017-DEFAULT-2026-10-19.md), [Desktop sessions](docs/HALO-DESKTOP-SESSION-MODEL-REPAIR-2026-10-19.md), [Web sessions](docs/HALO-WEB-SESSION-MODEL-REPAIR-2026-10-19.md), and [Mission Control](docs/HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md).
 
-The parser requires Python 3.10 or newer, uses only the standard library, and
-handles UTF-8 on Windows. The optional native Redlib scripts use PowerShell 7;
-on this machine Redlib is installed under `%LOCALAPPDATA%\RedditSearch\Redlib`
-and listens at `http://127.0.0.1:18080`. Check both its local health and a
-Reddit-backed request before treating it as usable. Installation and lifecycle
-instructions are bundled in the skill's `references/windows-redlib.md`.
-DSH's start/stop shortcuts do not manage Redlib.
+The [September build reference](docs/HALO-SYSTEM-BUILD-REFERENCE.md) and [October 1 archive review](docs/HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md) are historical records. Their old defaults, measurements and local evidence links must not be treated as current setup instructions or fresh verification.
 
-The skill folder, parser, Windows lifecycle scripts, references, and regression
-fixtures are versioned together. Run its checks with:
-
-```powershell
-python -m unittest discover -s stack/stock-dsh/skills/reddit-search/scripts/tests -v
-```
-
-For recovery, restore the repository to its documented Windows path and copy
-`stack/stock-dsh/local-preset/agent.cordis.yml` into
-`%USERPROFILE%\.dsh-stock\.agent-presets\local\agent.cordis.yml`.
-If the repository is relocated, update `customSkillDirs` in that preset.
-The repo copy takes priority over the shared user skill of the same name.
-
-For substantial implementation tasks that benefit from separate coding and review roles, the repository also includes the [pairing-team skill](stack/stock-dsh/skills/pairing-team/SKILL.md) and its [coder handoff template](stack/stock-dsh/skills/pairing-team/references/HANDOFF.md). It uses DSH's existing delegation tools and does not enable providers or grant release authority.
-
-## Deployment files
-
-- `stack/stock-dsh/settings.yaml` — model identities and per-model capacities
-- `stack/stock-dsh/cordis.patch.yml` — Wigolo MCP connection
-- `stack/stock-dsh/local-preset/agent.cordis.yml` — agent tools and provider preference
-- `stack/stock-dsh/skills/reddit-search/` — Reddit research instructions, parser, and optional native Redlib lifecycle
-- `stack/stock-dsh/Start-StockDSH.ps1` — verified model and service startup
-- `stack/stock-dsh/Stop-StockDSH.ps1` — scoped shutdown
-- `stack/stock-dsh/mission-control/` — dashboard, installer, lifecycle helpers, acceptance checks, and feature-parity contract
-- `stack/Launch-Halo.ps1` — compatibility entrypoint for the existing shortcut
-
-Older research reports and inactive experiments are preserved in Git history and the pre-cleanup tag. The supported deployment boundary is `stack/stock-dsh`.
-
-## September 15 stock upgrade
-
-The [alpha upgrade guide](docs/DSH-ALPHA-UPGRADE-2026-09-15.md) covers history search, TypeScript/Python navigation, Chrome interaction, persistent PowerShell and the stock Terminal panel, optional native Codex delegation, and the optional Gemini connection. The existing local coder remains the default.
-
-For the current provider and delegation options, including authentication and access caveats, see the [DSH provider setup guide](docs/DSH-PROVIDER-SETUP.md).
+Scott's local reading and recovery copies live in `C:\Users\scott\Desktop\Halo Stack Research`. Retain immutable private evidence locally; publish scoped implementation and readable reports without embedding credentials or raw conversations.

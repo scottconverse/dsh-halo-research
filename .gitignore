@@ -9,3 +9,13 @@ evidence/yt/*.vtt
 __pycache__/
 ws-*/townreporter.db
 
+
+# Local private material and recovery/scratch files; not release content.
+/work/
+*.bak
+/stack/stock-dsh/runtime-patch-backups/
+/stack/stock-dsh/skills/scotts-local-voice-2/
+/stack/stock-dsh/skills/scotts-voice-v8-2/
+# Unreleased accounting prototype: completed/partial evidence can overlap.
+/stack/codex-ollama/skill/scripts/report_offload_usage.py
+/stack/codex-ollama/skill/scripts/test_report_offload_usage.py

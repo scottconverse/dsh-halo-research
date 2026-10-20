@@ -8,6 +8,7 @@ import os
 import subprocess
 import sys
 import tomllib
+import uuid
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
@@ -357,6 +358,7 @@ def _run(
         and not resume_mismatch
     )
     receipt = {
+        "invocation_id": uuid.uuid4().hex,
         "mode": "resume" if resume_id is not None else "fresh",
         "success": success,
         "exit_code": exit_code,
