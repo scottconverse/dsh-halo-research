@@ -37,3 +37,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - Newly published historical records: [September build reference](HALO-SYSTEM-BUILD-REFERENCE.md) and [October 1 consolidated archive review](HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md). Neither is a current-default specification.
 
 - [Web and Desktop rc.2 upgrade / Halo v0.3.2](HALO-DSH-UPGRADE-2026-10-19.md): signed installation, locked packages, catalogs preserved, real Wigolo/Redlib/XERJ retrievals and refreshed Mission Control; no subagents or benchmarks.
+
+- [Reddit listing fetch repair (October 19)](HALO-REDDIT-LISTING-REPAIR-2026-10-19.md): shared Web/Desktop routing to local Redlib, parsed titles/permalinks, preserved sorting/pagination and honest unexamined-comment coverage; one real listing retrieval, no model jobs or benchmarks.

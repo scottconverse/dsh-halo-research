@@ -211,3 +211,28 @@ test('live Wigolo retrieves the article that stock fetch truncated', { skip: !pr
   assert.match(result.value.body.content, /family|relatives/i);
   assert.ok(result.value.body.content.length > 1000);
 });
+
+test('subreddit listings bypass stock fetch, retain sorting/pagination and disclose unexamined comments', async () => {
+  const {redditListingScope}=await import('./research-fallback.mjs');
+  for(const link of ['https://www.reddit.com/r/Longmont/new/','https://old.reddit.com/r/Longmont/top/?t=week','https://reddit.com/r/Longmont/'])
+    assert.equal(redditListingScope(link).subreddit,'Longmont');
+  for(const link of ['https://www.reddit.com.evil.test/r/Longmont/new/','https://user@www.reddit.com/r/Longmont/','https://www.reddit.com/login','https://www.reddit.com/user/test','http://www.reddit.com/r/Longmont/'])
+    assert.equal(redditListingScope(link),undefined);
+  const cacheDir=fs.mkdtempSync(path.join(os.tmpdir(),'halo-listing-'));
+  try {
+    const url='https://www.reddit.com/r/Longmont/top/?t=week&after=t3_abc123';
+    let calls=0;
+    const adapter=createRedditAdapter({baseUrl:'http://127.0.0.1:18080',cacheDir,
+      fetchImpl:async target=>{calls++;assert.equal(target.pathname,'/r/Longmont/top/');assert.equal(target.search,'?t=week&after=t3_abc123');return new Response('fixture');},
+      invoke:async(_file,args)=>{assert.ok(args.includes('redlib-search'));return JSON.stringify({coverage:'complete',threads:[
+        {canonical_reddit_url:'https://www.reddit.com/r/Longmont/comments/abc123/ballot/',title:'Ballot'},
+        {canonical_reddit_url:'https://www.reddit.com/r/Boulder/comments/abc123/other/',title:'Wrong scope'}]});}});
+    const hook=createResearchHook({redditFetch:adapter.fetch});
+    const result=await hook({name:'web_fetch',arguments:{url},signal},async()=>{throw Error('stock must not run');});
+    assert.equal(calls,1);assert.equal(result.isError,false);assert.equal(result.value.url,url);
+    assert.equal(result.value.coverage,'partial');assert.match(result.value.body.content,/Comments not examined/);
+    const saved=JSON.parse(fs.readFileSync(result.value.evidenceFile,'utf8'));
+    assert.equal(saved.threads.length,1);assert.equal(saved.threads[0].title,'Ballot');
+    assert.equal(saved.coverage,'partial');assert.match(saved.warnings.join(' '),/other pages not fetched/);
+  } finally {fs.rmSync(cacheDir,{recursive:true});}
+});

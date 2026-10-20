@@ -84,7 +84,7 @@ export function createResearchHook({ invoke = run, redditSearch, redditFetch } =
   return async (exec, next) => {
     if (!['web_fetch', 'web_search'].includes(exec.name)) return next();
     const args = exec.arguments;
-    if (exec.name === 'web_fetch' && redditFetch && isRedditPostInScope(args.url))
+    if (exec.name === 'web_fetch' && redditFetch && (isRedditPostInScope(args.url) || redditListingScope(args.url)))
       return redditFetch(args.url, exec.signal);
     if (exec.name === 'web_search' && redditSearch &&
       args.queries?.some(query => /\breddit\b|site:reddit\.com/i.test(query)))
@@ -171,18 +171,29 @@ export function createRedditAdapter({ rss = redditRssSearch, baseUrl = configure
     async fetch(url, signal) {
       try {
         const canonical = new URL(publicUrl(url));
-        if (!isRedditPostInScope(canonical.href)) throw new Error('Expected a canonical Reddit post permalink');
-        const { record } = await retrieve(canonical, 'redlib-thread', signal);
+        const listing = redditListingScope(canonical.href);
+        if (!listing && !isRedditPostInScope(canonical.href)) throw new Error('Expected a canonical Reddit post or subreddit listing');
+        const { record } = await retrieve(canonical, listing ? 'redlib-search' : 'redlib-thread', signal);
+        if (listing) {
+          const rows = record.threads || [];
+          record.threads = rows.filter(row => isRedditPostInScope(row.canonical_reddit_url, listing.subreddit));
+          if (rows.length && !record.threads.length) throw new Error('No validated Redlib posts in requested subreddit');
+          record.coverage = 'partial';
+          record.warnings = [...(record.warnings || []), 'Listing page only; comments not examined; other pages not fetched.'];
+        }
         fs.mkdirSync(cacheDir, { recursive: true });
         const file = path.join(cacheDir, createHash('sha256').update(canonical.href).digest('hex').slice(0, 20) + '.json');
         fs.writeFileSync(file, JSON.stringify(record, null, 2));
         const thread = record.threads[0];
         const text = JSON.stringify(record, null, 2);
+        if (listing) return { isError: false, value: { url: canonical.href, statusCode: 200,
+          body: { kind: 'text', content: `Local Redlib listing; coverage partial. Retrieved ${record.threads.length} posts on this page. Comments not examined; other pages not fetched. Full normalized evidence: ${file}\n\n${text.slice(0, 7000)}` },
+          truncated: text.length > 7000, evidenceFile: file, coverage: 'partial' } };
         return { isError: false, value: { url: thread.canonical_reddit_url, statusCode: 200,
           body: { kind: 'text', content: `Local Redlib thread; coverage ${record.coverage}. Full normalized evidence: ${file}\nRetrieved ${thread.retrieved_comment_count} of ${thread.reported_comment_count ?? 'unknown'} reported comments. Read the saved JSON for comments beyond this preview.\n\n${text.slice(0, 7000)}` },
           truncated: text.length > 7000, evidenceFile: file, coverage: record.coverage } };
       } catch (error) {
-        return { isError: true, content: [{ type: 'text', text: `Local Redlib thread failed: ${error.message}. Coverage partial.` }] };
+        return { isError: true, content: [{ type: 'text', text: `Local Redlib retrieval failed: ${error.message}. Coverage partial.` }] };
       }
     },
   };
@@ -204,6 +215,17 @@ export function redditRssRequest(query) {
   if (subreddit) url.searchParams.set('restrict_sr', 'on');
   url.searchParams.set('sort', 'new');
   return { url, subreddit };
+}
+
+// Only known subreddit listing routes; do not redirect login, user or arbitrary URLs.
+export function redditListingScope(link) {
+  try {
+    const url = new URL(link);
+    const match = url.pathname.match(/^\/r\/([a-z0-9_]+)(?:\/(?:new|hot|top|rising|controversial|search))?\/?$/i);
+    return url.protocol === 'https:' && !url.username && !url.password &&
+      ['reddit.com', 'www.reddit.com', 'old.reddit.com'].includes(url.hostname) && match
+      ? { subreddit: match[1] } : undefined;
+  } catch { return undefined; }
 }
 
 export function isRedditPostInScope(link, subreddit) {

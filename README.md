@@ -34,7 +34,7 @@ Web's live profile is `%USERPROFILE%\.dsh-stock\profiles\web\cordis.patch.yml`. 
 
 ## Research tools
 
-Wigolo discovers and reads live web sources. Reddit RSS and local Redlib handle community posts and comments. XERJ searches already-indexed evidence; it does not replace general web discovery. These integrations are retained together.
+Wigolo discovers and reads live web sources. Reddit RSS and local Redlib handle community posts and comments. XERJ searches already-indexed evidence; it does not replace general web discovery. These integrations are retained together. Supported subreddit listing URLs now also use local Redlib through web_fetch; listing results explicitly exclude comment and other-page coverage. See the [listing repair record](docs/HALO-REDDIT-LISTING-REPAIR-2026-10-19.md).
 
 The legacy Wigolo MCP loader can be disabled while the research adapter remains active. The MCP Settings panel lists loader entries, so an absent named Reddit row does not alone establish a broken retrieval path. See [the UI integration record](docs/HALO-DSH-UI-PLUGINS-2026-10-15.md) and [XERJ installation](docs/HALO-XERJ-INSTALLATION-2026-10-17.md) for observed behavior and limits.
 
