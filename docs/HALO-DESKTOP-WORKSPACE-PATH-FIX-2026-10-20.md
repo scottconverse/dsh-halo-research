@@ -36,3 +36,7 @@ A readback helper initially used a Windows path instead of a file URL in an ESM 
 ## Evidence and recovery
 
 [Selected installed hashes, settings preservation and regression result](evidence/workspace-path-fix-2026-10-20/installed-evidence.json). Recovery copies of the patch and all four changed module sources are synchronized under Halo Stack Research/Current Halo Configuration/workspace-path-fix-2026-10-20, with manifest hashes. Full archive backup stays outside Git. To undo, restore the backed-up archive and tool source while Desktop is stopped; normal settings and session history need no restoration.
+
+## Web package-sharing correction
+
+The subsequent Web inspection found that Desktop profile dsh-tool-session-query and Web resolve to the same pnpm file. Thus this task also changed Web's on-disk authorization package; the original statement that no Web runtime files changed was incorrect. Web's core and SQLite filtering were repaired and its idle server reloaded in HALO-WEB-WORKSPACE-PATH-FIX-2026-10-20.md.
