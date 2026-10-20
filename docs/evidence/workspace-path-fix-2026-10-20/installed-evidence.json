@@ -1,0 +1,71 @@
+{
+  "readback": [
+    {
+      "file": "C:/Users/scott/AppData/Local/Programs/DeepSeek Harness/resources/app.asar!/dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js",
+      "sha256": "62bd84e863a20b668df88554c0b36cb8741b37d5fc9b79048a61289ed9dbd9f3",
+      "verified": true
+    },
+    {
+      "file": "C:/Users/scott/AppData/Local/Programs/DeepSeek Harness/resources/app.asar!/dsh/node_modules/@deepseek-ai/dsh-session-query-sqlite/lib/index.js",
+      "sha256": "7138c7ab24acae009d0c86d47d5dfc033472923e21b7338352fb1360e70b6d12",
+      "verified": true
+    },
+    {
+      "file": "C:/Users/scott/AppData/Local/Programs/DeepSeek Harness/resources/app.asar!/dsh/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js",
+      "sha256": "0364b4c6920fdb01a06b8ba8afdb31322ba342dfcaffb4af71fb044353bb9d30",
+      "verified": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js",
+      "sha256": "0364b4c6920fdb01a06b8ba8afdb31322ba342dfcaffb4af71fb044353bb9d30",
+      "verified": true
+    }
+  ],
+  "preservation": [
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+      "sha256": "d853ccd688afa6d43b2cdc68b8cfc3a2e0b700438382d785fa4eaad12a1c5103",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+      "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/package.json",
+      "sha256": "d63fecb9d0fcf2d3acad9d565b4774941f1f7e73a00657b7485224c8b74804fd",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-workspace.yaml",
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/pnpm-lock.yaml",
+      "sha256": "5244f37e147e187518199faed4accc2103f22305a9f2385f12d870b47412fd39",
+      "unchanged": true
+    },
+    {
+      "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+      "sha256": "7da04586b136b80f0acb3c707d7fd1c80a1f7163a49a03047167d9d2713aefe0",
+      "unchanged": true
+    }
+  ],
+  "regression": {
+    "result": "PASS",
+    "originalExactSqlMatches": 0,
+    "patchedSqlMatches": 1,
+    "matchedSession": "session-326bc19c-34ad-4138-940f-d483d727e1ea",
+    "matchedEvent": 31,
+    "coreFilter": "PASS",
+    "toolAuthorization": "PASS",
+    "otherFoldersDenied": true,
+    "casePreserved": true,
+    "nonWindowsUnchanged": true,
+    "normalModelJobs": 0
+  },
+  "modelJobs": 0,
+  "compactionTests": 0
+}

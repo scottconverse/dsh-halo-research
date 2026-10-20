@@ -63,3 +63,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Desktop dependency finding corrected (October 20)](HALO-DESKTOP-DEPENDENCY-CORRECTION-2026-10-20.md): earlier missing-peer finding was an isolation artifact. Physical-copy Desktop run passed with LSP/session-query enabled and no installed settings/dependency changes; staged peer install discarded.
 
 - [Desktop real LSP and session-query execution (October 20)](HALO-DESKTOP-REAL-TOOLS-2026-10-20.md): actual definition resolution and persisted history hit; workspace fixture mismatch documented, normal settings preserved, no compaction tests.
+
+- [Desktop Windows workspace path comparison repair (October 20)](HALO-DESKTOP-WORKSPACE-PATH-FIX-2026-10-20.md): consistent SQL/core/tool authorization for slash-equivalent Windows workspaces, existing-history regression and settings preservation; no model or compaction jobs.
