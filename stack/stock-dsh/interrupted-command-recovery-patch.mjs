@@ -4,8 +4,8 @@ import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 
-export const PATCHED_VERSION='0.2.1-alpha.2';
-export const PRISTINE_SHA256='74D80A6C843483458018596CB52B26D12AE014D3CFAFE1531AE5626F46403BF0';
+export const PATCHED_VERSION='0.2.1-rc.2';
+export const PRISTINE_SHA256='2F5DD07CB5C744A29ABBB8003A8A4CEFD9E582C6E2538074CA299A0DDD02A3BF';
 export const INTERRUPTED_COMMAND_MARKER='Interrupted by previous runtime shutdown';
 
 const original=[
@@ -26,7 +26,7 @@ const replacement=[
   '\tconst last = events.at(-1);',
   '\tif (last !== void 0) {',
   '\t\tlet seq = last.seq + 1;',
-  '\t\tfor (const [commandId, runEvent] of pendingCommands) commandClosers.push({',
+  '\t\tfor (const commandId of pendingCommands.keys()) commandClosers.push({',
   '\t\t\ttype: "command/done",',
   '\t\t\tseq: seq++,',
   '\t\t\ttime: last.time,',
@@ -34,7 +34,6 @@ const replacement=[
   '\t\t\t\tcommandId,',
   '\t\t\t\tkind: "error",',
   '\t\t\t\ttext: "Interrupted by previous runtime shutdown",',
-  '\t\t\t\tsourceEventSeq: runEvent.seq',
   '\t\t\t}',
   '\t\t});',
   '\t}',

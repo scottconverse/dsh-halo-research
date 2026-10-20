@@ -351,11 +351,11 @@
           # ── identity ────────────────────────────────────────────────────────────────
 
           # The preset's own persona, shadowing the deployment default for this agent.
-          # `{{model}}` and `{{cwd}}` resolve from the agent's own route and workspace.
+          # `{{model}}` resolves from the route; the working directory comes from runtime context.
           - id: persona
             name: '@deepseek-ai/dsh-persona'
             config:
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied by runtime context.
               prefix: >-
                 You are a coding agent powered by the {{model}} model. Read
                 project instructions, inspect relevant code, implement the
@@ -683,11 +683,11 @@
           # ── identity ────────────────────────────────────────────────────────────────
 
           # The preset's own persona, shadowing the deployment default for this agent.
-          # `{{model}}` and `{{cwd}}` resolve from the agent's own route and workspace.
+          # `{{model}}` resolves from the route; the working directory comes from runtime context.
           - id: persona
             name: '@deepseek-ai/dsh-persona'
             config:
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied by runtime context.
               prefix: >-
                 You are a coding agent powered by the {{model}} model. For
                 Reddit or subreddit research, load the reddit-search skill and
@@ -1007,7 +1007,7 @@
                 instructions, inspect relevant code, implement the requested
                 change, and run focused verification. Keep tool output concise.
                 Finish once the requested outcome is verified.
-              suffix: Your working directory is {{cwd}}.
+              suffix: Use the working directory supplied by runtime context.
 
           - id: lean-tool-catalog
             name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-tuning/research-tool-hook.mjs

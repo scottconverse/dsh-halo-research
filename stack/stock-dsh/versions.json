@@ -1,12 +1,12 @@
 {
-  "dshVersion": "0.2.1-alpha.2",
+  "dshVersion": "0.2.1-rc.2",
   "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
-  "defaultProvider": "ollama-local",
-  "defaultModel": "qwen3.8:27b-q6_K",
+  "defaultProvider": "ollama",
+  "defaultModel": "deepseek-v4.1-flash:1017-cloud",
   "reasoningEffort": "off",
   "defaultWorkerModel": "qwen3.8:27b-q6_K",
-  "verifiedAt": "2026-10-11T18:31:10.267Z",
-  "sourceVerification": "Installed @deepseek-ai/dsh package.json; current settings.yaml. The old source commit is historical, not the npm release identity.",
+  "verifiedAt": "2026-10-20T00:37:42.791Z",
+  "sourceVerification": "Installed Web and Desktop core package manifests; official upstream tag and Windows feed. Models/defaults preserved against pre-upgrade profile snapshots.",
   "previousDeployment": {
     "defaultWorkerModel": "halo-coder-q4km",
     "dshVersion": "0.1.6-alpha.1",
@@ -15,5 +15,8 @@
     "deployedAt": "2026-09-15T19:59:24.247853+00:00",
     "optionalPlannerModel": "halo-brain-35b",
     "defaultModel": "halo-coder-q4km"
-  }
+  },
+  "dshSourceCommit": "687f282e8625c6b8d11ff58211a90524be2e4317",
+  "desktopVersion": "0.2.1-rc.2",
+  "legacyWorkerFieldNote": "defaultWorkerModel is retained historical metadata; it does not override per-task worker selection."
 }

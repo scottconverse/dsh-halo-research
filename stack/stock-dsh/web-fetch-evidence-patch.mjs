@@ -22,7 +22,7 @@ export function ensureWebFetchEvidencePatch(deployment=root){
   const base=createRequire(stock.resolve('@deepseek-ai/dsh-base/package.json'));
   const manifest=base.resolve('@deepseek-ai/dsh-tool-web/package.json');
   const version=JSON.parse(readFileSync(manifest,'utf8')).version;
-  if(version!=='0.2.1-alpha.2')throw Error('Unreviewed web tool version: '+version);
+  if(version!=='0.2.1-rc.2')throw Error('Unreviewed web tool version: '+version);
   const target=join(dirname(manifest),'lib/index.js');
   const before=readFileSync(target,'utf8');
   const backup=join(deployment,'runtime-patch-backups',`dsh-tool-web-${version}-index.js.original`);

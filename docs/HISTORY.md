@@ -35,3 +35,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Local-change review and publication (October 19)](HALO-LOCAL-CHANGE-PUBLICATION-2026-10-19.md): README corrected, optional workflow and invocation IDs published; historical reports labeled; unreliable accounting prototype and private files retained locally.
 
 - Newly published historical records: [September build reference](HALO-SYSTEM-BUILD-REFERENCE.md) and [October 1 consolidated archive review](HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md). Neither is a current-default specification.
+
+- [Web and Desktop rc.2 upgrade / Halo v0.3.2](HALO-DSH-UPGRADE-2026-10-19.md): signed installation, locked packages, catalogs preserved, real Wigolo/Redlib/XERJ retrievals and refreshed Mission Control; no subagents or benchmarks.

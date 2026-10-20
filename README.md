@@ -6,8 +6,8 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 | Component | Current configuration / record |
 |---|---|
-| DSH Web | `0.2.1-alpha.2`, loopback `http://127.0.0.1:3080` |
-| DSH Desktop | Separate installed app and Desktop profile; preserved alongside Web |
+| DSH Web | `0.2.1-rc.2`, loopback `http://127.0.0.1:3080` |
+| DSH Desktop | `0.2.1-rc.2`, separate preserved Desktop profile |
 | Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Off** |
 | Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
@@ -18,7 +18,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-The repository release [stock-dsh-v0.3.1](https://github.com/scottconverse/dsh-halo-research/releases/tag/stock-dsh-v0.3.1) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
+The repository release [v0.3.2](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.2) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
 
 ## Daily use
 
@@ -61,7 +61,7 @@ The unpublished usage-reporting prototype and personal voice-skill copies remain
 
 ## Records and recovery
 
-Start with [the history index](docs/HISTORY.md). Current October 19 records include [default selection](docs/HALO-DEEPSEEK-1017-DEFAULT-2026-10-19.md), [Desktop sessions](docs/HALO-DESKTOP-SESSION-MODEL-REPAIR-2026-10-19.md), [Web sessions](docs/HALO-WEB-SESSION-MODEL-REPAIR-2026-10-19.md), and [Mission Control](docs/HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md).
+Start with [the history index](docs/HISTORY.md). The [rc.2 upgrade record](docs/HALO-DSH-UPGRADE-2026-10-19.md) documents installed acceptance, preservation, compatibility repairs and recovery. Current October 19 records include [default selection](docs/HALO-DEEPSEEK-1017-DEFAULT-2026-10-19.md), [Desktop sessions](docs/HALO-DESKTOP-SESSION-MODEL-REPAIR-2026-10-19.md), [Web sessions](docs/HALO-WEB-SESSION-MODEL-REPAIR-2026-10-19.md), and [Mission Control](docs/HALO-MISSION-CONTROL-CLOUD-MODELS-2026-10-19.md).
 
 The [September build reference](docs/HALO-SYSTEM-BUILD-REFERENCE.md) and [October 1 archive review](docs/HALO-ARCHIVE-CONSOLIDATED-REPORT-2026-10-01.md) are historical records. Their old defaults, measurements and local evidence links must not be treated as current setup instructions or fresh verification.
 

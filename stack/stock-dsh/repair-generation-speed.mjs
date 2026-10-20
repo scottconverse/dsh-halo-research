@@ -3,7 +3,7 @@ import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import crypto from 'node:crypto';
 const root='C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/node_modules/.pnpm';
-const backup='C:/Users/scott/Documents/Codex/2026-10-15/dsh-speed-reporting';
+const backup=process.env.HALO_SPEED_BACKUP_DIR || 'C:/Users/scott/Documents/Codex/2026-10-15/dsh-speed-reporting';
 const desktop='C:/Users/scott/AppData/Local/Programs/DeepSeek Harness/resources/app.asar';
 const packages=['dsh-session-stats','dsh-client-ui-chat','dsh-client-ui-trajectory'];
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
@@ -27,8 +27,8 @@ function readAsar(){const b=fs.readFileSync(desktop);const header=JSON.parse(b.s
 function entry(h,p){return p.split('/').filter(Boolean).reduce((n,k)=>n.files[k],h);}
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href){
 const originals={};const files=[];
-for(const name of packages){const tail='node_modules/@deepseek-ai/'+name+'/lib/'+(name==='dsh-session-stats'?'index.js':'client.js');const matches=fs.readdirSync(root).filter(n=>n.startsWith('@deepseek-ai+')).map(n=>path.join(root,n,tail)).filter(p=>fs.existsSync(p));const unique=[...new Set(matches.map(p=>fs.realpathSync(p)))];if(!unique.length)throw Error('Missing Web '+name);for(const p of unique){const before=fs.readFileSync(p);originals[name]??=before.toString();const after=Buffer.from(repair(name,before.toString()));files.push({name,p,before,after});}}
-const archive=readAsar();const entries=packages.map(name=>{const p='dsh/node_modules/@deepseek-ai/'+name+'/lib/'+(name==='dsh-session-stats'?'index.js':'client.js');const e=entry(archive.header,p);const before=archive.b.subarray(archive.base+Number(e.offset),archive.base+Number(e.offset)+e.size);return{name,p,e,before,after:Buffer.from(repair(name,before.toString()))};});
+for(const name of process.argv.includes('--desktop-only')?[]:packages){const tail='node_modules/@deepseek-ai/'+name+'/lib/'+(name==='dsh-session-stats'?'index.js':'client.js');const matches=fs.readdirSync(root).filter(n=>n.startsWith('@deepseek-ai+')).map(n=>path.join(root,n,tail)).filter(p=>fs.existsSync(p));const unique=[...new Set(matches.map(p=>fs.realpathSync(p)))];if(!unique.length)throw Error('Missing Web '+name);for(const p of unique){const before=fs.readFileSync(p);originals[name]??=before.toString();const after=Buffer.from(repair(name,before.toString()));files.push({name,p,before,after});}}
+const archive=process.argv.includes('--web-only')?null:readAsar();const entries=(archive?packages:[]).map(name=>{const p='dsh/node_modules/@deepseek-ai/'+name+'/lib/'+(name==='dsh-session-stats'?'index.js':'client.js');const e=entry(archive.header,p);const before=archive.b.subarray(archive.base+Number(e.offset),archive.base+Number(e.offset)+e.size);return{name,p,e,before,after:Buffer.from(repair(name,before.toString()))};});
 for(const f of files){const p=path.join(backup,'web-'+f.name+'.original.js');if(!fs.existsSync(p))fs.writeFileSync(p,f.before);}
 for(const f of entries){const p=path.join(backup,'desktop-'+f.name+'.original.js');if(!fs.existsSync(p))fs.writeFileSync(p,f.before);}
 fs.writeFileSync(path.join(backup,'planned-files.json'),JSON.stringify([...files,...entries].map(({name,p,before,after})=>({name,p,original:sha(before),patched:sha(after)})),null,2));
