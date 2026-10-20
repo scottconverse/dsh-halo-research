@@ -54,3 +54,5 @@ Both owned child processes exited normally and no test model job remains. The is
 A launcher-help probe before isolation was fully set up failed on a sandbox EPERM while accessing a pre-existing .dsh headless module-fallback path. A subsequent first isolated launch was blocked on installed package-link access; it ended before a model session was created. The supported escalated path then ran the sole test session. No permission failure was reported as product failure, and no dependency installation was attempted.
 
 [Exact prompts, temporary configuration, compact event evidence, visible responses, process terminal records and usage](evidence/automatic-compaction-2026-10-20/) are published. Private raw session logs and the long reasoning text are excluded. Human-readable report copied to Halo Stack Research. The normal configuration needs no recovery change because it did not change.
+
+Subsequent repair: [oversized retained-response recovery](HALO-RETAINED-RESPONSE-FIX-2026-10-20.md) fixed and successfully replayed this specific failure. The mixed observations above remain the original test record.

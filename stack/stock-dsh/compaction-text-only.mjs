@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 const require = createRequire(import.meta.url);
 const basicRequire = createRequire(require.resolve('@deepseek-ai/dsh-compaction-basic'));
+const { toolPairingBalancedBefore, toolPairingBalancedAfter } = await import(pathToFileURL(basicRequire.resolve('@deepseek-ai/dsh-compaction')).href);
 const { BlockAssembler } = await import(pathToFileURL(basicRequire.resolve('@deepseek-ai/dsh-llm')).href);
 
 export const headings = ['Task and constraints', 'Verified evidence', 'Access gaps and uncertainty', 'Completed work', 'Remaining work', 'Next action'];
@@ -39,20 +40,51 @@ export function validateCheckpoint(blocks, finish) {
 }
 
 export default class TextOnlyCompaction extends BasicCompactionEngine {
+  async pressureLimit(agent, signal) {
+    const target = agent.session.requestHeader()?.config;
+    if (!target?.provider || !target?.model) return;
+    const info = await this.ctx.llm.resolveModelInfo(target.provider, target.model, signal);
+    const window = info.context?.contextWindow;
+    if (!Number.isInteger(window) || window <= 0) return;
+    const override = this.config.modelPolicies?.find(p => p.provider === target.provider && p.model === target.model);
+    const budget = window - (target.maxTokens ?? info.defaultMaxTokens ?? 0) - (override?.headroomTokens ?? this.config.headroomTokens);
+    const limit = Math.floor(Math.min(window * (override?.thresholdRatio ?? this.config.thresholdRatio), budget));
+    // Let stock report invalid capacity/policy rather than bypassing its guards.
+    if (limit > 0) return limit;
+  }
+  async compactFullHistory(agent, signal, limit) {
+    signal?.throwIfAborted();
+    const nodes = agent.session.surface.nodes;
+    const start = agent.session.eventAt(nodes[0])?.type === 'system/message' ? nodes[1] : nodes[0];
+    const end = nodes.at(-1);
+    if (start === undefined || !toolPairingBalancedBefore(agent.session, start) || !toolPairingBalancedAfter(agent.session, end)) {
+      throw new Error('Retained-tail recovery has no complete, tool-balanced history range');
+    }
+    // Stock owns validation, cancellation, shrink checking and durable replacement.
+    const result = await this.compactRegion(start, end, agent, signal);
+    signal?.throwIfAborted();
+    const remaining = this.ctx.tokenMeter.measure(agent.session).totalTokens;
+    if (remaining >= limit) throw new Error('Retained-tail recovery still above threshold (' + remaining + ' >= ' + limit + ')');
+    return result;
+  }
   async compactIfNeeded(agent, trigger, signal) {
+    if (trigger !== 'pressure') return super.compactIfNeeded(agent, trigger, signal);
+    signal?.throwIfAborted();
+    const limit = await this.pressureLimit(agent, signal);
+    if (limit !== undefined) {
+      const measurement = this.ctx.tokenMeter.measure(agent.session);
+      if (measurement.totalTokens >= limit && (measurement.nodes.at(-1)?.tokens ?? 0) >= limit) {
+        this.ctx.logger.warn('Recent response alone exceeds the pressure threshold; compacting complete tool-balanced history once.');
+        return this.compactFullHistory(agent, signal, limit);
+      }
+    }
     try {
       return await super.compactIfNeeded(agent, trigger, signal);
     } catch (error) {
-      // A large recent tail can leave only an earlier checkpoint selected.
-      // Re-summarizing that tiny prefix cannot relieve current pressure. Use
-      // stock's balanced full-prefix selection once, after its failed attempt
-      // has closed durably. Preserve every other failure and cancellation.
-      if (trigger !== 'pressure' || signal?.aborted ||
+      if (limit === undefined || signal?.aborted ||
           !/summary is not smaller than the shadowed content|compaction still above threshold/.test(error?.message ?? '')) throw error;
-      this.ctx.logger.warn('Retained-tail compaction could not reduce pressure; retrying once with the stock balanced full-prefix range.');
-      const result = await super.compactIfNeeded(agent, 'context-overflow', signal);
-      if (result === null) throw error;
-      return result;
+      this.ctx.logger.warn('Retained-tail compaction did not relieve pressure; compacting complete tool-balanced history once.');
+      return this.compactFullHistory(agent, signal, limit);
     }
   }
   async summarize(input, agent, signal) {

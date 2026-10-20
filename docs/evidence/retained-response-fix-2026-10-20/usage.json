@@ -1,0 +1,7 @@
+{
+  "scope": "Only new replay-verification requests; excludes historical first turn and coordinator",
+  "inputTokens": 43785,
+  "cacheReadTokens": 14546,
+  "outputTokens": 1843,
+  "totalTokens": 60174
+}

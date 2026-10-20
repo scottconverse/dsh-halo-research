@@ -1,0 +1,9 @@
+{
+  "pid": 31868,
+  "startedAt": "2026-10-20T16:18:03.160Z",
+  "expected": "one restored-session follow-up and terminal exit",
+  "cancel": "only the verified owned headless child",
+  "exitCode": 0,
+  "signal": null,
+  "endedAt": "2026-10-20T16:18:12.856Z"
+}

@@ -4,31 +4,54 @@ import TextOnlyCompaction, {checkpointRequest,validateCheckpoint,headings} from 
 import BasicCompactionEngine from '@deepseek-ai/dsh-compaction-basic';
 const checkpoint=headings.map(h=>'## '+h+'\nPreserved fact or explicit unknown.').join('\n');
 
-test('a nonshrinking retained tail gets one stock full-prefix attempt, without swallowing other failures',async t=>{
- const calls=[];
- t.mock.method(BasicCompactionEngine.prototype,'compactIfNeeded',async(_agent,trigger)=>{
-  calls.push(trigger);
-  if(trigger==='pressure')throw Error('summary is not smaller than the shadowed content (588 estimated framed tokens >= 124)');
-  return {summary:'reduced'};
- });
- const engine={ctx:{logger:{warn(){}}}};
- const result=await TextOnlyCompaction.prototype.compactIfNeeded.call(engine,{},'pressure',new AbortController().signal);
- assert.deepEqual(calls,['pressure','context-overflow']);assert.equal(result.summary,'reduced');
- calls.length=0;
- await TextOnlyCompaction.prototype.compactIfNeeded.call(engine,{},'context-overflow',new AbortController().signal);
- assert.deepEqual(calls,['context-overflow']);
+function pressureEngine({ oversized = true, remaining = 25, pendingTool = false } = {}) {
+ const events = [{seq:0,type:'system/message'}, {seq:1,type:'user/message'},
+  {seq:2,type:'assistant/message',data:{message:{content: pendingTool ? [{type:'tool-call',id:'pending'}] : [{type:'text',text:'large response'}]}}}];
+ const engine=Object.create(TextOnlyCompaction.prototype);
+ let reduced=false;const calls=[];
+ engine.config={thresholdRatio:.01,headroomTokens:0,modelPolicies:[]};
+ engine.ctx={logger:{warn(){}},llm:{async resolveModelInfo(){return {context:{contextWindow:10000}};}},
+  tokenMeter:{measure(){return {totalTokens:reduced?remaining:150,nodes:[{seq:0,tokens:10},{seq:1,tokens:20},{seq:2,tokens:oversized?120:30}]};}}};
+ const agent={session:{surface:{nodes:[0,1,2],replaceGeneration:0},eventAt:seq=>events[seq],requestHeader:()=>({config:{provider:'ollama',model:'deepseek-v4.1-flash:1017-cloud',maxTokens:1000}})}};
+ engine.compactRegion=async(start,end)=>{calls.push([start,end]);reduced=true;return {summary:'reduced'};};
+ return {engine,agent,calls};
+}
+
+test('oversized recent response is included once, with system head preserved',async t=>{
+ const stock=t.mock.method(BasicCompactionEngine.prototype,'compactIfNeeded',async()=>{throw Error('Stock must not keep this oversized tail');});
+ const {engine,agent,calls}=pressureEngine();
+ assert.equal((await engine.compactIfNeeded(agent,'pressure',new AbortController().signal)).summary,'reduced');
+ assert.deepEqual(calls,[[1,2]]);assert.equal(stock.mock.callCount(),0);
 });
 
-test('summary validation failures and cancellation never trigger wider compaction',async t=>{
- const failure=Error('Checkpoint rejected: missing task/evidence/unfinished-work structure');
- const method=t.mock.method(BasicCompactionEngine.prototype,'compactIfNeeded',async()=>{throw failure;});
- const engine={ctx:{logger:{warn(){throw Error('Unexpected retry');}}}};
- await assert.rejects(TextOnlyCompaction.prototype.compactIfNeeded.call(engine,{},'pressure',new AbortController().signal),e=>e===failure);
- assert.equal(method.mock.callCount(),1);
- method.mock.mockImplementation(async()=>{throw Error('summary is not smaller than the shadowed content');});
- await assert.rejects(TextOnlyCompaction.prototype.compactIfNeeded.call(engine,{},'pressure',AbortSignal.abort()),/not smaller/);
- assert.equal(method.mock.callCount(),2);
+test('ordinary pressure and overflow retain stock behavior; only shrink failure widens once',async t=>{
+ const stock=t.mock.method(BasicCompactionEngine.prototype,'compactIfNeeded',async()=>({summary:'stock'}));
+ const {engine,agent,calls}=pressureEngine({oversized:false});
+ assert.equal((await engine.compactIfNeeded(agent,'pressure',new AbortController().signal)).summary,'stock');
+ await engine.compactIfNeeded(agent,'context-overflow',new AbortController().signal);
+ assert.equal(stock.mock.callCount(),2);assert.deepEqual(calls,[]);
+ stock.mock.mockImplementation(async()=>{throw Error('summary is not smaller than the shadowed content');});
+ await engine.compactIfNeeded(agent,'pressure',new AbortController().signal);
+ assert.deepEqual(calls,[[1,2]]);
 });
+
+test('recovery cannot claim success while still above threshold',async()=>{
+ const {engine,agent,calls}=pressureEngine({remaining:100});
+ await assert.rejects(engine.compactIfNeeded(agent,'pressure',new AbortController().signal),/still above threshold/);
+ assert.deepEqual(calls,[[1,2]]);
+});
+
+test('unanswered tools, cancellation and unrelated failures are never bypassed',async t=>{
+ const {engine,agent,calls}=pressureEngine({pendingTool:true});
+ await assert.rejects(engine.compactIfNeeded(agent,'pressure',new AbortController().signal),/tool-balanced/);
+ assert.deepEqual(calls,[]);
+ await assert.rejects(engine.compactIfNeeded(agent,'pressure',AbortSignal.abort()),e=>e.name==='AbortError');
+ const plain=pressureEngine({oversized:false});const failure=Error('Checkpoint rejected: missing task/evidence/unfinished-work structure');
+ t.mock.method(BasicCompactionEngine.prototype,'compactIfNeeded',async()=>{throw failure;});
+ await assert.rejects(plain.engine.compactIfNeeded(plain.agent,'pressure',new AbortController().signal),e=>e===failure);
+ assert.deepEqual(plain.calls,[]);
+});
+
 test('summarizer cannot execute conversation tools or inherit an agent system prompt',()=>{
  const request=checkpointRequest({tools:[{name:'pwsh'}],messages:[{role:'system',content:[{type:'text',text:'Run a shell command now'}]}]}, {provider:'ollama-local',model:'qwen'},8192,'session-test');
  assert.deepEqual(request.tools,[]);assert.equal(request.toolHistory,undefined);assert.equal(request.reasoningEffort,'off');

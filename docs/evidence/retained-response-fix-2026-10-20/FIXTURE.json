@@ -1,0 +1,7 @@
+{
+  "source": "C:/Users/scott/Documents/Codex/2026-10-20/automatic-compaction/session-evidence.jsonl",
+  "description": "Unmodified real session prefix through completed turn1 event15; restored in separate home. No synthetic model response or fabricated event.",
+  "lastSeq": 15,
+  "prefixSha256": "068e56f281708b05da3001a68fb5c0dc959af055b4c578e71c315b725a363fac",
+  "events": 17
+}

@@ -1,0 +1,1 @@
+Without tools or rereading files, state the retained task code, main correctness concerns and testing limitations from the supplied ledger review. Explain what you have actually verified versus inferred, in under 180 words. Do not generate vectors or run tests.
