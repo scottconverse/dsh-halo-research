@@ -1,0 +1,167 @@
+[
+  {
+    "seq": 10,
+    "type": "request/header",
+    "time": 1792511949040,
+    "data": {
+      "config": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:1017-cloud",
+        "reasoningEffort": "low",
+        "maxTokens": 65536
+      }
+    }
+  },
+  {
+    "seq": 15,
+    "type": "turn/end",
+    "time": 1792512107352,
+    "data": {
+      "turn": 1,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  },
+  {
+    "seq": 20,
+    "type": "compaction/start",
+    "time": 1792512117511,
+    "data": {
+      "compactionId": "d44189b6-08c0-4c7e-9a4d-5c028123b110",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 21,
+    "type": "compaction/summary",
+    "time": 1792512153053,
+    "data": {
+      "compactionId": "d44189b6-08c0-4c7e-9a4d-5c028123b110",
+      "shadowedRange": {
+        "start": 8,
+        "end": 9
+      },
+      "shadowedSeqs": [
+        8,
+        9
+      ],
+      "shadowedTokenCount": 9996,
+      "usage": {
+        "inputTokens": 14350,
+        "outputTokens": 8355,
+        "totalTokens": 22705
+      },
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:1017-cloud",
+      "maxTokens": 8192,
+      "summary": [
+        {
+          "type": "text",
+          "text": "## Task and constraints\nObjective: isolated automatic-compaction verification using supplied real code—review `SPEC.md`, `ledger.mjs`, and `ledger.test.mjs`; identify one concrete correctness concern or say none, plus two testing limitations, in under 220 words. Constraints: no tools, delegation, browsing, file writes, or execution; do not claim tests were run by the agent. Preserve task code **LIME-AUTO-20**; the spec also says **AMBER-LEDGER-64** (conflict noted). Node stdlib only, no network, BigInt money, semantic replay, atomic rollback, revision-scoped cursors. Model: `deepseek-v4.1-flash:1017-cloud`. CWD: `C:\\Users\\scott\\Documents\\Codex\\2026-10-20\\automatic-compaction`.\n\n## Verified evidence\nRetrieved from the user prompt, not tool output:\n- `parseMoney` enforces the stated regex and builds BigInt cents directly.\n- `canonical` sorts own enumerable string keys, preserves array order, rejects accessors without invoking getters, and tracks cycles with a stack.\n- `apply` stages balances/ID map and commits only after full-batch validation.\n- Cursors encode ledger identity, revision, and sequence.\n- `snapshot()` returns detached records; `restore()` validates shape, balances, IDs, amounts, UTC timestamps, contiguous sequence, and `nextSeq`.\n- A focused `ledger.test.mjs` exists but was **not executed by the agent**.\n\n## Access gaps and uncertainty\nNo tool calls or test execution occurred. Current DSH file policy is read-only; approval policy is ask. Whether hidden tests exist or what they assert is unknown. A static concern is that `restore()` may accept noncanonical record money/timestamp spellings such as `\"1.0\"` or `\"2026-10-20T01:00:00Z\"` and normalize them, so acceptance/roundtrip expectations are unverified.\n\n## Completed work\nNone—only intake and review setup. No review answer, implementation, tests, or `NOTES.md` was produced.\n\n## Remaining work\nProduce the under-220-word review: one substantiated concern or “none,” plus two testing limitations; do not claim tests were run. Resolve/preserve both task codes. If follow-up proceeds beyond review, spec deliverables remain fixed implementation, focused tests, and `NOTES.md`.\n\n## Next action\nDraft the concise review response without tools, explicitly stating that the agent did not run tests and flagging the task-code conflict."
+        }
+      ]
+    }
+  },
+  {
+    "seq": 23,
+    "type": "compaction/end",
+    "time": 1792512153056,
+    "data": {
+      "compactionId": "d44189b6-08c0-4c7e-9a4d-5c028123b110",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 24,
+    "type": "compaction/start",
+    "time": 1792512153056,
+    "data": {
+      "compactionId": "e6497d1c-a7a9-41f5-88a5-a9cd8a5bed8f",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 25,
+    "type": "compaction/summary",
+    "time": 1792512156026,
+    "data": {
+      "compactionId": "e6497d1c-a7a9-41f5-88a5-a9cd8a5bed8f",
+      "shadowedRange": {
+        "start": 22,
+        "end": 22
+      },
+      "shadowedSeqs": [
+        22
+      ],
+      "shadowedTokenCount": 682,
+      "usage": {
+        "inputTokens": 856,
+        "outputTokens": 708,
+        "totalTokens": 1736,
+        "cacheReadTokens": 172
+      },
+      "provider": "ollama",
+      "model": "deepseek-v4.1-flash:1017-cloud",
+      "maxTokens": 8192,
+      "summary": [
+        {
+          "type": "text",
+          "text": "## Task and constraints\n- Objective: review supplied `SPEC.md`, `ledger.mjs`, and `ledger.test.mjs`; identify one concrete correctness concern or state none, plus two testing limitations, in under 220 words.\n- Constraints: no tools, delegation, browsing, file writes, or execution; do not claim tests were run. Node stdlib only, no network, BigInt money, semantic replay, atomic rollback, revision-scoped cursors.\n- Model: `deepseek-v4.1-flash:1017-cloud`.\n- CWD: `C:\\Users\\scott\\Documents\\Codex\\2026-10-20\\automatic-compaction`.\n- Task-code conflict: preserved code **LIME-AUTO-20**; spec also states **AMBER-LEDGER-64**.\n\n## Verified evidence\n- Evidence is from the user prompt/checkpoint, not tool output.\n- `parseMoney` enforces the stated regex and builds BigInt cents.\n- `canonical` sorts own enumerable string keys, preserves array order, rejects accessors without invoking getters, and detects cycles.\n- `apply` stages balances/ID map and commits only after full-batch validation.\n- Cursors encode ledger identity, revision, and sequence.\n- `snapshot()` returns detached records; `restore()` validates shape, balances, IDs, amounts, UTC timestamps, contiguous sequence, and `nextSeq`.\n- `ledger.test.mjs` exists but was **not executed by the agent**.\n\n## Access gaps and uncertainty\n- No tool calls or test execution occurred.\n- Current DSH file policy is read-only; approval policy is ask.\n- Whether hidden tests exist or what they assert is unknown.\n- Static concern: `restore()` may accept noncanonical money/timestamp spellings such as `\"1.0\"` or `\"2026-10-20T01:00:00Z\"` and normalize them; roundtrip/acceptance behavior is unverified.\n- No source URLs were provided or retrieved.\n\n## Completed work\n- None beyond intake and review setup. No review answer, implementation, tests, or `NOTES.md` was produced.\n\n## Remaining work\n- Produce the under-220-word review with one substantiated concern or “none,” plus two testing limitations.\n- Explicitly state that the agent did not run tests.\n- Resolve or preserve both task codes.\n- Any follow-up implementation must include the fixed implementation, focused tests, and `NOTES.md`.\n\n## Next action\n- Draft the concise review response without tools, flagging the task-code conflict and the unverified `restore()` normalization concern."
+        }
+      ]
+    }
+  },
+  {
+    "seq": 27,
+    "type": "compaction/end",
+    "time": 1792512156026,
+    "data": {
+      "compactionId": "e6497d1c-a7a9-41f5-88a5-a9cd8a5bed8f",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 28,
+    "type": "compaction/start",
+    "time": 1792512156028,
+    "data": {
+      "compactionId": "0d27d344-b303-48be-8199-9e498bac3d54",
+      "turn": 2
+    }
+  },
+  {
+    "seq": 29,
+    "type": "compaction/end",
+    "time": 1792512163890,
+    "data": {
+      "compactionId": "0d27d344-b303-48be-8199-9e498bac3d54",
+      "turn": 2,
+      "error": "summary is not smaller than the shadowed content (747 estimated framed tokens >= 676)"
+    }
+  },
+  {
+    "seq": 33,
+    "type": "request/header",
+    "time": 1792512163893,
+    "data": {
+      "config": {
+        "provider": "ollama",
+        "model": "deepseek-v4.1-flash:1017-cloud",
+        "reasoningEffort": "low",
+        "maxTokens": 65536
+      }
+    }
+  },
+  {
+    "seq": 36,
+    "type": "turn/end",
+    "time": 1792512167475,
+    "data": {
+      "turn": 2,
+      "reason": {
+        "kind": "completed"
+      }
+    }
+  }
+]

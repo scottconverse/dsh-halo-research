@@ -51,3 +51,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [DeepSeek coding stress and native compaction (October 20)](HALO-DEEPSEEK-CODING-STRESS-2026-10-20.md):24 independent hidden tests passed in2m27s; manual checkpoint and retention verified;64K cutoff and automatic pressure threshold remain unverified; exact prompts and usage retained.
 
 - [DeepSeek compaction summary Low fix (October 20)](HALO-COMPACTION-LOW-FIX-2026-10-20.md): exact Ollama1017 checkpoint route corrected; other request fields preserved; idle Web server reloaded; no inference jobs.
+
+- [Isolated automatic compaction verification (October20)](HALO-AUTOMATIC-COMPACTION-2026-10-20.md): automatic trigger and two checkpoints observed; retained40K reasoning tail defeated artificial9437-token threshold and a retry was rejected. Normal profiles unchanged; temporary override removed. Mixed result, not a clean pressure-recovery pass.

@@ -1,0 +1,5 @@
+Concrete concern: cursor integrity. `#encodeCursor` emits base64url(`identity:rev:seq`) with no authentication. Anyone holding a valid cursor can decode the ledger identity and revision, then re-encode a token with the same revision and a different existing `seq`. `#decodeCursor` accepts it, so pagination can skip records; that is a forged cursor, not merely malformed/foreign/stale. The disclaimer limits cryptographic promises but does not make revision/sequence tamper-evident; a random token→position map or MAC would.
+
+Two testing limitations: (1) no test decodes and re-encodes a valid cursor to alter `seq`/`rev`, or checks that empty `apply([])` leaves cursors valid; (2) no timestamp boundary tests near year 0000/9999 with large offsets, where normalization may yield expanded years and `toIso` rejects, and no canonical tests for arrays with extra/non-enumerable properties. I did not run tests.
+
+Retained: task code **LIME-AUTO-20**; Node stdlib only; no network; BigInt money; semantic replay; atomic rollback; revision-scoped cursors; no hidden-test search.

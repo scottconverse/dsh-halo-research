@@ -1,0 +1,10 @@
+{
+  "pid": 26244,
+  "phase": "followup",
+  "startedAt": "2026-10-20T16:01:55.572Z",
+  "expected": "one completed review turn then exit",
+  "cancel": "stop only this verified owned child PID",
+  "exitCode": 0,
+  "signal": null,
+  "endedAt": "2026-10-20T16:02:47.563Z"
+}
