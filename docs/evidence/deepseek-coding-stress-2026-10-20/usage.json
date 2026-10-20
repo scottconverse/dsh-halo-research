@@ -1,0 +1,38 @@
+{
+  "totals": {
+    "inputTokens": 156414,
+    "cacheReadTokens": 1103462,
+    "outputTokens": 38442,
+    "totalTokens": 1298318
+  },
+  "phases": {
+    "turn1": {
+      "calls": 21,
+      "inputTokens": 94159,
+      "cacheReadTokens": 1012498,
+      "outputTokens": 36116,
+      "totalTokens": 1142773
+    },
+    "turn2": {
+      "calls": 1,
+      "inputTokens": 891,
+      "cacheReadTokens": 67708,
+      "outputTokens": 654,
+      "totalTokens": 69253
+    },
+    "compaction": {
+      "calls": 1,
+      "inputTokens": 57714,
+      "cacheReadTokens": 0,
+      "outputTokens": 1353,
+      "totalTokens": 59067
+    },
+    "turn3": {
+      "calls": 1,
+      "inputTokens": 3650,
+      "cacheReadTokens": 23256,
+      "outputTokens": 319,
+      "totalTokens": 27225
+    }
+  }
+}

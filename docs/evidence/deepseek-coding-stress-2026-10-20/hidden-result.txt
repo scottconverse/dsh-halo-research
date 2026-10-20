@@ -1,0 +1,32 @@
+✔ money: exact beyond safe integer (1.7119ms)
+✔ money: forbidden coercions and spellings (0.3907ms)
+✔ money: negative cents and zero (0.1248ms)
+✔ canonical: getters must not execute (0.2389ms)
+✔ canonical: cycles rejected but shared aliases allowed (0.2175ms)
+✔ canonical: illegal JSON values and sparse arrays (0.224ms)
+✔ canonical: null prototype/proto own key (0.1161ms)
+✔ credit: strict accounts/positive values, rollback (0.9996ms)
+✔ prototype account names (1.5597ms)
+✔ atomic insufficient funds after earlier valid transfer (0.545ms)
+✔ atomic input validation after earlier valid transfer (0.227ms)
+✔ semantic replay alternate amount/time forms (0.1965ms)
+✔ conflicting id is error and rolls whole batch back (0.2886ms)
+✔ same-batch replay exactly once (0.2297ms)
+✔ date validation impossible and timezone-free (0.3821ms)
+✔ ordering by instant then commit seq (0.2885ms)
+✔ entries and snapshots detached (0.2082ms)
+✔ pagination equal-time ties exactly once (0.7ms)
+✔ pagination rejects bad limit and forged cursor (0.2387ms)
+✔ cursor revision changes only on committed mutation (0.2255ms)
+✔ cursor foreign ledger (0.1164ms)
+✔ restore preserves semantics and is independent (0.439ms)
+✔ restore rejects invalid balances/version/sequence/IDs (0.4514ms)
+✔ seeded conservation and snapshot replay (1.9906ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 155.4584

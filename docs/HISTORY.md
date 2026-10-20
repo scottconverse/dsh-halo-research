@@ -47,3 +47,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [DeepSeek 1017 output raised to 32K (October 20)](HALO-DEEPSEEK-32K-2026-10-20.md): Web/Desktop model limits and recovery profiles set to 32,768; Low effort and all other configuration preserved.
 
 - [DeepSeek 1017 64K output (October 20)](HALO-DEEPSEEK-64K-2026-10-20.md): exact Ollama request acceptance, Web/Desktop limit raised to 65,536, Low preserved; no benchmarks. Supersedes the earlier 32K ceiling.
+
+- [DeepSeek coding stress and native compaction (October 20)](HALO-DEEPSEEK-CODING-STRESS-2026-10-20.md):24 independent hidden tests passed in2m27s; manual checkpoint and retention verified;64K cutoff and automatic pressure threshold remain unverified; exact prompts and usage retained.
