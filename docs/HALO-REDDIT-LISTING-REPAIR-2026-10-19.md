@@ -19,3 +19,6 @@ Before reload, Mission Control showed no active or queued Web jobs and current s
 Backup of the original adapter is private under C:\Users\scott\Documents\Codex\2026-10-19\dsh-upgrade-v032\research-fallback-before-listing.mjs. Recovery: restore the preceding committed adapter and reload the affected idle app. Raw listing evidence and private backups are not published. Historical upgrade reports retain the limitation as it existed at the time; this record supersedes it for supported subreddit listings.
 
 Post-reload readback: Web ready on the preserved DeepSeek1017 route, 181 active/29 disabled/0 failed/0 waiting plugins and no active/queued jobs. Desktop host process is running with its preserved desktop profile path. No extra model job was submitted.
+
+## Subsequent installed-behavior correction
+The restart-only claim above was insufficient for Web: its fast-first preset retained a stale copied adapter. A later in-app check exposed this; Desktop passed. The [Web wiring correction](HALO-WEB-LISTING-WIRING-2026-10-19.md) changes the deployed import to the maintained shared adapter and records the successful actual Web listing fetch.

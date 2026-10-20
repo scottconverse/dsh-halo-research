@@ -1,6 +1,6 @@
 // Preset-local retrieval adapter using DSH's stock execution hook.
 // Tool visibility remains owned by stock assembly and permission policies.
-import { createResearchHook, createRedditAdapter } from './research-fallback.mjs';
+import { createResearchHook, createRedditAdapter } from 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/fast-first-preset/research-fallback.mjs';
 
 export const name = 'halo-lean-tool-catalog';
 export const inject = ['systemPrompt'];
