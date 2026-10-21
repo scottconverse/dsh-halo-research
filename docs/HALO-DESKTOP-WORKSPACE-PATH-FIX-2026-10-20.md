@@ -40,3 +40,7 @@ A readback helper initially used a Windows path instead of a file URL in an ESM 
 ## Web package-sharing correction
 
 The subsequent Web inspection found that Desktop profile dsh-tool-session-query and Web resolve to the same pnpm file. Thus this task also changed Web's on-disk authorization package; the original statement that no Web runtime files changed was incorrect. Web's core and SQLite filtering were repaired and its idle server reloaded in HALO-WEB-WORKSPACE-PATH-FIX-2026-10-20.md.
+
+## Both apps running with the repair — October 20, 2026, 9:12–9:15 PM MDT
+
+Desktop was started directly with its existing DSH_HOME so catalog-refresh helpers could not rewrite settings. Its visible window is responding; main PID47568 launched host PID67772 from the patched app.asar with the approved desktop profile, listening on64926. Web PID47016 remains on3080 after its repair restart and authenticated session/list returned HTTP200/result.ok=true. All four Desktop and three Web runtime hashes match the verified installed patches; all eight normal configuration/manifest/lock hashes remain unchanged. This confirms fresh Desktop startup and continued Web operation from the repaired files, reusing the preceding focused behavioral evidence. No new model jobs, session-query regressions or compaction tests were run. Both apps were left running.
