@@ -2,7 +2,7 @@
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
 
-## Current setup - October 19, 2026
+## Current setup - October 20, 2026
 
 | Component | Current configuration / record |
 |---|---|
@@ -18,7 +18,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-The repository release [v0.3.2](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.2) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
+The repository release [v0.3.5](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.5) is a Halo source snapshot, not the upstream DSH version. The source release does not automatically migrate another machine's sessions.
 
 The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 

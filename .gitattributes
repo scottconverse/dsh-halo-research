@@ -1,0 +1,3 @@
+# Historical recovery files remain in Git history, but are not release artifacts.
+/stack/stock-dsh/runtime-patch-backups export-ignore
+/evidence/HKCU-Path-backup.txt export-ignore
