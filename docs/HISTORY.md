@@ -70,4 +70,4 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 
 - [Halo v0.3.5 source release](../RELEASE-NOTES-v0.3.5.md): Web/Desktop workspace fixes, committed Low/64K and compaction work, corrected dependency findings and startup confirmation. Reuses existing verification; no new tests. Backup files excluded from source archives.
 
-- [Flint Q4 Windows Vulkan trial and runtime release check (October 22)](HALO-FLINT-WINDOWS-2026-10-22.md): verified downloads, actual AMD response and one DSH file-tool task; settings preserved. LM Studio update pending Windows UAC. No benchmarks or subagents.
+- [Flint Q4 Windows Vulkan trial and runtime release check (October 22)](HALO-FLINT-WINDOWS-2026-10-22.md): verified downloads, actual AMD response and one DSH file-tool task; settings preserved. Classic LM Studio upgraded to 0.4.26+4 after Windows approval; post-update models and settings preservation confirmed. No further tests, benchmarks or subagents.
