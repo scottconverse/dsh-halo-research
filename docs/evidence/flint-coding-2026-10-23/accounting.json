@@ -1,0 +1,269 @@
+{
+  "exit": {
+    "startedAt": "2026-10-23T06:08:39.033Z",
+    "endedAt": "2026-10-23T06:23:15.002Z",
+    "code": 4294967295,
+    "signal": null
+  },
+  "completedSteps": 24,
+  "lastStatus": [
+    {
+      "type": "status",
+      "phase": "step_start",
+      "turn": 1,
+      "step": 24
+    },
+    {
+      "type": "status",
+      "phase": "step_end",
+      "turn": 1,
+      "step": 24,
+      "usage": {
+        "inputTokens": 39294,
+        "outputTokens": 159,
+        "totalTokens": 39453,
+        "reasoningTokens": 23
+      }
+    },
+    {
+      "type": "status",
+      "phase": "step_start",
+      "turn": 1,
+      "step": 25
+    }
+  ],
+  "reportedCompletedStepTotals": {
+    "input": 714596,
+    "output": 28085,
+    "reasoning": 14401
+  },
+  "initialInputTokens": 6440,
+  "largestReportedInput": 39294,
+  "toolCalls": 27,
+  "toolErrors": 4,
+  "pwshCalls": 0,
+  "nativeStats": [
+    {
+      "timestamp": 1792736052642,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 45.02085011604761,
+      "timeToFirstTokenSec": 1.743459,
+      "totalTimeSec": 312.04412999999994,
+      "promptTokensCount": 8304,
+      "predictedTokensCount": 13971,
+      "totalTokensCount": 22275
+    },
+    {
+      "timestamp": 1792736108904,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 32.1609881434892,
+      "timeToFirstTokenSec": 0.217303,
+      "totalTimeSec": 55.936983999999995,
+      "promptTokensCount": 22286,
+      "predictedTokensCount": 1793,
+      "totalTokensCount": 24079
+    },
+    {
+      "timestamp": 1792736116386,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 27.12768110061894,
+      "timeToFirstTokenSec": 0.268549,
+      "totalTimeSec": 7.014426,
+      "promptTokensCount": 24127,
+      "predictedTokensCount": 184,
+      "totalTokensCount": 24311
+    },
+    {
+      "timestamp": 1792736119386,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 30.738557892018008,
+      "timeToFirstTokenSec": 0.392719,
+      "totalTimeSec": 2.735054,
+      "promptTokensCount": 24346,
+      "predictedTokensCount": 73,
+      "totalTokensCount": 24419
+    },
+    {
+      "timestamp": 1792736122401,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 30.08312569291466,
+      "timeToFirstTokenSec": 0.22378299999999998,
+      "totalTimeSec": 2.716875,
+      "promptTokensCount": 24455,
+      "predictedTokensCount": 76,
+      "totalTokensCount": 24531
+    },
+    {
+      "timestamp": 1792736124058,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 30.741124598169588,
+      "timeToFirstTokenSec": 0.24626699999999999,
+      "totalTimeSec": 1.3848070000000001,
+      "promptTokensCount": 24574,
+      "predictedTokensCount": 36,
+      "totalTokensCount": 24610
+    },
+    {
+      "timestamp": 1792736132021,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 31.195814732246784,
+      "timeToFirstTokenSec": 3.397944,
+      "totalTimeSec": 7.693392,
+      "promptTokensCount": 26742,
+      "predictedTokensCount": 135,
+      "totalTokensCount": 26877
+    },
+    {
+      "timestamp": 1792736291769,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 26.77587772800777,
+      "timeToFirstTokenSec": 0.23602199999999998,
+      "totalTimeSec": 159.371795,
+      "promptTokensCount": 26913,
+      "predictedTokensCount": 4262,
+      "totalTokensCount": 31175
+    },
+    {
+      "timestamp": 1792736428311,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 25.192199226680415,
+      "timeToFirstTokenSec": 0.23050700000000002,
+      "totalTimeSec": 136.145596,
+      "promptTokensCount": 31202,
+      "predictedTokensCount": 3425,
+      "totalTokensCount": 34627
+    },
+    {
+      "timestamp": 1792736469911,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 25.42245893356207,
+      "timeToFirstTokenSec": 0.30777899999999997,
+      "totalTimeSec": 41.216489,
+      "promptTokensCount": 34675,
+      "predictedTokensCount": 1041,
+      "totalTokensCount": 35716
+    },
+    {
+      "timestamp": 1792736499349,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 26.390027052725365,
+      "timeToFirstTokenSec": 0.266565,
+      "totalTimeSec": 29.103216,
+      "promptTokensCount": 35752,
+      "predictedTokensCount": 762,
+      "totalTokensCount": 36514
+    },
+    {
+      "timestamp": 1792736519103,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 27.702032124721775,
+      "timeToFirstTokenSec": 0.302008,
+      "totalTimeSec": 19.39808,
+      "promptTokensCount": 36562,
+      "predictedTokensCount": 530,
+      "totalTokensCount": 37092
+    },
+    {
+      "timestamp": 1792736525079,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 30.007772012951357,
+      "timeToFirstTokenSec": 0.273491,
+      "totalTimeSec": 5.605443,
+      "promptTokensCount": 37140,
+      "predictedTokensCount": 161,
+      "totalTokensCount": 37301
+    },
+    {
+      "timestamp": 1792736530840,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 28.137134139097483,
+      "timeToFirstTokenSec": 0.274856,
+      "totalTimeSec": 5.392648,
+      "promptTokensCount": 37349,
+      "predictedTokensCount": 145,
+      "totalTokensCount": 37494
+    },
+    {
+      "timestamp": 1792736537397,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 28.446595388588065,
+      "timeToFirstTokenSec": 0.264589,
+      "totalTimeSec": 6.205546,
+      "promptTokensCount": 37542,
+      "predictedTokensCount": 170,
+      "totalTokensCount": 37712
+    },
+    {
+      "timestamp": 1792736543736,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 26.780580403441565,
+      "timeToFirstTokenSec": 0.267843,
+      "totalTimeSec": 5.980938,
+      "promptTokensCount": 37760,
+      "predictedTokensCount": 154,
+      "totalTokensCount": 37914
+    },
+    {
+      "timestamp": 1792736550046,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 27.26227646692154,
+      "timeToFirstTokenSec": 0.268305,
+      "totalTimeSec": 5.953817,
+      "promptTokensCount": 37962,
+      "predictedTokensCount": 156,
+      "totalTokensCount": 38118
+    },
+    {
+      "timestamp": 1792736557722,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 28.58389240495196,
+      "timeToFirstTokenSec": 0.498317,
+      "totalTimeSec": 7.320341,
+      "promptTokensCount": 38208,
+      "predictedTokensCount": 196,
+      "totalTokensCount": 38404
+    },
+    {
+      "timestamp": 1792736564308,
+      "model": "flint",
+      "stopReason": "toolCalls",
+      "tokensPerSecond": 28.446691411313605,
+      "timeToFirstTokenSec": 0.27323000000000003,
+      "totalTimeSec": 6.143860000000001,
+      "promptTokensCount": 38452,
+      "predictedTokensCount": 168,
+      "totalTokensCount": 38620
+    }
+  ],
+  "elapsedSeconds": 875.969,
+  "recordedTokenTraffic": 742681,
+  "accountingLimitations": [
+    "Completed-step totals are recorded local model-token traffic, including repeated prompt prefixes, not generated-token count or Codex billing.",
+    "Reasoning tokens are included in output tokens, not additional to them.",
+    "Step25 was in flight when the owned task was stopped; its usage is not reported, so recorded totals are a lower bound.",
+    "Native performance listener captured a subset of requests; those statistics overlap the DSH counts and must not be added again.",
+    "Codex coordinator account-wide token usage is not available from these local DSH logs."
+  ],
+  "runnerFileWrites": 10,
+  "termination": "Coordinator stopped the owned DSH task after repeated runner-file rewrites with no shell/test execution; not natural completion.",
+  "normalProfilesUnchanged": true,
+  "designWords": 310
+}

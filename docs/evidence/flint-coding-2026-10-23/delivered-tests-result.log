@@ -1,0 +1,72 @@
+test_ack_requirements (test_fix.AckNackTests.test_ack_requirements) ... ok
+test_nack_requeues_with_delay_and_invalidates_token (test_fix.AckNackTests.test_nack_requeues_with_delay_and_invalidates_token) ... ERROR
+test_nack_requires_valid_token (test_fix.AckNackTests.test_nack_requires_valid_token) ... ok
+test_claim_is_tenant_scoped (test_fix.ClaimTests.test_claim_is_tenant_scoped) ... ok
+test_expired_jobs_never_claimed_and_are_terminal (test_fix.ClaimTests.test_expired_jobs_never_claimed_and_are_terminal) ... ok
+test_expired_leased_job_not_claimable (test_fix.ClaimTests.test_expired_leased_job_not_claimable) ... ERROR
+test_lease_seconds_and_token_rotation (test_fix.ClaimTests.test_lease_seconds_and_token_rotation) ... ok
+test_limit_respected (test_fix.ClaimTests.test_limit_respected) ... FAIL
+test_order_is_not_before_then_insertion_sequence (test_fix.ClaimTests.test_order_is_not_before_then_insertion_sequence) ... FAIL
+test_concurrent_claims_never_overlap (test_fix.ConcurrencyTests.test_concurrent_claims_never_overlap) ... ok
+test_enqueue_stores_deep_snapshot (test_fix.DeepSnapshotTests.test_enqueue_stores_deep_snapshot) ... ok
+test_peek_unknown_or_other_tenant_is_none (test_fix.DeepSnapshotTests.test_peek_unknown_or_other_tenant_is_none) ... ok
+test_returned_snapshots_are_deep (test_fix.DeepSnapshotTests.test_returned_snapshots_are_deep) ... ok
+test_conflicting_replay_raises_and_keeps_original (test_fix.IdempotencyTests.test_conflicting_replay_raises_and_keeps_original) ... ok
+test_exact_replay_returns_existing_snapshot (test_fix.IdempotencyTests.test_exact_replay_returns_existing_snapshot) ... ok
+test_tenant_scoped_idempotency_key (test_fix.IdempotencyTests.test_tenant_scoped_idempotency_key) ... ok
+test_invalid_claim_arguments_raise_before_mutation (test_fix.IdentifierValidationTests.test_invalid_claim_arguments_raise_before_mutation) ... ok
+test_invalid_nack_delay_raises_even_for_missing_job (test_fix.IdentifierValidationTests.test_invalid_nack_delay_raises_even_for_missing_job) ... ok
+test_invalid_numbers_rejected (test_fix.IdentifierValidationTests.test_invalid_numbers_rejected) ... ok
+test_invalid_tenant_key_and_owner_rejected (test_fix.IdentifierValidationTests.test_invalid_tenant_key_and_owner_rejected) ... ok
+test_basic (test_visible.Smoke.test_basic) ... ok
+
+======================================================================
+ERROR: test_nack_requeues_with_delay_and_invalidates_token (test_fix.AckNackTests.test_nack_requeues_with_delay_and_invalidates_token)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<project>\test_fix.py", line 243, in test_nack_requeues_with_delay_and_invalidates_token
+    self.assertTrue(q.claim('t', 'w')[0]['id'])
+                    ~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_expired_leased_job_not_claimable (test_fix.ClaimTests.test_expired_leased_job_not_claimable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<project>\test_fix.py", line 206, in test_expired_leased_job_not_claimable
+    leased2 = q2.claim('t', 'w', lease_seconds=10)[0]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_limit_respected (test_fix.ClaimTests.test_limit_respected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<project>\test_fix.py", line 158, in test_limit_respected
+    self.assertEqual(q.claim('t', 'w', limit=2)[0]['id'], ids[3])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '3dee56bc46cd451b8020eae79294c8ab' != '0e8eff8969c544ddaea3dc98c59545d4'
+- 3dee56bc46cd451b8020eae79294c8ab
++ 0e8eff8969c544ddaea3dc98c59545d4
+
+
+======================================================================
+FAIL: test_order_is_not_before_then_insertion_sequence (test_fix.ClaimTests.test_order_is_not_before_then_insertion_sequence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<project>\test_fix.py", line 151, in test_order_is_not_before_then_insertion_sequence
+    self.assertEqual([g['id'] for g in got], [j2['id'], j3['id']])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['47d5e10ce68942268fee6cca1bc3e307', 'ea5096187bcf4d2fb7907be6c453a83e']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'47d5e10ce68942268fee6cca1bc3e307'
+
+- []
++ ['47d5e10ce68942268fee6cca1bc3e307', 'ea5096187bcf4d2fb7907be6c453a83e']
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.005s
+
+FAILED (failures=2, errors=2)
