@@ -1,0 +1,57 @@
+[
+  {
+    "app": "web",
+    "sessionId": "session-49525c0b-31f7-4d37-a8e5-0e8017cf2c1e",
+    "prompt": "Reply with exactly FLINT_WEB_OK. Do not use tools.",
+    "selection": {
+      "provider": "lmstudio-library",
+      "model": "flint"
+    },
+    "startedUtc": "2026-10-23T05:20:52.872Z",
+    "endedUtc": "2026-10-23T05:21:37.280Z",
+    "elapsedSeconds": 44.408,
+    "completion": "completed",
+    "toolCalls": 0,
+    "usage": [
+      {
+        "inputTokens": 24113,
+        "outputTokens": 33,
+        "totalTokens": 24146,
+        "reasoningTokens": 26
+      }
+    ],
+    "answer": "FLINT_WEB_OK",
+    "automaticTitleRequest": {
+      "count": 1,
+      "maxTokens": 4096,
+      "usage": "not included in turn usage; not reported by this event"
+    }
+  },
+  {
+    "app": "desktop",
+    "sessionId": "session-654a245d-17f7-49d4-b6e7-b55be20ec65f",
+    "prompt": "Reply with exactly FLINT_DESKTOP_OK. Do not use tools.",
+    "selection": {
+      "provider": "lmstudio-library",
+      "model": "flint"
+    },
+    "startedUtc": "2026-10-23T05:25:17.360Z",
+    "endedUtc": "2026-10-23T05:26:22.264Z",
+    "elapsedSeconds": 64.904,
+    "completion": "completed",
+    "toolCalls": 0,
+    "usage": [
+      {
+        "inputTokens": 16932,
+        "outputTokens": 40,
+        "totalTokens": 16972
+      }
+    ],
+    "answer": "FLINT_DESKTOP_OK",
+    "automaticTitleRequest": {
+      "count": 1,
+      "maxTokens": 4096,
+      "usage": "not included in turn usage; not reported by this event"
+    }
+  }
+]

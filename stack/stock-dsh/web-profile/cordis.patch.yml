@@ -212,6 +212,12 @@
         defaultMaxTokens: 8192
         streamIdleTimeoutMs: 600000
         models:
+          - id: "flint"
+            name: "Flint UD-Q4_K_XL (LM Studio Vulkan)"
+            contextWindow: 32768
+            maxTokens: 8192
+            input: [text]
+            reasoningEfforts: false
           - id: halo/qwen3.8-27b-q4km
             name: Qwen3.8 27B Q4_K_M - Halo tuned (startup default)
             contextWindow: 131072
