@@ -7,7 +7,7 @@
     "fields": [
       {
         "key": "llm.load.contextLength",
-        "value": 32768
+        "value": 262144
       },
       {
         "key": "llm.load.numParallelSessions",

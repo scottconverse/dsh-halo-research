@@ -1,5 +1,7 @@
 # Flint in the normal DSH pickers — October 22, 2026
 
+> Superseded limits: Flint is now configured for 256K context / 32K output. See the [October 23 correction](HALO-FLINT-LIMITS-2026-10-23.md). Acceptance below remains historical evidence at 32K context.
+
 ## Delivered
 Flint UD-Q4_K_XL is selectable under **LM Studio downloaded** in both normal Web and Desktop catalogs as **Flint UD-Q4_K_XL (LM Studio Vulkan)**, provider `lmstudio-library`, model `flint`. It uses the existing LM Studio 0.4.26+4 OpenAI-compatible endpoint on loopback port 1234, with its Vulkan 2.63.0 backend. It does not depend on the earlier temporary llama.cpp server on port 8082.
 

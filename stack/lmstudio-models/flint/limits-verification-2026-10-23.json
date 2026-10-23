@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-23",
+  "verification": "parsed configuration and exact before/after comparison; no inference",
+  "profiles": [
+    {
+      "surface": "web-live",
+      "contextWindow": 262144,
+      "maxTokens": 32768,
+      "otherConfigurationUnchanged": true
+    },
+    {
+      "surface": "desktop-live",
+      "contextWindow": 262144,
+      "maxTokens": 32768,
+      "otherConfigurationUnchanged": true
+    },
+    {
+      "surface": "web-source",
+      "contextWindow": 262144,
+      "maxTokens": 32768,
+      "otherConfigurationUnchanged": true
+    },
+    {
+      "surface": "desktop-source",
+      "contextWindow": 262144,
+      "maxTokens": 32768,
+      "otherConfigurationUnchanged": true
+    }
+  ],
+  "refreshScriptsUpdated": 2,
+  "savedLoadConfigurationsUpdated": 2
+}
