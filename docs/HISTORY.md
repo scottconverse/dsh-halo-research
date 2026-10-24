@@ -77,3 +77,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Flint context/output correction (October 23)](HALO-FLINT-LIMITS-2026-10-23.md): 256K context / 32K output in both saved app catalogs and LM Studio load settings, persistent refresh behavior, all other configuration preserved; configuration checks only, no inference or benchmarks.
 
 - [Flint real coding task (October23)](HALO-FLINT-CODING-2026-10-23.md):30/30 hidden repair checks, four faulty model-written tests, architecture deduplication flaw and incomplete autonomous workflow;14m35.969s task, recorded token accounting and reproducible artifacts. No subagents or comparative benchmarks.
+
+- [Flint removal and auxiliary title-call disable (October 23)](HALO-FLINT-REMOVAL-TITLE-CALLS-2026-10-23.md): restored DeepSeek 1017 Low defaults, retained 64K output, removed Flint from both pickers, migrated four affected next-turn selections and kept deterministic names; configuration/readback only, no tests or inference.

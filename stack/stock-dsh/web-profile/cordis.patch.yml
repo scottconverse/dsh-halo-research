@@ -48,9 +48,9 @@
 - id: agent-default-model
   name: "@deepseek-ai/dsh-agent-default-model"
   config:
-    provider: ollama-local
-    model: qwen3.8:27b-q6_K
-    reasoningEffort: off
+    provider: ollama
+    model: deepseek-v4.1-flash:1017-cloud
+    reasoningEffort: low
 - id: llm-pi-ai
   name: "@deepseek-ai/dsh-llm-pi-ai"
   config:
@@ -212,12 +212,6 @@
         defaultMaxTokens: 8192
         streamIdleTimeoutMs: 600000
         models:
-          - id: "flint"
-            name: "Flint UD-Q4_K_XL (LM Studio Vulkan)"
-            contextWindow: 262144
-            maxTokens: 32768
-            input: [text]
-            reasoningEfforts: false
           - id: halo/qwen3.8-27b-q4km
             name: Qwen3.8 27B Q4_K_M - Halo tuned (startup default)
             contextWindow: 131072
@@ -1325,3 +1319,7 @@
           - C:/Users/scott/Desktop/Code/dsh-halo-research/stack/xerj/mcp-launch.cjs
         toolCallTimeoutMs: 60000
         failOnStartupError: false
+
+# Keep deterministic prompt-derived names and manual renaming; no auxiliary model calls.
+- id: session-title-llm
+  disabled: true

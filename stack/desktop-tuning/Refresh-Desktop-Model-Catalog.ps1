@@ -71,14 +71,12 @@ $library.Add($(if ($lmExtras.Count -gt 0) { '        models:' } else { '        
 foreach ($item in $lmExtras) {
     $context = [Math]::Min(131072, [int]$item.maxContextLength)
     if ($context -lt 8192) { $context = 8192 }
-    if ($item.modelKey -eq 'flint') { $context = 262144 }
     $quant = if ($item.quantization.name) { " $($item.quantization.name)" } else { '' }
     $library.Add("          - id: $(Quote-Yaml $item.modelKey)")
-    $label = if ($item.modelKey -eq 'flint') { 'Flint UD-Q4_K_XL (LM Studio Vulkan)' } elseif ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
+    $label = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { 'Qwen3.8 27B Q4_K_M - Halo tuned' } else { "$($item.displayName)$quant [$($item.modelKey)]" }
     $library.Add("            name: $(Quote-Yaml $label)")
     $library.Add("            contextWindow: $context")
-    $maxOutput = if ($item.modelKey -eq 'flint') { 32768 }
-        elseif ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens }
+    $maxOutput = if ($item.modelKey -eq 'halo/qwen3.8-27b-q4km') { $modelPolicy.desktopQ4.maxTokens }
         elseif ($item.modelKey -eq 'orcasaq-2-cyber-27b-uncensored') { $modelPolicy.desktopQ6.maxTokens }
         else { 8192 }
     $library.Add("            maxTokens: $maxOutput")

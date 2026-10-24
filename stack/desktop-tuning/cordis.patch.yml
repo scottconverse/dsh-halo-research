@@ -165,12 +165,6 @@
         defaultMaxTokens: 8192
         streamIdleTimeoutMs: 600000
         models:
-          - id: "flint"
-            name: "Flint UD-Q4_K_XL (LM Studio Vulkan)"
-            contextWindow: 262144
-            maxTokens: 32768
-            input: [text]
-            reasoningEfforts: false
           - id: "halo/qwen3.8-27b-q4km"
             name: "Qwen3.8 27B Q4_K_M - Halo tuned"
             contextWindow: 131072
@@ -1115,3 +1109,7 @@
           - C:/Users/scott/Desktop/Code/dsh-halo-research/stack/xerj/mcp-launch.cjs
         toolCallTimeoutMs: 60000
         failOnStartupError: false
+
+# Keep deterministic prompt-derived names and manual renaming; no auxiliary model calls.
+- id: session-title-llm
+  disabled: true
