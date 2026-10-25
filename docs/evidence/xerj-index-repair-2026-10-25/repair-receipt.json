@@ -1,0 +1,447 @@
+{
+  "checkedAt": "2026-10-25T19:37:54.130Z",
+  "cause": "Windows packaged-app AppData redirection split one apparent path into two physical XERJ stores; generic cluster health accepted the empty ordinary-process store.",
+  "beforeWindowsProcess": {
+    "pid": 54228,
+    "roots": [
+      {
+        "root": "C:/Users/scott/AppData/Local/XERJ",
+        "pid": "16784",
+        "indexPresent": false,
+        "entries": [
+          ".xerj_alert_fires",
+          ".xerj_alert_rules",
+          ".xerj_api_tokens",
+          ".xerj_audit",
+          ".xerj_cluster_state",
+          ".xerj_connections",
+          ".xerj_dashboards",
+          ".xerj_idp_config",
+          ".xerj_magic_links",
+          ".xerj_master_key",
+          ".xerj_passkeys",
+          ".xerj_prefs",
+          ".xerj_sessions",
+          ".xerj_users",
+          ".xerj_views",
+          "audit.jsonl",
+          "node.lock"
+        ]
+      },
+      {
+        "root": "C:/Users/scott/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/XERJ",
+        "pid": "38172",
+        "indexPresent": true,
+        "entries": [
+          ".xerj_alert_fires",
+          ".xerj_alert_rules",
+          ".xerj_api_tokens",
+          ".xerj_audit",
+          ".xerj_cluster_state",
+          ".xerj_connections",
+          ".xerj_dashboards",
+          ".xerj_idp_config",
+          ".xerj_magic_links",
+          ".xerj_master_key",
+          ".xerj_passkeys",
+          ".xerj_prefs",
+          ".xerj_sessions",
+          ".xerj_users",
+          ".xerj_views",
+          "audit.jsonl",
+          "autoindex-catalog",
+          "halo-records-docs",
+          "node.lock"
+        ]
+      }
+    ]
+  },
+  "afterWindowsProcess": {
+    "pid": 66032,
+    "launcherExitCode": 0,
+    "stderr": "XERJ neural service ready at http://127.0.0.1:9200\n",
+    "physicalRecordedPID": "67040",
+    "physicalSnapshotRecords": 14,
+    "otherStoreRecordedPID": "16784",
+    "otherStoreIndexPresent": false
+  },
+  "physicalData": "C:/Users/scott/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/XERJ/data",
+  "recoveredRecords": 14,
+  "reindexed": false,
+  "neuralModel": "Existing all-MiniLM-L6-v2, unchanged",
+  "storedFilesUnchanged": true,
+  "storedFiles": [
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_dataset.fst",
+      "sha256": "65cf013b7f2c59b0abd71a499c04afca34d34be8363e73812c5793c74298becd",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_dataset.meta",
+      "sha256": "a2dce02859bd4c2498459149d876d1e47834e1f275c41ab5455e38305a77bc33",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_dataset.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_dataset.post",
+      "sha256": "b829f17eb889fbbf819b6f7d49eb272b875981181309f9370513e5570422c00c",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_file.fst",
+      "sha256": "b429e3b67e6bdb8584926ff18bc8068244b1014e74800a0afd8e4f827fc02ae9",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_file.meta",
+      "sha256": "5a5aa4c5639c74e64cb4a59cad1000ac2716456797376f7e4f50e7a19e1aefe5",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_file.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_file.post",
+      "sha256": "e80a5f7d3057a6bcac41a9f007a864542ae8d80a3088d30ca87add3ad0381c94",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_format.fst",
+      "sha256": "dcb228c4216d7288c7e0309048d5d30dd5fe95f214e66c3f9847670be435abac",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_format.meta",
+      "sha256": "a2dce02859bd4c2498459149d876d1e47834e1f275c41ab5455e38305a77bc33",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_format.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_format.post",
+      "sha256": "b829f17eb889fbbf819b6f7d49eb272b875981181309f9370513e5570422c00c",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_locator.fst",
+      "sha256": "8d39fd1802585c36b886da85b5bdca4712bf0a585078a24db3c627d7ff1cdc63",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_locator.meta",
+      "sha256": "edc686d38dd9a5d624403c006c2205d430bebc134fdef2869effb0140e30a877",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_locator.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_locator.post",
+      "sha256": "944c2324820d7ad074cf66c230d9b379aaafd1d6566a8d25989de2e706613adf",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_path.fst",
+      "sha256": "feb9617afd131de27d5896ed1ae0237ab01529e7fb188d3e07288a8726d49d4d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_path.meta",
+      "sha256": "b105fea89b4047c5aab0b2d5a2ba67d516de13261a95fc57efafc74dd5a00e7d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_path.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_path.post",
+      "sha256": "4082529f5039cddb265820c09389ea9849fa14b3ccc3efbdb8b42f4d88c7c66f",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_paths.fst",
+      "sha256": "feb9617afd131de27d5896ed1ae0237ab01529e7fb188d3e07288a8726d49d4d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_paths.meta",
+      "sha256": "b105fea89b4047c5aab0b2d5a2ba67d516de13261a95fc57efafc74dd5a00e7d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_paths.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_paths.post",
+      "sha256": "4082529f5039cddb265820c09389ea9849fa14b3ccc3efbdb8b42f4d88c7c66f",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_run.fst",
+      "sha256": "7980797864e00a71ca0b674c34370ea651aecb048a1d9456eaef6b830896c38d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_run.meta",
+      "sha256": "a2dce02859bd4c2498459149d876d1e47834e1f275c41ab5455e38305a77bc33",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_run.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ax_run.post",
+      "sha256": "b829f17eb889fbbf819b6f7d49eb272b875981181309f9370513e5570422c00c",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.body.fst",
+      "sha256": "35b03f484eac82e874a325ebb769a706f4c96860d619ba570ab1716787a0a267",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.body.meta",
+      "sha256": "cc2290609927b87e6b04501543e00ff59f42d8ac15d08fa4d3ca482d67791abd",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.body.norms",
+      "sha256": "3c5fa91175e789416bcb11f2d8c75fe2627db21a07c50a01d3481f34bf4968ee",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.body.post",
+      "sha256": "89e9c6f23be06049722383bfc2772d67fd0f6eaaf202b1f81662ac3ded755aff",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.dv",
+      "sha256": "c302b970cca0cc696596408150d6e1ad8204cb002cd09a5980fbf5206a635ce3",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.end_line.fst",
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.end_line.meta",
+      "sha256": "8ab9cc43bd4d6eb76c4d3eefe112307c01a5c07bb65a4a80ca212f1dc115b805",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.end_line.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.end_line.post",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ftsan",
+      "sha256": "380118818dc4c11c4ee69b1fdd267df9e9085d288b031e483e8ceaa6c9d969f6",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.ids",
+      "sha256": "5e34067280e8bb0d47e495512ab44a16e6b4caf2586e4e7a26ecb540346976ae",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.impl.fst",
+      "sha256": "037bb2d762b9fe609608d11f8c665ab3aad3dcb3936ead915e6618c7c82d48f9",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.impl.meta",
+      "sha256": "5d046bce2020bb19732d513f9fd7b927a1c49289c27be261687835b3b5e0204b",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.impl.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.impl.post",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.section.fst",
+      "sha256": "8e4fbca2719a46e42f00a5dcd55671e2258b1a67396427fba7cdc78f1572ec04",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.section.meta",
+      "sha256": "edc686d38dd9a5d624403c006c2205d430bebc134fdef2869effb0140e30a877",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.section.norms",
+      "sha256": "89dc7c67b37b4c6f7e426ef862eed9351c3ad148e021b4d8918837ec1a5251bc",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.section.post",
+      "sha256": "944c2324820d7ad074cf66c230d9b379aaafd1d6566a8d25989de2e706613adf",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.seg",
+      "sha256": "18c0e9fc1654e3e34e8e37c93ee722f70e0a9fb674709469ce56a0b874afbf35",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.sidx",
+      "sha256": "7647a25674b0ba0a604fcb42105adbc28e4de8098b0767e0e56ed932e3090d0d",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.title.fst",
+      "sha256": "d783aa07226809e6ca7f67557f1e2b0eaea45fdbf9b6fba7ddd8042dfc80a6b9",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.title.meta",
+      "sha256": "2b8d883015eec0cd6d6325d84b422d8f6ff40a467b31e6ebcc626762f6f9b622",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.title.norms",
+      "sha256": "41aaf13390c7dc462200db90eb89815fcc1e5b848e762399a9851f9684fe4ac9",
+      "unchanged": true
+    },
+    {
+      "file": "segments/c4b7983a-7ddb-4d8e-bc54-2bc177e01b18.title.post",
+      "sha256": "3cb989591326c2fd7e21de3207db8d465a6aafe72263aa08d534ffcc6091bb4e",
+      "unchanged": true
+    },
+    {
+      "file": "hnsw/graph.bin",
+      "sha256": "949ae652a532bfb2baa142902f1e130ea6a951e41ead7238b71fdb33131fb368",
+      "unchanged": true
+    },
+    {
+      "file": "hnsw/ids.json",
+      "sha256": "9ddc922d45347ca5e0eedde0c3908bc48543158f0faaa8af7090347824c0a8ff",
+      "unchanged": true
+    }
+  ],
+  "originalCorpus": [
+    {
+      "file": "HALO-DSH-UI-PLUGINS-2026-10-15.md",
+      "sha256": "12ab99ba3b5ae4a16c31eb9b22b9f5e11f8b0a2b9a82ca83b1ff4d274283d784",
+      "unchanged": true
+    },
+    {
+      "file": "HALO-GUFO-CACHE-REVIEW-2026-10-15.md",
+      "sha256": "5901a83b857a1750462b76f5bdedd505cf000263beb422756f3111216f90f957",
+      "unchanged": true
+    },
+    {
+      "file": "HALO-GUFO-CODING-2026-10-15.md",
+      "sha256": "db02061bf72460b1c2f3465b18d8ba1810d6bb45e5e59dfd0c81e8135b2d3511",
+      "unchanged": true
+    },
+    {
+      "file": "HALO-GUFO-WORK-RECORD-2026-10-15.md",
+      "sha256": "5e6a1c083bc6be3c9d6d39e97e57a243c30999f286b874f55b658b4ea76e169f",
+      "unchanged": true
+    }
+  ],
+  "preservation": {
+    "profiles": [
+      {
+        "file": "C:/Users/scott/.dsh-stock/cordis.patch.yml",
+        "sha256": "144ee4465eb79dac9690b3e55172f2bce3e03374bcef04e3e1d47f7715c27128",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+        "sha256": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+        "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+        "sha256": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+        "unchanged": true
+      }
+    ],
+    "skillFiles": 70,
+    "skillsUnchanged": true
+  },
+  "retrieval": {
+    "host": "DSH Web 0.2.1-rc.3",
+    "sessionId": "session-fd2ded04-e802-4548-b2e4-40be8f77fc96",
+    "tool": "mcp__xerj__xerj_semantic_search",
+    "arguments": {
+      "index": "halo-records-docs",
+      "field": "body",
+      "query": "What did the installed Gufo cache review conclude, and what could it not establish?",
+      "k": 3,
+      "max_tokens": 1800
+    },
+    "elapsedMs": 91,
+    "engineMs": 84,
+    "isError": false,
+    "hits": [
+      {
+        "index": "halo-records-docs",
+        "id": "7e51ac466b1488bb47245f234f91c46a",
+        "score": 0.8688079,
+        "file": "axf2-180c8943fa7766c570d25d1cf77262a4-153d",
+        "path": "HALO-GUFO-CACHE-REVIEW-2026-10-15.md",
+        "title": "# Installed Gufo cache review — October 15, 2026",
+        "section": 0,
+        "excerpt": "# Installed Gufo cache review — October 15, 2026\n\n## Outcome\nNo cache defect was confirmed in the existing installed-build logs. No repair or runtime/configuration change was made. Models, picker entries, defaults, launchers, cache options and loaded-model state were not changed by this task. No inference request, benchmark, restart, model load/unload, binary execution or new cache trial was performed.\n\nThe inspected installation remains the recorded pixmaate Windows release windows-2026-10-03. Its Q6 and recommended Q4/DFlash2 logs show successful memory-cache reuse. Community reports about other builds are not evidence this installation needs their source patches or cache flags.\n\n## Sources and method\nThe two authoritative log snapshots were:\n- Existing Q6 run: `C:\\Users\\scott\\Documents\\Codex\\2026-10-15\\gufo-install\\gufo.stderr.log`, 135lines, 09:43:50–10:37:04 local time.\n- Q4/DFlash2 launcher log: `C:\\Users\\scott\\AppData\\Local\\Gufo\\stderr.log`, 374lines at snapshot, 10:38:00–13:26:05 local time.\n\nTimes are October15 America/Denver as emitted by the existing logger. Historical copies under gufo-recommended were not counted as additional experiments. Snapshots and SHA-256 were preserved under `C:\\Users\\scott\\Documents\\Codex\\2026-10-15\\gufo-cache-review`. Parsed metadata and the analyzer are adjacent in the repository evidence folder. No prompts or answer text are included in that metadata.\n\nThe analyzer reads all lines, selects completed generation requests and separately i"
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "34d1a3ab713c276b4a4f92e211eee974",
+        "score": 0.80224127,
+        "file": "axf2-180c8943fa7766c570d25d1cf77262a4-153d",
+        "path": "HALO-GUFO-CACHE-REVIEW-2026-10-15.md",
+        "title": "# Installed Gufo cache review — October 15, 2026",
+        "section": 2,
+        "excerpt": "s values were2,774,159,364forQ6 and1,969,057,884forQ4. This per-request snapshot-size field must not be interpreted as an aggregate RAM cache budget or proof all snapshots are retained simultaneously.\n\nNo byte_capacity, skipped-snapshot or eviction warning was present in these snapshots. No Q4 warning/error entry was found. Q6 contains oneHTTP400bad_request with blank method/path at09:54:41; it is not a generation-cache error. Other completed model requests in the reviewed record returned200.\n\n## What this does and does not establish\n- Confirmed: memory-cache reuse works on the saved short/medium-context jobs; repeated full-prefill failure is not present in these records.\n- Not confirmed: the20–30GB snapshot-growth behavior from the Reddit report, zero-free-memory detection, a too-small snapshot budget, or a preserve-thinking mismatch. The saved jobs used thinking off.\n- Unverified: sustained128K workloads, cache eviction across many independent conversations, disk persistence across restart, exact configured RAM snapshot capacity, and present total system/GPU memory. The log says disk_cache=off; that is a configuration choice, not a defect.\n- The canonical Start-Gufo.ps1 does not specify a RAM cache cap. Absence of a cap is not itself evidence of failure, and no unverified CLI option or hypothetical optimization was added.\n\n## Decision\nLeave the working deployment alone. If an existing future job shows cache_snapshot skips, repeated cold continuation or excessive retained me"
+      },
+      {
+        "index": "halo-records-docs",
+        "id": "4870d59150642521635e5d82761ea656",
+        "score": 0.79564404,
+        "file": "axf2-c9e94005a3e7b55670e9edc6025ffc60-127c",
+        "path": "HALO-GUFO-WORK-RECORD-2026-10-15.md",
+        "title": "# Gufo installation, real jobs and DSH speed correction — October 15, 2026",
+        "section": 0,
+        "excerpt": "# Gufo installation, real jobs and DSH speed correction — October 15, 2026\n\nThis index preserves the work and its limits in one place. Reports below record the full job prompts, model identities, timing, usage and findings. No new jobs were run to create this documentation.\n\n## Work performed and reports\n1. [Windows installation and integration](HALO-GUFO-WINDOWS-2026-10-15.md): pinned Windows Gufo release, checksum, existing 27B Q6 weights, additive providers in Web and Desktop, serialized real library lookups, startup protection, launchers, original defaults restored. Includes the failed initial Web provider setup and its correction.\n2. [Recommended model configuration](HALO-GUFO-RECOMMENDED-MODEL-2026-10-15.md): downloaded Unsloth 27B Q4 target and z-lab DFlash2 draft, verified published hashes, added picker entries, one real Desktop lookup. These are recommended third-party weights, not Gufo-trained weights. Web exposes the entry but this Q4 configuration was not separately exercised there.\n3. [Short coding job](HALO-GUFO-CODING-2026-10-15.md): verbatim prompt, four planted defects, unchanged visible tests, successful repair, 67.057-second elapsed duration, eight model passes and server-derived timing. It finished sooner than the requested few minutes; no work was added to prolong it.\n4. [DSH speed-reporting repair](HALO-DSH-GENERATION-SPEED-2026-10-15.md): actual shared source bug, exact scope of the local Web/Desktop repair, saved-record verification, observed UI result"
+      }
+    ],
+    "sequence": "One semantic retrieval after recovering the original store; physical-path pin followed, with metadata/readiness readbacks from an ordinary Windows process. No repeated semantic query."
+  },
+  "modelGenerationCalls": 0
+}

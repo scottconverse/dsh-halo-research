@@ -1,15 +1,25 @@
 // Shared service lifecycle only. XERJ itself owns MCP and retrieval.
 const fs = require('node:fs');
 const { spawn } = require('node:child_process');
-const base='C:/Users/scott/AppData/Local/XERJ';const exe='C:/Users/scott/AppData/Local/Programs/xerj/xerj.exe';
+// Pin the original physical store: MSIX AppData redirection differs by launch context.
+const base='C:/Users/scott/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/XERJ';const exe='C:/Users/scott/AppData/Local/Programs/xerj/xerj.exe';
 const args=['--insecure','--bind','127.0.0.1','--port','9200','--embed-mode','neural','--data-dir',base+'/data','--disable-feedback'];
 async function healthy() {
   try {
     const r = await fetch('http://127.0.0.1:9200/_cluster/health', {
       signal: AbortSignal.timeout(1500),
     });
-    return r.ok && (await r.json()).cluster_name === 'xerj';
+    if (!r.ok || (await r.json()).cluster_name !== 'xerj') return false;
   } catch { return false; }
+  // A responding node can be serving a different Windows filesystem view.
+  // Refuse adoption rather than silently accepting an empty store or starting a rival node.
+  if (fs.existsSync(base + '/data/halo-records-docs/snapshot.json')) {
+    const index = await fetch('http://127.0.0.1:9200/halo-records-docs', {
+      signal: AbortSignal.timeout(1500),
+    });
+    if (!index.ok) throw Error('XERJ responds but cannot open the retained halo-records-docs index (HTTP ' + index.status + '). Verify and restart the shared node; do not reindex or start a competing server. Expected store: ' + base + '/data');
+  }
+  return true;
 }
 
 async function waitReady() {

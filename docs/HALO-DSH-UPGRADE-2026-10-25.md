@@ -1,5 +1,7 @@
 # DSH Web and Desktop rc.3 upgrade — October 25, 2026
 
+> Follow-up: [XERJ index recovery](HALO-XERJ-INDEX-RECOVERY-2026-10-25.md) resolved the missing-corpus incident later on October25. The failed upgrade-time receipt below is retained as historical evidence.
+
 Both applications were upgraded from **0.2.1-rc.2 to 0.2.1-rc.3**, Web first and Desktop second. Models, defaults, profiles, skills and community plugin pins were preserved. Actual native routing, Wigolo retrieval and Redlib listing operations succeeded in each app. XERJ's connection responds, but its previous document index is absent; that failure remains disclosed below.
 
 ## Release and deployment

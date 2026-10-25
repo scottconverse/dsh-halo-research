@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
-$base = 'C:\Users\scott\AppData\Local\XERJ'
+# Use the same physical store from both packaged and ordinary Windows processes.
+$base = 'C:\Users\scott\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\XERJ'
 $exe = 'C:\Users\scott\AppData\Local\Programs\xerj\xerj.exe'
 if (-not (Test-Path -LiteralPath "$base\server.pid")) { Write-Output 'No recorded XERJ service process.'; exit 0 }
 $serviceId = [int](Get-Content -LiteralPath "$base\server.pid" -Raw)

@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [XERJ original-index recovery (October 25)](HALO-XERJ-INDEX-RECOVERY-2026-10-25.md): Windows packaged/ordinary AppData split proven; original 14 records preserved, physical store pinned, one real MCP retrieval and native startup readiness verified.
+
 - [Web and Desktop rc.3 upgrade (October 25)](HALO-DSH-UPGRADE-2026-10-25.md): official installer provenance, preserved settings/skills/community pins, actual Low/64K model_route and Wigolo/Redlib checks in both hosts; missing XERJ corpus explicitly disclosed.
 
 Start with the [recovered history and source inventory](history/README.md). It covers the current repo, Halo Stack Research and Halo Old Archive, preserves failures and superseded claims, and links current reports separately from historical records.
