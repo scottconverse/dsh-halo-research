@@ -88,3 +88,29 @@ slower and more expensive at high, so the efficiency result is case-specific.
 - A claim that any arm is incapable of a task because one run hit a cap.
 - Cross-model rankings from either study. Both are single-model or single-suite.
 
+
+## Native plugin v0.1.0 — October 24, 2026
+
+`plugin/index.mjs` registers `model_route` using the supported native JSON-schema
+registry contract. It delegates to native `pwsh` through `ctx.tools.execute` with
+the caller agent, parent and cancellation signal. The unchanged CLI remains the
+single resolver for model settings, provider transport and ledger receipts.
+
+Focused offline verification used installed DSH 0.2.1-rc.2 ToolRuntime, the real
+plugin and CLI, an isolated process environment and an ephemeral loopback HTTP
+mock. Final installed Web copy passed: 6 mock requests, 0 model calls. One call
+plus two DeepSeek batch items carried Low/65536 and no num_ctx. Two local-model
+items had no imposed settings; the last request proved explicit overrides. Other
+cloud batch IDs were blocked before HTTP. Native policy denial and pre-start
+cancellation prevented process execution; background forwarding returned a
+stubbed job ID (not proof of live background lifecycle). Six temporary ledger
+rows were checked and removed with the isolated fixture. No production ledger
+or model configuration was changed.
+
+The offline setup initially used an unavailable Context.start API; it was fixed
+to use the installed Cordis Fiber.await API before the passing runs. The initial
+and final installed verification both passed after that setup correction. There
+were no provider requests, benchmarks or subagents. No live UI/model/job test or
+active-session tool availability is claimed. Both apps' preset configuration now
+loads the plugin when those presets are composed. Existing app scopes were not
+restarted or interrupted. See plugin/README.md for architecture and usage.

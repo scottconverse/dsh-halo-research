@@ -1,6 +1,8 @@
 # GENERATED FILE - DO NOT EDIT.
 # Source: web-profile/cordis.patch.yml (embedded registered preset).
 # Run: node preset-sync.mjs sync
+- id: model-routing
+  name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
 # The `standard` agent preset: the full coding agent, mounted once per process.
 #
 # This file is an AGENT-PLANE composition. The roster mounts it ONCE under a

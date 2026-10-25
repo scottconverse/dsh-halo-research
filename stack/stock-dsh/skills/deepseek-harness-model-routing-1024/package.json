@@ -1,0 +1,11 @@
+{
+  "name": "dsh-model-routing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Native DSH routing tool backed by the retained PowerShell CLI",
+  "exports": "./plugin/index.mjs",
+  "engines": {
+    "node": ">=22"
+  }
+}

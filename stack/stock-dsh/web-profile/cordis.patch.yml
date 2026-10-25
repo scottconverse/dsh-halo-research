@@ -371,6 +371,8 @@
         id: fast-first
         name: Halo fast-first
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           # Optional coding composition; full presets and the host remain unchanged.
           - id: persona
             name: '@deepseek-ai/dsh-persona'
@@ -525,6 +527,8 @@
         id: local
         name: Halo local
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           # The `standard` agent preset: the full coding agent, mounted once per process.
           #
           # This file is an AGENT-PLANE composition. The roster mounts it ONCE under a
@@ -863,6 +867,8 @@
         id: local-codex
         name: Halo local-codex
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           # The `standard` agent preset: the full coding agent, mounted once per process.
           #
           # This file is an AGENT-PLANE composition. The roster mounts it ONCE under a
@@ -1200,6 +1206,8 @@
         id: local-lean
         name: Halo local-lean
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           # Optional coding composition; full presets and the host remain unchanged.
           - id: persona
             name: '@deepseek-ai/dsh-persona'

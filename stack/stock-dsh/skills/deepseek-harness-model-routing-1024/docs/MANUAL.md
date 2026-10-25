@@ -1,3 +1,7 @@
+# Native plugin v0.1.0
+
+For both DSH Web and Desktop, see the [plugin manual](../plugin/README.md). The root companion skill is intentionally short. Native model_route delegates to the unchanged route.ps1; normal chat/subagent selection remains DSH-owned.
+
 # User manual
 
 DeepSeek Harness Model Routing 1024 — a model-routing skill for DSH Desktop.

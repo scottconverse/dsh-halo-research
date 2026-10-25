@@ -327,6 +327,8 @@
         id: local
         name: Halo local
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           - id: halo-desktop-research
             name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-tuning/research-tool-hook.mjs
           # The `standard` agent preset: the full coding agent, mounted once per process.
@@ -659,6 +661,8 @@
         id: local-codex
         name: Halo local-codex
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           - id: halo-desktop-research
             name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-tuning/research-tool-hook.mjs
           # The `standard` agent preset: the full coding agent, mounted once per process.
@@ -998,6 +1002,8 @@
         id: local-lean
         name: Halo local-lean
         plugins:
+          - id: model-routing
+            name: file:///C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
           # Optional coding composition; full presets and the host remain unchanged.
           - id: persona
             name: '@deepseek-ai/dsh-persona'

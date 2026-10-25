@@ -1,0 +1,43 @@
+{
+  "files": 21,
+  "profiles": [
+    {
+      "file": "C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/web-profile/cordis.patch.yml",
+      "pluginRows": 4,
+      "beforeSha256": "86d061b0490d9ed1540ed3161df034db5b5909f20e10574530d64433753ddd75",
+      "afterSha256": "7177ae9c988c15c5b4082f294a8cc8fc9345976a0aa45412750dd1bc9c90974b",
+      "onlyRoutingRowsAdded": true
+    },
+    {
+      "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+      "pluginRows": 4,
+      "beforeSha256": "15177c4b8b9f709e6d30019f3674d41d1a6dfba1ae6fe360117e556fa0588418",
+      "afterSha256": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+      "onlyRoutingRowsAdded": true
+    },
+    {
+      "file": "C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-tuning/cordis.patch.yml",
+      "pluginRows": 3,
+      "beforeSha256": "4b8e3a2087e2f592a7085f7403bd793f4a2d9f00330e083b9e9505bfaef26e2f",
+      "afterSha256": "97c70b2e25acc452fcc0825c73f3c7f2beefffc95abff8f4e572f14b51988352",
+      "onlyRoutingRowsAdded": true
+    },
+    {
+      "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+      "pluginRows": 3,
+      "beforeSha256": "6184b35a76f3394101e63aa7a794f5cf089445f3c5c37be34912e5fb47b0100d",
+      "afterSha256": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+      "onlyRoutingRowsAdded": true
+    }
+  ],
+  "sourceCliUnmodified": true,
+  "modelsAndDefaultsPreserved": true,
+  "pluginName": "model_route",
+  "version": "0.1.0",
+  "sourceCommit": "657dd92ce2e10b702ef00c0e8e765ed5df8be807",
+  "installedFiles": 21,
+  "installedHashMismatches": [],
+  "cliSha256": "e1169eac39f0662f44841e85c7d534c307825d5f90678b70314f1ca679d02b34",
+  "settingsSha256": "b75cb64591608c43fb0806d2a503a5e0f8e92fb2e743a8caa4b3be22f6bf55ff",
+  "activeSessionAvailability": "Not verified: existing hosts were not restarted or interrupted."
+}

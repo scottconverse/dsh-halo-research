@@ -1,3 +1,10 @@
+# Plugin v0.1.0 — 2026-10-24
+
+- Added native model_route through DSH tool dispatch/pwsh, with scoped permissions, caller cancellation and optional native background jobs.
+- Retained CLI/shared Low/65536 resolver, settings and receipts without model/default changes.
+- Replaced long skill with a small Web/Desktop companion; documented native install and limits.
+- Offline verification uses real DSH ToolRuntime and CLI against loopback mock; no real model calls.
+
 # Changelog
 
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is

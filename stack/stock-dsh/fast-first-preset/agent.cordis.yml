@@ -1,6 +1,8 @@
 # GENERATED FILE - DO NOT EDIT.
 # Source: web-profile/cordis.patch.yml (embedded registered preset).
 # Run: node preset-sync.mjs sync
+- id: model-routing
+  name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/skills/deepseek-harness-model-routing-1024/plugin/index.mjs
 # Optional coding composition; full presets and the host remain unchanged.
 - id: persona
   name: '@deepseek-ai/dsh-persona'

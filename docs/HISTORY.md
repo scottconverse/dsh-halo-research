@@ -81,3 +81,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Flint removal and auxiliary title-call disable (October 23)](HALO-FLINT-REMOVAL-TITLE-CALLS-2026-10-23.md): restored DeepSeek 1017 Low defaults, retained 64K output, removed Flint from both pickers, migrated four affected next-turn selections and kept deterministic names; configuration/readback only, no tests or inference.
 
 - [Web model-routing skill installation (October 24)](HALO-WEB-ROUTING-SKILL-2026-10-24.md): exact committed skill installed; live Web discovery and 22 offline call/batch assertions passed; Low/64K default, profiles preserved, no model calls or benchmarks.
+
+- [Native routing plugin for Web/Desktop (October 24)](HALO-ROUTING-PLUGIN-2026-10-24.md): existing CLI and native tool/pwsh services, small companion skill, offline Low/65536 proof, models/defaults preserved; active existing scopes not restarted.

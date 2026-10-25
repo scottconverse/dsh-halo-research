@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "nativeRegistry": true,
+  "plugin": "model_route",
+  "mockRequests": 6,
+  "deepseekDefaultRequests": 3,
+  "defaultThink": "low",
+  "defaultNumPredict": 65536,
+  "localUnchanged": true,
+  "otherCloudBlocked": true,
+  "overrides": true,
+  "permissionDeniedBeforeProcess": true,
+  "abortedBeforeProcess": true,
+  "nativeBackgroundForwarding": true,
+  "modelCalls": 0,
+  "ledgerRows": 6
+}

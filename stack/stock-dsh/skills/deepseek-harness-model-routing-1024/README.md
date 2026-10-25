@@ -1,3 +1,9 @@
+# Native DSH plugin v0.1.0
+
+This repository now includes a native **model_route** plugin for DSH Web and Desktop, the retained PowerShell CLI, and a short companion skill. The plugin reuses DSH tool execution, permissions and jobs; it does not change your chat model or defaults. See [plugin architecture, installation and use](plugin/README.md). Exact DeepSeek 1017 uses Low/65536 in call and batch; other models keep their own settings.
+
+The original CLI documentation follows. Older routing advice below is advisory only: do not switch models, delegate or make external calls without authorization.
+
 # DeepSeek Harness Model Routing 1024
 
 **Self first. Local for batch. External only when it pays.**
