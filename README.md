@@ -19,7 +19,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-The repository release [v0.3.7](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.7) is a Halo source snapshot, not the upstream DSH version. It includes the rc.3 upgrade and XERJ recovery; see [release notes](RELEASE-NOTES-v0.3.7.md). The source release does not automatically migrate another machine's sessions.
+The repository release [v0.3.8](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.8) is a Halo source snapshot, not the upstream DSH version. It includes the LibreOffice CLI skill and sample ODT/PDF, plus the rc.3 upgrade and XERJ recovery; see [release notes](RELEASE-NOTES-v0.3.8.md). The source release does not automatically migrate another machine's sessions.
 
 The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 

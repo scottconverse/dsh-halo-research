@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Halo v0.3.8 source release](../RELEASE-NOTES-v0.3.8.md): LibreOffice CLI skill, retained-session runner, locked dependencies, documentation and public ODT/PDF/project/acceptance receipt. Existing evidence reused; no additional tests or model calls.
+
 - [LibreOffice CLI in Web and Desktop (October 25)](HALO-LIBREOFFICE-CLI-2026-10-25.md): isolated install, watched skill wiring, one shared real ODT/PDF workflow, unchanged profiles/existing skills and published sample/receipt; no model calls or benchmarks.
 
 - [Halo v0.3.7 source release](../RELEASE-NOTES-v0.3.7.md): DSH Web/Desktop 0.2.1-rc.3 upgrade, original XERJ corpus recovery and readiness repair, preserved routing/plugin/skill setup, dated evidence and exclusions. Existing evidence reused; no new tests or model calls.
