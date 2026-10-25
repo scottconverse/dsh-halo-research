@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-10-25",
+  "note": "Per-model request settings for direct provider calls. Only models listed here get explicit defaults; everything else keeps the provider's own defaults. Context capacity is advertised, not enforced: Ollama cloud models use their maximum context by default and num_ctx is not sent.",
+  "models": {
+    "deepseek-v4.1-flash:1017-cloud": {
+      "provider": "ollama",
+      "effort": "low",
+      "max_tokens": 65536,
+      "context": {
+        "handling": "provider-managed",
+        "advertised": 1048576
+      }
+    }
+  }
+}

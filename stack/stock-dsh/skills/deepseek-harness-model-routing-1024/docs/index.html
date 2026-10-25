@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek Harness Model Routing 1024</title>
+<meta name="description" content="A self-first model routing skill for DSH Desktop: local Ollama for free batch, external Claude/Codex only when an explicit escalation test passes.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --panel-2: #1c2230;
+    --ink: #e6edf3;
+    --muted: #9aa7b4;
+    --line: #2a3441;
+    --accent: #58a6ff;
+    --accent-2: #7ee787;
+    --warn: #f0b72f;
+    --mono: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f7f8fa; --panel: #ffffff; --panel-2: #f0f3f7;
+      --ink: #10151c; --muted: #5a6675; --line: #d9e0e8;
+      --accent: #0b63ce; --accent-2: #1a7f37; --warn: #8a5a00;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 72px 0 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.12; margin: 14px 0 12px; letter-spacing: -0.02em; }
+  .lede { font-size: clamp(17px, 2.2vw, 21px); color: var(--muted); max-width: 44ch; margin: 0 0 26px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--ink); font-weight: 600; font-size: 14px;
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #04121f; }
+  section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 22px; font-family: var(--mono); }
+  h3 { margin: 0 0 8px; font-size: 17px; }
+  p { margin: 0 0 14px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .card .tag { font: 600 11px/1 var(--mono); color: var(--muted); letter-spacing: .1em; }
+  .card p { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+  .num { font: 700 26px/1 var(--mono); color: var(--accent-2); display: block; margin-bottom: 8px; }
+  pre {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px; overflow-x: auto; font: 13px/1.55 var(--mono); margin: 0 0 14px;
+  }
+  code { font-family: var(--mono); font-size: .92em; }
+  .rule { color: var(--warn); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  td.mono, th.mono { font-family: var(--mono); }
+  .note { color: var(--muted); font-size: 13px; }
+  footer { padding: 36px 0 56px; color: var(--muted); font-size: 13px; }
+  ul { margin: 0 0 14px; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">DSH Desktop · skill</div>
+    <h1>DeepSeek Harness<br>Model Routing 1024</h1>
+    <p class="lede">Self first. Local for batch. External models only when an explicit escalation test says the advantage is real.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/scottconverse/deepseek-harness-model-routing-1024">View on GitHub</a>
+      <a class="btn" href="MANUAL.md">Read the manual</a>
+      <a class="btn" href="https://github.com/scottconverse/deepseek-harness-model-routing-1024/blob/main/SKILL.md">Skill source</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Why it exists</h2>
+    <p>Most routing skills sort by price per token. Inside DSH that optimises the wrong variable: the session model is already paid for, so its marginal dollar cost is zero. What actually costs you is wall-clock and rework.</p>
+    <p>This skill optimises <strong>cost per accepted item</strong> — and it makes “accepted” a command's exit code, not an opinion.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Three lanes</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="tag">LANE 1 · DEFAULT</span>
+        <h3>Self</h3>
+        <p>The DSH session model does the work. Effort is behavioural here: E1 run the tests, E2 write an oracle first, E3 independent verification. No quota, no setup.</p>
+      </div>
+      <div class="card">
+        <span class="tag">LANE 2 · FREE BATCH</span>
+        <h3>Local Ollama</h3>
+        <p>Homogeneous, checkable, private work. Parallel 1–2. Local weights are free; one cloud model is allowed and priced as an estimate.</p>
+      </div>
+      <div class="card">
+        <span class="tag">LANE 3 · EXCEPTION</span>
+        <h3>External</h3>
+        <p><code>claude -p</code> and <code>codex exec</code>. Paid, slow to integrate, and only for a capability ceiling, a named-risk audit, or a worktree delegation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The escalation test</h2>
+<pre><code>external_worth_it =
+      self_failed_acceptance_twice
+   or task_in_known_weak_class        <span class="rule"># exact/dense algorithms</span>
+   or irreversible_high_stakes        <span class="rule"># auth, migrations, deletion</span>
+   or (wallclock_critical and ext &gt; 4x faster and task &gt;= 1 hour)
+  and can_verify_the_output           <span class="rule"># no oracle, no delegation</span>
+  and est_external_cost &lt; value_of_time_saved</code></pre>
+    <p class="note">The load-bearing clause is <code>can_verify_the_output</code>. If you cannot check what comes back, an external model is just a more confident guess.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Five commands</h2>
+<pre><code>./scripts/route.ps1 probe
+./scripts/route.ps1 call  -Route local -Model qwen3.8:27b-q4_K_M `
+                          -PromptFile prompt.txt -Task summarize -Class docs
+./scripts/route.ps1 accept -Task summarize -Cmd "pytest -q"
+./scripts/route.ps1 report -ByClass
+./scripts/route.ps1 settings -Model deepseek-v4.1-flash:1017-cloud</code></pre>
+    <p class="note">One call, one ledger line, one receipt. Acceptance is recorded by a command's exit code, so <code>report</code> can compute cost per accepted item.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Verified, not asserted</h2>
+    <div class="grid">
+      <div class="card"><span class="num">60/60</span><span class="tag">OFFLINE TESTS</span><p>No network, no quota, no model calls.</p></div>
+      <div class="card"><span class="num">656</span><span class="tag">HUMANEVAL CALLS</span><p>164 tasks × 4 effort levels, 64K cap, one attempt each.</p></div>
+      <div class="card"><span class="num">164/164</span><span class="tag">BEST ARM</span><p>Effort <code>low</code> 164/164; <code>off</code> 159/164; <code>high</code> and <code>max</code> 161/164, each with 2 cap-loops. All attempts counted.</p></div>
+    </div>
+    <p class="note" style="margin-top:16px">Full results and caveats: <a href="EVIDENCE.md">EVIDENCE.md</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What it refuses to do</h2>
+    <ul>
+      <li>Escalate for style, tone, or “a second opinion” with no named risk.</li>
+      <li>Send a batch to a paid lane — <code>batch</code> refuses external and cloud-tagged models.</li>
+      <li>Let an external model be the last reader: it proposes a patch, you review and apply it.</li>
+      <li>Invent a cost. Codex returns a single token count, so its cost stays <code>n/a</code> rather than guessed.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Status 0.3.1 · PowerShell 7 · Windows-first · <a href="https://github.com/scottconverse/deepseek-harness-model-routing-1024">source</a> · <a href="MANUAL.md">manual</a><br>
+    License not yet chosen.
+  </div>
+</footer>
+
+</body>
+</html>
+
+
+
+

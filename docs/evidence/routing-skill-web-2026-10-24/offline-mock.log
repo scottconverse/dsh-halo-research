@@ -1,0 +1,24 @@
+PASS  call to 1017 succeeds against the mock
+PASS  batch to 1017 succeeds against the mock
+PASS  other cloud model is blocked
+PASS  blocked model sends no HTTP request
+PASS  local batch still works
+PASS  four requests captured (got 4)
+PASS  one call plus two batch items used the exact DeepSeek id
+PASS  every DeepSeek request carries think low and num_predict 65536, and no num_ctx
+PASS  local model request captured
+PASS  local model gets no imposed settings
+PASS  two batch ledger rows
+PASS  batch rows record effort low as model-default
+PASS  batch rows record 65536 as model-default
+PASS  batch rows record provider-managed 1M context
+PASS  batch rows distinguish cloud execution from local transport
+PASS  batch rows price the cloud model as an estimate, not zero
+PASS  batch rows keep requested and returned model
+PASS  batch rows keep tokens and stop reason
+PASS  batch rows have unique call ids
+PASS  call row records the same resolved values
+PASS  local batch row is labelled free local inference
+PASS  local batch row has no imposed settings
+
+22 passed, 0 failed

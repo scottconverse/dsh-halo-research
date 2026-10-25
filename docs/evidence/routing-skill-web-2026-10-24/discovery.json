@@ -1,0 +1,15 @@
+{
+  "Discovered": true,
+  "Skill": [
+    {
+      "name": "deepseek-harness-model-routing-1024",
+      "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\deepseek-harness-model-routing-1024\\SKILL.md",
+      "description": "Route work inside DSH Desktop. The session model is the default and does the work; local Ollama is the free batch lane; an external Claude or Codex call is an exception that must pass an explicit escalation test. Use when choosing a model or effort for a task, when a task has failed acceptance twice, for large homogeneous batches (classify, summarize, extract, sweep), before spending Claude or ChatGPT quota from inside DSH, when reviewing an irreversible change (auth, migration, deletion, money), or when asked which models this machine can actually reach.",
+      "modelInvocable": true
+    }
+  ],
+  "CatalogCount": 13,
+  "Endpoint": "skills/list",
+  "Host": "http://127.0.0.1:3080",
+  "ModelCalls": 0
+}

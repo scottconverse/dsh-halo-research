@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-10-24",
+  "currency": "USD",
+  "note": "API-equivalent list rates per 1M tokens, for internal cost estimates only. These are NOT what a subscription charges. Re-verify before quoting; prices moved several times in October 2026. Local Ollama models are priced at zero.",
+  "models": {
+    "haiku": { "in": 0.10, "out": 0.50, "note": "Claude Haiku 5.5, prompts <=100k tokens; 5x above that" },
+    "sonnet": { "in": 2.00, "out": 10.00, "note": "Claude Sonnet 5.5" },
+    "opus": { "in": 4.00, "out": 20.00, "note": "Claude Opus 5.5" },
+    "fable": { "in": 10.00, "out": 50.00, "note": "Claude Fable 5.1" },
+    "gpt-6.1-sol": { "in": 2.00, "out": 10.00, "note": "GPT-6.1 Sol Standard; 2x above 272k input" },
+    "gpt-6-astra": { "in": 10.00, "out": 50.00, "note": "GPT-6 Astra" },
+    "gpt-6-luna": { "in": 0.10, "out": 0.50, "note": "GPT-6 Luna" },
+    "gpt-6-sol": { "in": 2.00, "out": 10.00, "note": "GPT-6 Sol" },
+    "gpt-5.6-terra": { "in": 2.00, "out": 12.00, "note": "GPT-5.6 Terra" },
+    "deepseek-v4.1-flash:1017-cloud": { "in": 0.15, "out": 0.60, "note": "Ollama off-peak" }
+  }
+}

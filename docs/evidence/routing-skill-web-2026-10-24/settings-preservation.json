@@ -1,0 +1,20 @@
+[
+  {
+    "Path": "C:\\Users\\scott\\.dsh-stock\\cordis.patch.yml",
+    "Before": "144EE4465EB79DAC9690B3E55172F2BCE3E03374BCEF04E3E1D47F7715C27128",
+    "After": "144EE4465EB79DAC9690B3E55172F2BCE3E03374BCEF04E3E1D47F7715C27128",
+    "Unchanged": true
+  },
+  {
+    "Path": "C:\\Users\\scott\\.dsh-stock\\profiles\\web\\cordis.patch.yml",
+    "Before": "15177C4B8B9F709E6D30019F3674D41D1A6DFBA1AE6FE360117E556FA0588418",
+    "After": "15177C4B8B9F709E6D30019F3674D41D1A6DFBA1AE6FE360117E556FA0588418",
+    "Unchanged": true
+  },
+  {
+    "Path": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\profiles\\desktop\\cordis.patch.yml",
+    "Before": "6184B35A76F3394101E63AA7A794F5CF089445F3C5C37BE34912E5FB47B0100D",
+    "After": "6184B35A76F3394101E63AA7A794F5CF089445F3C5C37BE34912E5FB47B0100D",
+    "Unchanged": true
+  }
+]
