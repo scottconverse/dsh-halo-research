@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Halo v0.3.7 source release](../RELEASE-NOTES-v0.3.7.md): DSH Web/Desktop 0.2.1-rc.3 upgrade, original XERJ corpus recovery and readiness repair, preserved routing/plugin/skill setup, dated evidence and exclusions. Existing evidence reused; no new tests or model calls.
+
 - [XERJ original-index recovery (October 25)](HALO-XERJ-INDEX-RECOVERY-2026-10-25.md): Windows packaged/ordinary AppData split proven; original 14 records preserved, physical store pinned, one real MCP retrieval and native startup readiness verified.
 
 - [Web and Desktop rc.3 upgrade (October 25)](HALO-DSH-UPGRADE-2026-10-25.md): official installer provenance, preserved settings/skills/community pins, actual Low/64K model_route and Wigolo/Redlib checks in both hosts; missing XERJ corpus explicitly disclosed.
