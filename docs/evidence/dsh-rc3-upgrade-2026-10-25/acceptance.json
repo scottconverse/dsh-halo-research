@@ -1,0 +1,415 @@
+{
+  "checkedAt": "2026-10-25T18:43:44.943Z",
+  "upstream": {
+    "version": "0.2.1-rc.3",
+    "url": "https://download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.2.1-rc.3-win-x64.exe",
+    "sha512": "q5IGr2Bf+TvvCpagHj49Ypn/ZrqR7kqrYpLjqXP7VfDINmddlqZQmG+YfsdL3q3EdTRMRlKz/a3jDAEzdNdDOw==",
+    "bytes": 289415960,
+    "verifiedAt": "2026-10-25T18:29:43.379Z",
+    "authenticode": {
+      "status": "Valid",
+      "signer": "Hangzhou DeepSeek Artificial Intelligence Co., Ltd."
+    },
+    "upstream": {
+      "tag": "dsh-v0.2.1-rc.3",
+      "commit": "1f81c047fc48fa190a683e469daa699857e9afe8",
+      "release": "https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-rc.3",
+      "feed": "https://download.deepseek.com/dsh-desk/feeds/win-x64/nightly.yml"
+    }
+  },
+  "hosts": [
+    {
+      "host": "web",
+      "pid": 64536,
+      "sessionId": "session-636dc6be-f2eb-4488-a84f-5a1a2408771b",
+      "toolCount": 84,
+      "modelRouteAvailable": true,
+      "xerjToolAvailable": true,
+      "results": [
+        {
+          "name": "web_fetch",
+          "elapsedMs": 3067,
+          "isError": false,
+          "url": "https://longmontcolorado.gov/library/",
+          "httpStatus": 200,
+          "retrieval": "automatic Wigolo fallback"
+        },
+        {
+          "name": "web_fetch",
+          "elapsedMs": 840,
+          "isError": false,
+          "url": "https://www.reddit.com/r/Longmont/new/",
+          "httpStatus": 200,
+          "retrieval": "local Redlib",
+          "coverage": "partial",
+          "posts": 25,
+          "commentsExamined": false,
+          "instance": "127.0.0.1:18080"
+        },
+        {
+          "name": "model_route",
+          "elapsedMs": 1472,
+          "isError": false,
+          "receipt": {
+            "id": "1c167d4a84a6",
+            "requested_model": "deepseek-v4.1-flash:1017-cloud",
+            "served_model": "deepseek-v4.1-flash:1017",
+            "effort": "low",
+            "effort_source": "model-default",
+            "max_tokens": 65536,
+            "max_tokens_source": "model-default",
+            "context_handling": "provider-managed",
+            "advertised_context": 1048576,
+            "done_reason": "stop",
+            "tokens_in": 16,
+            "tokens_out": 22,
+            "cost_usd": 0.000016,
+            "wall_ms": 510,
+            "text": "RC3_READY"
+          }
+        },
+        {
+          "name": "mcp__xerj__xerj_semantic_search",
+          "elapsedMs": 13,
+          "isError": true,
+          "error": "HTTP 404 index_not_found_exception: halo-records-docs"
+        }
+      ]
+    },
+    {
+      "host": "desktop",
+      "pid": 58100,
+      "sessionId": "session-dee2622a-2cbb-4b1c-8d71-61381249158a",
+      "toolCount": 48,
+      "modelRouteAvailable": true,
+      "xerjToolAvailable": true,
+      "results": [
+        {
+          "name": "web_fetch",
+          "elapsedMs": 2162,
+          "isError": false,
+          "url": "https://longmontcolorado.gov/library/",
+          "httpStatus": 200,
+          "retrieval": "automatic Wigolo fallback"
+        },
+        {
+          "name": "web_fetch",
+          "elapsedMs": 854,
+          "isError": false,
+          "url": "https://www.reddit.com/r/Longmont/new/",
+          "httpStatus": 200,
+          "retrieval": "local Redlib",
+          "coverage": "partial",
+          "posts": 25,
+          "commentsExamined": false,
+          "instance": "127.0.0.1:18080"
+        },
+        {
+          "name": "model_route",
+          "elapsedMs": 1801,
+          "isError": false,
+          "receipt": {
+            "id": "a96c84ba15c1",
+            "requested_model": "deepseek-v4.1-flash:1017-cloud",
+            "served_model": "deepseek-v4.1-flash:1017",
+            "effort": "low",
+            "effort_source": "model-default",
+            "max_tokens": 65536,
+            "max_tokens_source": "model-default",
+            "context_handling": "provider-managed",
+            "advertised_context": 1048576,
+            "done_reason": "stop",
+            "tokens_in": 16,
+            "tokens_out": 22,
+            "cost_usd": 0.000016,
+            "wall_ms": 570,
+            "text": "RC3_READY"
+          }
+        }
+      ]
+    }
+  ],
+  "preservation": {
+    "checkedAt": "2026-10-25T18:38:28.508Z",
+    "profiles": [
+      {
+        "file": "C:/Users/scott/.dsh-stock/cordis.patch.yml",
+        "sha256": "144ee4465eb79dac9690b3e55172f2bce3e03374bcef04e3e1d47f7715c27128",
+        "after": "144ee4465eb79dac9690b3e55172f2bce3e03374bcef04e3e1d47f7715c27128",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+        "sha256": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+        "after": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+        "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+        "after": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+        "sha256": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+        "after": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+        "unchanged": true
+      }
+    ],
+    "skillFiles": 70,
+    "skillsUnchanged": true,
+    "skillDifferences": [],
+    "dependencies": [
+      {
+        "host": "web",
+        "official": [
+          [
+            "@deepseek-ai/dsh",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-browser-use",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-lsp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-lsp-stdio",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-subagent-codex",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-lsp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-session-query",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-terminal",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-agent-default-model",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-agent-instructions",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-agent-preset",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-agent-tool-presentation",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-client-ui-settings-general",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-command-compact",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-command-goal",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-compaction-basic",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-compaction-tool-result-pruner",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-llm-pi-ai",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-permission-presets",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-persona",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-plan-mode",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-skill-filesystem",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-terminal",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-terminal-bash",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-ask-user",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-bash",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-fs",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-fs-search",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-goal",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-jobs",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-present",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-pwsh",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-ralph",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-skill",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-subagent",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-subagent-control",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-todo",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-web",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-workflow",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-workflow-ptc",
+            "0.2.1-rc.3"
+          ]
+        ],
+        "otherUnchanged": true
+      },
+      {
+        "host": "desktop",
+        "official": [
+          [
+            "@deepseek-ai/dsh-browser-use",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-lsp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-lsp-stdio",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-subagent-codex",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-lsp",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-session-query",
+            "0.2.1-rc.3"
+          ],
+          [
+            "@deepseek-ai/dsh-tool-terminal",
+            "0.2.1-rc.3"
+          ]
+        ],
+        "otherUnchanged": true
+      }
+    ]
+  },
+  "desktopWindow": {
+    "version": "0.2.1-rc.3",
+    "windows": [
+      {
+        "visible": true,
+        "destroyed": false,
+        "loading": false,
+        "title": "\"Initialize a new Python project. — DeepSeek Harness",
+        "url": "dsh-app://app/",
+        "dom": {
+          "readyState": "complete",
+          "bodyTextLength": 13978,
+          "hasNewSession": true,
+          "hasPlugins": true
+        }
+      }
+    ]
+  },
+  "webHttp": {
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "html": true,
+    "bytes": 38616,
+    "responseText": null,
+    "tokenOmitted": true
+  },
+  "scope": "Installed native ToolRuntime operations, not ordinary chat-loop/UI automation. No benchmark or broad suite.",
+  "modelCalls": 2,
+  "providerTokens": {
+    "input": 32,
+    "output": 44,
+    "total": 76
+  },
+  "xerj": {
+    "serviceResponds": true,
+    "expectedDataDirectory": "C:/Users/scott/AppData/Local/XERJ/data",
+    "missingIndex": "halo-records-docs",
+    "catalog": "Only XERJ internal/system indices currently present",
+    "dataChangedByUpgrade": false,
+    "firstObserved": "After Web upgrade; not checked before upgrade, cause not established"
+  }
+}

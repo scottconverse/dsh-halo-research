@@ -9,29 +9,29 @@ importers:
   .:
     dependencies:
       '@deepseek-ai/dsh-browser-use':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
       '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2(@deepseek-ai/dsh-browser-use@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3(@deepseek-ai/dsh-browser-use@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))
       '@deepseek-ai/dsh-lsp':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
       '@deepseek-ai/dsh-lsp-stdio':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)(@deepseek-ai/dsh-lsp@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)(@deepseek-ai/dsh-lsp@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))
       '@deepseek-ai/dsh-subagent-codex':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3
       '@deepseek-ai/dsh-tool-lsp':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2(@deepseek-ai/dsh-lsp@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3(@deepseek-ai/dsh-lsp@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))
       '@deepseek-ai/dsh-tool-session-query':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3
       '@deepseek-ai/dsh-tool-terminal':
-        specifier: 0.2.1-rc.2
-        version: 0.2.1-rc.2
+        specifier: 0.2.1-rc.3
+        version: 0.2.1-rc.3
       dsh-activity-view:
         specifier: github:vec715/dsh-activity-view#4f6140ad0ef5e9a04354639461ac63ac00e9c9b4
         version: https://codeload.github.com/vec715/dsh-activity-view/tar.gz/4f6140ad0ef5e9a04354639461ac63ac00e9c9b4
@@ -50,131 +50,131 @@ packages:
   '@deepseek-ai/cosmokit@1.8.6':
     resolution: {integrity: sha512-ZSD/fN52L498LBIOYwjIOlaLv5veY6ZEwI2yzvZUKQtctn0QAPqu8tKdJ+OF5+Tv6NBq1U+wJWH+QI6OGy5EvQ==}
 
-  '@deepseek-ai/dsh-brand@0.2.1-rc.2':
-    resolution: {integrity: sha512-T2kcygikRS8rv8cKjgho2x381EgGprv5yQmvHl4/iYbuHE19OW+SLGtHWbV27PGdSHz5U8CJxasYzFosKW4e2A==}
+  '@deepseek-ai/dsh-brand@0.2.1-rc.3':
+    resolution: {integrity: sha512-bPpKuu05gZj7gdW15z6PL2dz4+A4MDEafgWOrhexFO7f08g1NeI4fhE4YNOxd8N2ua+tZJjsKCMAIobFMAaGOw==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
 
-  '@deepseek-ai/dsh-browser-use@0.2.1-rc.2':
-    resolution: {integrity: sha512-0AQxhP75OEmyvIg13tP1BCRjJEgQdIBxhGd5JHaCO89UEJ0WHV2K/dt87eM/NusUhsys2ogG9hR28DUs49b+dw==}
+  '@deepseek-ai/dsh-browser-use@0.2.1-rc.3':
+    resolution: {integrity: sha512-jP5IIcxUWcuuiEOiJqr2hhDdgzUdxy5hY1WQTzIB4jWgWcSwGlUhhaBt2zXkmK6lch9UQplzLvvbYJUFD/3Sig==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp@0.2.1-rc.2':
-    resolution: {integrity: sha512-TmWXcSfIVu2S2wZTytxFX/LYGdkAEBVgu0he930sQiOuhS2Ts5J0Go3ykbk1K8uVVMV5NrqM60ih7VV6XsPpaw==}
+  '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp@0.2.1-rc.3':
+    resolution: {integrity: sha512-NP4j3IpNK1L2zp5+BkLHr71cECXg8zjGvFZmIhxQuYA+ApXlQ3w/hGlRDv75sAO53zmWqe5idt+Ldc4HeAz9HA==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-agent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
-      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.2
+      '@deepseek-ai/dsh-agent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
+      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-experimental-browser-use-runtime@0.2.1-rc.2':
-    resolution: {integrity: sha512-rsB5z1/PGSzOTmh1ndUSqOxFSIIVnQpKVipqCvx5KmCsXlYiT/gVsO33ubOeZaDURSITE9+YG8i2GP6zRHiG8w==}
+  '@deepseek-ai/dsh-experimental-browser-use-runtime@0.2.1-rc.3':
+    resolution: {integrity: sha512-R/PNGB65OWqrRW9r7DqFPWDAx1kp0aKlEy2bKQzKtiOCjS6c3BNQsPUD1vnPoqH8ba8pzp/AV9bgRAd8QOyX8Q==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-agent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.2
-      '@deepseek-ai/dsh-mcp-client': 0.2.1-rc.2
-      '@deepseek-ai/dsh-scope': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
-      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.2
+      '@deepseek-ai/dsh-agent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.3
+      '@deepseek-ai/dsh-mcp-client': 0.2.1-rc.3
+      '@deepseek-ai/dsh-scope': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
+      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-lsp-stdio@0.2.1-rc.2':
-    resolution: {integrity: sha512-pIlWf8/BR4CLu7wGgTZnZ5XWL4mEoNcnXhLtdwTNzG4l7VnJwo5kcWu+F7VWcJi1JctEW9bOWTb5cIYMq/A1bA==}
+  '@deepseek-ai/dsh-lsp-stdio@0.2.1-rc.3':
+    resolution: {integrity: sha512-woMklcEVOVZB5nUbD/+dycqLc5T0FzTtbnEUD8t/Ldh2uWQSZ3t2TX7+hQHwylL9tl/pezUg8ryYmy5oEXhKsg==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
-      '@deepseek-ai/dsh-fs': 0.2.1-rc.2
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-lsp': 0.2.1-rc.2
-      '@deepseek-ai/dsh-subprocess': 0.2.1-rc.2
-      '@deepseek-ai/dsh-timeout': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
+      '@deepseek-ai/dsh-fs': 0.2.1-rc.3
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-lsp': 0.2.1-rc.3
+      '@deepseek-ai/dsh-subprocess': 0.2.1-rc.3
+      '@deepseek-ai/dsh-timeout': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-lsp@0.2.1-rc.2':
-    resolution: {integrity: sha512-p3WlkzIG+q3TjZa1aFt6kdJsDOpRjkRfcu9YCU7UQbikHtbujsTKvLZQ5+gnx14HOVYO5kcJSFy541DB+yVieA==}
+  '@deepseek-ai/dsh-lsp@0.2.1-rc.3':
+    resolution: {integrity: sha512-mBUHP5QkmnNWtyaZwMjIfV1c8KheBQHaJLvd2Q/eAthtM1hmOdob3Pi4HnhW/w/rTASlIDS45XGRGd+lPdjPJw==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-sdk-protocol@0.2.1-rc.2':
-    resolution: {integrity: sha512-fdWcBdaf2zUs3MIS817tIUodTVLiB/Qjaibg+iKGdGawAYgj68p6q1AidqQJGJz5NGOWH7UJXk6re3qQUikzvA==}
+  '@deepseek-ai/dsh-sdk-protocol@0.2.1-rc.3':
+    resolution: {integrity: sha512-d4LfmGek8eQH6OrY12T9jHQgpz0dOXc1cquzDDKPwymd4xGE3cKn+5ofwC44uLILPhYZtDbuyZQfsvpiOO04+A==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session': 0.2.1-rc.2
-      '@deepseek-ai/dsh-subagent': 0.2.1-rc.2
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session': 0.2.1-rc.3
+      '@deepseek-ai/dsh-subagent': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-subagent-codex@0.2.1-rc.2':
-    resolution: {integrity: sha512-ajbb0gFeDwNHE4cqKlFxmP77xsm6XsG2L55YDHWTSZVTjK3t6iSlmpwLY2tI08F7hkez6jgv4MqkVswC6IAQXA==}
+  '@deepseek-ai/dsh-subagent-codex@0.2.1-rc.3':
+    resolution: {integrity: sha512-1h+CFRyRnvRYR96UT2IRCO5CgOF5Zm2u+AcDsRu7sBEEyU2ZHiDmsdGYyhfv+jHirp6WQa4NtoZmiDG2Xdfizg==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session': 0.2.1-rc.2
-      '@deepseek-ai/dsh-subagent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-subprocess': 0.2.1-rc.2
-      '@deepseek-ai/dsh-timeout': 0.2.1-rc.2
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session': 0.2.1-rc.3
+      '@deepseek-ai/dsh-subagent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-subprocess': 0.2.1-rc.3
+      '@deepseek-ai/dsh-timeout': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-tool-lsp@0.2.1-rc.2':
-    resolution: {integrity: sha512-7hysNua6pW8Acx0tUfd1lh5+Xnx3diCq4zcXy3XGkeTfMqttH6S2W6hYrnjlqb1CUsz+4CgwUQOA8D4tbMgqVQ==}
+  '@deepseek-ai/dsh-tool-lsp@0.2.1-rc.3':
+    resolution: {integrity: sha512-TcuqVzENzimYBXQrbCrk6JZ9oqMfz5B7yvvuCgYAhNfcuIOuszOGlnL5FfBvnJfmXs0thSI5OHEFrlWG28XxDQ==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-lsp': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-timeout': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
-      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.2
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-lsp': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-timeout': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
+      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-tool-session-query@0.2.1-rc.2':
-    resolution: {integrity: sha512-uW0HFmzBSxEBXWkc8905iuKcvUYpO1EVtNkXuw/P8UzKHRHPhE5H2NqGseRqTaAr1Q5Vidbrod8XnqtKNNZpWg==}
+  '@deepseek-ai/dsh-tool-session-query@0.2.1-rc.3':
+    resolution: {integrity: sha512-2nqeiv3cBS3NDhQFXSvLN6ZO/ObSppMdSLYxNpvGElhxtt8bKSTDpqwOHiiJDwie2lffRdQMUcCCd/r/O649bg==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-agent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session-projection': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session-query': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-timeout': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
+      '@deepseek-ai/dsh-agent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session-projection': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session-query': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-timeout': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-tool-subagent@0.2.1-rc.2':
-    resolution: {integrity: sha512-VxIhRFSVyUg6i4imonbPhfjgfxqmSM0jkGt8jE9bswqC1+53qjVACcyEMGirWalqvNaTaiLO+c7d3u3Y9KGQIA==}
+  '@deepseek-ai/dsh-tool-subagent@0.2.1-rc.3':
+    resolution: {integrity: sha512-kkCLC7wUV9ioPNBQjm+GT52Ruqj7fjO3RLrZz5ya7Gg9RP7rzdvYpy6aJhVs+IaBSshffXHOLTz3i7QUIEVvsA==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-agent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-agent-preset-registry': 0.2.1-rc.2
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-scope': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session': 0.2.1-rc.2
-      '@deepseek-ai/dsh-session-projection': 0.2.1-rc.2
-      '@deepseek-ai/dsh-subagent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
+      '@deepseek-ai/dsh-agent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-agent-preset-registry': 0.2.1-rc.3
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-scope': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session': 0.2.1-rc.3
+      '@deepseek-ai/dsh-session-projection': 0.2.1-rc.3
+      '@deepseek-ai/dsh-subagent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
     peerDependenciesMeta:
       '@deepseek-ai/dsh-agent-preset-registry':
         optional: true
 
-  '@deepseek-ai/dsh-tool-terminal@0.2.1-rc.2':
-    resolution: {integrity: sha512-OUoD/bbGZNM7wRcwvOdZXQJ6R2k5I47WNi9bw6KLJJo7DMWAHUFUz+/cKnKarKr/AL0lZejCH7zENVs5K0OMjg==}
+  '@deepseek-ai/dsh-tool-terminal@0.2.1-rc.3':
+    resolution: {integrity: sha512-4TbNFUZHSTLiHNQPHd5a7cWTq9AqVpMIXvKMF3TXE3HStEGwi0PFM8gIFE4ncjg4+ZBsXEebRDvpj+/KWW8ipA==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
-      '@deepseek-ai/dsh-agent': 0.2.1-rc.2
-      '@deepseek-ai/dsh-jobs': 0.2.1-rc.2
-      '@deepseek-ai/dsh-llm': 0.2.1-rc.2
-      '@deepseek-ai/dsh-output-retention': 0.2.1-rc.2
-      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.2
-      '@deepseek-ai/dsh-terminal': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tools': 0.2.1-rc.2
-      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.2
+      '@deepseek-ai/dsh-agent': 0.2.1-rc.3
+      '@deepseek-ai/dsh-jobs': 0.2.1-rc.3
+      '@deepseek-ai/dsh-llm': 0.2.1-rc.3
+      '@deepseek-ai/dsh-output-retention': 0.2.1-rc.3
+      '@deepseek-ai/dsh-system-prompt': 0.2.1-rc.3
+      '@deepseek-ai/dsh-terminal': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tools': 0.2.1-rc.3
+      '@deepseek-ai/dsh-working-directory': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-util-values@0.2.1-rc.2':
-    resolution: {integrity: sha512-mgnByPadOgZtoBxbwMI184li494O6sNn66/NvdqN0RIrzAJmFGpFxpjFkQtQN/yetwWhlx7Ic17+6p7eKl8DNg==}
+  '@deepseek-ai/dsh-util-values@0.2.1-rc.3':
+    resolution: {integrity: sha512-YyHu30xQBdp7sIr4ZNUliNxm2S9yRNOwdUPiBvfQZ+KaRtekI2j+T8+TFy7qgyBiGM7YYiG0xzJVibS894WIrg==}
     peerDependencies:
       '@deepseek-ai/cordis': ~4.0.5
 
@@ -239,20 +239,20 @@ packages:
         optional: true
 
   dsh-activity-view@https://codeload.github.com/vec715/dsh-activity-view/tar.gz/4f6140ad0ef5e9a04354639461ac63ac00e9c9b4:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/vec715/dsh-activity-view/tar.gz/4f6140ad0ef5e9a04354639461ac63ac00e9c9b4}
+    resolution: {gitHosted: true, integrity: sha512-Pmu75YTCBzYrTltIhQc634fqPs1jivEvvq0PnslEdKseBwacfsc0VcQrhGfoca1e1u5aJd6Bss/UrzVjkmMskA==, tarball: https://codeload.github.com/vec715/dsh-activity-view/tar.gz/4f6140ad0ef5e9a04354639461ac63ac00e9c9b4}
     version: 0.1.0
     engines: {node: '>=22'}
 
   dsh-plugin-mcp-settings@https://codeload.github.com/cyberofficial/dsh-plugin-mcp-settings/tar.gz/8573c29ac338b6f06442d7cb517260562d975a98:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/cyberofficial/dsh-plugin-mcp-settings/tar.gz/8573c29ac338b6f06442d7cb517260562d975a98}
+    resolution: {gitHosted: true, integrity: sha512-m4Smwa1Mvrdru9R0rt+M4qz8sBXBZKdCkyy+05CEXjVsugQumuYesE/ivahWSEuj4+ePDx5bF+tTG/fuG6HSeA==, tarball: https://codeload.github.com/cyberofficial/dsh-plugin-mcp-settings/tar.gz/8573c29ac338b6f06442d7cb517260562d975a98}
     version: 0.3.0
 
   dsh-session-tabs@https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022}
+    resolution: {gitHosted: true, integrity: sha512-Avb2YlGaOQUtr+dacOku+/6rNar5bqLyWkAzfIGoi3a/X/eHZQD64phtVCIJkynRvIA2ar/lxjzUT1znu/ZTIA==, tarball: https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022}
     version: 0.1.0
 
   dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b}
+    resolution: {gitHosted: true, integrity: sha512-/ZnH3ZIVldhqHUoJNvLNi1NVmlM1AOZ7BSGQypd/5//MIj45/vHh6LMpC8yD9/C9jnXvnK00bpp/FSOeMtlCrw==, tarball: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b}
     version: 0.1.0
     hasBin: true
     peerDependencies:
@@ -298,16 +298,16 @@ snapshots:
 
   '@deepseek-ai/cosmokit@1.8.6': {}
 
-  '@deepseek-ai/dsh-brand@0.2.1-rc.2': {}
+  '@deepseek-ai/dsh-brand@0.2.1-rc.3': {}
 
-  '@deepseek-ai/dsh-browser-use@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)':
+  '@deepseek-ai/dsh-browser-use@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)':
     dependencies:
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp@0.2.1-rc.2(@deepseek-ai/dsh-browser-use@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))':
+  '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp@0.2.1-rc.3(@deepseek-ai/dsh-browser-use@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))':
     dependencies:
-      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
-      '@deepseek-ai/dsh-experimental-browser-use-runtime': 0.2.1-rc.2(@deepseek-ai/dsh-browser-use@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))
+      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
+      '@deepseek-ai/dsh-experimental-browser-use-runtime': 0.2.1-rc.3(@deepseek-ai/dsh-browser-use@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))
       chrome-devtools-mcp: 1.9.0
     transitivePeerDependencies:
       - '@blackwell-systems/gcf'
@@ -315,29 +315,29 @@ snapshots:
       - '@deepseek-ai/dsh-scope'
       - '@toon-format/toon'
 
-  '@deepseek-ai/dsh-experimental-browser-use-runtime@0.2.1-rc.2(@deepseek-ai/dsh-browser-use@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))':
+  '@deepseek-ai/dsh-experimental-browser-use-runtime@0.2.1-rc.3(@deepseek-ai/dsh-browser-use@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))':
     dependencies:
-      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
+      '@deepseek-ai/dsh-browser-use': 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
       '@deepseek-ai/schemastery': 3.18.5
 
-  '@deepseek-ai/dsh-lsp-stdio@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)(@deepseek-ai/dsh-lsp@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))':
+  '@deepseek-ai/dsh-lsp-stdio@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)(@deepseek-ai/dsh-lsp@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))':
     dependencies:
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
-      '@deepseek-ai/dsh-lsp': 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
-      '@deepseek-ai/dsh-util-values': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
+      '@deepseek-ai/dsh-lsp': 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
+      '@deepseek-ai/dsh-util-values': 0.2.1-rc.3
       '@deepseek-ai/schemastery': 3.18.5
 
-  '@deepseek-ai/dsh-lsp@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)':
+  '@deepseek-ai/dsh-lsp@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)':
     dependencies:
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
 
-  '@deepseek-ai/dsh-sdk-protocol@0.2.1-rc.2': {}
+  '@deepseek-ai/dsh-sdk-protocol@0.2.1-rc.3': {}
 
-  '@deepseek-ai/dsh-subagent-codex@0.2.1-rc.2':
+  '@deepseek-ai/dsh-subagent-codex@0.2.1-rc.3':
     dependencies:
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
-      '@deepseek-ai/dsh-sdk-protocol': 0.2.1-rc.2
-      '@deepseek-ai/dsh-tool-subagent': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
+      '@deepseek-ai/dsh-sdk-protocol': 0.2.1-rc.3
+      '@deepseek-ai/dsh-tool-subagent': 0.2.1-rc.3
       '@deepseek-ai/schemastery': 3.18.5
       '@openai/codex': 0.153.4
     transitivePeerDependencies:
@@ -348,27 +348,27 @@ snapshots:
       - '@deepseek-ai/dsh-system-prompt'
       - '@deepseek-ai/dsh-tools'
 
-  '@deepseek-ai/dsh-tool-lsp@0.2.1-rc.2(@deepseek-ai/dsh-lsp@0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2))':
+  '@deepseek-ai/dsh-tool-lsp@0.2.1-rc.3(@deepseek-ai/dsh-lsp@0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3))':
     dependencies:
-      '@deepseek-ai/dsh-lsp': 0.2.1-rc.2(@deepseek-ai/dsh-brand@0.2.1-rc.2)
-      '@deepseek-ai/dsh-util-values': 0.2.1-rc.2
+      '@deepseek-ai/dsh-lsp': 0.2.1-rc.3(@deepseek-ai/dsh-brand@0.2.1-rc.3)
+      '@deepseek-ai/dsh-util-values': 0.2.1-rc.3
       '@deepseek-ai/schemastery': 3.18.5
 
-  '@deepseek-ai/dsh-tool-session-query@0.2.1-rc.2':
+  '@deepseek-ai/dsh-tool-session-query@0.2.1-rc.3':
     dependencies:
-      '@deepseek-ai/dsh-brand': 0.2.1-rc.2
+      '@deepseek-ai/dsh-brand': 0.2.1-rc.3
       '@deepseek-ai/schemastery': 3.18.5
 
-  '@deepseek-ai/dsh-tool-subagent@0.2.1-rc.2':
+  '@deepseek-ai/dsh-tool-subagent@0.2.1-rc.3':
     dependencies:
       '@deepseek-ai/schemastery': 3.18.5
       zod: 4.4.3
 
-  '@deepseek-ai/dsh-tool-terminal@0.2.1-rc.2':
+  '@deepseek-ai/dsh-tool-terminal@0.2.1-rc.3':
     dependencies:
       '@deepseek-ai/schemastery': 3.18.5
 
-  '@deepseek-ai/dsh-util-values@0.2.1-rc.2': {}
+  '@deepseek-ai/dsh-util-values@0.2.1-rc.3': {}
 
   '@deepseek-ai/schemastery@3.18.5':
     dependencies:

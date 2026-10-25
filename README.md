@@ -6,15 +6,15 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 | Component | Current configuration / record |
 |---|---|
-| DSH Web | `0.2.1-rc.2`, loopback `http://127.0.0.1:3080` |
-| DSH Desktop | `0.2.1-rc.2`, separate preserved Desktop profile |
+| DSH Web | `0.2.1-rc.3`, loopback `http://127.0.0.1:3080` |
+| DSH Desktop | `0.2.1-rc.3`, separate preserved Desktop profile |
 | Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low**, maximum output **65,536 tokens** |
 | Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
 | Live-web research | Wigolo through the deployment's research integration |
 | Reddit research | Reddit RSS / local Redlib workflow and retrieval adapter |
 | Explicit model routing | Native `model_route` plugin in Web/Desktop; retained CLI and companion skill; exact DeepSeek 1017 defaults Low/64K |
-| Retained-document search | XERJ over MCP with the installed MiniLM neural embeddings; retained alongside Wigolo |
+| Retained-document search | XERJ MCP retained; the October 25 check found `halo-records-docs` missing, so that corpus is currently unavailable |
 | Mission Control | Loopback `http://127.0.0.1:3090`; cloud-aware status and saved-versus-historical model display |
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
@@ -26,6 +26,8 @@ The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) su
 The [October 23 Flint removal and title-call change](docs/HALO-FLINT-REMOVAL-TITLE-CALLS-2026-10-23.md) removes Flint from both pickers, restores DeepSeek 1017 Low for the four remaining Flint session selections, and disables auxiliary model-generated titles. Session names use the stock deterministic fallback; manual renaming remains available. Models and integrations otherwise remain unchanged.
 
 The [October 24–25 publication record](docs/HALO-PUBLICATION-2026-10-25.md) links the native routing plugin, companion skill, actual activation/coding evidence and historical effort-study archive. Both installed routing copies match all 21 committed source files. The archived study was not rerun for publication.
+
+The [October 25 rc.3 upgrade](docs/HALO-DSH-UPGRADE-2026-10-25.md) records both installed versions, preserved settings/skills/plugins, native routing and Wigolo/Redlib checks, and the missing XERJ corpus. The XERJ connection responds, but successful retrieval from that missing index is not claimed.
 
 ## Daily use
 

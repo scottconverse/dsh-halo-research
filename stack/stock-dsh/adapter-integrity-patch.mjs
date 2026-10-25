@@ -4,7 +4,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 
-export const PATCHED_VERSION = '0.2.1-rc.2';
+export const PATCHED_VERSION = '0.2.1-rc.3';
 export const PRISTINE_SHA256 = '99B5C20830A52F69641DF8A18A39206079B0C725201958CCE2C4A934F1D4F7CD';
 export const INVALID_TOOL_ARGUMENTS_CODE = 'INVALID_TOOL_ARGUMENTS';
 export const REASONING_MARKER = 'Number.isFinite(usage.reasoning)';
