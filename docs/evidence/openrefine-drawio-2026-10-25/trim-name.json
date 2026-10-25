@@ -1,0 +1,15 @@
+[
+  {
+    "columnName": "Name",
+    "description": "Text transform on Name using expression value.trim()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "op": "core/text-transform",
+    "repeat": false,
+    "repeatCount": 10
+  }
+]

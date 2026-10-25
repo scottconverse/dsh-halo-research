@@ -105,3 +105,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [October 24–25 publication reconciliation](HALO-PUBLICATION-2026-10-25.md): plugin/CLI/companion skill and installed-source parity; historical effort-study runner plus 2,052 nonprivate receipts archived, prior attempts separated, known reporting flaws qualified. No new tests or model calls.
 
 - [Halo v0.3.6 source release](../RELEASE-NOTES-v0.3.6.md): native routing plugin, CLI, companion skill, activation/coding evidence and qualified historical effort-study archive; private files/backups excluded. Existing evidence reused; no new tests or model calls.
+
+- [OpenRefine and draw.io connections (October 25)](HALO-OPENREFINE-DRAWIO-2026-10-25.md): isolated Windows apps/CLI skills active in Web/Desktop; shared real cleaning and diagram-export workflows, preserved settings, provenance caveat and scoped recovery.

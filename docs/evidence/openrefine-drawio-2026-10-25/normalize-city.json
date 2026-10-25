@@ -1,0 +1,15 @@
+[
+  {
+    "columnName": "City",
+    "description": "Text transform on City using expression value.trim().toLowercase()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "expression": "value.trim().toLowercase()",
+    "onError": "keep-original",
+    "op": "core/text-transform",
+    "repeat": false,
+    "repeatCount": 10
+  }
+]

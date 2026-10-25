@@ -31,6 +31,8 @@ The [October 25 rc.3 upgrade](docs/HALO-DSH-UPGRADE-2026-10-25.md) records both 
 
 The [LibreOffice CLI skill](docs/HALO-LIBREOFFICE-CLI-2026-10-25.md) is available in both apps for document/PDF production through existing PowerShell tools. One real ODT/PDF workflow is recorded; model defaults and integrations are preserved.
 
+[OpenRefine and draw.io](docs/HALO-OPENREFINE-DRAWIO-2026-10-25.md) are also connected through skills in both apps: local data cleaning/CSV export and editable diagram/SVG production. Their shared real workflows, isolated installation, recovery and version caveat are documented; existing models/defaults/integrations are preserved.
+
 ## Daily use
 
 Use the existing desktop shortcuts:
