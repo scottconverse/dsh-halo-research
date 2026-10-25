@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [LibreOffice CLI in Web and Desktop (October 25)](HALO-LIBREOFFICE-CLI-2026-10-25.md): isolated install, watched skill wiring, one shared real ODT/PDF workflow, unchanged profiles/existing skills and published sample/receipt; no model calls or benchmarks.
+
 - [Halo v0.3.7 source release](../RELEASE-NOTES-v0.3.7.md): DSH Web/Desktop 0.2.1-rc.3 upgrade, original XERJ corpus recovery and readiness repair, preserved routing/plugin/skill setup, dated evidence and exclusions. Existing evidence reused; no new tests or model calls.
 
 - [XERJ original-index recovery (October 25)](HALO-XERJ-INDEX-RECOVERY-2026-10-25.md): Windows packaged/ordinary AppData split proven; original 14 records preserved, physical store pinned, one real MCP retrieval and native startup readiness verified.

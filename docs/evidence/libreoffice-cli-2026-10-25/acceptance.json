@@ -1,0 +1,128 @@
+{
+  "checkedAt": "2026-10-25T19:59:49.884Z",
+  "package": "cli-anything-libreoffice",
+  "version": "1.0.0",
+  "python": "3.13.5",
+  "libreOffice": "LibreOffice 26.8.1.1 (X86_64)",
+  "installedRequirements": [
+    "cli-anything-libreoffice==1.0.0",
+    "click==8.5.0",
+    "prompt-toolkit==3.0.53",
+    "wcwidth==0.9.4"
+  ],
+  "native": [
+    {
+      "host": "web",
+      "pid": 64536,
+      "sessionId": "session-cae06381-9ae5-4049-83ee-bcdf05cb07ad",
+      "skill": {
+        "name": "cli-anything-libreoffice",
+        "provider": "filesystem",
+        "resourceBase": {
+          "kind": "directory",
+          "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\cli-anything-libreoffice"
+        },
+        "content": "# LibreOffice CLI for Halo DSH\n\nUse the existing pwsh tool. No model/provider change, new plugin, MCP server or\nadditional agent is needed. Windows Python environment:\n\n    C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\n\nCLI package: cli-anything-libreoffice 1.0.0 (HKUDS/CLI-Anything, MIT package\nmetadata; see upstream repository licensing). LibreOffice is already installed\nat C:\\Program Files\\LibreOffice\\program\\soffice.exe. Do not reinstall it.\n\n## Commands\n\nUse absolute executable paths; no global PATH change is required:\n\n~~~powershell\n$lo = 'C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\\Scripts\\cli-anything-libreoffice.exe'\n& $lo --help\n& $lo document new --help\n& $lo export render --help\n~~~\n\nGlobal --json and --project options come BEFORE the command group. A project\nJSON is working state, not an ODT or DOCX. One-shot editing commands do NOT save\ntheir changes automatically. Use this skill's scripts/run_commands.py with a\nUTF-8 JSON file containing arrays of CLI argument strings. It calls the actual\ninstalled Click CLI in one process, preserving the same in-memory session;\nit does not implement a separate document engine. Include document save before\nending a sequence when you need to retain edits.\n\nExample commands.json (replace paths with the user's requested workspace):\n\n~~~json\n[\n  [\"document\", \"new\", \"--type\", \"writer\", \"--name\", \"Briefing\", \"-o\", \"C:/work/briefing.json\"],\n  [\"writer\", \"add-heading\", \"--text\", \"Briefing\", \"--level\", \"1\"],\n  [\"writer\", \"add-paragraph\", \"--text\", \"Verified reporting text goes here.\"],\n  [\"document\", \"save\"],\n  [\"export\", \"render\", \"C:/work/briefing.odt\", \"--preset\", \"odt\"],\n  [\"export\", \"render\", \"C:/work/briefing.pdf\", \"--preset\", \"pdf\"]\n]\n~~~\n\nRun with the dedicated Python, using this skill's actual resource-base path:\n\n~~~powershell\n& 'C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\\Scripts\\python.exe' '<skill-resource-base>\\scripts\\run_commands.py' 'C:\\work\\commands.json'\n~~~\n\nFor an existing project, begin with [\"document\",\"open\",\"C:/work/briefing.json\"].\nUse explicit absolute output paths and avoid overwriting user files. --overwrite\nrequires a task that authorizes replacement. Run only the commands needed.\nThe CLI generates ODF itself; PDF/DOCX rendering invokes real LibreOffice.\nPreserve existing application documents/processes; if conversion fails, report\nthe actual error rather than killing LibreOffice or changing its settings.\nConfirm output files exist and validate actual document/PDF contents before\nclaiming success. No automatic installs, retries, tests or benchmarks."
+      },
+      "skillLoadMs": 126,
+      "operation": "create saved project and editable ODT",
+      "elapsedMs": 1637,
+      "exitCode": 0,
+      "timedOut": false
+    },
+    {
+      "host": "desktop",
+      "pid": 58100,
+      "sessionId": "session-46809940-5ccd-423d-945b-ed3c9d0d8a39",
+      "skill": {
+        "name": "cli-anything-libreoffice",
+        "provider": "filesystem",
+        "resourceBase": {
+          "kind": "directory",
+          "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\cli-anything-libreoffice"
+        },
+        "content": "# LibreOffice CLI for Halo DSH\n\nUse the existing pwsh tool. No model/provider change, new plugin, MCP server or\nadditional agent is needed. Windows Python environment:\n\n    C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\n\nCLI package: cli-anything-libreoffice 1.0.0 (HKUDS/CLI-Anything, MIT package\nmetadata; see upstream repository licensing). LibreOffice is already installed\nat C:\\Program Files\\LibreOffice\\program\\soffice.exe. Do not reinstall it.\n\n## Commands\n\nUse absolute executable paths; no global PATH change is required:\n\n~~~powershell\n$lo = 'C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\\Scripts\\cli-anything-libreoffice.exe'\n& $lo --help\n& $lo document new --help\n& $lo export render --help\n~~~\n\nGlobal --json and --project options come BEFORE the command group. A project\nJSON is working state, not an ODT or DOCX. One-shot editing commands do NOT save\ntheir changes automatically. Use this skill's scripts/run_commands.py with a\nUTF-8 JSON file containing arrays of CLI argument strings. It calls the actual\ninstalled Click CLI in one process, preserving the same in-memory session;\nit does not implement a separate document engine. Include document save before\nending a sequence when you need to retain edits.\n\nExample commands.json (replace paths with the user's requested workspace):\n\n~~~json\n[\n  [\"document\", \"new\", \"--type\", \"writer\", \"--name\", \"Briefing\", \"-o\", \"C:/work/briefing.json\"],\n  [\"writer\", \"add-heading\", \"--text\", \"Briefing\", \"--level\", \"1\"],\n  [\"writer\", \"add-paragraph\", \"--text\", \"Verified reporting text goes here.\"],\n  [\"document\", \"save\"],\n  [\"export\", \"render\", \"C:/work/briefing.odt\", \"--preset\", \"odt\"],\n  [\"export\", \"render\", \"C:/work/briefing.pdf\", \"--preset\", \"pdf\"]\n]\n~~~\n\nRun with the dedicated Python, using this skill's actual resource-base path:\n\n~~~powershell\n& 'C:\\Users\\scott\\.dsh-stock\\tools\\cli-anything-libreoffice\\Scripts\\python.exe' '<skill-resource-base>\\scripts\\run_commands.py' 'C:\\work\\commands.json'\n~~~\n\nFor an existing project, begin with [\"document\",\"open\",\"C:/work/briefing.json\"].\nUse explicit absolute output paths and avoid overwriting user files. --overwrite\nrequires a task that authorizes replacement. Run only the commands needed.\nThe CLI generates ODF itself; PDF/DOCX rendering invokes real LibreOffice.\nPreserve existing application documents/processes; if conversion fails, report\nthe actual error rather than killing LibreOffice or changing its settings.\nConfirm output files exist and validate actual document/PDF contents before\nclaiming success. No automatic installs, retries, tests or benchmarks."
+      },
+      "skillLoadMs": 142,
+      "operation": "open same saved project and render PDF",
+      "elapsedMs": 24868,
+      "exitCode": 0,
+      "timedOut": false
+    }
+  ],
+  "preservation": {
+    "profiles": [
+      {
+        "file": "C:/Users/scott/.dsh-stock/cordis.patch.yml",
+        "sha256": "144ee4465eb79dac9690b3e55172f2bce3e03374bcef04e3e1d47f7715c27128",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/.dsh-stock/profiles/web/cordis.patch.yml",
+        "sha256": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/cordis.patch.yml",
+        "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+        "unchanged": true
+      },
+      {
+        "file": "C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/profiles/desktop/cordis.patch.yml",
+        "sha256": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+        "unchanged": true
+      }
+    ],
+    "existingSkillFiles": 70,
+    "allExistingSkillFilesUnchanged": true
+  },
+  "skillFiles": [
+    {
+      "file": "SKILL.md",
+      "sha256": "810b1443980d9f65dd61ce82cba28c931318a5c650d8dc14a6022eadfdbaef75",
+      "desktopCopyMatches": true
+    },
+    {
+      "file": "scripts/run_commands.py",
+      "sha256": "1e0aa0f70b60188178539e4bd2d5122da8b1a0b251904dd3ab457a1bf00948b4",
+      "desktopCopyMatches": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "e43e2041a0ba201558af715d838b403020a5408f8c2c62801d2ea473674675b8",
+      "desktopCopyMatches": true
+    },
+    {
+      "file": "requirements.lock.txt",
+      "sha256": "41b5373f451b99191389be9ffba29efee96bcec1ea9533c0595922e78010d132",
+      "desktopCopyMatches": true
+    }
+  ],
+  "artifacts": {
+    "odtValidZipAndMime": true,
+    "allExpectedTextPresentInBoth": true,
+    "expectedTextItems": 6,
+    "pdfPages": 1,
+    "pdfProducer": "LibreOffice 26.8.1.1 (X86_64)",
+    "pdfText": "Halo reporting briefing\nPrepared on October 25, 2026. This is a software-verification sample, not a newly reported news story.\nResearch workflow\nWigolo discovers and reads live web sources. Reddit/Redlib supplies community leads. XERJ retrieves \nindexed evidence. Reporters verify claims against original sources before publication.\nDocument production\nDSH Web created this editable document using the installed LibreOffice CLI. DSH Desktop renders \nthe same saved project to PDF through the real LibreOffice application. Existing models, defaults and \nresearch integrations remain unchanged.",
+    "files": [
+      {
+        "name": "halo-briefing.json",
+        "bytes": 1667,
+        "sha256": "b2782e7e4fb1bdd53fe97d69e9841bd1a9d4bf7df3114d036e879937155c4259"
+      },
+      {
+        "name": "halo-briefing.odt",
+        "bytes": 1895,
+        "sha256": "0cbaf3d62f94c7e9a93162bb4fc90f4ba750049d25cc6a9d676d251bed7868d6"
+      },
+      {
+        "name": "halo-briefing.pdf",
+        "bytes": 28416,
+        "sha256": "e2d53b46fb4f12d2554c7d415889e71fd43412726f39ebd49740b7f49b41b627"
+      }
+    ]
+  },
+  "modelCalls": 0,
+  "scope": "One shared document/PDF workflow through existing native DSH tools. No benchmarks, subagents, restarts, additional test suite, provider changes or global Python/PATH changes."
+}

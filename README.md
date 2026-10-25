@@ -29,6 +29,8 @@ The [October 24–25 publication record](docs/HALO-PUBLICATION-2026-10-25.md) li
 
 The [October 25 rc.3 upgrade](docs/HALO-DSH-UPGRADE-2026-10-25.md) records both installed versions, preserved settings/skills/plugins, native routing and Wigolo/Redlib checks, and the missing XERJ corpus. The later [XERJ recovery](docs/HALO-XERJ-INDEX-RECOVERY-2026-10-25.md) identified Windows AppData redirection, restored the original 14 records and verified one real MCP retrieval.
 
+The [LibreOffice CLI skill](docs/HALO-LIBREOFFICE-CLI-2026-10-25.md) is available in both apps for document/PDF production through existing PowerShell tools. One real ODT/PDF workflow is recorded; model defaults and integrations are preserved.
+
 ## Daily use
 
 Use the existing desktop shortcuts:

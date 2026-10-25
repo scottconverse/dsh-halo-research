@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "name": "Halo reporting briefing",
+  "type": "writer",
+  "settings": {
+    "page_width": "21cm",
+    "page_height": "29.7cm",
+    "margin_top": "2cm",
+    "margin_bottom": "2cm",
+    "margin_left": "2cm",
+    "margin_right": "2cm"
+  },
+  "styles": {},
+  "metadata": {
+    "title": "",
+    "author": "",
+    "description": "",
+    "subject": "",
+    "created": "2026-10-25T13:57:01.320028",
+    "modified": "2026-10-25T13:57:01.323707",
+    "software": "libreoffice-cli 1.0"
+  },
+  "content": [
+    {
+      "type": "heading",
+      "level": 1,
+      "text": "Halo reporting briefing",
+      "style": {}
+    },
+    {
+      "type": "paragraph",
+      "text": "Prepared on October 25, 2026. This is a software-verification sample, not a newly reported news story.",
+      "style": {}
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Research workflow",
+      "style": {}
+    },
+    {
+      "type": "paragraph",
+      "text": "Wigolo discovers and reads live web sources. Reddit/Redlib supplies community leads. XERJ retrieves indexed evidence. Reporters verify claims against original sources before publication.",
+      "style": {}
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Document production",
+      "style": {}
+    },
+    {
+      "type": "paragraph",
+      "text": "DSH Web created this editable document using the installed LibreOffice CLI. DSH Desktop renders the same saved project to PDF through the real LibreOffice application. Existing models, defaults and research integrations remain unchanged.",
+      "style": {}
+    }
+  ]
+}
