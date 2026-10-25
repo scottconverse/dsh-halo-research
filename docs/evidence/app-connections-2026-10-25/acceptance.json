@@ -1,0 +1,129 @@
+{
+  "checkedAt": "2026-10-25T21:15:34.379Z",
+  "hosts": [
+    {
+      "host": "web",
+      "pid": 64536,
+      "sessionId": "session-616798f4-ac85-408e-8a49-2097fe7c5119",
+      "modelCalls": 0,
+      "operations": [
+        {
+          "skill": "textflowkit",
+          "elapsedMs": 29807,
+          "exitCode": 0,
+          "stdout": "C:\\Users\\scott\\Documents\\Codex\\2026-10-25\\dsh-app-connections\\output\\transcript\\selftest-speech-6fba38a01dd4.json\r\nC:\\Users\\scott\\Documents\\Codex\\2026-10-25\\dsh-app-connections\\output\\transcript\\selftest-speech-6fba38a01dd4.srt\r\nC:\\Users\\scott\\Documents\\Codex\\2026-10-25\\dsh-app-connections\\output\\transcript\\selftest-speech-6fba38a01dd4.txt\r\n"
+        },
+        {
+          "skill": "siftwing",
+          "elapsedMs": 11188,
+          "exitCode": 0,
+          "stdout": "{\"evidenceId\":\"Eebe16d52-4466-4ff6-b772-1d7e69f19e5c\",\"sourceUrl\":\"https://longmontcolorado.gov/planning-and-development-services/development-applications-and-permits/\",\"title\":\"Development Applications and Permits - City of Longmont\",\"retrievedAt\":\"2026-10-13T20:12:45.491Z\",\"textHash\":\"d42cabac4d9f2e20794a373bdd73a3eedccacfb005af5827ca6140da5d256381\",\"sourceCompleteness\":\"full\",\"score\":6.5964357733519,\"start\":453,\"end\":953,\"text\":\"le, timely, logical, accountable and customer-focused.\\n\\n[\\n\\nView the Development Handbook\\n\\n](https://longmontcolorado.gov/wp-content/uploads/2024/07/Development-Handbook-2019-V7.pdf)\\n\\nLooking for information on development and permit fees? Please visit our [Building Inspection Permit Fees](https://longmontcolorado.gov/building-inspection/permit-fees/) page the view the new Fee Manual.\\n\\n## **  \\nApplications and Permits**\\n\\n*   [Accessory Dwelling Uni\r\n"
+        },
+        {
+          "skill": "patentforge",
+          "elapsedMs": 5640,
+          "exitCode": 0,
+          "stdout": "{\r\n  \"id\": \"6a21ea88-da50-496b-9236-6dd247bb23d4\",\r\n  \"title\": \"DSH connection verification - synthetic sample\",\r\n  \"status\": \"INTAKE\"\r\n}\r\n"
+        }
+      ],
+      "skills": [
+        {
+          "name": "textflowkit",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\textflowkit"
+          }
+        },
+        {
+          "name": "siftwing",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\siftwing"
+          }
+        },
+        {
+          "name": "patentforge",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\patentforge"
+          }
+        }
+      ]
+    },
+    {
+      "host": "desktop",
+      "pid": 58100,
+      "sessionId": "session-6fa806f4-c70c-4c38-ba8b-d1e2fdc99199",
+      "modelCalls": 0,
+      "operations": [
+        {
+          "skill": "textflowkit",
+          "elapsedMs": 5910,
+          "exitCode": 0,
+          "stdout": "C:\\Users\\scott\\Documents\\Codex\\2026-10-25\\dsh-app-connections\\output\\transcript\\desktop-transcript.md\r\n"
+        },
+        {
+          "skill": "siftwing",
+          "elapsedMs": 3747,
+          "exitCode": 0,
+          "stdout": "{\"evidenceId\":\"Eebe16d52-4466-4ff6-b772-1d7e69f19e5c\",\"sourceUrl\":\"https://longmontcolorado.gov/planning-and-development-services/development-applications-and-permits/\",\"title\":\"Development Applications and Permits - City of Longmont\",\"retrievedAt\":\"2026-10-13T20:12:45.491Z\",\"textHash\":\"d42cabac4d9f2e20794a373bdd73a3eedccacfb005af5827ca6140da5d256381\",\"sourceCompleteness\":\"full\",\"score\":6.5964357733519,\"start\":453,\"end\":953,\"text\":\"le, timely, logical, accountable and customer-focused.\\n\\n[\\n\\nView the Development Handbook\\n\\n](https://longmontcolorado.gov/wp-content/uploads/2024/07/Development-Handbook-2019-V7.pdf)\\n\\nLooking for information on development and permit fees? Please visit our [Building Inspection Permit Fees](https://longmontcolorado.gov/building-inspection/permit-fees/) page the view the new Fee Manual.\\n\\n## **  \\nApplications and Permits**\\n\\n*   [Accessory Dwelling Uni\r\n"
+        },
+        {
+          "skill": "patentforge",
+          "elapsedMs": 3034,
+          "exitCode": 0,
+          "stdout": "{\r\n  \"id\": \"6a21ea88-da50-496b-9236-6dd247bb23d4\",\r\n  \"title\": \"DSH connection verification - synthetic sample\",\r\n  \"status\": \"INTAKE\",\r\n  \"createdAt\": \"2026-10-25T21:09:01.909Z\",\r\n  \"updatedAt\": \"2026-10-25T21:09:01.909Z\",\r\n  \"invention\": null,\r\n  \"feasibility\": []\r\n}\r\n"
+        }
+      ],
+      "skills": [
+        {
+          "name": "textflowkit",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\textflowkit"
+          }
+        },
+        {
+          "name": "siftwing",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\siftwing"
+          }
+        },
+        {
+          "name": "patentforge",
+          "resourceBase": {
+            "kind": "directory",
+            "path": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\skills\\patentforge"
+          }
+        }
+      ]
+    }
+  ],
+  "preservation": {
+    "profiles": [
+      {
+        "path": "C:\\Users\\scott\\.dsh-stock\\cordis.patch.yml",
+        "sha256": "144ee4465eb79dac9690b3e55172f2bce3e03374bcef04e3e1d47f7715c27128",
+        "unchanged": true
+      },
+      {
+        "path": "C:\\Users\\scott\\.dsh-stock\\profiles\\web\\cordis.patch.yml",
+        "sha256": "3289a3b122b03ad3e14d3b79f08a24bdedc69a9c34137a02595038ae9d0c8d09",
+        "unchanged": true
+      },
+      {
+        "path": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\cordis.patch.yml",
+        "sha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+        "unchanged": true
+      },
+      {
+        "path": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\profiles\\desktop\\cordis.patch.yml",
+        "sha256": "a26e38c35a7d78c440be300b6764cfc72e1194c0cbf3a369e23acc2a2d4656bc",
+        "unchanged": true
+      }
+    ],
+    "modelsAndDefaultsUnchanged": true
+  },
+  "scope": "Native tools only, no chat generation, subagents or benchmarks. No PatentForge internal LLM pipeline verification."
+}

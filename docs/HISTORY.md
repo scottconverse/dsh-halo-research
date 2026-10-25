@@ -1,5 +1,9 @@
 # DSH Halo history
 
+- [CLI-Anything non-CAD shortlist (October 25)](HALO-CLI-ANYTHING-SHORTLIST-2026-10-25.md): 103 catalog entries reviewed, practical newsroom/document/media choices and platform/backend limits; no additional installation.
+
+- [TextFlowKit, Siftwing and PatentForge connections (October 25)](HALO-APP-CONNECTIONS-2026-10-25.md): reused installations, isolated PatentForge dependency repair, native Web/Desktop evidence, unchanged profiles and explicit internal-model limits.
+
 - [Halo v0.3.8 source release](../RELEASE-NOTES-v0.3.8.md): LibreOffice CLI skill, retained-session runner, locked dependencies, documentation and public ODT/PDF/project/acceptance receipt. Existing evidence reused; no additional tests or model calls.
 
 - [LibreOffice CLI in Web and Desktop (October 25)](HALO-LIBREOFFICE-CLI-2026-10-25.md): isolated install, watched skill wiring, one shared real ODT/PDF workflow, unchanged profiles/existing skills and published sample/receipt; no model calls or benchmarks.
