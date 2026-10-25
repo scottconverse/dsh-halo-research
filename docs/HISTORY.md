@@ -83,3 +83,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Web model-routing skill installation (October 24)](HALO-WEB-ROUTING-SKILL-2026-10-24.md): exact committed skill installed; live Web discovery and 22 offline call/batch assertions passed; Low/64K default, profiles preserved, no model calls or benchmarks.
 
 - [Native routing plugin for Web/Desktop (October 24)](HALO-ROUTING-PLUGIN-2026-10-24.md): existing CLI and native tool/pwsh services, small companion skill, offline Low/65536 proof, models/defaults preserved; active existing scopes not restarted.
+
+- Routing plugin activation: Web and Desktop restarted idle; live registries confirmed model_route, Desktop current session includes it, four settings/profile hashes unchanged. See the activation section in HALO-ROUTING-PLUGIN-2026-10-24.md.

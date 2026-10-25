@@ -1,3 +1,5 @@
+> **Activation update:** Both apps have now been restarted while idle. Web's four preset layers and Desktop's current existing session expose model_route. Settings hashes are unchanged. See the activation section below; the earlier pending-restart statements describe the pre-restart state.
+
 # DSH Web/Desktop model routing plugin — October 24, 2026
 
 ## Outcome
@@ -80,3 +82,32 @@ its temporary files/processes. Exact Codex turn token/billing totals are not
 exposed by these tools; no fabricated usage number is supplied. Source and
 deployment docs are committed/pushed separately; no npm publication, tag or
 GitHub release is implied. Halo Stack Research reading/recovery files are synced.
+
+## Activation verified after idle restarts — October 24, 2026
+
+This supersedes the earlier pending-restart limitation. Both apps were checked
+through their real native agent/job registries: no running agents, queued work,
+or running/stopping jobs. Web was restarted first with its existing launcher;
+Desktop then used its normal app relaunch/quit path. Both old Desktop processes
+exited and the new host opened the same Desktop profile.
+
+The restarted Web tool registry contains model_route in all four preset layers.
+The restarted Desktop registry contains it in all three preset layers, and its
+current existing session's native tool schema explicitly includes model_route.
+No tool, CLI routing operation, prompt or model request was submitted. Desktop's
+current session had not exposed the new tool before restart; it does now.
+
+Four existing source-of-truth settings/profile files have identical SHA-256
+hashes before and after. Model selections/defaults and integration configuration
+were preserved. Temporary loopback native diagnostic listeners were closed.
+New normal processes: Web 14752; Desktop main 23080 and backend 64108. These PIDs
+are an observation at verification time, not future shutdown authorization.
+
+The read-only diagnostic setup initially tried an unauthenticated backend read
+(401), a cross-origin renderer fetch (blocked), and dynamic import in inspector
+evaluation (unsupported). It was corrected to the native app proxy and cached
+module lookup; no model calls or settings edits resulted. The final checks read
+actual running registries rather than creating an isolated replacement host.
+
+Receipt: docs/evidence/routing-plugin-2026-10-24/activation.json. No subagents,
+model calls, benchmarks or persistent diagnostic processes were created.

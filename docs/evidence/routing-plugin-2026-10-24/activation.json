@@ -1,0 +1,40 @@
+{
+  "verifiedAt": "2026-10-25T05:06:18.4150765Z",
+  "web": {
+    "modelRouteRegistered": true,
+    "pid": 14752,
+    "registeredPresets": 4
+  },
+  "desktop": {
+    "currentSessionModelRoute": true,
+    "mainPid": 23080,
+    "hostPid": 64108,
+    "registeredPresets": 3
+  },
+  "settings": [
+    {
+      "path": "C:\\Users\\scott\\.dsh-stock\\cordis.patch.yml",
+      "sha256": "144EE4465EB79DAC9690B3E55172F2BCE3E03374BCEF04E3E1D47F7715C27128",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\scott\\.dsh-stock\\profiles\\web\\cordis.patch.yml",
+      "sha256": "3289A3B122B03AD3E14D3B79F08A24BDEDC69A9C34137A02595038AE9D0C8D09",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\cordis.patch.yml",
+      "sha256": "7A9C785DA65C542A2DC181B8DC093C31959404AEFFBF65A9EAC296B50CACFFA2",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\scott\\Documents\\Codex\\2026-09-25\\dsh-desktop-eval\\home\\profiles\\desktop\\cordis.patch.yml",
+      "sha256": "A26E38C35A7D78C440BE300B6764CFC72E1194C0CBF3A369E23ACC2A2D4656BC",
+      "unchanged": true
+    }
+  ],
+  "temporaryInspectorClosed": true,
+  "modelCalls": 0,
+  "subagents": 0,
+  "benchmarks": 0
+}

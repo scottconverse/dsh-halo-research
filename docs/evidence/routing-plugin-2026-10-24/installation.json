@@ -39,5 +39,5 @@
   "installedHashMismatches": [],
   "cliSha256": "e1169eac39f0662f44841e85c7d534c307825d5f90678b70314f1ca679d02b34",
   "settingsSha256": "b75cb64591608c43fb0806d2a503a5e0f8e92fb2e743a8caa4b3be22f6bf55ff",
-  "activeSessionAvailability": "Not verified: existing hosts were not restarted or interrupted."
+  "activeSessionAvailability": "Verified after idle restarts: Web four preset registries; Desktop three registries and current existing session schema."
 }
