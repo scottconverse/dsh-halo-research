@@ -87,3 +87,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - Routing plugin activation: Web and Desktop restarted idle; live registries confirmed model_route, Desktop current session includes it, four settings/profile hashes unchanged. See the activation section in HALO-ROUTING-PLUGIN-2026-10-24.md.
 
 - [Two short live model_route coding checks (October 25)](HALO-ROUTING-PLUGIN-2026-10-24.md#two-short-live-plugin-coding-checks--october-25-2026): Web and Desktop actual native plugin calls, Low/64K defaults, six code cases each, 983 model tokens; settings unchanged.
+
+- [October 24–25 publication reconciliation](HALO-PUBLICATION-2026-10-25.md): plugin/CLI/companion skill and installed-source parity; historical effort-study runner plus 2,052 nonprivate receipts archived, prior attempts separated, known reporting flaws qualified. No new tests or model calls.

@@ -1,0 +1,240 @@
+[
+  {
+    "file": "results-cap-65536.jsonl",
+    "rows": 656,
+    "duplicateKeys": 0,
+    "groups": {
+      "off": {
+        "attempts": 164,
+        "passed": 159,
+        "input": 27402,
+        "output": 30675,
+        "seconds": 100.29999999999997,
+        "outcomes": {
+          "failed_tests": 5,
+          "passed": 159
+        }
+      },
+      "low": {
+        "attempts": 164,
+        "passed": 164,
+        "input": 30366,
+        "output": 94004,
+        "seconds": 263.81,
+        "outcomes": {
+          "passed": 164
+        }
+      },
+      "high": {
+        "attempts": 164,
+        "passed": 161,
+        "input": 30366,
+        "output": 241630,
+        "seconds": 523.1100000000001,
+        "outcomes": {
+          "passed": 161,
+          "cap_exhausted": 2,
+          "failed_tests": 1
+        }
+      },
+      "max": {
+        "attempts": 164,
+        "passed": 161,
+        "input": 30366,
+        "output": 313630,
+        "seconds": 704.9899999999999,
+        "outcomes": {
+          "failed_tests": 1,
+          "passed": 161,
+          "cap_exhausted": 2
+        }
+      }
+    }
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-16384.jsonl",
+    "rows": 1,
+    "duplicateKeys": 0,
+    "groups": {
+      "max": {
+        "attempts": 1,
+        "passed": 0,
+        "input": 226,
+        "output": 16384,
+        "seconds": 32.53,
+        "outcomes": {
+          "failed_tests": 1
+        }
+      }
+    }
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-2048.jsonl",
+    "rows": 656,
+    "duplicateKeys": 0,
+    "groups": {
+      "off": {
+        "attempts": 164,
+        "passed": 157,
+        "input": 27402,
+        "output": 30618,
+        "seconds": 99.08,
+        "outcomes": {
+          "passed": 157,
+          "failed_tests": 7
+        }
+      },
+      "low": {
+        "attempts": 164,
+        "passed": 155,
+        "input": 30366,
+        "output": 88314,
+        "seconds": 286.69000000000005,
+        "outcomes": {
+          "passed": 155,
+          "failed_tests": 9
+        }
+      },
+      "high": {
+        "attempts": 164,
+        "passed": 152,
+        "input": 30366,
+        "output": 108811,
+        "seconds": 343.36999999999995,
+        "outcomes": {
+          "passed": 152,
+          "failed_tests": 12
+        }
+      },
+      "max": {
+        "attempts": 164,
+        "passed": 142,
+        "input": 30366,
+        "output": 131237,
+        "seconds": 428.1099999999999,
+        "outcomes": {
+          "passed": 142,
+          "failed_tests": 22
+        }
+      }
+    }
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-65536-missing-prelude.jsonl",
+    "rows": 656,
+    "duplicateKeys": 0,
+    "groups": {
+      "off": {
+        "attempts": 164,
+        "passed": 157,
+        "input": 27402,
+        "output": 30583,
+        "seconds": 89.51999999999997,
+        "outcomes": {
+          "passed": 157,
+          "failed_tests": 7
+        }
+      },
+      "low": {
+        "attempts": 164,
+        "passed": 161,
+        "input": 30366,
+        "output": 137500,
+        "seconds": 369.09000000000003,
+        "outcomes": {
+          "passed": 161,
+          "failed_tests": 3
+        }
+      },
+      "high": {
+        "attempts": 164,
+        "passed": 159,
+        "input": 30366,
+        "output": 188275,
+        "seconds": 463.4400000000003,
+        "outcomes": {
+          "passed": 159,
+          "failed_tests": 4,
+          "cap_exhausted": 1
+        }
+      },
+      "max": {
+        "attempts": 164,
+        "passed": 158,
+        "input": 30366,
+        "output": 370876,
+        "seconds": 797.5799999999999,
+        "outcomes": {
+          "passed": 158,
+          "cap_exhausted": 3,
+          "failed_tests": 3
+        }
+      }
+    }
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-8192.jsonl",
+    "rows": 81,
+    "duplicateKeys": 0,
+    "groups": {
+      "off": {
+        "attempts": 21,
+        "passed": 21,
+        "input": 3993,
+        "output": 4385,
+        "seconds": 12.74,
+        "outcomes": {
+          "passed": 21
+        }
+      },
+      "low": {
+        "attempts": 20,
+        "passed": 20,
+        "input": 4235,
+        "output": 10116,
+        "seconds": 29.390000000000004,
+        "outcomes": {
+          "passed": 20
+        }
+      },
+      "high": {
+        "attempts": 20,
+        "passed": 20,
+        "input": 4235,
+        "output": 12191,
+        "seconds": 37.040000000000006,
+        "outcomes": {
+          "passed": 20
+        }
+      },
+      "max": {
+        "attempts": 20,
+        "passed": 20,
+        "input": 4235,
+        "output": 18921,
+        "seconds": 51.239999999999995,
+        "outcomes": {
+          "passed": 20
+        }
+      }
+    }
+  },
+  {
+    "file": "archive/earlier-capped-runs/pilot-cap-8192.jsonl",
+    "rows": 2,
+    "duplicateKeys": 0,
+    "groups": {
+      "max": {
+        "attempts": 2,
+        "passed": 1,
+        "input": 427,
+        "output": 10125,
+        "seconds": 22.93,
+        "outcomes": {
+          "passed": 1,
+          "failed_tests": 1
+        }
+      }
+    }
+  }
+]

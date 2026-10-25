@@ -2,7 +2,7 @@
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
 
-## Current setup - October 23, 2026
+## Current setup - October 25, 2026
 
 | Component | Current configuration / record |
 |---|---|
@@ -13,6 +13,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
 | Live-web research | Wigolo through the deployment's research integration |
 | Reddit research | Reddit RSS / local Redlib workflow and retrieval adapter |
+| Explicit model routing | Native `model_route` plugin in Web/Desktop; retained CLI and companion skill; exact DeepSeek 1017 defaults Low/64K |
 | Retained-document search | XERJ over MCP with the installed MiniLM neural embeddings; retained alongside Wigolo |
 | Mission Control | Loopback `http://127.0.0.1:3090`; cloud-aware status and saved-versus-historical model display |
 
@@ -23,6 +24,8 @@ The repository release [v0.3.5](https://github.com/scottconverse/dsh-halo-resear
 The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 
 The [October 23 Flint removal and title-call change](docs/HALO-FLINT-REMOVAL-TITLE-CALLS-2026-10-23.md) removes Flint from both pickers, restores DeepSeek 1017 Low for the four remaining Flint session selections, and disables auxiliary model-generated titles. Session names use the stock deterministic fallback; manual renaming remains available. Models and integrations otherwise remain unchanged.
+
+The [October 24–25 publication record](docs/HALO-PUBLICATION-2026-10-25.md) links the native routing plugin, companion skill, actual activation/coding evidence and historical effort-study archive. Both installed routing copies match all 21 committed source files. The archived study was not rerun for publication.
 
 ## Daily use
 

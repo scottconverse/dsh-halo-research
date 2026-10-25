@@ -1,0 +1,2 @@
+{"suite": "humaneval", "task_id": "HumanEval/10", "effort": "max", "passed": true, "error": "", "seconds": 5.59, "tokens_in": 201, "tokens_out": 1933, "thinking_chars": 7912, "code_chars": 616, "num_predict": 8192, "ts": "2026-10-25T00:35:47Z"}
+{"suite": "humaneval", "task_id": "HumanEval/116", "effort": "max", "passed": false, "error": "NameError: name 'sort_array' is not defined", "seconds": 17.34, "tokens_in": 226, "tokens_out": 8192, "thinking_chars": 21464, "code_chars": 1, "num_predict": 8192, "ts": "2026-10-25T00:36:05Z"}

@@ -1,0 +1,47 @@
+[
+  {
+    "file": "bench.py",
+    "sha256": "d592901a97bfc5d07a95e672b0c9a754bd58b6b7eeb5a3e526b04144341d7289",
+    "bytes": 12150
+  },
+  {
+    "file": "README.original.md",
+    "sha256": "bf08a8a8224f6620e1addf35af8972168f1d8b3ccbe38d5e327ca8abdb17b331",
+    "bytes": 3792
+  },
+  {
+    "file": "results.original.md",
+    "sha256": "10412754de7a09a40f022cb4e517f5b7aed384454708f3f22d6db706edb68f68",
+    "bytes": 3481
+  },
+  {
+    "file": "results-cap-65536.jsonl",
+    "sha256": "a307d62a2b33ec32b5023bd6618405b5997926c22a4fe7ca4a82583a063bc79f",
+    "bytes": 209244
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-16384.jsonl",
+    "sha256": "fbe3ec9bfcabca26e78eb61d37552420e624a73d47670adc2667131b2cf283a2",
+    "bytes": 293
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-2048.jsonl",
+    "sha256": "7d28020fbe634150349b32f0900f5e8bdef0a2bed80ce5655a98a275d1448313",
+    "bytes": 134691
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-65536-missing-prelude.jsonl",
+    "sha256": "512c1d89181a44f3ee7c2d64b65d3dd2c6657d307922c6953d11e383368aa31b",
+    "bytes": 210222
+  },
+  {
+    "file": "archive/earlier-capped-runs/attempt-cap-8192.jsonl",
+    "sha256": "03a2a8d1cf2a09f56b8d81a4a4cd2733d593897c47873457339a5aeae0b34f83",
+    "bytes": 19849
+  },
+  {
+    "file": "archive/earlier-capped-runs/pilot-cap-8192.jsonl",
+    "sha256": "61328076adfb102bfcd0ada4c6fd09e8589b1fb6b74499d0c28f43a274784130",
+    "bytes": 537
+  }
+]

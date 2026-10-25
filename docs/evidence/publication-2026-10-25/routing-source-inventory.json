@@ -1,0 +1,152 @@
+{
+  "sourceCommit": "657dd92ce2e10b702ef00c0e8e765ed5df8be807",
+  "files": [
+    {
+      "file": ".gitignore",
+      "source": "1e8bf4431f3af07f044f5c97a13722edc8b6bbeae7e387565e4ba14488caf6ee",
+      "web": "1e8bf4431f3af07f044f5c97a13722edc8b6bbeae7e387565e4ba14488caf6ee",
+      "desktop": "1e8bf4431f3af07f044f5c97a13722edc8b6bbeae7e387565e4ba14488caf6ee",
+      "identical": true
+    },
+    {
+      "file": "CHANGELOG.md",
+      "source": "9662232340e405fd0e62a4def5948e410acbd94b1a11e1d6a3d08cb58499b7cb",
+      "web": "9662232340e405fd0e62a4def5948e410acbd94b1a11e1d6a3d08cb58499b7cb",
+      "desktop": "9662232340e405fd0e62a4def5948e410acbd94b1a11e1d6a3d08cb58499b7cb",
+      "identical": true
+    },
+    {
+      "file": "README.md",
+      "source": "e9690ffac042410b7f6799591a6b9419716b533bce657e1d5398d82295c7b122",
+      "web": "e9690ffac042410b7f6799591a6b9419716b533bce657e1d5398d82295c7b122",
+      "desktop": "e9690ffac042410b7f6799591a6b9419716b533bce657e1d5398d82295c7b122",
+      "identical": true
+    },
+    {
+      "file": "SKILL.md",
+      "source": "a99b746b2c81acab752b220e9cb9a441b4860c5dc4581de3f6f4ce39d43921d2",
+      "web": "a99b746b2c81acab752b220e9cb9a441b4860c5dc4581de3f6f4ce39d43921d2",
+      "desktop": "a99b746b2c81acab752b220e9cb9a441b4860c5dc4581de3f6f4ce39d43921d2",
+      "identical": true
+    },
+    {
+      "file": "config/model-settings.json",
+      "source": "b75cb64591608c43fb0806d2a503a5e0f8e92fb2e743a8caa4b3be22f6bf55ff",
+      "web": "b75cb64591608c43fb0806d2a503a5e0f8e92fb2e743a8caa4b3be22f6bf55ff",
+      "desktop": "b75cb64591608c43fb0806d2a503a5e0f8e92fb2e743a8caa4b3be22f6bf55ff",
+      "identical": true
+    },
+    {
+      "file": "config/prices.json",
+      "source": "682f2de000c6160e40409ae36a8ce8e9d100df13b5ac04957d422f0a7bfc37cc",
+      "web": "682f2de000c6160e40409ae36a8ce8e9d100df13b5ac04957d422f0a7bfc37cc",
+      "desktop": "682f2de000c6160e40409ae36a8ce8e9d100df13b5ac04957d422f0a7bfc37cc",
+      "identical": true
+    },
+    {
+      "file": "docs/.nojekyll",
+      "source": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "web": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "desktop": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identical": true
+    },
+    {
+      "file": "docs/EVIDENCE.md",
+      "source": "a4a507054790b4c57d739e0ac801e391d560b416c1f058866717e2066a191fd6",
+      "web": "a4a507054790b4c57d739e0ac801e391d560b416c1f058866717e2066a191fd6",
+      "desktop": "a4a507054790b4c57d739e0ac801e391d560b416c1f058866717e2066a191fd6",
+      "identical": true
+    },
+    {
+      "file": "docs/MANUAL.md",
+      "source": "ef6c0373a092d01c8d6a48a1de2223254c7725e637039490dfc6eea8d76f695c",
+      "web": "ef6c0373a092d01c8d6a48a1de2223254c7725e637039490dfc6eea8d76f695c",
+      "desktop": "ef6c0373a092d01c8d6a48a1de2223254c7725e637039490dfc6eea8d76f695c",
+      "identical": true
+    },
+    {
+      "file": "docs/index.html",
+      "source": "20bd1334c837dbceef444d7b7574fe9b100061c598aa4da87d52aad85c1e515c",
+      "web": "20bd1334c837dbceef444d7b7574fe9b100061c598aa4da87d52aad85c1e515c",
+      "desktop": "20bd1334c837dbceef444d7b7574fe9b100061c598aa4da87d52aad85c1e515c",
+      "identical": true
+    },
+    {
+      "file": "package.json",
+      "source": "c39eb88baa91180d1b16b69775add702f1386ca9418caa3d5e50444593e0cefa",
+      "web": "c39eb88baa91180d1b16b69775add702f1386ca9418caa3d5e50444593e0cefa",
+      "desktop": "c39eb88baa91180d1b16b69775add702f1386ca9418caa3d5e50444593e0cefa",
+      "identical": true
+    },
+    {
+      "file": "plugin/README.md",
+      "source": "ee2f00f2d8205da987ab97203b21e55719ce8cacc6727f58eafa4d679805ced1",
+      "web": "ee2f00f2d8205da987ab97203b21e55719ce8cacc6727f58eafa4d679805ced1",
+      "desktop": "ee2f00f2d8205da987ab97203b21e55719ce8cacc6727f58eafa4d679805ced1",
+      "identical": true
+    },
+    {
+      "file": "plugin/index.mjs",
+      "source": "81905a12bf8acbfda243f73c909003f22c7321bc684c6f9e1f700e1ac44b8bb6",
+      "web": "81905a12bf8acbfda243f73c909003f22c7321bc684c6f9e1f700e1ac44b8bb6",
+      "desktop": "81905a12bf8acbfda243f73c909003f22c7321bc684c6f9e1f700e1ac44b8bb6",
+      "identical": true
+    },
+    {
+      "file": "references/decision-rubric.md",
+      "source": "c81aedc842511f33d22d43ec0317b62a7678108cc65541d602e1bca07b7a0b93",
+      "web": "c81aedc842511f33d22d43ec0317b62a7678108cc65541d602e1bca07b7a0b93",
+      "desktop": "c81aedc842511f33d22d43ec0317b62a7678108cc65541d602e1bca07b7a0b93",
+      "identical": true
+    },
+    {
+      "file": "references/external-calls.md",
+      "source": "f0872cc03275b8d0746f4f87d9fe95bfef2fd2f586773d62decf7c5d577747fd",
+      "web": "f0872cc03275b8d0746f4f87d9fe95bfef2fd2f586773d62decf7c5d577747fd",
+      "desktop": "f0872cc03275b8d0746f4f87d9fe95bfef2fd2f586773d62decf7c5d577747fd",
+      "identical": true
+    },
+    {
+      "file": "references/ledger.md",
+      "source": "8694b64245b974034f9caf82c901a4ed5f00857500e0993b532fe987e5dd8f88",
+      "web": "8694b64245b974034f9caf82c901a4ed5f00857500e0993b532fe987e5dd8f88",
+      "desktop": "8694b64245b974034f9caf82c901a4ed5f00857500e0993b532fe987e5dd8f88",
+      "identical": true
+    },
+    {
+      "file": "references/worktree-protocol.md",
+      "source": "88e88e15c4066483f027fe843b80aa50649fbf1d252ea769fa82f25c6f08f804",
+      "web": "88e88e15c4066483f027fe843b80aa50649fbf1d252ea769fa82f25c6f08f804",
+      "desktop": "88e88e15c4066483f027fe843b80aa50649fbf1d252ea769fa82f25c6f08f804",
+      "identical": true
+    },
+    {
+      "file": "scripts/route.ps1",
+      "source": "e1169eac39f0662f44841e85c7d534c307825d5f90678b70314f1ca679d02b34",
+      "web": "e1169eac39f0662f44841e85c7d534c307825d5f90678b70314f1ca679d02b34",
+      "desktop": "e1169eac39f0662f44841e85c7d534c307825d5f90678b70314f1ca679d02b34",
+      "identical": true
+    },
+    {
+      "file": "scripts/test_batch_offline.ps1",
+      "source": "7dad522d4842d3fc8696f8ea54ccac2ef1e3786d3b3fa44c9d11774390fa9f47",
+      "web": "7dad522d4842d3fc8696f8ea54ccac2ef1e3786d3b3fa44c9d11774390fa9f47",
+      "desktop": "7dad522d4842d3fc8696f8ea54ccac2ef1e3786d3b3fa44c9d11774390fa9f47",
+      "identical": true
+    },
+    {
+      "file": "scripts/test_plugin_offline.mjs",
+      "source": "6f2a228c4f22079f6635dc9482f4b2fe1ddadc1215b79c2b2ab110d509ae9e56",
+      "web": "6f2a228c4f22079f6635dc9482f4b2fe1ddadc1215b79c2b2ab110d509ae9e56",
+      "desktop": "6f2a228c4f22079f6635dc9482f4b2fe1ddadc1215b79c2b2ab110d509ae9e56",
+      "identical": true
+    },
+    {
+      "file": "scripts/test_route.ps1",
+      "source": "a6c6fdd6a0e997a69cd29efaeab27d688be93527c6528db4b80620aa149958f6",
+      "web": "a6c6fdd6a0e997a69cd29efaeab27d688be93527c6528db4b80620aa149958f6",
+      "desktop": "a6c6fdd6a0e997a69cd29efaeab27d688be93527c6528db4b80620aa149958f6",
+      "identical": true
+    }
+  ]
+}
