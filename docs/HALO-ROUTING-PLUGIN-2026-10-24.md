@@ -111,3 +111,68 @@ actual running registries rather than creating an isolated replacement host.
 
 Receipt: docs/evidence/routing-plugin-2026-10-24/activation.json. No subagents,
 model calls, benchmarks or persistent diagnostic processes were created.
+## Two short live plugin coding checks — October 25, 2026
+
+Scott requested a settings check first, followed by simple coding checks in both
+apps. No application, plugin, model, default or integration settings were changed.
+
+Both installed profiles select Ollama `deepseek-v4.1-flash:1017-cloud`, Low effort,
+65,536 maximum output tokens and an advertised 1,048,576-token context window.
+The installed routing configuration has the same Low/65,536 per-model defaults.
+Direct routing calls use provider-managed context and do not send `num_ctx`;
+the advertised context is not a proof of full-context enforcement.
+
+One call ran through each actual application's native `model_route` tool and
+native `pwsh` service, Web first and Desktop second, in isolated ordinary
+sessions. Effort and output overrides were omitted. These were direct plugin
+calls, not model-selected tool calls from a normal chat, and not UI interaction
+checks. No subagents or benchmark suites were started.
+
+| Host | Native tool elapsed | HTTP/provider elapsed | Input tokens | Output tokens | Code checks |
+|---|---:|---:|---:|---:|---:|
+| Web | 2.294 s | 1.354 s | 132 | 265 | 6/6 passed |
+| Desktop | 4.195 s | 2.056 s | 132 | 454 | 6/6 passed |
+
+Total model-reported usage: 264 input + 719 output = **983 tokens**. Output counts
+are provider counts, not a count of the visible Python alone. Recorded cost is
+$0.000471 estimated API-equivalent, not a subscription bill. These counts cover
+the two DeepSeek calls, not Codex's own coordinator usage, which is not exposed by
+these receipts. Neither timing column is a generation tokens-per-second metric.
+
+Both receipts identify served model `deepseek-v4.1-flash:1017`, effort `low` with
+source `model-default`, max_tokens 65536 with source `model-default`, and stop
+reason `stop`. Both native PowerShell executions exited 0 without timeout,
+truncation, cancellation or sandbox denial. They used the existing full-access
+policy. No 64K exhaustion or 1M context stress test was attempted or needed.
+
+Full prompt (identical in both calls):
+
+```text
+Return only Python 3 code, without Markdown or explanation. Implement latest_by_id(rows): rows is a list of dictionaries, each with a hashable id. Return a new list containing only the last row for each id, ordered by those last occurrences in the input. Do not mutate the input. Empty input returns an empty list. Example: [{"id":"a","v":1},{"id":"b","v":2},{"id":"a","v":3}] returns [{"id":"b","v":2},{"id":"a","v":3}]. Use only the standard library. Keep the implementation short.
+```
+
+The returned code was saved unchanged and executed with Python. Six explicit
+cases cover empty input, a single row, nonconsecutive duplicate ordering,
+consecutive duplicates, mixed integer/string/None IDs, and a repeated middle ID.
+Each also checks that the input remains unchanged and the returned list is new.
+Web used a last-position map and an ordered second pass. Desktop sorted retained
+last-position/row pairs. Both satisfy the small task; this is not evidence of
+broad coding ability or comparative model performance.
+
+Preparation issues: the restricted shell could not access loopback diagnostics,
+so authorized elevated access was used. A preparation attempt tried to resume a
+new session whose write handle DSH already owned; it failed before any model
+request. The check then used the agent DSH had already created. That failed
+attempt left an empty isolated session; it was not deleted. Python emitted a
+location-discovery warning but completed successfully, with all assertions
+passing. No extra model calls were made to recover from preparation issues.
+
+The four existing settings/profile SHA-256 hashes match the prior activation
+receipt exactly. Models, defaults, Wigolo, Reddit/Redlib and XERJ configuration
+were preserved. Temporary native diagnostic listeners were closed after each
+call. Both applications remain running.
+
+Evidence and exact returned source:
+`docs/evidence/routing-plugin-2026-10-25/` contains the two native receipts,
+full prompts, unchanged Python solutions, six-case checker, results and settings
+preservation receipt. No private session history or credentials are included.

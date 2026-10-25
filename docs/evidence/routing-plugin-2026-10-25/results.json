@@ -1,0 +1,42 @@
+[
+  {
+    "host": "web",
+    "cases_passed": 6,
+    "sessionId": "session-72da0987-e907-4d27-97f2-cf8fb72d7f8a",
+    "native_wall_ms": 2294,
+    "id": "236e16248acb",
+    "requested_model": "deepseek-v4.1-flash:1017-cloud",
+    "served_model": "deepseek-v4.1-flash:1017",
+    "effort": "low",
+    "effort_source": "model-default",
+    "max_tokens": 65536,
+    "max_tokens_source": "model-default",
+    "context_handling": "provider-managed",
+    "advertised_context": 1048576,
+    "done_reason": "stop",
+    "tokens_in": 132,
+    "tokens_out": 265,
+    "cost_usd": 0.000179,
+    "wall_ms": 1354
+  },
+  {
+    "host": "desktop",
+    "cases_passed": 6,
+    "sessionId": "session-faf7e60b-9ed7-4b68-ba0b-2eb0a40579ed",
+    "native_wall_ms": 4195,
+    "id": "955d7ed76a76",
+    "requested_model": "deepseek-v4.1-flash:1017-cloud",
+    "served_model": "deepseek-v4.1-flash:1017",
+    "effort": "low",
+    "effort_source": "model-default",
+    "max_tokens": 65536,
+    "max_tokens_source": "model-default",
+    "context_handling": "provider-managed",
+    "advertised_context": 1048576,
+    "done_reason": "stop",
+    "tokens_in": 132,
+    "tokens_out": 454,
+    "cost_usd": 0.000292,
+    "wall_ms": 2056
+  }
+]
