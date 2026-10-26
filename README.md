@@ -19,7 +19,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-The repository release [v0.3.8](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.8) is a Halo source snapshot, not the upstream DSH version. It includes the LibreOffice CLI skill and sample ODT/PDF, plus the rc.3 upgrade and XERJ recovery; see [release notes](RELEASE-NOTES-v0.3.8.md). The source release does not automatically migrate another machine's sessions.
+The repository release [v0.3.9](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.9) is a Halo source snapshot, not the upstream DSH version. It includes the OpenRefine, draw.io, TextFlowKit, Siftwing and PatentForge connections, skills and documentation, plus the earlier LibreOffice workflow, rc.3 upgrade and XERJ recovery; see [release notes](RELEASE-NOTES-v0.3.9.md). The source release does not automatically migrate another machine's sessions or install third-party applications.
 
 The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 
@@ -32,6 +32,8 @@ The [October 25 rc.3 upgrade](docs/HALO-DSH-UPGRADE-2026-10-25.md) records both 
 The [LibreOffice CLI skill](docs/HALO-LIBREOFFICE-CLI-2026-10-25.md) is available in both apps for document/PDF production through existing PowerShell tools. One real ODT/PDF workflow is recorded; model defaults and integrations are preserved.
 
 [OpenRefine and draw.io](docs/HALO-OPENREFINE-DRAWIO-2026-10-25.md) are also connected through skills in both apps: local data cleaning/CSV export and editable diagram/SVG production. Their shared real workflows, isolated installation, recovery and version caveat are documented; existing models/defaults/integrations are preserved.
+
+[TextFlowKit, Siftwing and PatentForge](docs/HALO-APP-CONNECTIONS-2026-10-25.md) provide transcription/export, retained-evidence retrieval and project storage through the same native tools. Their installed acceptance and remaining internal model-pipeline limits are documented.
 
 ## Daily use
 
