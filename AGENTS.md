@@ -8,3 +8,5 @@
 
 ## DSH work records
 For every DSH task, maintain a dated account of what changed, why, actual verification, failures, unresolved limitations, model/provider identity and available timing/usage evidence. Preserve exact prompts when a model job is run. Link evidence and reports in docs/HISTORY.md or its history index. Synchronize Halo Stack Research reading/recovery records and publish authorized completed documentation to this GitHub repo; do not leave the only record in chat or on the local machine. Historical claims must be labelled as historical and must not substitute for current verification. Never publish credentials or private raw conversation dumps.
+
+- Scott requires launcher/icon maintenance to cover all three desktop shortcuts together: DSH Halo Desktop, Start DSH Web, and Stop DSH + Wigolo. Preserve their separate actions, active targets, settings and integrations; validate all three target/icon paths when one is updated.

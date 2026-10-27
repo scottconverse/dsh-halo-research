@@ -1,3 +1,7 @@
+## October 27, 2026 - Desktop startup
+
+Desktop now opens through its normal shortcut. A failed model-catalog refresh uses the saved catalog and writes details to the Desktop home logs/desktop-startup.log. The selected-model safety check still blocks unsafe startup. Models/defaults and integrations are preserved. Maintain Desktop, Web Start and Web Stop shortcuts together. See HALO-DESKTOP-STARTUP-2026-10-27.md for verification and the unproven cause of the earlier refresh failure.
+
 ## Current state — October 11, 2026, 20:30 UTC
 
 The Ollama transport and text-only output-budget repairs are deployed. The bounded text-only compaction path is implemented in stack/stock-dsh/compaction-text-only.mjs with focused coverage in stack/stock-dsh/test/compaction-text-only.test.mjs; its focused test run passed 17/17. For the selected existing session, offline planning found 159 messages (including one system head), 76 atomic groups, 68 tool groups, 11 source chunks plus one merge, and exact ordered coverage of source indexes 0–158. This is planning evidence only.

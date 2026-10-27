@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Desktop startup and three-shortcut maintenance (October 27)](HALO-DESKTOP-STARTUP-2026-10-27.md): saved-catalog fallback, retained safety check, diagnostic logging and normal-shortcut window verification; no inference.
+
 - [CLI-Anything non-CAD shortlist (October 25)](HALO-CLI-ANYTHING-SHORTLIST-2026-10-25.md): 103 catalog entries reviewed, practical newsroom/document/media choices and platform/backend limits; no additional installation.
 
 - [TextFlowKit, Siftwing and PatentForge connections (October 25)](HALO-APP-CONNECTIONS-2026-10-25.md): reused installations, isolated PatentForge dependency repair, native Web/Desktop evidence, unchanged profiles and explicit internal-model limits.
