@@ -492,6 +492,10 @@
                 name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
+                  modelPolicies:
+                    - provider: ollama
+                      model: deepseek-v4.1-flash:1017-cloud
+                      thresholdRatio: 0.7
                   thresholdRatio: 0.7
                   headroomTokens: 8192
                   retainRatio: 0.25
@@ -836,6 +840,10 @@
                 name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
+                  modelPolicies:
+                    - provider: ollama
+                      model: deepseek-v4.1-flash:1017-cloud
+                      thresholdRatio: 0.7
                   thresholdRatio: 0.7
                   headroomTokens: 8192
                   retainRatio: 0.55
@@ -1067,6 +1075,10 @@
                 name: 'file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/compaction-text-only.mjs'
                 config:
                   auto: true
+                  modelPolicies:
+                    - provider: ollama
+                      model: deepseek-v4.1-flash:1017-cloud
+                      thresholdRatio: 0.7
                   thresholdRatio: 0.7
                   headroomTokens: 8192
                   retainRatio: 0.55

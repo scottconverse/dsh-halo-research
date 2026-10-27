@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [DeepSeek 70% compaction across all presets (October 27)](HALO-DEEPSEEK-COMPACTION-2026-10-27.md): exact-route overrides in Web/Desktop source and installed presets; Low/1M/64K and other models preserved; saved-file readback only, no tests.
+
 - [Halo v0.3.10 source release](../RELEASE-NOTES-v0.3.10.md): Desktop saved-catalog startup fallback, retained model-safety check, diagnostic logging and three-shortcut maintenance rule; earlier evidence reused, no further tests.
 
 - [Desktop startup and three-shortcut maintenance (October 27)](HALO-DESKTOP-STARTUP-2026-10-27.md): saved-catalog fallback, retained safety check, diagnostic logging and normal-shortcut window verification; no inference.
