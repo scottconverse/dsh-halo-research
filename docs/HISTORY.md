@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Web interruption and independent Windows host repair (October 27)](HALO-WEB-INCIDENT-2026-10-27.md): preserved Verdict work/session, Codex-update evidence and uncertainty, limited on-demand task, retained logs, offline warning and one controlled recovery.
+
 - [DeepSeek 70% compaction across all presets (October 27)](HALO-DEEPSEEK-COMPACTION-2026-10-27.md): exact-route overrides in Web/Desktop source and installed presets; Low/1M/64K and other models preserved; saved-file readback only, no tests.
 
 - [Halo v0.3.10 source release](../RELEASE-NOTES-v0.3.10.md): Desktop saved-catalog startup fallback, retained model-safety check, diagnostic logging and three-shortcut maintenance rule; earlier evidence reused, no further tests.

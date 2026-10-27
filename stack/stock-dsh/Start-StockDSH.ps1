@@ -1,11 +1,19 @@
 [CmdletBinding()]
 param(
     [switch] $NoOpen,
-    [switch] $KeepMissionControl
+    [switch] $KeepMissionControl,
+    [switch] $PersistentHost
 )
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+
+# A detached child still inherits a Windows job. Use the user's on-demand task
+# so Codex updates or terminal teardown cannot own the server lifetime.
+if (-not $PersistentHost) {
+    & (Join-Path $PSScriptRoot 'Start-PersistentDSH.ps1') -NoOpen:$NoOpen -KeepMissionControl:$KeepMissionControl
+    return
+}
 
 $deploy = $PSScriptRoot
 $dshHome = 'C:\Users\scott\.dsh-stock'
@@ -282,3 +290,26 @@ if (-not $NoOpen) {
 }
 
 Write-Output "DSH and Mission Control are ready; Wigolo is available on demand. Selected route: $routeSummary."
+
+# Keep the scheduled-task action alive and record each server's exit. Do not
+# restart automatically: an interrupted project requires an explicit resume.
+$watched = @{}
+foreach ($port in @(3080, 3090)) {
+    $owner = @(Get-PortListeners $port) | Select-Object -First 1
+    if (-not $owner) { throw "Server missing on port $port after startup." }
+    $process = Get-Process -Id $owner.OwningProcess -ErrorAction Stop
+    $process.EnableRaisingEvents = $true
+    $watched[$port] = $process
+    Write-StackLog "Persistent host owns port $port PID $($process.Id); host PID $PID."
+}
+while ($watched.Count -gt 0) {
+    foreach ($port in @($watched.Keys)) {
+        $process = $watched[$port]
+        if ($process.HasExited) {
+            Write-StackLog "Server on port $port PID $($process.Id) exited; exit code $($process.ExitCode). No automatic restart."
+            $process.Dispose()
+            $watched.Remove($port)
+        }
+    }
+    if ($watched.Count -gt 0) { Start-Sleep -Seconds 2 }
+}
