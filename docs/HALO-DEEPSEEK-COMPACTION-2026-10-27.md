@@ -31,6 +31,15 @@ Per Scott's instruction, no tests, compaction jobs, inference requests, benchmar
 
 ## Delivery and accounting
 
-The change is documented in the repo history and current configuration records, with synchronized reading/recovery copies under Halo Stack Research. The scoped source/configuration/documentation update is to be pushed to `master`; no new release or tag was requested. Private backups, diagnostics and runtime files are excluded.
+The change is documented in the repo history and current configuration records, with synchronized reading/recovery copies under Halo Stack Research. The scoped source/configuration/documentation update was pushed to `master` as `05219f2`; no new release or tag was requested. Private backups, diagnostics and runtime files are excluded.
 
 No provider/model-generation tokens were used for this change. Exact coordinator input/output/cached token accounting is unavailable through this turn's tools; it is not reported as zero.
+## Idle activation - October 27, 2026, 12:54 PM MDT
+
+At Scott's request both applications were reloaded after confirming they were idle. Web's connected, current Mission Control stream showed no active jobs or queued inputs. Desktop's live runtime showed zero running agents, zero queued inputs and no running/stopping background jobs. No work was interrupted.
+
+Web was stopped and started with the existing stock launcher scripts. New Web PID 10636 started at 12:54:13 MDT; Mission Control PID 50820 started at 12:54:19. The status stream reconnected and reported current data. Desktop quit gracefully through Electron app.quit (its background instance had no window-close handle), then launched through the existing Desktop shortcut. New application PID 22784 and host PID 47524 started at 12:54:59; the DeepSeek Harness window is responding. Startup logged the existing DeepSeek cloud default and unchanged local model residency.
+
+Post-reload profile readback retains all four Web and three Desktop DeepSeek 70% policies, Low effort, contextWindow 1048576 and maxTokens 65536. Desktop's profile SHA-256 was identical before and after launch: 23F1CBF7A10777C30E7AB146B28803CFAABFBC0293D092F6D2276CC1FDA2952E. The new hosts started with the updated profile and preset files. No configuration, launcher, integration or session-history changes were made during activation.
+
+No tests, model calls, synthetic sessions or compaction runs were performed. This is restart/configuration activation evidence, not a new end-to-end compaction test. Temporary runtime inspection was closed; no inspection listener was left behind.
