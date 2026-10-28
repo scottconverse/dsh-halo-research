@@ -1,0 +1,1073 @@
+{
+  "recorded": "2026-10-28T20:29:58.126Z",
+  "scope": "Exact synthetic inventory-ledger Desktop project only; no private conversation, prompts, reasoning, tool arguments or raw outputs exported.",
+  "id": "3b2e3cd4-10d1-464b-9871-e1419bd235f3",
+  "status": "complete",
+  "requirements": [
+    {
+      "id": "R1",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R2",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R3",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R4",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R5",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R6",
+      "status": "verified",
+      "evidenceCount": 2
+    },
+    {
+      "id": "R7",
+      "status": "verified",
+      "evidenceCount": 5
+    },
+    {
+      "id": "R8",
+      "status": "verified",
+      "evidenceCount": 7
+    }
+  ],
+  "findings": [
+    {
+      "id": "A-001",
+      "requirement": "R1",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.616Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:24.569Z"
+        }
+      ]
+    },
+    {
+      "id": "A-002",
+      "requirement": "R1",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.624Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:24.576Z"
+        }
+      ]
+    },
+    {
+      "id": "A-003",
+      "requirement": "R2",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.631Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:24.588Z"
+        }
+      ]
+    },
+    {
+      "id": "A-004",
+      "requirement": "R2",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.638Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:24.607Z"
+        }
+      ]
+    },
+    {
+      "id": "A-005",
+      "requirement": "R3",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.644Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:27.089Z"
+        }
+      ]
+    },
+    {
+      "id": "A-006",
+      "requirement": "R3",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.650Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:27.098Z"
+        }
+      ]
+    },
+    {
+      "id": "A-007",
+      "requirement": "R4",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.658Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:27.105Z"
+        }
+      ]
+    },
+    {
+      "id": "A-008",
+      "requirement": "R5",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.664Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:27.131Z"
+        }
+      ]
+    },
+    {
+      "id": "A-009",
+      "requirement": "R5",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.670Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:29.358Z"
+        }
+      ]
+    },
+    {
+      "id": "A-010",
+      "requirement": "R6",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.677Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:29.365Z"
+        }
+      ]
+    },
+    {
+      "id": "A-011",
+      "requirement": "R7",
+      "status": "closed",
+      "delivery": "delivered",
+      "history": [
+        {
+          "role": "coder",
+          "action": "fixed",
+          "time": "2026-10-28T20:28:14.683Z"
+        },
+        {
+          "role": "auditor",
+          "action": "closed",
+          "time": "2026-10-28T20:28:29.370Z"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "seq": 1,
+      "time": "2026-10-28T20:25:24.755Z",
+      "type": "created"
+    },
+    {
+      "seq": 2,
+      "time": "2026-10-28T20:25:24.795Z",
+      "type": "child-started",
+      "role": "coder"
+    },
+    {
+      "seq": 3,
+      "time": "2026-10-28T20:25:24.863Z",
+      "type": "child-started",
+      "role": "auditor"
+    },
+    {
+      "seq": 4,
+      "time": "2026-10-28T20:25:26.962Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 5,
+      "time": "2026-10-28T20:25:29.056Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 6,
+      "time": "2026-10-28T20:25:39.786Z",
+      "type": "finding"
+    },
+    {
+      "seq": 7,
+      "time": "2026-10-28T20:25:39.841Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 8,
+      "time": "2026-10-28T20:25:39.860Z",
+      "type": "finding"
+    },
+    {
+      "seq": 9,
+      "time": "2026-10-28T20:25:39.864Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 10,
+      "time": "2026-10-28T20:25:39.871Z",
+      "type": "finding"
+    },
+    {
+      "seq": 11,
+      "time": "2026-10-28T20:25:39.877Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 12,
+      "time": "2026-10-28T20:25:39.891Z",
+      "type": "finding"
+    },
+    {
+      "seq": 13,
+      "time": "2026-10-28T20:25:39.895Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 14,
+      "time": "2026-10-28T20:25:44.075Z",
+      "type": "finding"
+    },
+    {
+      "seq": 15,
+      "time": "2026-10-28T20:25:44.142Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 16,
+      "time": "2026-10-28T20:25:44.156Z",
+      "type": "finding"
+    },
+    {
+      "seq": 17,
+      "time": "2026-10-28T20:25:44.161Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 18,
+      "time": "2026-10-28T20:25:44.173Z",
+      "type": "finding"
+    },
+    {
+      "seq": 19,
+      "time": "2026-10-28T20:25:44.177Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 20,
+      "time": "2026-10-28T20:25:44.189Z",
+      "type": "finding"
+    },
+    {
+      "seq": 21,
+      "time": "2026-10-28T20:25:44.195Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 22,
+      "time": "2026-10-28T20:25:46.687Z",
+      "type": "finding"
+    },
+    {
+      "seq": 23,
+      "time": "2026-10-28T20:25:46.739Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 24,
+      "time": "2026-10-28T20:25:46.752Z",
+      "type": "finding"
+    },
+    {
+      "seq": 25,
+      "time": "2026-10-28T20:25:46.758Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 26,
+      "time": "2026-10-28T20:25:46.774Z",
+      "type": "finding"
+    },
+    {
+      "seq": 27,
+      "time": "2026-10-28T20:25:46.779Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 28,
+      "time": "2026-10-28T20:25:49.446Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 29,
+      "time": "2026-10-28T20:25:49.457Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 30,
+      "time": "2026-10-28T20:25:49.469Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 31,
+      "time": "2026-10-28T20:25:49.479Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 32,
+      "time": "2026-10-28T20:25:52.054Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 33,
+      "time": "2026-10-28T20:25:52.064Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 34,
+      "time": "2026-10-28T20:25:52.074Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 35,
+      "time": "2026-10-28T20:25:52.086Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 36,
+      "time": "2026-10-28T20:25:54.973Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 37,
+      "time": "2026-10-28T20:25:56.479Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 38,
+      "time": "2026-10-28T20:25:58.920Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 39,
+      "time": "2026-10-28T20:26:03.677Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 40,
+      "time": "2026-10-28T20:26:05.185Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 41,
+      "time": "2026-10-28T20:26:11.528Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 42,
+      "time": "2026-10-28T20:26:11.536Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 43,
+      "time": "2026-10-28T20:26:13.866Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 44,
+      "time": "2026-10-28T20:26:46.931Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 45,
+      "time": "2026-10-28T20:27:21.606Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 46,
+      "time": "2026-10-28T20:27:21.614Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 47,
+      "time": "2026-10-28T20:27:21.621Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 48,
+      "time": "2026-10-28T20:27:21.634Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 49,
+      "time": "2026-10-28T20:27:24.922Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 50,
+      "time": "2026-10-28T20:27:24.932Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 51,
+      "time": "2026-10-28T20:27:24.941Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 52,
+      "time": "2026-10-28T20:27:24.955Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 53,
+      "time": "2026-10-28T20:27:28.450Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 54,
+      "time": "2026-10-28T20:27:29.960Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 55,
+      "time": "2026-10-28T20:27:45.454Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 56,
+      "time": "2026-10-28T20:27:45.458Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 57,
+      "time": "2026-10-28T20:27:48.923Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 58,
+      "time": "2026-10-28T20:27:50.431Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 59,
+      "time": "2026-10-28T20:27:52.109Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 60,
+      "time": "2026-10-28T20:28:01.952Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 61,
+      "time": "2026-10-28T20:28:01.960Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 62,
+      "time": "2026-10-28T20:28:05.004Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 63,
+      "time": "2026-10-28T20:28:05.078Z",
+      "type": "message-delivered",
+      "role": "coder"
+    },
+    {
+      "seq": 64,
+      "time": "2026-10-28T20:28:06.514Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 65,
+      "time": "2026-10-28T20:28:10.179Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 66,
+      "time": "2026-10-28T20:28:12.207Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 67,
+      "time": "2026-10-28T20:28:14.616Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 68,
+      "time": "2026-10-28T20:28:14.624Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 69,
+      "time": "2026-10-28T20:28:14.631Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 70,
+      "time": "2026-10-28T20:28:14.638Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 71,
+      "time": "2026-10-28T20:28:14.644Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 72,
+      "time": "2026-10-28T20:28:14.650Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 73,
+      "time": "2026-10-28T20:28:14.658Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 74,
+      "time": "2026-10-28T20:28:14.664Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 75,
+      "time": "2026-10-28T20:28:14.670Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 76,
+      "time": "2026-10-28T20:28:14.677Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 77,
+      "time": "2026-10-28T20:28:14.683Z",
+      "type": "disposition",
+      "role": "coder",
+      "action": "fixed"
+    },
+    {
+      "seq": 78,
+      "time": "2026-10-28T20:28:16.179Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 79,
+      "time": "2026-10-28T20:28:24.569Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 80,
+      "time": "2026-10-28T20:28:24.576Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 81,
+      "time": "2026-10-28T20:28:24.588Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 82,
+      "time": "2026-10-28T20:28:24.607Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 83,
+      "time": "2026-10-28T20:28:26.348Z",
+      "type": "report",
+      "role": "coder"
+    },
+    {
+      "seq": 84,
+      "time": "2026-10-28T20:28:27.089Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 85,
+      "time": "2026-10-28T20:28:27.098Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 86,
+      "time": "2026-10-28T20:28:27.105Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 87,
+      "time": "2026-10-28T20:28:27.131Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 88,
+      "time": "2026-10-28T20:28:29.358Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 89,
+      "time": "2026-10-28T20:28:29.365Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 90,
+      "time": "2026-10-28T20:28:29.370Z",
+      "type": "disposition",
+      "role": "auditor",
+      "action": "closed"
+    },
+    {
+      "seq": 91,
+      "time": "2026-10-28T20:28:32.180Z",
+      "type": "requirement"
+    },
+    {
+      "seq": 92,
+      "time": "2026-10-28T20:28:34.916Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 93,
+      "time": "2026-10-28T20:28:36.436Z",
+      "type": "message-delivered",
+      "role": "auditor"
+    },
+    {
+      "seq": 94,
+      "time": "2026-10-28T20:28:42.495Z",
+      "type": "report",
+      "role": "auditor"
+    },
+    {
+      "seq": 95,
+      "time": "2026-10-28T20:28:46.381Z",
+      "type": "complete"
+    }
+  ],
+  "auditDirty": false,
+  "auditQueued": false,
+  "sessions": [
+    {
+      "role": "coordinator",
+      "id": "session-26af927e-19f7-4156-9fb4-459a77480ddb",
+      "lastSeq": 457,
+      "turnEnds": [
+        {
+          "seq": 71,
+          "time": 1793219120672,
+          "kind": "completed"
+        },
+        {
+          "seq": 457,
+          "time": 1793219333469,
+          "kind": "completed"
+        }
+      ],
+      "goal": [
+        {
+          "seq": 79,
+          "operation": "create",
+          "id": "goal-33739a13-0d89-44d7-b0c3-71c7ae9238d0",
+          "phase": "active"
+        },
+        {
+          "seq": 444,
+          "operation": "complete",
+          "id": "goal-33739a13-0d89-44d7-b0c3-71c7ae9238d0",
+          "phase": "complete"
+        }
+      ],
+      "tools": [
+        "triad_read",
+        "working_directory",
+        "triad_list",
+        "triad_status",
+        "list_mcp_resources",
+        "get_goal",
+        "create_goal",
+        "mcp__xerj__xerj_map",
+        "triad_start",
+        "triad_control",
+        "triad_wait",
+        "triad_events"
+      ],
+      "model": [
+        "deepseek-v4.1-flash:1017-cloud"
+      ],
+      "writes": [],
+      "jobs": {
+        "registered": 0,
+        "settled": 0
+      },
+      "toolErrors": [
+        {
+          "seq": 16
+        },
+        {
+          "seq": 21
+        },
+        {
+          "seq": 26
+        },
+        {
+          "seq": 31
+        },
+        {
+          "seq": 36
+        },
+        {
+          "seq": 46
+        },
+        {
+          "seq": 51
+        },
+        {
+          "seq": 56
+        },
+        {
+          "seq": 61
+        },
+        {
+          "seq": 66
+        },
+        {
+          "seq": 428
+        }
+      ],
+      "usage": {
+        "inputTokens": 1254878,
+        "outputTokens": 18059,
+        "cacheReadTokens": 10878910
+      }
+    },
+    {
+      "role": "coder",
+      "id": "session-33228c93-1aa9-4374-9d01-d8a18f1fc000",
+      "lastSeq": 261,
+      "turnEnds": [
+        {
+          "seq": 40,
+          "time": 1793219130043,
+          "kind": "completed"
+        },
+        {
+          "seq": 60,
+          "time": 1793219143227,
+          "kind": "completed"
+        },
+        {
+          "seq": 80,
+          "time": 1793219145760,
+          "kind": "completed"
+        },
+        {
+          "seq": 98,
+          "time": 1793219148220,
+          "kind": "completed"
+        },
+        {
+          "seq": 261,
+          "time": 1793219308197,
+          "kind": "completed"
+        }
+      ],
+      "goal": [],
+      "tools": [
+        "skill",
+        "triad_status",
+        "read",
+        "pwsh",
+        "write",
+        "triad_git",
+        "edit",
+        "triad_finding_action",
+        "triad_report"
+      ],
+      "model": [
+        "deepseek-v4.1-flash:1017-cloud"
+      ],
+      "writes": [
+        {
+          "seq": 124,
+          "time": 1793219205338,
+          "name": "write"
+        },
+        {
+          "seq": 129,
+          "time": 1793219211613,
+          "name": "write"
+        },
+        {
+          "seq": 141,
+          "time": 1793219228095,
+          "name": "write"
+        },
+        {
+          "seq": 153,
+          "time": 1793219245890,
+          "name": "write"
+        },
+        {
+          "seq": 196,
+          "time": 1793219273006,
+          "name": "edit"
+        }
+      ],
+      "jobs": {
+        "registered": 7,
+        "settled": 7
+      },
+      "toolErrors": [
+        {
+          "seq": 175
+        },
+        {
+          "seq": 177
+        }
+      ],
+      "usage": {
+        "inputTokens": 250551,
+        "outputTokens": 39860,
+        "cacheReadTokens": 1235110
+      }
+    },
+    {
+      "role": "auditor",
+      "id": "session-5348a9d6-0b79-431e-aa2f-700ea4f99f63",
+      "lastSeq": 490,
+      "turnEnds": [
+        {
+          "seq": 188,
+          "time": 1793219175783,
+          "kind": "completed"
+        },
+        {
+          "seq": 399,
+          "time": 1793219294242,
+          "kind": "completed"
+        },
+        {
+          "seq": 490,
+          "time": 1793219324247,
+          "kind": "completed"
+        }
+      ],
+      "goal": [],
+      "tools": [
+        "triad_status",
+        "triad_list",
+        "triad_read",
+        "triad_git",
+        "triad_events",
+        "triad_finding",
+        "triad_requirement",
+        "triad_report",
+        "triad_finding_action"
+      ],
+      "model": [
+        "deepseek-v4.1-flash:1017-cloud"
+      ],
+      "writes": [],
+      "jobs": {
+        "registered": 0,
+        "settled": 0
+      },
+      "toolErrors": [
+        {
+          "seq": 46
+        },
+        {
+          "seq": 233
+        },
+        {
+          "seq": 235
+        },
+        {
+          "seq": 237
+        },
+        {
+          "seq": 239
+        }
+      ],
+      "usage": {
+        "inputTokens": 534882,
+        "outputTokens": 35900,
+        "cacheReadTokens": 5093640
+      }
+    }
+  ],
+  "hashes": {
+    "CONTRACT.md": "eb38ce218a1be7a8a69d4ceef0f728b2eba16c91f0a1f2bf639915793783ed17",
+    "acceptance.test.mjs": "4890f5b9de578c1f4573afa1560d212448a217eea29fae449ce7009dd9784daa",
+    "ledger.mjs": "36cb5859ee7a25326c700757b74ad795c7419e40c95b8cb81b7d6fcc6347b07a",
+    "cli.mjs": "4f968b9787381115b47cd8bd3ee9ad61e6c038a572410c8be087e2e021e9f16f",
+    "regression.test.mjs": "b1a01e23fc1e173fb615a1cf53fceb93f1533bd7c13f26e1bf78c3f7d8ac949b",
+    "README.md": "662167d4d35052ea5b6c5099b65d0a8bf5a6e3c174142e36a13d7677853bfd57",
+    "verification.txt": "399e5bf5705dce9856330c998a9ad59f08029b73a782743093a2f415d6a131e7",
+    "package.json": "7ea9e2a3b711191044823f44c891968b896aa11b040d885a61d36c3c91b61ce0"
+  },
+  "limits": [
+    "Seeded source defects, not a blind sample of naturally occurring bugs.",
+    "One startup clarification supplied the full contract inline before a valid project could start.",
+    "No long-duration or compaction-threshold claim.",
+    "No fsync, multiwriter or fault-injected power-loss proof."
+  ]
+}

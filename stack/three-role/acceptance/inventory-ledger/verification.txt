@@ -1,0 +1,33 @@
+Command: node --test acceptance.test.mjs
+Working directory: C:\Users\scott\Documents\Codex\2026-10-28\three-role-ledger-trial
+Node version: v24.21.0
+Exit code: 0
+
+--- BEGIN ACCEPTANCE STDOUT (UNEDITED) ---
+✔ valid receive and exact depletion, immutable input and detached output (1.2469ms)
+✔ failed batch rolls back its valid prefix (0.2024ms)
+✔ same-ID replay ignores key order; conflicts are transactional (0.166ms)
+✔ strict event shape and scalar validation (0.2294ms)
+✔ safe integer accumulation and overdraft checks (0.0982ms)
+✔ stored history is validated before apply or report (0.1447ms)
+✔ report is deterministic, sorted, retains zero and is read-only (0.1275ms)
+✔ CLI persists and replays across processes with spaces in paths (221.6316ms)
+✔ CLI invalid apply and corrupt ledger preserve bytes and leave no temp (213.3465ms)
+✔ CLI usage and malformed input errors are structured and side-effect-free (501.6526ms)
+✔ missing state report is empty and does not create the file (72.1679ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1103.3399
+--- END ACCEPTANCE STDOUT ---
+
+--- BEGIN ACCEPTANCE STDERR (UNEDITED) ---
+--- END ACCEPTANCE STDERR ---
+
+Protected file SHA256 receipts:
+CONTRACT.md EB38CE218A1BE7A8A69D4CEEF0F728B2EBA16C91F0A1F2BF639915793783ED17
+acceptance.test.mjs 4890F5B9DE578C1F4573AFA1560D212448A217EEA29FAE449CE7009DD9784DAA

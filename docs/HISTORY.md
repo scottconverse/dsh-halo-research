@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Substantial Desktop three-role trial (October 28)](HALO-THREE-ROLE-LEDGER-TRIAL-2026-10-28.md): real inventory-ledger defects caught before edits, Coordinator recovery, full eight-requirement acceptance, source/receipt reconciliation and overhead limits.
+
 - [Bounded Coder / Coordinator / Auditor-Nudger (October 28)](HALO-THREE-ROLE-2026-10-28.md): native DSH plugin and presets, real Desktop correction/cancellation/cold-resume acceptance, isolated Web registration, preserved defaults and staged idle Web deployment.
 
 - [Universal Web/Desktop goals (October 28)](HALO-UNIVERSAL-GOALS-2026-10-28.md): shared registration, native active/armed readback, automatic auditor rounds, operating procedure, preservation and limits; VS Code acceptance-window ownership.
