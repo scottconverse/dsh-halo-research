@@ -3,7 +3,7 @@
 ## Delivered behavior and deployment boundary
 
 `stack/three-role` implements a native DSH plugin and three presets. Desktop
-ran three controlled projects through real managed children. The same plugin
+ran four controlled projects through real managed children. The same plugin
 loaded in a separate real Web host and exposed all three presets. The active
 Verdict Web host/profile was not changed, restarted, cancelled or messaged.
 Its canonical deployment row is staged for an idle installation. This is not
@@ -68,10 +68,14 @@ Desktop DSH home rather than in Git.
 | Goal pause, host restart and cold continuation | Project `a81a6f8d-ab24-488d-9635-c2f1d8da9f76`, about 11:00–11:05 AM. Original Coordinator and both child IDs survived an idle Desktop restart. Native goal pause/resume events persisted. Coder created `resume.txt` only after resume; Auditor independently verified it and preserved README. | Complete under the original identities. |
 | Cancellation of running children | Project `b13a7929-5c44-4c30-864d-71ba4d598f4e`, about 11:09–11:10 AM. Both running child journals ended `aborted`, nested cancellation kind `parent`. Same children resumed, completed the read-only requirement and settled. | Complete; real cancellation, not merely an idle badge. |
 | Auditor tool surface | Live Auditor reported no `pwsh` or file-write tool in its catalog, declined the misdirected Coder write instruction, and `forbidden.txt` remained absent. | Catalog isolation observed. No installed guard-denial receipt was fabricated for an uncallable tool. Runtime guard behavior is separately covered by adapter tests. |
+| Final role load and native goal readback | Project `f4a76909-44d9-48ae-914a-9d00fa7d9637`, 11:28–11:29 AM, after the final idle Desktop reload. Fresh Coordinator, Coder and Auditor instantiated with their compaction services. Both workers read the neutral README. Two premature completion attempts were correctly rejected while workers were active. After settlement, native completion seq 84, `triad_status` seq 90 and `get_goal` seq 92 agreed on goal `goal-abb89af2-a631-4025-b435-76c3ba6b504a`, phase `complete`, revision 2; native readback was disarmed. | Complete; no API/service-load failure. README SHA-256 remained `b19ac2bb769f745591ada1bd592235f5e66b1e923e00866e7770a9b40b91171f`. Threshold crossing was not exercised. |
 
 The private arithmetic fixture is under
 `C:\Users\scott\Documents\Codex\2026-10-28\three-role-acceptance`.
 The lifecycle fixture is its sibling `three-role-lifecycle`.
+The final load fixture is `three-role-final-load`. The cancellation trial's
+reused lifecycle README had content/no-write evidence, not a pretrial byte hash;
+the final neutral fixture did have a before/after hash.
 
 ## Defects found during development and corrections
 
@@ -99,6 +103,21 @@ The lifecycle fixture is its sibling `three-role-lifecycle`.
    be paused or messaged. Fixed Git reads use a `.` pathspec to confine a
    nested project's view, and disable external diff/text conversion/hooks/
    fsmonitor execution.
+6. The running-child trial's final model narrative incorrectly claimed its
+   native goal had not completed after `get_goal` was denied by the role guard.
+   The saved native `goal/change` event actually recorded completion. Safe
+   `get_goal` readback is now allowed, `triad_status` includes the real parent
+   goal metadata, and the persona explains that `triad_control` owns mutations.
+   The final fresh-load trial checks both readbacks after completion.
+7. Stock Web disables host-level compaction. Preset registration alone would
+   not supply a compaction service to the new roles. Each role now mounts the
+   existing `stock-dsh/compaction-text-only.mjs` service in its own realm, plus
+   stock compact command and tool-result pruner. The exact DeepSeek 1017 policy
+   is 70%, with 8,192-token summary/headroom and 55% tail retention; the generic
+   new-role threshold is 80%. Existing presets and model definitions are
+   unchanged. Offline assertions verify all three policy configurations and
+   a fresh Desktop project instantiates all three roles. This does not claim
+   a near-1M conversation actually crossed the automatic threshold.
 
 The last live cancellation project used the corrected project-wide control
 contract. Focused tests cover all these adapter/control regressions.
@@ -169,8 +188,8 @@ raw sessions stay outside the repository and reading recovery package.
 
 ## Available usage and delivery
 
-The controlled Desktop sessions, including the failed trial, record 296,102
-input tokens, 55,858 output tokens and 4,102,912 cache-read tokens across their
+The controlled Desktop sessions, including the failed trial, record 362,971
+input tokens, 61,075 output tokens and 4,599,936 cache-read tokens across their
 saved assistant-message usage entries. These are journal accounting totals,
 not a provider bill or performance benchmark. No API price or cost was
 invented. OpenAI Codex performed implementation/coordination; the authorized

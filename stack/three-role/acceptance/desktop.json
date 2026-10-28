@@ -1,5 +1,5 @@
 {
-  "recorded": "2026-10-28T17:15:07.792Z",
+  "recorded": "2026-10-28T17:29:30.264Z",
   "dsh": "0.2.1-rc.3",
   "scope": "Controlled Desktop fixtures only; existing Verdict sessions untouched. Web registration separately observed in isolated host; no Web inference.",
   "projects": [
@@ -1086,12 +1086,182 @@
           "executionReceipts": []
         }
       ]
+    },
+    {
+      "id": "f4a76909-44d9-48ae-914a-9d00fa7d9637",
+      "status": "complete",
+      "requirements": [
+        {
+          "id": "R1",
+          "status": "verified",
+          "evidenceCount": 1
+        }
+      ],
+      "findings": [],
+      "reportRoles": [
+        "coder",
+        "auditor",
+        "auditor"
+      ],
+      "events": [
+        {
+          "seq": 1,
+          "time": "2026-10-28T17:28:35.052Z",
+          "type": "created"
+        },
+        {
+          "seq": 2,
+          "time": "2026-10-28T17:28:35.106Z",
+          "type": "child-started",
+          "role": "coder"
+        },
+        {
+          "seq": 3,
+          "time": "2026-10-28T17:28:35.147Z",
+          "type": "child-started",
+          "role": "auditor"
+        },
+        {
+          "seq": 4,
+          "time": "2026-10-28T17:28:39.278Z",
+          "type": "report",
+          "role": "coder"
+        },
+        {
+          "seq": 5,
+          "time": "2026-10-28T17:28:46.950Z",
+          "type": "requirement"
+        },
+        {
+          "seq": 6,
+          "time": "2026-10-28T17:28:48.805Z",
+          "type": "report",
+          "role": "auditor"
+        },
+        {
+          "seq": 7,
+          "time": "2026-10-28T17:28:50.314Z",
+          "type": "message-delivered",
+          "role": "auditor"
+        },
+        {
+          "seq": 8,
+          "time": "2026-10-28T17:28:55.589Z",
+          "type": "report",
+          "role": "auditor"
+        },
+        {
+          "seq": 9,
+          "time": "2026-10-28T17:29:19.570Z",
+          "type": "complete"
+        }
+      ],
+      "auditDirty": false,
+      "auditQueued": false,
+      "sessions": [
+        {
+          "id": "session-02513fec-165e-4846-b56b-724fb97a39d1",
+          "turns": [
+            {
+              "seq": 97,
+              "time": 1793208563133,
+              "kind": "completed"
+            }
+          ],
+          "goal": [
+            {
+              "seq": 16,
+              "operation": "create",
+              "id": "goal-abb89af2-a631-4025-b435-76c3ba6b504a",
+              "phase": "active"
+            },
+            {
+              "seq": 84,
+              "operation": "complete",
+              "id": "goal-abb89af2-a631-4025-b435-76c3ba6b504a",
+              "phase": "complete"
+            }
+          ],
+          "model": [
+            "deepseek-v4.1-flash:1017-cloud"
+          ],
+          "usage": {
+            "inputTokens": 26162,
+            "outputTokens": 1733,
+            "cacheReadTokens": 237824
+          },
+          "tools": [
+            "triad_start",
+            "get_goal",
+            "triad_status",
+            "triad_wait",
+            "triad_events",
+            "triad_control"
+          ],
+          "executionReceipts": []
+        },
+        {
+          "id": "session-5dd4f235-871f-4080-8a03-6b17ddd75cee",
+          "turns": [
+            {
+              "seq": 39,
+              "time": 1793208520672,
+              "kind": "completed"
+            }
+          ],
+          "goal": [],
+          "model": [
+            "deepseek-v4.1-flash:1017-cloud"
+          ],
+          "usage": {
+            "inputTokens": 19657,
+            "outputTokens": 490,
+            "cacheReadTokens": 55808
+          },
+          "tools": [
+            "skill",
+            "triad_status",
+            "triad_read",
+            "triad_report"
+          ],
+          "executionReceipts": []
+        },
+        {
+          "id": "session-7129a188-d186-4db9-91f9-9b518d0f81a5",
+          "turns": [
+            {
+              "seq": 87,
+              "time": 1793208537203,
+              "kind": "completed"
+            }
+          ],
+          "goal": [],
+          "model": [
+            "deepseek-v4.1-flash:1017-cloud"
+          ],
+          "usage": {
+            "inputTokens": 21050,
+            "outputTokens": 2994,
+            "cacheReadTokens": 203392
+          },
+          "tools": [
+            "triad_status",
+            "triad_list",
+            "triad_read",
+            "triad_events",
+            "triad_git",
+            "triad_requirement",
+            "triad_report"
+          ],
+          "executionReceipts": []
+        }
+      ]
     }
   ],
   "sourceHashes": {
     "core.mjs": "aab78030c7d64d6940d649e7e08386f3a17f1267ec1a25f37380c9567f4f3cc8",
-    "index.mjs": "1adaf446faabc937269947df40b7f35b15ba10fb760bb8ec5bd549cf87a16749",
-    "test.mjs": "bf99970ca4b6014abc73185bc82c72551e436a9de7e46459a75244b6c3922546",
+    "index.mjs": "c5e13ab230be8dfb474e0bc03bac77a0c18eb097ab295b1e590d67daa7a5b2e2",
+    "test.mjs": "49b5fc51e4064df774843ee6186a76cb0a714683c750662219adf938d31dcc2f",
     "Install-ThreeRole.ps1": "44b29cacbf2dd3b1a8fc60c041d98eddef277facc373d564f18639379dcbdb96",
     "skills/staff-engineer/SKILL.md": "5ffa563aa17c81a77e08f5d0914f3f109430d8a3d850c693ed0f6096b9d6c62f"
   },

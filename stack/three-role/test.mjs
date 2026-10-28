@@ -79,12 +79,20 @@ test('adapter enforces roles and relays a real structured finding under live par
     // Replace prepared fixture with identities known by the adapter.
     f.p.children = { coder: 'coder', auditor: 'auditor' }; f.p.status = 'running'; f.store.save();
     await apply(base, { stateFile: f.file }); assert.equal(presets.size, 3);
+    for (const preset of presets.values()) {
+      const compact = preset.plugins.find(p => p.id === 'compaction');
+      assert.equal(compact.isolate.compaction, true);
+      const cfg = compact.config.find(p => p.id === 'compaction-basic').config;
+      assert.equal(cfg.auto, true); assert.equal(cfg.maxTokens, 8192);
+      assert.deepEqual(cfg.modelPolicies, [{ provider: 'ollama', model: 'deepseek-v4.1-flash:1017-cloud', thresholdRatio: 0.7 }]);
+    }
     const tools = new Map(); let guard;
     const ctx = { ...base, tools: { guard(g) { guard = g; }, register(t) { tools.set(t.name, t); } }, on() {} };
     await apply(ctx, { role: 'auditor' });
     assert.equal(tools.get('triad_finding').parameters.type, 'object');
     assert.deepEqual(tools.get('triad_finding').parameters.required, ['requirement', 'evidence', 'correction']);
     assert.match(guard({ name: 'pwsh' }), /no authority/); assert.match(guard({ name: 'write' }), /no authority/);
+    assert.equal(guard({ name: 'get_goal' }), undefined);
     assert.match(guard({ name: 'triad_control' }), /cannot/); assert.equal(guard({ name: 'triad_read' }), undefined);
     const exec = { agent: auditor, signal: new AbortController().signal };
     await assert.rejects(tools.get('triad_finding').execute({ evidence: 'missing requirement' }, exec), /required/);

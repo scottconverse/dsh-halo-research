@@ -47,8 +47,11 @@ blockers as incomplete. No publication unless expressly authorized here.
 turn and refuses to overwrite an existing goal. Children inherit the current
 Coordinator provider/model/effort; no model defaults are changed. The plugin
 does not supply different output/context settings or make independent HTTP
-model calls. Existing DeepSeek Low/1M/64K/70% compaction settings remain owned
-by the installed DSH configuration.
+model calls. Each role mounts Halo's existing text-only compaction service in
+its own realm, with the exact DeepSeek 70% policy, 8K summary/headroom and 55%
+tail retention. Existing model/output/context settings remain owned by DSH.
+Other existing presets are unchanged. This folder depends on its sibling
+`stock-dsh/compaction-text-only.mjs` and that deployment's installed packages.
 
 The Coordinator uses `triad_status` and event waits. Auditor reviews are
 debounced and coalesced after Coder activity. A host-owned relay uses the exact
