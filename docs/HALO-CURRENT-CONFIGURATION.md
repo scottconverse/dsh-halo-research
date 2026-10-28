@@ -417,3 +417,9 @@ failed news session. Its terminal summary, text fidelity, and actual reduction
 are not yet verified; this is not a resumed reporting task. The confirmed
 cause, repair, retry handle, evidence map, restart history, and limitations are
 in [HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md](HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md).
+
+## October 28, 2026 — universal goals
+
+Installed Web/Desktop profiles and canonical deployment copies enable the shared command-goal and tool-goal registrations. Existing and future sessions inherit availability independently of preset. Objectives still require activation: native active/armed readback and subsequent automatic rounds establish continuation. Web reconciled live without restarting the Verdict coder; Desktop native command availability was verified. Model/provider settings, DeepSeek Low/1M context/64K output/70% compaction, launchers and other integrations were preserved.
+
+See [Universal goals: repair, procedure and evidence](HALO-UNIVERSAL-GOALS-2026-10-28.md). Idle-boundary rounds are not a five-minute timer; restart rearming was not separately exercised. Other reduced-preset omissions were not enabled.

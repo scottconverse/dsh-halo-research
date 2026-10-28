@@ -1131,3 +1131,10 @@
 # Keep deterministic prompt-derived names and manual renaming; no auxiliary model calls.
 - id: session-title-llm
   disabled: true
+
+# Goals are universal capabilities: available in every preset and open session.
+# Keep per-session objective/activation in the existing host goal service.
+- id: command-goal
+  disabled: false
+- id: tool-goal
+  disabled: false

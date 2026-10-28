@@ -409,3 +409,9 @@ failed news session. Its terminal summary, text fidelity, and actual reduction
 are not yet verified; this is not a resumed reporting task. The confirmed
 cause, repair, retry handle, evidence map, restart history, and limitations are
 in [HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md](HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md).
+
+## October 28, 2026 — native goals for continued work
+
+Goals are available in all Halo Web/Desktop presets, including existing sessions. Enter bare `/goal` for native state, set the agreed objective, then confirm active status, armed activation, the correct objective and cap. Verify a subsequent goal-driven round without another human message. Availability, conversational promises and continuation are different facts.
+
+Use native Goal controls and read back changes. The driver continues at idle boundaries subject to its cap and stop conditions; it is not a fixed timer. An auditor goal preserves its read-only scope and full acceptance checklist. Goal completion is not product acceptance. See [Universal goal availability](HALO-UNIVERSAL-GOALS-2026-10-28.md) for evidence and limits.
