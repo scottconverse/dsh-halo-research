@@ -1138,3 +1138,11 @@
   disabled: false
 - id: tool-goal
   disabled: false
+
+# Bounded three-role projects; ordinary presets and model defaults are unchanged.
+- insert:
+    - id: halo-three-role
+      name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/three-role/index.mjs
+      config:
+        stateFile: C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/storages/three-role/projects.json
+        revision: 2

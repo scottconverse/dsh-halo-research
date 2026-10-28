@@ -1354,3 +1354,11 @@
   disabled: false
 - id: tool-goal
   disabled: false
+
+# Staged October 28: load only at an idle Web deployment boundary.
+# The currently running Verdict host has not been changed by this staging row.
+- insert:
+    - id: halo-three-role
+      name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/three-role/index.mjs
+      config:
+        stateFile: C:/Users/scott/.dsh-stock/storages/three-role/projects.json

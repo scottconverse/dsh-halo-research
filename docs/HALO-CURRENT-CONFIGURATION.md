@@ -1,3 +1,16 @@
+## October 28, 2026 — bounded three-role projects
+
+Desktop has the native `halo-three-role` plugin and Three-role coordinator,
+coder and auditor presets. Real managed-child acceptance proved structured
+nudges, code correction, independent evidence closure, native goal completion,
+running-child cancellation and same-session cold resume after an idle restart.
+An isolated stock Web host exposed the same three presets without inference.
+The production Verdict Web host/profile remains untouched while active; its
+additive deployment row is staged for an idle installation. This does not
+convert existing independent Verdict sessions into managed children. Models,
+defaults and other integrations are preserved. See
+[implementation, evidence and limits](HALO-THREE-ROLE-2026-10-28.md).
+
 ## October 27, 2026 - DeepSeek compaction policy
 
 DeepSeek 1017 has a model-specific 70% automatic-compaction threshold in every Web and Desktop preset (734,003 tokens with the configured 1M window). Low effort, 1M context, 64K normal output, summary caps, headroom, retention and other models' thresholds are unchanged. Installed profiles/preset files and canonical sources are synchronized. No tests, inference or restart was run; already-mounted sessions may require their ordinary idle reload. See HALO-DEEPSEEK-COMPACTION-2026-10-27.md.

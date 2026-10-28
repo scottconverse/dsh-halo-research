@@ -1,3 +1,29 @@
+## October 28, 2026 — how to run a bounded three-role project
+
+In Desktop, create a **Three-role coordinator** session. Give it the approved
+absolute project directory, bounded objective and full acceptance list, and
+ask it to use `triad_start`. It creates one managed Coder and one read-only
+Auditor/Nudger with a native Coordinator goal. Coder uses staff-engineer;
+Auditor traces code and receipts, sends requirement-bound findings and checks
+the fixes. Coordinator owns scope, disputes and completion. A partial or
+blocked checklist cannot complete the plugin project.
+
+Ask that Coordinator to pause/resume through `triad_control`. These operations
+apply to the whole project; omit `role` and call once. A resume checkpoint is
+broadcast, so send worker-specific directions separately with action message.
+Verify idle states and any external jobs before assuming cancellation finished.
+After restart, reopen the same Coordinator and resume its saved children;
+do not create replacement sessions. Completion grants no implicit release
+authority. Auditor tool restrictions are enforced, while Coder project scope
+is an instruction contract rather than a Windows sandbox.
+
+The plugin also loaded in an isolated real Web host. Production Web is still
+running Verdict and was left untouched; apply/load the staged plugin only at
+an idle boundary. Do not interrupt Verdict to enable this feature. Details,
+installer preview/apply behavior, proof and limitations are in
+[the dated record](HALO-THREE-ROLE-2026-10-28.md) and
+[the plugin guide](../stack/three-role/README.md).
+
 ## October 27, 2026 - DeepSeek compaction policy
 
 DeepSeek 1017 has a model-specific 70% automatic-compaction threshold in every Web and Desktop preset (734,003 tokens with the configured 1M window). Low effort, 1M context, 64K normal output, summary caps, headroom, retention and other models' thresholds are unchanged. Installed profiles/preset files and canonical sources are synchronized. No tests, inference or restart was run; already-mounted sessions may require their ordinary idle reload. See HALO-DEEPSEEK-COMPACTION-2026-10-27.md.
