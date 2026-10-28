@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Three-role review/context tuning (October 28)](HALO-THREE-ROLE-TUNING-2026-10-28.md): compact status with full evidence access, ordered fix review, fresh-cut accounting, duplicate-wake repair, Windows state-save retry, separately approved independent Auditor hashes, and visible Desktop acceptance.
+
 - [Substantial Desktop three-role trial (October 28)](HALO-THREE-ROLE-LEDGER-TRIAL-2026-10-28.md): real inventory-ledger defects caught before edits, Coordinator recovery, full eight-requirement acceptance, source/receipt reconciliation and overhead limits.
 
 - [Bounded Coder / Coordinator / Auditor-Nudger (October 28)](HALO-THREE-ROLE-2026-10-28.md): native DSH plugin and presets, real Desktop correction/cancellation/cold-resume acceptance, isolated Web registration, preserved defaults and staged idle Web deployment.

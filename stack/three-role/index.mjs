@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { Store, boundedText, within } from './core.mjs';
+import { Store, boundedText, within, hashFile } from './core.mjs';
 
 export const name = 'halo-three-role';
 export const inject = ['tools', 'agents', 'subagents', 'agentPresets', 'goals'];
@@ -37,8 +37,8 @@ function validate(value, s, path = 'arguments') {
 const text = (description, required = true) => ({ type: 'string', description, ...(required ? { required: true } : {}) });
 const roleInstructions = {
   coordinator: 'You are the accountable Coordinator. Use triad_start only for an explicitly approved bounded objective and full requirement list. Control execution with triad_control. Use triad_status and triad_wait, not busy polling. Resolve disputed findings by sending evidence-based direction to the Coder; do not change scope. Workers are not proof of completion. Complete only after every requirement is verified and findings closed. No implicit merge/tag/publication authority. Preserve human approval boundaries. You do not edit product code. triad_start creates your native goal; triad_control pause/resume/complete manages that same goal. triad_status includes its real readback and get_goal is read-only. Do not create or update a separate goal or infer goal failure from tool-policy denial.',
-  coder: 'You are the Coder for one bounded project. Use the staff-engineer skill. Read triad_status for the exact objective and full agreed requirements. Implement only that scope. Respond to each auditor finding using triad_finding_action: acknowledge then fixed with code/check evidence, or dispute with counterevidence. Do not expand scope, create agents, control other sessions, merge/tag/publish without separate human authorization, or claim acceptance from green tests alone. Report implementation and remaining work with triad_report; completion is the Coordinator’s decision. Keep existing project instructions and settings.',
-  auditor: 'You are an independent Auditor/Nudger, not a Coordinator. Inspect actual code and receipts against every agreed requirement. Use triad_read, triad_list, triad_git, triad_events and triad_status. You have no shell, writes, tests, build, model-call, delegation or session-control authority. Cite requirement and concrete evidence in triad_finding. Never treat an agent claim or green tests as completion. Verify fixes before closing findings. Use triad_requirement for individual acceptance outcomes, distinguishing source from tests, installed behavior and delivery. No new scope or invented blockers. Do not rerun unchanged review. Report with triad_report, then wait for event-driven wakeups.'
+  coder: 'You are the Coder for one bounded project. Use the staff-engineer skill. Read triad_status view contract once for FULL agreed requirements; default status is compact. Implement only that scope. Respond to each auditor finding using triad_finding_action: acknowledge then fixed with code/check evidence, or dispute with counterevidence. Before triad_report, record all outstanding fixed/disputed dispositions; a narrative is not a disposition. Batch related changes and receipts into a checkpoint. Reuse passed evidence unless changed behavior or an unresolved requirement justifies another check. Do not expand scope, create agents, control other sessions, merge/tag/publish without separate human authorization, or claim acceptance from green tests alone. Report implementation and remaining work with triad_report; completion is the Coordinator’s decision. Keep existing project instructions and settings.',
+  auditor: 'You are an independent Auditor/Nudger, not a Coordinator. Read triad_status view contract once; retain the FULL checklist. Inspect actual code and receipts against every agreed requirement. Default status is compact; use evidence view with id for a complete finding/disposition and triad_events after your saved cursor for new activity. You have no shell, writes, tests, build, model-call, delegation or session-control authority. Cite requirement and concrete evidence in triad_finding. Never treat an agent claim or green tests as completion. Use triad_hash to independently check protected-file bytes against the supplied baseline; a text reread is not byte identity. The Coder has shell/hash authority; you and the Coordinator do not have shell authority. Close ONLY findings currently marked fixed after inspecting their Coder disposition and actual source/receipts. For open/acknowledged findings, report pending and end this round; do not try closure or poll for records. Use triad_requirement for each acceptance outcome, distinguishing source from tests, installed behavior and delivery. No new scope or invented blockers. Reuse unaffected evidence; review changed paths and dependent outcomes, then reconcile the full checklist at final acceptance. Finish triad_report with reviewedRevision equal to the revision actually inspected; never claim a newer unseen cut. New changes remain pending automatically. Then end the turn and await event-driven wakeups.'
 };
 
 function register(ctx, toolName, description, parameters, execute) {
@@ -54,11 +54,32 @@ function getMember(exec, role) {
   if (!m || (role && m.role !== role)) throw new Error('Caller has no authority for this project role');
   return m;
 }
-function summary(p) {
+function summary(p, view = 'summary', id) {
   const parent = hub.ctx.agents.get(p.coordinator);
   const goal = parent ? hub.ctx.goals.get(parent) : undefined;
-  return { ...p, events: p.events.slice(-20), goal: goal ? { id: goal.id, phase: goal.phase, revision: goal.revision, maxGoalRounds: goal.maxGoalRounds } : null,
+  const compact = { id: p.id, status: p.status, children: p.children,
+    revision: p.revision ?? 0, reviewedRevision: p.reviewedRevision ?? -1,
+    auditDirty: p.auditDirty, auditQueued: p.auditQueued,
+    requirements: p.requirements.map(r => ({ id: r.id, status: r.status })),
+    findings: p.findings.map(f => ({ id: f.id, requirement: f.requirement, status: f.status })),
+    reports: Object.fromEntries(['coder', 'auditor'].map(role => [role, p.reports.filter(r => r.role === role).length])),
+    goal: goal ? { id: goal.id, phase: goal.phase, revision: goal.revision, maxGoalRounds: goal.maxGoalRounds } : null,
     live: Object.fromEntries(Object.entries(p.children).map(([role, id]) => [role, hub.ctx.agents.get(id)?.status ?? 'unloaded'])) };
+  if (view === 'contract') return { id: p.id, cwd: p.cwd, objective: p.objective, requirements: p.requirements.map(({ id, text }) => ({ id, text })) };
+  if (view === 'evidence') {
+    if (!id) throw new Error('Supply a requirement or finding id for focused evidence');
+    const item = p.findings.find(f => f.id === id) ?? p.requirements.find(r => r.id === id);
+    if (!item) throw new Error('Unknown requirement or finding');
+    return item;
+  }
+  if (view === 'full') return { ...p, ...compact, requirements: p.requirements, findings: p.findings, reports: p.reports, events: p.events };
+  return compact;
+}
+const awaitingCoder = p => p.findings.filter(f => ['open', 'acknowledged'].includes(f.status)).map(f => f.id);
+function changed(p) { p.revision = (p.revision ?? 0) + 1; p.auditDirty = true; hub.store.save(); }
+function claimReview(p) {
+  clearTimeout(hub.timers.get(p.id)); hub.timers.delete(p.id);
+  p.auditQueued = true; p.reviewCut = p.revision ?? 0; hub.store.save();
 }
 function signalChange(p) { for (const wake of hub.waiters.get(p.id) ?? []) wake(); }
 async function relay(p, role, message, signal = new AbortController().signal) {
@@ -66,7 +87,7 @@ async function relay(p, role, message, signal = new AbortController().signal) {
   if (!parent) throw new Error('Coordinator must be live; message remains pending');
   const id = p.children[role]; if (!id) throw new Error(`${role} has not been started`);
   const messageId = await hub.ctx.subagents.sendMessage(parent, id, [{ type: 'text', text: message }], { signal });
-  hub.store.event(p, 'message-delivered', { role, messageId }); signalChange(p); return messageId;
+  hub.store.event(p, 'message-delivered', { role, messageId }); return messageId;
 }
 async function deliverFinding(p, f, signal) {
   if (f.delivery === 'delivered') return;
@@ -79,15 +100,15 @@ async function deliverFinding(p, f, signal) {
   } catch (e) { hub.store.event(p, 'delivery-error', { finding: f.id, error: e.message }); throw e; }
 }
 function scheduleAudit(p) {
-  if (p.status !== 'running' || p.auditQueued || !p.auditDirty || !p.children.auditor || hub.timers.has(p.id)) return;
+  if (p.status !== 'running' || p.auditQueued || !p.auditDirty || !p.children.auditor || awaitingCoder(p).length || hub.timers.has(p.id)) return;
   const timer = setTimeout(async () => {
     hub.timers.delete(p.id);
-    if (p.status !== 'running' || p.auditQueued || !p.auditDirty) return;
+    if (p.status !== 'running' || p.auditQueued || !p.auditDirty || awaitingCoder(p).length) return;
     // One queued review coalesces later changes; auditor reports whether its cut is current.
-    p.auditQueued = true; p.auditDirty = false; hub.store.save();
-    try { await relay(p, 'auditor', 'The Coder has new activity. Inspect triad_events and the changed code against the full agreed checklist. Read existing receipts only. Report material findings and update acceptance with triad_requirement. Finish this review with triad_report; do not busy poll.'); }
+    claimReview(p);
+    try { await relay(p, 'auditor', `Review checkpoint revision ${p.reviewCut}. Use compact triad_status; fetch focused evidence only as needed. Inspect new Coder events and changed code, reuse unaffected evidence, and reconcile every agreed requirement. Close only findings currently marked fixed. Finish with triad_report including reviewedRevision; do not poll unchanged files.`); }
     catch (e) { p.auditQueued = false; p.auditDirty = true; hub.store.event(p, 'audit-wake-error', { error: e.message }); }
-  }, 1500);
+  }, 15000);
   timer.unref?.(); hub.timers.set(p.id, timer);
 }
 
@@ -132,16 +153,18 @@ export async function apply(ctx, config = {}) {
     }
     // Observe only this plugin's Coder. No unrelated Web/Desktop session is touched.
     ctx.on('tools/post-execute', async (exec, _result, next) => {
-      const result = await next();
       const m = exec.agent && hub.store.member(exec.agent.id);
-      if (m?.role === 'coder' && !exec.name.startsWith('triad_')) {
-        m.p.auditDirty = true; hub.store.save(); signalChange(m.p); scheduleAudit(m.p);
+      try { return await next(); }
+      finally {
+        // A failed write/shell can still have partially changed files.
+        if (m?.role === 'coder' && ['write', 'edit', 'pwsh', 'bash', 'job_output', 'job_kill'].includes(exec.name)) {
+          changed(m.p); scheduleAudit(m.p);
+        }
       }
-      return result;
     });
     ctx.on('agent/status', ({ agent, status }) => {
       const m = hub.store.member(agent.id);
-      if (m) { signalChange(m.p); if (m.role === 'coder' && status === 'idle') scheduleAudit(m.p); }
+      if (m && status !== 'running') { signalChange(m.p); if (m.role === 'coder') scheduleAudit(m.p); }
     });
     ctx.on('dispose', () => { for (const t of hub.timers.values()) clearTimeout(t); hub = undefined; });
     return;
@@ -150,7 +173,7 @@ export async function apply(ctx, config = {}) {
   if (!hub || !Object.hasOwn(roleInstructions, role)) throw new Error('Three-role host/role configuration is missing');
   const own = new Set(['triad_status', 'triad_read', 'triad_list', 'triad_git', 'triad_events', 'triad_report']);
   if (role === 'coordinator') ['triad_start', 'triad_control', 'triad_wait'].forEach(n => own.add(n));
-  if (role === 'auditor') ['triad_finding', 'triad_finding_action', 'triad_requirement'].forEach(n => own.add(n));
+  if (role === 'auditor') ['triad_finding', 'triad_finding_action', 'triad_requirement', 'triad_hash'].forEach(n => own.add(n));
   if (role === 'coder') own.add('triad_finding_action');
   ctx.tools.guard(exec => {
     const member = exec.agent && hub.store.member(exec.agent.id);
@@ -162,7 +185,7 @@ export async function apply(ctx, config = {}) {
     if (!['read', 'write', 'edit', 'read_image', 'grep', 'glob', 'pwsh', 'bash', 'job_output', 'job_list', 'job_kill', 'skill'].includes(exec.name)) return 'Coder may use only the explicit implementation tool set; no agent/project controls';
   });
   const tool = (n, d, p, fn) => { if (own.has(n)) register(ctx, n, d, p, fn); };
-  tool('triad_status', 'Read the complete agreed project requirements, findings, reports, recent events and actual live statuses.', {}, (_a, e) => summary(getMember(e).p));
+  tool('triad_status', 'Compact live status by default. contract returns FULL agreed requirements; evidence with id returns one complete record; full returns all saved evidence/history. Read contract once, then use focused evidence and new events.', { view: { type: 'string', enum: ['summary', 'contract', 'evidence', 'full'] }, id: text('Requirement or finding ID for evidence view', false) }, (a, e) => summary(getMember(e).p, a.view, a.id));
   tool('triad_start', 'Create a bounded project and start managed Coder/Auditor children. Requires a direct human instruction in this Coordinator turn. Inherits the selected model and effort; does not change defaults.', {
     cwd: text('Approved absolute project directory'), objective: text('Bounded objective and done conditions'),
     requirements: { type: 'array', required: true, items: { type: 'object', properties: { id: text('Stable ID'), text: text('Full agreed acceptance requirement') } } }
@@ -184,12 +207,13 @@ export async function apply(ctx, config = {}) {
             prompt: [{ type: 'text', text: `${roleInstructions[childRole]}\nProject ${p.id}. Objective: ${p.objective}\nRequirements:\n${JSON.stringify(p.requirements)}\n${childRole === 'auditor' ? 'Begin by inspecting the current code and requirements. Report findings and per-requirement evidence; no tests or edits.' : 'Read the staff-engineer skill. Implement the agreed requirements and run proportionate checks. Do not publish.'}` }] } });
         hub.store.event(p, 'child-started', { role: childRole, id });
       }
-      p.auditQueued = true; p.auditDirty = false; hub.store.save(); return summary(p);
+      p.auditQueued = true; p.auditDirty = false; p.reviewCut = p.revision ?? 0; hub.store.save(); return summary(p);
     } catch (err) { p.status = 'blocked'; hub.store.event(p, 'start-error', { error: err.message }); throw err; }
   });
   tool('triad_read', 'Read bounded UTF-8 project source/evidence; realpath confinement prevents outside-project links. No execution.', {
     path: text('Project-relative existing file'), start: { type: 'number', description: 'First line, default 1' }, lines: { type: 'number', description: 'At most 200 lines' }
   }, (a, e) => { const { p } = getMember(e); const path = within(p.cwd, a.path); if (statSync(path).size > 2 * 1024 * 1024) throw new Error('File too large; use a smaller evidence file'); const start = Math.max(1, Math.floor(a.start ?? 1)), count = Math.min(200, Math.max(1, Math.floor(a.lines ?? 120))); return readFileSync(path, 'utf8').split('\n').slice(start - 1, start - 1 + count).map((line, i) => `${start + i}: ${line}`).join('\n').slice(0, 24000); });
+  tool('triad_hash', 'Auditor-only independent SHA256 and byte count of a regular file confined to the approved project. Streams at most 128 MiB, returns no file contents, rejects observed changes during hashing. No shell or writes. Compare against an independently established baseline; a digest alone does not prove correct behavior.', { path: text('Project-relative existing regular file') }, (a, e) => hashFile(getMember(e, 'auditor').p.cwd, a.path));
   tool('triad_list', 'List one approved project directory, at most 100 names. No recursive walk.', { path: text('Relative directory, use . for root') }, (a, e) => readdirSync(within(getMember(e).p.cwd, a.path), { withFileTypes: true }).slice(0, 100).map(d => ({ name: d.name, directory: d.isDirectory() })));
   tool('triad_git', 'Read only Git status or tracked diff with external diff and text conversion disabled. No custom arguments.', { view: { type: 'string', required: true, enum: ['status', 'diff'] } }, async (a, e) => {
     const { p } = getMember(e); if (!['status', 'diff'].includes(a.view)) throw new Error('Unsupported Git view');
@@ -206,13 +230,16 @@ export async function apply(ctx, config = {}) {
     const result = hub.store.finding(p, a); if (!result.duplicate) await deliverFinding(p, result.finding, e.signal); signalChange(p); return result;
   });
   tool('triad_finding_action', 'Coder acknowledges/reports fix/disputes; Auditor verifies a fix before closing. Every action needs evidence.', { id: text('Finding ID'), action: { type: 'string', required: true, enum: ['acknowledged', 'fixed', 'disputed', 'closed', 'open'] }, evidence: text('Specific acknowledgment, correction receipt or counterevidence') }, (a, e) => {
-    const { p, role: callerRole } = getMember(e); const f = hub.store.disposition(p, callerRole, a.id, a.action, a.evidence); if (callerRole === 'coder') { p.auditDirty = true; hub.store.save(); scheduleAudit(p); } signalChange(p); return f;
+    const { p, role: callerRole } = getMember(e); const f = hub.store.disposition(p, callerRole, a.id, a.action, a.evidence); if (callerRole === 'coder' && a.action !== 'acknowledged') { changed(p); scheduleAudit(p); } signalChange(p); return { id: f.id, status: f.status, recorded: true };
   });
-  tool('triad_requirement', 'Auditor records each agreed acceptance outcome separately. Source-only evidence must not be represented as installed proof.', { id: text('Requirement ID'), status: { type: 'string', required: true, enum: ['verified', 'gap', 'blocked'] }, evidence: text('Code path, checks, installed receipts and limits applicable to this requirement') }, (a, e) => { const { p } = getMember(e, 'auditor'); const r = hub.store.requirement(p, a.id, a.status, a.evidence); signalChange(p); return r; });
-  tool('triad_report', 'Record a worker checkpoint and evidence. Auditor ends this review; later Coder changes trigger a new review. Does not declare project complete.', { evidence: text('Concrete results and remaining work') }, (a, e) => {
-    const { p, role: callerRole } = getMember(e); p.reports.push({ role: callerRole, evidence: boundedText(a.evidence, 'report'), time: new Date().toISOString() });
-    if (callerRole === 'auditor') p.auditQueued = false;
-    hub.store.event(p, 'report', { role: callerRole }); signalChange(p); if (callerRole === 'auditor') scheduleAudit(p); return { recorded: true, projectComplete: false };
+  tool('triad_requirement', 'Auditor records each agreed acceptance outcome separately. Source-only evidence must not be represented as installed proof.', { id: text('Requirement ID'), status: { type: 'string', required: true, enum: ['verified', 'gap', 'blocked'] }, evidence: text('Code path, checks, installed receipts and limits applicable to this requirement') }, (a, e) => { const { p } = getMember(e, 'auditor'); const r = hub.store.requirement(p, a.id, a.status, a.evidence); return { id: r.id, status: r.status, recorded: true }; });
+  tool('triad_report', 'Record worker checkpoint, not project completion. Coder must record fixed/disputed dispositions first. Auditor MUST supply reviewedRevision from the inspected status; newer changes remain pending.', { evidence: text('Concrete results and remaining work'), reviewedRevision: { type: 'number', description: 'Auditor only: revision actually inspected, required for Auditor' } }, (a, e) => {
+    const { p, role: callerRole } = getMember(e);
+    if (callerRole === 'coder' && awaitingCoder(p).length) throw new Error(`Record fixed/disputed dispositions before handing off this checkpoint: ${awaitingCoder(p).join(', ')}`);
+    if (callerRole === 'auditor' && (!Number.isInteger(a.reviewedRevision) || a.reviewedRevision < 0 || a.reviewedRevision > (p.revision ?? 0))) throw new Error('Auditor must supply the actual inspected reviewedRevision from triad_status');
+    p.reports.push({ role: callerRole, evidence: boundedText(a.evidence, 'report'), ...(callerRole === 'auditor' ? { reviewedRevision: a.reviewedRevision } : {}), time: new Date().toISOString() });
+    if (callerRole === 'auditor') { p.auditQueued = false; p.reviewedRevision = a.reviewedRevision; p.auditDirty = a.reviewedRevision < (p.revision ?? 0); }
+    hub.store.event(p, 'report', { role: callerRole }); signalChange(p); scheduleAudit(p); return { recorded: true, projectComplete: false, revision: p.revision ?? 0, auditDirty: p.auditDirty, awaitingCoder: awaitingCoder(p) };
   });
   tool('triad_wait', 'Wait for a project event or up to 20 seconds without polling workers or launching a model call.', {}, async (_a, e) => {
     const { p } = getMember(e, 'coordinator');
@@ -224,7 +251,15 @@ export async function apply(ctx, config = {}) {
   }, async (a, e) => {
     const { p } = getMember(e, 'coordinator'), parent = e.agent;
     if (a.action !== 'message' && a.role) throw new Error('role is valid only for action message. pause/resume/complete apply to both workers; omit role and call once.');
-    if (a.action === 'message') { if (p.status !== 'running') throw new Error('Resume the project before messaging workers'); if (!['coder', 'auditor'].includes(a.role)) throw new Error('Specify worker role'); return { messageId: await relay(p, a.role, boundedText(a.message, 'direction'), e.signal) }; }
+    if (a.action === 'message') {
+      if (p.status !== 'running') throw new Error('Resume the project before messaging workers');
+      if (!['coder', 'auditor'].includes(a.role)) throw new Error('Specify worker role');
+      const message = boundedText(a.message, 'direction');
+      // An explicit review request consumes the pending automatic wakeup too.
+      // Keep queued on unknown admission: never claim a failed/unknown send was reviewed.
+      if (a.role === 'auditor') claimReview(p);
+      return { messageId: await relay(p, a.role, message, e.signal) };
+    }
     if (a.action === 'pause') {
       if (p.status === 'complete') throw new Error('A completed project cannot be paused');
       p.status = 'paused'; hub.store.event(p, 'pause-requested', {});
@@ -237,7 +272,7 @@ export async function apply(ctx, config = {}) {
       p.status = 'running'; hub.store.event(p, 'resume', {});
       const g = ctx.goals.get(parent); if (g && g.phase !== 'complete' && g.phase !== 'active') ctx.goals.resume(parent, { id: g.id, revision: g.revision });
       for (const workerRole of ['coder', 'auditor']) await relay(p, workerRole, a.message ?? 'Resume the existing project from triad_status and saved receipts. Inspect any interrupted operation before retrying; preserve all work and scope.', e.signal);
-      p.auditQueued = true; hub.store.save(); return summary(p);
+      claimReview(p); return summary(p);
     }
     if (a.action === 'complete') { hub.store.complete(p, r => ctx.agents.get(p.children[r])?.status ?? 'unloaded'); const g = ctx.goals.get(parent); if (g) ctx.goals.complete(parent, { id: g.id, revision: g.revision }); return summary(p); }
     throw new Error('Unsupported control action');

@@ -431,6 +431,17 @@ are not yet verified; this is not a resumed reporting task. The confirmed
 cause, repair, retry handle, evidence map, restart history, and limitations are
 in [HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md](HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md).
 
+## October 28, 2026 — three-role tuning
+
+Three-role Desktop tuning and the separately approved Auditor-only independent
+hash tool are documented in [HALO-THREE-ROLE-TUNING-2026-10-28.md](HALO-THREE-ROLE-TUNING-2026-10-28.md).
+Routine status is compact; full requirements/evidence remain retrievable.
+Meaningful-change coalescing, ordered Coder dispositions and inspected revisions
+retain the original acceptance gates. A bounded Windows state-commit retry handles
+transient sharing errors. Visible inventory, queue and hash checks completed.
+Production Web deployment remains staged; Verdict was not touched. Existing
+models/defaults and DeepSeek Low/1M/64K/70% were preserved.
+
 ## October 28, 2026 — universal goals
 
 Installed Web/Desktop profiles and canonical deployment copies enable the shared command-goal and tool-goal registrations. Existing and future sessions inherit availability independently of preset. Objectives still require activation: native active/armed readback and subsequent automatic rounds establish continuation. Web reconciled live without restarting the Verdict coder; Desktop native command availability was verified. Model/provider settings, DeepSeek Low/1M context/64K output/70% compaction, launchers and other integrations were preserved.

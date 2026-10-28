@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { execFileSync } from 'node:child_process';
-import { Store, within } from './core.mjs';
+import { execFileSync, spawn } from 'node:child_process';
+import { Store, within, hashFile } from './core.mjs';
 import { apply } from './index.mjs';
 
 function fixture() {
@@ -46,7 +46,28 @@ test('read confinement rejects traversal outside the project', () => {
     writeFileSync(join(f.project, 'ok.txt'), 'okay'); writeFileSync(join(f.root, 'private.txt'), 'secret');
     assert.equal(within(f.project, 'ok.txt'), join(f.project, 'ok.txt'));
     assert.throws(() => within(f.project, '../private.txt'), /outside/);
+    writeFileSync(join(f.project, 'ok.txt'), 'abc');
+    assert.deepEqual(hashFile(f.project, 'ok.txt'), { path: 'ok.txt', algorithm: 'SHA256', bytes: 3, sha256: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad' });
+    writeFileSync(join(f.project, 'ok.txt'), 'abc\r\n');
+    assert.equal(hashFile(f.project, 'ok.txt').bytes, 5);
+    assert.notEqual(hashFile(f.project, 'ok.txt').sha256, 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+    assert.throws(() => hashFile(f.project, '../private.txt'), /outside/);
+    assert.throws(() => hashFile(f.project, '.'), /regular/);
   } finally { rmSync(f.root, { recursive: true }); }
+});
+
+test('Windows transient read lock retries only the atomic state commit', { skip: process.platform !== 'win32' }, async () => {
+  const f = fixture(); let child;
+  try {
+    const script = join(f.root, 'hold.ps1');
+    writeFileSync(script, "param($Target)\n$f=[IO.File]::Open($Target,[IO.FileMode]::Open,[IO.FileAccess]::Read,[IO.FileShare]::Read)\n[Console]::WriteLine('LOCKED');[Console]::Out.Flush();Start-Sleep -Milliseconds 150;$f.Dispose()\n");
+    child = spawn('pwsh', ['-NoProfile', '-File', script, f.file], { windowsHide: true });
+    const exited = new Promise(resolve => child.once('exit', resolve));
+    await new Promise((resolve, reject) => { child.stdout.once('data', resolve); child.once('error', reject); });
+    f.p.revision = 17; f.store.save();
+    assert.equal(new Store(f.file).project(f.p.id).revision, 17);
+    assert.equal(await exited, 0);
+  } finally { if (child && child.exitCode === null) child.kill(); rmSync(f.root, { recursive: true }); }
 });
 
 test('profile installer previews, requires idle acknowledgment, preserves bytes and is idempotent', { skip: process.platform !== 'win32' }, () => {
@@ -95,6 +116,9 @@ test('adapter enforces roles and relays a real structured finding under live par
     assert.equal(guard({ name: 'get_goal' }), undefined);
     assert.match(guard({ name: 'triad_control' }), /cannot/); assert.equal(guard({ name: 'triad_read' }), undefined);
     const exec = { agent: auditor, signal: new AbortController().signal };
+    writeFileSync(join(f.project, 'bytes.txt'), 'okay');
+    assert.equal(JSON.parse(await tools.get('triad_hash').execute({ path: 'bytes.txt' }, exec)).bytes, 4);
+    await assert.rejects(tools.get('triad_hash').execute({ path: 'bytes.txt' }, { ...exec, agent: coder }), /authority/);
     await assert.rejects(tools.get('triad_finding').execute({ evidence: 'missing requirement' }, exec), /required/);
     const result = JSON.parse(await tools.get('triad_finding').execute({ requirement: 'R1', evidence: 'add.mjs:1 subtracts', correction: 'Add operands' }, exec));
     assert.equal(result.finding.delivery, 'delivered'); assert.equal(sent[0].id, 'coder'); assert.match(sent[0].content[0].text, /AUDITOR FINDING A-001/);
@@ -105,12 +129,59 @@ test('adapter enforces roles and relays a real structured finding under live par
     const toolCoder = new Map(); let coderGuard;
     await apply({ ...ctx, tools: { register(t) { toolCoder.set(t.name, t); }, guard(g) { coderGuard = g; } } }, { role: 'coder' });
     assert.equal(coderGuard({ name: 'edit' }), undefined); assert.match(coderGuard({ name: 'send_message' }), /explicit/);
+    assert.match(coderGuard({ name: 'triad_hash' }), /cannot/);
     assert.match(coderGuard({ name: 'create_goal' }), /explicit/);
     const controls = new Map(); let parentGuard;
     await apply({ ...ctx, tools: { register(t) { controls.set(t.name, t); }, guard(g) { parentGuard = g; } } }, { role: 'coordinator' });
     assert.equal(parentGuard({ name: 'edit', agent: coder }), undefined, 'parent role does not restrict the child role');
     assert.match(parentGuard({ name: 'edit', agent: parent }), /no authority/);
     const parentExec = { ...exec, agent: parent };
+    const coderExec = { ...exec, agent: coder };
+    const post = handlers.get('tools/post-execute');
+    const current = () => new Store(f.file).project(f.p.id);
+    for (const name of ['read', 'grep', 'glob', 'skill', 'read_image', 'job_list']) await post({ agent: coder, name }, null, async () => 'read');
+    assert.equal(current().revision, 0, 'read-only tools never invalidate review');
+    await toolCoder.get('triad_finding_action').execute({ id: 'A-001', action: 'acknowledged', evidence: 'Investigating the source' }, coderExec);
+    assert.equal(current().revision, 0, 'acknowledgment is not a changed implementation');
+    await assert.rejects(toolCoder.get('triad_report').execute({ evidence: 'I fixed it' }, coderExec), /fixed\/disputed/);
+    await assert.rejects(tools.get('triad_finding_action').execute({ id: 'A-001', action: 'closed', evidence: 'Looks fixed' }, exec), /coder-reported/);
+    const baseline = JSON.parse(await tools.get('triad_report').execute({ evidence: 'Baseline gap; awaiting Coder disposition', reviewedRevision: 0 }, exec));
+    assert.equal(baseline.auditDirty, false);
+    for (const name of ['edit', 'pwsh', 'job_output']) await post({ agent: coder, name }, null, async () => 'changed');
+    assert.equal(current().revision, 3);
+    assert.equal(current().auditQueued, false, 'pending Coder disposition prevents premature closure round');
+    await toolCoder.get('triad_finding_action').execute({ id: 'A-001', action: 'fixed', evidence: 'add.mjs now adds; saved test receipt' }, coderExec);
+    await toolCoder.get('triad_report').execute({ evidence: 'Implementation checkpoint, disposition recorded' }, coderExec);
+    await new Promise(resolve => setTimeout(resolve, 15200));
+    assert.equal(sent.filter(s => s.id === 'auditor').length, 1, 'one coalesced review, not one per tool');
+    assert.equal(current().auditQueued, true);
+    await assert.rejects(tools.get('triad_report').execute({ evidence: 'review without cut' }, exec), /reviewedRevision/);
+    await post({ agent: coder, name: 'write' }, null, async () => 'newer change during review');
+    const stale = JSON.parse(await tools.get('triad_report').execute({ evidence: 'Reviewed earlier cut only', reviewedRevision: 4 }, exec));
+    assert.equal(stale.auditDirty, true, 'a changed-during-review generation cannot be cleared by stale report');
+    await tools.get('triad_finding_action').execute({ id: 'A-001', action: 'closed', evidence: 'Read actual changed path and saved receipt' }, exec);
+    await tools.get('triad_requirement').execute({ id: 'R1', status: 'verified', evidence: 'End-to-end code and receipt traced' }, exec);
+    await tools.get('triad_report').execute({ evidence: 'Full requirement reconciliation at current cut', reviewedRevision: 5 }, exec);
+    assert.equal(current().auditDirty, false);
+    await assert.rejects(post({ agent: coder, name: 'write' }, null, async () => { throw new Error('partial write failure'); }), /partial write/);
+    assert.equal(current().revision, 6, 'failed mutations must invalidate prior acceptance too');
+    const sentBeforeManual = sent.filter(s => s.id === 'auditor').length;
+    await controls.get('triad_control').execute({ action: 'message', role: 'auditor', message: 'Inspect current cut now' }, parentExec);
+    await new Promise(resolve => setTimeout(resolve, 15200));
+    assert.equal(sent.filter(s => s.id === 'auditor').length, sentBeforeManual + 1, 'manual review consumes pending automatic wake');
+    assert.equal(current().auditQueued, true);
+    await tools.get('triad_report').execute({ evidence: 'Reconciled failed mutation outcome', reviewedRevision: 6 }, exec);
+    const compactStatus = JSON.parse(await tools.get('triad_status').execute({}, exec));
+    assert.equal(compactStatus.requirements[0].text, undefined);
+    assert.equal(compactStatus.findings[0].history, undefined);
+    assert.equal(compactStatus.reports.auditor, 4);
+    const contract = JSON.parse(await tools.get('triad_status').execute({ view: 'contract' }, exec));
+    assert.equal(contract.requirements[0].text, 'add(2, 3) returns 5');
+    const evidence = JSON.parse(await tools.get('triad_status').execute({ view: 'evidence', id: 'A-001' }, exec));
+    assert.equal(evidence.history.length, 3);
+    const full = JSON.parse(await tools.get('triad_status').execute({ view: 'full' }, exec));
+    assert.equal(full.reports.length, 5); assert.ok(full.events.length > 0);
+    assert.ok(JSON.stringify(compactStatus).length < JSON.stringify(full).length / 2, 'summary omits accumulated narratives without deleting them');
     await assert.rejects(controls.get('triad_control').execute({ action: 'resume', role: 'coder' }, parentExec), /role is valid only/);
     await controls.get('triad_control').execute({ action: 'pause' }, parentExec);
     assert.deepEqual(interrupted, ['coder', 'auditor']); assert.equal(goal.phase, 'paused');

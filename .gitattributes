@@ -1,3 +1,6 @@
 # Historical recovery files remain in Git history, but are not release artifacts.
 /stack/stock-dsh/runtime-patch-backups export-ignore
 /evidence/HKCU-Path-backup.txt export-ignore
+
+# Preserve published synthetic evidence byte hashes across checkouts.
+/stack/three-role/acceptance/inventory-ledger-tuned/* -text whitespace=cr-at-eol

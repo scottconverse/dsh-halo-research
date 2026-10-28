@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, renameSync, mkdirSync, realpathSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, renameSync, mkdirSync, realpathSync, statSync, openSync, readSync, closeSync, fstatSync } from 'node:fs';
 import { resolve, relative, isAbsolute, dirname, sep } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 
@@ -13,6 +13,23 @@ export function within(root, path) {
   if (rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel)) throw new Error('Path is outside the approved project');
   return target;
 }
+export function hashFile(root, path) {
+  const target = within(root, path);
+  if (!statSync(target).isFile()) throw new Error('Hash requires a regular project file');
+  const fd = openSync(target, 'r');
+  try {
+    const before = fstatSync(fd);
+    if (before.size > 128 * 1024 * 1024) throw new Error('Hash file limit is 128 MiB');
+    const hash = createHash('sha256'), buffer = Buffer.alloc(65536);
+    let bytes = 0, count;
+    while ((count = readSync(fd, buffer, 0, Math.min(buffer.length, before.size - bytes), null)) > 0) {
+      hash.update(buffer.subarray(0, count)); bytes += count;
+    }
+    const after = fstatSync(fd);
+    if (bytes !== before.size || after.size !== before.size || after.mtimeMs !== before.mtimeMs || after.ctimeMs !== before.ctimeMs) throw new Error('File changed while hashing; inspect the current revision before retrying');
+    return { path, algorithm: 'SHA256', bytes, sha256: hash.digest('hex') };
+  } finally { closeSync(fd); }
+}
 export class Store {
   constructor(file) {
     this.file = file;
@@ -24,7 +41,16 @@ export class Store {
     mkdirSync(dirname(this.file), { recursive: true });
     const temp = `${this.file}.${process.pid}.tmp`;
     writeFileSync(temp, JSON.stringify(this.data, null, 2));
-    renameSync(temp, this.file);
+    // Windows readers can briefly deny delete/replace sharing. Retry only this
+    // atomic state commit, never the already-executed Coder command. Permanent
+    // failures still surface and retain the previous file plus pending temp.
+    for (let attempt = 0; ; attempt++) {
+      try { renameSync(temp, this.file); break; }
+      catch (e) {
+        if (process.platform !== 'win32' || !['EPERM', 'EACCES', 'EBUSY'].includes(e.code) || attempt === 6) throw e;
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 50);
+      }
+    }
   }
   event(p, type, detail) {
     p.events.push({ seq: p.events.length + 1, time: new Date().toISOString(), type, ...detail });
@@ -42,7 +68,7 @@ export class Store {
       return { id, text: boundedText(r.text, 'requirement'), status: 'unreviewed', evidence: [] };
     });
     const p = { id: randomUUID(), coordinator, cwd, objective: boundedText(objective, 'objective'), requirements: reqs,
-      status: 'prepared', children: {}, findings: [], reports: [], events: [], auditDirty: true, auditQueued: false };
+      status: 'prepared', children: {}, findings: [], reports: [], events: [], revision: 0, reviewedRevision: -1, auditDirty: true, auditQueued: false };
     this.data.projects[p.id] = p;
     this.event(p, 'created', { coordinator });
     return p;

@@ -53,8 +53,46 @@ tail retention. Existing model/output/context settings remain owned by DSH.
 Other existing presets are unchanged. This folder depends on its sibling
 `stock-dsh/compaction-text-only.mjs` and that deployment's installed packages.
 
-The Coordinator uses `triad_status` and event waits. Auditor reviews are
-debounced and coalesced after Coder activity. A host-owned relay uses the exact
+The Coordinator uses compact `triad_status` and event waits. `view: contract`
+returns the FULL agreed objective/requirements, `view: evidence` with an ID
+returns that entire finding/requirement record, and `view: full` returns all
+saved history. Nothing is deleted or summarized in durable evidence. Routine
+status/wait calls omit accumulated narrative arrays and expose statuses/counts.
+
+Auditor wakeups coalesce meaningful Coder activity over 15 seconds. Reads,
+searches, skill loads, images, job listings and acknowledgment-only dispositions
+do not invalidate a review. Writes, edits, shell execution, job output/cancellation
+and fixed/disputed dispositions do; shell/job output is deliberately conservative
+because it can contain mutations or new execution evidence. Repeated job-output
+polls can therefore still create a pending revision. No model-based activity
+classifier or extra review agent is used.
+
+Open/acknowledged findings suppress automatic fix-review wakeups until the Coder
+records dispositions. The Coder's checkpoint tool rejects unresolved disposition
+handoffs; a narrative claim cannot substitute. The initial independent baseline
+review still runs immediately. The Auditor closes only `fixed` findings after
+checking their source and receipts, retains an event cursor, reuses unaffected
+evidence and reconciles every requirement at final acceptance. Its report must
+name the actual inspected `reviewedRevision`; newer changes remain dirty and
+block completion. This is review ordering and freshness accounting, not proof
+that a model actually read the code correctly. All original closure, role,
+individual-requirement and settled-worker completion checks remain enforced.
+
+An explicit Coordinator message to the Auditor claims the same review queue and
+cancels the pending automatic wakeup, avoiding a second notification for that cut.
+Failed mutation tools also mark a new revision: a thrown error can follow a partial
+write. Windows state replacement retries only transient EPERM/EACCES/EBUSY sharing
+errors, at most six 50 ms waits; it never replays the Coder's command. Permanent
+save errors still surface, with the previous state file and pending temp retained.
+
+The Auditor also has `triad_hash`, approved separately by Scott: confined,
+read-only SHA-256 plus byte count for regular project files up to 128 MiB. It
+streams the bytes, returns no contents, and rejects observed size/time changes
+during hashing. Compare against an established baseline. This is independent
+byte verification, not source review or behavioral proof. The Coder can hash
+through its existing shell; the Auditor and Coordinator have no general shell.
+
+A host-owned relay uses the exact
 live parent to deliver a structured finding to its managed Coder; messages
 remain agent-authored. This does not grant sibling messaging or human approval.
 Unresolved exact duplicate findings are not resent. Unknown message admission

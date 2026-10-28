@@ -1,0 +1,22 @@
+COMMAND: node --test
+✔ valid receive and exact depletion, immutable input and detached output (1.2997ms)
+✔ failed batch rolls back its valid prefix (0.2468ms)
+✔ same-ID replay ignores key order; conflicts are transactional (0.1783ms)
+✔ strict event shape and scalar validation (0.2391ms)
+✔ safe integer accumulation and overdraft checks (0.1027ms)
+✔ stored history is validated before apply or report (0.175ms)
+✔ report is deterministic, sorted, retains zero and is read-only (0.1454ms)
+✔ CLI persists and replays across processes with spaces in paths (315.9678ms)
+✔ CLI invalid apply and corrupt ledger preserve bytes and leave no temp (265.9547ms)
+✔ CLI usage and malformed input errors are structured and side-effect-free (538.2956ms)
+✔ missing state report is empty and does not create the file (93.5305ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1325.1609
+
+[exit code: 0]

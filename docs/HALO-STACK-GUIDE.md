@@ -1,5 +1,15 @@
 ## October 28, 2026 — how to run a bounded three-role project
 
+Tuned workflow: use compact `triad_status`/`triad_wait`; fetch `view: contract`
+once for FULL requirements and `view: evidence` plus ID for individual complete
+records. Coder records fix/dispute dispositions before its checkpoint. Auditor
+reviews changed paths/receipts, reuses unaffected evidence, reconciles every
+requirement at acceptance and reports the actually inspected revision. It can
+independently hash protected project files with `triad_hash` without shell/write
+access. A hash is byte evidence, not proof of correct behavior. Explicit and
+automatic review requests now share one queue. See
+[the tuning record and limits](HALO-THREE-ROLE-TUNING-2026-10-28.md).
+
 In Desktop, create a **Three-role coordinator** session. Give it the approved
 absolute project directory, bounded objective and full acceptance list, and
 ask it to use `triad_start`. It creates one managed Coder and one read-only
