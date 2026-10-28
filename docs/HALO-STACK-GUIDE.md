@@ -1,3 +1,7 @@
+## October 28, 2026, 4:35 PM Mountain — production Web triad loaded
+
+Production Web now loads the tuned `halo-three-role` plugin. Native inventory reports it active and all three presets registered after an idle-only normal restart. Existing Web profile bytes were preserved before the additive row. Verdict implementation ownership moved to a fresh visible Desktop triad in the existing merge-trial worktree; full requirements and historical evidence were retained privately. The first two repairs are Critical severity normalization and AppImage packaging. Product completion is still pending; no final Verdict merge/tag/publication is authorized. Earlier staged/untouched Web notes below describe their historical checkpoints. See [HALO-VERDICT-DESKTOP-TAKEOVER-2026-10-28](HALO-VERDICT-DESKTOP-TAKEOVER-2026-10-28.md).
+
 ## October 28, 2026 — how to run a bounded three-role project
 
 Tuned workflow: use compact `triad_status`/`triad_wait`; fetch `view: contract`
