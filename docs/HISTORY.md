@@ -129,3 +129,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [OpenRefine and draw.io connections (October 25)](HALO-OPENREFINE-DRAWIO-2026-10-25.md): isolated Windows apps/CLI skills active in Web/Desktop; shared real cleaning and diagram-export workflows, preserved settings, provenance caveat and scoped recovery.
 
 - [Halo v0.3.9 source release](../RELEASE-NOTES-v0.3.9.md): OpenRefine, draw.io, TextFlowKit, Siftwing and PatentForge connections/skills/documentation and public acceptance artifacts; earlier evidence reused, no new tests, private files/backups excluded from source archives.
+
+- [Three-role live status-wait verification (October 29)](HALO-THREE-ROLE-REPAIR-2026-10-29.md#bounded-live-status-wait-verification): one bounded Web run held at 2/6 for 36.327 seconds, then owner-paused with all three sessions idle; existing goals/settings and private receipt preserved. Documentation only; no repeated tests.

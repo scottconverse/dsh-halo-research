@@ -77,3 +77,35 @@ acceptance evidence. Evidence tiers and actual receipt ownership still matter.
 Implementation/coordination used the current OpenAI Sol 6.1 session; no coding
 subagents or additional providers were launched. The prior expensive session's
 heartbeat remains paused. No bill or unobserved served-model identity is inferred.
+
+## Bounded live status-wait verification
+
+One owner-authorized, headless live triad run on the existing Web host verified
+the repeated status-only automatic-round guard on October 29. Both workers
+finished their read-only checkpoints. The Coordinator then used only
+`triad_status` in automatic rounds 1 and 2 (native sequences 58 and 75).
+Its assistant response completed, but the turn-stopping guard held the native
+journal at sequence 80 for 36,327 milliseconds with no additional goal rounds.
+The test goal remained active/armed at 2/6 throughout that observation; this was
+waiting below the cap, not exhaustion or an unfinished model response.
+
+The owner then paused only this new test goal (sequence 81). The waiting turn
+ended at sequence 82, recorded natively as user-aborted following that pause.
+The test goal retained its identity and used count, ending paused/disarmed at
+2/6, revision 3. All three test sessions were independently read back as idle.
+There was one trial and no retry, second live run, UI operation or host restart.
+
+The original Verdict goal remained revision 6, blocked/disarmed at 512/512.
+Protected profiles and existing projects were unchanged. The full receipt,
+exact prompt/observer and native event extracts remain in the owner's private
+`Documents/Codex/2026-10-29/triad-status-wait-live` directory. `RECEIPT.json`
+SHA-256 is `634cb944f271916b3852285fa7d72df89cb62f3255908e1d3d050f628783ba6c`.
+A sanitized result is retained in
+[the repair evidence summary](../evidence/three-role/repair-2026-10-29.json).
+
+This verifies the specific live Web status-wait behavior. Both hosts had already
+loaded the repaired canonical plugin, but this was not a Desktop live trial or
+a full autonomous product-completion trial. Unknown/action tools still count as
+progress, and a waiting turn remains visibly running. No general guarantee of
+agent judgment or autonomous completion follows from this bounded observation.
+This documentation update reused the completed receipt; no tests were rerun.

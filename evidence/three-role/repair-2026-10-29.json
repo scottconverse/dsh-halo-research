@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "status": "canonical-source-deployed-runtime-load-pending",
+  "status": "both-hosts-loaded-bounded-web-status-wait-verified",
   "desktop_journals_checked": 80,
   "web_active_jobs": 0,
   "queued_inputs": 0,
@@ -50,5 +50,31 @@
     "waiting turn remains visibly running",
     "unknown/action tools conservatively treated as work",
     "no guarantee of correct agent judgments or autonomous triad acceptance"
-  ]
+  ],
+  "bounded_live_status_wait": {
+    "status": "passed",
+    "date": "2026-10-29",
+    "host": "Web",
+    "trials": 1,
+    "automatic_rounds": 2,
+    "cap": 6,
+    "stable_wait_ms": 36327,
+    "status_call_sequences": [
+      58,
+      75
+    ],
+    "held_sequence": 80,
+    "owner_pause_sequence": 81,
+    "turn_end_sequence": 82,
+    "turn_end_reason": "user-aborted following owner pause",
+    "final_test_goal": "paused/disarmed 2/6 revision3",
+    "all_three_test_sessions_idle": true,
+    "original_goal_preserved": "revision6 blocked/disarmed 512/512",
+    "settings_and_existing_projects_preserved": true,
+    "headless": true,
+    "retries": 0,
+    "receipt_sha256": "634cb944f271916b3852285fa7d72df89cb62f3255908e1d3d050f628783ba6c",
+    "receipt_location": "owner-private Documents/Codex/2026-10-29/triad-status-wait-live/RECEIPT.json",
+    "scope": "Specific repeated status-only automatic-round waiting on Web; not a Desktop live trial or full autonomous product trial"
+  }
 }

@@ -161,8 +161,12 @@ conservatively invalidate review. Ignored generated output is not source change;
 new checkpoint evidence independently requests review. Fixed Git views include
 HEAD identity and committed diff without granting shell or arbitrary Git arguments.
 
-Canonical source was deployed at verified idle on October 29. Profiles, project
-state and journals were preserved; no host was restarted and the existing
-512/512 goal remains disarmed. Loading and validating the new module in both
-live hosts is still pending. The installed Cordis/DSH dispatcher fixture proves
-event waiting and input/disposal responsiveness, not live Desktop acceptance.
+Canonical source was deployed at verified idle on October 29, and both hosts
+subsequently restarted at idle and loaded the repaired module. One bounded live
+Web triad run then held after two status-only automatic rounds for 36.327 seconds
+at active/armed 2/6 without starting another round. The owner paused only the test
+goal afterward; all three test sessions ended idle. Existing profiles, projects
+and the original blocked/disarmed 512/512 Verdict goal were preserved.
+See [the live result and its limits](../../docs/HALO-THREE-ROLE-REPAIR-2026-10-29.md#bounded-live-status-wait-verification).
+This specific Web result does not establish full autonomous product completion
+or a separate Desktop live trial.
