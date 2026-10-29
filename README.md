@@ -2,6 +2,16 @@
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
 
+## Portable cloud-only installation
+
+For a different machine, use the separate [portable cloud-only installer](stack/portable-cloud/README.md).
+It creates a new DSH Web home with DeepSeek1017 Low/1M context/64K output/70%
+compaction and the same triad fixes. It requires Node24+/npm and signed-in Ollama
+Cloud, but no Halo hardware, local weights or LM Studio. It does not copy or edit
+this machine's runtime state. See the [implementation and acceptance](docs/HALO-PORTABLE-CLOUD-INSTALLER-2026-10-29.md)
+for actual Windows acceptance and cross-platform limits. The installer is new
+source after v0.3.11; it is not part of that already published tag.
+
 ## Current setup - October 25, 2026
 
 | Component | Current configuration / record |
@@ -19,7 +29,7 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 The four Desktop and five Web sessions selecting the retired DeepSeek cloud route were migrated to the new model with effort Off. Sessions selecting local models or other providers were preserved. Historical request records and titles can still contain earlier model names. One archived Web session's original workspace folder is missing; its saved selection is migrated, but the session remains unavailable for normal interaction.
 
-The repository release [v0.3.9](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.9) is a Halo source snapshot, not the upstream DSH version. It includes the OpenRefine, draw.io, TextFlowKit, Siftwing and PatentForge connections, skills and documentation, plus the earlier LibreOffice workflow, rc.3 upgrade and XERJ recovery; see [release notes](RELEASE-NOTES-v0.3.9.md). The source release does not automatically migrate another machine's sessions or install third-party applications.
+The repository release [v0.3.11](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.11) is a Halo source snapshot, not the upstream DSH version. It includes the shared triad fixes and their loaded-runtime/live status-wait evidence, retaining earlier application connections; see [release notes](RELEASE-NOTES-v0.3.11.md). The separate portable installer above creates a fresh cloud-only deployment; it does not migrate this machine's sessions or install the optional Halo applications.
 
 The [October 19 Low-effort update](docs/HALO-DEEPSEEK-1017-LOW-2026-10-19.md) supersedes the earlier Off setting: both live defaults, all 14 saved sessions selecting DeepSeek 1017, and its dedicated worker profiles now use **Low**. Historical migration counts above describe the earlier model-ID repair.
 

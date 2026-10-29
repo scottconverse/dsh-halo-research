@@ -1,0 +1,47 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, readFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import { profile, policy } from './profile.mjs';
+const here = dirname(fileURLToPath(import.meta.url));
+test('portable profile has one cloud route and inherited triad with exact settings', () => {
+  const rows = profile(join(process.platform === 'win32' ? 'Z:\portable-owner' : '/portable-owner','moved cloud folder'), 31888);
+  assert.equal(rows.find(r=>r.id==='agent-default-model').config.reasoningEffort,'low');
+  assert.equal(rows.find(r=>r.id==='agent-preset-registry').config.default,'cloud-coding');
+  const providers = rows.find(r=>r.id==='llm-pi-ai').config.providers;
+  assert.deepEqual(Object.keys(providers), ['ollama']);
+  const route=providers.ollama;
+  assert.equal(route.models[0].id,policy.model);
+  assert.equal(route.models[0].contextWindow,1048576);
+  assert.equal(route.models[0].maxTokens,65536);
+  assert.deepEqual(route.models[0].reasoningEfforts,{low:'low'});
+  const inserts=rows.flatMap(r=>r.insert??[]);
+  assert.ok(inserts.find(r=>r.id==='portable-three-role').name.startsWith('file:'));
+  const compact=inserts.find(r=>r.id==='portable-cloud-preset').config.plugins.find(r=>r.id==='compaction');
+  assert.equal(compact.config[0].config.thresholdRatio,0.7);
+  assert.doesNotMatch(JSON.stringify(rows),/Users[\\/]scott|lmstudio|qwen|ollama-local|wigolo/i);
+  assert.throws(()=>profile(here,0));
+});
+test('installer refuses an existing destination before bundle reads or mutation', () => {
+  const dest=mkdtempSync(join(tmpdir(),'dsh-keep-'));
+  writeFileSync(join(dest,'keep'),'unchanged');
+  const result=spawnSync(process.execPath,[join(here,'install.mjs'),'--dest',dest],{encoding:'utf8'});
+  assert.equal(result.status,1);
+  assert.match(result.stderr,/Destination already exists/);
+  assert.equal(readFileSync(join(dest,'keep'),'utf8'),'unchanged');
+  assert.equal(existsSync(join(dest,'package.json')),false);
+});
+test('bundle tampering is refused before destination creation', () => {
+  const staging=mkdtempSync(join(tmpdir(),'dsh-tamper-'));
+  cpSync(join(here,'install.mjs'),join(staging,'install.mjs'));
+  writeFileSync(join(staging,'bundle.json'),JSON.stringify({files:[{path:'payload',sha256:'0'.repeat(64)}]}));
+  writeFileSync(join(staging,'payload'),'tampered');
+  const dest=join(staging,'new destination');
+  const result=spawnSync(process.execPath,[join(staging,'install.mjs'),'--dest',dest],{encoding:'utf8'});
+  assert.equal(result.status,1);
+  assert.match(result.stderr,/integrity mismatch/);
+  assert.equal(existsSync(dest),false);
+});

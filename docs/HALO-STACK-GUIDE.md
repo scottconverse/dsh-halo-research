@@ -480,3 +480,13 @@ canonical plugin; the bounded live Web result above is reused. Publication adds
 no test run, runtime upgrade, model/default change or goal mutation. Private
 receipts and recovery files remain local and preserved.
 Release: https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.11
+
+## Optional portable cloud-only installer — October29
+
+A separate destination-only DSH Web installer is available under the repository's
+stack/portable-cloud. It uses the same DeepSeek1017 Low/1M/64K/70% cloud policy
+and unchanged triad fixes, without Halo paths or local-model requirements. It
+requires Node24+/npm and signed-in Ollama; no existing Halo host, configuration,
+goal or session was modified. Native isolated Windows boot and directory
+relocation acceptance passed without inference. See
+HALO-PORTABLE-CLOUD-INSTALLER-2026-10-29.md for instructions/evidence/limits.

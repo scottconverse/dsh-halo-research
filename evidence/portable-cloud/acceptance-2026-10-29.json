@@ -1,0 +1,109 @@
+{
+  "status": "passed",
+  "date": "2026-10-29",
+  "installerVersion": "0.1.0",
+  "runtimeVersion": "0.2.1-rc.3",
+  "platform": "Windows x64",
+  "node": "v24.21.0",
+  "installDependencyCount": 614,
+  "model": {
+    "reasoningEffort": "low",
+    "compactionThresholdRatio": 0.7,
+    "maxTokens": 65536,
+    "provider": "ollama",
+    "contextWindow": 1048576,
+    "id": "deepseek-v4.1-flash:1017-cloud"
+  },
+  "loadedPresets": [
+    "cloud-coding",
+    "three-role-auditor",
+    "three-role-coder",
+    "three-role-coordinator"
+  ],
+  "onlyCloudRouteRegistered": true,
+  "nativeUiHttpStatus": 200,
+  "nativeUiBootManifest": true,
+  "relocation": "native boot passed after moving installation, profile customization and synthetic state marker preserved",
+  "existingDestinationRefused": true,
+  "tamperedBundleRefused": true,
+  "canonicalTriadAndCompaction": "copied unchanged; prior focused and live status-wait evidence reused",
+  "protectedExistingFilesCount": 3,
+  "protectedExistingFilesUnchanged": true,
+  "ownedHostDisposed": true,
+  "modelCalls": 0,
+  "triadProjectsCreated": 0,
+  "archiveSha256": "c656e17d193ca31236d9b77010aa022829bc0465094663efb8e7726906d596e2",
+  "bundleFiles": [
+    {
+      "path": "install.mjs",
+      "sha256": "f35f494f5e02c9fd1bd7dccdc4143871511771c0b4076dadabcbe7b6e60a0635"
+    },
+    {
+      "path": "start.mjs",
+      "sha256": "267c66dcab9dad188d7e90b67341a0272e5dac146ce6a45acb27b88598175e4a"
+    },
+    {
+      "path": "profile.mjs",
+      "sha256": "55bbe9cb09009c4b47f7290606d7500f424b3424532c88fb2c29cad194e47ac5"
+    },
+    {
+      "path": "runtime-package.json",
+      "sha256": "74e59943d44325519b353638a798e17740609c2c9c1733d42caaa8cb8e16d9b2"
+    },
+    {
+      "path": "runtime-package-lock.json",
+      "sha256": "3b49b793a18609a4a39089ff51be5b60d509719e1d9bcd550d0178e126edd13b"
+    },
+    {
+      "path": "README.md",
+      "sha256": "8618809f87b19cae00f8fb647b5c13c50559c4ce331999f717f23f1d3270fd75"
+    },
+    {
+      "path": "stack/three-role/index.mjs",
+      "sha256": "1cac5f5991a99ea4d5cf6a6914832129c6450b44c5e68ba5bf64ead4f2d97538"
+    },
+    {
+      "path": "stack/three-role/core.mjs",
+      "sha256": "153f9c3648997ed6f3c792ab9cbcfc4990b8f9b0803b92b2f2140566d213dfac"
+    },
+    {
+      "path": "stack/three-role/no-progress-guard.mjs",
+      "sha256": "2ed2e776be0a98d909a30a7a575f7937fb187f276d98db546342917ef3b6680b"
+    },
+    {
+      "path": "stack/three-role/project-fingerprint.mjs",
+      "sha256": "c715c51263c7059294d0e8cf75e9602f3b2cf03bfb299907f05c916146ae8618"
+    },
+    {
+      "path": "stack/three-role/package.json",
+      "sha256": "e5b81c56ea351c1a4dee22d7fc5fcfeb430a0afcc512b91a41475672564b027a"
+    },
+    {
+      "path": "stack/three-role/skills/staff-engineer/SKILL.md",
+      "sha256": "5ffa563aa17c81a77e08f5d0914f3f109430d8a3d850c693ed0f6096b9d6c62f"
+    },
+    {
+      "path": "stack/three-role/skills/triad-auditor/SKILL.md",
+      "sha256": "1250756aed2448bdd7f491ebcf05ed8256b591971f9e776703e43b2aaabadb63"
+    },
+    {
+      "path": "stack/three-role/skills/triad-coordinator/SKILL.md",
+      "sha256": "49b452cadcf2b7fde7d5497e51d0813858b678524cd3893fd237220357f0ba25"
+    },
+    {
+      "path": "stack/stock-dsh/compaction-text-only.mjs",
+      "sha256": "79b5a6094f9644d2c4a4bb06c57dea4c03a40b64ffa2f29a9e9291a4f8899f61"
+    }
+  ],
+  "limits": [
+    "No cloud inference/account entitlement request made",
+    "Only Windows exercised; other operating systems not executed",
+    "Node24+/npm and signed-in Ollama are prerequisites",
+    "Portable Web installation; no Electron app repackaging"
+  ],
+  "diagnostics": [
+    "Machine-dependent unit-test fixture path corrected",
+    "Pinned rc.3 default reasoning uses profile config; Low corrected there",
+    "Native authenticated Web bootstrap requires303 cookie handoff; verification client corrected without changing authentication"
+  ]
+}
