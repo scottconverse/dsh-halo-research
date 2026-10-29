@@ -109,3 +109,12 @@ a full autonomous product-completion trial. Unknown/action tools still count as
 progress, and a waiting turn remains visibly running. No general guarantee of
 agent judgment or autonomous completion follows from this bounded observation.
 This documentation update reused the completed receipt; no tests were rerun.
+
+## Halo v0.3.11 source release
+
+The three-role fixes and existing runtime evidence are published as Halo
+deployment source release v0.3.11. Both hosts had already loaded the repaired
+canonical plugin; the bounded live Web result above is reused. Publication adds
+no test run, runtime upgrade, model/default change or goal mutation. Private
+receipts and recovery files remain local and preserved.
+Release: https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.11

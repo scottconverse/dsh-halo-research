@@ -467,3 +467,12 @@ Source was deployed at verified all-host/job idle, with rollback copies. Neither
 host was restarted/reloaded. **The live hosts still need a supported normal idle
 load and readback.** The Verdict goal stays disarmed at 512/512. See
 HALO-THREE-ROLE-REPAIR-2026-10-29.md for exact checks and remaining runtime limits.
+
+## Halo v0.3.11 source release
+
+The three-role fixes and existing runtime evidence are published as Halo
+deployment source release v0.3.11. Both hosts had already loaded the repaired
+canonical plugin; the bounded live Web result above is reused. Publication adds
+no test run, runtime upgrade, model/default change or goal mutation. Private
+receipts and recovery files remain local and preserved.
+Release: https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.11
