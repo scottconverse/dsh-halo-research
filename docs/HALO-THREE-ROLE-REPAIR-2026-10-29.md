@@ -45,15 +45,30 @@ manifest were retained privately for rollback. Web profile and project-state
 hashes remained identical. No models, defaults, skills, authentication or goals
 were edited. Source deployment was at idle; no forced pause/reload/restart occurred.
 
-## Remaining runtime boundary
+## Loaded runtime verification
 
-**Source deployed; existing loaded host modules not yet replaced or validated.**
-The Desktop owner API still requires its legitimate authenticated application
-connection. No auth bypass, cookie forgery, credential search or UI was used.
-Complete live readback through a supported authenticated idle load, or a normal
-owner-initiated idle restart of both hosts, then verify the original project and
-goal readback. Do not rearm the exhausted Verdict goal, raise its 512 cap, create
-a replacement project, or run models merely to demonstrate a wait.
+Both hosts were restarted at verified idle using their existing installation and
+profiles on October 29. Web's normal scheduled task produced a new host; Desktop
+was relaunched through its installed application after explicit owner approval.
+No active provider, acceptance job, or project was interrupted. The first Web
+scheduled-task stop left its detached host running; startup was refused until
+that exact idle process and its captured service children were handled. No
+unrelated model service or Wigolo process was stopped.
+
+The new Web host's native plugin inventory reports the canonical three-role
+module active. Its live Coder preset includes both the open-finding checkpoint
+instruction and the external-process ownership instruction added by this repair.
+Desktop's existing Coder role header independently shows the same new guidance.
+The owner authorized brief computer use with a 60-second warning; that warning
+elapsed before inspection. No message, model job, goal mutation or settings edit
+was submitted during Desktop verification. Computer control was reset afterward.
+
+The Web and Desktop profile hashes and original project-state hash remain
+byte-identical. The original Verdict goal remains revision 6, blocked/disarmed
+at 512/512; it was not rearmed, replaced, reset or increased. Private restart and
+loaded-readback receipts retain process identities and preservation hashes.
+Existing focused tests and dispatcher-fixture results above are reused. This
+loaded-module check does not claim a new autonomous goal trial or model run.
 
 The Verdict effort remains assisted. These fixes do not establish an autonomous
 triad trial, guarantee correct judgments, or turn historical worker claims into
