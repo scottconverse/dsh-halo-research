@@ -117,8 +117,10 @@ Pause/resume/complete act on the whole project: omit `role` and call once.
 The optional resume message is broadcast to both workers. Send Coder-specific
 or Auditor-specific direction with separate `action: message` calls instead.
 
-Do not upgrade this plugin while its projects are running. Pause, verify jobs,
-then reload only the idle host. No automatic startup rearming is claimed.
+Upgrade only at genuine all-host/job idle; never force a pause to manufacture
+that condition. The source is shared by Web and Desktop. Preserve profiles,
+project state and journals, and load changed modules through the normal supported
+idle lifecycle. No automatic startup rearming is claimed.
 The first failed development spawn is retained as a paused diagnostic trial;
 it never had a successful child and must not be mistaken for resumable work.
 
@@ -136,3 +138,31 @@ contracts. Live Desktop acceptance and encountered defects are recorded in
 `../../docs/HALO-THREE-ROLE-2026-10-28.md`. Mock tests and source inspection
 are distinguished there from actual managed sessions and file/test receipts.
 These checks are small product acceptance exercises, not benchmarks.
+
+## October 29 recovery fixes
+
+Status includes native activation, rounds used and the cap. Explicit project
+resume can rearm an active/disarmed goal; status reads cannot, and used rounds
+are retained. Native human pause/stop and cap enforcement remain authoritative.
+
+After two automatic Coordinator rounds containing only inspection tools or no
+tools, a turn-stopping guard waits for input, a worker result, a goal change or
+disposal. It does not reject/consume an inbox message, admit another goal round,
+infer completion from prose, or change the goal. A waiting turn appears running.
+Unknown and action tools conservatively count as work. An exhausted goal is
+never rearmed or given a larger budget by this guard.
+
+Coder checkpoints are allowed with open findings, and ready work can be reviewed
+despite unrelated unresolved findings. Findings still require the existing
+Coder disposition and independent Auditor closure; completion guards are intact.
+Shell/output tools invalidate review when project content changes, including
+background changes observed on a later poll. Unknown or failed Git snapshots
+conservatively invalidate review. Ignored generated output is not source change;
+new checkpoint evidence independently requests review. Fixed Git views include
+HEAD identity and committed diff without granting shell or arbitrary Git arguments.
+
+Canonical source was deployed at verified idle on October 29. Profiles, project
+state and journals were preserved; no host was restarted and the existing
+512/512 goal remains disarmed. Loading and validating the new module in both
+live hosts is still pending. The installed Cordis/DSH dispatcher fixture proves
+event waiting and input/disposal responsiveness, not live Desktop acceptance.

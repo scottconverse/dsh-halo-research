@@ -451,3 +451,19 @@ models/defaults and DeepSeek Low/1M/64K/70% were preserved.
 Installed Web/Desktop profiles and canonical deployment copies enable the shared command-goal and tool-goal registrations. Existing and future sessions inherit availability independently of preset. Objectives still require activation: native active/armed readback and subsequent automatic rounds establish continuation. Web reconciled live without restarting the Verdict coder; Desktop native command availability was verified. Model/provider settings, DeepSeek Low/1M context/64K output/70% compaction, launchers and other integrations were preserved.
 
 See [Universal goals: repair, procedure and evidence](HALO-UNIVERSAL-GOALS-2026-10-28.md). Idle-boundary rounds are not a five-minute timer; restart rearming was not separately exercised. Other reduced-preset omissions were not enabled.
+
+## October 29: triad recovery source update
+
+The shared three-role source now exposes native goal activation/rounds and repairs
+explicit active/disarmed resume. Two automatic inspection-only/empty Coordinator
+rounds wait for input or worker/goal/lifecycle events instead of consuming another
+round. Coder progress reports and reviews of ready work can proceed with unrelated
+open findings; closure/completion restrictions remain. Git content detection avoids
+review churn from unchanged output polling, including background-change handling.
+Bounded Git views include HEAD and committed diff. Existing model defaults and all
+profiles/project evidence are preserved.
+
+Source was deployed at verified all-host/job idle, with rollback copies. Neither
+host was restarted/reloaded. **The live hosts still need a supported normal idle
+load and readback.** The Verdict goal stays disarmed at 512/512. See
+HALO-THREE-ROLE-REPAIR-2026-10-29.md for exact checks and remaining runtime limits.

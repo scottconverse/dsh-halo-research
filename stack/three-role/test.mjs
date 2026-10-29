@@ -91,11 +91,11 @@ test('adapter enforces roles and relays a real structured finding under live par
   let dispose;
   const parent = { id: 'parent', status: 'idle' }, coder = { id: 'coder', status: 'idle' }, auditor = { id: 'auditor', status: 'running' };
   for (const a of [parent, coder, auditor]) agents.set(a.id, a);
-  const interrupted = []; let goal = { id: 'goal-1', revision: 1, phase: 'active' };
+  const interrupted = []; let goal = { id: 'goal-1', revision: 1, phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 256 };
   const base = { agents: { get: id => agents.get(id) },
     subagents: { registerProvider() {}, interrupt(id, authority) { assert.equal(authority.kind, 'ancestor'); assert.equal(authority.agent, parent); interrupted.push(id); }, async sendMessage(sender, id, content) { assert.equal(sender, parent); sent.push({ id, content }); return 'message-1'; } },
-    agentPresets: { async register(p) { presets.set(p.id, p); return () => {}; } }, goals: { get: () => goal, pause: () => { goal = { ...goal, phase: 'paused', revision: goal.revision + 1 }; }, resume: () => { goal = { ...goal, phase: 'active', revision: goal.revision + 1 }; } },
-    on(name, fn) { if (name === 'dispose') dispose = fn; else handlers.set(name, fn); }, tools: {} };
+    agentPresets: { async register(p) { presets.set(p.id, p); return () => {}; } }, goals: { get: () => goal, pause: () => { goal = { ...goal, phase: 'paused', activation: 'disarmed', revision: goal.revision + 1 }; }, resume: () => { assert.notEqual(goal.activation, 'armed', 'do not resume an already armed goal'); goal = { ...goal, phase: 'active', activation: 'armed', revision: goal.revision + 1 }; } },
+    on(name, fn) { if (name === 'dispose') dispose = fn; else handlers.set(name, fn); return () => { if (handlers.get(name) === fn) handlers.delete(name); }; }, tools: {} };
   try {
     // Replace prepared fixture with identities known by the adapter.
     f.p.children = { coder: 'coder', auditor: 'auditor' }; f.p.status = 'running'; f.store.save();
@@ -136,6 +136,21 @@ test('adapter enforces roles and relays a real structured finding under live par
     assert.equal(parentGuard({ name: 'edit', agent: coder }), undefined, 'parent role does not restrict the child role');
     assert.match(parentGuard({ name: 'edit', agent: parent }), /no authority/);
     const parentExec = { ...exec, agent: parent };
+    const goalReadback = JSON.parse(await controls.get('triad_status').execute({}, parentExec)).goal;
+    assert.equal(goalReadback.activation, 'armed');
+    assert.equal(goalReadback.roundsStarted, 3);
+    const armedRevision = goal.revision;
+    await controls.get('triad_control').execute({ action: 'resume' }, parentExec);
+    assert.equal(goal.revision, armedRevision, 'an explicit resume does not mutate an already armed goal');
+    goal = { ...goal, activation: 'disarmed' };
+    await controls.get('triad_status').execute({}, parentExec);
+    assert.equal(goal.activation, 'disarmed', 'read-only status must never rearm a goal');
+    const rearmed = JSON.parse(await controls.get('triad_control').execute({ action: 'resume' }, parentExec));
+    assert.equal(goal.activation, 'armed', 'explicit resume repairs active but disarmed continuation');
+    assert.equal(goal.revision, armedRevision + 1);
+    assert.equal(rearmed.goal.activation, 'armed');
+    assert.equal(goal.roundsStarted, 3, 'resuming never resets the goal budget');
+    sent.length = 1; // Preserve the earlier finding receipt for the scheduling assertions below.
     const coderExec = { ...exec, agent: coder };
     const post = handlers.get('tools/post-execute');
     const current = () => new Store(f.file).project(f.p.id);
@@ -143,16 +158,20 @@ test('adapter enforces roles and relays a real structured finding under live par
     assert.equal(current().revision, 0, 'read-only tools never invalidate review');
     await toolCoder.get('triad_finding_action').execute({ id: 'A-001', action: 'acknowledged', evidence: 'Investigating the source' }, coderExec);
     assert.equal(current().revision, 0, 'acknowledgment is not a changed implementation');
-    await assert.rejects(toolCoder.get('triad_report').execute({ evidence: 'I fixed it' }, coderExec), /fixed\/disputed/);
+    const progress = JSON.parse(await toolCoder.get('triad_report').execute({ evidence: 'Still investigating; finding remains open' }, coderExec));
+    assert.deepEqual(progress.awaitingCoder, ['A-001']);
+    assert.equal(current().findings[0].status, 'acknowledged');
     await assert.rejects(tools.get('triad_finding_action').execute({ id: 'A-001', action: 'closed', evidence: 'Looks fixed' }, exec), /coder-reported/);
     const baseline = JSON.parse(await tools.get('triad_report').execute({ evidence: 'Baseline gap; awaiting Coder disposition', reviewedRevision: 0 }, exec));
     assert.equal(baseline.auditDirty, false);
     for (const name of ['edit', 'pwsh', 'job_output']) await post({ agent: coder, name }, null, async () => 'changed');
     assert.equal(current().revision, 3);
-    assert.equal(current().auditQueued, false, 'pending Coder disposition prevents premature closure round');
+    assert.equal(current().auditQueued, false, 'review is coalesced rather than sent for every tool');
+    await new Promise(resolve => setTimeout(resolve, 15200));
+    assert.equal(sent.filter(s => s.id === 'auditor').length, 1, 'ready work is reviewed despite an unrelated pending disposition');
+    assert.equal(current().findings[0].status, 'acknowledged', 'review scheduling cannot close the pending finding');
     await toolCoder.get('triad_finding_action').execute({ id: 'A-001', action: 'fixed', evidence: 'add.mjs now adds; saved test receipt' }, coderExec);
     await toolCoder.get('triad_report').execute({ evidence: 'Implementation checkpoint, disposition recorded' }, coderExec);
-    await new Promise(resolve => setTimeout(resolve, 15200));
     assert.equal(sent.filter(s => s.id === 'auditor').length, 1, 'one coalesced review, not one per tool');
     assert.equal(current().auditQueued, true);
     await assert.rejects(tools.get('triad_report').execute({ evidence: 'review without cut' }, exec), /reviewedRevision/);
@@ -180,14 +199,36 @@ test('adapter enforces roles and relays a real structured finding under live par
     const evidence = JSON.parse(await tools.get('triad_status').execute({ view: 'evidence', id: 'A-001' }, exec));
     assert.equal(evidence.history.length, 3);
     const full = JSON.parse(await tools.get('triad_status').execute({ view: 'full' }, exec));
-    assert.equal(full.reports.length, 5); assert.ok(full.events.length > 0);
+    assert.equal(full.reports.length, 6); assert.ok(full.events.length > 0);
     assert.ok(JSON.stringify(compactStatus).length < JSON.stringify(full).length / 2, 'summary omits accumulated narratives without deleting them');
     await assert.rejects(controls.get('triad_control').execute({ action: 'resume', role: 'coder' }, parentExec), /role is valid only/);
     await controls.get('triad_control').execute({ action: 'pause' }, parentExec);
     assert.deepEqual(interrupted, ['coder', 'auditor']); assert.equal(goal.phase, 'paused');
+    assert.equal(goal.activation, 'disarmed');
+    await controls.get('triad_status').execute({}, parentExec);
+    assert.equal(goal.phase, 'paused', 'observing a human pause must preserve it');
     assert.match(coderGuard({ name: 'write', agent: coder }), /paused/);
     const resumed = JSON.parse(await controls.get('triad_control').execute({ action: 'resume' }, parentExec));
     assert.equal(goal.phase, 'active'); assert.deepEqual(resumed.children, { coder: 'coder', auditor: 'auditor' });
     assert.deepEqual(sent.slice(-2).map(s => s.id), ['coder', 'auditor']);
+    // Exercise actual pre/post tracking on the same execution object.
+    const git = (...args) => execFileSync('git', ['-C', f.project, ...args], { windowsHide: true });
+    git('init', '-q'); git('add', '.');
+    git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'fixture');
+    const head = JSON.parse(await tools.get('triad_git').execute({ view: 'head' }, exec));
+    assert.match(head, /^[0-9a-f]{40}\s*$/);
+    const pre = handlers.get('tools/pre-execute');
+    const beforePoll = current().revision;
+    const poll = { agent: coder, name: 'job_output' };
+    await pre(poll, async () => ({})); await post(poll, null, async () => 'unchanged output');
+    assert.equal(current().revision, beforePoll, 'unchanged output polling does not invalidate source review');
+    const shell = { agent: coder, name: 'pwsh' };
+    await pre(shell, async () => ({})); writeFileSync(join(f.project, 'bytes.txt'), 'actual changed bytes');
+    await post(shell, null, async () => 'completed');
+    assert.equal(current().revision, beforePoll + 1, 'actual shell changes still invalidate source review');
+    writeFileSync(join(f.project, 'bytes.txt'), 'background job changed before output was polled');
+    const asyncPoll = { agent: coder, name: 'job_output' };
+    await pre(asyncPoll, async () => ({})); await post(asyncPoll, null, async () => 'background result');
+    assert.equal(current().revision, beforePoll + 2, 'asynchronous changes between polls remain reviewable');
   } finally { dispose?.(); rmSync(f.root, { recursive: true }); }
 });

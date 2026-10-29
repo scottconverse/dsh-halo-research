@@ -455,3 +455,19 @@ in [HALO-DSH-TRANSPORT-COMPACTION-REPAIR-2026-10-11.md](HALO-DSH-TRANSPORT-COMPA
 Goals are available in all Halo Web/Desktop presets, including existing sessions. Enter bare `/goal` for native state, set the agreed objective, then confirm active status, armed activation, the correct objective and cap. Verify a subsequent goal-driven round without another human message. Availability, conversational promises and continuation are different facts.
 
 Use native Goal controls and read back changes. The driver continues at idle boundaries subject to its cap and stop conditions; it is not a fixed timer. An auditor goal preserves its read-only scope and full acceptance checklist. Goal completion is not product acceptance. See [Universal goal availability](HALO-UNIVERSAL-GOALS-2026-10-28.md) for evidence and limits.
+
+## October 29: triad recovery source update
+
+The shared three-role source now exposes native goal activation/rounds and repairs
+explicit active/disarmed resume. Two automatic inspection-only/empty Coordinator
+rounds wait for input or worker/goal/lifecycle events instead of consuming another
+round. Coder progress reports and reviews of ready work can proceed with unrelated
+open findings; closure/completion restrictions remain. Git content detection avoids
+review churn from unchanged output polling, including background-change handling.
+Bounded Git views include HEAD and committed diff. Existing model defaults and all
+profiles/project evidence are preserved.
+
+Source was deployed at verified all-host/job idle, with rollback copies. Neither
+host was restarted/reloaded. **The live hosts still need a supported normal idle
+load and readback.** The Verdict goal stays disarmed at 512/512. See
+HALO-THREE-ROLE-REPAIR-2026-10-29.md for exact checks and remaining runtime limits.
