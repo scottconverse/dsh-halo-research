@@ -9,8 +9,8 @@ It creates a new DSH Web home with DeepSeek1017 Low/1M context/64K output/70%
 compaction and the same triad fixes. It requires Node24+/npm and signed-in Ollama
 Cloud, but no Halo hardware, local weights or LM Studio. It does not copy or edit
 this machine's runtime state. See the [implementation and acceptance](docs/HALO-PORTABLE-CLOUD-INSTALLER-2026-10-29.md)
-for actual Windows acceptance and cross-platform limits. The installer is new
-source after v0.3.11; it is not part of that already published tag.
+for actual Windows acceptance and cross-platform limits. Download the installer ZIP and instructions from
+[Halo v0.3.12](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.12).
 
 ## Current setup - October 25, 2026
 

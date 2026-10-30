@@ -92,3 +92,11 @@ model-routing skill, without coding subagents, alternate providers or settings
 changes. No new billed model call or served-model identity is inferred from
 source configuration. The new installer uses an explicit npm lock; old product
 release tests were not repeated.
+
+## Published portable installer — Halo v0.3.12
+
+The unchanged portable installer0.1.0 ZIP, INSTALL.md and SHA256SUMS.txt are
+published at https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.12 .
+Existing Windows installation/relocation/native-preset evidence is reused. No
+rebuild, test, audit, model call, current-host restart or goal/settings edit was
+performed for publication. Private receipts and recovery files remain preserved.

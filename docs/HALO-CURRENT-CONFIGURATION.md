@@ -486,3 +486,11 @@ requires Node24+/npm and signed-in Ollama; no existing Halo host, configuration,
 goal or session was modified. Native isolated Windows boot and directory
 relocation acceptance passed without inference. See
 HALO-PORTABLE-CLOUD-INSTALLER-2026-10-29.md for instructions/evidence/limits.
+
+## Published portable installer — Halo v0.3.12
+
+The unchanged portable installer0.1.0 ZIP, INSTALL.md and SHA256SUMS.txt are
+published at https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.12 .
+Existing Windows installation/relocation/native-preset evidence is reused. No
+rebuild, test, audit, model call, current-host restart or goal/settings edit was
+performed for publication. Private receipts and recovery files remain preserved.
