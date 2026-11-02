@@ -1,5 +1,13 @@
 # Complete Windows DSH installer candidate — November 2, 2026
 
+Publication update: Scott authorized merge/tag/publication as v0.3.13. The release
+distributes the original ZIP with SHA-256
+`78cf4a455da92873671317ed00695e423f26e0a5a217ec7665fe1a2f9676b1e8`
+and separate current instructions. No application rebuild or acceptance rerun
+was performed. The original verification receipt and the prepublication account
+below remain historical; their `releasePublished: false` status describes that
+earlier checkpoint. Publication does not resolve the fresh-PC verification limits.
+
 The new additive installer builds a fresh Windows x64 setup with DSH Web,
 the actual Electron Desktop, Mission Control, Ollama, Qwen model choices,
 DeepSeek 1017 cloud at Low effort, Wigolo, Reddit/Redlib, XERJ, native

@@ -1,4 +1,4 @@
-# Complete DSH for Windows — installer candidate
+# Complete DSH for Windows — installer 0.1.0
 
 One guided online setup for Windows x64: DSH Web and the actual Electron App,
 the released triad fixes, Mission Control, private Ollama, Qwen model choices,
@@ -6,21 +6,28 @@ DeepSeek 1017 cloud at Low effort, Wigolo, Reddit/Redlib, XERJ and native
 Claude Code/Codex connections. This additive package leaves the existing
 portable-cloud installer available.
 
-**Candidate, not yet a published/accepted installer.** See the dated state and
-verification record. An install receipt records actual completed stages; it is
-not proof of account authorization, inference quality or GPU performance.
+Distributed with [Halo v0.3.13](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.13).
+**Fresh-PC installation remains unverified.** Native Web and Desktop backend
+checks passed in isolation; a complete clean-PC install, Desktop GUI, account
+connections, live companion calls and model/GPU behavior have not been observed.
+An install receipt records completed stages, not account authorization or inference quality.
 
 ## Install on the destination PC
 
-Build the public-file bundle with `node stack/complete-windows/build.mjs
---output <new-folder>`, or extract the released bundle when available. From
-that bundle run the Windows command bootstrap (or use PowerShell 7 directly):
+Download `DSH-Complete-Windows-0.1.0-candidate.zip` from the release, verify its
+SHA-256 against the accompanying `.sha256` file, extract it and open the extracted
+installer folder. The retained filename and embedded candidate README describe
+its prepublication verification stage; publication does not expand that evidence.
+Use these current instructions. Run the Windows command bootstrap (or use PowerShell 7 directly):
 
 ```powershell
 .\Install-DSH.cmd
 # Optional new destination, under your LOCALAPPDATA:
 .\Install-DSH.cmd -Destination "$env:LOCALAPPDATA\DSH-Complete-2"
 ```
+
+For a source build instead: `node stack/complete-windows/build.mjs --output <new-folder>`.
+The published ZIP is the original verified artifact; documentation updates did not rebuild it.
 
 The default is `%LOCALAPPDATA%\DSH-Complete`. It refuses existing directories;
 use `-Resume` only for its own interrupted setup. Keep downloads and receipts

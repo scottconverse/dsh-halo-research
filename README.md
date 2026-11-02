@@ -4,13 +4,16 @@ This repository records the machine-specific DeepSeek Harness deployment on a Wi
 
 ## Complete Windows setup
 
-The [complete Windows installer candidate](stack/complete-windows/README.md) packages
+The [complete Windows installer](stack/complete-windows/README.md) packages
 Web, actual Desktop, Mission Control, Ollama local/cloud choices, the triad fixes,
 Wigolo, Reddit/Redlib, XERJ and native Claude/Codex connections. It uses a new
 installation directory and private profiles. See the [November 2 implementation
 and verification record](docs/DSH-COMPLETE-WINDOWS-2026-11-02.md) for passed
-isolated backend checks and the remaining fresh-PC acceptance limits. It is not
-yet a tagged public installer release. The earlier cloud-only release remains available below.
+isolated backend checks and the remaining fresh-PC acceptance limits. Download
+the ZIP, checksums and current installation instructions from
+[Halo v0.3.13](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.13).
+Publication reuses the original verified ZIP; it does not imply fresh-PC acceptance.
+The earlier cloud-only release remains available below.
 
 ## Portable cloud-only installation
 
