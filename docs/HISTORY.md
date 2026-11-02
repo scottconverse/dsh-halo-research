@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Complete Windows installer (November 2)](DSH-COMPLETE-WINDOWS-2026-11-02.md): isolated Web/Desktop profiles, private Ollama and model choices, companion provisioning, ownership-safe launchers, native authenticated backend checks and fresh-PC acceptance limits. Distributed in [v0.3.13](../RELEASE-NOTES-v0.3.13.md) using the original verified ZIP. Halo runtime and settings unchanged.
+
 - [Three-role recovery repair (October 29)](HALO-THREE-ROLE-REPAIR-2026-10-29.md): goal activation/readback, no-progress wait, open-finding checkpoints, independent review readiness, content-based source detection and committed Git identity. Canonical source deployed at idle; live module loading remains pending.
 
 - [Verdict Desktop takeover and live Web triad deployment (October 28)](HALO-VERDICT-DESKTOP-TAKEOVER-2026-10-28.md): full preserved contract/evidence, independent baseline hashes, first-fix control loop, single Desktop ownership and idle Web load. Verdict remains in progress.

@@ -1,0 +1,85 @@
+{
+  "status": "source-and-isolated-backends-verified",
+  "date": "2026-11-02",
+  "fullFreshPcInstallationObserved": false,
+  "acceptanceModelCalls": 0,
+  "subagents": 0,
+  "currentHaloChanged": false,
+  "web": {
+    "startedAt": "2026-11-02T18:12:18.496Z",
+    "endedAt": "2026-11-02T18:12:34.793Z",
+    "initialStatus": 303,
+    "authenticatedStatus": 200,
+    "exitCode": 0,
+    "presets": [
+      {
+        "id": "cloud-coding",
+        "broken": null
+      },
+      {
+        "id": "connected-claude-code",
+        "broken": null
+      },
+      {
+        "id": "connected-codex",
+        "broken": null
+      },
+      {
+        "id": "qwen3-6-35b",
+        "broken": null
+      },
+      {
+        "id": "qwen3-8-27b",
+        "broken": null
+      },
+      {
+        "id": "qwen3-coder-30b",
+        "broken": null
+      },
+      {
+        "id": "three-role-auditor",
+        "broken": null
+      },
+      {
+        "id": "three-role-coder",
+        "broken": null
+      },
+      {
+        "id": "three-role-coordinator",
+        "broken": null
+      }
+    ],
+    "goalsService": true
+  },
+  "desktopBackend": {
+    "startedAt": "2026-11-02T17:55:55.041Z",
+    "endedAt": "2026-11-02T17:56:03.285Z",
+    "initialStatus": 303,
+    "authenticatedStatus": 200,
+    "exitCode": 0,
+    "uiObserved": false
+  },
+  "pinnedDesktopArchiveSha512": "q5IGr2Bf+TvvCpagHj49Ypn/ZrqR7kqrYpLjqXP7VfDINmddlqZQmG+YfsdL3q3EdTRMRlKz/a3jDAEzdNdDOw==",
+  "npmInstallExit": 0,
+  "nativeBuildExit": 0,
+  "focusedChecks": [
+    "four installer cases",
+    "PowerShell ownership regression",
+    "PowerShell syntax",
+    "Mission Control private-port locality",
+    "Mission Control reasoning contract",
+    "isolated log rotation",
+    "research output-schema extension and configured Redlib fallback"
+  ],
+  "unobserved": [
+    "clean-PC bootstrap and Redlib build",
+    "destination shortcut and Electron GUI behavior",
+    "destination GPU/model inference",
+    "provider account authorization and calls",
+    "live companion integration calls"
+  ],
+  "releasePublished": false,
+  "runtimeLockSha256": "492a4f20e253cdd1ada2e8039804fc0de7cd67e459af0026762689591b8df314",
+  "candidateZip": "DSH-Complete-Windows-0.1.0-candidate.zip",
+  "candidateZipSha256": "78cf4a455da92873671317ed00695e423f26e0a5a217ec7665fe1a2f9676b1e8"
+}
