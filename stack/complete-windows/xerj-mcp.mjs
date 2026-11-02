@@ -1,0 +1,10 @@
+import { spawn } from 'node:child_process';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+const root = dirname(fileURLToPath(import.meta.url));
+const config = JSON.parse(fs.readFileSync(join(root, 'complete.json')));
+const child = spawn(join(root, 'tools/xerj/xerj.exe'), ['mcp', '--url', `http://127.0.0.1:${config.ports.xerj}`, '--disable-feedback'], { cwd: root, windowsHide: true, stdio: 'inherit' });
+child.on('error', error => { console.error(error.message); process.exitCode = 1; });
+child.on('exit', code => { process.exitCode = code ?? 1; });
+for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill());

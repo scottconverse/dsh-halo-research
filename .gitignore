@@ -19,3 +19,5 @@ ws-*/townreporter.db
 # Unreleased accounting prototype: completed/partial evidence can overlap.
 /stack/codex-ollama/skill/scripts/report_offload_usage.py
 /stack/codex-ollama/skill/scripts/test_report_offload_usage.py
+/.installer-research/
+/COMPLETE-INSTALLER-STATE.md

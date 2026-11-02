@@ -16,7 +16,7 @@ export function extendEvidenceSchema(tool){
     evidenceFile:{type:'string'},coverage:{type:'string'}}}};
 }
 export function apply(ctx){
-  const reddit=createRedditAdapter({cacheDir:'C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/research-cache/reddit'});
+  const reddit=createRedditAdapter();
   const research=createResearchHook({redditSearch:reddit.search,redditFetch:reddit.fetch});
   ctx.on('tools/execute',async(exec,next)=>{
     if(exec.name==='web_fetch')extendEvidenceSchema(ctx.tools.get(exec.name,exec.agent));

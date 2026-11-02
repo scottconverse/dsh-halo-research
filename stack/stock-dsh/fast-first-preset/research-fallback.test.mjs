@@ -7,6 +7,7 @@ import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { createResearchHook, createRedditAdapter, needsFallback, parseCliJson, wigoloFetch, redditRssSearch, redditRssRequest, isRedditPostInScope } from './research-fallback.mjs';
 import { apply } from './tool-catalog.mjs';
+import { extendEvidenceSchema } from '../../desktop-tuning/research-tool-hook.mjs';
 
 const signal = new AbortController().signal;
 const page = { isError: false, value: { url: 'https://example.com/story', statusCode: 200,
@@ -25,6 +26,9 @@ test('Redlib thread output obeys the installed web_fetch schema and retains evid
   let definition;
   web.applyWebFetchTool({systemPrompt:{section(){},getSectionOrder(){return 0;}},
     tools:{register(value){definition=value;}}},30000,14000);
+  // A pristine upstream package has the closed stock schema. The shared
+  // research plugin, not an old patched node_modules tree, owns this extension.
+  extendEvidenceSchema(definition);
   const cacheDir = fs.mkdtempSync(path.join(os.tmpdir(),'halo-reddit-contract-'));
   const url='https://www.reddit.com/r/Longmont/comments/abc123/ballot/';
   const record={coverage:'partial',threads:[{canonical_reddit_url:url,title:'Ballot',

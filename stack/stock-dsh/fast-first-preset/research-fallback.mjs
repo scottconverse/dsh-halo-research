@@ -2,10 +2,13 @@ import { execFile } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { homedir } from 'node:os';
 
-const NODE = 'C:/Program Files/nodejs/node.exe';
-const WIGOLO = 'C:/Users/scott/Desktop/Code/wigolo/dist/index.js';
-const REDDIT_PARSER = 'C:/Users/scott/.agents/skills/reddit-search/scripts/reddit_extract.py';
+const NODE = process.execPath;
+const WIGOLO = process.env.DSH_WIGOLO || path.join(homedir(), 'Desktop/Code/wigolo/dist/index.js');
+const REDDIT_PARSER = process.env.DSH_REDDIT_PARSER || path.join(homedir(), '.agents/skills/reddit-search/scripts/reddit_extract.py');
+const PYTHON = process.env.DSH_REDDIT_PYTHON || 'python';
+const PYTHON_PREFIX = process.env.DSH_REDDIT_PYTHON_LAUNCHER === '1' ? ['-3'] : [];
 
 function run(file, args, signal, input) {
   return new Promise((resolve, reject) => {
@@ -105,7 +108,7 @@ export function createResearchHook({ invoke = run, redditSearch, redditFetch } =
 
 // Use the skill's configured, user-owned instance; never rotate public instances.
 function configuredRedlib() {
-  const raw = JSON.parse(fs.readFileSync(path.join(process.env.LOCALAPPDATA || 'C:/Users/scott/AppData/Local', 'RedditSearch/config.json'), 'utf8').replace(/^\uFEFF/, ''));
+  const raw = JSON.parse(fs.readFileSync(process.env.DSH_REDLIB_CONFIG || path.join(process.env.LOCALAPPDATA || path.join(homedir(), 'AppData/Local'), 'RedditSearch/config.json'), 'utf8').replace(/^\uFEFF/, ''));
   if (raw.schemaVersion !== 1 || raw.mode !== 'redlib') throw new Error('No configured Redlib mode');
   return raw.baseUrl;
 }
@@ -135,7 +138,7 @@ async function pacedRedlib(url, signal, fetchImpl) {
 }
 
 export function createRedditAdapter({ rss = redditRssSearch, baseUrl = configuredRedlib,
-  fetchImpl = fetch, invoke = run, cacheDir = 'C:/Users/scott/.dsh-stock/research-cache/reddit' } = {}) {
+  fetchImpl = fetch, invoke = run, cacheDir = path.join(process.env.DSH_HOME || path.join(homedir(), '.dsh-stock'), 'research-cache/reddit') } = {}) {
   async function retrieve(url, kind, signal) {
     const base = new URL(typeof baseUrl === 'function' ? baseUrl() : baseUrl);
     if (!['127.0.0.1', 'localhost', '[::1]'].includes(base.hostname) || base.username || base.password)
@@ -143,7 +146,7 @@ export function createRedditAdapter({ rss = redditRssSearch, baseUrl = configure
     const target = new URL(url.pathname + url.search, base);
     const html = await pacedRedlib(target, signal, fetchImpl);
     // Parser validates Redlib identity, required structures, canonical permalinks and thread identity.
-    const record = JSON.parse(await invoke('python', [REDDIT_PARSER, 'parse', kind, '--source-url', target.href], signal, html));
+    const record = JSON.parse(await invoke(PYTHON, [...PYTHON_PREFIX, REDDIT_PARSER, 'parse', kind, '--source-url', target.href], signal, html));
     return { record, target };
   }
   return {
@@ -267,7 +270,7 @@ export async function redditRssSearch(queries, signal) {
       if (!response.ok) throw new Error('Reddit RSS HTTP ' + response.status + '; coverage partial.');
       const text = await response.text();
       if (text.length > 1024 * 1024 || !/<feed[\s>]/.test(text)) throw new Error('Invalid or oversized Reddit RSS; coverage partial.');
-      const parsed = JSON.parse(await run('python', [REDDIT_PARSER, 'parse', 'rss', '--source-url', url.href], signal, text));
+      const parsed = JSON.parse(await run(PYTHON, [...PYTHON_PREFIX, REDDIT_PARSER, 'parse', 'rss', '--source-url', url.href], signal, text));
       const records = Array.isArray(parsed) ? parsed : parsed.threads || [];
       for (const record of records.slice(0, 6)) {
         const link = record.canonical_reddit_url;

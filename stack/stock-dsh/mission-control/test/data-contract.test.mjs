@@ -607,7 +607,7 @@ test('configured DSH route is kept separate from resident model state', () => {
 
 test('configured route locality is derived from the exact Web-profile provider transport', () => {
   const body = source.slice(source.indexOf('function configuredRouteData()'), source.indexOf('async function catalog()'));
-  assert.match(body, /profileProviderTransport\(raw, route\.provider\)/);
+  assert.match(body, /profileProviderTransport\(raw, route\.provider, OLLAMA_ORIGIN\)/);
   const start = source.indexOf('/*__SETTINGS_FN_START__*/');
   const end = source.indexOf('/*__SETTINGS_FN_END__*/');
   const settingsBody = source.slice(start, end);
@@ -631,6 +631,9 @@ test('configured route locality is derived from the exact Web-profile provider t
   });
   assert.equal(profileProviderTransport(profile, 'remote-lmstudio').localModelProvider, false);
   assert.equal(profileProviderTransport(profile, 'missing').localModelProvider, false);
+  const privateProfile = profile.replace('11434', '11435');
+  assert.equal(profileProviderTransport(privateProfile, 'local-cloud-proxy').runtime, null);
+  assert.equal(profileProviderTransport(privateProfile, 'local-cloud-proxy', 'http://127.0.0.1:11435').runtime, 'ollama');
 });
 
 test('completed-run selection excludes sessions still running or claiming to run', () => {

@@ -1,6 +1,16 @@
 # DSH for the Halo Windows workstation
 
-This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
+This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. Cloning it does not reproduce this machine's accounts, models or private runtime state. Separate installers create fresh deployments without copying that state.
+
+## Complete Windows setup
+
+The [complete Windows installer candidate](stack/complete-windows/README.md) packages
+Web, actual Desktop, Mission Control, Ollama local/cloud choices, the triad fixes,
+Wigolo, Reddit/Redlib, XERJ and native Claude/Codex connections. It uses a new
+installation directory and private profiles. See the [November 2 implementation
+and verification record](docs/DSH-COMPLETE-WINDOWS-2026-11-02.md) for passed
+isolated backend checks and the remaining fresh-PC acceptance limits. It is not
+yet a tagged public installer release. The earlier cloud-only release remains available below.
 
 ## Portable cloud-only installation
 
