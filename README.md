@@ -2,6 +2,8 @@
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. It is not a standalone DSH installer, and cloning it does not reproduce this machine's accounts, models or private runtime state.
 
+Both installed hosts now use rc.5 with retained Halo fixes. Desktop's [visible acceptance and preservation limits](docs/HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md) are recorded. Local Qwen retains Medium/32K settings; its Strata backend remains deliberately off.
+
 ## Portable cloud-only installation
 
 For a different machine, use the separate [portable cloud-only installer](stack/portable-cloud/README.md).
@@ -12,13 +14,13 @@ this machine's runtime state. See the [implementation and acceptance](docs/HALO-
 for actual Windows acceptance and cross-platform limits. Download the installer ZIP and instructions from
 [Halo v0.3.12](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.12).
 
-## Current setup - October 25, 2026
+## Current setup - November 3, 2026
 
 | Component | Current configuration / record |
 |---|---|
-| DSH Web | `0.2.1-rc.3`, loopback `http://127.0.0.1:3080` |
-| DSH Desktop | `0.2.1-rc.3`, separate preserved Desktop profile |
-| Default Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low**, maximum output **65,536 tokens** |
+| DSH Web | `0.2.1-rc.5`, loopback `http://127.0.0.1:3080` |
+| DSH Desktop | `0.2.1-rc.5`, separate preserved Desktop profile |
+| Retained Ollama cloud model, Web and Desktop | `deepseek-v4.1-flash:1017-cloud`, reasoning effort **Low**, maximum output **65,536 tokens** |
 | Local inference choices | Existing Gufo, LM Studio and local Ollama entries remain selectable; they are not the cloud default |
 | Other providers | Existing account-backed Claude and Codex choices are preserved; removing older Ollama cloud picker entries did not remove other providers |
 | Live-web research | Wigolo through the deployment's research integration |

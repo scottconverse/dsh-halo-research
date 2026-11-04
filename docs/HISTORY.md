@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Desktop rc.5 installation and visible acceptance (November 3)](HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md): official installer, six retained Halo repairs, optional dependency alignment, preserved goals, one visible cloud/tool check and explicit profile serialization limit.
+
 - [Web rc.5 upgrade and Desktop update check (November 3)](HALO-WEB-RC5-UPGRADE-2026-11-03.md): preserved SDK/settings/goals, exact-source patch compatibility, installed Web readiness, and pending Desktop update evidence.
 
 - [Web desktop shortcut repair (November 3)](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md): authenticated readiness, ownership-scoped shutdown, failure logging, preserved shortcuts and limited live recovery evidence.

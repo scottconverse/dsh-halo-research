@@ -1,0 +1,27 @@
+# DSH Desktop rc.5 update — November 3, 2026
+
+The idle Desktop installation was upgraded from 0.2.1-rc.3 to the official 0.2.1-rc.5 release candidate. The pending official installer passed its updater SHA512 check and Valid Authenticode verification (Hangzhou DeepSeek AI); the native silent installer exited zero. The installed executable also verifies Valid. Upstream release: https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-rc.5 .
+
+## Preserved deployment
+
+The old customized archive was compared byte-by-byte with the preserved pristine rc.3 archive. Exactly six archive files contained Halo customizations: chat and trajectory text-throughput reporting, session stats, and the core/SQLite/tool Windows workspace comparisons. All six exact-source repairs applied to rc.5. Comparing the final archive with pristine rc.5 confirms exactly this same six-file change set. Other bundled code is the official incoming code. Shared Halo plugins, triad fixes, presets, skills and existing goal state were not edited or resumed.
+
+All eight optional official Desktop profile dependencies were updated together to rc.5. Community commit pins, the local human command dependency, bundle ordering and the existing peer-install policy were retained. The checked-in profile mirror now also records the already-installed human goal-limit command, which was absent from the older mirror; this task did not install or invoke that command. The standalone profile's missing-peer report names services supplied by the Desktop host; every named peer was independently found in the installed archive at its expected version. The candidate profile installation and actual live-profile installation exited zero. The old archive, profile package/lock/workspace files and complete old profile node_modules remain in private recovery storage.
+
+## Actual verification
+
+The affected installed-archive Windows workspace check passed, including path comparison/authorization/SQLite coverage without normal model jobs. Archive identity, six-patch preservation, official peer versions, profile bundle ordering and unrelated dependency pins passed source checks.
+
+Desktop then launched normally against its existing home and rendered existing session history, community tabs, model picker and registered triad presets. One visible synthetic chat used the existing DeepSeek V4.1 Flash 1017 Ollama Cloud route at Low effort in Standard mode. It executed exactly one PowerShell tool call, `Write-Output "DSH-DESKTOP-RC5-OK"`, displayed Done and the expected output, replied with that marker, and completed. The UI reports one turn, two steps, completed in two seconds and approximately 40.7K total tokens. This was a chat/tool integration check, not a coding benchmark, triad run or validation of every optional external service. No further model calls or broad tests were run. Computer control was reset/released immediately afterward.
+
+The model picker saves a selection into the profile default even for this acceptance chat. Its temporary cloud selection was restored to the original observed Local Qwen/Medium selection, explicitly, with the existing 32,768-token cap retained. The initial post-install check matched all 119 captured settings/skill/goal files byte-for-byte. After the visible check and restoration, 118 files remain byte-identical; Desktop's profile has a restored explicit default-model block. The before snapshot retained only that file's hash, not its original full contents; exact original formatting/comment bytes could not be reconstructed. Do not describe the final profile as byte-identical. The restoration changes only the default-model block; all other final profile bytes match the captured post-UI file. Recovery retains both versions and this limitation.
+
+Strata has no live runtime processes and was never started. Local Qwen's saved picker/configuration is retained but its backend deliberately remains off after the commit-pressure incident. Web/Mission Control were not stopped or restarted by this task; authenticated Web HTML and application module still answered HTTP200 after Desktop acceptance. Other active work and production database recovery were not controlled.
+
+## Recovery and evidence
+
+Private records: `C:\Users\scott\Documents\Codex\2026-11-03\dsh-desktop-upgrade-rc5`. Important files are INSTALL-RESULT.json, SOURCE-VERIFICATION.json, ACCEPTANCE.json, PROFILE-DEFAULT-RESTORATION.json, UI-ACCEPTANCE.txt/JPG, preservation hashes, installation logs and the affected workspace check output. The screenshot/text include private history and are not published. Sanitized acceptance and source receipts accompany this report.
+
+For recovery, wait until Desktop is idle and normally quit it. Restore the old archive together with the before package/lock/workspace files and the old profile node_modules at its original location; moved Windows package links must not be executed from the backup directory. Do not overwrite current goals, sessions, credentials or unrelated settings. The new profile's native rc.5 package installation must remain paired with its rc.5 host. No rollback was executed.
+
+One accountable Codex agent performed this work; no subagents were started. No settings other than the explicitly restored default-model block were intentionally changed. Nothing is pending for this bounded Desktop update.

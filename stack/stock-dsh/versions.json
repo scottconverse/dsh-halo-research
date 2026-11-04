@@ -5,8 +5,8 @@
   "defaultModel": "deepseek-v4.1-flash:1017-cloud",
   "reasoningEffort": "low",
   "defaultWorkerModel": "qwen3.8:27b-q6_K",
-  "verifiedAt": "2026-11-04T04:24:53.2003913Z",
-  "sourceVerification": "Web only: installed rc.5 CLI, actual independent host, authenticated HTML/module HTTP200, Mission Control stream connected; 1583 settings/skills/goals/Desktop files unchanged. Desktop remains installed rc.3; signed rc.5 download pending. No live model inference for this upgrade.",
+  "verifiedAt": "2026-11-04T04:49:30.0525234Z",
+  "sourceVerification": "Web rc.5 authenticated HTML/module200. Desktop rc.5 official installation, original six Halo archive fixes retained, optional official dependencies aligned, visible DeepSeek1017 Low chat/PowerShell marker completed. Goals unchanged; Strata off. Desktop default-model block explicitly restored after UI save; final profile not byte-identical.",
   "previousDeployment": {
     "defaultWorkerModel": "halo-coder-q4km",
     "dshVersion": "0.1.6-alpha.1",
@@ -17,6 +17,6 @@
     "defaultModel": "halo-coder-q4km"
   },
   "dshSourceCommit": "b830ec950faba0a46dda564be3e2d854afed94f1",
-  "desktopVersion": "0.2.1-rc.3",
+  "desktopVersion": "0.2.1-rc.5",
   "legacyWorkerFieldNote": "defaultWorkerModel is retained historical metadata; it does not override per-task worker selection."
 }

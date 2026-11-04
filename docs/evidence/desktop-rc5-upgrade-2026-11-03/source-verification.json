@@ -1,0 +1,88 @@
+{
+  "version": "0.2.1-rc.5",
+  "archiveChangedFiles": [
+    "dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+    "dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-query-sqlite/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-stats/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js"
+  ],
+  "originalHaloFixSetPreserved": true,
+  "bundlesAndOtherDependenciesUnchanged": true,
+  "hostPeers": [
+    {
+      "name": "cordis",
+      "version": "4.0.5"
+    },
+    {
+      "name": "dsh-agent",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-system-prompt",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-tools",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-working-directory",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-mcp-client",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-scope",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-llm",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-fs",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-subprocess",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-timeout",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-session",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-subagent",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-session-projection",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-session-query",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-jobs",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-output-retention",
+      "version": "0.2.1-rc.5"
+    },
+    {
+      "name": "dsh-terminal",
+      "version": "0.2.1-rc.5"
+    }
+  ],
+  "archiveSHA256": "79f2a719b39dce4b1cd170bc0652dc05f2bb9117d372d0bdca96cddbbdb27b8d"
+}
