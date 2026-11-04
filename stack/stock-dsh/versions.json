@@ -1,22 +1,22 @@
 {
-  "dshVersion": "0.2.1-rc.3",
+  "dshVersion": "0.2.1-rc.5",
   "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
   "defaultProvider": "ollama",
   "defaultModel": "deepseek-v4.1-flash:1017-cloud",
   "reasoningEffort": "low",
   "defaultWorkerModel": "qwen3.8:27b-q6_K",
-  "verifiedAt": "2026-10-25T18:43:44.943Z",
-  "sourceVerification": "Installed rc.3 Web manifests and Desktop app.getVersion; native model_route, Wigolo/Redlib acceptance and unchanged profile/skill hashes. XERJ missing index disclosed in dated upgrade report.",
+  "verifiedAt": "2026-11-04T04:24:53.2003913Z",
+  "sourceVerification": "Web only: installed rc.5 CLI, actual independent host, authenticated HTML/module HTTP200, Mission Control stream connected; 1583 settings/skills/goals/Desktop files unchanged. Desktop remains installed rc.3; signed rc.5 download pending. No live model inference for this upgrade.",
   "previousDeployment": {
     "defaultWorkerModel": "halo-coder-q4km",
     "dshVersion": "0.1.6-alpha.1",
     "activeDshHome": "C:\\Users\\scott\\.dsh-stock",
     "dshSourceCommit": "0a15e36e7f82b6ed45af6fa9759f29b40dcd965d",
-    "deployedAt": "2026-09-15T19:59:24.247853+00:00",
+    "deployedAt": "2026-09-15T13:59:24.247853-06:00",
     "optionalPlannerModel": "halo-brain-35b",
     "defaultModel": "halo-coder-q4km"
   },
-  "dshSourceCommit": "1f81c047fc48fa190a683e469daa699857e9afe8",
+  "dshSourceCommit": "b830ec950faba0a46dda564be3e2d854afed94f1",
   "desktopVersion": "0.2.1-rc.3",
   "legacyWorkerFieldNote": "defaultWorkerModel is retained historical metadata; it does not override per-task worker selection."
 }

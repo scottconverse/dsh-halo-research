@@ -502,3 +502,7 @@ performed for publication. Private receipts and recovery files remain preserved.
 ## November 3, 2026 launcher correction
 
 See [HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md). Start verifies authenticated HTML and application JS; Stop is scoped to Web-owned processes and waits for the host task to end. Desktop and model settings are preserved. Local Qwen is deliberately stopped after confirmed system commit pressure; do not assume it is serving. Browser rendering acceptance remains unverified.
+
+## November 3, 2026 Web upgrade
+
+DSH Web now runs official latest 0.2.1-rc.5 with the existing pi-ai 1.0.2 pin and Halo fixes. Authenticated page/module200 and Mission Control connected; 1583 preservation hashes match. Desktop is still installed rc.3 with its signed rc.5 update pending; no running Desktop acceptance was performed. Local Qwen is intentionally off. See [HALO-WEB-RC5-UPGRADE-2026-11-03.md](HALO-WEB-RC5-UPGRADE-2026-11-03.md).

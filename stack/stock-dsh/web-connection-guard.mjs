@@ -31,7 +31,7 @@ export function ensureWebConnectionGuard(deployment) {
   const app=createRequire(cli.resolve('@deepseek-ai/dsh-web-app'));
   const manifest=app.resolve('@deepseek-ai/dsh-web-frontend/package.json');
   const version=JSON.parse(readFileSync(manifest,'utf8')).version;
-  if(version!=='0.2.1-rc.3')throw Error('Unreviewed frontend version '+version);
+  if(version!=='0.2.1-rc.5')throw Error('Unreviewed frontend version '+version);
   const target=join(dirname(manifest),'dist','index.html');
   const before=readFileSync(target,'utf8');
   const marker='<script data-halo-connection-guard>';

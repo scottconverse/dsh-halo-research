@@ -1,5 +1,7 @@
 # DSH Halo history
 
+- [Web rc.5 upgrade and Desktop update check (November 3)](HALO-WEB-RC5-UPGRADE-2026-11-03.md): preserved SDK/settings/goals, exact-source patch compatibility, installed Web readiness, and pending Desktop update evidence.
+
 - [Web desktop shortcut repair (November 3)](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md): authenticated readiness, ownership-scoped shutdown, failure logging, preserved shortcuts and limited live recovery evidence.
 
 - [Three-role recovery repair (October 29)](HALO-THREE-ROLE-REPAIR-2026-10-29.md): goal activation/readback, no-progress wait, open-finding checkpoints, independent review readiness, content-based source detection and committed Git identity. Canonical source deployed at idle; live module loading remains pending.

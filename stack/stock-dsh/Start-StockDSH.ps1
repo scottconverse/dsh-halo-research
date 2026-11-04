@@ -51,7 +51,7 @@ function Write-StackLog([string] $Message) {
 
 trap {
     $message = $_.Exception.Message -replace '(?i)(token=)[\w-]+', '$1[REDACTED]'
-    Add-Content -LiteralPath (Join-Path $logs 'stack-lifecycle.log') -Value "$(Get-Date -Format o) Startup error: $message"
+    Add-Content -LiteralPath (Join-Path $PSScriptRoot 'logs\stack-lifecycle.log') -Value "$(Get-Date -Format o) Startup error: $message"
     break
 }
 function Get-PortListeners([int] $Port) {
