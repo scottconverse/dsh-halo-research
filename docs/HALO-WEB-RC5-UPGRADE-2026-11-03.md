@@ -27,3 +27,5 @@ Scott reported pressing Desktop's update button. Inspection found a correctly si
 ## Recovery and records
 
 Private operational receipts: dsh-web-upgrade-rc5/CUTOVER-STATE.json, DESKTOP-CHECK.json, PRISTINE-REVIEW.json, PRESERVATION-before.json and PRESERVATION-after.json, install logs and affected-check logs. The rc.3 runtime tree must be restored only after Web is idle and stopped, together with rollback's package/lock/guard files; do not overwrite active sessions or profile data. The earlier desktop-shortcut originals remain in dsh-launcher-repair/before. This upgrade used one accountable Codex agent, no subagents or external model calls.
+
+Rollback layout note: the retained pnpm runtime contains links targeting its original canonical location. A read-only SDK lookup while the tree was relocated failed, as those original paths are absent from the new flat runtime. Do not execute the rollback tree in place or count that probe as a pass; restore it to the original node_modules path under idle shutdown before using it. The live runtime's SDK lookup and output-budget checks passed.
