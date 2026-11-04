@@ -498,3 +498,7 @@ published at https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.
 Existing Windows installation/relocation/native-preset evidence is reused. No
 rebuild, test, audit, model call, current-host restart or goal/settings edit was
 performed for publication. Private receipts and recovery files remain preserved.
+
+## November 3, 2026 launcher correction
+
+See [HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md). Start verifies authenticated HTML and application JS; Stop is scoped to Web-owned processes and waits for the host task to end. Desktop and model settings are preserved. Local Qwen is deliberately stopped after confirmed system commit pressure; do not assume it is serving. Browser rendering acceptance remains unverified.

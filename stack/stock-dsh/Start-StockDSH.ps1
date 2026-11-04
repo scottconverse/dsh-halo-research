@@ -49,6 +49,11 @@ function Write-StackLog([string] $Message) {
     Add-Content -LiteralPath (Join-Path $logs 'stack-lifecycle.log') -Value "$(Get-Date -Format o) $Message"
 }
 
+trap {
+    $message = $_.Exception.Message -replace '(?i)(token=)[\w-]+', '$1[REDACTED]'
+    Add-Content -LiteralPath (Join-Path $logs 'stack-lifecycle.log') -Value "$(Get-Date -Format o) Startup error: $message"
+    break
+}
 function Get-PortListeners([int] $Port) {
     return @(Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue)
 }

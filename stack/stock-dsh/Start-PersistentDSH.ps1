@@ -3,6 +3,7 @@ param([switch] $NoOpen, [switch] $KeepMissionControl)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 . (Join-Path $PSScriptRoot 'Process-Identity.ps1')
+. (Join-Path $PSScriptRoot 'Web-Readiness.ps1')
 $taskName = 'DSH Halo Web Host'
 $pwsh = 'C:\Program Files\PowerShell\7\pwsh.exe'
 $start = Join-Path $PSScriptRoot 'Start-StockDSH.ps1'
@@ -26,9 +27,9 @@ $deadline = [DateTime]::UtcNow.AddSeconds(150)
 $healthy = $false
 while ([DateTime]::UtcNow -lt $deadline) {
     try {
-        $web = Invoke-WebRequest 'http://127.0.0.1:3080/' -UseBasicParsing -SkipHttpErrorCheck -TimeoutSec 3
-        $mc = Invoke-RestMethod 'http://127.0.0.1:3090/api/status' -TimeoutSec 10
-        if ($web.StatusCode -in @(200, 401) -and $mc.build.sourceFile -and $mc.build.sourceSha256) {
+        $web = Get-DshWebReadiness
+        $mc = Invoke-RestMethod 'http://127.0.0.1:3090/api/status' -NoProxy -TimeoutSec 10
+        if ($web.PageStatus -eq 200 -and $web.AssetStatus -eq 200 -and $mc.build.sourceFile -and $mc.build.sourceSha256) {
             $node = 'C:\Program Files\nodejs\node.exe'
             $mcPath = Join-Path $env:USERPROFILE '.dsh-stock\mission-control\mission-control.mjs'
             foreach ($port in @(3080,3090)) {
@@ -46,6 +47,6 @@ while ([DateTime]::UtcNow -lt $deadline) {
     }
     Start-Sleep -Milliseconds 500
 }
-if (-not $healthy) { throw 'DSH host did not become healthy. Inspect the preserved startup logs; no automatic retry was made.' }
+if (-not $healthy) { throw 'DSH Web did not return its authenticated page and application script. Startup logs are preserved. No process was restarted. If you intend to end Web work, use Stop DSH + Wigolo, wait for shutdown, then Start DSH Web.' }
 if (-not $NoOpen) { Start-Process 'C:\Program Files\Google\Chrome\Application\chrome.exe' -ArgumentList '--new-window','http://127.0.0.1:3090/' -WindowStyle Normal | Out-Null }
 Write-Output 'DSH Web and Mission Control ready under the independent, limited user task.'

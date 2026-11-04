@@ -28,12 +28,6 @@ function Wait-PortClosed([int] $Port, [int] $TimeoutSeconds = 10) {
     throw "A listener remains on port $Port after waiting $TimeoutSeconds seconds. Inspect its owner before stopping it."
 }
 
-function Get-ExactWigoloProcesses {
-    return @(Get-CimInstance Win32_Process | Where-Object {
-        Test-ExactProcessCommand $_ $node @($wigoloEntry, 'mcp')
-    })
-}
-
 # Identify and validate the actual listener owner before stopping any process.
 $dshListeners = @(Get-NetTCPConnection -State Listen -LocalPort 3080 -ErrorAction SilentlyContinue)
 $dshProcesses = [Collections.Generic.List[object]]::new()
@@ -76,14 +70,22 @@ foreach ($candidate in $verifiedWigolo) {
 
 Wait-PortClosed 3080
 
-# A DSH crash can orphan its stdio child. After the listener is gone, stop only
-# the one exact node + absolute Wigolo entry + `mcp` argv shape.
-foreach ($candidate in @(Get-ExactWigoloProcesses)) {
-    if (Stop-IdentityCheckedProcess $candidate 'orphaned Wigolo MCP') {
-        Write-StopLog "Stopped exact orphaned Wigolo MCP process (PID $($candidate.ProcessId))."
-    }
-}
+# Do not sweep up same-command Wigolo processes: Desktop or another owner may
+# legitimately use them. Only the descendants captured above belong to Web.
 
 Wait-PortClosed 3090
 
-Write-Output 'Mission Control, DSH, and Wigolo stopped. LM Studio and its loaded models remain running.'
+# The persistent host observes both exits and ends on its own. Do not return
+# while an immediate Start click could mistake that old task for a live host.
+$deadline = [DateTime]::UtcNow.AddSeconds(15)
+while ([DateTime]::UtcNow -lt $deadline) {
+    $task = Get-ScheduledTask -TaskName 'DSH Halo Web Host' -ErrorAction SilentlyContinue
+    if (-not $task -or $task.State -ne 'Running') { break }
+    Start-Sleep -Milliseconds 250
+}
+if ($task -and $task.State -eq 'Running') {
+    throw 'Web listeners stopped, but the persistent host task is still ending. Wait before starting Web again; no task was forcibly stopped.'
+}
+
+Write-StopLog 'Web shutdown complete; persistent host task is idle. Other hosts and model servers were not stopped.'
+Write-Output 'Mission Control, DSH Web, and verified Web-owned Wigolo stopped. Desktop and model servers were left alone.'
