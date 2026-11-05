@@ -1,3 +1,14 @@
+## November 5, 2026 - Shared knowledge library
+
+Web and Desktop now have knowledge-ingest and knowledge-query in their existing
+native skill roots. Both use `C:/Users/scott/Documents/DSH Knowledge Library`.
+No existing notes/receipts were imported or changed. Profiles, models/defaults,
+goal state and all pre-existing skills remain byte-identical (119 captured files).
+No extra agents, automation, services, model calls, host restarts or Strata startup.
+Native-provider discovery/loading for both installed configurations and one public
+source ingestion/read-only retrieval passed; no live chat quality claim is made.
+Usage, preservation, concurrency limits and recovery: [HALO-DSH-IMPLEMENTATION-2026-11-05-KNOWLEDGE.md](HALO-DSH-IMPLEMENTATION-2026-11-05-KNOWLEDGE.md).
+
 ## November 3, 2026 — Web and Desktop rc.5
 
 Both installed DSH hosts now use upstream 0.2.1-rc.5. Desktop's idle installation, optional official profile dependencies and the same six existing Halo archive repairs are complete. Its visible one-turn cloud chat and PowerShell tool check passed. Existing goals and shared triad source were preserved; no triad was restarted. Local Qwen retains Medium/32K configuration, while Strata deliberately remains off. Desktop's temporary acceptance model selection was restored explicitly; 118 captured files are byte-identical, with one profile default-model serialization difference disclosed in the report. See [Desktop upgrade and receipts](HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md) and [Web upgrade](HALO-WEB-RC5-UPGRADE-2026-11-03.md). Earlier dated snapshots below remain historical.
