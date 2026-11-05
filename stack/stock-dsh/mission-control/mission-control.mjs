@@ -17,6 +17,11 @@ import { zstdDecompressSync } from 'node:zlib';
 
 const execFileP = promisify(execFile);
 const PORT = 3090;
+// The complete installer owns a private Ollama endpoint. Legacy Halo defaults
+// remain unchanged; never inspect or control another installation's LM Studio.
+const OLLAMA_ORIGIN = process.env.DSH_MC_OLLAMA_ORIGIN || 'http://127.0.0.1:11434';
+const OLLAMA_ONLY = process.env.DSH_MC_OLLAMA_ONLY === '1';
+if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(OLLAMA_ORIGIN)) throw Error('Expected loopback Ollama origin');
 const SOURCE_FILE = fileURLToPath(import.meta.url);
 const BUILD_SHA256 = crypto.createHash('sha256').update(fs.readFileSync(SOURCE_FILE)).digest('hex').toUpperCase();
 
@@ -50,6 +55,7 @@ function resolveExe(name, fixedDir) {
 // see "safe subprocess execution — resolved" further down.
 // Run a fixed executable with an argv array and NO shell. Returns {stdout}.
 function safeExecFile(which, args, opts = {}) {
+  if (OLLAMA_ONLY && which === 'lms') return Promise.reject(new Error('LM Studio is disabled in this Ollama installation'));
   const exe = EXE[which];
   if (!exe) return Promise.reject(new Error(`required executable is unavailable: ${which}`));
   const { env, ...rest } = opts;
@@ -57,6 +63,7 @@ function safeExecFile(which, args, opts = {}) {
 }
 // Fire-and-forget variant (replaces detached spawn(..., {shell:true})).
 function safeSpawn(which, args, opts = {}) {
+  if (OLLAMA_ONLY && which === 'lms') throw Error('LM Studio is disabled in this Ollama installation');
   const exe = EXE[which];
   if (!exe) throw new Error(`required executable is unavailable: ${which}`);
   const { env, ...rest } = opts;
@@ -176,7 +183,7 @@ function installedDshVersion() {
   } catch { return 'unknown'; }
 }
 const DSH_ORIGIN = 'http://127.0.0.1:3080';
-const DSH_STDOUT_LOG = path.join(DSH_ROOT, 'logs', 'dsh.stdout.log');
+const DSH_STDOUT_LOG = process.env.DSH_MC_STDOUT_LOG || path.join(DSH_ROOT, 'logs', 'dsh.stdout.log');
 // Capture launch authority exactly once, then remove it from the process-wide
 // environment before any child can inherit it. A later DSH restart is learned
 // from its protected stdout log, never by repopulating process.env.
@@ -184,11 +191,14 @@ const CAPTURED_DSH_LAUNCH_URL = validDshLaunchUrl(process.env.HALO_DSH_LAUNCH_UR
 delete process.env.HALO_DSH_LAUNCH_URL;
 // Resolved executables (needs HOME above). safeExecFile/safeSpawn read this.
 const DSH_BIN = path.join(DSH_ROOT, 'node_modules', '@deepseek-ai', 'dsh', 'lib', 'bin.js');
-const POWERSHELL_EXE = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
+const POWERSHELL_EXE = OLLAMA_ONLY && process.env.DSH_COMPLETE_PWSH
+  ? process.env.DSH_COMPLETE_PWSH
+  : path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
 const CHROME_EXE = [
   path.join(process.env.PROGRAMFILES || 'C:\\Program Files', 'Google', 'Chrome', 'Application', 'chrome.exe'),
   path.join(process.env['PROGRAMFILES(X86)'] || 'C:\\Program Files (x86)', 'Google', 'Chrome', 'Application', 'chrome.exe'),
   path.join(process.env.LOCALAPPDATA || path.join(HOME, 'AppData', 'Local'), 'Google', 'Chrome', 'Application', 'chrome.exe'),
+  ...(OLLAMA_ONLY ? [path.join(process.env['PROGRAMFILES(X86)'] || 'C:\\Program Files (x86)', 'Microsoft', 'Edge', 'Application', 'msedge.exe')] : []),
 ].find(candidate => fs.existsSync(candidate)) || null;
 const EXE = {
   lms: resolveExe('lms', path.join(HOME, '.lmstudio', 'bin')),
@@ -208,7 +218,7 @@ const STALL_MS = 10 * 60 * 1000;
 // and true VRAM on discrete cards). Fallback for APUs where that key is
 // absent: unified-total minus what Windows sees. Neither → carveout unknown,
 // and the UI says so instead of inventing a number.
-const MACHINE_TOTAL_RAM = 128 * 1024 * 1024 * 1024; // HALO fallback hint only
+const MACHINE_TOTAL_RAM = OLLAMA_ONLY ? os.totalmem() : 128 * 1024 * 1024 * 1024; // HALO fallback hint only
 const vramCap = { at: 0, bytes: null };
 async function vramCapacityBytes() {
   if (vramCap.at) return vramCap.bytes;
@@ -954,7 +964,7 @@ function currentDshLaunchUrl() {
 async function openDshInChrome() {
   const launchUrl = currentDshLaunchUrl();
   if (!launchUrl) throw new Error('DSH has no current authenticated launch URL');
-  if (!CHROME_EXE) throw new Error('Google Chrome is not installed in a supported Windows location');
+  if (!CHROME_EXE) throw new Error(OLLAMA_ONLY ? 'Chrome or Microsoft Edge was not found in a supported Windows location' : 'Google Chrome is not installed in a supported Windows location');
   // The token is authority: pass it only as a child-process argv value. It is
   // never returned to the Mission Control browser, persisted, or logged.
   await safeSpawnStarted('chrome', ['--new-tab', launchUrl.toString()], {
@@ -1708,14 +1718,14 @@ function entryInstanceSuffix(entryId) {
 
 async function ollamaResidents() {
   try {
-    const response = await fetch('http://127.0.0.1:11434/api/ps', { signal: AbortSignal.timeout(4000) });
+    const response = await fetch(`${OLLAMA_ORIGIN}/api/ps`, { signal: AbortSignal.timeout(4000) });
     if (!response.ok) throw new Error('Ollama HTTP ' + response.status);
     const body = await response.json();
     if (!Array.isArray(body.models)) throw new Error('Ollama returned no model inventory');
     // Local Ollama can proxy remote models; /ps alone cannot establish locality.
     let remoteModels = [], remoteMetadataError = null;
     try {
-      const tags = await fetch('http://127.0.0.1:11434/api/tags', { signal: AbortSignal.timeout(4000) });
+      const tags = await fetch(`${OLLAMA_ORIGIN}/api/tags`, { signal: AbortSignal.timeout(4000) });
       if (!tags.ok) throw new Error('Ollama tags HTTP ' + tags.status);
       const inventory = await tags.json();
       remoteModels = (inventory.models || []).filter(m => m.remote_host).map(m => ({ name: m.name || m.model }));
@@ -2059,7 +2069,7 @@ function configuredRouteData() {
   try {
     const raw = fs.readFileSync(PROFILE_FILE, 'utf8');
     const route = parseAgentDefaultRoute(raw);
-    return { ...route, ...profileProviderTransport(raw, route.provider) };
+    return { ...route, ...profileProviderTransport(raw, route.provider, OLLAMA_ORIGIN) };
   }
   catch (error) {
     return {
@@ -2159,7 +2169,7 @@ async function catalog() {
 
 async function status() {
   const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus, snapshotTask, ollama] = await Promise.all([
-    tcpCheck(3080), tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(), ollamaResidents(),
+    tcpCheck(3080), OLLAMA_ONLY ? Promise.resolve(false) : tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(), ollamaResidents(),
   ]);
   // Today totals and context selection need the complete session inventory,
   // not whichever 50 happen to sort first. The UI still renders a short slice.
@@ -2371,7 +2381,7 @@ const ACTIONS = {
   // gauntlet Eng-minor: this was the ONE action still calling raw spawn() with a
   // bare executable name, bypassing the PATH-resolution hardening every sibling
   // uses -- a poisoned PATH entry named powershell.exe would have been launched.
-  'start-cockpit': () => safeSpawnStarted('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH, '-NoOpen', '-KeepMissionControl'], { detached: true, stdio: 'ignore', windowsHide: true }),
+  'start-cockpit': () => safeSpawnStarted('powershell', ['-NoProfile', ...(OLLAMA_ONLY ? [] : ['-ExecutionPolicy', 'Bypass']), '-WindowStyle', 'Hidden', '-File', START_DSH, '-NoOpen', '-KeepMissionControl'], { detached: true, stdio: 'ignore', windowsHide: true }),
   'open-dsh': () => openDshInChrome(),
   'load-q5': () => runLmsMutation(['load', DAILY_BRAIN.modelKey, '--identifier', DAILY_BRAIN.identifier, '--gpu', 'max', '--context-length', String(DAILY_BRAIN.context), '--parallel', String(DAILY_BRAIN.parallel), '--no-speculative-draft-mtp', '-y'], DAILY_BRAIN.identifier, true, 10 * 60 * 1000),
   'load-worker': () => runLmsMutation(['load', DAILY_WORKER.modelKey, '--identifier', DAILY_WORKER.identifier, '--gpu', 'max', '--context-length', String(DAILY_WORKER.context), '--parallel', String(DAILY_WORKER.parallel), '--no-speculative-draft-mtp', '-y'], DAILY_WORKER.identifier, true, 10 * 60 * 1000),
@@ -3103,7 +3113,7 @@ function renderOverview(s){
   var svcRows=[
     ['Cockpit (:3080)',s.services.cockpit],
     ['LM Studio API (:1234)',s.services.lmstudio],
-    ['Ollama API (:11434)',s.ollama&&s.ollama.ok],
+    ['Ollama API',s.ollama&&s.ollama.ok],
     ['lms CLI',s.services.lmsCli],
   ];
   document.getElementById('ov-services').innerHTML=svcRows.map(function(r){
@@ -4479,7 +4489,7 @@ function profileLines(raw) {
   return rows;
 }
 
-function profileProviderTransport(raw, provider) {
+function profileProviderTransport(raw, provider, ollamaOrigin = 'http://127.0.0.1:11434') {
   const rows = profileLines(raw);
   const significant = row => row.text.trim() && !row.text.trimStart().startsWith('#');
   const indent = row => row.text.match(/^ */)?.[0].length || 0;
@@ -4500,7 +4510,7 @@ function profileProviderTransport(raw, provider) {
       && parsed.port === '1234';
   } catch { /* absent or invalid transport is never assumed local */ }
   let runtime = null;
-  try { const url = new URL(baseURL); if (['127.0.0.1', 'localhost'].includes(url.hostname)) runtime = url.port === '11434' ? 'ollama' : url.port === '1234' ? 'lmstudio' : null; } catch {}
+  try { const url = new URL(baseURL); if (['127.0.0.1', 'localhost'].includes(url.hostname)) runtime = url.port === '11434' || url.origin === ollamaOrigin ? 'ollama' : url.port === '1234' ? 'lmstudio' : null; } catch {}
   return { providerBaseURL: baseURL, localModelProvider: localModelProvider || runtime === 'ollama', runtime };
 }
 
