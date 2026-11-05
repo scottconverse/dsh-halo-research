@@ -1,3 +1,5 @@
+- [Installed configuration/source sync and cross-machine recovery](HALO-DSH-IMPLEMENTATION-2026-11-05-CONFIG-SYNC.md): rc.5 mirrors, exact archive repairs, portable-source pins and library, preserved live state and immutable older ZIPs.
+
 <!-- Shared knowledge library 2026-11-05 -->
 - [Shared knowledge library for Web and Desktop](HALO-DSH-IMPLEMENTATION-2026-11-05-KNOWLEDGE.md): two native skills,
   source-linked Markdown, unchanged settings/goals/notes, native-provider acceptance,

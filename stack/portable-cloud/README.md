@@ -1,5 +1,14 @@
 # Portable cloud-only DSH
 
+**Source revision November 5:** installer source 0.1.1 pins DSH rc.5 and adds
+an empty private shared knowledge library with ingest/query skills. These are
+source changes, not a replacement for the immutable previously published ZIP.
+The v0.3.12 cloud ZIP / v0.3.13 complete ZIP contain the earlier 0.1.0/rc.3
+inputs and do NOT gain rc.5 by downloading them again. For current source builds
+and the exact evidence limits see [Install and recover](../../docs/INSTALL-AND-RECOVER.md).
+No fresh-PC installation or model-quality acceptance is claimed for 0.1.1.
+
+
 A separate DSH Web installation using the existing DeepSeek cloud settings and
 the released three-role fixes. It does not install into, edit or restart an
 existing DSH installation. There are no Halo paths, GPU checks, local model
@@ -10,7 +19,7 @@ DeepSeek cloud selection.
 ## Requirements
 
 - Node.js 24 or newer, including npm. Installation downloads the pinned DSH
-  0.2.1-rc.3 dependencies using the included npm lockfile.
+  0.2.1-rc.5 dependencies using the included npm lockfile.
 - Ollama installed and running on the destination machine, signed in to an
   account authorized for `deepseek-v4.1-flash:1017-cloud`. Register that cloud
   model with Ollama if needed. Cloud availability and account limits are owned

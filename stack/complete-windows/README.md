@@ -1,4 +1,13 @@
-# Complete DSH for Windows — installer 0.1.0
+# Complete DSH for Windows — installer source 0.1.1
+
+**Source revision November 5:** installer source 0.1.1 pins DSH rc.5 and adds
+an empty private shared knowledge library with ingest/query skills. These are
+source changes, not a replacement for the immutable previously published ZIP.
+The v0.3.12 cloud ZIP / v0.3.13 complete ZIP contain the earlier 0.1.0/rc.3
+inputs and do NOT gain rc.5 by downloading them again. For current source builds
+and the exact evidence limits see [Install and recover](../../docs/INSTALL-AND-RECOVER.md).
+No fresh-PC installation or model-quality acceptance is claimed for 0.1.1.
+
 
 One guided online setup for Windows x64: DSH Web and the actual Electron App,
 the released triad fixes, Mission Control, private Ollama, Qwen model choices,

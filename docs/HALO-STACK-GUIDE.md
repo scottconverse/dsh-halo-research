@@ -1,3 +1,15 @@
+## November 5, 2026 — current configuration/reference sync
+
+Repository profile mirrors now match installed Web/Desktop rc.5 configuration,
+including Local Qwen Medium/131072context/32768output (Strata remains off),
+Desktop root/launcher/dependencies and exact six-file archive recovery source.
+Portable installer source0.1.1 pins rc.5 and creates the shared knowledge library;
+older published ZIPs remain unchanged. Mission Control's deployed variant is
+retained separately from newer portable source. No runtime/settings/goals changed.
+See [install/recovery guide](INSTALL-AND-RECOVER.md) and
+[implementation/evidence](HALO-DSH-IMPLEMENTATION-2026-11-05-CONFIG-SYNC.md).
+Older dated sections below are historical, not current replacement instructions.
+
 ## November 5, 2026 - Shared knowledge library
 
 Web and Desktop now have knowledge-ingest and knowledge-query in their existing

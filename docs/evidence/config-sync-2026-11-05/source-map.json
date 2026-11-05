@@ -1,0 +1,130 @@
+{
+  "capturedUtc": "2026-11-05T19:43:56.613845+00:00",
+  "scope": "Public safe configuration/source mirrors, not private host backups",
+  "files": [
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/stock-dsh/web-profile/cordis.patch.yml",
+      "sourceSha256": "3fcdd183cceccb599f2835f8682d9521d56aaf40cfa617df63627cd34179982e",
+      "exportSha256": "211b6ab32c8c899a926167362ac573ba5c8cc19846801fdacc71ed7b3c1d99cb",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/stock-dsh/web-profile/cordis.yml",
+      "sourceSha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "exportSha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/stock-dsh/web-profile/package.json",
+      "sourceSha256": "84c86aeb7fca342278e9c6306ae14b112f3267b44fbf95e1110b17747e79d048",
+      "exportSha256": "84c86aeb7fca342278e9c6306ae14b112f3267b44fbf95e1110b17747e79d048",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/stock-dsh/web-profile/pnpm-lock.yaml",
+      "sourceSha256": "3e9823f6fa614fa5db245abf3c24c441eb8987ca47f0474833011398dfa7abb4",
+      "exportSha256": "3e9823f6fa614fa5db245abf3c24c441eb8987ca47f0474833011398dfa7abb4",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/stock-dsh/web-profile/pnpm-workspace.yaml",
+      "sourceSha256": "cd48930ba1bda5fa0f7c938037d469ddf54d9b33d6f864b72a82f8c5e9c3bf2d",
+      "exportSha256": "cd48930ba1bda5fa0f7c938037d469ddf54d9b33d6f864b72a82f8c5e9c3bf2d",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/home.cordis.patch.yml",
+      "sourceSha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+      "exportSha256": "7a9c785da65c542a2dc181b8dc093c31959404aeffbf65a9eac296b50cacffa2",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/cordis.patch.yml",
+      "sourceSha256": "36245ce42ab640a908019d97e8c0777667ca178d91db62943ec5cd13a6bc7383",
+      "exportSha256": "6971aeca8e07ef0539b8dd41f365a17da991293943bfe92ca1b1f09a9b59e0fc",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/desktop-profile.cordis.yml",
+      "sourceSha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "exportSha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/desktop-profile.package.json",
+      "sourceSha256": "7a4c375f335f414893850d728cdd6f2fcde093cc4884ddc46cf0d562a48bd085",
+      "exportSha256": "acb2323aae004493447f47014b9d28f269c109dc80fead5cd8e972381b5cde67",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/desktop-profile.pnpm-lock.yaml",
+      "sourceSha256": "5ada060888960b6602db9d32b02fb67b78f62cb3eed1cc8caae40277ed1c4a88",
+      "exportSha256": "5ada060888960b6602db9d32b02fb67b78f62cb3eed1cc8caae40277ed1c4a88",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "profile/dependency mirror",
+      "destination": "stack/desktop-tuning/desktop-profile.pnpm-workspace.yaml",
+      "sourceSha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "exportSha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "transformation": "UTF-8/LF normalization only; no literal credentials found"
+    },
+    {
+      "kind": "deployed variant",
+      "destination": "stack/deployment-reference/halo-2026-11-05/mission-control/mission-control.mjs",
+      "sourceSha256": "438536b40a0357038ffd606696fabcfd8b4e4fc7504808aa38199c0b547deaa5",
+      "note": "Canonical stack/stock-dsh/mission-control keeps newer portable Ollama isolation changes.",
+      "exportSha256": "438536b40a0357038ffd606696fabcfd8b4e4fc7504808aa38199c0b547deaa5"
+    },
+    {
+      "kind": "deployed helper",
+      "destination": "stack/deployment-reference/halo-2026-11-05/desktop/plugins/qwen27-sampling/index.mjs",
+      "sourceSha256": "302ca9d0c81c65e9bc3c3468678bc68f5e9915f6ab9a0f4dd77d02e600a1b4db",
+      "exportSha256": "302ca9d0c81c65e9bc3c3468678bc68f5e9915f6ab9a0f4dd77d02e600a1b4db"
+    },
+    {
+      "kind": "deployed helper",
+      "destination": "stack/deployment-reference/halo-2026-11-05/web/plugins/qwen27-sampling/index.mjs",
+      "sourceSha256": "ef7d51715796ddd51b3c0f8cfe8875a2bb727f8e5eb7a46a0cbf135bb9a77b9b",
+      "exportSha256": "5bd0266abba22c2e15a5f3c42b9ecabc36c5daa41a4e054ae74280bbb097d1b0"
+    },
+    {
+      "kind": "deployed helper",
+      "destination": "stack/desktop-tuning/Launch-DeepSeek-Harness-Evaluation.vbs",
+      "sourceSha256": "f7882ebc12ff6d4d8d7cccf02d6901b5401b71363dde19cad7b96a897adbc5e2",
+      "exportSha256": "f7882ebc12ff6d4d8d7cccf02d6901b5401b71363dde19cad7b96a897adbc5e2"
+    },
+    {
+      "kind": "owner-only source reference",
+      "destination": "stack/desktop-tuning/owner-goal-limit-command",
+      "transformation": "Private goal identity replaced by inert placeholder. Not installed by portable setup and not a new goal-limit authorization."
+    },
+    {
+      "kind": "exact installed archive patch recovery",
+      "destination": "stack/desktop-tuning/rc5-halo-patches/patches.json",
+      "verifiedFileCount": 6,
+      "verification": "Each edit reconstructed the actual installed entry byte-for-byte from official rc.5 source; app not changed.",
+      "exportSha256": "1b3c5005ef09cefe764a25db462b578ea6ce67302837fa7e5e63176bb3ff6b0f"
+    }
+  ],
+  "exclusions": [
+    "credentials and environment values",
+    "session/goal/ledger state",
+    "Mission Control logs/history/backups",
+    "private library and original evidence",
+    "model weights and caches",
+    "optional user-global/personal skills; install separately from maintained sources"
+  ],
+  "runtimeChanges": 0,
+  "modelCalls": 0
+}

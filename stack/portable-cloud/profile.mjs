@@ -30,6 +30,8 @@ export function profile(root, port) {
         { id: 'search', name: '@deepseek-ai/dsh-tool-fs-search', config: { sampleOverCapGlobResults: false } },
         { id: 'shell', name: process.platform === 'win32' ? '@deepseek-ai/dsh-tool-pwsh' : '@deepseek-ai/dsh-tool-bash' },
         { id: 'jobs', name: '@deepseek-ai/dsh-tool-jobs' },
+        { id: 'skill-filesystem', name: '@deepseek-ai/dsh-skill-filesystem', config: { customSkillDirs: [join(root, 'home/skills')] } },
+        { id: 'tool-skill', name: '@deepseek-ai/dsh-tool-skill' },
         compaction,
       ] } },
       { id: 'portable-native-goal', name: '@deepseek-ai/dsh-command-goal' },

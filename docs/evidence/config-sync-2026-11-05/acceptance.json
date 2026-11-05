@@ -1,0 +1,49 @@
+{
+  "verifiedUtc": "2026-11-05T19:52:37.034Z",
+  "kind": "bounded source synchronization checks",
+  "knowledge": {
+    "files": 11,
+    "pathRendering": true,
+    "existingLibraryRefused": true,
+    "privateCorpusCopied": false
+  },
+  "archive": {
+    "files": 6,
+    "planOnly": true,
+    "sourceHashGuards": true,
+    "alreadyPatchedIdempotent": true
+  },
+  "yamlDocumentsParsed": 5,
+  "lockResults": [
+    {
+      "name": "portable-cloud",
+      "version": "0.1.1",
+      "dshPackages": 296,
+      "runtimeVersion": "0.2.1-rc.5"
+    },
+    {
+      "name": "complete-windows",
+      "version": "0.1.1",
+      "dshPackages": 298,
+      "runtimeVersion": "0.2.1-rc.5"
+    }
+  ],
+  "protectedFilesUnchanged": 106,
+  "hostRestarts": 0,
+  "modelCalls": 0,
+  "subagents": 0,
+  "limitations": [
+    "No fresh-PC install or new live-host/model acceptance",
+    "Existing installed rc.5 and triad evidence reused",
+    "Published installer ZIPs are unchanged older releases"
+  ],
+  "affectedInstallerProfileBundleTests": 3,
+  "knowledgeRenderAndCloudBundleTests": 2,
+  "literalCredentialScanFiles": 40,
+  "yamlParsingLimit": "Native !!js expressions retained as custom tags, not executed by structural parse",
+  "desktopExtraction": {
+    "actualRc5DownloadWrapper": "NSIS with $PLUGINSDIR/app-64.7z (read-only listing)",
+    "fixtureChecks": "wrapped, direct and missing executable passed",
+    "installerExecuted": false
+  }
+}

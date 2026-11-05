@@ -14,13 +14,14 @@ export function build(output) {
   add(path.join(stack, 'portable-cloud/profile.mjs'), 'stack/portable-cloud/profile.mjs');
   for (const name of ['index.mjs', 'core.mjs', 'no-progress-guard.mjs', 'project-fingerprint.mjs', 'package.json', 'skills/staff-engineer/SKILL.md', 'skills/triad-auditor/SKILL.md', 'skills/triad-coordinator/SKILL.md']) add(path.join(stack, 'three-role', name), `stack/three-role/${name}`);
   for (const relative of ['stock-dsh/compaction-text-only.mjs', 'stock-dsh/mission-control/mission-control.mjs', 'stock-dsh/fast-first-preset/research-fallback.mjs', 'desktop-tuning/research-tool-hook.mjs']) add(path.join(stack, relative), `stack/${relative}`);
+  for (const relative of ["shared-knowledge/install.mjs", "stock-dsh/skills/knowledge-ingest/SKILL.md", "stock-dsh/skills/knowledge-query/SKILL.md", "stock-dsh/knowledge-library-template/README.md", "stock-dsh/knowledge-library-template/LIBRARY-RULES.md", "stock-dsh/knowledge-library-template/raw/.gitkeep", "stock-dsh/knowledge-library-template/wiki/index.md", "stock-dsh/knowledge-library-template/wiki/log.md", "stock-dsh/knowledge-library-template/wiki/sources/.gitkeep", "stock-dsh/knowledge-library-template/wiki/concepts/.gitkeep", "stock-dsh/knowledge-library-template/wiki/entities/.gitkeep", "stock-dsh/knowledge-library-template/wiki/synthesis/.gitkeep"]) add(path.join(stack,relative), `stack/${relative}`);
   // Resolve/hash every explicit public input before creating anything. Never
   // recurse over a home, installation, cache, credential or private corpus.
   fs.mkdirSync(output, { recursive: true });
   for (const entry of entries) {
     const target = inside(output, entry.path); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(entry.from, target);
   }
-  fs.writeFileSync(path.join(output, 'bundle.json'), JSON.stringify({ version: '0.1.0', files: entries.map(({ path, sha256 }) => ({ path, sha256 })) }, null, 2));
+  fs.writeFileSync(path.join(output, 'bundle.json'), JSON.stringify({ version: '0.1.1', files: entries.map(({ path, sha256 }) => ({ path, sha256 })) }, null, 2));
   return { output, files: entries.length };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

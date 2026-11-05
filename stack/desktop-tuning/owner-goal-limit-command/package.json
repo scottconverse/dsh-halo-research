@@ -1,0 +1,11 @@
+{
+  "name": "scott-verdict-goal-limit-command",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Human-command repair for Scott's existing Verdict goal: raise its round cap to 512 and resume without replacing evidence or identity.",
+  "main": "index.mjs",
+  "exports": { ".": "./index.mjs", "./cordis.patch.yml": "./cordis.patch.yml", "./package.json": "./package.json" },
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } },
+  "scripts": { "test": "node --test test.mjs" }
+}
