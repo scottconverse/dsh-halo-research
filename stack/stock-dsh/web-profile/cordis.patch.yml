@@ -55,6 +55,19 @@
   name: "@deepseek-ai/dsh-llm-pi-ai"
   config:
     providers:
+      strata-local:
+        displayName: Strata Local
+        reasoning: medium
+        apiKeyEnv: STRATA_LOCAL_API_KEY
+        api: openai-completions
+        baseURL: http://127.0.0.1:8081/v1
+        models:
+          - id: "qwen3.8-flash-next-iq3_s"
+            name: Local Qwen
+            contextWindow: 131072
+            maxTokens: 32768
+            input: [ text, image ]
+            reasoningEfforts: { xhigh: xhigh, medium: medium }
       gufo:
         displayName: Gufo Windows ROCm
         apiKeyEnv: LMSTUDIO_API_KEY
@@ -267,7 +280,6 @@
           - text
         defaultContextWindow: 32768
         defaultMaxTokens: 8192
-        timeoutMs: 600000
         streamIdleTimeoutMs: 600000
         models:
           - id: qwen3-coder:30b-a3b-q4_K_M
@@ -357,7 +369,7 @@
 - id: ui-settings-general
   name: "@deepseek-ai/dsh-client-ui-settings-general"
   config:
-    welcomeNoticeVersion: 2026-08-13.1
+    welcomeNoticeVersion: 2026-09-28.1
 
 # BEGIN Halo 0.2 registered presets
 - id: agent-preset-registry
@@ -378,28 +390,31 @@
             name: '@deepseek-ai/dsh-persona'
             config:
               prefix: >-
-                You are a coding agent powered by {{model}}. Read project instructions,
-                inspect relevant code, implement the requested change, and run focused
-                verification. The default worker uses the same Ollama Qwen 27B route
-                as the main agent, without loading a second model. Other models remain
-                available through explicit model selection. Delegate
-                once to that configured route only after an observed persistent failed
-                check, incomplete implementation, or repeated tool errors. Send the
-                factual failure and independently verify its result. Supervise with
-                list_agents, messaging, and session history/trace tools. Use stock
-                web_search and web_fetch first for routine research. A missing-provider
-                or authentication error, empty body, navigation-only page, truncated
-                response missing the requested evidence, or JavaScript shell counts as
-                unusable content even with HTTP 200. After one such result, load
-                desktop-optional-tools and try the Wigolo CLI before repeating stock
-                fetches. Never infer a paywall from truncation alone. For explicit
-                Reddit requests, practitioner experience, product opinions,
-                troubleshooting, community consensus, or local community signals, load
-                reddit-search before searching Reddit and follow its RSS, validation,
-                pacing, and coverage rules. Reddit evidence is a lead or attributed
-                community statement, not primary verification of a news claim. Do not
-                automatically invoke pairing-team. Exact counts come from code. Keep
-                tool output concise. Finish once the requested outcome is verified.
+                You are a coding agent powered by {{model}}. Read project
+                instructions, inspect relevant code, implement the requested
+                change, and run focused verification. The default worker uses
+                the same Ollama Qwen 27B route as the main agent, without
+                loading a second model. Other models remain available through
+                explicit model selection. Delegate once to that configured route
+                only after an observed persistent failed check, incomplete
+                implementation, or repeated tool errors. Send the factual
+                failure and independently verify its result. Supervise with
+                list_agents, messaging, and session history/trace tools. Use
+                stock web_search and web_fetch first for routine research. A
+                missing-provider or authentication error, empty body,
+                navigation-only page, truncated response missing the requested
+                evidence, or JavaScript shell counts as unusable content even
+                with HTTP 200. After one such result, load
+                desktop-optional-tools and try the Wigolo CLI before repeating
+                stock fetches. Never infer a paywall from truncation alone. For
+                explicit Reddit requests, practitioner experience, product
+                opinions, troubleshooting, community consensus, or local
+                community signals, load reddit-search before searching Reddit
+                and follow its RSS, validation, pacing, and coverage rules.
+                Reddit evidence is a lead or attributed community statement, not
+                primary verification of a news claim. Do not automatically
+                invoke pairing-team. Exact counts come from code. Keep tool
+                output concise. Finish once the requested outcome is verified.
               suffix: Use the working directory supplied in the runtime context.
 
           - id: lean-tool-catalog
@@ -1355,8 +1370,8 @@
 - id: tool-goal
   disabled: false
 
-# Staged October 28: load only at an idle Web deployment boundary.
-# The currently running Verdict host has not been changed by this staging row.
+
+# Bounded Coder / Coordinator / Auditor. Does not change model or preset defaults.
 - insert:
     - id: halo-three-role
       name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/three-role/index.mjs

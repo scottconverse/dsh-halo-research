@@ -1,0 +1,62 @@
+{
+  "verifiedUtc": "2026-11-05T19:31:34.519Z",
+  "kind": "installed native-provider discovery/load and filesystem acceptance",
+  "moduleVersion": "0.2.1-rc.5",
+  "desktopFallbackIdentical": true,
+  "archiveHashVerified": true,
+  "localLinksResolved": 7,
+  "protectedFilesUnchanged": 119,
+  "modelCalls": 0,
+  "hostRestarts": 0,
+  "profilesEdited": 0,
+  "limits": "Native provider executed in a separate short-lived Node process using both installed host configurations; not a live-host chat or LLM quality test. Existing chats rely on native watcher/catalog refresh. No host injection, inspector or settings mutation.",
+  "hostProviderConfigurations": 7,
+  "skills": [
+    {
+      "name": "knowledge-ingest",
+      "sha256": "145b702f6f566388ebb4e2b7f51517f522819e9c85ccd02f2eecb373fe24af6c",
+      "invocation": {
+        "modelInvocable": true,
+        "userInvocable": true
+      }
+    },
+    {
+      "name": "knowledge-query",
+      "sha256": "db6f395c89cee0eb8ff86f9748b830d4ac4003f4cfdfa090dc97bfcda112c383",
+      "invocation": {
+        "modelInvocable": true,
+        "userInvocable": true
+      }
+    }
+  ],
+  "seedSource": {
+    "url": "https://raw.githubusercontent.com/undefined-ui/second-brain-os/53aea8231aff3024352e21839dc08668f7ecc0b9/docs/02-setup/vault-structure.md",
+    "revision": "53aea8231aff3024352e21839dc08668f7ecc0b9",
+    "sha256": "1391a67cc09c8e5f373154079d317d4a16e93150a2e479bfdb4e56f60bded7f4"
+  },
+  "readOnlyQuery": {
+    "question": "How does the source separate knowledge and projects?",
+    "evidenceLines": [
+      {
+        "line": 7,
+        "text": "**The knowledge layer** is what you have read and understood. It grows forever"
+      },
+      {
+        "line": 10,
+        "text": "**The project layer** is what you are working on now. It is organised by"
+      },
+      {
+        "line": 18,
+        "text": "  wiki/                the knowledge layer"
+      },
+      {
+        "line": 25,
+        "text": "  projects/            the project layer"
+      },
+      {
+        "line": 45,
+        "text": "the knowledge layer already has it."
+      }
+    ]
+  }
+}

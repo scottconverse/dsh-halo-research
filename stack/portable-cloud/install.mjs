@@ -22,6 +22,8 @@ export function install(dest, port = 3080) {
   for (const row of inventory.files) if (row.path !== 'install.mjs' && !row.path.startsWith('runtime-')) copy(row.path, row.path);
   copy('runtime-package.json', 'package.json');
   copy('runtime-package-lock.json', 'package-lock.json');
+  const initialized = spawnSync(process.execPath, ['--input-type=module','-e', `import {initializeKnowledge} from './stack/shared-knowledge/install.mjs'; initializeKnowledge(process.argv[1]);`, targetReal], {cwd:targetReal,encoding:'utf8',windowsHide:true});
+  if (initialized.status !== 0) throw Error('Knowledge initialization failed: '+initialized.stderr);
   const home = join(targetReal, 'home');
   mkdirSync(join(home, 'profiles', 'cloud'), { recursive: true });
   writeFileSync(join(home, 'profiles', 'cloud', 'package.json'), JSON.stringify({ name: 'dsh-profile-cloud', private: true, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base','@deepseek-ai/dsh-web-app'], patchReload: 'never' } } }, null, 2));
@@ -34,7 +36,7 @@ export function install(dest, port = 3080) {
   if (existsSync(npmEntry)) result = spawnSync(process.execPath, [npmEntry,'ci','--omit=dev','--no-audit','--no-fund'], { cwd: targetReal, stdio: 'inherit' });
   else if (process.platform !== 'win32') result = spawnSync(npm, ['ci','--omit=dev','--no-audit','--no-fund'], { cwd: targetReal, stdio: 'inherit' });
   else throw new Error('npm CLI was not found beside Node. Install a standard Node.js distribution. Partial destination retained; no existing installation changed.');
-  const receipt = { status: result.status === 0 ? 'installed' : 'dependency-install-incomplete', root: targetReal, node: process.version, runtimeVersion: '0.2.1-rc.3', bundle: inventory.version, installedAt: new Date().toISOString(), existingInstallationsModified: false, modelCalls: 0 };
+  const receipt = { status: result.status === 0 ? 'installed' : 'dependency-install-incomplete', root: targetReal, node: process.version, runtimeVersion: '0.2.1-rc.5', bundle: inventory.version, installedAt: new Date().toISOString(), existingInstallationsModified: false, modelCalls: 0 };
   writeFileSync(join(targetReal, 'INSTALL-RECEIPT.json'), JSON.stringify(receipt, null, 2));
   if (result.status !== 0) throw new Error('Dependency installation failed; partial folder retained for diagnosis. No retry or existing-profile update performed.');
   console.log(`Installed isolated cloud DSH in ${targetReal}\nStart: node "${join(targetReal,'start.mjs')}"\nNo service, browser or model was started. Ollama sign-in is performed separately by you.`);

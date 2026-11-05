@@ -1,5 +1,13 @@
 # DSH for the Halo Windows workstation
 
+**Current source/configuration reference: November 5, 2026.** Start with
+[Install, update and recover DSH](docs/INSTALL-AND-RECOVER.md) for a different PC
+or this Halo. Both installed profiles and rc.5 recovery source are synchronized.
+Installer source0.1.1 now pins rc.5 and carries the shared-library skills; published
+v0.3.12/v0.3.13 ZIPs remain the older0.1.0/rc.3 artifacts. See the
+[synchronization and evidence limits](docs/HALO-DSH-IMPLEMENTATION-2026-11-05-CONFIG-SYNC.md).
+
+
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. Cloning it does not reproduce this machine's accounts, models or private runtime state. Separate installers create fresh deployments without copying that state.
 
 ## Complete Windows setup

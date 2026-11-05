@@ -1,0 +1,88 @@
+- insert:
+  - id: mcp-wigolo
+    disabled: true
+    name: '@deepseek-ai/dsh-mcp-client'
+    config:
+      serverName: wigolo
+      transport: stdio
+      command: C:\Program Files\nodejs\node.exe
+      args:
+      - C:\Users\scott\Desktop\Code\wigolo\dist\index.js
+      - mcp
+      cwd: C:\Users\scott\Desktop\Code\wigolo
+      env:
+        WIGOLO_EAGER_WARMUP: '1'
+      toolCallTimeoutMs: 180000
+      failOnStartupError: false
+  - id: memory-mcp-reference
+    disabled: true
+    name: '@deepseek-ai/dsh-mcp-client'
+    config:
+      serverName: reference_memory
+      transport: stdio
+      command: C:\Program Files\nodejs\node.exe
+      args:
+      - C:\Users\scott\AppData\Roaming\npm\node_modules\@modelcontextprotocol\server-memory\dist\index.js
+      cwd: C:\Users\scott\Desktop\Code
+      env:
+        MEMORY_FILE_PATH: C:\Users\scott\Documents\Codex\2026-09-25\dsh-desktop-eval\home\memory\memory.json
+      failOnStartupError: true
+- id: session-query-sqlite
+  config:
+    path: C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/session-search.db
+    openAt: first-search
+    journalMode: wal
+- insert:
+  - id: lsp
+    name: '@deepseek-ai/dsh-lsp'
+  - id: lsp-stdio
+    name: '@deepseek-ai/dsh-lsp-stdio'
+    config:
+      servers:
+        typescript:
+          command: C:/Program Files/nodejs/node.exe
+          args:
+          - C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/node_modules/typescript-language-server/lib/cli.mjs
+          - --stdio
+          extensionToLanguage:
+            .ts: typescript
+            .tsx: typescriptreact
+            .js: javascript
+            .jsx: javascriptreact
+          initializationOptions:
+            tsserver:
+              useSyntaxServer: never
+              path: C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/node_modules/typescript/lib/tsserver.js
+        python:
+          command: C:/Program Files/nodejs/node.exe
+          args:
+          - C:/Users/scott/Desktop/Code/dsh-halo-research/stack/stock-dsh/node_modules/pyright/langserver.index.js
+          - --stdio
+          extensionToLanguage:
+            .py: python
+  - id: browser-use
+    name: '@deepseek-ai/dsh-browser-use'
+  - id: chrome-browser
+    disabled: true
+    name: '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp'
+    config:
+      mode: launch
+      headless: false
+      executablePath: C:/Program Files/Google/Chrome/Application/chrome.exe
+      toolCallTimeoutMs: 120000
+  - id: subagent-codex
+    name: '@deepseek-ai/dsh-subagent-codex'
+    config:
+      model: gpt-5.6-luna
+      permissionMode: dangerously-bypass-approvals-and-sandbox
+- id: terminal-controller
+  config:
+    shell:
+      path: C:/Program Files/PowerShell/7/pwsh.exe
+      name: PowerShell 7
+      args:
+      - -NoLogo
+
+# No direct DeepSeek API key on this deployment; Ollama DeepSeek remains enabled.
+- id: llm-deepseek
+  disabled: true

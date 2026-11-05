@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
+import { initializeKnowledge } from '../shared-knowledge/install.mjs';
 import { atomicJson, download, inside, verifyBundle, digest } from './files.mjs';
 const source = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 function run(exe, args, root, env = process.env) {
@@ -15,6 +16,18 @@ function findFile(root, name) {
     if (entry.isFile() && entry.name.toLowerCase() === name.toLowerCase()) return full;
     if (entry.isDirectory()) { const match = findFile(full, name); if (match) return match; }
   }
+}
+// Official installers can carry a direct payload or an NSIS inner 7z archive.
+// Extract only into the new install root; never execute the installer/updater.
+export function extractDesktop(archive, target, extract) {
+  extract(archive, target);
+  let exe = findFile(target, 'DeepSeek Harness.exe');
+  if (!exe) {
+    const inner = findFile(target, 'app-64.7z');
+    if (inner) { extract(inner, path.join(target, 'application')); exe = findFile(path.join(target, 'application'), 'DeepSeek Harness.exe'); }
+  }
+  if (!exe) throw Error('Desktop executable missing after extraction');
+  return exe;
 }
 export async function install(root) {
   if (process.platform !== 'win32') throw Error('Windows x64 required');
@@ -76,11 +89,7 @@ export async function install(root) {
         await download(archive, components[name]);
         const target = path.join(root, 'tools', name);
         if (name === 'desktop') {
-          // rc.3 is a self-extracting 7z payload, not an NSIS app-64.7z wrapper.
-          // 7-Zip reads its signed executable overlay without running it.
-          extract(archive, target);
-          const exe = findFile(target, 'DeepSeek Harness.exe');
-          if (!exe) throw Error('Desktop executable missing after extraction');
+          const exe = extractDesktop(archive, target, extract);
           // Extract only: never execute NSIS, register protocols, replace a live app,
           // or install the upstream updater/uninstaller into the current profile.
           atomicJson(path.join(root, 'desktop.json'), { exe: path.relative(root, exe), sha256: digest(exe) });
@@ -94,6 +103,7 @@ export async function install(root) {
         return { url: components[name].url, sha256: digest(archive) };
       });
     }
+    await checkpoint('knowledge-library', async () => initializeKnowledge(root));
     await checkpoint('profiles', async () => {
       const { profile } = await import('./profile.mjs');
       const yaml = require('yaml');

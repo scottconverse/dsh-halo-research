@@ -1,0 +1,134 @@
+{
+  "version": "0.2.1-rc.5",
+  "source": "https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-rc.5",
+  "format": "UTF8 insertion text with original byte offsets; apply descending offsets; hashes are mandatory",
+  "files": [
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+      "beforeSha256": "fdc48656f914c503e59ed45612c09be296634bfaf5318df2ba5930566a2a8820",
+      "afterSha256": "dbf14488c2253e0b614561bdf46e6619a999f900a44813a19ef7ceb4b1c053ce",
+      "edits": [
+        {
+          "offset": 286968,
+          "removeBytes": 45,
+          "insertUtf8": "\t\t\t\"message.tokensPerSecond\": \"{tps} tok/s (text)\",\n"
+        },
+        {
+          "offset": 297581,
+          "removeBytes": 45,
+          "insertUtf8": "\t\t\t\"message.tokensPerSecond\": \"{tps} tok/s (text)\",\n"
+        },
+        {
+          "offset": 362408,
+          "removeBytes": 48,
+          "insertUtf8": "\t\t\t\toutputTokens: node.blocks.some(block => block.kind === \"tool-call\") ? null : usageOutputTokens(node.usage)\n"
+        },
+        {
+          "offset": 595649,
+          "removeBytes": 34,
+          "insertUtf8": "//# sourceMappingURL=client.js.map\n// halo-measured-text-speed-v1: exclude tool-call delivery from inferred decode rate.\n"
+        }
+      ]
+    },
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+      "beforeSha256": "a6f2ffae255381c302364ec9d04ce69d300ea58738582661870db984b9b55bec",
+      "afterSha256": "6ec0224e78a0564f2338a735b908a2733bcd798c7d7d9a808569c44d162dcaff",
+      "edits": [
+        {
+          "offset": 174558,
+          "removeBytes": 0,
+          "insertUtf8": "\t\t\tif (metrics.hasToolCalls) return \"Not measurable (tool-call delivery)\";\n"
+        },
+        {
+          "offset": 359818,
+          "removeBytes": 0,
+          "insertUtf8": "\t\t\t\thasToolCalls: node.blocks.some(block => block.kind === \"tool-call\"),\n"
+        },
+        {
+          "offset": 398711,
+          "removeBytes": 34,
+          "insertUtf8": "//# sourceMappingURL=client.js.map\n// halo-measured-text-speed-v1: exclude tool-call delivery from inferred decode rate.\n"
+        }
+      ]
+    },
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-session-query-sqlite/lib/index.js",
+      "beforeSha256": "dbecf83320e10d93d735b3d01384ab817a0b90102ccecb0a22c013c71dfe70a0",
+      "afterSha256": "7138c7ab24acae009d0c86d47d5dfc033472923e21b7338352fb1360e70b6d12",
+      "edits": [
+        {
+          "offset": 0,
+          "removeBytes": 0,
+          "insertUtf8": "\n// halo-workspace-path-v1: lexical Windows workspace identity; stored headers stay untouched.\nimport {win32 as haloWindowsPath} from \"node:path\";\nfunction workspaceKey(value, platform = process.platform) {\n  // Only fully qualified Windows paths: never resolve a relative path or fold case.\n  if (platform !== 'win32' || typeof value !== 'string' || !(/^[a-zA-Z]:[\\\\/]/.test(value) || /^[\\\\/]{2}[^\\\\/]/.test(value))) return value;\n  const normalized = haloWindowsPath.normalize(value);\n  const root = haloWindowsPath.parse(normalized).root;\n  return normalized.length > root.length ? normalized.replace(/[\\\\/]+$/, '') : normalized;\n}\n"
+        },
+        {
+          "offset": 2296,
+          "removeBytes": 0,
+          "insertUtf8": "\tdb.function(\"halo_workspace_key\", { deterministic: true }, value => workspaceKey(value));\n"
+        },
+        {
+          "offset": 8770,
+          "removeBytes": 59,
+          "insertUtf8": "\t\t\taddNullableList(clauses, params, \"halo_workspace_key(cwd)\", filter.values.map(value => workspaceKey(value)));\n"
+        }
+      ]
+    },
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js",
+      "beforeSha256": "76ce2944e561c12f48b5e240d68cafe54ce6d667b1d20722e6939ed834489939",
+      "afterSha256": "62bd84e863a20b668df88554c0b36cb8741b37d5fc9b79048a61289ed9dbd9f3",
+      "edits": [
+        {
+          "offset": 0,
+          "removeBytes": 0,
+          "insertUtf8": "\n// halo-workspace-path-v1: lexical Windows workspace identity; stored headers stay untouched.\nimport {win32 as haloWindowsPath} from \"node:path\";\nfunction workspaceKey(value, platform = process.platform) {\n  // Only fully qualified Windows paths: never resolve a relative path or fold case.\n  if (platform !== 'win32' || typeof value !== 'string' || !(/^[a-zA-Z]:[\\\\/]/.test(value) || /^[\\\\/]{2}[^\\\\/]/.test(value))) return value;\n  const normalized = haloWindowsPath.normalize(value);\n  const root = haloWindowsPath.parse(normalized).root;\n  return normalized.length > root.length ? normalized.replace(/[\\\\/]+$/, '') : normalized;\n}\n"
+        },
+        {
+          "offset": 28968,
+          "removeBytes": 84,
+          "insertUtf8": "\t\tcase \"cwd\": return (record) => filter.values.some(value => workspaceKey(value) === workspaceKey(record.header.cwd ?? null));\n"
+        }
+      ]
+    },
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-session-stats/lib/index.js",
+      "beforeSha256": "c3f428ae1da868f0128a14977cdce5b6915b63023d9b05ae2884b4bcdf37fba6",
+      "afterSha256": "36712776d448a9a31d7e88be62f80312e0eb760ddaea7bb9f6c6b815e52c4dbc",
+      "edits": [
+        {
+          "offset": 3150,
+          "removeBytes": 18,
+          "insertUtf8": "\tstateVersion: 2,\n"
+        },
+        {
+          "offset": 4632,
+          "removeBytes": 34,
+          "insertUtf8": "\t\t\t\t\tif (outputTokens !== null && event.time > firstToken && !event.data.message.content.some(block => block.type === \"tool-call\")) {\n"
+        },
+        {
+          "offset": 7073,
+          "removeBytes": 0,
+          "insertUtf8": "\n// halo-measured-text-speed-v1: exclude tool-call delivery from inferred decode rate.\n"
+        }
+      ]
+    },
+    {
+      "path": "dsh/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js",
+      "beforeSha256": "b2feaf3164d81080c667d4a391316a3a9549b1bd380a4bf23dedddce5707df11",
+      "afterSha256": "0364b4c6920fdb01a06b8ba8afdb31322ba342dfcaffb4af71fb044353bb9d30",
+      "edits": [
+        {
+          "offset": 0,
+          "removeBytes": 0,
+          "insertUtf8": "\n// halo-workspace-path-v1: lexical Windows workspace identity; stored headers stay untouched.\nimport {win32 as haloWindowsPath} from \"node:path\";\nfunction workspaceKey(value, platform = process.platform) {\n  // Only fully qualified Windows paths: never resolve a relative path or fold case.\n  if (platform !== 'win32' || typeof value !== 'string' || !(/^[a-zA-Z]:[\\\\/]/.test(value) || /^[\\\\/]{2}[^\\\\/]/.test(value))) return value;\n  const normalized = haloWindowsPath.normalize(value);\n  const root = haloWindowsPath.parse(normalized).root;\n  return normalized.length > root.length ? normalized.replace(/[\\\\/]+$/, '') : normalized;\n}\n"
+        },
+        {
+          "offset": 15721,
+          "removeBytes": 145,
+          "insertUtf8": "\tif (header.id === caller.id) return workspaceKey(header.cwd) === workspaceKey(caller.header.cwd);\n\treturn caller.header.cwd !== void 0 && workspaceKey(header.cwd) === workspaceKey(caller.header.cwd);\n"
+        }
+      ]
+    }
+  ]
+}
