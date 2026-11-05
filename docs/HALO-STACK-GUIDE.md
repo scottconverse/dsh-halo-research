@@ -1,3 +1,6 @@
+## November 3, 2026 — Web and Desktop rc.5
+
+Both installed DSH hosts now use upstream 0.2.1-rc.5. Desktop's idle installation, optional official profile dependencies and the same six existing Halo archive repairs are complete. Its visible one-turn cloud chat and PowerShell tool check passed. Existing goals and shared triad source were preserved; no triad was restarted. Local Qwen retains Medium/32K configuration, while Strata deliberately remains off. Desktop's temporary acceptance model selection was restored explicitly; 118 captured files are byte-identical, with one profile default-model serialization difference disclosed in the report. See [Desktop upgrade and receipts](HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md) and [Web upgrade](HALO-WEB-RC5-UPGRADE-2026-11-03.md). Earlier dated snapshots below remain historical.
 ## October 28, 2026, 4:35 PM Mountain — production Web triad loaded
 
 Production Web now loads the tuned `halo-three-role` plugin. Native inventory reports it active and all three presets registered after an idle-only normal restart. Existing Web profile bytes were preserved before the additive row. Verdict implementation ownership moved to a fresh visible Desktop triad in the existing merge-trial worktree; full requirements and historical evidence were retained privately. The first two repairs are Critical severity normalization and AppImage packaging. Product completion is still pending; no final Verdict merge/tag/publication is authorized. Earlier staged/untouched Web notes below describe their historical checkpoints. See [HALO-VERDICT-DESKTOP-TAKEOVER-2026-10-28](HALO-VERDICT-DESKTOP-TAKEOVER-2026-10-28.md).
@@ -498,3 +501,11 @@ published at https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.
 Existing Windows installation/relocation/native-preset evidence is reused. No
 rebuild, test, audit, model call, current-host restart or goal/settings edit was
 performed for publication. Private receipts and recovery files remain preserved.
+
+## November 3, 2026 launcher correction
+
+See [HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md). Start verifies authenticated HTML and application JS; Stop is scoped to Web-owned processes and waits for the host task to end. Desktop and model settings are preserved. Local Qwen is deliberately stopped after confirmed system commit pressure; do not assume it is serving. Browser rendering acceptance remains unverified.
+
+## November 3, 2026 Web upgrade
+
+DSH Web now runs official latest 0.2.1-rc.5 with the existing pi-ai 1.0.2 pin and Halo fixes. Authenticated page/module200 and Mission Control connected; 1583 preservation hashes match. Desktop is still installed rc.3 with its signed rc.5 update pending; no running Desktop acceptance was performed. Local Qwen is intentionally off. See [HALO-WEB-RC5-UPGRADE-2026-11-03.md](HALO-WEB-RC5-UPGRADE-2026-11-03.md).

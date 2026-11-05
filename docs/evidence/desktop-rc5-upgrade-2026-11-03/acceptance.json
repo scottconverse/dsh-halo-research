@@ -1,0 +1,22 @@
+{
+  "StrataProcesses": 0,
+  "ChangeReceipt": "PROFILE-DEFAULT-RESTORATION.json",
+  "DesktopRunning": true,
+  "VisibleChat": {
+    "Steps": 2,
+    "RenderedUsage": "40.7K tokens",
+    "ToolStatus": "Done",
+    "ControlReleased": true,
+    "TurnStatus": "Completed",
+    "Model": "deepseek-v4.1-flash:1017-cloud",
+    "Effort": "low",
+    "UIReceipt": "UI-ACCEPTANCE.txt",
+    "Terminal": "Write-Output \"DSH-DESKTOP-RC5-OK\"",
+    "Output": "DSH-DESKTOP-RC5-OK"
+  },
+  "UnchangedFileCount": 118,
+  "VerifiedAt": "2026-11-03T21:47:48.8971611-07:00",
+  "WebAndMissionControlNotRestarted": true,
+  "WebHTML200": true,
+  "WebAsset200": true
+}

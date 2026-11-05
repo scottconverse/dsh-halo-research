@@ -1,0 +1,12 @@
+{
+  "restored": {
+    "provider": "strata-local",
+    "model": "qwen3.8-flash-next-iq3_s",
+    "reasoningEffort": "medium",
+    "maxTokens": 32768
+  },
+  "onlyDefaultModelBlockChanged": true,
+  "originalFileHashMatch": false,
+  "limitation": "Before snapshot retained file hash only, not full bytes. UI saves its model selection globally. Restored original observed Local Qwen/Medium selection explicitly; exact original formatting/comment bytes could not be recovered. All other profile bytes remain unchanged from the post-UI capture.",
+  "strataStarted": false
+}

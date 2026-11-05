@@ -1,5 +1,13 @@
 # DSH Halo history
 
+- [Web and Desktop rc.5 merge (November 4)](HALO-RC5-MERGE-2026-11-04.md): existing verification reused, installer history retained, isolated conflict resolution, no runtime changes or additional tests.
+
+- [Desktop rc.5 installation and visible acceptance (November 3)](HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md): official installer, six retained Halo repairs, optional dependency alignment, preserved goals, one visible cloud/tool check and explicit profile serialization limit.
+
+- [Web rc.5 upgrade and Desktop update check (November 3)](HALO-WEB-RC5-UPGRADE-2026-11-03.md): preserved SDK/settings/goals, exact-source patch compatibility, installed Web readiness, and pending Desktop update evidence.
+
+- [Web desktop shortcut repair (November 3)](HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md): authenticated readiness, ownership-scoped shutdown, failure logging, preserved shortcuts and limited live recovery evidence.
+
 - [Complete Windows installer (November 2)](DSH-COMPLETE-WINDOWS-2026-11-02.md): isolated Web/Desktop profiles, private Ollama and model choices, companion provisioning, ownership-safe launchers, native authenticated backend checks and fresh-PC acceptance limits. Distributed in [v0.3.13](../RELEASE-NOTES-v0.3.13.md) using the original verified ZIP. Halo runtime and settings unchanged.
 
 - [Three-role recovery repair (October 29)](HALO-THREE-ROLE-REPAIR-2026-10-29.md): goal activation/readback, no-progress wait, open-finding checkpoints, independent review readiness, content-based source detection and committed Git identity. Canonical source deployed at idle; live module loading remains pending.

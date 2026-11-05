@@ -1,0 +1,14 @@
+{
+  "NoModelCalls": true,
+  "HTML": 200,
+  "PreservedFiles": 1583,
+  "Strata": "deliberately stopped",
+  "NoBrowserOpened": true,
+  "State": "verified",
+  "Time": "2026-11-03T21:23:41.7043075-07:00",
+  "Desktop": "installed rc.3, signed rc.5 download pending; no running process observed",
+  "MissionControlStream": true,
+  "WebPID": 10196,
+  "ApplicationModule": 200,
+  "Version": "0.2.1-rc.5"
+}

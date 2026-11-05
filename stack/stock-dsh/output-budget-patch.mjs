@@ -25,7 +25,11 @@ export function patchSource(source) {
 export function locateSdk(root = dirname(fileURLToPath(import.meta.url))) {
   const cli = createRequire(join(root, 'package.json')).resolve('@deepseek-ai/dsh/package.json');
   const adapter = createRequire(cli).resolve('@deepseek-ai/dsh-llm-pi-ai/package.json');
-  const sdk = join(dirname(adapter), '..', '..', '@earendil-works', 'pi-ai');
+  // pi-ai exposes import-only exports; follow the adapter's normal module search paths.
+  const sdk = createRequire(adapter).resolve.paths('@earendil-works/pi-ai')
+    .map(base => join(base, '@earendil-works', 'pi-ai'))
+    .find(candidate => existsSync(join(candidate, 'package.json')));
+  if (!sdk) throw new Error('The adapter model SDK was not found.');
   const version = JSON.parse(readFileSync(join(sdk, 'package.json'), 'utf8')).version;
   if (version !== PATCHED_VERSION) throw new Error(`Unreviewed pi-ai version ${version}; expected ${PATCHED_VERSION}.`);
   return sdk;
