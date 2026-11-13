@@ -164,3 +164,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [DSH Halo landing website (November 13)](HALO-LANDING-PAGE-2026-11-13.md): code-grounded static site, actual embedded Desktop capture, current installer links, responsive/headless checks, concise README with historical reference, and an explicit Pages deployment path. No runtime/model changes.
 
 - [Landing site published on GitHub Pages](HALO-LANDING-PAGE-2026-11-13.md#november-13-authorized-publication): HTTPS live site, accepted asset hashes and actual headless desktop/tablet/mobile verification.
+
+- [Installer0.1.2 published as Latest release v0.3.14](DSH-COMPLETE-WINDOWS-RELEASE-2026-11-13.md): unchanged accepted ZIP, four public assets, checksum/45-entry validation, older release/tag preservation and no runtime/model changes.

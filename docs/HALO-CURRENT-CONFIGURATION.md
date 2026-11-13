@@ -1,3 +1,7 @@
+## November 13, 2026 — current installer published as Latest
+
+[GitHub release v0.3.14](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.14) now publishes the unchanged accepted installer **0.1.2** (Web/Desktop **0.2.2-rc.1**, embedded full Mission Control) and is marked **Latest**. Four public assets and the ZIP's 45 manifest entries were verified; all 18 older releases and 38 prior tag refs were preserved. Working installation/models were untouched. [Publication receipt and limits](DSH-COMPLETE-WINDOWS-RELEASE-2026-11-13.md). Earlier statements about no new release are historical and superseded by this publication.
+
 ## November13,2026 — complete Windows installer0.1.2
 
 Complete installer0.1.2 now pins Web/Desktop0.2.2-rc.1 and bundles embedded Desktop Mission Control. Private ports3180/3190/3191/11435/9202/18082 keep the new installation separate from Halo. New locked runtime plus official extracted Desktop passed headless host/dashboard checks with all seven tabs; no models or inference. Working installation hashes stayed unchanged; all owned test hosts/listeners stopped. [Download, evidence, recovery and limits](DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md). Earlier installer pin snapshots are historical; existing release assets were not replaced.
