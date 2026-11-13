@@ -1,0 +1,40 @@
+{
+  "verifiedAt": "2026-11-13T22:14:02.424162+00:00",
+  "tag": "v0.3.14",
+  "installer": "0.1.2",
+  "dsh": "0.2.2-rc.1",
+  "releaseId": 444792198,
+  "releaseUrl": "https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.14",
+  "isLatest": true,
+  "releaseTarget": "ab3b2b32cf8ba6ef357dbc0cd73c11b3279ce07f",
+  "acceptedBundleSource": "b03d65ea1f6c177bf52db18de7dedd6676185ad9",
+  "assets": [
+    {
+      "name": "DSH-Complete-Windows-0.1.2.zip",
+      "sha256": "41c395a0507cd36a22994a87398324946818e9f75789fc3c92362b7ee5bca4dd",
+      "unauthenticatedPublicDownloadVerified": true
+    },
+    {
+      "name": "DSH-Complete-Windows-0.1.2.zip.sha256",
+      "sha256": "5823fdd40e61bd7a72209c7b420cee980709ed9e727b35f26f945b0ad1aafc21",
+      "unauthenticatedPublicDownloadVerified": true
+    },
+    {
+      "name": "INSTALLATION.md",
+      "sha256": "b7b52553e05efe6e5711b48e64cbc21ed9e2e5e023c81851cccb3e15bbef8d98",
+      "unauthenticatedPublicDownloadVerified": true
+    },
+    {
+      "name": "VERIFICATION.json",
+      "sha256": "11f24b0c72e0b8944368952f0ad8cf9074c4252177291368ff6889631cfa5740",
+      "unauthenticatedPublicDownloadVerified": true
+    }
+  ],
+  "manifestFilesVerified": 45,
+  "olderReleasesPreserved": 18,
+  "olderTagRefsPreserved": 38,
+  "modelsLoaded": false,
+  "workingInstallationChanged": false,
+  "newExecutableBuilt": false,
+  "priorAcceptanceReused": true
+}

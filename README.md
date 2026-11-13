@@ -12,7 +12,7 @@ A community configuration for DeepSeek Harness with Web, the official Desktop ap
 
 ## Quick start
 
-Download [DSH Complete Windows 0.1.2](stack/packages/DSH-Complete-Windows-0.1.2.zip), verify its [SHA-256 checksum](stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256), extract it and run:
+Download [DSH Complete Windows 0.1.2](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.14/DSH-Complete-Windows-0.1.2.zip), verify its [SHA-256 checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.14/DSH-Complete-Windows-0.1.2.zip.sha256), extract it and run:
 
 ```powershell
 .\Install-DSH.cmd
@@ -43,7 +43,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Project status
 
-Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. Prior GitHub release ZIPs remain unchanged; use the current download above.
+Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.14](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.14) is GitHub Latest and contains installer 0.1.2. Prior release ZIPs remain unchanged.
 
 ## Contributing
 
