@@ -65,3 +65,29 @@ test('archive hashing handles multiple chunks and a partial final chunk', () => 
       assert.equal(digest(file,algorithm,encoding),crypto.createHash(algorithm).update(bytes).digest(encoding));
   } finally {fs.rmSync(parent,{recursive:true,force:true});}
 });
+
+
+test('current hosts and embedded Desktop dashboard are pinned and bundled with private ownership', () => {
+  const runtime=JSON.parse(fs.readFileSync(path.join(source,'runtime-package.json')));
+  assert.equal(components.version,'0.1.2');
+  assert.equal(components.dsh,'0.2.2-rc.1');
+  assert.ok(components.desktop.url.endsWith('deepseek-harness-0.2.2-rc.1-win-x64.exe'));
+  for(const [name,pin] of Object.entries(runtime.dependencies)) if(name.startsWith('@deepseek-ai/')) assert.equal(pin,components.dsh,name);
+  const root=path.resolve('C:/DSH Complete new root');
+  const desktop=profile(root,components,'desktop').find(row=>row.insert).insert;
+  const panel=desktop.find(row=>row.id==='desktop-mission-control');
+  assert.equal(panel.config.port,3191);
+  assert.equal(panel.config.deploymentRoot,root);
+  assert.equal(panel.config.repositoryProfile,path.join(root,'desktop-profile/cordis.patch.yml'));
+  assert.equal(panel.config.ollamaOnly,true);
+  assert.equal(panel.config.ollamaOrigin,'http://127.0.0.1:11435');
+  assert(!profile(root,components,'web').find(row=>row.insert).insert.some(row=>row.id==='desktop-mission-control'));
+  assert.equal(new Set(Object.values(components.ports)).size,Object.values(components.ports).length);
+  for(const port of [3080,3090,3091,9200,18080])assert(!Object.values(components.ports).includes(port));
+  const parent=fs.mkdtempSync(path.join(os.tmpdir(),'dsh-embedded-'));
+  try{
+    const output=path.join(parent,'bundle');build(output);const manifest=verifyBundle(output);
+    for(const name of ['index.mjs','client.js','dashboard.mjs','package.json','cordis.patch.yml'])assert(manifest.files.some(row=>row.path==='stack/desktop-mission-control/'+name));
+    assert(fs.readFileSync(path.join(output,'stack/desktop-mission-control/client.js'),'utf8').includes("const ORIGIN = 'http://127.0.0.1:3191'"));
+  }finally{fs.rmSync(parent,{recursive:true,force:true});}
+});

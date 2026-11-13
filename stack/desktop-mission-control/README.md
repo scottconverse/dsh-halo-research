@@ -9,3 +9,13 @@ The additive entry in ../desktop-tuning/cordis.patch.yml loads index.mjs. No exe
 Verification: `node --test stack/desktop-mission-control/test.mjs`. sync-dashboard.py regenerates dashboard.mjs from the canonical Web source with asserted Desktop adaptations; web-provenance.json records exact input/output hashes. Re-run affected tests and headless host acceptance after regeneration. The headless test used actual installed rc.1 host with an isolated metadata-only provider and no model endpoint. It did not exercise model mutations or inference.
 
 Rollback while Desktop is fully closed: remove only the desktop-mission-control insert block from live and repository Desktop profiles, or restore the recorded pre-change profile copies if no subsequent edits were made. Preserve later unrelated edits. No signed binary was changed.
+
+## Complete Windows installation
+
+Installer0.1.2 bundles this panel. The installer passes its own deployment root,
+profile mirror, version, private Ollama endpoint and dashboard port3191; the
+bundler binds the matching iframe origin. Halo's existing3091 default remains.
+Desktop dashboard state is kept in its own home/desktop-mission-control folder.
+The shared source supports the existing Halo mode and the isolated Ollama-only
+mode; automatic LM Studio model recovery is disabled in the latter. Current
+source updates do not modify the already installed Halo plugin or Web dashboard.

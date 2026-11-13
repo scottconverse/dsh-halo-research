@@ -1,13 +1,13 @@
 {
-  "version": "0.1.1",
-  "dsh": "0.2.1-rc.5",
+  "version": "0.1.2",
+  "dsh": "0.2.2-rc.1",
   "node": {
     "url": "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip",
     "sha256": "158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541"
   },
   "desktop": {
-    "url": "https://download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.2.1-rc.5-win-x64.exe",
-    "sha512": "gu2dH+aTr678c0P8DGAH/h4B1GaWfQIjpsPrLjl/ukLrQIh6DLVq/MhX4FZvJ8o1GCMocOhix6XbLa6KmtjXXg=="
+    "url": "https://download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.2.2-rc.1-win-x64.exe",
+    "sha512": "swcK0J6ofGkaAWLRpOes2ca7CWO8vuM5Vp0FRnQ/DG3q+Z+OhvsgLz3hIiSYpRUETY+fEz+Ww86fNa0jiVIifw=="
   },
   "ollama": {
     "url": "https://github.com/ollama/ollama/releases/download/v0.40.13/ollama-windows-amd64.zip",
@@ -59,10 +59,11 @@
     }
   ],
   "ports": {
-    "web": 3080,
-    "missionControl": 3090,
+    "web": 3180,
+    "missionControl": 3190,
     "ollama": 11435,
-    "xerj": 9200,
-    "redlib": 18080
+    "xerj": 9202,
+    "redlib": 18082,
+    "desktopMissionControl": 3191
   }
 }

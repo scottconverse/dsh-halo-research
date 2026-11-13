@@ -116,8 +116,10 @@ export async function install(root) {
         } else fs.writeFileSync(patch, document);
         atomicJson(path.join(directory, 'package.json'), { name: `dsh-profile-${host}`, private: true, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-web-app'], patchReload: 'never' } } });
       }
-      fs.mkdirSync(path.join(root, 'web-profile'), { recursive: true });
-      fs.writeFileSync(path.join(root, 'web-profile/cordis.patch.yml'), yaml.stringify(profile(root, components, 'web')));
+      for (const host of ['web','desktop']) {
+        fs.mkdirSync(path.join(root, `${host}-profile`), {recursive: true});
+        fs.writeFileSync(path.join(root, `${host}-profile/cordis.patch.yml`), yaml.stringify(profile(root, components, host)));
+      }
       atomicJson(path.join(root, 'complete.json'), { version: components.version, ports: components.ports, selectedModels: [], firstRun: true });
     });
     await checkpoint('browser', async () => run(node, [path.join(root, 'node_modules/playwright/cli.js'), 'install', 'chromium'], root, env));

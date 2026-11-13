@@ -6,15 +6,16 @@ export function apply(ctx, config = {}) {
   const here = path.dirname(fileURLToPath(import.meta.url));
   const home = process.env.DSH_HOME;
   if (!home) throw new Error('Desktop Mission Control requires DSH_HOME');
-  const port = 3091;
+  const port = config.port || 3091;
   ctx.effect(async () => {
     const controller = new AbortController();
     const target = {
-      home, port, root: path.resolve(here, '../stock-dsh'),
+      home, port, root: config.deploymentRoot || path.resolve(here, '../stock-dsh'),
       profile: path.join(home, 'profiles/desktop/cordis.patch.yml'),
       repoProfile: config.repositoryProfile || path.resolve(here, '../desktop-tuning/cordis.patch.yml'),
-      dataDir: path.join(home, 'mission-control'),
-      version: process.env.DSH_CLIENT_VERSION,
+      dataDir: path.join(home, 'desktop-mission-control'),
+      ollamaOnly: config.ollamaOnly === true, ollamaOrigin: config.ollamaOrigin,
+      version: config.version || process.env.DSH_CLIENT_VERSION,
       testFrameOrigin: config.headlessVerification === true ? `http://127.0.0.1:${ctx.webServer.port}` : undefined,
     };
     const url = new URL('./dashboard.mjs', import.meta.url);

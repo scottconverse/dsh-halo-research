@@ -12,14 +12,14 @@ serve different purposes. A clone does not copy accounts, model weights or histo
 | Web with DeepSeek cloud only | `stack/portable-cloud` | Node24+/npm, separately signed-in Ollama Cloud; no local model weights or Halo paths |
 | Understand/recover this Halo installation | Profile mirrors and deployment references below | Exact machine references; relocate paths and supply your own accounts, never blindly overwrite another home |
 
-The current installer **source** is 0.1.1, pinned to DSH0.2.1-rc.5. Published
+The current complete installer is **0.1.2**, pinned to Web/Desktop **DSH0.2.2-rc.1**, with embedded Desktop Mission Control. [Download](../stack/packages/DSH-Complete-Windows-0.1.2.zip), [checksum](../stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256), [verification](DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md). Published
 v0.3.12/v0.3.13 installer ZIPs remain the original 0.1.0/rc.3 artifacts. They have
 not been silently replaced, rebuilt, re-signed or given new acceptance claims.
 
 Build from a clean checkout using Node24+ (choose NEW output paths):
 
 ```powershell
-node stack/complete-windows/build.mjs --output C:/DSH-bundles/complete-0.1.1
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/complete-0.1.2
 # On the destination Windows machine, in the generated bundle:
 # .\Install-DSH.cmd
 # Or PowerShell7: .\Install-DSH.ps1 -Destination "$env:LOCALAPPDATA\DSH-Complete-New"
