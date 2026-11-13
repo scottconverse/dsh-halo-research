@@ -20,11 +20,11 @@ No npm install is needed. Both source and built previews serve only the explicit
 
 ## Deploy
 
-The `Landing page` workflow builds and checks site changes on pull requests and pushes to master. It uploads a Pages-compatible artifact. The repository had no Pages configuration when this site was created; hosting is not implicitly enabled by a source change.
+The `Landing page` workflow builds and checks site changes on pull requests and pushes to master. It uploads a Pages-compatible artifact. GitHub Pages is enabled with GitHub Actions. The live site is https://scottconverse.github.io/dsh-halo-research/. Source pushes build/check artifacts; publication remains an explicit deployment.
 
-To publish on GitHub Pages, enable **Settings → Pages → Source: GitHub Actions**, then run **Actions → Landing page → Run workflow** on `master` with **deploy** checked. The deploy job uses the standard `github-pages` environment and Pages OIDC permissions. Later deployments use the same explicit workflow dispatch. Any static host can instead serve the contents of `site/dist/`.
+To publish an updated build, run **Actions → Landing page → Run workflow** on `master` with **deploy** checked. The deploy job uses the standard `github-pages` environment and Pages OIDC permissions. Later deployments use the same explicit workflow dispatch. Any static host can instead serve the contents of `site/dist/`.
 
-Expected project URL after deployment: `https://scottconverse.github.io/dsh-halo-research/`. This is a deployment target, not a claim that a site is already live.
+Published project URL: https://scottconverse.github.io/dsh-halo-research/. Initial deployment and actual live headless verification completed November 13, 2026.
 
 ## Maintain
 

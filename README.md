@@ -2,7 +2,7 @@
 
 A community configuration for DeepSeek Harness with Web, the official Desktop app, embedded Mission Control and connected research tools. The complete online installer **0.1.2** pins Web/Desktop **0.2.2-rc.1** and creates a separate installation. This is not an official DeepSeek distribution.
 
-[Landing website source](site/index.html) · [Documentation](docs/INSTALL-AND-RECOVER.md) · [Quick start](stack/complete-windows/README.md) · [Issues and contributions](https://github.com/scottconverse/dsh-halo-research/issues)
+[Website](https://scottconverse.github.io/dsh-halo-research/) · [Documentation](docs/INSTALL-AND-RECOVER.md) · [Quick start](stack/complete-windows/README.md) · [Issues and contributions](https://github.com/scottconverse/dsh-halo-research/issues)
 
 ## What it does
 
@@ -30,7 +30,7 @@ npm run build --prefix site
 npm test --prefix site
 ```
 
-Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/README.md) covers built preview and GitHub Pages deployment. Hosting is prepared, not enabled automatically.
+Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/README.md) covers built preview and GitHub Pages deployment. The [live website](https://scottconverse.github.io/dsh-halo-research/) is published on GitHub Pages.
 
 ## Documentation
 

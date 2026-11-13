@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-11-13T21:52:08.786Z",
+  "url": "https://scottconverse.github.io/dsh-halo-research/",
+  "headless": true,
+  "modelsLoaded": false,
+  "workingInstallationChanged": false,
+  "deploymentRun": 43514304938,
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "0d93a493b3cbf4b3086475c374f6a7d35be4b56616d9cb638fa75643146c2088"
+    },
+    {
+      "path": "styles.css",
+      "status": 200,
+      "sha256": "795cce0672faf2377ceac31e05c42da55b89f49dfe450f23da8aaa002d55f059"
+    },
+    {
+      "path": "site.js",
+      "status": 200,
+      "sha256": "ee98ec6fc6fa50d4bc80f9fab4595116c40b035b02eeb83be974e07c55a518c6"
+    },
+    {
+      "path": "assets/mark.svg",
+      "status": 200,
+      "sha256": "3e9865d5948311d073c4d1f8838f0ca950649282f6007d3268f3d7090827041f"
+    },
+    {
+      "path": "assets/desktop-mission-control.png",
+      "status": 200,
+      "sha256": "c1e707307cb815679aa25697056780951d3be219ac41e3eb1e77adcfd38d0f7b"
+    }
+  ],
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "scroll": 1440,
+      "images": true,
+      "anchors": [],
+      "copy": true,
+      "keyboard": true,
+      "navigation": true
+    },
+    {
+      "name": "tablet",
+      "width": 820,
+      "scroll": 820,
+      "images": true,
+      "anchors": [],
+      "copy": true,
+      "keyboard": true,
+      "navigation": true
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "scroll": 390,
+      "images": true,
+      "anchors": [],
+      "copy": true,
+      "keyboard": true,
+      "navigation": true
+    }
+  ],
+  "errors": [],
+  "httpFailures": [],
+  "downloadVerified": true,
+  "passed": true,
+  "browserStopped": true,
+  "finishedAt": "2026-11-13T21:52:16.314Z"
+}
