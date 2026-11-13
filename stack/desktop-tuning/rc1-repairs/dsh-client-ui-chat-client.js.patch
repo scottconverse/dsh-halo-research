@@ -1,0 +1,37 @@
+--- a/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js
++++ b/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js
+@@ -6705,7 +6705,7 @@
+ 			"message.turnError": "本轮运行失败",
+ 			"message.maxTokens": "已达到输出 token 上限",
+ 			"message.maxTokens.hint": "回答被截断，已有输出保留在对话中。发送“继续”可让模型接着输出。",
+-			"message.tokensPerSecond": "{tps} tok/s",
++			"message.tokensPerSecond": "{tps} tok/s (text)",
+ 			"message.turnUsage.title": "本轮用量",
+ 			"message.turnUsage.consumed": "用量 {total}",
+ 			"message.turnUsage.model": "提供方 / 模型",
+@@ -6903,7 +6903,7 @@
+ 			"message.turnError": "This turn failed",
+ 			"message.maxTokens": "Output token limit reached",
+ 			"message.maxTokens.hint": "The reply was cut off; earlier output is preserved in the conversation. Send \"continue\" to let the model resume.",
+-			"message.tokensPerSecond": "{tps} tok/s",
++			"message.tokensPerSecond": "{tps} tok/s (text)",
+ 			"message.turnUsage.title": "Turn usage",
+ 			"message.turnUsage.consumed": "Usage {total}",
+ 			"message.turnUsage.model": "Provider / model",
+@@ -9428,7 +9428,7 @@
+ 			return {
+ 				ttftMs: timing !== void 0 && timing.stepStartTime !== null && timing.firstTokenTime !== null ? Math.max(0, timing.firstTokenTime - timing.stepStartTime) : null,
+ 				decodeMs: timing !== void 0 && timing.firstTokenTime !== null ? Math.max(0, timing.completedTime - timing.firstTokenTime) : null,
+-				outputTokens: usageOutputTokens(node.usage)
++				outputTokens: node.blocks.some(block => block.kind === "tool-call") ? null : usageOutputTokens(node.usage)
+ 			};
+ 		}
+ 		//#endregion
+@@ -15586,4 +15586,5 @@
+ 	}
+ });
+ 
+-//# sourceMappingURL=client.js.map
+\ No newline at end of file
++//# sourceMappingURL=client.js.map
++// halo-measured-text-speed-v1: exclude tool-call delivery from inferred decode rate.

@@ -19,7 +19,7 @@ $deploy = $PSScriptRoot
 $dshHome = 'C:\Users\scott\.dsh-stock'
 $node = 'C:\Program Files\nodejs\node.exe'
 $lms = 'C:\Users\scott\.lmstudio\bin\lms.exe'
-$wigoloEntry = 'C:\Users\scott\Desktop\Code\wigolo\dist\index.js'
+$wigoloEntries = @('C:\Users\scott\Desktop\Code\wigolo\dist\index.js', 'C:\Users\scott\Documents\Codex\2026-11-10\dsh-stack-rc1\wigolo\dist\index.js')
 $logs = Join-Path $deploy 'logs'
 $missionControlSource = Join-Path $deploy 'mission-control\mission-control.mjs'
 $missionControlInstalled = Join-Path $dshHome 'mission-control\mission-control.mjs'
@@ -80,7 +80,7 @@ function Wait-ForWigoloMcpChild([int] $TimeoutSeconds = 60) {
             }
             $snapshot = @(Get-CimInstance Win32_Process)
             foreach ($descendant in @(Get-ProcessDescendants ([int]$dshProcess.ProcessId) $snapshot)) {
-                if (Test-ExactProcessCommand $descendant $node @($wigoloEntry, 'mcp')) {
+                if ($wigoloEntries.Where({ Test-ExactProcessCommand $descendant $node @($_, 'mcp') }, 'First').Count -gt 0) {
                     return $descendant
                 }
             }

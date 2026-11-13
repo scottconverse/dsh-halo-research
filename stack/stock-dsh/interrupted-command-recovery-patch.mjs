@@ -4,8 +4,8 @@ import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 
-export const PATCHED_VERSION='0.2.1-rc.5';
-export const PRISTINE_SHA256='2F5DD07CB5C744A29ABBB8003A8A4CEFD9E582C6E2538074CA299A0DDD02A3BF';
+export const PATCHED_VERSION='0.2.2-rc.1';
+export const PRISTINE_SHA256='6FAD466AA1F7AA64BFA038681EAD5721F66C88E9891E25D357D2B8EDBCCD5494';
 export const INTERRUPTED_COMMAND_MARKER='Interrupted by previous runtime shutdown';
 
 const original=[

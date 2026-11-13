@@ -1,0 +1,25 @@
+--- a/dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js
++++ b/dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js
+@@ -1,3 +1,13 @@
++
++// halo-workspace-path-v1: lexical Windows workspace identity; stored headers stay untouched.
++import {win32 as haloWindowsPath} from "node:path";
++function workspaceKey(value, platform = process.platform) {
++  // Only fully qualified Windows paths: never resolve a relative path or fold case.
++  if (platform !== 'win32' || typeof value !== 'string' || !(/^[a-zA-Z]:[\\/]/.test(value) || /^[\\/]{2}[^\\/]/.test(value))) return value;
++  const normalized = haloWindowsPath.normalize(value);
++  const root = haloWindowsPath.parse(normalized).root;
++  return normalized.length > root.length ? normalized.replace(/[\\/]+$/, '') : normalized;
++}
+ import { currentSessionMessageProjections } from "@deepseek-ai/dsh-session-format-catalog/message-projections";
+ import { Service } from "@deepseek-ai/cordis";
+ import { Session, SessionLogOffset, SessionSeq, foldSurface, interruptedTurnClosers, isSurfaceEvent, snapshotSessionEvent } from "@deepseek-ai/dsh-session";
+@@ -753,7 +763,7 @@
+ function sessionPredicate(filter) {
+ 	switch (filter.kind) {
+ 		case "id": return (record) => filter.values.includes(record.header.id);
+-		case "cwd": return (record) => filter.values.includes(record.header.cwd ?? null);
++		case "cwd": return (record) => filter.values.some(value => workspaceKey(value) === workspaceKey(record.header.cwd ?? null));
+ 		case "created-at": {
+ 			const range = validateRange(filter.kind, filter);
+ 			return (record) => matchesRange(record.header.createdAt, range);

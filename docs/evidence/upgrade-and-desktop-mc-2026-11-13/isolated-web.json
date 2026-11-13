@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-13T07:02:23Z",
+  "ports": {
+    "web": 3180,
+    "missionControl": 3190,
+    "ollama": 11435,
+    "xerj": 9202,
+    "redlib": 18082
+  },
+  "modelCalls": 0,
+  "modelProcessesStarted": false,
+  "authenticatedWebHttp": 200,
+  "webHtmlBytes": 37907,
+  "missionControlHttp": 200,
+  "missionControlHtmlBytes": 132485,
+  "missionControlPluginsHttp": 200,
+  "missionControlPluginsAvailable": true,
+  "_source": {
+    "file": "INSTALL-FINAL-ISOLATION-READBACK.json",
+    "sha256": "578b8314a611f41037ecb32d697c94a339684f867416efc73d6acb1e7a03efd3",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

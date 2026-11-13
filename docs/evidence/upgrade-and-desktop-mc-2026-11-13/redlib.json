@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T06:15:48.2939299Z",
+  "httpStatus": 200,
+  "commit": "ba116c1186f6b0f9d45f0ae50c827e13eb2f5ea2",
+  "matchesInstalledCommit": true,
+  "expectedVersion": "v0.40.0",
+  "_source": {
+    "file": "REDLIB-POST-CUTOVER-2026-11-12.json",
+    "sha256": "99598341584f4026f5b17622678a879410096ad98fffafb777ded2c9729e09d9",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-11-13T07:05:37.1702610Z",
+  "isolatedProcesses": [],
+  "isolatedListeners": [],
+  "xerjProcesses": [],
+  "strataProcesses": [],
+  "noModelsLoadedByFinalReview": true,
+  "stopControllerExitCode": 0,
+  "_source": {
+    "file": "INSTALL-FINAL-CLEANUP.json",
+    "sha256": "3866cbb9cd96b7d4c86e8ec27c360dc1587862b05c26597c7b12034da779fa11",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

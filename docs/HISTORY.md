@@ -156,3 +156,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Halo v0.3.12 portable-installer release](../RELEASE-NOTES-v0.3.12.md): existing installer0.1.0 ZIP, complete installation instructions and checksums; completed native evidence reused, no new tests or runtime/settings changes.
 
 - [Full Web Mission Control embedded in Desktop (November 13)](HALO-DSH-IMPLEMENTATION-2026-11-13-DESKTOP-MISSION-CONTROL.md): seven tabs, current Desktop host authentication, headless-only acceptance, additive deployment and rollback.
+
+- [Final rc.1 upgrades, isolated installation and Desktop Mission Control](HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md): delivered versions, selected terminal receipts, original-index preservation, rollback and explicit evidence limits.

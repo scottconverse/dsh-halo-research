@@ -1,0 +1,18 @@
+{
+  "context": 131072,
+  "reasoning": "medium",
+  "strataLoaded": false,
+  "time": "2026-11-10T09:47:12.6141057-07:00",
+  "prompt": "short",
+  "outputCap": 32768,
+  "adapterHash": "1A3AE58F9B4493E15459CC5000EC80F21B5D3F4A9DEA6FFB6BC28E5B8817AE8A",
+  "archiveHash": "0E8591AC622BFAB026917EFF578920FF1F31DAB0D5586DE66C73E3B107CECBCA",
+  "desktopProcessChanged": false,
+  "endpoint": "loopback mock",
+  "_source": {
+    "file": "DESKTOP-QWEN-WIRE.json",
+    "sha256": "ae9f44e65904f0e177c5d600c53b1d4ddac05b6cf00339cc6b7bb0c01b0f43fe",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

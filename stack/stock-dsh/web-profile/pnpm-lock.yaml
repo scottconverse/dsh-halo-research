@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  dsh-xai@0.1.0: 686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d
+  dsh-xai@0.1.0: bc980ba875ff850b3ad603e9b93c3d85dd6f08e64d8eee344061fc1661e128a1
 
 importers:
 
@@ -21,8 +21,8 @@ importers:
         specifier: github:rifkyazizf/dsh-session-tabs#f839aec07b276a94e79c44c7c33a22768e8ff022
         version: https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022
       dsh-xai:
-        specifier: github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b
-        version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d)
+        specifier: github:MirDie/dsh-xai#dbc5dbc3646461eb96c175f5d6036e369a0beb08
+        version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/dbc5dbc3646461eb96c175f5d6036e369a0beb08(patch_hash=bc980ba875ff850b3ad603e9b93c3d85dd6f08e64d8eee344061fc1661e128a1)
 
 packages:
 
@@ -39,8 +39,8 @@ packages:
     resolution: {gitHosted: true, integrity: sha512-Avb2YlGaOQUtr+dacOku+/6rNar5bqLyWkAzfIGoi3a/X/eHZQD64phtVCIJkynRvIA2ar/lxjzUT1znu/ZTIA==, tarball: https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022}
     version: 0.1.0
 
-  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b:
-    resolution: {gitHosted: true, integrity: sha512-/ZnH3ZIVldhqHUoJNvLNi1NVmlM1AOZ7BSGQypd/5//MIj45/vHh6LMpC8yD9/C9jnXvnK00bpp/FSOeMtlCrw==, tarball: https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b}
+  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/dbc5dbc3646461eb96c175f5d6036e369a0beb08:
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/MirDie/dsh-xai/tar.gz/dbc5dbc3646461eb96c175f5d6036e369a0beb08}
     version: 0.1.0
     hasBin: true
     peerDependencies:
@@ -87,4 +87,4 @@ snapshots:
 
   dsh-session-tabs@https://codeload.github.com/rifkyazizf/dsh-session-tabs/tar.gz/f839aec07b276a94e79c44c7c33a22768e8ff022: {}
 
-  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/5946301f992b7445d8dcb26bd9c89dc86246832b(patch_hash=686414d6e87b6d895a00a4251af6f6a47105124f72c8d60d31915d1014aa172d): {}
+  dsh-xai@https://codeload.github.com/MirDie/dsh-xai/tar.gz/dbc5dbc3646461eb96c175f5d6036e369a0beb08(patch_hash=bc980ba875ff850b3ad603e9b93c3d85dd6f08e64d8eee344061fc1661e128a1): {}

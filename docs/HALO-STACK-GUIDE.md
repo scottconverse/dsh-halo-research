@@ -1,3 +1,11 @@
+## November 13, 2026 — final upgrade and Desktop Mission Control
+
+Halo Web and Desktop are installed on **DSH0.2.2-rc.1**. Wigolo0.3.1, Ollama0.40.16, Redlib0.40.0 and XERJ1.0.0-rc.101 cutovers are complete; native Strata0.2.13 remains unloaded. Original XERJ data and all rollback material are retained. Earlier blocker snapshots are historical. No model defaults or goals were changed for publication.
+
+Desktop has the full seven-tab Web Mission Control dashboard embedded in its sidebar on the next normal launch (loopback3091; Web MC remains3090). Headless installed-host acceptance passed; no inference/model mutations. The isolated complete install uses private Web3180/MC3190/Ollama11435/XERJ9202/Redlib18082, passed GUI/authenticated Web/MC checks, and was stopped. It is not fresh-PC proof. Its release bundle remains0.1.0/rc.3; installer source0.1.1 remainsrc.5, distinct from Halo rc.1. No release artifact was replaced.
+
+See [final versions, evidence, recovery and limitations](HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md), including Strata's unverified detached signature/NotSigned executable, Desktop near-full-context clamp and optional account onboarding limits.
+
 ## November 5, 2026 — current configuration/reference sync
 
 Repository profile mirrors now match installed Web/Desktop rc.5 configuration,
