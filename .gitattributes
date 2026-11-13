@@ -4,3 +4,12 @@
 
 # Preserve published synthetic evidence byte hashes across checkouts.
 /stack/three-role/acceptance/inventory-ledger-tuned/* -text whitespace=cr-at-eol
+
+# Recovery diffs and pnpm patches are hash-sensitive payloads; their context
+# prefixes/CRLF are patch data, not indentation in executable source.
+/stack/desktop-tuning/rc1-repairs/*.patch -text whitespace=-space-before-tab,-blank-at-eol,cr-at-eol
+/stack/desktop-tuning/ui-plugins-profile/patches/*.patch -text whitespace=-space-before-tab,-blank-at-eol,cr-at-eol
+/stack/stock-dsh/web-profile/patches/*.patch -text whitespace=-space-before-tab,-blank-at-eol,cr-at-eol
+/stack/stock-dsh/runtime-patch-backups/pi-ai-1.5.2-simple-options.js.original -text
+
+/stack/stock-dsh/runtime-patch-backups/dsh-llm-pi-ai-0.2.2-rc.1-index.js.original -text

@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-11-13T06:43:17Z",
+  "status": "cutover-live-verified",
+  "llmCalls": 0,
+  "rolledBack": false,
+  "launcherExit": 0,
+  "version": "xerj v1.0.0-rc.101",
+  "liveIndices": [
+    {
+      "index": "halo-records-docs",
+      "docs.count": "14",
+      "health": "green"
+    },
+    {
+      "index": "autoindex-catalog",
+      "docs.count": "6",
+      "health": "green"
+    }
+  ],
+  "installedHash": "d5c2fc95a0439a4b02445d44d14e74f497cc7bd150a9a8e20f435112b636d66f",
+  "portClosed": true,
+  "originalUnchanged": true,
+  "embedderUnloaded": true,
+  "completedAt": "2026-11-13T06:43:29Z",
+  "_source": {
+    "file": "XERJ-CUTOVER-NEURAL.json",
+    "sha256": "a40fb89f69da6a4d78fd6fc694c13f5f0342e7f335ab3c10925309c0ade98150",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

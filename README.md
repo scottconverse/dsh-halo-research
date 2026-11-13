@@ -1,12 +1,14 @@
 # DSH for the Halo Windows workstation
 
-**Current source/configuration reference: November 5, 2026.** Start with
-[Install, update and recover DSH](docs/INSTALL-AND-RECOVER.md) for a different PC
-or this Halo. Both installed profiles and rc.5 recovery source are synchronized.
-Installer source0.1.1 now pins rc.5 and carries the shared-library skills; published
-v0.3.12/v0.3.13 ZIPs remain the older0.1.0/rc.3 artifacts. See the
-[synchronization and evidence limits](docs/HALO-DSH-IMPLEMENTATION-2026-11-05-CONFIG-SYNC.md).
+**Current source/configuration reference: November 13, 2026.** Halo Web and
+Desktop run DSH **0.2.2-rc.1** with retained Halo repairs. Desktop now embeds the
+full Web Mission Control dashboard, with seven tabs, charts and controls.
+[Final upgrade, installation, verification and recovery record](docs/HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md).
 
+Start with [Install, update and recover DSH](docs/INSTALL-AND-RECOVER.md).
+Installer source0.1.1 remainsrc.5; published v0.3.12/v0.3.13 ZIPs remain the
+original0.1.0/rc.3 artifacts. These differ from the Halo rc.1 configuration;
+no released installer or signed executable was replaced by this source update.
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. Cloning it does not reproduce this machine's accounts, models or private runtime state. Separate installers create fresh deployments without copying that state.
 
@@ -23,7 +25,7 @@ the ZIP, checksums and current installation instructions from
 Publication reuses the original verified ZIP; it does not imply fresh-PC acceptance.
 The earlier cloud-only release remains available below.
 
-Both installed hosts now use rc.5 with retained Halo fixes. Desktop's [visible acceptance and preservation limits](docs/HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md) are recorded. Local Qwen retains Medium/32K settings; its Strata backend remains deliberately off.
+Both Halo hosts now use rc.1 with retained repairs. [Current evidence and limitations](docs/HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md) supersede earlier dated snapshots. Local Qwen retains Medium/32K settings and Strata remains unloaded. [Embedded Desktop Mission Control](stack/desktop-mission-control/README.md) connects to Desktop's own host; Web Mission Control stays independent.
 
 ## Portable cloud-only installation
 

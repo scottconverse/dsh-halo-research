@@ -5,7 +5,7 @@
     "dsh-activity-view": "github:vec715/dsh-activity-view#4f6140ad0ef5e9a04354639461ac63ac00e9c9b4",
     "dsh-plugin-mcp-settings": "github:cyberofficial/dsh-plugin-mcp-settings#8573c29ac338b6f06442d7cb517260562d975a98",
     "dsh-session-tabs": "github:rifkyazizf/dsh-session-tabs#f839aec07b276a94e79c44c7c33a22768e8ff022",
-    "dsh-xai": "github:MirDie/dsh-xai#5946301f992b7445d8dcb26bd9c89dc86246832b"
+    "dsh-xai": "github:MirDie/dsh-xai#dbc5dbc3646461eb96c175f5d6036e369a0beb08"
   },
   "dsh": {
     "profile": {

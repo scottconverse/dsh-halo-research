@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-12T20:14:24.9997221Z",
+  "version": "0.2.1-rc.3",
+  "guiVerified": true,
+  "windowTitle": "DeepSeek Harness",
+  "document": "dsh-app://app/",
+  "visibleControls": [
+    "New session",
+    "Plugins",
+    "Automation tasks",
+    "DeepSeek Cloud coding",
+    "Select model: DeepSeek V4.1 Flash 1017 Cloud; Low"
+  ],
+  "modelCalls": 0,
+  "fix": "Start-Owned uses Normal window style for desktop; all background services retain Hidden",
+  "profileModified": false,
+  "_source": {
+    "file": "INSTALL-DESKTOP-GUI-READBACK.json",
+    "sha256": "5e682fa21d0013c64ba7b595637a2b217317263b09c1a9467a9073f1c41b9b4f",
+    "historical": true,
+    "redactedToSelectedFields": true
+  }
+}

@@ -37,11 +37,12 @@ test('pristine installed SDK backup receives exactly the scoped opt-out', () => 
   const patched = patchSource(pristine);
   assert.ok(patched.includes(`process.env.${OPT_OUT} === "1"`));
   assert.equal(patchSource(patched), patched);
-  assert.ok(patched.includes('model.contextWindow - estimateContextTokens(context).tokens - CONTEXT_SAFETY_TOKENS'));
+  assert.ok(patched.includes('const input = estimateContextTokens(context).tokens;'));
+  assert.ok(patched.includes('let room = model.contextWindow - input - margin;'));
 });
 
-test('upstream clamp reproduces 70 tokens; DSH opt-out preserves 24K even at estimated overflow', async () => {
-  await withOptOut(undefined, () => assert.equal(clampMaxTokensToContext(model, context, 24576), 70));
+test('pi-ai 1.5.2 upstream clamp reaches its one-token floor; DSH opt-out preserves 24K even at estimated overflow', async () => {
+  await withOptOut(undefined, () => assert.equal(clampMaxTokensToContext(model, context, 24576), 1));
   await withOptOut('1', () => {
     assert.equal(clampMaxTokensToContext(model, context, 24576), 24576);
     assert.equal(clampMaxTokensToContext(model, { messages: [{ role: 'user',
@@ -87,7 +88,7 @@ test('installed DSH adapter keeps real 64K metadata and sends the configured 24K
       let adapter;
       apply({ get: name => name === 'credentials' ? { resolve: async () => ({ value: 'test-only' }) } : undefined,
         fiber: { entry: { options: { id: 'llm-pi-ai' } } }, on() {},
-        inject() {}, logger: console, llm: { registerConfigurableProviders() { return { replace() {} }; },
+        inject() {}, waterfall(_event, _request, _headers, fallback) { return fallback(); }, logger: console, llm: { registerConfigurableProviders() { return { replace() {} }; },
           registerModelDiscovery() {}, registerAdapter(_routes, value) { adapter = value; return { replace() {} }; } } },
         Config({ providers: { 'web-fast': { api: 'openai-completions',
           baseURL: `http://127.0.0.1:${server.address().port}/v1`, apiKeyEnv: 'TEST_ONLY', reasoning: 'high',

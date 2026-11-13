@@ -53,7 +53,7 @@ function Start-Owned([string]$Name,[string]$Exe,[string[]]$Arguments,[int]$Port=
     # Start-Process joins its array on Windows. JSON quoting is not Windows
     # argv quoting; quote each fixed path/argument and reject embedded quotes.
     $quoted=@($Arguments | ForEach-Object { if ($_ -match '["\r\n]') { throw 'Unsafe launch argument' }; '"'+$_.TrimEnd('\')+'"' })
-    $process=Start-Process -FilePath $Exe -ArgumentList $quoted -WorkingDirectory $root -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $logs ($Name+'.stdout.log')) -RedirectStandardError (Join-Path $logs ($Name+'.stderr.log'))
+    $process=Start-Process -FilePath $Exe -ArgumentList $quoted -WorkingDirectory $root -WindowStyle $(if($Name -eq 'desktop'){'Normal'}else{'Hidden'}) -PassThru -RedirectStandardOutput (Join-Path $logs ($Name+'.stdout.log')) -RedirectStandardError (Join-Path $logs ($Name+'.stderr.log'))
     Start-Sleep -Milliseconds 300
     $actual=Get-CimInstance Win32_Process -Filter ('ProcessId='+$process.Id)
     if (-not $actual) { throw "$Name exited at startup. Inspect this installation's logs." }

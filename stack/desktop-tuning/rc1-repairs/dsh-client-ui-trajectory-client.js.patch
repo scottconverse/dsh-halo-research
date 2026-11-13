@@ -1,0 +1,26 @@
+--- a/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js
++++ b/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js
+@@ -4946,6 +4946,7 @@
+ 			return formatDurationMs(Math.max(0, metrics.completedTime - metrics.firstTokenTime), t);
+ 		}
+ 		function throughput(metrics, t) {
++			if (metrics.hasToolCalls) return "Not measurable (tool-call delivery)";
+ 			if (!metrics.usageProvided) return t("timing.usageUnavailable");
+ 			if (metrics.outputTokens === null) return t("timing.outputTokensUnavailable");
+ 			if (!metrics.timingRecorded || metrics.firstTokenTime === null) return t("timing.firstTokenUnavailable");
+@@ -8677,6 +8678,7 @@
+ 				stepStartTime: timing?.stepStartTime ?? null,
+ 				firstTokenTime: timing?.firstTokenTime ?? null,
+ 				completedTime: streaming ? null : finiteTime(node.time),
++				hasToolCalls: node.blocks.some(block => block.kind === "tool-call"),
+ 				usageProvided: usage !== void 0,
+ 				outputTokens: Number.isFinite(usage?.outputTokens) ? usage?.outputTokens ?? null : null
+ 			};
+@@ -9626,4 +9628,5 @@
+ 	}
+ });
+ 
+-//# sourceMappingURL=client.js.map
+\ No newline at end of file
++//# sourceMappingURL=client.js.map
++// halo-measured-text-speed-v1: exclude tool-call delivery from inferred decode rate.

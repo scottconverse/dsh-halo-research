@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest
 $logs = Join-Path $PSScriptRoot 'logs'
 $node = 'C:\Program Files\nodejs\node.exe'
 $dshEntry = Join-Path $PSScriptRoot 'node_modules\@deepseek-ai\dsh\lib\bin.js'
-$wigoloEntry = 'C:\Users\scott\Desktop\Code\wigolo\dist\index.js'
+$wigoloEntries = @('C:\Users\scott\Desktop\Code\wigolo\dist\index.js', 'C:\Users\scott\Documents\Codex\2026-11-10\dsh-stack-rc1\wigolo\dist\index.js')
 $installedMissionControl = 'C:\Users\scott\.dsh-stock\mission-control\mission-control.mjs'
 
 . (Join-Path $PSScriptRoot 'Process-Identity.ps1')
@@ -47,7 +47,7 @@ $verifiedWigolo = [Collections.Generic.List[object]]::new()
 $verifiedWigoloIds = [Collections.Generic.HashSet[int]]::new()
 foreach ($dshProcess in $dshProcesses) {
     foreach ($descendant in @(Get-ProcessDescendants ([int]$dshProcess.ProcessId) $snapshot)) {
-        if ((Test-ExactProcessCommand $descendant $node @($wigoloEntry, 'mcp')) -and
+        if (($wigoloEntries.Where({ Test-ExactProcessCommand $descendant $node @($_, 'mcp') }, 'First').Count -gt 0) -and
             $verifiedWigoloIds.Add([int]$descendant.ProcessId)) {
             $verifiedWigolo.Add($descendant)
         }

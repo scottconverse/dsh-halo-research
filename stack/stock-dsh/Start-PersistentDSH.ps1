@@ -25,6 +25,7 @@ if (-not $task -or $task.State -ne 'Running') {
 }
 $deadline = [DateTime]::UtcNow.AddSeconds(150)
 $healthy = $false
+$startupGrace = [DateTime]::UtcNow.AddSeconds(45)
 while ([DateTime]::UtcNow -lt $deadline) {
     try {
         $web = Get-DshWebReadiness
@@ -42,7 +43,7 @@ while ([DateTime]::UtcNow -lt $deadline) {
             $healthy = $true; break
         }
     } catch { }
-    if ((Get-ScheduledTask -TaskName $taskName).State -ne 'Running') {
+    if ((Get-ScheduledTask -TaskName $taskName).State -ne 'Running' -and [DateTime]::UtcNow -ge $startupGrace) {
         throw 'DSH host task exited during startup. Inspect stack-lifecycle.log and DSH error logs.'
     }
     Start-Sleep -Milliseconds 500

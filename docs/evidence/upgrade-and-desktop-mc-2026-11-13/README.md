@@ -1,0 +1,3 @@
+# Publication evidence
+
+Selected fields from completed historical acceptance receipts are published here. SHA256 identifies the retained local original, not a claim that private raw evidence was uploaded. No live host/service acceptance checks were repeated for publication; affected unit tests use pure fixtures and owned loopback mocks. Current source/manifest checks are recorded separately. No raw chats, authentication URLs, account tokens, model weights, index contents, sessions or full local backups are included. Desktop Mission Control's compact headless receipt is in stack/desktop-mission-control/headless-acceptance.json.

@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { homedir } from 'node:os';
 
 const NODE = process.execPath;
-const WIGOLO = process.env.DSH_WIGOLO || path.join(homedir(), 'Desktop/Code/wigolo/dist/index.js');
+const WIGOLO = process.env.DSH_WIGOLO || path.join(homedir(), 'Documents/Codex/2026-11-10/dsh-stack-rc1/wigolo/dist/index.js');
 const REDDIT_PARSER = process.env.DSH_REDDIT_PARSER || path.join(homedir(), '.agents/skills/reddit-search/scripts/reddit_extract.py');
 const PYTHON = process.env.DSH_REDDIT_PYTHON || 'python';
 const PYTHON_PREFIX = process.env.DSH_REDDIT_PYTHON_LAUNCHER === '1' ? ['-3'] : [];

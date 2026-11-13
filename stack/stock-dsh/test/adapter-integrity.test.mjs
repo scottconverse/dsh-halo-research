@@ -41,6 +41,7 @@ function adapterContext() {
     fiber: { entry: { options: { id: 'llm-pi-ai' } } },
     on() {},
     inject() {},
+    waterfall(_event, _request, _headers, fallback) { return fallback(); },
     logger: { warn() {}, error() {}, info() {}, debug() {} },
     llm: {
       registerConfigurableProviders() { return { replace() {} }; },
@@ -130,29 +131,20 @@ function usageOf(chunks) {
   return usage.usage;
 }
 
-test('version-pinned adapter patch is idempotent, guarded, and backup-backed', () => {
-  const { target, version } = locateAdapter();
-  assert.equal(version, PATCHED_VERSION);
-  const source = readFileSync(target, 'utf8');
-  assert.ok(isFullyPatched(source), 'installed adapter must expose the full expected patched shape');
-  assert.ok(source.includes(OLLAMA_FETCH_MARKER), 'only the configured Ollama profile should receive the timeout fetch');
+test('version-pinned pristine adapter gets the full idempotent patch and rejects partial drift', () => {
+  // Test the guarded transformation against the retained exact upstream fixture.
+  // Never apply a patch to a shared/installed dependency tree from a unit test.
+  const backup = new URL(`../runtime-patch-backups/dsh-llm-pi-ai-${PATCHED_VERSION}-index.js.original`, import.meta.url);
+  const pristine = readFileSync(backup, 'utf8');
+  assert.equal(createHash('sha256').update(pristine).digest('hex').toUpperCase(), PRISTINE_SHA256);
+  const source = patchSource(pristine);
+  assert.ok(isFullyPatched(source));
+  assert.ok(source.includes(OLLAMA_FETCH_MARKER));
   assert.equal(patchSource(source), source);
   assert.throws(() => patchSource('function mapUsage() { return {}; }'), /Unexpected/);
-  // Remove both parseArguments error messages so only the usage repair remains: a genuine partial patch.
   const partial = source.split(ARGUMENTS_MARKER).join('removed-marker');
   assert.throws(() => patchSource(partial), /Partially patched|Unexpected|refusing a blind patch/);
   assert.throws(() => patchSource(source.replace(REASONING_MARKER, 'drifted-reasoning-marker')), /Partially patched|Unexpected/);
-  const backup = new URL(`../runtime-patch-backups/dsh-llm-pi-ai-${PATCHED_VERSION}-index.js.original`, import.meta.url);
-  assert.ok(existsSync(backup), 'pristine backup must exist');
-  const pristine = readFileSync(backup, 'utf8');
-  assert.equal(createHash('sha256').update(pristine).digest('hex').toUpperCase(), PRISTINE_SHA256);
-  const patched = patchSource(pristine);
-  assert.ok(patched.includes(REASONING_MARKER));
-  assert.ok(patched.includes(ARGUMENTS_MARKER));
-  assert.ok(patched.includes(OLLAMA_FETCH_MARKER));
-  assert.ok(isFullyPatched(patched));
-  assert.equal(patchSource(patched), patched);
-  assert.deepEqual(ensureAdapterIntegrityPatch(), { changed: false, version: PATCHED_VERSION });
 });
 
 test('actual adapter maps positive reasoningTokens and keeps output inclusive', async () => {

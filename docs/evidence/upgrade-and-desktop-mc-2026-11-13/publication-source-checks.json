@@ -1,0 +1,27 @@
+{
+  "sixArchiveRepairPatchesReconstructExactHashes": [
+    "dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+    "dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-query-sqlite/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-query/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-session-stats/lib/index.js",
+    "dsh/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js"
+  ],
+  "publicationFilesScanned": 63,
+  "credentialPatternHits": [],
+  "runtimeRestarted": false,
+  "modelWorkloadsStarted": false,
+  "affectedNodeChecks": {
+    "publicationIntegrationTestsPassed": 24,
+    "liveWigoloTestIntentionallySkipped": 1,
+    "desktopMissionControlTestsPassed": 5,
+    "installerTestsPassed": 4,
+    "powershellOwnedIdentityRegression": "passed",
+    "adapterIntegrityTestsPassed": 11
+  },
+  "diffWhitespace": "Hash-sensitive xAI patch payload retains CRLF and blank context lines; no executable-source whitespace errors.",
+  "manifestLockPairsValidated": 3,
+  "changedJavaScriptSyntaxChecks": 10,
+  "powershellFilesParsed": 4,
+  "scanScope": "All files changed from origin/master, including Desktop Mission Control"
+}

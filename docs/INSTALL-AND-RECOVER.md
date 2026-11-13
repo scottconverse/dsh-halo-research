@@ -1,6 +1,6 @@
 # Install, update and recover DSH
 
-Current source synchronization: November 5, 2026. This repository has both portable
+Current source synchronization: November 13, 2026. Halo Web/Desktop are rc.1; see the [final upgrade and recovery record](HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md). Installer pins below describe separate artifacts. This repository has both portable
 installation sources and snapshots of Scott's installed Halo configuration. They
 serve different purposes. A clone does not copy accounts, model weights or history.
 

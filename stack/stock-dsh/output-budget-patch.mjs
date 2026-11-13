@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -5,7 +6,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 
 // Deployment-scoped opt-out. Other pi-ai consumers keep the upstream behavior.
 export const OPT_OUT = 'HALO_DSH_DISABLE_ESTIMATED_OUTPUT_CLAMP';
-export const PATCHED_VERSION = '1.0.2';
+export const PATCHED_VERSION = '1.5.2';
 const original = 'export function clampMaxTokensToContext(model, context, maxTokens) {\n';
 const replacement = original +
   '    // Halo DSH: explicit output budgets must not be overwritten by a character estimate.\n' +
@@ -17,7 +18,7 @@ export function patchSource(source) {
   if (normalized.includes(replacement)) return normalized;
   if (normalized.includes(OPT_OUT) || normalized.split(original).length !== 2)
     throw new Error('Unexpected pi-ai output-budget implementation; refusing a blind patch.');
-  if (!normalized.includes('model.contextWindow - estimateContextTokens(context).tokens - CONTEXT_SAFETY_TOKENS'))
+  if (createHash('sha256').update(source).digest('hex') !== '7e80e985f50d968dfd4422ed501d87280236470bff996c8f05f18d220dce1e53')
     throw new Error('Expected pi-ai context clamp is missing; review this SDK before patching.');
   return normalized.replace(original, replacement);
 }
