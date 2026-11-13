@@ -36,7 +36,7 @@ Published project URL: https://scottconverse.github.io/dsh-halo-research/. Initi
 
 The screenshot is an unchanged real capture from the isolated rc.1 Desktop headless acceptance on November 13, 2026. It uses a metadata-only provider and contains no model output, private paths, tokens or personal sessions. Its source SHA-256 is recorded in the dated site verification report. Keep the test-environment caption; do not turn the capture into a live-status claim.
 
-When changing the installer version, update both page occurrences, the download/checksum links and the Web/Desktop version labels from `stack/complete-windows/components.json`. Recheck public links and build/preview under the project subpath. Review desktop, tablet and mobile renders, keyboard and no-JavaScript navigation. Existing app/installer tests need not be repeated for copy-only changes.
+The page links release **v0.3.14** and its installer **0.1.2** ZIP/checksum assets directly. When changing the installer version, update the release link, version occurrences, the download/checksum links and the Web/Desktop version labels from `stack/complete-windows/components.json`. Recheck public links and build/preview under the project subpath. Review desktop, tablet and mobile renders, keyboard and no-JavaScript navigation. Existing app/installer tests need not be repeated for copy-only changes.
 
 Claims about model calls, accounts, fresh-PC installation or performance require their own evidence. The current site explicitly limits those claims. There is no root repository license grant; upstream components retain their own terms.
 
