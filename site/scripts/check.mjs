@@ -17,6 +17,20 @@ assert.ok(
   html.includes(`Web + Desktop ${components.dsh}`),
   "Page follows pinned upstream version",
 );
+const releaseBase =
+  "https://github.com/scottconverse/dsh-halo-research/releases";
+assert.ok(
+  html.includes(`href="${releaseBase}/tag/v0.3.14"`),
+  "Published release has a visible link",
+);
+for (const suffix of [".zip", ".zip.sha256"]) {
+  assert.ok(
+    html.includes(
+      `href="${releaseBase}/download/v0.3.14/DSH-Complete-Windows-${components.version}${suffix}"`,
+    ),
+    "Installer and checksum use published release assets",
+  );
+}
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
 assert.equal(new Set(ids).size, ids.length, "Unique anchors");
 for (const [, fragment] of html.matchAll(/href="#([^"]+)"/g))
