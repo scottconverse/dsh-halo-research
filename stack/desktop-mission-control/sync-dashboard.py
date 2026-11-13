@@ -7,19 +7,21 @@ def replace(old,new,count=1):
     global s
     if s.count(old)!=count: raise RuntimeError(f'Expected {count} matches: {old[:90]!r}; got {s.count(old)}')
     s=s.replace(old,new)
-replace("const PORT = 3090;", """// Desktop adapter: the dashboard below is the verified Web implementation.
+replace("const PORT = Number(process.env.DSH_MC_PORT || 3090);", """// Desktop adapter: the dashboard below is the verified Web implementation.
 // Only host transport, deployment paths, framing and lifecycle differ.
 const target = JSON.parse(new URL(import.meta.url).searchParams.get('target') || 'null');
 if (!target?.home || !target?.root || !target?.profile || !target?.repoProfile) throw new Error('Desktop dashboard requires explicit deployment paths');
 const PORT = target.port || 3091;
 let desktopBridge;
 let desktopClosing = false;
-const dshAvailable = async () => !!desktopBridge && !desktopBridge.signal.aborted && await tcpCheck(Number(new URL(DSH_ORIGIN).port));""")
+const dshAvailable = async () => !!desktopBridge && !desktopBridge.signal.aborted && await tcpCheck(+new URL(DSH_ORIGIN).port);""")
+replace("const OLLAMA_ORIGIN = process.env.DSH_MC_OLLAMA_ORIGIN || 'http://127.0.0.1:11434';", "const OLLAMA_ORIGIN = target.ollamaOrigin || process.env.DSH_MC_OLLAMA_ORIGIN || 'http://127.0.0.1:11434';")
+replace("const OLLAMA_ONLY = process.env.DSH_MC_OLLAMA_ONLY === '1';", "const OLLAMA_ONLY = target.ollamaOnly === true || process.env.DSH_MC_OLLAMA_ONLY === '1';")
 replace("const DSH_HOME = path.resolve(process.env.DSH_HOME || path.join(HOME, '.dsh-stock'));", "const DSH_HOME = path.resolve(target.home);")
 replace("const DSH_ROOT = path.resolve(process.env.HALO_DSH_ROOT || path.join(path.dirname(SOURCE_FILE), '..'));", "const DSH_ROOT = path.resolve(target.root);")
 replace("const MC_DIR = path.resolve(process.env.HALO_MC_DIR || path.join(DSH_HOME, 'mission-control'));", "const MC_DIR = path.resolve(target.dataDir || path.join(DSH_HOME, 'mission-control'));")
 replace("    return typeof parsed.version === 'string' && parsed.version.trim() ? parsed.version.trim() : 'unknown';", "    return target.version || (typeof parsed.version === 'string' && parsed.version.trim() ? parsed.version.trim() : 'unknown');")
-replace("const DSH_ORIGIN = 'http://127.0.0.1:3080';", "let DSH_ORIGIN = 'http://127.0.0.1:0';")
+replace("const DSH_ORIGIN = process.env.DSH_MC_ORIGIN || 'http://127.0.0.1:3080';", "let DSH_ORIGIN = 'http://127.0.0.1:0';")
 start=s.index('function validDshLaunchUrl(value) {')
 end=s.index('\nasync function openDshInChrome()',start)
 s=s[:start]+r"""function validDshLaunchUrl(value) {
@@ -38,13 +40,13 @@ s=s.replace("'ws://127.0.0.1:3080/api/remote.mux'", "DSH_ORIGIN.replace('http:',
 replace('function scheduleMuxReconnect() {', 'function scheduleMuxReconnect() {\n  if (desktopClosing) return;')
 # No startup against Web's port, log or cookie. The retained implementation is
 # kept close to the upstream Web source for review; Desktop takes the bridge.
-s=s.replace('tcpCheck(3080)', 'dshAvailable()')
+s=s.replace('tcpCheck(Number(new URL(DSH_ORIGIN).port))', 'dshAvailable()')
 replace('muxConnect();\n\n// Follow only active sessions.', '// The Desktop owner starts the stream after binding its in-process bridge.\n\n// Follow only active sessions.')
 replace("setInterval(() => { void pollLlamaDecode(); }, 2000).unref();\nvoid pollLlamaDecode();", "let desktopLlamaTimer;")
 replace("const PROFILE_FILE = path.join(DSH_HOME, 'profiles', 'web', 'cordis.patch.yml');", "const PROFILE_FILE = path.resolve(target.profile);")
 replace("const REPO_PROFILE_FILE = path.join(DSH_ROOT, 'web-profile', 'cordis.patch.yml');", "const REPO_PROFILE_FILE = path.resolve(target.repoProfile);")
 replace("const CORDIS_PATCH = path.join(DSH_HOME, 'cordis.patch.yml');", "const CORDIS_PATCH = path.resolve(target.profile);")
-replace("  'start-cockpit': () => safeSpawnStarted('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', START_DSH, '-NoOpen', '-KeepMissionControl'], { detached: true, stdio: 'ignore', windowsHide: true }),", "  'start-cockpit': () => { throw new Error('Desktop owns this dashboard lifecycle; reopen the Desktop app normally.'); },")
+replace("  'start-cockpit': () => safeSpawnStarted('powershell', ['-NoProfile', ...(OLLAMA_ONLY ? [] : ['-ExecutionPolicy', 'Bypass']), '-WindowStyle', 'Hidden', '-File', START_DSH, '-NoOpen', '-KeepMissionControl'], { detached: true, stdio: 'ignore', windowsHide: true }),", "  'start-cockpit': () => { throw new Error('Desktop owns this dashboard lifecycle; reopen the Desktop app normally.'); },")
 replace("  'open-dsh': () => openDshInChrome(),", "  'open-dsh': async () => { /* The embedded page navigates its native parent. */ },")
 start=s.index('async function openDsh(){')
 end=s.index('\nasync function act(a){',start)
@@ -62,6 +64,7 @@ s=s[:start]+"""        await dshRpc('settings/describe', {});
 """+s[end:]
 s=s.replace('const modelRecovery = state.modelRecovery || recoveryState();', 'const modelRecovery = {...(state.modelRecovery || recoveryState()), observeOnly: true};')
 s=s.replace("mr.monitorError||(!mr.dshUp", "mr.monitorError||(mr.observeOnly?'observe only (automatic recovery remains with Web)':!mr.dshUp")
+s=s.replace("'Web host'", "'Desktop host'").replace('Web host is unavailable', 'Desktop host is unavailable')
 s=s.replace('Open DSH in Chrome', 'Open Desktop')
 s=s.replace('written to the Web profile', 'written to the Desktop profile')
 s=s.replace('running &mdash; this dumps the full config, can take up to 2 minutes&hellip;', 'checking the current Desktop host and editable profile&hellip;')

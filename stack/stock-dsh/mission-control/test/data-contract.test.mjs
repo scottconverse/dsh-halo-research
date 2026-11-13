@@ -53,7 +53,7 @@ function recoveryHarness(t) {
   const mutation = source.slice(source.indexOf('async function runLmsMutation('), source.indexOf('const snapshotTaskCache'));
   h.boot = () => {
     h.api = new Function('fs', 'LMSTUDIO_MAIN_LOG', 'DAILY_BRAIN', 'DAILY_WORKER', 'readState', 'writeState', 'tcpCheck', 'lmsPs', 'safeExecFile', 'waitForModelState', 'Date', 'console',
-      `${body}\n${mutation}\nreturn { modelRecoveryTick, runLmsMutation, recoveryState, queuedLmsMutation };`)(
+      `${"const OLLAMA_ONLY = false; const DSH_ORIGIN = 'http://127.0.0.1:3080';"}\n${body}\n${mutation}\nreturn { modelRecoveryTick, runLmsMutation, recoveryState, queuedLmsMutation };`)(
       fs, log, roles.brain, roles.worker,
       () => structuredClone(h.saved), patch => { h.saved = structuredClone({ ...h.saved, ...patch }); },
       async () => h.up, async () => h.models == null ? null : structuredClone(h.models),

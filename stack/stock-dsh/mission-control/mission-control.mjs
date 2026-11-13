@@ -16,7 +16,7 @@ import { createRequire } from 'node:module';
 import { zstdDecompressSync } from 'node:zlib';
 
 const execFileP = promisify(execFile);
-const PORT = 3090;
+const PORT = Number(process.env.DSH_MC_PORT || 3090);
 // The complete installer owns a private Ollama endpoint. Legacy Halo defaults
 // remain unchanged; never inspect or control another installation's LM Studio.
 const OLLAMA_ORIGIN = process.env.DSH_MC_OLLAMA_ORIGIN || 'http://127.0.0.1:11434';
@@ -182,7 +182,8 @@ function installedDshVersion() {
     return typeof parsed.version === 'string' && parsed.version.trim() ? parsed.version.trim() : 'unknown';
   } catch { return 'unknown'; }
 }
-const DSH_ORIGIN = 'http://127.0.0.1:3080';
+const DSH_ORIGIN = process.env.DSH_MC_ORIGIN || 'http://127.0.0.1:3080';
+if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(DSH_ORIGIN)) throw Error('Expected loopback DSH origin');
 const DSH_STDOUT_LOG = process.env.DSH_MC_STDOUT_LOG || path.join(DSH_ROOT, 'logs', 'dsh.stdout.log');
 // Capture launch authority exactly once, then remove it from the process-wide
 // environment before any child can inherit it. A later DSH restart is learned
@@ -1164,7 +1165,7 @@ async function muxConnect() {
   const streamId = `mc-control-${Date.now()}-${crypto.randomBytes(6).toString('hex')}`;
   let socket;
   try {
-    socket = new WebSocket('ws://127.0.0.1:3080/api/remote.mux', { headers: { Cookie: cookie } });
+    socket = new WebSocket(DSH_ORIGIN.replace('http:', 'ws:') + '/api/remote.mux', { headers: { Cookie: cookie } });
   } catch {
     scheduleMuxReconnect();
     return;
@@ -1263,7 +1264,7 @@ function followLiveDecode(sessionId) {
     try {
       const cookie = await authenticateDsh();
       if (liveDecode.get(sessionId) !== state) return;
-      const socket = new WebSocket('ws://127.0.0.1:3080/api/remote.mux', { headers: { Cookie: cookie } });
+      const socket = new WebSocket(DSH_ORIGIN.replace('http:', 'ws:') + '/api/remote.mux', { headers: { Cookie: cookie } });
       state.socket = socket;
       const streamId = `mc-live-${crypto.randomBytes(8).toString('hex')}`;
       socket.on('open', () => {
@@ -1923,11 +1924,12 @@ function readNewCrashLines(s) {
   } catch (e) { return { ok: false, error: String(e?.message || e).slice(0, 240) }; }
 }
 async function modelRecoveryTick() {
+  if (OLLAMA_ONLY) return;
   if (recoveryTickRunning) return;
   recoveryTickRunning = true;
   try {
     const s = recoveryState();
-    const dshUp = await tcpCheck(3080);
+    const dshUp = await tcpCheck(Number(new URL(DSH_ORIGIN).port));
     const candidate = normalizeRecovery(s);
     const scan = readNewCrashLines(candidate);
     if (!scan.ok) { s.monitorError = scan.error; saveRecovery(s); return; }
@@ -1963,7 +1965,7 @@ async function modelRecoveryTick() {
       if (rs.attempts.some(at => Date.now() - at < 15000)) continue;
       try {
         const result = await runLmsMutation(['load', expected.modelKey, '--identifier', expected.identifier, '--gpu', 'max', '--context-length', String(expected.context), '--parallel', String(expected.parallel), '--no-speculative-draft-mtp', '-y'], expected.identifier, true, 10 * 60 * 1000, async () => {
-          if (!await tcpCheck(3080)) { rs.pending = false; return false; }
+          if (!await tcpCheck(Number(new URL(DSH_ORIGIN).port))) { rs.pending = false; return false; }
           const fresh = await lmsPs();
           if (fresh === null) throw new Error('LM Studio inventory unavailable before automatic recovery');
           // Check again after the asynchronous reads: an Unload may have been
@@ -1992,7 +1994,7 @@ async function modelRecoveryTick() {
 
 async function appendHistory() {
   try {
-    const [gpu, sess] = await Promise.all([gpuMemory(), getSessions(await tcpCheck(3080), 50)]);
+    const [gpu, sess] = await Promise.all([gpuMemory(), getSessions(await tcpCheck(Number(new URL(DSH_ORIGIN).port)), 50)]);
     if (!historyObservationState.initialized) {
       const lastRow = readHistorySpark(1)[0];
       historyObservationState.decodeSourceKey = lastRow?.decodeSourceKey || null;
@@ -2169,7 +2171,7 @@ async function catalog() {
 
 async function status() {
   const [dshUp, lmUp, models, runtime, lmsVer, gpu, disk, linkStatus, snapshotTask, ollama] = await Promise.all([
-    tcpCheck(3080), OLLAMA_ONLY ? Promise.resolve(false) : tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(), ollamaResidents(),
+    tcpCheck(Number(new URL(DSH_ORIGIN).port)), OLLAMA_ONLY ? Promise.resolve(false) : tcpCheck(1234), lmsPs(), lmsRuntimeLs(), lmsVersionStr(), gpuMemory(), diskUsage(), getLinkStatus(), memorySnapshotTaskState(), ollamaResidents(),
   ]);
   // Today totals and context selection need the complete session inventory,
   // not whichever 50 happen to sort first. The UI still renders a short slice.
@@ -2963,7 +2965,7 @@ function computeLights(s){
       (stalled.items||[]).map(function(x){return '"'+(x.title||x.id)+'" idle '+fmtDur(x.stalledMs)}).join('; ')+
       ' — no durable session activity; investigate before stopping'};
   }
-  else if(!s.services.cockpit) lights.HARNESS={level:'r',cause:'cockpit :3080 is down'};
+  else if(!s.services.cockpit) lights.HARNESS={level:'r',cause:'Web host is unavailable'};
   else if(s.dshData&&(s.dshData.cacheState==='stale'||s.dshData.cacheState==='unavailable')) {
     lights.HARNESS={level:'a',cause:'DSH inventory is '+s.dshData.cacheState+(s.dshData.error?': '+s.dshData.error:'')};
   }
@@ -3111,7 +3113,7 @@ function renderOverview(s){
   lastStatus=s;
   renderVitalsHead();
   var svcRows=[
-    ['Cockpit (:3080)',s.services.cockpit],
+    ['Web host',s.services.cockpit],
     ['LM Studio API (:1234)',s.services.lmstudio],
     ['Ollama API',s.ollama&&s.ollama.ok],
     ['lms CLI',s.services.lmsCli],
@@ -5065,7 +5067,7 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(settingsData())); return;
     }
     if (req.method === 'GET' && url.pathname === '/api/plugins') {
-      const dshUp = await tcpCheck(3080);
+      const dshUp = await tcpCheck(Number(new URL(DSH_ORIGIN).port));
       const slow = dshUp ? await slowPulls() : slowCacheView(Date.now(), 'DSH port unavailable');
       const overrides = cordisOverrideIds();
       const rawEntries = slow.pluginEntries || [];
@@ -5104,7 +5106,7 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     if (req.method === 'GET' && url.pathname === '/api/sessions') {
-      const dshUp = await tcpCheck(3080);
+      const dshUp = await tcpCheck(Number(new URL(DSH_ORIGIN).port));
       const wantAll = url.searchParams.get('all') === '1';
       const sc = await getSessions(dshUp, wantAll ? 500 : 50);
       const today = todayStats(sc.sessions || []);

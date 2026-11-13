@@ -1,3 +1,7 @@
+## November13,2026 — complete Windows installer0.1.2
+
+Complete installer0.1.2 now pins Web/Desktop0.2.2-rc.1 and bundles embedded Desktop Mission Control. Private ports3180/3190/3191/11435/9202/18082 keep the new installation separate from Halo. New locked runtime plus official extracted Desktop passed headless host/dashboard checks with all seven tabs; no models or inference. Working installation hashes stayed unchanged; all owned test hosts/listeners stopped. [Download, evidence, recovery and limits](DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md). Earlier installer pin snapshots are historical; existing release assets were not replaced.
+
 ## November 13, 2026 — final upgrade and Desktop Mission Control
 
 Halo Web and Desktop are installed on **DSH0.2.2-rc.1**. Wigolo0.3.1, Ollama0.40.16, Redlib0.40.0 and XERJ1.0.0-rc.101 cutovers are complete; native Strata0.2.13 remains unloaded. Original XERJ data and all rollback material are retained. Earlier blocker snapshots are historical. No model defaults or goals were changed for publication.

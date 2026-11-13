@@ -1,0 +1,18 @@
+{
+  "version": "0.1.2",
+  "webVersion": "0.2.2-rc.1",
+  "desktopArchiveVersion": "0.2.2-rc.1",
+  "bundleFiles": 45,
+  "zip": "DSH-Complete-Windows-0.1.2.zip",
+  "zipBytes": 371625,
+  "sha256": "41c395a0507cd36a22994a87398324946818e9f75789fc3c92362b7ee5bca4dd",
+  "archiveEntriesVerified": true,
+  "testedDashboardBytesMatchFinalBundle": true,
+  "testedLockBytesMatchFinalBundle": true,
+  "officialDesktopArtifactSignature": "Valid, Hangzhou DeepSeek Artificial Intelligence Co., Ltd.",
+  "extractedDesktopExecutableSignature": "Valid, Hangzhou DeepSeek Artificial Intelligence Co., Ltd.",
+  "unitChecks": 11,
+  "uiDataContracts": 81,
+  "modelsLoaded": false,
+  "freshPcInstall": false
+}

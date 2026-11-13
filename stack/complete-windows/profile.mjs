@@ -32,6 +32,13 @@ export function profile(root, components, host = 'web') {
   for (const [provider, label] of [['codex', 'Codex'], ['claude-code', 'Claude Code']]) {
     inserted.push({ id: `connected-${provider}`, name: '@deepseek-ai/dsh-agent-preset', config: { id: `connected-${provider}`, name: `DeepSeek + signed-in ${label}`, description: `Use the ${label} delegation tool only when requested. Sign in separately; no account credentials are bundled.`, plugins: [...structuredClone(tools), { id: `tool-${provider}`, name: '@deepseek-ai/dsh-tool-subagent', config: { provider, toolName: `subagent_${provider.replaceAll('-', '_')}`, backgroundMode: 'one-shot', maxDepth: 'provider-managed' } }] } });
   }
+  if (host === 'desktop') inserted.push({id: 'desktop-mission-control',
+    name: file('stack/desktop-mission-control/index.mjs'), config: {
+      port: components.ports.desktopMissionControl, deploymentRoot: root,
+      repositoryProfile: join(root, 'desktop-profile/cordis.patch.yml'),
+      ollamaOnly: true, ollamaOrigin: `http://127.0.0.1:${components.ports.ollama}`,
+      version: components.dsh,
+    }});
   // Desktop's official host assigns an ephemeral authenticated listener.
   // A literal webserver port would override that and collide with Web.
   return host === 'desktop' ? rows.filter(row => !['webserver', 'web-runtime'].includes(row.id)) : rows;

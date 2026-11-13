@@ -56,3 +56,14 @@ test('native panel is additive and validates both frame origin and frame window 
   assert.ok(client.includes("event.origin !== ORIGIN || event.source !== frame.current?.contentWindow"));
   assert.ok(client.includes("title: 'Desktop Mission Control'"));
 });
+
+
+test('Desktop availability probes its current port once without self recursion', async () => {
+  const declaration=native.split('\n').find(line=>line.startsWith('const dshAvailable ='));
+  assert.ok(declaration);
+  let calls=0;
+  const invoke=new Function('desktopBridge','DSH_ORIGIN','tcpCheck',declaration+'; return dshAvailable();');
+  assert.equal(await invoke({signal:{aborted:false}},'http://127.0.0.1:54321',async port=>{calls++;assert.equal(port,54321);return true;}),true);
+  assert.equal(calls,1);
+  assert.equal(await invoke({signal:{aborted:true}},'http://127.0.0.1:54321',()=>{throw Error('aborted bridge must not probe');}),false);
+});

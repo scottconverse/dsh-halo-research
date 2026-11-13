@@ -6,9 +6,11 @@ full Web Mission Control dashboard, with seven tabs, charts and controls.
 [Final upgrade, installation, verification and recovery record](docs/HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md).
 
 Start with [Install, update and recover DSH](docs/INSTALL-AND-RECOVER.md).
-Installer source0.1.1 remainsrc.5; published v0.3.12/v0.3.13 ZIPs remain the
-original0.1.0/rc.3 artifacts. These differ from the Halo rc.1 configuration;
-no released installer or signed executable was replaced by this source update.
+Complete Windows installer **0.1.2** now pins Web/Desktop **0.2.2-rc.1** and
+includes embedded Desktop Mission Control. [Download the current installer](stack/packages/DSH-Complete-Windows-0.1.2.zip)
+and [checksum](stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256).
+[Installer verification and limits](docs/DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md).
+Previously published v0.3.12/v0.3.13 release assets remain unchanged0.1.0/rc.3.
 
 This repository records the machine-specific DeepSeek Harness deployment on a Windows AMD Strix Halo workstation with 128 GB of unified memory. It contains deployment source, adapters, launchers, recovery instructions and dated evidence. Cloning it does not reproduce this machine's accounts, models or private runtime state. Separate installers create fresh deployments without copying that state.
 

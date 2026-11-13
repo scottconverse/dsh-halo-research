@@ -1,0 +1,125 @@
+{
+  "startedAt": "2026-11-13T18:32:55.007Z",
+  "endedAt": "2026-11-13T18:33:20.590Z",
+  "candidate": "0.1.2",
+  "dsh": "0.2.2-rc.1",
+  "scope": "Changed locked runtime and official extracted Desktop, generated profiles with test-only MCP disabled; headless only",
+  "tests": [
+    {
+      "host": "web",
+      "version": "0.2.2-rc.1",
+      "authenticatedHtml": true,
+      "missionControlHttp": 200,
+      "privateWebUp": true
+    },
+    {
+      "host": "desktop",
+      "version": "0.2.2-rc.1",
+      "embeddedPort": 3191,
+      "tabs": [
+        "Overview",
+        "Models",
+        "Sessions",
+        "Plugins",
+        "System",
+        "Memory",
+        "Settings"
+      ],
+      "privateHostUp": true,
+      "plugins": {
+        "total": 214,
+        "active": 179,
+        "disabled": 35,
+        "waiting": 0,
+        "transitioning": 0,
+        "failed": 0,
+        "stuck": 0,
+        "failedList": [],
+        "waitingList": [],
+        "stuckList": [],
+        "stale": false,
+        "cacheState": "current"
+      }
+    }
+  ],
+  "modelRequests": 0,
+  "mutationRequests": 0,
+  "pageErrors": [],
+  "workingFilesUnchanged": true,
+  "ownedExitCodes": [
+    {
+      "code": null,
+      "signal": "SIGTERM",
+      "terminal": true
+    },
+    {
+      "code": null,
+      "signal": "SIGTERM",
+      "terminal": true
+    },
+    {
+      "code": 0,
+      "signal": null,
+      "terminal": true
+    }
+  ],
+  "listenersClosed": {
+    "3180": true,
+    "3190": true,
+    "3191": true
+  },
+  "sourceReceiptSha256": "a68b2be2f572b17eaa056abf32c26dea7bce36c53684b08add3ff8f25b5fa1dd",
+  "finalDesktopVerification": {
+    "startedAt": "2026-11-13T18:37:59.772Z",
+    "endedAt": "2026-11-13T18:38:09.257Z",
+    "tests": [
+      {
+        "host": "desktop",
+        "version": "0.2.2-rc.1",
+        "embeddedPort": 3191,
+        "tabs": [
+          "Overview",
+          "Models",
+          "Sessions",
+          "Plugins",
+          "System",
+          "Memory",
+          "Settings"
+        ],
+        "privateHostUp": true,
+        "plugins": {
+          "total": 214,
+          "active": 179,
+          "disabled": 35,
+          "waiting": 0,
+          "transitioning": 0,
+          "failed": 0,
+          "stuck": 0,
+          "failedList": [],
+          "waitingList": [],
+          "stuckList": [],
+          "stale": false,
+          "cacheState": "current"
+        }
+      }
+    ],
+    "pageErrors": [],
+    "modelRequests": 0,
+    "mutationRequests": 0,
+    "workingFilesUnchanged": true,
+    "ownedExitCodes": [
+      {
+        "code": 0,
+        "signal": null,
+        "terminal": true
+      }
+    ],
+    "listenersClosed": {
+      "3180": true,
+      "3190": true,
+      "3191": true
+    },
+    "sourceReceiptSha256": "73207ceccc9f96ade918170d6d7c38d318c8c6d3a0ad3bbdeb5a314d0ca3bc4d",
+    "reason": "Verified final Desktop label and corrected candidate bytes; unaffected Web acceptance reused"
+  }
+}

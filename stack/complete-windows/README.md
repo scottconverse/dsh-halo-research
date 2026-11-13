@@ -1,13 +1,22 @@
-# Complete DSH for Windows — installer source 0.1.1
+# Complete DSH for Windows — installer 0.1.2
 
-**Source revision November 5:** installer source 0.1.1 pins DSH rc.5 and adds
-an empty private shared knowledge library with ingest/query skills. These are
-source changes, not a replacement for the immutable previously published ZIP.
-The v0.3.12 cloud ZIP / v0.3.13 complete ZIP contain the earlier 0.1.0/rc.3
-inputs and do NOT gain rc.5 by downloading them again. For current source builds
-and the exact evidence limits see [Install and recover](../../docs/INSTALL-AND-RECOVER.md).
-No fresh-PC installation or model-quality acceptance is claimed for 0.1.1.
+**Source revision November 13, 2026:** pins Web and the official Desktop to
+**DSH0.2.2-rc.1** and bundles the full seven-tab Mission Control panel inside
+Desktop. Web retains its browser dashboard. Each host uses its own authenticated
+connection, profile and dashboard state; private ports avoid the existing Halo
+installation. Installation never pulls or invokes a model.
 
+Download the [current0.1.2 installer](../packages/DSH-Complete-Windows-0.1.2.zip) and [checksum](../packages/DSH-Complete-Windows-0.1.2.zip.sha256), or build it from source:
+
+```powershell
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.2
+# In that new bundle folder, on the destination Windows x64 machine:
+.\Install-DSH.cmd
+```
+
+Previously published v0.3.12/v0.3.13 ZIPs remain immutable0.1.0/rc.3 artifacts;
+they do not gain these updates when downloaded again. No fresh-PC, provider
+account, inference-quality or model/GPU acceptance is implied by source changes.
 
 One guided online setup for Windows x64: DSH Web and the actual Electron App,
 the released triad fixes, Mission Control, private Ollama, Qwen model choices,
@@ -15,28 +24,19 @@ DeepSeek 1017 cloud at Low effort, Wigolo, Reddit/Redlib, XERJ and native
 Claude Code/Codex connections. This additive package leaves the existing
 portable-cloud installer available.
 
-Distributed with [Halo v0.3.13](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.13).
-**Fresh-PC installation remains unverified.** Native Web and Desktop backend
-checks passed in isolation; a complete clean-PC install, Desktop GUI, account
-connections, live companion calls and model/GPU behavior have not been observed.
-An install receipt records completed stages, not account authorization or inference quality.
-
 ## Install on the destination PC
 
-Download `DSH-Complete-Windows-0.1.0-candidate.zip` from the release, verify its
-SHA-256 against the accompanying `.sha256` file, extract it and open the extracted
-installer folder. The retained filename and embedded candidate README describe
-its prepublication verification stage; publication does not expand that evidence.
-Use these current instructions. Run the Windows command bootstrap (or use PowerShell 7 directly):
+Use the newly built0.1.2 bundle. Verify its manifest/checksum, extract it, and run:
 
 ```powershell
 .\Install-DSH.cmd
-# Optional new destination, under your LOCALAPPDATA:
+# Optional NEW destination, under your LOCALAPPDATA:
 .\Install-DSH.cmd -Destination "$env:LOCALAPPDATA\DSH-Complete-2"
 ```
 
-For a source build instead: `node stack/complete-windows/build.mjs --output <new-folder>`.
-The published ZIP is the original verified artifact; documentation updates did not rebuild it.
+Existing or partial installations are not upgraded in place. A different bundle
+version cannot resume an older installation. Keep old working installations and
+rollback files; install to a new destination and validate before retiring one.
 
 The default is `%LOCALAPPDATA%\DSH-Complete`. It refuses existing directories;
 use `-Resume` only for its own interrupted setup. Keep downloads and receipts
@@ -72,8 +72,17 @@ An occupied port is a conflict, not permission to stop/reuse another service.
 Both hosts use `<installation>/home`, separate `web` and `desktop` profiles,
 and one shared triad state. Electron uses its own `data/electron` directory.
 Ollama uses port 11435 and private model storage, one resident model and one
-parallel request. Web/Mission Control use 3080/3090, XERJ 9200, Redlib 18080.
+parallel request. Web/browser Mission Control use3180/3190; embedded Desktop Mission Control uses3191. XERJ uses9202 and Redlib18082.
 These services bind loopback. Keep Web launch tokens private.
+
+Desktop's **Mission Control** sidebar entry embeds the same seven tabs, charts,
+memory graph and controls as Web: Overview, Models, Sessions, Plugins, System,
+Memory, Settings. It connects to Desktop's current ephemeral authenticated host,
+not the Web host. Its listener stops with Desktop. Settings use this installation's
+Desktop live profile and separate desktop-profile recovery mirror. Automatic
+LM Studio recovery is disabled for this Ollama-only installation; no Halo models
+or accounts are adopted. Model controls require explicit user action.
+
 
 From the installed folder, perform account sign-in yourself:
 Use a PowerShell 7 terminal for these commands.
