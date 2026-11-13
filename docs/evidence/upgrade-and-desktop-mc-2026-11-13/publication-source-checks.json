@@ -7,7 +7,7 @@
     "dsh/node_modules/@deepseek-ai/dsh-session-stats/lib/index.js",
     "dsh/node_modules/@deepseek-ai/dsh-tool-session-query/lib/index.js"
   ],
-  "publicationFilesScanned": 48,
+  "publicationFilesScanned": 63,
   "credentialPatternHits": [],
   "runtimeRestarted": false,
   "modelWorkloadsStarted": false,
@@ -21,6 +21,7 @@
   },
   "diffWhitespace": "Hash-sensitive xAI patch payload retains CRLF and blank context lines; no executable-source whitespace errors.",
   "manifestLockPairsValidated": 3,
-  "changedJavaScriptSyntaxChecks": 9,
-  "powershellFilesParsed": 4
+  "changedJavaScriptSyntaxChecks": 10,
+  "powershellFilesParsed": 4,
+  "scanScope": "All files changed from origin/master, including Desktop Mission Control"
 }
