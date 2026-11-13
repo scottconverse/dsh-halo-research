@@ -1,0 +1,16 @@
+{
+  "name": "scott-dsh-desktop-mission-control",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The full Halo Mission Control dashboard embedded in Desktop and connected to its own host.",
+  "main": "index.mjs",
+  "exports": { ".": "./index.mjs", "./client": "./client.js", "./cordis.patch.yml": "./cordis.patch.yml", "./package.json": "./package.json" },
+  "dsh": {
+    "manifestVersion": 1,
+    "engines": { "dsh": ">=0.2.2-rc.1" },
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web", "inject": ["@deepseek-ai/dsh-client-ui-layout", "@deepseek-ai/dsh-client-ui-sidebar"] }
+  },
+  "scripts": { "test": "node --test test.mjs" }
+}

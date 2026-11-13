@@ -154,3 +154,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Portable cloud-only DSH installer (October29)](HALO-PORTABLE-CLOUD-INSTALLER-2026-10-29.md): new destination-only npm-locked Web install, DeepSeek Low/1M/64K/70%, unchanged triad fixes, native Windows boot and relocation acceptance; existing Halo profiles/settings/state unchanged, no model calls.
 
 - [Halo v0.3.12 portable-installer release](../RELEASE-NOTES-v0.3.12.md): existing installer0.1.0 ZIP, complete installation instructions and checksums; completed native evidence reused, no new tests or runtime/settings changes.
+
+- [Full Web Mission Control embedded in Desktop (November 13)](HALO-DSH-IMPLEMENTATION-2026-11-13-DESKTOP-MISSION-CONTROL.md): seven tabs, current Desktop host authentication, headless-only acceptance, additive deployment and rollback.

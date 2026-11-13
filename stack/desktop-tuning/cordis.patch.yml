@@ -1195,3 +1195,8 @@
       config:
         stateFile: C:/Users/scott/Documents/Codex/2026-09-25/dsh-desktop-eval/home/storages/three-role/projects.json
         revision: 2
+
+# Full Web Mission Control embedded in the native Desktop sidebar.
+- insert:
+    - id: desktop-mission-control
+      name: file:///C:/Users/scott/Desktop/Code/dsh-halo-research/stack/desktop-mission-control/index.mjs

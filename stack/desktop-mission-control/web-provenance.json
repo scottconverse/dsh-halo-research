@@ -1,0 +1,8 @@
+{
+  "source": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\stock-dsh\\mission-control\\mission-control.mjs",
+  "sourceSha256": "438536b40a0357038ffd606696fabcfd8b4e4fc7504808aa38199c0b547deaa5",
+  "candidate": "C:\\Users\\scott\\Desktop\\Code\\dsh-halo-research\\stack\\desktop-mission-control\\dashboard.mjs",
+  "candidateSha256": "f26bcea50f74ae51b35f1998cedf78f5649d837c2f6bee329974596be4410d60",
+  "sharedWebSourceChanged": false,
+  "method": "Reuse complete Web dashboard; adapt current Desktop host transport, paths, framing and owned lifecycle. No automatic model recovery."
+}
