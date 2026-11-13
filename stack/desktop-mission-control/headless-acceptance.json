@@ -1,0 +1,57 @@
+{
+  "startedAt": "2026-11-13T07:47:07.130Z",
+  "endedAt": "2026-11-13T07:47:29.510Z",
+  "status": "passed",
+  "tabs": [
+    {
+      "name": "Overview",
+      "selected": "true"
+    },
+    {
+      "name": "Models",
+      "selected": "true"
+    },
+    {
+      "name": "Sessions",
+      "selected": "true"
+    },
+    {
+      "name": "Plugins",
+      "selected": "true"
+    },
+    {
+      "name": "System",
+      "selected": "true"
+    },
+    {
+      "name": "Memory",
+      "selected": "true"
+    },
+    {
+      "name": "Settings",
+      "selected": "true"
+    }
+  ],
+  "statusHttp": 200,
+  "pluginSummary": {
+    "total": 200,
+    "active": 173,
+    "disabled": 27,
+    "waiting": 0,
+    "transitioning": 0,
+    "failed": 0,
+    "stuck": 0,
+    "failedList": [],
+    "waitingList": [],
+    "stuckList": [],
+    "stale": false,
+    "cacheState": "current"
+  },
+  "pageErrors": [],
+  "iframeVisible": true,
+  "framePolicy": "frame-ancestors dsh-app://app http://127.0.0.1:62242; base-uri 'none'; object-src 'none'",
+  "hostExitCode": 0,
+  "mutationCalls": 0,
+  "verification": "Installed Desktop rc.1 host, isolated profile, headless Chromium; no working-profile launch; no model actions or inference exercised.",
+  "dashboardSha256": "f26bcea50f74ae51b35f1998cedf78f5649d837c2f6bee329974596be4410d60"
+}

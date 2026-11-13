@@ -505,3 +505,8 @@ See [HALO-WEB-LAUNCHER-REPAIR-2026-11-03.md](HALO-WEB-LAUNCHER-REPAIR-2026-11-03
 ## November 3, 2026 Web upgrade
 
 DSH Web now runs official latest 0.2.1-rc.5 with the existing pi-ai 1.0.2 pin and Halo fixes. Authenticated page/module200 and Mission Control connected; 1583 preservation hashes match. Desktop is still installed rc.3 with its signed rc.5 update pending; no running Desktop acceptance was performed. Local Qwen is intentionally off. See [HALO-WEB-RC5-UPGRADE-2026-11-03.md](HALO-WEB-RC5-UPGRADE-2026-11-03.md).
+
+
+## Desktop Mission Control — November 13, 2026
+
+Full Web dashboard is embedded in the native Desktop sidebar on the next normal launch: Overview, Models, Sessions, Plugins, System, Memory, Settings. Desktop owns loopback3091; Web remains3090. Current Desktop host authentication and Desktop profile paths are used. Automatic model recovery remains owned by Web; opening the panel does not load models. Five affected tests and all seven tabs passed on actual rc.1 host with headless Chromium and an isolated metadata-only profile; no working-profile launch or inference. Rollback removes only the additive desktop-mission-control profile block. See HALO-DSH-IMPLEMENTATION-2026-11-13-DESKTOP-MISSION-CONTROL.md for evidence and recovery.

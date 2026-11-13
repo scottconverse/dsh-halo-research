@@ -1,0 +1,15 @@
+# Desktop Mission Control: full Web dashboard, 2026-11-13
+
+Scott requested an embedded native Desktop panel and then full Web quality/parity. The first reduced native panel was replaced by the existing full Web dashboard with narrowly scoped Desktop transport, profile-path, framing and lifecycle adapters. The seven tabs are Overview, Models, Sessions, Plugins, System, Memory and Settings. CSS, charts, memory graph and plugin rendering are preserved from Web source SHA256 438536b40a0357038ffd606696fabcfd8b4e4fc7504808aa38199c0b547deaa5.
+
+Installed additively in the existing Desktop profile, with its prior bytes preserved as a prefix and hash-verified rollback copies. Desktop was confirmed completely stopped before editing. The executable, selected models/providers/effort, sessions, goals, Web installation, original XERJ index and shortcuts were not changed. Port 3091 is owned by the Desktop host plugin; Web Mission Control remains on 3090. The panel appears on the next normal launch; Desktop was not launched with the user's working profile during this work.
+
+Verification: five affected tests passed, covering full styling/navigation/graph/plugin parity, retained API routes and model controls, current-host authentication, CSRF, cleanup and validated parent messaging. Actual installed Desktop 0.2.2-rc.1 host ran with an isolated profile and headless Chromium only. All seven tabs selected successfully; dashboard status HTTP200; plugin inventory 200 total, 173 active, 27 disabled, zero failed/stuck/waiting/transitioning; zero page errors. Owned host exited0 and its listener closed. No inference/model mutation was exercised. No GUI input occurred after Scott's headless-only instruction.
+
+First headless failures were harness onboarding: Preview Notice blocked the sidebar, then the existing settings-discard confirmation blocked return to Overview. The harness now dismisses the identified first-run notice and accepts only the settings-discard confirmation. No production UI safety controls were bypassed.
+
+Full manual model actions remain available, but automatic shared-model recovery is not duplicated: Desktop observes; Web retains that ownership. Normal no-model checks do not exercise inference quality, model loads, session stop or configuration mutations. Desktop uses its own active authenticated host URL, not a guessed port or copied Web token. No installer release or binary signing is needed for this additive source plugin.
+
+Local evidence: chat work/desktop-mission-control-headless/HEADLESS-ACCEPTANCE.json, headless overview/models screenshots, redacted host log; work/desktop-mission-control-deployment-backup/DEPLOYMENT.json and exact before-profile backups. Research recovery copies and manifest include deployables and profiles. Implementation used current OpenAI Codex session serially, no delegated/local model jobs.
+
+Rollback: close Desktop, remove only the added desktop-mission-control insert block from both Desktop profiles. Exact before-profile backups are retained; restore wholesale only if no later unrelated changes occurred. The signed executable and original working data remain in place.
