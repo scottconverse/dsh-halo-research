@@ -162,3 +162,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Complete Windows installer0.1.2](DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md): rc.1 Web/Desktop, embedded full Mission Control, isolated ports, locked payload/headless acceptance and no-model evidence.
 
 - [DSH Halo landing website (November 13)](HALO-LANDING-PAGE-2026-11-13.md): code-grounded static site, actual embedded Desktop capture, current installer links, responsive/headless checks, concise README with historical reference, and an explicit Pages deployment path. No runtime/model changes.
+
+- [Landing site published on GitHub Pages](HALO-LANDING-PAGE-2026-11-13.md#november-13-authorized-publication): HTTPS live site, accepted asset hashes and actual headless desktop/tablet/mobile verification.

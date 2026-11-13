@@ -33,3 +33,11 @@ Screenshots were visually inspected at all three widths. The first browser run's
 The page preserves installer acceptance limits: new destination rather than in-place upgrade; online downloads and possible Windows elevation/restart; no bundled credentials/model weights; normal XERJ startup can load embeddings; provider sign-in, fresh-PC prerequisites and inference quality were not part of the earlier headless acceptance. Integration wiring is distinguished from live retrieval. There is no root repository license grant; upstream terms are retained, with no new license invented.
 
 Codex/OpenAI current session, serial execution, no subagents or external/local model jobs. No inference, embeddings, DSH host, normal Desktop window or native computer input was used. Existing installer/application acceptance was reused rather than rerun. No new executable/signing/release process applies to these static source changes. Research reading/recovery copies and the cumulative state record are synchronized at delivery.
+
+## November 13 authorized publication
+
+Scott explicitly authorized enabling GitHub Pages and publication after the source delivery above. GitHub Pages now uses Actions with HTTPS enforced. [Live website](https://scottconverse.github.io/dsh-halo-research/).
+
+[Deployment run 43514304938](https://github.com/scottconverse/dsh-halo-research/actions/runs/43514304938) completed build and deploy successfully for accepted source master `5510c23bb47a8b2597951a97eea6babc49138318`. All five actual HTTPS assets returned 200 and matched the accepted build byte for byte. Actual live headless Chromium at 1440×1050, 820×1100 and 390×844 passed image/anchor/overflow, mobile menu, keyboard skip-link, clipboard and installer-download checks with zero page errors or failed HTTP responses. Browser closed afterward. [Live verification receipt](evidence/landing-page-2026-11-13/LIVE-VERIFICATION.json).
+
+The earlier not-yet-hosted statement records the pre-publication state and is superseded by this section. Only repository hosting and documentation changed. No app/model service was started, no GUI input was used and the working installation was preserved. The subsequent documentation commit does not change the deployed website assets or require rebuilding the accepted artifact.
