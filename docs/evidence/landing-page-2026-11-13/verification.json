@@ -1,0 +1,88 @@
+{
+  "startedAt": "2026-11-13T21:33:36.234Z",
+  "headless": true,
+  "source": "built site/dist",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "scroll": 1440,
+      "images": true,
+      "h1": 1,
+      "anchors": [],
+      "navigation": true,
+      "copy": true,
+      "skipLink": true
+    },
+    {
+      "name": "tablet",
+      "width": 820,
+      "scroll": 820,
+      "images": true,
+      "h1": 1,
+      "anchors": [],
+      "navigation": true,
+      "copy": true,
+      "skipLink": true
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "scroll": 390,
+      "images": true,
+      "h1": 1,
+      "anchors": [],
+      "navigation": true,
+      "copy": true,
+      "skipLink": true
+    }
+  ],
+  "externalLinks": [
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/tree/master/stack/complete-windows",
+      "status": 200
+    },
+    {
+      "url": "https://raw.githubusercontent.com/scottconverse/dsh-halo-research/master/stack/packages/DSH-Complete-Windows-0.1.2.zip",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/blob/master/stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/blob/master/stack/complete-windows/README.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/blob/master/docs/DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/issues",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/blob/master/docs/INSTALL-AND-RECOVER.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/scottconverse/dsh-halo-research/blob/master/docs/HISTORY.md",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "httpFailures": [],
+  "contrast": {
+    "checked": 147,
+    "failures": []
+  },
+  "noJavaScriptNavigation": true,
+  "passed": true,
+  "serverStopped": true,
+  "finishedAt": "2026-11-13T21:33:44.409Z"
+}

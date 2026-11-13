@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta
+      name="description"
+      content="A community Windows setup for DeepSeek Harness: Web, Desktop, embedded Mission Control, and connected research tools. Inspect the setup. Keep your existing installation."
+    />
+    <meta
+      property="og:title"
+      content="DSH Halo — Your AI workspace, in view."
+    />
+    <meta
+      property="og:description"
+      content="DeepSeek Harness for Windows, with Web, Desktop and embedded Mission Control. A community configuration you can inspect."
+    />
+    <meta property="og:type" content="website" />
+    <title>DSH Halo — Your AI workspace, in view.</title>
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#" aria-label="DSH Halo home"
+          ><img src="assets/mark.svg" width="30" height="30" alt="" /><span
+            >DSH <strong>Halo</strong></span
+          ></a
+        >
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="#mission-control">Mission Control</a
+          ><a href="#inside">What’s included</a><a href="#install">Install</a>
+          <a
+            class="repo-link"
+            href="https://github.com/scottconverse/dsh-halo-research"
+            >GitHub <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <details class="mobile-nav">
+          <summary>Menu <span aria-hidden="true">+</span></summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#mission-control">Mission Control</a
+            ><a href="#inside">What’s included</a><a href="#install">Install</a
+            ><a href="https://github.com/scottconverse/dsh-halo-research"
+              >GitHub ↗</a
+            >
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero container" aria-labelledby="hero-title">
+        <div class="eyebrow">
+          <span class="small-rule"></span> DeepSeek Harness · Community Windows
+          setup
+        </div>
+        <h1 id="hero-title">
+          Your AI workspace.<br /><span>In view. In reach.</span>
+        </h1>
+        <div class="hero-bottom">
+          <p class="hero-copy">
+            Web and Desktop, with Mission Control built in. A configured
+            starting point for technical Windows users who want to see their
+            models, sessions and tools alongside the chat.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#install"
+              >Get the Windows installer <span aria-hidden="true">↓</span></a
+            ><a class="text-link" href="#mission-control"
+              >Explore Mission Control <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+        <div class="release-line">
+          <span>Installer <b>0.1.2</b></span
+          ><span>Web + Desktop <b>0.2.2-rc.1</b></span
+          ><span>Windows x64 · Online setup</span>
+        </div>
+      </section>
+
+      <section
+        id="mission-control"
+        class="product-section container"
+        aria-labelledby="control-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / The control room</p>
+            <h2 id="control-title">A clear view behind the conversation.</h2>
+          </div>
+          <p>
+            Open Mission Control in Desktop’s sidebar or Web’s browser
+            dashboard. Both use the same seven-tab interface, each connected to
+            its own host.
+          </p>
+        </div>
+        <figure class="product-proof">
+          <div class="proof-bar">
+            <span
+              ><span class="square-mark" aria-hidden="true"></span> Embedded
+              Desktop Mission Control</span
+            ><a href="assets/desktop-mission-control.png"
+              >View full capture <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <a
+            href="assets/desktop-mission-control.png"
+            aria-label="Open full-resolution Desktop Mission Control screenshot"
+            ><img
+              class="product-image"
+              src="assets/desktop-mission-control.png"
+              width="1450"
+              height="1000"
+              fetchpriority="high"
+              alt="Real DeepSeek Harness Desktop capture: Mission Control selected in the sidebar, seven tabs, idle host status, service health and memory pools. No models loaded."
+          /></a>
+          <figcaption>
+            Actual rc.1 Desktop host, captured during isolated headless
+            verification on November 13, 2026. Metadata-only provider; no models
+            loaded. This capture shows the test environment, not a live status
+            feed.
+          </figcaption>
+        </figure>
+        <div class="control-index">
+          <p class="eyebrow">Seven views. One workspace.</p>
+          <ul>
+            <li>Overview</li>
+            <li>Models</li>
+            <li>Sessions</li>
+            <li>Plugins</li>
+            <li>System</li>
+            <li>Memory</li>
+            <li>Settings</li>
+          </ul>
+        </div>
+        <div class="feature-pair">
+          <article>
+            <span class="feature-symbol" aria-hidden="true">⌁</span>
+            <h3>Understand what’s running.</h3>
+            <p>
+              Inspect service health, resident model inventory, session
+              activity, plugin state and memory charts. The dashboard
+              distinguishes idle, unavailable and unconfigured states.
+            </p>
+          </article>
+          <article>
+            <span class="feature-symbol" aria-hidden="true">≡</span>
+            <h3>Keep the controls close.</h3>
+            <p>
+              Model actions, session controls and a transactional settings
+              editor live alongside status. Desktop uses its current
+              authenticated connection, with separate dashboard state.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="inside"
+        class="included-section"
+        aria-labelledby="included-title"
+      >
+        <div class="container included-layout">
+          <div class="included-intro">
+            <p class="eyebrow">02 / A connected starting point</p>
+            <h2 id="included-title">Less assembly.<br />More context.</h2>
+            <p>
+              The complete setup brings the interfaces and their companion tools
+              together. Profiles stay separate; the configuration stays
+              inspectable.
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/scottconverse/dsh-halo-research/tree/master/stack/complete-windows"
+              >Inspect the installer source
+              <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <div class="capability-list">
+            <article>
+              <span class="row-number">01</span>
+              <div>
+                <h3>Two ways into your work</h3>
+                <p>
+                  Use the browser or the official Electron Desktop app. Separate
+                  profiles and private ports let a new installation coexist with
+                  an existing one.
+                </p>
+                <span class="tag">Web + Desktop + Mission Control</span>
+              </div>
+            </article>
+            <article>
+              <span class="row-number">02</span>
+              <div>
+                <h3>Research beyond the chat</h3>
+                <p>
+                  Wigolo discovers web sources. Reddit/Redlib provides a
+                  community-retrieval path. XERJ searches retained evidence once
+                  you supply and index the material.
+                </p>
+                <span class="tag"
+                  >Web discovery · Community sources · Indexed documents</span
+                >
+              </div>
+            </article>
+            <article>
+              <span class="row-number">03</span>
+              <div>
+                <h3>Choose accounts and models explicitly</h3>
+                <p>
+                  Private Ollama storage, local Qwen choices and a DeepSeek
+                  cloud route. Optional Codex and Claude Code connections use
+                  your own accounts. No credentials or model weights ship in the
+                  ZIP.
+                </p>
+                <span class="tag">Local choices + Account-backed services</span>
+              </div>
+            </article>
+            <article>
+              <span class="row-number">04</span>
+              <div>
+                <h3>Keep a path back</h3>
+                <p>
+                  Pinned downloads, a locked runtime and installation receipts
+                  make the setup traceable. Start and stop scripts act only on
+                  processes whose recorded identity matches this installation.
+                </p>
+                <span class="tag"
+                  >New destination · Own data · Recovery records</span
+                >
+              </div>
+            </article>
+            <article>
+              <span class="row-number">05</span>
+              <div>
+                <h3>Carry project context forward</h3>
+                <p>
+                  Share a source-linked Markdown library across hosts. Optional
+                  Coordinator, Coder and Auditor presets keep requirements and
+                  findings in a project ledger; starting a team requires an
+                  explicit request.
+                </p>
+                <span class="tag"
+                  >Shared knowledge · Optional bounded projects</span
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="architecture-section container"
+        aria-labelledby="architecture-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / Under the surface</p>
+            <h2 id="architecture-title">
+              Local hosts.<br />Explicit connections.
+            </h2>
+          </div>
+          <p>
+            The hosts run on your Windows machine. Companion services bind to
+            loopback. Cloud models and web research still use their external
+            services.
+          </p>
+        </div>
+        <div
+          class="deployment-map"
+          role="group"
+          aria-label="Complete installer deployment: separate Web and Desktop profiles connect to private local companion services and optional external accounts."
+        >
+          <div class="map-caption">
+            <span class="square-mark" aria-hidden="true"></span> Inside your
+            Windows installation <span class="mono">127.0.0.1</span>
+          </div>
+          <div class="map-hosts">
+            <div class="map-host">
+              <span class="eyebrow">Browser</span>
+              <h3>DSH Web</h3>
+              <p>Web profile <span>3180</span></p>
+              <p>Mission Control <span>3190</span></p>
+            </div>
+            <div class="map-host">
+              <span class="eyebrow">Native app</span>
+              <h3>DSH Desktop</h3>
+              <p>Desktop profile <span>Own host</span></p>
+              <p>Embedded Mission Control <span>3191</span></p>
+            </div>
+          </div>
+          <div class="map-connector">
+            <span>Configured companion connections</span
+            ><span aria-hidden="true">↓</span>
+          </div>
+          <div class="map-services">
+            <div>
+              <h3>Ollama</h3>
+              <p>Private model gateway</p>
+              <span class="mono">11435</span>
+            </div>
+            <div>
+              <h3>XERJ</h3>
+              <p>Retained-evidence search</p>
+              <span class="mono">9202</span>
+            </div>
+            <div>
+              <h3>Redlib + Wigolo</h3>
+              <p>Community + web research</p>
+              <span class="mono">Redlib 18082 · Wigolo stdio</span>
+            </div>
+          </div>
+        </div>
+        <div class="architecture-note">
+          <span>Beyond loopback</span>
+          <p>
+            Provider sign-in, local model downloads and document indexing are
+            separate setup steps. Service wiring alone does not establish a
+            successful retrieval or model response.
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="install"
+        class="install-section"
+        aria-labelledby="install-title"
+      >
+        <div class="container">
+          <div class="install-heading">
+            <p class="eyebrow">04 / Start with a clean destination</p>
+            <h2 id="install-title">Make room for your next workspace.</h2>
+            <p>
+              Keep your working installation. Install this one alongside it.
+            </p>
+          </div>
+          <div class="install-layout">
+            <div class="download-panel">
+              <div class="download-label">
+                <span class="square-mark" aria-hidden="true"></span> Complete
+                Windows setup
+              </div>
+              <div class="version-display">
+                0.1.2<span>Web + Desktop 0.2.2-rc.1</span>
+              </div>
+              <p>
+                An online installer with public scripts, checksums and a pinned
+                runtime. Applications download during setup.
+              </p>
+              <a
+                class="button primary"
+                href="https://raw.githubusercontent.com/scottconverse/dsh-halo-research/master/stack/packages/DSH-Complete-Windows-0.1.2.zip"
+                >Download for Windows x64 <span aria-hidden="true">↓</span></a
+              ><a
+                class="checksum-link"
+                href="https://github.com/scottconverse/dsh-halo-research/blob/master/stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256"
+                >Verify the SHA-256 checksum ↗</a
+              >
+              <div class="download-foot">
+                Internet required · No bundled model weights
+              </div>
+            </div>
+            <ol class="install-steps">
+              <li>
+                <div>
+                  <h3>Download, verify and extract.</h3>
+                  <p>
+                    Compare the ZIP’s SHA-256 with the linked checksum. Extract
+                    the bundle to a new folder.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <h3>Run the guided setup.</h3>
+                  <p>
+                    Open <code>Install-DSH.cmd</code>. It downloads the pinned
+                    apps and provisions missing prerequisites. Windows may
+                    request elevation or a restart.
+                  </p>
+                  <div class="code-line">
+                    <code>.\Install-DSH.cmd</code
+                    ><button
+                      class="copy-button"
+                      type="button"
+                      hidden
+                      aria-label="Copy installer command"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <p class="copy-status" role="status" aria-live="polite"></p>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <h3>Connect what you want to use.</h3>
+                  <p>
+                    Follow the guide for accounts and models. The new DSH
+                    Complete shortcut folder contains Desktop, Start Web and
+                    Stop DSH + Wigolo.
+                  </p>
+                  <a
+                    class="text-link"
+                    href="https://github.com/scottconverse/dsh-halo-research/blob/master/stack/complete-windows/README.md"
+                    >Read the installation guide
+                    <span aria-hidden="true">↗</span></a
+                  >
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-section container" aria-labelledby="status-title">
+        <div>
+          <p class="eyebrow">Know what you’re installing</p>
+          <h2 id="status-title">Built in the open.<br />Still evolving.</h2>
+          <p>
+            This is a community Windows configuration and research repository,
+            maintained by Scott Converse. It builds on upstream DeepSeek
+            Harness; it is not an official DeepSeek distribution.
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/scottconverse/dsh-halo-research/blob/master/docs/DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md"
+            >Read the verification record <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <dl class="status-list">
+          <div>
+            <dt>Release candidate software</dt>
+            <dd>
+              The bundle pins upstream 0.2.2-rc.1. Expect changes; keep your
+              existing installation and backups.
+            </dd>
+          </div>
+          <div>
+            <dt>Tested scope, stated plainly</dt>
+            <dd>
+              The Web runtime and Desktop host passed isolated headless checks
+              on an existing Windows PC. Fresh-PC prerequisites, provider
+              sign-in and inference quality were not verified in that run.
+            </dd>
+          </div>
+          <div>
+            <dt>Models need a deliberate setup</dt>
+            <dd>
+              The installer does not pull or invoke models. Normal XERJ startup
+              can load its embedding model. Cloud services require accounts and
+              may have usage limits.
+            </dd>
+          </div>
+          <div>
+            <dt>Inspect terms before reuse</dt>
+            <dd>
+              This repository has no root license grant. Bundled and downloaded
+              upstream components retain their own licenses and terms.
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="final-section container" aria-labelledby="final-title">
+        <p class="eyebrow">Start with the source. Or the setup.</p>
+        <h2 id="final-title">A workspace you can look into.</h2>
+        <div>
+          <a class="button primary" href="#install"
+            >Get the Windows installer <span aria-hidden="true">↓</span></a
+          ><a
+            class="text-link"
+            href="https://github.com/scottconverse/dsh-halo-research"
+            >Explore the repository <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <p>
+          Want to help?
+          <a href="https://github.com/scottconverse/dsh-halo-research/issues"
+            >Report a reproducible issue</a
+          >
+          or inspect the source and its dated evidence.
+        </p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="brand" href="#"
+          ><img src="assets/mark.svg" width="26" height="26" alt="" /><span
+            >DSH <strong>Halo</strong></span
+          ></a
+        >
+        <p>Community configuration for DeepSeek Harness.</p>
+        <nav aria-label="Footer navigation">
+          <a
+            href="https://github.com/scottconverse/dsh-halo-research/blob/master/docs/INSTALL-AND-RECOVER.md"
+            >Documentation</a
+          ><a
+            href="https://github.com/scottconverse/dsh-halo-research/blob/master/docs/HISTORY.md"
+            >History</a
+          ><a href="https://github.com/scottconverse/dsh-halo-research"
+            >Source ↗</a
+          >
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
