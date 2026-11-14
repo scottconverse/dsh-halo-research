@@ -82,11 +82,19 @@ export function findNativeCli(provider, { env = process.env, userHome = env.USER
   if (!providers.has(provider)) throw new Error(`Unsupported CLI provider: ${provider}`);
   if (!userHome) return null;
   const npm = path.join(userHome, 'AppData', 'Roaming', 'npm', 'node_modules');
+  // npm globals may live beside Node (for example Scoop), rather than in Roaming.
+  // Resolve only native executables; never execute or parse a PATH shell wrapper.
+  const pathValue = Object.entries(env).find(([key]) => key.toUpperCase() === 'PATH')?.[1] ?? '';
+  const npmRoots = [env.npm_config_prefix, path.join(userHome, 'scoop/apps/nodejs-lts/current/bin'),
+    ...pathValue.split(';').map(dir => dir.replace(/^"|"$/g, ''))].filter(dir => dir && path.isAbsolute(dir));
+  const pathCandidates = npmRoots.flatMap(dir => [path.join(dir, 'claude.exe'),
+    path.join(dir, 'node_modules/@anthropic-ai/claude-code/bin/claude.exe'),
+    path.join(dir, 'node_modules/@anthropic-ai/claude-code/node_modules/@anthropic-ai/claude-code-win32-x64/claude.exe')]);
   const candidates = provider === 'claude' ? [
     env.CLAUDE_CLI_PATH, path.join(userHome, '.local', 'bin', 'claude.exe'),
     path.join(npm, '@anthropic-ai', 'claude-code', 'bin', 'claude.exe'),
     path.join(npm, '@anthropic-ai', 'claude-code', 'node_modules', '@anthropic-ai', 'claude-code-win32-x64', 'claude.exe'),
-    ...claudeDesktopCandidates(userHome, readDir)
+    ...pathCandidates, ...claudeDesktopCandidates(userHome, readDir)
   ] : [env.CODEX_CLI_PATH, path.join(npm, '@openai', 'codex', 'node_modules', '@openai', 'codex-win32-x64', 'vendor', 'x86_64-pc-windows-msvc', 'bin', 'codex.exe')];
   return candidates.find(file => file && path.isAbsolute(file) && /\.exe$/i.test(file) && exists(file)) ?? null;
 }

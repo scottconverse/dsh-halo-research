@@ -549,3 +549,8 @@ DSH Web now runs official latest 0.2.1-rc.5 with the existing pi-ai 1.0.2 pin an
 ## Desktop Mission Control — November 13, 2026
 
 Full Web dashboard is embedded in the native Desktop sidebar on the next normal launch: Overview, Models, Sessions, Plugins, System, Memory, Settings. Desktop owns loopback3091; Web remains3090. Current Desktop host authentication and Desktop profile paths are used. Automatic model recovery remains owned by Web; opening the panel does not load models. Five affected tests and all seven tabs passed on actual rc.1 host with headless Chromium and an isolated metadata-only profile; no working-profile launch or inference. Rollback removes only the additive desktop-mission-control profile block. See HALO-DSH-IMPLEMENTATION-2026-11-13-DESKTOP-MISSION-CONTROL.md for evidence and recovery.
+
+
+## Claude provider repair - November 14, 2026
+
+Native Claude discovery now supports the installed Scoop/npm executable; a read-only probe confirms claude.ai authentication. Web/Desktop catalogs match (Opus 5.5, Sonnet 5.5, Haiku 4.5/5.5). No default change, app launch or inference. Effective on next normal launch; account access to each model was not tested. See [HALO-DSH-IMPLEMENTATION-2026-11-14-CLAUDE.md](HALO-DSH-IMPLEMENTATION-2026-11-14-CLAUDE.md).

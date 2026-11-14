@@ -170,3 +170,8 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Landing page release/download links](HALO-LANDING-RELEASE-LINKS-2026-11-13.md): visible v0.3.14 link, installer0.1.2 release ZIP/checksum, affected build/subpath/headless checks and Pages publication procedure.
 
 - [Installer0.1.2 instructions on the landing page](HALO-LANDING-INSTALLER-INSTRUCTIONS-2026-11-13.md): copyable checksum command, expected hash, installation/preservation steps, release guide, responsive copy/no-JavaScript acceptance and Pages publication procedure.
+
+
+## Claude provider repair - November 14, 2026
+
+Native Claude discovery now supports the installed Scoop/npm executable; a read-only probe confirms claude.ai authentication. Web/Desktop catalogs match (Opus 5.5, Sonnet 5.5, Haiku 4.5/5.5). No default change, app launch or inference. Effective on next normal launch; account access to each model was not tested. See [HALO-DSH-IMPLEMENTATION-2026-11-14-CLAUDE.md](HALO-DSH-IMPLEMENTATION-2026-11-14-CLAUDE.md).

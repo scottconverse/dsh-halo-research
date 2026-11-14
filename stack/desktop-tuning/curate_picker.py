@@ -77,8 +77,9 @@ text, count = re.subn(r'(?ms)(^- id: agent-default-model\n.*?  config:\n).*?(?=^
 assert count == 1
 metadata = [
     {'slug': 'claude-opus-5-5', 'display_name': 'Claude Opus 5.5', 'default_reasoning_level': 'medium', 'supported_reasoning_levels': [{'effort': e} for e in ['low', 'medium', 'high', 'xhigh', 'max']]},
-    {'slug': 'claude-sonnet-5', 'display_name': 'Claude Sonnet 5', 'default_reasoning_level': 'high', 'supported_reasoning_levels': [{'effort': e} for e in ['low', 'medium', 'high', 'xhigh', 'max']]},
-    {'slug': 'claude-haiku-4-5-20251001', 'display_name': 'Claude Haiku 4.5 — no effort control'},
+    {'slug': 'claude-sonnet-5-5', 'display_name': 'Claude Sonnet 5.5', 'default_reasoning_level': 'high', 'supported_reasoning_levels': [{'effort': e} for e in ['low', 'medium', 'high', 'xhigh', 'max']]},
+    {'slug': 'claude-haiku-4-5-20251001', 'display_name': 'Claude Haiku 4.5 - no effort control'},
+    {'slug': 'claude-haiku-5-5', 'display_name': 'Claude Haiku 5.5'},
 ]
 extra = {'claudeModels': [m['slug'] for m in metadata], 'claudeMetadata': metadata}
 text += ''.join('        ' + line + '\n' for line in yaml.safe_dump(extra, sort_keys=False).splitlines())

@@ -8,6 +8,8 @@ Open **http://localhost:3080** using the existing Halo cockpit shortcut. The new
 
 - **LM Studio:** direct local provider, existing tuning and discovery retained.
 - **Claude Code / Codex:** native installed CLIs, using the signed-in Windows user's existing authentication. They run their own coding tools with native full-access flags. DSH presents their streamed events and result; it does not secretly translate their native tool loop into the local Halo verifier.
+
+Claude executable discovery supports native `.exe` installations in the normal user locations, Scoop's Node npm directory, npm prefixes and absolute PATH directories, and Claude Desktop's CLI cache. Shell wrappers are never executed by discovery. Web and Desktop declare the same four Claude model IDs; catalog entries are configuration, not proof of account entitlement. Check authentication with the read-only `probeNativeCli` helper; no inference is needed. See `docs/HALO-CLAUDE-REPAIR-2026-11-14.md` for the November repair and verification limits.
 - **OmniRoute:** provider catalog through http://127.0.0.1:20130. Connect the relevant upstream account in that dashboard before using a row labeled `connect account`. Catalog presence and a provider's advertised context are not proof of entitlement or live acceptance.
 - **Mission Control:** http://localhost:3090. Its source was not modified by this provider promotion.
 

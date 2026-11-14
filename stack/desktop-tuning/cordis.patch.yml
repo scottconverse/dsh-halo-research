@@ -356,7 +356,7 @@
               - effort: xhigh
               - effort: max
           - slug: claude-haiku-4-5-20251001
-            display_name: "Claude Haiku 4.5 â€” no effort control"
+            display_name: Claude Haiku 4.5 - no effort control
           - slug: claude-haiku-5-5
             display_name: "Claude Haiku 5.5"
 

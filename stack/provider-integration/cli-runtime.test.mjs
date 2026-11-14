@@ -36,6 +36,15 @@ function harness(action) {
 const options = { provider: 'claude', executable: 'C:\\native\\claude.exe', model: 'sonnet', prompt: 'Build the app. $()', cwd: 'C:\\dev\\fixture', userHome: 'C:\\Users\\scott', timeoutMs: 1000 };
 const line = (child, event) => child.stdout.write(JSON.stringify(event) + '\n');
 
+test('Claude discovery supports Scoop and npm on PATH without executing shell wrappers', () => {
+  const userHome = 'C:\\Users\\fixture';
+  const scoop = userHome + '\\scoop\\apps\\nodejs-lts\\current\\bin\\node_modules\\@anthropic-ai\\claude-code\\bin\\claude.exe';
+  assert.equal(findNativeCli('claude', {userHome, env:{}, exists:file=>file===scoop, readDir:()=>[]}), scoop);
+  const npm = 'D:\\node\\node_modules\\@anthropic-ai\\claude-code\\bin\\claude.exe';
+  assert.equal(findNativeCli('claude', {userHome, env:{Path:'relative;"D:\\node"'}, exists:file=>file===npm, readDir:()=>[]}), npm);
+  assert.equal(findNativeCli('claude', {userHome, env:{Path:'D:\\node'}, exists:file=>file.endsWith('claude.cmd'), readDir:()=>[]}), null);
+});
+
 test('event timestamps and run duration use an injected monotonic clock',async()=>{
   let tick=10;
   const h=harness(({child,close})=>{tick=60;line(child,{type:'item.completed',item:{type:'agent_message',text:'ok'}});tick=90;line(child,{type:'turn.completed'});tick=110;close();});
