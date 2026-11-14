@@ -609,7 +609,23 @@ figcaption {
   margin-top: 16px;
   font-size: 14px;
 }
+.code-line code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.expected-checksum {
+  display: block;
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
 .copy-button {
+  flex-shrink: 0;
   background: transparent;
   color: var(--teal);
   border: 1px solid var(--line);

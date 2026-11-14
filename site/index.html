@@ -373,10 +373,35 @@
             <ol class="install-steps">
               <li>
                 <div>
-                  <h3>Download, verify and extract.</h3>
+                  <h3>Download and verify the ZIP.</h3>
                   <p>
-                    Compare the ZIP’s SHA-256 with the linked checksum. Extract
-                    the bundle to a new folder.
+                    Download installer 0.1.2 and its linked checksum file. In
+                    PowerShell, run this command. Adjust the path if you saved
+                    the ZIP outside Downloads.
+                  </p>
+                  <div class="command-block">
+                    <div class="code-line">
+                      <!-- prettier-ignore -->
+                      <code id="checksum-command">Get-FileHash "$HOME\Downloads\DSH-Complete-Windows-0.1.2.zip" -Algorithm SHA256</code>
+                      <button
+                        class="copy-button"
+                        type="button"
+                        hidden
+                        data-copy-target="checksum-command"
+                        aria-label="Copy checksum verification command"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <p class="copy-status" role="status" aria-live="polite"></p>
+                  </div>
+                  <p>Expected SHA-256:</p>
+                  <code class="expected-checksum"
+                    >41c395a0507cd36a22994a87398324946818e9f75789fc3c92362b7ee5bca4dd</code
+                  >
+                  <p>
+                    Compare the result with the expected value and downloaded
+                    checksum file. Continue only if they match.
                   </p>
                 </div>
               </li>
@@ -384,35 +409,44 @@
                 <div>
                   <h3>Run the guided setup.</h3>
                   <p>
-                    Open <code>Install-DSH.cmd</code>. It downloads the pinned
-                    apps and provisions missing prerequisites. Windows may
-                    request elevation or a restart.
+                    Extract the verified ZIP to a new folder, then open the
+                    extracted installer folder and run
+                    <code>Install-DSH.cmd</code>. Keep your working installation
+                    and use a new installation destination; existing directories
+                    are not upgraded in place. Setup requires internet access
+                    and may request elevation or a restart for missing
+                    prerequisites.
                   </p>
-                  <div class="code-line">
-                    <code>.\Install-DSH.cmd</code
-                    ><button
-                      class="copy-button"
-                      type="button"
-                      hidden
-                      aria-label="Copy installer command"
-                    >
-                      Copy
-                    </button>
+                  <div class="command-block">
+                    <div class="code-line">
+                      <code id="installer-command">.\Install-DSH.cmd</code>
+                      <button
+                        class="copy-button"
+                        type="button"
+                        hidden
+                        data-copy-target="installer-command"
+                        aria-label="Copy installer command"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <p class="copy-status" role="status" aria-live="polite"></p>
                   </div>
-                  <p class="copy-status" role="status" aria-live="polite"></p>
                 </div>
               </li>
               <li>
                 <div>
                   <h3>Connect what you want to use.</h3>
                   <p>
-                    Follow the guide for accounts and models. The new DSH
-                    Complete shortcut folder contains Desktop, Start Web and
+                    Installation does not download or invoke models. Account
+                    sign-in and model setup are separate steps in the guide;
+                    normal XERJ startup can load its embedding model. The new
+                    DSH Complete shortcut folder contains Desktop, Start Web and
                     Stop DSH + Wigolo.
                   </p>
                   <a
                     class="text-link"
-                    href="https://github.com/scottconverse/dsh-halo-research/blob/master/stack/complete-windows/README.md"
+                    href="https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.14/INSTALLATION.md"
                     >Read the installation guide
                     <span aria-hidden="true">↗</span></a
                   >

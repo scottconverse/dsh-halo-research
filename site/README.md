@@ -30,7 +30,7 @@ Published project URL: https://scottconverse.github.io/dsh-halo-research/. Initi
 
 - `index.html`: positioning, navigation, product capture, architecture, installer and evidence links.
 - `styles.css`: product-derived design tokens and responsive layouts.
-- `site.js`: optional command copy, menu close and Escape handling; native menu/anchors work without it.
+- `site.js`: optional checksum/installer command copy, menu close and Escape handling; native menu/anchors work without it.
 - `scripts/`: explicit-asset build, loopback preview and dependency-free deployment checks.
 - `DESIGN.md`: positioning, evidence map and design decisions.
 
@@ -51,3 +51,5 @@ node site/scripts/verify-browser.mjs --built
 ```
 
 It uses an ephemeral loopback port, always launches Chromium with `headless: true`, tests root/project hosting, three viewports, menu/keyboard/copy/no-JavaScript behavior, text contrast and public links, then closes the browser/server. Results go to ignored `site/verification-output/`, or `DSH_SITE_EVIDENCE` when specified. It never starts an application host or model service.
+
+The installation section includes the checksum command, expected hash and extraction/setup steps. Keep the PowerShell command on one raw HTML source line so manual copying works as well as the buttons. Command-copy status is scoped to its command block; optional browser acceptance checks both commands and clipboard-denied/no-JavaScript fallbacks.

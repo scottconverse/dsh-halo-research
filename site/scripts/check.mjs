@@ -31,6 +31,34 @@ for (const suffix of [".zip", ".zip.sha256"]) {
     "Installer and checksum use published release assets",
   );
 }
+const expectedChecksum = (
+  await readFile(
+    new URL(
+      `../stack/packages/DSH-Complete-Windows-${components.version}.zip.sha256`,
+      root,
+    ),
+    "utf8",
+  )
+)
+  .trim()
+  .split(/\s+/)[0];
+assert.ok(
+  html.includes(expectedChecksum),
+  "Displayed checksum matches the accepted checksum file",
+);
+const checksumCommand = html
+  .match(/<code id="checksum-command"[^>]*>([\s\S]*?)<\/code/)[1]
+  .trim();
+assert.equal(
+  checksumCommand,
+  'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.2.zip" -Algorithm SHA256',
+  "Checksum command is a directly copyable PowerShell line",
+);
+
+assert.ok(
+  html.includes(`${releaseBase}/download/v0.3.14/INSTALLATION.md`),
+  "Full installation guide belongs to the same release",
+);
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
 assert.equal(new Set(ids).size, ids.length, "Unique anchors");
 for (const [, fragment] of html.matchAll(/href="#([^"]+)"/g))
