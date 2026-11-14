@@ -89,15 +89,32 @@ try {
       );
       assert.ok(await summary.evaluate((e) => e === document.activeElement));
     }
-    await page.locator(".copy-button").click();
-    assert.equal(
-      await page.evaluate(() => navigator.clipboard.readText()),
-      ".\\Install-DSH.cmd",
-    );
-    assert.equal(
-      await page.locator(".copy-status").innerText(),
-      "Command copied.",
-    );
+    const commands = [
+      [
+        "checksum verification",
+        'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.2.zip" -Algorithm SHA256',
+      ],
+      ["installer", ".\\Install-DSH.cmd"],
+    ];
+    for (const [name, command] of commands) {
+      const button = page.getByRole("button", {
+        name: `Copy ${name} command`,
+        exact: true,
+      });
+      await button.click();
+      assert.equal(
+        await page.evaluate(() => navigator.clipboard.readText()),
+        command,
+      );
+      assert.equal(
+        await button
+          .locator("xpath=..")
+          .locator("..")
+          .locator(".copy-status")
+          .innerText(),
+        "Command copied.",
+      );
+    }
     await page.goto(origin + "/dsh-halo-research/", {
       waitUntil: "networkidle",
     });
@@ -108,9 +125,8 @@ try {
     );
     await page.keyboard.press("Enter");
     assert.equal(new URL(page.url()).hash, "#main");
-    await page.evaluate(() => {
-      document.activeElement.blur();
-      scrollTo(0, 0);
+    await page.goto(origin + "/dsh-halo-research/", {
+      waitUntil: "networkidle",
     });
     await page.screenshot({
       path: path.join(output, name + ".png"),
@@ -120,6 +136,12 @@ try {
       await page.screenshot({
         path: path.join(output, "desktop-first-screen.png"),
       });
+    await page
+      .locator("#install")
+      .screenshot({
+        path: path.join(output, name + "-install.png"),
+        style: ".site-header,.skip-link{visibility:hidden!important}",
+      });
     evidence.viewports.push({
       name,
       ...measure,
@@ -128,6 +150,31 @@ try {
       skipLink: true,
     });
   }
+  await page.evaluate(() =>
+    Object.defineProperty(navigator.clipboard, "writeText", {
+      configurable: true,
+      value: () =>
+        Promise.reject(
+          new Error("Clipboard permission denied for verification"),
+        ),
+    }),
+  );
+  await page
+    .getByRole("button", {
+      name: "Copy checksum verification command",
+      exact: true,
+    })
+    .click();
+  assert.equal(
+    await page
+      .locator(".command-block")
+      .first()
+      .locator(".copy-status")
+      .innerText(),
+    "Select the command above to copy it manually.",
+  );
+  evidence.clipboardFailureFallback = true;
+  await page.goto(origin + "/dsh-halo-research/", { waitUntil: "networkidle" });
   evidence.contrast = await page.evaluate(() => {
     const luminance = (c) =>
       c
@@ -202,6 +249,9 @@ try {
   await np.locator(".mobile-nav summary").click();
   assert.ok(await np.locator(".mobile-nav nav").isVisible());
   assert.ok(await np.locator('.mobile-nav a[href="#install"]').isVisible());
+  assert.ok(await np.locator("#checksum-command").isVisible());
+  assert.ok(await np.locator(".expected-checksum").isVisible());
+  assert.equal(await np.locator(".copy-button:visible").count(), 0);
   await noJs.close();
   evidence.noJavaScriptNavigation = true;
   assert.deepEqual(evidence.errors, []);

@@ -11,16 +11,22 @@ menu.addEventListener("keydown", (event) => {
     menu.querySelector("summary").focus();
   }
 });
-const copy = document.querySelector(".copy-button");
 if (navigator.clipboard?.writeText) {
-  copy.hidden = false;
-  copy.addEventListener("click", async () => {
-    const status = document.querySelector(".copy-status");
-    try {
-      await navigator.clipboard.writeText(".\\Install-DSH.cmd");
-      status.textContent = "Command copied.";
-    } catch {
-      status.textContent = "Select the command above to copy it manually.";
-    }
+  document.querySelectorAll(".copy-button").forEach((copy) => {
+    copy.hidden = false;
+    copy.addEventListener("click", async () => {
+      const block = copy.closest(".command-block");
+      const status = block.querySelector(".copy-status");
+      const command = document
+        .getElementById(copy.dataset.copyTarget)
+        .textContent.trim()
+        .replace(/\r?\n\s*/g, " ");
+      try {
+        await navigator.clipboard.writeText(command);
+        status.textContent = "Command copied.";
+      } catch {
+        status.textContent = "Select the command above to copy it manually.";
+      }
+    });
   });
 }

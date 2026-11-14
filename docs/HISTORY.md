@@ -168,3 +168,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Installer0.1.2 published as Latest release v0.3.14](DSH-COMPLETE-WINDOWS-RELEASE-2026-11-13.md): unchanged accepted ZIP, four public assets, checksum/45-entry validation, older release/tag preservation and no runtime/model changes.
 
 - [Landing page release/download links](HALO-LANDING-RELEASE-LINKS-2026-11-13.md): visible v0.3.14 link, installer0.1.2 release ZIP/checksum, affected build/subpath/headless checks and Pages publication procedure.
+
+- [Installer0.1.2 instructions on the landing page](HALO-LANDING-INSTALLER-INSTRUCTIONS-2026-11-13.md): copyable checksum command, expected hash, installation/preservation steps, release guide, responsive copy/no-JavaScript acceptance and Pages publication procedure.
