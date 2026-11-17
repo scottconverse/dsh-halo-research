@@ -2,13 +2,14 @@ import { mkdir, copyFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 const root = fileURLToPath(new URL("..", import.meta.url));
-// Deliberate allowlist: never publish repository archives, profiles or evidence logs.
+// Deliberate allowlist for public pages and assets. Archives, profiles and evidence logs stay out of Pages.
 const files = [
   "index.html",
   "styles.css",
   "site.js",
   "assets/mark.svg",
   "assets/desktop-mission-control.png",
+  "benchmarks/qwen-next-2026-11-17/index.html",
 ];
 for (const file of files) {
   const target = path.join(root, "dist", file);

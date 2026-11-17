@@ -27,7 +27,7 @@ export function createServer() {
       const relative = pathname.replace(/^\/+/, "");
       const allowed =
         /^(?:index\.html|styles\.css|site\.js|assets\/(?:mark\.svg|desktop-mission-control\.png))$/;
-      if (!allowed.test(relative)) {
+      if (!allowed.test(relative) && relative !== "benchmarks/qwen-next-2026-11-17/index.html") {
         response.writeHead(404);
         response.end("Not found");
         return;

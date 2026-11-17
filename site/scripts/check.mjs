@@ -80,8 +80,9 @@ try {
       const response = await fetch(origin + base + relative);
       assert.equal(response.status, 200, relative);
       assert.ok(
-        !response.headers.get("content-type").startsWith("text/html"),
-        `Asset is not HTML fallback: ${relative}`,
+        response.headers.get("content-type").startsWith("text/html") ===
+          (relative === "benchmarks/qwen-next-2026-11-17/"),
+        `Expected content type: ${relative}`,
       );
     }
   }

@@ -13,3 +13,6 @@
 /stack/stock-dsh/runtime-patch-backups/pi-ai-1.5.2-simple-options.js.original -text
 
 /stack/stock-dsh/runtime-patch-backups/dsh-llm-pi-ai-0.2.2-rc.1-index.js.original -text
+
+# Preserve the published report byte for byte.
+/site/benchmarks/qwen-next-2026-11-17/index.html -text whitespace=-blank-at-eol,cr-at-eol

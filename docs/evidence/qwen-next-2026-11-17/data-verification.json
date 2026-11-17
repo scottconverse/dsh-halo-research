@@ -1,0 +1,14 @@
+{
+  "requests": 72,
+  "warmups": 11,
+  "coding_answers": 61,
+  "cases": 13,
+  "native_mtp_pairs": 10,
+  "engine_pairs": 15,
+  "calibration_rows": 16,
+  "figures": 8,
+  "source_count": 63,
+  "byte_identical_published_sources": true,
+  "all_61_validation_receipts_matched": true,
+  "rpc_answer_sha_matches_both_single_gpus": true
+}

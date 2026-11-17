@@ -1,0 +1,13 @@
+{
+  "all_72_csv_rows_match_raw_timings_counts_wall_and_answer_hash": true,
+  "all_comparison_ratios_recomputed_independently": true,
+  "desktop_charts_tables_and_embedded_json_render": true,
+  "all_internal_evidence_and_case_links_resolve": true,
+  "filter_and_csv_download_work": true,
+  "all_29_embedded_raw_files_hash_match": true,
+  "offline_vector_download_works": true,
+  "mobile_390px_has_no_page_overflow": true,
+  "print_styles_applied": true,
+  "javascript_errors": [],
+  "external_resource_requests": []
+}

@@ -7,6 +7,8 @@
 
 # DSH Halo history
 
+- [Qwen Next on Strix Halo and Blackwell (November 17)](evidence/qwen-next-2026-11-17/README.md): report, benchmark evidence and verification.
+
 - [Web and Desktop rc.5 merge (November 4)](HALO-RC5-MERGE-2026-11-04.md): existing verification reused, installer history retained, isolated conflict resolution, no runtime changes or additional tests.
 
 - [Desktop rc.5 installation and visible acceptance (November 3)](HALO-DESKTOP-RC5-UPGRADE-2026-11-03.md): official installer, six retained Halo repairs, optional dependency alignment, preserved goals, one visible cloud/tool check and explicit profile serialization limit.
