@@ -24,7 +24,11 @@ export function createServer() {
       if (pathname.startsWith(base + "/"))
         pathname = pathname.slice(base.length);
       if (pathname.endsWith("/")) pathname += "index.html";
-      const relative = pathname.replace(/^\/+/, "");
+      const requested = pathname.replace(/^\/+/, "");
+      const relative =
+        requested === "Llama.cpp1.0.0vsStrata-QwenNext-Halo/index.html"
+          ? "benchmarks/qwen-next-2026-11-17/index.html"
+          : requested;
       const allowed =
         /^(?:index\.html|styles\.css|site\.js|assets\/(?:mark\.svg|desktop-mission-control\.png))$/;
       if (!allowed.test(relative) && relative !== "benchmarks/qwen-next-2026-11-17/index.html") {

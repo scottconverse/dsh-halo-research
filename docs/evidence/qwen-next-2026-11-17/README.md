@@ -2,7 +2,7 @@
 
 The November 17, 2026 field study compares llama.cpp build 12359 and Strata 0.1.59 on one Qwen3.8-Flash-Next GSQ-RCO / IQ3_S model. It covers 72 requests across 13 configurations, including a two-host RPC test. The publication reuses saved results and required no new model runs or runtime changes.
 
-- [Published HTML report](https://scottconverse.github.io/dsh-halo-research/benchmarks/qwen-next-2026-11-17/)
+- [Published HTML report](https://scottconverse.github.io/dsh-halo-research/Llama.cpp1.0.0vsStrata-QwenNext-Halo/)
 - [Report source](../../../site/benchmarks/qwen-next-2026-11-17/index.html)
 - [Benchmark evidence package](Qwen-Next-Halo-Blackwell-Report.zip)
 - [Data verification](data-verification.json), [headless verification](headless-verification.json) and [artifact checksums](delivery-verification.json)

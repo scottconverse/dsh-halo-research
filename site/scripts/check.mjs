@@ -70,6 +70,9 @@ const local = [
       .filter((s) => !s.startsWith("#") && !s.startsWith("https://")),
   ),
 ];
+const report = await readFile(new URL("dist/Llama.cpp1.0.0vsStrata-QwenNext-Halo/index.html", root));
+const originalReport = await readFile(new URL("dist/benchmarks/qwen-next-2026-11-17/index.html", root));
+assert.ok(report.equals(originalReport), "The named route preserves the report bytes");
 const server = createServer();
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
 try {
@@ -81,7 +84,7 @@ try {
       assert.equal(response.status, 200, relative);
       assert.ok(
         response.headers.get("content-type").startsWith("text/html") ===
-          (relative === "benchmarks/qwen-next-2026-11-17/"),
+          (relative === "Llama.cpp1.0.0vsStrata-QwenNext-Halo/"),
         `Expected content type: ${relative}`,
       );
     }

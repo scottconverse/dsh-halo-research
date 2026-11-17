@@ -16,6 +16,9 @@ for (const file of files) {
   await mkdir(path.dirname(target), { recursive: true });
   await copyFile(path.join(root, file), target);
 }
+const namedReport = path.join(root, "dist", "Llama.cpp1.0.0vsStrata-QwenNext-Halo/index.html");
+await mkdir(path.dirname(namedReport), { recursive: true });
+await copyFile(path.join(root, "benchmarks/qwen-next-2026-11-17/index.html"), namedReport);
 await writeFile(path.join(root, "dist", ".nojekyll"), "");
 console.log(
   `Built ${files.length} site assets into site/dist (no dependencies).`,
