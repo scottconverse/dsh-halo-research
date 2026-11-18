@@ -43,7 +43,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Project status
 
-Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.14](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.14) is GitHub Latest and contains installer 0.1.2. Prior release ZIPs remain unchanged.
+Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.14](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.14) contains the current Windows installer 0.1.2. The [Strata paired startup source release](RELEASE-NOTES-v0.3.15.md) adds an opt-in Web and Desktop overlay. Prior release ZIPs remain unchanged.
 
 ## Contributing
 

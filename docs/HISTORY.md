@@ -7,6 +7,8 @@
 
 # DSH Halo history
 
+- [Strata paired startup for Web and Desktop (November 17)](evidence/strata-paired-startup-2026-11-17/README.md): full-memory default, optional 32K prefetch, guarded 5070 Ti worker, historical real timings and model-free release verification. [Setup and rollback](../stack/strata-paired/README.md).
+
 - [Qwen Next on Strix Halo and Blackwell (November 17)](evidence/qwen-next-2026-11-17/README.md): report, benchmark evidence and verification.
 
 - [Web and Desktop rc.5 merge (November 4)](HALO-RC5-MERGE-2026-11-04.md): existing verification reused, installer history retained, isolated conflict resolution, no runtime changes or additional tests.
