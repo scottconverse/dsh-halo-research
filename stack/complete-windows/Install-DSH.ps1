@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$Destination = (Join-Path $env:LOCALAPPDATA 'DSH-Complete'), [switch]$Resume)
+param([string]$Destination = (Join-Path $env:LOCALAPPDATA 'DSH-Complete'), [switch]$Resume, [switch]$NoShortcuts)
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) { throw 'Run Install-DSH.cmd to provision PowerShell 7, or use pwsh. No execution policy changes are made.' }
 $env:DSH_COMPLETE_PWSH=Join-Path $PSHOME 'pwsh.exe'
@@ -29,5 +29,7 @@ if (-not (Test-Path -LiteralPath $node)) {
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $node) | Out-Null
     Get-ChildItem -LiteralPath (Join-Path $stage 'node-v24.21.0-win-x64') | Copy-Item -Destination (Split-Path -Parent $node) -Recurse -Force
 }
-& $node (Join-Path $PSScriptRoot 'stack\complete-windows\install.mjs') --dest $Destination
+$installerArgs=@('--dest',$Destination)
+if ($NoShortcuts) { $installerArgs+='--no-shortcuts' }
+& $node (Join-Path $PSScriptRoot 'stack\complete-windows\install.mjs') @installerArgs
 if ($LASTEXITCODE -ne 0) { throw 'Setup incomplete. Retain this folder and its receipt; rerun with -Resume after resolving the recorded error.' }

@@ -1,15 +1,13 @@
-# Complete DSH for Windows — installer 0.1.2
+# Complete DSH for Windows — installer 0.1.3
 
-**Source revision November 13, 2026:** pins Web and the official Desktop to
-**DSH0.2.2-rc.1** and bundles the full seven-tab Mission Control panel inside
-Desktop. Web retains its browser dashboard. Each host uses its own authenticated
+**Installer 0.1.3** pins Web and the official Desktop to **DSH 0.2.2-rc.1**, retains the seven-tab embedded Desktop Mission Control panel, and adds the paired Strata presets and opt-in Browse. Web retains its browser dashboard. Each host uses its own authenticated
 connection, profile and dashboard state; private ports avoid the existing Halo
 installation. Installation never pulls or invokes a model.
 
-Download the [current0.1.2 installer](../packages/DSH-Complete-Windows-0.1.2.zip) and [checksum](../packages/DSH-Complete-Windows-0.1.2.zip.sha256), or build it from source:
+Download the [Windows installer 0.1.3](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip) and [checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip.sha256), or build it from source:
 
 ```powershell
-node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.2
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.3
 # In that new bundle folder, on the destination Windows x64 machine:
 .\Install-DSH.cmd
 ```
@@ -26,7 +24,7 @@ portable-cloud installer available.
 
 ## Install on the destination PC
 
-Use the newly built0.1.2 bundle. Verify its manifest/checksum, extract it, and run:
+Use the newly built 0.1.3 bundle. Verify its manifest/checksum, extract it, and run:
 
 ```powershell
 .\Install-DSH.cmd
@@ -51,7 +49,7 @@ The bootstrap provisions missing PowerShell 7. The Reddit build provisions
 Python, Git, Rust MSVC and C++/CMake/LLVM/NASM prerequisites through their normal
 Windows installers. This can request elevation or a Windows restart; it does
 not silently bypass either. These shared development prerequisites are not
-removed on uninstall. Existing DSH profiles/shortcuts are not overwritten.
+removed on uninstall. Existing DSH profiles and shortcuts are preserved. Pass `-NoShortcuts` to keep a new setup entirely out of the Desktop shortcuts folder.
 Setup does not change PowerShell execution policy. If Windows or an organization
 blocks downloaded scripts, resolve that through its normal trusted-script
 approval process; the installer does not bypass it. Redlib is built without
@@ -128,6 +126,22 @@ are not a broken installation or an existing indexed research collection.
 
 Mission Control retains its existing views. LM Studio operations are disabled
 in Ollama mode; the existing Halo configuration/default behavior is unchanged.
+
+## Halo Strata and Browse
+
+The original cloud route stays the global default. Choose **Halo + 5070 Ti** for a full-memory Halo lead or **Halo + 5070 Ti (32K capped)** for the separate 32K profile with Windows expert prefetch. Both delegate to the same 5070 Ti worker on demand. The first message starts the selected Halo engine. The worker starts on the first delegated model request. The companion files are included and selection alone loads no model.
+
+Before using a paired preset, copy `stack/strata-paired/settings.example.json` to `stack/strata-paired/settings.json` under this installation, then fill in the paths and hashes. Supply your compatible Strata engines, model pack, native and PLE GGUF, tokenizer and ranked-expert profile. The installer does not copy or download these model assets or configure SSH. Use the supplied capped HIP and worker CUDA launch templates, or verified existing inputs. Keep the full-memory source JSON on loopback port 8081 and the capped and worker source JSON on 18181. The installed controllers write private launch copies. The active installer ports on Halo are 8181 (full), 8183 (capped), and 8182 (SSH tunnel to worker loopback 18181). No existing Halo listener is reused by the installer.
+
+Install `psutil` in the controller Python and `psutil` plus a compatible `gguf` reader in the prefetch Python. The worker requires its assigned Windows SSH account and trusted host key, the CUDA Strata Control layout, `psutil`, and its verified asset receipts. Use the original [Strata prerequisite and safety guide](https://github.com/scottconverse/dsh-halo-research/blob/v0.3.15/stack/strata-paired/README.md) for the receipt formats and memory requirements. The preflight commands below only inspect files, process conflicts and headroom. Set `$python` to the configured local controller Python.
+
+```powershell
+& $python -B .\stack\strata-paired\halo.py preflight
+& $python -B .\stack\strata-paired\halo.py preflight --capped
+& $python -B .\stack\strata-paired\worker.py preflight
+```
+
+For Browse, run `.\Control-DSH.ps1 -Action StartBrowse` and choose either **Halo + 5070 Ti + Browse** or **Halo + 5070 Ti (32K capped) + Browse** in a new session. Only that lead preset exposes Browse through DSH. The worker remains on `local-lean`. The browser uses this installation's headless Chrome for Testing profile in `data/halo-browse/chrome` and a separate loopback relay on 19972. Stop it with `.\Control-DSH.ps1 -Action StopBrowse`. The regular **Stop** action also stops Browse if this installation started it. The browser extension and Chromium are provisioned by the setup. No browser starts during setup.
 
 ## Recovery, removal and updates
 

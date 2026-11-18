@@ -7,6 +7,8 @@
 
 # DSH Halo history
 
+- [Windows installer 0.1.3 (November 18)](DSH-COMPLETE-WINDOWS-0.1.3-2026-11-18.md) packages the paired Strata presets, 5070 Ti worker, and lead-only Browse for both hosts.
+
 - [Opt-in Browse companion for Web and Desktop (November 17)](../stack/halo-browse/README.md): isolated headless Chrome for Testing, lead-only MCP tool exposure, copied-profile rollback, and model-free browser verification.
 
 - [Strata paired startup for Web and Desktop (November 17)](evidence/strata-paired-startup-2026-11-17/README.md): full-memory default, optional 32K prefetch, guarded 5070 Ti worker, historical real timings and model-free release verification. [Setup and rollback](../stack/strata-paired/README.md).

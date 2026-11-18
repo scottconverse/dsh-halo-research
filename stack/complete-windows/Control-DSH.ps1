@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([ValidateSet('Web','Desktop','Services','Stop','Models','OllamaSignIn','CodexSignIn','ClaudeSignIn')][string]$Action='Web', [string[]]$Models=@(), [switch]$NoOpen)
+param([ValidateSet('Web','Desktop','Services','Stop','Models','OllamaSignIn','CodexSignIn','ClaudeSignIn','StartBrowse','StopBrowse')][string]$Action='Web', [string[]]$Models=@(), [switch]$NoOpen)
 $ErrorActionPreference='Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) { throw 'Use PowerShell 7 (pwsh) or the DSH Complete shortcuts.' }
 $env:DSH_COMPLETE_PWSH=Join-Path $PSHOME 'pwsh.exe'
@@ -16,6 +16,7 @@ $env:CODEX_HOME=Join-Path $root 'data\codex'
 $env:CLAUDE_CONFIG_DIR=Join-Path $root 'data\claude'
 $env:DSH_TELEMETRY_DISABLED='1'
 $env:DSH_OLLAMA_LOCAL_TOKEN='ollama'
+$env:DSH_COMPLETE_STRATA_TOKEN='strata-loopback'
 $env:OLLAMA_HOST='127.0.0.1:' + $config.ports.ollama
 $env:OLLAMA_MODELS=Join-Path $root 'data\ollama-models'
 $env:OLLAMA_MAX_LOADED_MODELS='1'
@@ -74,6 +75,25 @@ function Start-Owned([string]$Name,[string]$Exe,[string[]]$Arguments,[int]$Port=
         }
         if (-not $ready) { throw "$Name did not become ready. Owned process receipt retained; inspect logs before retrying." }
     }
+}
+$browseScript=Join-Path $root 'stack\halo-browse\browser.mjs'
+$browseData=Join-Path $root 'data\halo-browse'
+if ($Action -eq 'StartBrowse') {
+    Start-Owned 'browse' $node @($browseScript)
+    for($i=0;$i -lt 100;$i++) {
+        if (-not (Get-OwnedProcess 'browse')) { throw 'Browse exited before readiness. Inspect the Browse logs.' }
+        if (Test-Path -LiteralPath (Join-Path $browseData 'browser.ready')) { Write-Output 'Headless Browse is ready.'; exit }
+        Start-Sleep -Milliseconds 500
+    }
+    throw 'Browse readiness timed out. Inspect the Browse logs.'
+}
+if ($Action -eq 'StopBrowse' -or $Action -eq 'Stop') {
+    if (Get-OwnedProcess 'browse') {
+        & $node $browseScript stop
+        if ($LASTEXITCODE -ne 0) { throw 'Browse stop failed. Ownership receipt retained.' }
+        Remove-Item -LiteralPath (Join-Path $runtime 'browse.json')
+    }
+    if ($Action -eq 'StopBrowse') { exit }
 }
 if ($Action -eq 'Stop') {
     foreach($name in @('desktop','mission-control','web','xerj','redlib','ollama')) {
