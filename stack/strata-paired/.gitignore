@@ -1,0 +1,9 @@
+settings.json
+node_modules/
+__pycache__/
+*.log
+*.lock
+*.tmp
+state.json
+halo-*-state.json
+halo-*.launch.json

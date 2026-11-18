@@ -1,0 +1,18 @@
+{
+  "python": "C:/DSH-Strata/venv/Scripts/python.exe",
+  "halo": {
+    "terminal": "C:/Strata/terminal/0.1.59",
+    "engine": "C:/Strata/components/engine/0.1.59-windows-x86_64-hip-rdna3/strata.exe",
+    "fullConfig": "C:/Strata/launch/local-qwen.json",
+    "cappedConfig": "C:/DSH-Strata/halo-strata-capped20-off-config.json",
+    "cappedConfigSHA256": "replace-with-sha256",
+    "prefetchPython": "C:/DSH-Strata/venv/Scripts/python.exe"
+  },
+  "worker": {
+    "ssh": "C:/Windows/System32/OpenSSH/ssh.exe",
+    "target": "user@worker.example",
+    "remotePython": "C:/DSH-Strata/venv/Scripts/python.exe",
+    "remoteRoot": "C:/DSH-Strata",
+    "launchSHA256": "replace-with-sha256"
+  }
+}

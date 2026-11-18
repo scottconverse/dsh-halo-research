@@ -1,0 +1,52 @@
+{
+  "lab_date_local": "2026-11-17",
+  "model": "qwen3.8-flash-next-iq3_s",
+  "strata_version": "0.1.59",
+  "historical": {
+    "cap_comparison": {
+      "server_working_set_gib": 20,
+      "engine_working_set_gib": [20, 24],
+      "engine_peak_resident_gib": [10.97, 17.77],
+      "startup_timeout_seconds": 480,
+      "both_timed_out": true,
+      "file_cache_controlled": false
+    },
+    "targeted_prefetch": {
+      "disk_read_gib_first": 20.39,
+      "first_ready_seconds": 122.3,
+      "warm_ready_seconds": 41.4,
+      "expert_ranges_gib": 20.31,
+      "gpu_fill_seconds": 9.4
+    },
+    "installed_capped_profile": {
+      "web_request_to_reply_seconds": 50.415,
+      "desktop_reused_backend_request_to_reply_seconds": 2.522,
+      "prompt": "/no_think\nReply with only the number 42.",
+      "reply_each": "42",
+      "context_tokens": 32768,
+      "hard_working_set_maximum_bytes_each": [21474836480, 21474836480],
+      "prefetch_seconds": 1.173,
+      "prefetch_host_disk_read_gib": 0.00525,
+      "expert_slots_filled": 10701,
+      "gpu_fill_seconds": 9.5,
+      "cleanup_verified": true,
+      "settings_hashes_matched": true,
+      "remote_worker_model_loaded": false,
+      "source_receipt_sha256": {
+        "verification.json": "e3b8d79ba61f911e73746f1f46bd9d53f573c91561cb95a2b00f841d302abf67",
+        "web/trace.log": "eda34904dc2e59cf01a908b4baaf02458175178abb40b9b55f08750130158ccd",
+        "desktop/trace.log": "da9fcb96da15e0108f1d47334eade05319e53756170c487091bb140e628684ba",
+        "engine.log": "4693eddebce65897f8d82ed490ae55170f73d43615f32ed84894242a9020c9e6",
+        "prefetch.log": "deb7e4417d0539f4c929ec506170702bd9a949f8796b3b9186bfd1b12de69e19"
+      }
+    }
+  },
+  "release_checks": {
+    "node": "24.21.0",
+    "copied_profiles_stage_install_and_byte_identical_rollback": true,
+    "mock_native_adapter_and_delegation": ["web/full", "web/capped", "desktop/full", "desktop/capped"],
+    "mock_worker_failure_prevented_inference": true,
+    "live_worker_ssh_preflight": "passed",
+    "models_loaded": false
+  }
+}
