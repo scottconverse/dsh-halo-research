@@ -1,0 +1,14 @@
+{
+  "name": "dsh-halo-browse",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node browser.mjs",
+    "stop": "node browser.mjs stop"
+  },
+  "dependencies": {
+    "@opencode/browse": "0.1.5",
+    "playwright": "1.65.1",
+    "yaml": "2.8.3"
+  }
+}
