@@ -7,6 +7,8 @@
 
 # DSH Halo history
 
+- [Opt-in Browse companion for Web and Desktop (November 17)](../stack/halo-browse/README.md): isolated headless Chrome for Testing, lead-only MCP tool exposure, copied-profile rollback, and model-free browser verification.
+
 - [Strata paired startup for Web and Desktop (November 17)](evidence/strata-paired-startup-2026-11-17/README.md): full-memory default, optional 32K prefetch, guarded 5070 Ti worker, historical real timings and model-free release verification. [Setup and rollback](../stack/strata-paired/README.md).
 
 - [Qwen Next on Strix Halo and Blackwell (November 17)](evidence/qwen-next-2026-11-17/README.md): report, benchmark evidence and verification.
