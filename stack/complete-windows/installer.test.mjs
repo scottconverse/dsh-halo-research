@@ -69,7 +69,7 @@ test('archive hashing handles multiple chunks and a partial final chunk', () => 
 
 test('current hosts and embedded Desktop dashboard are pinned and bundled with private ownership', () => {
   const runtime=JSON.parse(fs.readFileSync(path.join(source,'runtime-package.json')));
-  assert.equal(components.version,'0.1.2');
+  assert.equal(components.version,'0.1.3');
   assert.equal(components.dsh,'0.2.2-rc.1');
   assert.ok(components.desktop.url.endsWith('deepseek-harness-0.2.2-rc.1-win-x64.exe'));
   for(const [name,pin] of Object.entries(runtime.dependencies)) if(name.startsWith('@deepseek-ai/')) assert.equal(pin,components.dsh,name);
@@ -90,4 +90,53 @@ test('current hosts and embedded Desktop dashboard are pinned and bundled with p
     for(const name of ['index.mjs','client.js','dashboard.mjs','package.json','cordis.patch.yml'])assert(manifest.files.some(row=>row.path==='stack/desktop-mission-control/'+name));
     assert(fs.readFileSync(path.join(output,'stack/desktop-mission-control/client.js'),'utf8').includes("const ORIGIN = 'http://127.0.0.1:3191'"));
   }finally{fs.rmSync(parent,{recursive:true,force:true});}
+});
+
+test('both hosts keep Browse in the paired lead variants and isolate all companion ports', () => {
+  const root = path.resolve('C:/DSH Complete verified');
+  for (const host of ['web', 'desktop']) {
+    const rows = profile(root, components, host);
+    assert.equal(rows.find(row => row.id === 'agent-preset-registry').config.default, 'cloud-coding');
+    const providers = rows.find(row => row.id === 'llm-pi-ai').config.providers;
+    for (const [id, port, context] of [
+      ['strata-halo-auto', 8181, 131072], ['strata-5070ti', 8182, 32768], ['strata-halo-capped', 8183, 32768],
+    ]) {
+      assert.equal(providers[id].baseURL, 'http://127.0.0.1:' + port + '/v1');
+      assert.equal(providers[id].models[0].contextWindow, context);
+    }
+    const entries = rows.find(row => row.insert).insert;
+    const presets = entries.filter(row => row.name === '@deepseek-ai/dsh-agent-preset').map(row => row.config);
+    assert(!entries.some(row => row.id === 'mcp-halo-browse'));
+    assert.deepEqual(presets.filter(row => row.plugins.some(plugin => plugin.id === 'mcp-halo-browse')).map(row => row.id),
+      ['local-5070-browse', 'local-5070-capped-browse']);
+    const worker = presets.find(row => row.id === 'local-lean');
+    assert(!worker.plugins.some(row => ['mcp-halo-browse', 'tool-subagent'].includes(row.id)));
+    for (const lead of presets.filter(row => row.id.startsWith('local-5070'))) {
+      const delegations = lead.plugins.filter(row => row.name === '@deepseek-ai/dsh-tool-subagent');
+      assert.equal(delegations.length, 1);
+      assert.equal(delegations[0].config.provider, 'spawn');
+      assert.equal(delegations[0].config.agentPreset, 'local-lean');
+      assert.equal(delegations[0].config.agentOptions.provider, 'strata-5070ti');
+      assert.equal(delegations[0].config.maxDepth, 1);
+    }
+  }
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), 'dsh-paired-bundle-'));
+  try {
+    const output = path.join(parent, 'bundle');
+    build(output);
+    const manifest = verifyBundle(output);
+    for (const relative of ['stack/strata-paired/prefetch_halo_experts.py','stack/strata-paired/remote.py',
+      'stack/strata-paired/settings.example.json','stack/halo-browse/browser.mjs','stack/halo-browse/package-lock.json']) {
+      assert(manifest.files.some(row => row.path === relative), relative);
+    }
+    const read = file => fs.readFileSync(path.join(output, 'stack', file), 'utf8');
+    assert.match(read('strata-paired/worker.py'), /127\.0\.0\.1:8182:127\.0\.0\.1:18181/);
+    assert.match(read('strata-paired/halo.py'), /CAPPED_PORT = 8183/);
+    assert.match(read('strata-paired/halo.py'), /else 8181/);
+    assert.doesNotMatch(read('strata-paired/settings.py'), /DSH_STRATA_CONFIG/);
+    assert.match(read('halo-browse/config.mjs'), /data\/halo-browse/);
+    assert.match(read('halo-browse/config.mjs'), /port = 19972/);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
 });

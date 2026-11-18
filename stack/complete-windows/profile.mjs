@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { profile as cloudProfile, MODEL } from '../portable-cloud/profile.mjs';
+import { addHaloPresets } from './halo-presets.mjs';
 export function profile(root, components, host = 'web') {
   if (!['web', 'desktop'].includes(host)) throw Error('Unknown DSH host');
   const rows = cloudProfile(root, components.ports.web);
@@ -32,6 +33,7 @@ export function profile(root, components, host = 'web') {
   for (const [provider, label] of [['codex', 'Codex'], ['claude-code', 'Claude Code']]) {
     inserted.push({ id: `connected-${provider}`, name: '@deepseek-ai/dsh-agent-preset', config: { id: `connected-${provider}`, name: `DeepSeek + signed-in ${label}`, description: `Use the ${label} delegation tool only when requested. Sign in separately; no account credentials are bundled.`, plugins: [...structuredClone(tools), { id: `tool-${provider}`, name: '@deepseek-ai/dsh-tool-subagent', config: { provider, toolName: `subagent_${provider.replaceAll('-', '_')}`, backgroundMode: 'one-shot', maxDepth: 'provider-managed' } }] } });
   }
+  addHaloPresets(rows, root, components, tools);
   if (host === 'desktop') inserted.push({id: 'desktop-mission-control',
     name: file('stack/desktop-mission-control/index.mjs'), config: {
       port: components.ports.desktopMissionControl, deploymentRoot: root,

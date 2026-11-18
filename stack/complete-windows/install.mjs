@@ -29,7 +29,7 @@ export function extractDesktop(archive, target, extract) {
   if (!exe) throw Error('Desktop executable missing after extraction');
   return exe;
 }
-export async function install(root) {
+export async function install(root, { noShortcuts = false } = {}) {
   if (process.platform !== 'win32') throw Error('Windows x64 required');
   root = path.resolve(root);
   const owner = JSON.parse(fs.readFileSync(path.join(root, '.dsh-complete-owner.json'), 'utf8').replace(/^\uFEFF/, ''));
@@ -123,7 +123,18 @@ export async function install(root) {
       atomicJson(path.join(root, 'complete.json'), { version: components.version, ports: components.ports, selectedModels: [], firstRun: true });
     });
     await checkpoint('browser', async () => run(node, [path.join(root, 'node_modules/playwright/cli.js'), 'install', 'chromium'], root, env));
-    await checkpoint('shortcuts', async () => run(powershell, ['-NoLogo', '-NoProfile', '-File', path.join(root, 'Shortcuts.ps1')], root, env));
+    await checkpoint('browse-assets', async () => {
+      const directory = path.join(root, 'stack/halo-browse');
+      const npm = path.join(root, 'tools/node/node_modules/npm/bin/npm-cli.js');
+      run(node, [npm, 'ci', '--ignore-scripts', '--no-audit', '--no-fund'], directory, env);
+      const archive = path.join(root, 'downloads/browse-extension.zip');
+      await download(archive, components.browseExtension);
+      extract(archive, path.join(root, 'data/halo-browse/extension-0.1.5'));
+      run(node, [path.join(directory, 'node_modules/playwright/cli.js'), 'install', 'chromium', '--no-shell'], directory,
+        { ...env, PLAYWRIGHT_BROWSERS_PATH: path.join(root, 'tools/browse-chromium') });
+      return { extensionSha256: digest(archive), browserStarted: false };
+    });
+    if (!noShortcuts) await checkpoint('shortcuts', async () => run(powershell, ['-NoLogo', '-NoProfile', '-File', path.join(root, 'Shortcuts.ps1')], root, env));
     receipt.status = 'installed-awaiting-account-sign-in-and-model-selection'; delete receipt.currentStep; atomicJson(receiptFile, receipt);
     console.log(`Installed in ${root}. Read README.md, then use this installation's shortcuts. No model was pulled or invoked. Accounts are signed in separately.`);
     return receipt;
@@ -131,6 +142,6 @@ export async function install(root) {
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  if (args.length !== 2 || args[0] !== '--dest') throw Error('Use Install-DSH.ps1');
-  install(args[1]).catch(error => { console.error(error.message); process.exitCode = 1; });
+  if ((args.length !== 2 && (args.length !== 3 || args[2] !== '--no-shortcuts')) || args[0] !== '--dest') throw Error('Use Install-DSH.ps1');
+  install(args[1], { noShortcuts: args[2] === '--no-shortcuts' }).catch(error => { console.error(error.message); process.exitCode = 1; });
 }

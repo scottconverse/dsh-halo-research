@@ -92,7 +92,7 @@ try {
     const commands = [
       [
         "checksum verification",
-        'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.2.zip" -Algorithm SHA256',
+        'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.3.zip" -Algorithm SHA256',
       ],
       ["installer", ".\\Install-DSH.cmd"],
     ];
