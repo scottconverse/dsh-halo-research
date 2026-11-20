@@ -108,17 +108,17 @@ export async function install(root, { noShortcuts = false } = {}) {
       const { profile } = await import('./profile.mjs');
       const yaml = require('yaml');
       for (const host of ['web', 'desktop']) {
-        const document = yaml.stringify(profile(root, components, host));
+        // Recovery mirrors validate and render each preset as a standalone YAML
+        // document, so generated presets must not reference another preset's anchors.
+        const document = yaml.stringify(profile(root, components, host), { aliasDuplicateObjects: false });
         const directory = path.join(root, 'home/profiles', host); fs.mkdirSync(directory, { recursive: true });
         const patch = path.join(directory, 'cordis.patch.yml');
         if (fs.existsSync(patch)) {
           if (fs.readFileSync(patch, 'utf8') !== document) throw Error('Refusing to replace an edited profile');
         } else fs.writeFileSync(patch, document);
         atomicJson(path.join(directory, 'package.json'), { name: `dsh-profile-${host}`, private: true, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-web-app'], patchReload: 'never' } } });
-      }
-      for (const host of ['web','desktop']) {
         fs.mkdirSync(path.join(root, `${host}-profile`), {recursive: true});
-        fs.writeFileSync(path.join(root, `${host}-profile/cordis.patch.yml`), yaml.stringify(profile(root, components, host)));
+        fs.writeFileSync(path.join(root, `${host}-profile/cordis.patch.yml`), document);
       }
       atomicJson(path.join(root, 'complete.json'), { version: components.version, ports: components.ports, selectedModels: [], firstRun: true });
     });
