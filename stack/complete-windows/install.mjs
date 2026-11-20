@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
 import { initializeKnowledge } from '../shared-knowledge/install.mjs';
@@ -121,6 +121,11 @@ export async function install(root, { noShortcuts = false } = {}) {
         fs.writeFileSync(path.join(root, `${host}-profile/cordis.patch.yml`), yaml.stringify(profile(root, components, host)));
       }
       atomicJson(path.join(root, 'complete.json'), { version: components.version, ports: components.ports, selectedModels: [], firstRun: true });
+    });
+    await checkpoint('web-runtime', async () => {
+      const { prepareWebRuntime, syncWebPresets } = await import(pathToFileURL(path.join(root, 'stack/complete-windows/web-runtime.mjs')));
+      syncWebPresets(root);
+      return { presetMirrors: prepareWebRuntime(root) };
     });
     await checkpoint('browser', async () => run(node, [path.join(root, 'node_modules/playwright/cli.js'), 'install', 'chromium'], root, env));
     await checkpoint('browse-assets', async () => {

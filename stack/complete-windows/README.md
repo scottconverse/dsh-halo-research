@@ -1,18 +1,18 @@
-# Complete DSH for Windows — installer 0.1.3
+# Complete DSH for Windows — installer 0.1.4
 
-**Installer 0.1.3** pins Web and the official Desktop to **DSH 0.2.2-rc.1**, retains the seven-tab embedded Desktop Mission Control panel, and adds the paired Strata presets and opt-in Browse. Web retains its browser dashboard. Each host uses its own authenticated
+**Installer 0.1.4** pins Web and the official Desktop to **DSH 0.2.2-rc.5**, retains the seven-tab embedded Desktop Mission Control panel, and includes the paired Strata presets and opt-in, lead-only Browse. Web retains its browser dashboard. Each host uses its own authenticated
 connection, profile and dashboard state; private ports avoid the existing Halo
 installation. Installation never pulls or invokes a model.
 
-Download the [Windows installer 0.1.3](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip) and [checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip.sha256), or build it from source:
+Download the [Windows installer 0.1.4](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip) and [checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip.sha256), or build it from source:
 
 ```powershell
-node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.3
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.4
 # In that new bundle folder, on the destination Windows x64 machine:
 .\Install-DSH.cmd
 ```
 
-Previously published v0.3.12/v0.3.13 ZIPs remain immutable0.1.0/rc.3 artifacts;
+Previously published ZIPs remain available at their original release URLs;
 they do not gain these updates when downloaded again. No fresh-PC, provider
 account, inference-quality or model/GPU acceptance is implied by source changes.
 
@@ -24,7 +24,7 @@ portable-cloud installer available.
 
 ## Install on the destination PC
 
-Use the newly built 0.1.3 bundle. Verify its manifest/checksum, extract it, and run:
+Use the newly built 0.1.4 bundle. Verify its manifest/checksum, extract it, and run:
 
 ```powershell
 .\Install-DSH.cmd
@@ -72,6 +72,19 @@ and one shared triad state. Electron uses its own `data/electron` directory.
 Ollama uses port 11435 and private model storage, one resident model and one
 parallel request. Web/browser Mission Control use3180/3190; embedded Desktop Mission Control uses3191. XERJ uses9202 and Redlib18082.
 These services bind loopback. Keep Web launch tokens private.
+
+Web setup generates preset recovery mirrors and applies the reviewed rc.5
+runtime repairs inside the new installation. The Web launcher checks both
+before starting any services. If you intentionally edit a registered Web
+preset, back up and review `home/profiles/web/cordis.patch.yml`, then run
+this command from the installation folder to update its recovery mirrors:
+
+```powershell
+.\tools\node\node.exe .\stack\complete-windows\web-runtime.mjs sync
+```
+
+The launcher stores the mirrors and original patched runtime files under
+`runtime-patch-backups`. Headless Web startup uses `.\Start-StockDSH.ps1 -NoOpen`.
 
 Desktop's **Mission Control** sidebar entry embeds the same seven tabs, charts,
 memory graph and controls as Web: Overview, Models, Sessions, Plugins, System,

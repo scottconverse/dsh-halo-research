@@ -15,7 +15,10 @@ export function build(output) {
     entries.push({content, path: destination, sha256: crypto.createHash('sha256').update(content).digest('hex')});
   };
   for (const name of ['Install-DSH.cmd', 'Install-DSH.ps1', 'Prepare-Redlib.ps1', 'Control-DSH.ps1', 'Shortcuts.ps1', 'Start-StockDSH.ps1', 'Expand-Component.ps1', 'xerj-mcp.mjs', 'components.json', 'runtime-package.json', 'runtime-package-lock.json', 'README.md']) add(path.join(source, name), name);
-  for (const name of ['install.mjs', 'profile.mjs', 'files.mjs', 'halo-presets.mjs']) add(path.join(source, name), `stack/complete-windows/${name}`);
+  for (const name of ['install.mjs', 'profile.mjs', 'files.mjs', 'halo-presets.mjs', 'web-runtime.mjs']) add(path.join(source, name), `stack/complete-windows/${name}`);
+  for (const name of ['preset-sync.mjs', 'web-connection-guard.mjs', 'output-budget-patch.mjs', 'adapter-integrity-patch.mjs', 'ollama-timeout-fetch.mjs', 'web-fetch-evidence-patch.mjs', 'interrupted-command-recovery-patch.mjs']) {
+    add(path.join(stack, 'stock-dsh', name), `stack/stock-dsh/${name}`);
+  }
   add(path.join(stack, 'portable-cloud/profile.mjs'), 'stack/portable-cloud/profile.mjs');
   for (const name of ['index.mjs', 'core.mjs', 'no-progress-guard.mjs', 'project-fingerprint.mjs', 'package.json', 'skills/staff-engineer/SKILL.md', 'skills/triad-auditor/SKILL.md', 'skills/triad-coordinator/SKILL.md']) add(path.join(stack, 'three-role', name), `stack/three-role/${name}`);
   for (const relative of ['stock-dsh/compaction-text-only.mjs', 'stock-dsh/mission-control/mission-control.mjs', 'stock-dsh/fast-first-preset/research-fallback.mjs', 'desktop-tuning/research-tool-hook.mjs']) add(path.join(stack, relative), `stack/${relative}`);
