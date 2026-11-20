@@ -41,6 +41,16 @@ export const GENERATED_HEADER = [
 // without editing this list.
 const EXTERNAL_DIR_SUFFIX = '-preset';
 
+function installedOptions(deployment = here, home = process.env.DSH_HOME || 'C:/Users/scott/.dsh-stock') {
+  return {
+    profilePath: path.join(home, 'profiles', 'web', 'cordis.patch.yml'),
+    mirrorRoot: path.join(deployment, 'runtime-patch-backups', 'installed-web-presets'),
+    keepAbsoluteModules: true,
+  };
+}
+
+export { installedOptions };
+
 const STRINGIFY_OPTIONS = { lineWidth: 0, indent: 2, minContentWidth: 0 };
 
 function profileText(profilePath = PROFILE_PATH) {
@@ -138,14 +148,18 @@ export function presetFromEntry(entry) {
 // Read every embedded registered preset from web-profile/cordis.patch.yml.
 // Returns plain descriptors that point at live YAML nodes (no toJS conversion,
 // so `!!js` tags and comments survive rendering).
-export function readEmbeddedPresets(profilePath = PROFILE_PATH) {
+export function readEmbeddedPresets(profilePath = PROFILE_PATH, { allInsertRows = false } = {}) {
   const doc = docForProfile(profilePath);
-  const row = registeredInsertRow(doc);
-  const insert = childMap(row, 'insert');
+  const registered = registeredInsertRow(doc);
+  const rows = allInsertRows ? doc.contents.items : [registered];
   const presets = [];
-  for (const entry of insert.items) {
-    const preset = presetFromEntry(entry);
-    if (preset) presets.push(preset);
+  for (const row of rows) {
+    const insert = childMap(row, 'insert');
+    if (!Array.isArray(insert?.items)) continue;
+    for (const entry of insert.items) {
+      const preset = presetFromEntry(entry);
+      if (preset) presets.push(preset);
+    }
   }
   if (presets.length === 0) throw new Error('no registered presets found in web profile');
   if (new Set(presets.map(preset => preset.presetId)).size !== presets.length)
@@ -153,8 +167,8 @@ export function readEmbeddedPresets(profilePath = PROFILE_PATH) {
   return { doc, presets };
 }
 
-export function externalPathForPreset(preset) {
-  return path.join(here, `${preset.presetId}${EXTERNAL_DIR_SUFFIX}`, 'agent.cordis.yml');
+export function externalPathForPreset(preset, mirrorRoot = here) {
+  return path.join(mirrorRoot, `${preset.presetId}${EXTERNAL_DIR_SUFFIX}`, 'agent.cordis.yml');
 }
 
 // Rewrite embedded absolute preset-folder module paths to a relative path from
@@ -214,11 +228,15 @@ function validatePreset(preset) {
   }
 }
 
-export function renderExternal(preset) {
+export function renderExternal(preset, { keepAbsoluteModules = false } = {}) {
   validatePreset(preset);
-  const sequence = renderPluginSequence(preset);
+  const sequence = keepAbsoluteModules ? preset.plugins : renderPluginSequence(preset);
+  const header = keepAbsoluteModules
+    ? GENERATED_HEADER.replace('web-profile/cordis.patch.yml (embedded registered preset)', 'installed Web profile')
+      .replace('preset-sync.mjs sync', 'preset-sync.mjs sync --installed')
+    : GENERATED_HEADER;
   const body = stringify(sequence, STRINGIFY_OPTIONS);
-  return normalizeNewlines(`${GENERATED_HEADER}\n${body.endsWith('\n') ? body : `${body}\n`}`);
+  return normalizeNewlines(`${header}\n${body.endsWith('\n') ? body : `${body}\n`}`);
 }
 
 function normalizeNewlines(text) {
@@ -232,12 +250,12 @@ function stripGeneratedHeader(text) {
   );
 }
 
-export function checkPresets({ profilePath = PROFILE_PATH, fsApi = fs } = {}) {
-  const { presets } = readEmbeddedPresets(profilePath);
+export function checkPresets({ profilePath = PROFILE_PATH, mirrorRoot, keepAbsoluteModules = false, fsApi = fs } = {}) {
+  const { presets } = readEmbeddedPresets(profilePath, { allInsertRows: keepAbsoluteModules });
   const results = [];
   for (const preset of presets) {
-    const expected = renderExternal(preset);
-    const target = externalPathForPreset(preset);
+    const expected = renderExternal(preset, { keepAbsoluteModules });
+    const target = externalPathForPreset(preset, mirrorRoot);
     let actual = null;
     let exists = true;
     try {
@@ -260,10 +278,14 @@ export function checkPresets({ profilePath = PROFILE_PATH, fsApi = fs } = {}) {
   return results;
 }
 
-export function syncPresets({ profilePath = PROFILE_PATH, fsApi = fs } = {}) {
-  const { presets } = readEmbeddedPresets(profilePath);
+export function syncPresets({ profilePath = PROFILE_PATH, mirrorRoot, keepAbsoluteModules = false, fsApi = fs } = {}) {
+  const { presets } = readEmbeddedPresets(profilePath, { allInsertRows: keepAbsoluteModules });
   // Validate every definition before the first mirror write.
-  const plan = presets.map(preset => ({ preset, expected: normalizeNewlines(renderExternal(preset)), target: externalPathForPreset(preset) }));
+  const plan = presets.map(preset => ({
+    preset,
+    expected: renderExternal(preset, { keepAbsoluteModules }),
+    target: externalPathForPreset(preset, mirrorRoot),
+  }));
   const results = [];
   for (const { preset, expected, target } of plan) {
     let changed = true;
@@ -306,11 +328,13 @@ export function formatCheckReport(results, { cwd = process.cwd() } = {}) {
 }
 
 function parseArgs(argv) {
-  const command = argv[2];
+  const [, , command, ...flags] = argv;
+  if (flags.length > 1 || (flags.length === 1 && flags[0] !== '--installed'))
+    return { command: null, error: 'expected at most one --installed flag' };
   if (command !== 'check' && command !== 'sync') {
     return { command: null, error: `unknown command: ${command ?? '(none)'}` };
   }
-  return { command, error: null };
+  return { command, installed: flags[0] === '--installed', error: null };
 }
 
 function isMain() {
@@ -324,16 +348,18 @@ function isMain() {
 }
 
 if (isMain()) {
-  const { command, error } = parseArgs(process.argv);
+  const { command, installed, error } = parseArgs(process.argv);
+  const options = installed ? installedOptions() : undefined;
   if (error) {
-    process.stderr.write(`${error}\nUsage: node preset-sync.mjs <check|sync>\n`);
+    process.stderr.write(`${error}\nUsage: node preset-sync.mjs <check|sync> [--installed]\n`);
     process.exitCode = 2;
   } else if (command === 'check') {
-    const results = checkPresets();
-    process.stdout.write(formatCheckReport(results));
+    const results = checkPresets(options);
+    const report = formatCheckReport(results);
+    process.stdout.write(installed ? report.replace('preset-sync.mjs sync', 'preset-sync.mjs sync --installed') : report);
     if (results.some((result) => result.drift)) process.exitCode = 1;
   } else if (command === 'sync') {
-    const results = syncPresets();
+    const results = syncPresets(options);
     const changed = results.filter((result) => result.changed);
     process.stdout.write(
       changed.length === 0

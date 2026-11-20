@@ -35,13 +35,19 @@ test('pristine installed SDK backup receives exactly the scoped opt-out', () => 
   const pristine = readFileSync(new URL(`../runtime-patch-backups/pi-ai-${PATCHED_VERSION}-simple-options.js.original`, import.meta.url), 'utf8');
   assert.ok(!pristine.includes(OPT_OUT));
   const patched = patchSource(pristine);
-  assert.ok(patched.includes(`process.env.${OPT_OUT} === "1"`));
+  const guard = [
+    '    // Halo DSH: explicit output budgets must not be overwritten by a character estimate.',
+    `    if (process.env.${OPT_OUT} === "1")`,
+    '        return Math.max(MIN_MAX_TOKENS, maxTokens);',
+    '',
+  ].join('\n');
+  const clamp = 'export function clampMaxTokensToContext(model, context, maxTokens) {\n';
+  assert.equal(patched, pristine.replace(clamp, clamp + guard));
+  assert.equal(patched, readFileSync(join(sdk, 'dist/api/simple-options.js'), 'utf8'));
   assert.equal(patchSource(patched), patched);
-  assert.ok(patched.includes('const input = estimateContextTokens(context).tokens;'));
-  assert.ok(patched.includes('let room = model.contextWindow - input - margin;'));
 });
 
-test('pi-ai 1.5.2 upstream clamp reaches its one-token floor; DSH opt-out preserves 24K even at estimated overflow', async () => {
+test('the pinned SDK clamps near the context limit and the DSH opt-out preserves 24K', async () => {
   await withOptOut(undefined, () => assert.equal(clampMaxTokensToContext(model, context, 24576), 1));
   await withOptOut('1', () => {
     assert.equal(clampMaxTokensToContext(model, context, 24576), 24576);
