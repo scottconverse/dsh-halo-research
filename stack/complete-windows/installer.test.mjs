@@ -69,9 +69,9 @@ test('archive hashing handles multiple chunks and a partial final chunk', () => 
 
 test('current hosts and embedded Desktop dashboard are pinned and bundled with private ownership', () => {
   const runtime=JSON.parse(fs.readFileSync(path.join(source,'runtime-package.json')));
-  assert.equal(components.version,'0.1.3');
-  assert.equal(components.dsh,'0.2.2-rc.1');
-  assert.ok(components.desktop.url.endsWith('deepseek-harness-0.2.2-rc.1-win-x64.exe'));
+  assert.equal(components.version,'0.1.4');
+  assert.equal(components.dsh,'0.2.2-rc.5');
+  assert.ok(components.desktop.url.endsWith('/stable/deepseek-harness-0.2.2-rc.5-win-x64.exe'));
   for(const [name,pin] of Object.entries(runtime.dependencies)) if(name.startsWith('@deepseek-ai/')) assert.equal(pin,components.dsh,name);
   const root=path.resolve('C:/DSH Complete new root');
   const desktop=profile(root,components,'desktop').find(row=>row.insert).insert;
@@ -88,6 +88,12 @@ test('current hosts and embedded Desktop dashboard are pinned and bundled with p
   try{
     const output=path.join(parent,'bundle');build(output);const manifest=verifyBundle(output);
     for(const name of ['index.mjs','client.js','dashboard.mjs','package.json','cordis.patch.yml'])assert(manifest.files.some(row=>row.path==='stack/desktop-mission-control/'+name));
+    assert(manifest.files.some(row=>row.path==='stack/complete-windows/web-runtime.mjs'));
+    for (const name of ['preset-sync.mjs', 'web-connection-guard.mjs', 'output-budget-patch.mjs', 'adapter-integrity-patch.mjs', 'ollama-timeout-fetch.mjs', 'web-fetch-evidence-patch.mjs', 'interrupted-command-recovery-patch.mjs']) {
+      const row = manifest.files.find(file => file.path === 'stack/stock-dsh/' + name);
+      assert.ok(row, name);
+      assert.equal(row.sha256, digest(path.resolve(source, '../stock-dsh', name)));
+    }
     assert(fs.readFileSync(path.join(output,'stack/desktop-mission-control/client.js'),'utf8').includes("const ORIGIN = 'http://127.0.0.1:3191'"));
   }finally{fs.rmSync(parent,{recursive:true,force:true});}
 });

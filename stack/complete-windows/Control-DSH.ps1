@@ -112,6 +112,11 @@ if ($Action -in @('CodexSignIn','ClaudeSignIn')) {
     else { & (Join-Path $root 'node_modules\.bin\claude.cmd') auth login }
     exit $LASTEXITCODE
 }
+if ($Action -eq 'Web') {
+    & $node (Join-Path $root 'stack\complete-windows\web-runtime.mjs') check
+    if ($LASTEXITCODE -ne 0) { throw 'Web launcher preflight failed. Inspect the error before retrying.' }
+    $env:HALO_DSH_DISABLE_ESTIMATED_OUTPUT_CLAMP='1'
+}
 Start-Owned 'ollama' (Join-Path $root 'tools\ollama\ollama.exe') @('serve') $config.ports.ollama
 if ($Action -eq 'OllamaSignIn') { & (Join-Path $root 'tools\ollama\ollama.exe') signin; exit $LASTEXITCODE }
 if ($Action -eq 'Models') {

@@ -1,6 +1,6 @@
 # DSH Halo for Windows
 
-A community configuration for DeepSeek Harness with Web, the official Desktop app, embedded Mission Control and connected research tools. The complete online installer **0.1.3** incorporates the paired Strata presets and opt-in Browse. It pins Web/Desktop **0.2.2-rc.1** and creates a separate installation. This is not an official DeepSeek distribution.
+A community configuration for DeepSeek Harness with Web, the official Desktop app, embedded Mission Control and connected research tools. The complete online installer **0.1.4** incorporates the paired Strata presets and opt-in Browse. It pins Web/Desktop **0.2.2-rc.5** and creates a separate installation. This is not an official DeepSeek distribution.
 
 [Website](https://scottconverse.github.io/dsh-halo-research/) · [Documentation](docs/INSTALL-AND-RECOVER.md) · [Quick start](stack/complete-windows/README.md) · [Issues and contributions](https://github.com/scottconverse/dsh-halo-research/issues)
 
@@ -12,7 +12,7 @@ A community configuration for DeepSeek Harness with Web, the official Desktop ap
 
 ## Quick start
 
-Download [DSH Complete Windows 0.1.3](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip), verify its [SHA-256 checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.17/DSH-Complete-Windows-0.1.3.zip.sha256), extract it and run:
+Download [DSH Complete Windows 0.1.4](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip), verify its [SHA-256 checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip.sha256), extract it and run:
 
 ```powershell
 .\Install-DSH.cmd
@@ -34,7 +34,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Documentation
 
-- [Installer verification and limits](docs/DSH-COMPLETE-WINDOWS-0.1.3-2026-11-18.md)
+- [Installer verification and limits](docs/DSH-COMPLETE-WINDOWS-0.1.4-2026-11-19.md)
 - [Current Halo configuration](docs/HALO-CURRENT-CONFIGURATION.md)
 - [Installation and recovery](docs/INSTALL-AND-RECOVER.md)
 - [Desktop Mission Control source and operation](stack/desktop-mission-control/README.md)
@@ -43,7 +43,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Project status
 
-Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.17](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.17) contains the current Windows installer 0.1.3. The [Strata paired startup source release](RELEASE-NOTES-v0.3.15.md) adds an opt-in Web and Desktop overlay. Prior release ZIPs remain unchanged.
+Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.18](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.18) contains the current Windows installer 0.1.4. The [Strata paired startup source release](RELEASE-NOTES-v0.3.15.md) adds an opt-in Web and Desktop overlay. Prior release ZIPs remain unchanged.
 
 ## Contributing
 
