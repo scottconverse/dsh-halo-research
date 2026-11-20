@@ -4,7 +4,7 @@ import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 
-export const PRISTINE_SHA256='129AF8E6BF485D47D3F5F562877B5C266FD57F1A5CC14BFEBACC2780B2837D46';
+export const PRISTINE_SHA256='E66B23E37FE4E33C5AC4F1CE65CE0FAF808EEDB4F5E8C7E7BAF5B7A233FFE77B';
 const root=dirname(fileURLToPath(import.meta.url));
 const anchor='\t\t\t\t\ttruncated: {\n\t\t\t\t\t\ttype: "boolean",\n\t\t\t\t\t\trequired: true\n\t\t\t\t\t}';
 const replacement=anchor+',\n\t\t\t\t\t// Halo retrieval provenance: optional typed metadata, not arbitrary extra output.\n\t\t\t\t\tevidenceFile: { type: "string" },\n\t\t\t\t\tcoverage: { type: "string" }';
@@ -22,7 +22,7 @@ export function ensureWebFetchEvidencePatch(deployment=root){
   const base=createRequire(stock.resolve('@deepseek-ai/dsh-base/package.json'));
   const manifest=base.resolve('@deepseek-ai/dsh-tool-web/package.json');
   const version=JSON.parse(readFileSync(manifest,'utf8')).version;
-  if(version!=='0.2.2-rc.1')throw Error('Unreviewed web tool version: '+version);
+  if(version!=='0.2.2-rc.5')throw Error('Unreviewed web tool version: '+version);
   const target=join(dirname(manifest),'lib/index.js');
   const before=readFileSync(target,'utf8');
   const backup=join(deployment,'runtime-patch-backups',`dsh-tool-web-${version}-index.js.original`);

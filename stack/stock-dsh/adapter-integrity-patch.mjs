@@ -4,8 +4,8 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 
-export const PATCHED_VERSION = '0.2.2-rc.1';
-export const PRISTINE_SHA256 = '1A3AE58F9B4493E15459CC5000EC80F21B5D3F4A9DEA6FFB6BC28E5B8817AE8A';
+export const PATCHED_VERSION = '0.2.2-rc.5';
+export const PRISTINE_SHA256 = 'E956DA3D7300E1426E13E14F47E6F981DD1CA345633A406568EE5058AD93E9D8';
 export const INVALID_TOOL_ARGUMENTS_CODE = 'INVALID_TOOL_ARGUMENTS';
 export const REASONING_MARKER = 'Number.isFinite(usage.reasoning)';
 export const ARGUMENTS_MARKER = 'cannot be replayed because its tool-call arguments';

@@ -48,7 +48,7 @@ test('external mirrors are compositional copies of embedded presets', () => {
   const { presets } = readEmbeddedPresets();
   for (const preset of presets) {
     const external = fs.readFileSync(externalPathForPreset(preset), 'utf8');
-    assert.equal(external, renderExternal(preset));
+    assert.equal(external.replace(/\r\n/g, '\n'), renderExternal(preset));
     assert.ok(external.startsWith('# GENERATED FILE - DO NOT EDIT.'));
     const body = stripGeneratedHeader(external);
     assertValidYaml(`${preset.presetId} external`, body);
@@ -82,7 +82,7 @@ test('relative module paths and !!js tags survive mirror generation', () => {
   }
 });
 
-test('default delegation uses main Ollama route and preserves optional LM Studio choices', () => {
+test('fast-first delegates to local Qwen while the lead keeps its cloud route', () => {
   const { presets } = readEmbeddedPresets();
   const fastFirst = presets.find((preset) => preset.presetId === 'fast-first');
   const delegation = fastFirst.plugins.toJSON().find((row) => row.id === 'delegation');
@@ -102,8 +102,8 @@ test('default delegation uses main Ollama route and preserves optional LM Studio
     { provider: 'web-fallback', model: 'halo/qwen3.8-27b-q6-fast' },
   ]);
   const main = parseDocument(profile).toJSON().find(row => row.id === 'agent-default-model').config;
-  assert.equal(subagent.config.agentOptions.provider, main.provider);
-  assert.equal(subagent.config.agentOptions.model, main.model);
+  assert.equal(main.provider, 'ollama');
+  assert.equal(main.model, 'deepseek-v4.1-flash:1017-cloud');
 });
 
 test('checkPresets reports drift without mutating the mirror', () => {
@@ -138,8 +138,8 @@ test('sync rewrites an embedded edit, then remains idempotent', () => {
   const second = syncPresets({ fsApi: fakeFs });
   assert.ok(first.some(result => result.presetId === 'fast-first' && result.changed));
   assert.ok(second.every(result => !result.changed), 'second sync must perform no writes');
-  assert.equal(files.get(target), original);
-  assert.equal(fs.readFileSync(target, 'utf8'), original, 'sync must produce byte-identical mirror content');
+  assert.equal(files.get(target), original.replace(/\r\n/g, '\n'));
+  assert.equal(fs.readFileSync(target, 'utf8'), original, 'sync must leave the real mirror byte-identical');
 });
 
 test('embedded edits propagate to mirrors through a fixture without touching deployment files', () => {

@@ -24,14 +24,14 @@ export const guard = `(() => {
   setInterval(check,10000);
   check();
 })();`;
-const PRISTINE='d3581179edd3dde7208abdd098fa8a95387f84ec3076bea0d2b53e4e91f2d4ec';
+const PRISTINE='271698ef62d4cc9a10a5f0aa28d0f4f6cd5e16fe04734908c3eab477a8da0ec1';
 export function ensureWebConnectionGuard(deployment) {
   const req=createRequire(join(deployment,'package.json'));
   const cli=createRequire(req.resolve('@deepseek-ai/dsh/package.json'));
   const app=createRequire(cli.resolve('@deepseek-ai/dsh-web-app'));
   const manifest=app.resolve('@deepseek-ai/dsh-web-frontend/package.json');
   const version=JSON.parse(readFileSync(manifest,'utf8')).version;
-  if(version!=='0.2.2-rc.1')throw Error('Unreviewed frontend version '+version);
+  if(version!=='0.2.2-rc.5')throw Error('Unreviewed frontend version '+version);
   const target=join(dirname(manifest),'dist','index.html');
   const before=readFileSync(target,'utf8');
   const marker='<script data-halo-connection-guard>';

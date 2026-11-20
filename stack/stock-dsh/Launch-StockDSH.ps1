@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([switch] $NoOpen)
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -24,6 +24,10 @@ try {
     }
 
     $ready = Get-DshWebReadiness
+    if ($NoOpen) {
+        Write-Output 'DSH Web and Mission Control are ready.'
+        return
+    }
     $dshLaunchUri = $ready.LaunchUrl
 
     $chromeCandidates = @(
@@ -42,7 +46,11 @@ try {
     $message = $_.Exception.Message -replace '(?i)(token=)[\w-]+', '$1[REDACTED]'
     Write-LaunchLog "FAILED: $message"
     Add-Content -LiteralPath (Join-Path $logs 'launcher-errors.log') -Value "$(Get-Date -Format o) $message"
-    $shell = New-Object -ComObject WScript.Shell
-    $shell.Popup($message, 0, 'DSH + Wigolo + Mission Control could not start', 16) | Out-Null
+    if ($NoOpen) {
+        Write-Error $message
+    } else {
+        $shell = New-Object -ComObject WScript.Shell
+        $shell.Popup($message, 0, 'DSH + Wigolo + Mission Control could not start', 16) | Out-Null
+    }
     exit 1
 }
