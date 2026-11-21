@@ -43,7 +43,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Project status
 
-Actively developed community configuration using upstream release-candidate software. The current installer payload passed isolated headless Web/Desktop-host verification on an existing Windows PC. That acceptance does not establish fresh-PC prerequisites, provider sign-in, model quality or every integration's live behavior. [Release v0.3.18](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.18) contains the current Windows installer 0.1.4. The [Strata paired startup source release](RELEASE-NOTES-v0.3.15.md) adds an opt-in Web and Desktop overlay. Prior release ZIPs remain unchanged.
+Actively developed community configuration using upstream release-candidate software. Installer 0.1.4 passed isolated headless Web and Desktop-host verification on Halo and a separate Windows 11 PC with an RTX 5060 Ti. Provider sign-in, live inference, and unattended setup on a pristine Windows image remain unverified. [Release v0.3.18](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.18) · [5060 Ti verification and short install path](docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md).
 
 ## Contributing
 

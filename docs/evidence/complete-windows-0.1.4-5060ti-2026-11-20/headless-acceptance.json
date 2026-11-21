@@ -1,0 +1,81 @@
+{
+  "startedAt": "2026-11-21T03:02:17.539Z",
+  "candidate": "0.1.4",
+  "dsh": "0.2.2-rc.5",
+  "scope": "5060 Ti acceptance of the installed locked Web runtime and signed Desktop host using copied profiles and an inert model metadata endpoint",
+  "modelRequests": 0,
+  "mutationRequests": 0,
+  "tests": [
+    {
+      "host": "web",
+      "version": "0.2.2-rc.5",
+      "authenticatedHtml": true,
+      "missionControlHttp": 200,
+      "tabs": [
+        "Overview",
+        "Models",
+        "Sessions",
+        "Plugins",
+        "System",
+        "Memory",
+        "Settings"
+      ],
+      "privateWebUp": true
+    },
+    {
+      "host": "desktop",
+      "version": "0.2.2-rc.5",
+      "embeddedPort": 3191,
+      "tabs": [
+        "Overview",
+        "Models",
+        "Sessions",
+        "Plugins",
+        "System",
+        "Memory",
+        "Settings"
+      ],
+      "privateHostUp": true,
+      "plugins": {
+        "total": 227,
+        "active": 192,
+        "disabled": 35,
+        "waiting": 0,
+        "transitioning": 0,
+        "failed": 0,
+        "stuck": 0,
+        "failedList": [],
+        "waitingList": [],
+        "stuckList": [],
+        "stale": false,
+        "cacheState": "current"
+      }
+    }
+  ],
+  "webHttp": 200,
+  "pageErrors": [],
+  "status": "passed",
+  "ownedExitCodes": [
+    {
+      "code": null,
+      "signal": "SIGTERM",
+      "terminal": true
+    },
+    {
+      "code": null,
+      "signal": "SIGTERM",
+      "terminal": true
+    },
+    {
+      "code": 0,
+      "signal": null,
+      "terminal": true
+    }
+  ],
+  "listenersClosed": {
+    "3180": true,
+    "3190": true,
+    "3191": true
+  },
+  "endedAt": "2026-11-21T03:02:55.639Z"
+}

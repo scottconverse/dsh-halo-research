@@ -7,3 +7,9 @@ The Windows bundle includes the guarded Web runtime repairs from [PR #14](https:
 Download the installer and checksum and see the [installation guide and verification receipt](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.18) on the release. Install into a new directory under `%LOCALAPPDATA%` when keeping an earlier installation. Two installations using the same loopback ports cannot run concurrently. Keep the earlier directory and use its own shortcuts to roll back.
 
 The setup downloads the official Desktop installer, verifies its pinned digest, and extracts the application into the new directory. It does not run the upstream installer or updater. Model weights and provider sign-in are separate from setup.
+
+On November 20, 2026, the same published ZIP installed on a separate Windows 11
+PC with an RTX 5060 Ti. The default Web UI and both Mission Control views passed
+headlessly, including all seven tabs on each host. A long destination failed
+during the Redlib build. Setup succeeded in a new `%LOCALAPPDATA%\D014` folder.
+[Installation guide](../stack/complete-windows/README.md#install-on-the-destination-pc) · [5060 Ti verification evidence](evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md).
