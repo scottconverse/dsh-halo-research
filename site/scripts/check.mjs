@@ -17,8 +17,8 @@ assert.ok(
   html.includes(`Web + Desktop ${components.dsh}`),
   "Page follows pinned upstream version",
 );
-const releaseBase =
-  "https://github.com/scottconverse/dsh-halo-research/releases";
+const repository = "https://github.com/scottconverse/dsh-halo-research";
+const releaseBase = `${repository}/releases`;
 assert.ok(
   html.includes(`href="${releaseBase}/tag/v0.3.18"`),
   "Published release has a visible link",
@@ -55,10 +55,12 @@ assert.equal(
   "Checksum command is a directly copyable PowerShell line",
 );
 
-assert.ok(
-  html.includes(`${releaseBase}/download/v0.3.18/INSTALLATION.md`),
-  "Full installation guide belongs to the same release",
-);
+for (const [path, label] of [
+  ["/blob/master/stack/complete-windows/README.md#install-on-the-destination-pc", "updated installation guide"],
+  ["/tree/master/docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20", "RTX 5060 Ti verification evidence"],
+]) {
+  assert.ok(html.includes(`href="${repository}${path}"`), `Page links to the ${label}`);
+}
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
 assert.equal(new Set(ids).size, ids.length, "Unique anchors");
 for (const [, fragment] of html.matchAll(/href="#([^"]+)"/g))
