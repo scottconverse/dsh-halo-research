@@ -28,8 +28,8 @@ Use the newly built 0.1.4 bundle. Verify its manifest/checksum, extract it, and 
 
 ```powershell
 .\Install-DSH.cmd
-# Optional NEW destination, under your LOCALAPPDATA:
-.\Install-DSH.cmd -Destination "$env:LOCALAPPDATA\DSH-Complete-2"
+# Optional short, new destination under LOCALAPPDATA:
+.\Install-DSH.cmd -Destination "$env:LOCALAPPDATA\D014"
 ```
 
 Existing or partial installations are not upgraded in place. A different bundle
@@ -39,6 +39,19 @@ rollback files; install to a new destination and validate before retiring one.
 The default is `%LOCALAPPDATA%\DSH-Complete`. It refuses existing directories;
 use `-Resume` only for its own interrupted setup. Keep downloads and receipts
 to resume. Do not copy a different installer version over a partial setup.
+
+If the Redlib build stops with MSBuild `FileTracker : error FTK1011` on a deeply
+nested file path, keep the partial folder and its logs. Run the same verified
+bundle again with a short, unused destination under `%LOCALAPPDATA%`, such as
+`D014` above. Start a new install for this workaround. The installer’s resume
+receipt belongs to the original destination.
+
+The published 0.1.4 ZIP installed successfully on a Windows 11 PC with an
+RTX 5060 Ti using this workaround. Web, the signed Desktop host, and all seven
+Mission Control tabs on both hosts passed headlessly with zero model calls.
+The test used portable PowerShell 7 and copied profiles. See the
+[5060 Ti verification evidence](../../docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md)
+for the exact artifact, observed failure, and test limits.
 
 The bootstrap downloads a pinned Node distribution into this installation.
 Other artifacts have pinned checksums; npm uses the included lockfile and an

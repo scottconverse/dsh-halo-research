@@ -1,0 +1,32 @@
+{
+  "state": "verified",
+  "destination": "%LOCALAPPDATA%\\D014",
+  "manifestFiles": 71,
+  "archiveSha256": "D20A6D12D0C16DFF0D5F55B7B95286970093AF0D17A3EDE27764A3BB29A65CF5",
+  "started": "2026-11-21T02:53:24.1424761Z",
+  "ended": "2026-11-21T03:00:45.0512315Z",
+  "portableSignature": "Valid",
+  "desktopVersion": "0.2.2-rc.5",
+  "desktopSignatures": [
+    {
+      "file": "desktop.exe",
+      "status": "Valid",
+      "publisher": "Hangzhou DeepSeek Artificial Intelligence Co., Ltd."
+    },
+    {
+      "file": "DeepSeek Harness.exe",
+      "status": "Valid",
+      "publisher": "Hangzhou DeepSeek Artificial Intelligence Co., Ltd."
+    }
+  ],
+  "modelsLoaded": 0,
+  "acceptanceStarted": "2026-11-21T03:02:17.3019741Z",
+  "acceptanceEnded": "2026-11-21T03:02:55.851145Z",
+  "testListenersClosed": true,
+  "originalOllamaProcessUnchanged": true,
+  "originalOllamaLoadedBefore": 0,
+  "originalOllamaLoadedAfter": 0,
+  "testProfilesUnchanged": true,
+  "exitCode": 0,
+  "testExit": 0
+}

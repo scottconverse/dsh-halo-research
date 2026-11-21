@@ -1,8 +1,9 @@
 # Install, update and recover DSH
 
-Current source synchronization: November 13, 2026. Halo Web/Desktop are rc.1; see the [final upgrade and recovery record](HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md). Installer pins below describe separate artifacts. This repository has both portable
-installation sources and snapshots of Scott's installed Halo configuration. They
-serve different purposes. A clone does not copy accounts, model weights or history.
+For Halo recovery, see the [November 13 upgrade record](HALO-UPGRADE-AND-INSTALL-FINAL-2026-11-13.md)
+and the later [rc.5 Web launcher repair](HALO-DSH-IMPLEMENTATION-2026-11-19-WEB-LAUNCH.md).
+The portable installer below creates its own profiles and data. Accounts, model
+weights, and session history require separate setup or migration.
 
 ## Choose the right installation
 
@@ -12,17 +13,20 @@ serve different purposes. A clone does not copy accounts, model weights or histo
 | Web with DeepSeek cloud only | `stack/portable-cloud` | Node24+/npm, separately signed-in Ollama Cloud; no local model weights or Halo paths |
 | Understand/recover this Halo installation | Profile mirrors and deployment references below | Exact machine references; relocate paths and supply your own accounts, never blindly overwrite another home |
 
-The current complete installer is **0.1.2**, pinned to Web/Desktop **DSH0.2.2-rc.1**, with embedded Desktop Mission Control. [Download](../stack/packages/DSH-Complete-Windows-0.1.2.zip), [checksum](../stack/packages/DSH-Complete-Windows-0.1.2.zip.sha256), [verification](DSH-COMPLETE-WINDOWS-0.1.2-2026-11-13.md). Published
-v0.3.12/v0.3.13 installer ZIPs remain the original 0.1.0/rc.3 artifacts. They have
-not been silently replaced, rebuilt, re-signed or given new acceptance claims.
+The current complete installer is **0.1.4**, pinned to Web and Desktop
+**DSH 0.2.2-rc.5** with embedded Desktop Mission Control. [Download](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip) · [Checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip.sha256) · [Installation guide](../stack/complete-windows/README.md).
+
+If the native Redlib build fails with `FTK1011` on a long path, use the same
+verified bundle and a short, unused destination such as `%LOCALAPPDATA%\D014`.
+[5060 Ti results and verification evidence](evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md).
 
 Build from a clean checkout using Node24+ (choose NEW output paths):
 
 ```powershell
-node stack/complete-windows/build.mjs --output C:/DSH-bundles/complete-0.1.2
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/complete-0.1.4
 # On the destination Windows machine, in the generated bundle:
 # .\Install-DSH.cmd
-# Or PowerShell7: .\Install-DSH.ps1 -Destination "$env:LOCALAPPDATA\DSH-Complete-New"
+# Or PowerShell 7: .\Install-DSH.ps1 -Destination "$env:LOCALAPPDATA\D014"
 ```
 
 For the smaller cloud-only source bundle:
