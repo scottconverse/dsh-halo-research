@@ -20,13 +20,13 @@ assert.ok(
 const repository = "https://github.com/scottconverse/dsh-halo-research";
 const releaseBase = `${repository}/releases`;
 assert.ok(
-  html.includes(`href="${releaseBase}/tag/v0.3.18"`),
+  html.includes(`href="${releaseBase}/tag/v0.3.20"`),
   "Published release has a visible link",
 );
 for (const suffix of [".zip", ".zip.sha256"]) {
   assert.ok(
     html.includes(
-      `href="${releaseBase}/download/v0.3.18/DSH-Complete-Windows-${components.version}${suffix}"`,
+      `href="${releaseBase}/download/v0.3.20/DSH-Complete-Windows-${components.version}${suffix}"`,
     ),
     "Installer and checksum use published release assets",
   );
@@ -51,12 +51,13 @@ const checksumCommand = html
   .trim();
 assert.equal(
   checksumCommand,
-  'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.4.zip" -Algorithm SHA256',
+  'Get-FileHash "$HOME\\Downloads\\DSH-Complete-Windows-0.1.5.zip" -Algorithm SHA256',
   "Checksum command is a directly copyable PowerShell line",
 );
 
 for (const [path, label] of [
-  ["/blob/master/stack/complete-windows/README.md#install-on-the-destination-pc", "updated installation guide"],
+  ["/blob/v0.3.20/stack/complete-windows/README.md#install-on-the-destination-pc", "updated installation guide"],
+  ["/releases/download/v0.3.20/VERIFICATION.json", "current installer verification receipt"],
   ["/tree/master/docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20", "RTX 5060 Ti verification evidence"],
 ]) {
   assert.ok(html.includes(`href="${repository}${path}"`), `Page links to the ${label}`);
