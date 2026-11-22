@@ -47,9 +47,6 @@ importers:
       dsh-xai:
         specifier: github:MirDie/dsh-xai#dbc5dbc3646461eb96c175f5d6036e369a0beb08
         version: https://codeload.github.com/MirDie/dsh-xai/tar.gz/dbc5dbc3646461eb96c175f5d6036e369a0beb08(patch_hash=bc980ba875ff850b3ad603e9b93c3d85dd6f08e64d8eee344061fc1661e128a1)(@deepseek-ai/schemastery@3.19.0)
-      scott-verdict-goal-limit-command:
-        specifier: link:C:/Users/scott/Documents/Codex/2026-10-28/verdict-goal-limit-command
-        version: link:../../../2026-10-28/verdict-goal-limit-command
 
 packages:
 
