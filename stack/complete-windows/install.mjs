@@ -107,6 +107,9 @@ export async function install(root, { noShortcuts = false } = {}) {
     await checkpoint('profiles', async () => {
       const { profile } = await import('./profile.mjs');
       const yaml = require('yaml');
+      const { prepareOverlay } = await import('../neutral-workspace/prepare-overlay.mjs');
+      prepareOverlay(path.join(root, 'node_modules/@deepseek-ai/dsh-client-ui-workspace'),
+        path.join(root, 'home/plugins/halo-neutral-workspace'));
       for (const host of ['web', 'desktop']) {
         // Recovery mirrors validate and render each preset as a standalone YAML
         // document, so generated presets must not reference another preset's anchors.

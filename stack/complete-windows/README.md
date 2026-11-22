@@ -1,13 +1,15 @@
-# Complete DSH for Windows — installer 0.1.4
+# Complete DSH for Windows — installer 0.1.5
 
-**Installer 0.1.4** pins Web and the official Desktop to **DSH 0.2.2-rc.5**, retains the seven-tab embedded Desktop Mission Control panel, and includes the paired Strata presets and opt-in, lead-only Browse. Web retains its browser dashboard. Each host uses its own authenticated
+**Installer 0.1.5** pins Web and the official Desktop to **DSH 0.2.2-rc.5**, retains the seven-tab embedded Desktop Mission Control panel, and includes the paired Strata presets and opt-in, lead-only Browse. Web retains its browser dashboard. Each host uses its own authenticated
 connection, profile and dashboard state; private ports avoid the existing Halo
 installation. Installation never pulls or invokes a model.
 
-Download the [Windows installer 0.1.4](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip) and [checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip.sha256), or build it from source:
+Web's global **New Session** uses the registered Default workspace or opens the folder chooser. Sessions started from a specific project retain that folder. The Desktop package uses the stock workspace client and has no stale Verdict command registration.
+
+Download the [Windows installer 0.1.5](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.20/DSH-Complete-Windows-0.1.5.zip) and [checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.20/DSH-Complete-Windows-0.1.5.zip.sha256), or build it from source:
 
 ```powershell
-node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.4
+node stack/complete-windows/build.mjs --output C:/DSH-bundles/DSH-Complete-Windows-0.1.5
 # In that new bundle folder, on the destination Windows x64 machine:
 .\Install-DSH.cmd
 ```
@@ -24,7 +26,7 @@ portable-cloud installer available.
 
 ## Install on the destination PC
 
-Use the newly built 0.1.4 bundle. Verify its manifest/checksum, extract it, and run:
+Use the newly built 0.1.5 bundle. Verify its manifest/checksum, extract it, and run:
 
 ```powershell
 .\Install-DSH.cmd

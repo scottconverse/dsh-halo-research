@@ -184,3 +184,5 @@ The [October 15 work record](HALO-GUFO-WORK-RECORD-2026-10-15.md) covers Gufo an
 - [Installer0.1.2 instructions on the landing page](HALO-LANDING-INSTALLER-INSTRUCTIONS-2026-11-13.md): copyable checksum command, expected hash, installation/preservation steps, release guide, responsive copy/no-JavaScript acceptance and Pages publication procedure.
 
 - 2026-11-22 — [Neutral workspace selection in DSH Web](../stack/neutral-workspace/README.md) and removal of the retired Verdict command registration from Desktop profile templates.
+
+- 2026-11-22 — [Complete Windows installer 0.1.5](../stack/complete-windows/README.md) packages neutral workspace selection for Web. Desktop uses the stock workspace client.
