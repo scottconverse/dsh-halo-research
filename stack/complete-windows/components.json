@@ -1,5 +1,5 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dsh": "0.2.2-rc.5",
   "node": {
     "url": "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip",

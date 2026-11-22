@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { fileURLToPath } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { build } from './build.mjs';
 import { inside, verifyBundle, download, digest } from './files.mjs';
 import { profile, MODEL } from './profile.mjs';
@@ -29,7 +29,15 @@ test('new profiles isolate paths, preserve exact cloud Low and bound local conte
   // Local route uses the supported native model selector, not an illegal
   // host service declaration inside an agent-plane preset.
   assert(!inserted.filter(row => row.name === '@deepseek-ai/dsh-agent-preset').some(row => row.config.plugins.some(plugin => plugin.name === '@deepseek-ai/dsh-agent-default-model')));
-  assert(!profile(root, components, 'desktop').some(row => ['webserver', 'web-runtime'].includes(row.id)));
+  assert.deepEqual(rows.find(row => row.id === 'ui-workspace'), {
+    id: 'ui-workspace', name: '@deepseek-ai/dsh-client-ui-workspace', disabled: true,
+  });
+  assert.equal(inserted.find(row => row.id === 'ui-workspace-neutral-default').name,
+    pathToFileURL(path.join(root, 'home/plugins/halo-neutral-workspace/lib/index.js')).href);
+  const desktop = profile(root, components, 'desktop');
+  assert(!desktop.some(row => ['webserver', 'web-runtime', 'ui-workspace'].includes(row.id)));
+  assert(!JSON.stringify(desktop).includes('ui-workspace-neutral-default'));
+  assert(!JSON.stringify(desktop).includes('scott-verdict-goal-limit-command'));
 });
 test('bundle contains public implementations and detects tampering; existing outputs survive', () => {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), 'dsh-bundle-'));
@@ -38,6 +46,7 @@ test('bundle contains public implementations and detects tampering; existing out
     const manifest = verifyBundle(output);
     assert(manifest.files.some(row => row.path === 'stack/three-role/no-progress-guard.mjs'));
     assert(manifest.files.some(row => row.path.endsWith('mission-control.mjs')));
+    assert(manifest.files.some(row => row.path === 'stack/neutral-workspace/prepare-overlay.mjs'));
     assert(!manifest.files.some(row => /node_modules|settings.yaml|storages|sessions|credentials/.test(row.path)));
     assert.throws(() => build(output), /already exists/);
     const file = path.join(output, 'components.json'); fs.appendFileSync(file, ' ');
@@ -69,7 +78,7 @@ test('archive hashing handles multiple chunks and a partial final chunk', () => 
 
 test('current hosts and embedded Desktop dashboard are pinned and bundled with private ownership', () => {
   const runtime=JSON.parse(fs.readFileSync(path.join(source,'runtime-package.json')));
-  assert.equal(components.version,'0.1.4');
+  assert.equal(components.version,'0.1.5');
   assert.equal(components.dsh,'0.2.2-rc.5');
   assert.ok(components.desktop.url.endsWith('/stable/deepseek-harness-0.2.2-rc.5-win-x64.exe'));
   for(const [name,pin] of Object.entries(runtime.dependencies)) if(name.startsWith('@deepseek-ai/')) assert.equal(pin,components.dsh,name);

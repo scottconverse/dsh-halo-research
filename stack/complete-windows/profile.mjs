@@ -34,6 +34,10 @@ export function profile(root, components, host = 'web') {
     inserted.push({ id: `connected-${provider}`, name: '@deepseek-ai/dsh-agent-preset', config: { id: `connected-${provider}`, name: `DeepSeek + signed-in ${label}`, description: `Use the ${label} delegation tool only when requested. Sign in separately; no account credentials are bundled.`, plugins: [...structuredClone(tools), { id: `tool-${provider}`, name: '@deepseek-ai/dsh-tool-subagent', config: { provider, toolName: `subagent_${provider.replaceAll('-', '_')}`, backgroundMode: 'one-shot', maxDepth: 'provider-managed' } }] } });
   }
   addHaloPresets(rows, root, components, tools);
+  if (host === 'web') {
+    rows.push({id: 'ui-workspace', name: '@deepseek-ai/dsh-client-ui-workspace', disabled: true});
+    inserted.push({id: 'ui-workspace-neutral-default', name: file('home/plugins/halo-neutral-workspace/lib/index.js')});
+  }
   if (host === 'desktop') inserted.push({id: 'desktop-mission-control',
     name: file('stack/desktop-mission-control/index.mjs'), config: {
       port: components.ports.desktopMissionControl, deploymentRoot: root,
