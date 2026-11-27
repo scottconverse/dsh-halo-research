@@ -33,7 +33,9 @@ export function createServer() {
         /^(?:index\.html|styles\.css|site\.js|assets\/(?:mark\.svg|desktop-mission-control\.png))$/;
       const benchmark =
         /^benchmarks\/(?:qwen-next-2026-11-17\/index\.html|qwen35-9b-2026-11-27\/(?:index\.html|evidence\/(?:dsh-tasks\.csv|direct-replays\.csv|receipts\.json)))$/;
-      if (!allowed.test(relative) && !benchmark.test(relative)) {
+      const visionBenchmark =
+        /^benchmarks\/qwen35-9b-vision-2026-11-27\/(?:index\.html|evidence\/(?:(?:comparison|answer-key|halo|5060|5070)\.json|prompt\.txt|ridge-field-check\.png))$/;
+      if (!allowed.test(relative) && !benchmark.test(relative) && !visionBenchmark.test(relative)) {
         response.writeHead(404);
         response.end("Not found");
         return;
@@ -48,6 +50,7 @@ export function createServer() {
         ".png": "image/png",
         ".csv": "text/csv; charset=utf-8",
         ".json": "application/json; charset=utf-8",
+        ".txt": "text/plain; charset=utf-8",
       };
       response.writeHead(200, {
         "Content-Type": types[path.extname(target)],

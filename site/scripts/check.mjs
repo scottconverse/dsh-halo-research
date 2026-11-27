@@ -87,6 +87,16 @@ const studyDownloads = {
 for (const evidence of Object.keys(studyDownloads)) {
   assert.ok(study.includes(`href="${evidence}"`), `Report links to ${evidence}`);
 }
+const visionRoute = "benchmarks/qwen35-9b-vision-2026-11-27/";
+assert.ok(local.includes(visionRoute), "Landing page links to the vision report");
+const vision = await readFile(new URL(`dist/${visionRoute}index.html`, root), "utf8");
+const visionDownloads = new Map(
+  [...vision.matchAll(/href="(evidence\/[^"]+)"/g)].map(([, file]) => [
+    file,
+    { json: "application/json", png: "image/png", txt: "text/plain" }[file.split(".").pop()],
+  ]),
+);
+assert.equal(visionDownloads.size, 7, "Vision report links to all evidence files");
 const server = createServer();
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
 try {
@@ -107,6 +117,13 @@ try {
       assert.equal(response.status, 200, file);
       assert.ok(response.headers.get("content-type").startsWith(type), file);
       const source = await readFile(new URL(`${newReportRoute}${file}`, root));
+      assert.ok(Buffer.from(await response.arrayBuffer()).equals(source), `Published bytes match ${file}`);
+    }
+    for (const [file, type] of visionDownloads) {
+      const response = await fetch(origin + base + visionRoute + file);
+      assert.equal(response.status, 200, file);
+      assert.ok(response.headers.get("content-type").startsWith(type), file);
+      const source = await readFile(new URL(`${visionRoute}${file}`, root));
       assert.ok(Buffer.from(await response.arrayBuffer()).equals(source), `Published bytes match ${file}`);
     }
   }

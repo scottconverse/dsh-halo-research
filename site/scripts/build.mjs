@@ -14,6 +14,14 @@ const files = [
   "benchmarks/qwen35-9b-2026-11-27/evidence/dsh-tasks.csv",
   "benchmarks/qwen35-9b-2026-11-27/evidence/direct-replays.csv",
   "benchmarks/qwen35-9b-2026-11-27/evidence/receipts.json",
+  "benchmarks/qwen35-9b-vision-2026-11-27/index.html",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/comparison.json",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/prompt.txt",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/ridge-field-check.png",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/answer-key.json",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/halo.json",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/5060.json",
+  "benchmarks/qwen35-9b-vision-2026-11-27/evidence/5070.json",
 ];
 for (const file of files) {
   const target = path.join(root, "dist", file);

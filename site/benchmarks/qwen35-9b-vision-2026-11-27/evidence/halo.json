@@ -1,0 +1,60 @@
+{
+  "startedUtc": "2026-11-27T22:22:05.5502586Z",
+  "ollamaVersion": "0.40.16",
+  "model": "qwen3.5:9b",
+  "modelDigest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+  "imageSha256": "A1896EBA20DD6FF7059EB2ADC1DC6532FE2A4B3E53DCFDC809C64BD090F191B1",
+  "promptSha256": "19331DAC44D3D908EA80F23E2F8A7FB7DFA88A4455A4EAD4A557A4D4EBCBBC3E",
+  "options": {
+    "think": false,
+    "temperature": 0,
+    "num_predict": 384,
+    "num_ctx": 4096,
+    "seed": 42
+  },
+  "elapsedSeconds": 10.3996897,
+  "failure": null,
+  "response": {
+    "model": "qwen3.5:9b",
+    "created_at": "2026-11-27T22:22:15.8953221Z",
+    "message": {
+      "role": "assistant",
+      "content": "{\n    \"reference\": \"RIDGE-27B\",\n    \"east_crates\": 23,\n    \"highest_location\": \"East\",\n    \"total_crates\": 54,\n    \"blue_markers\": 3,\n    \"second_marker\": {\n        \"color\": \"orange\",\n        \"shape\": \"triangle\"\n    },\n    \"rightmost_marker\": {\n        \"color\": \"blue\",\n        \"shape\": \"square\"\n    }\n}"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 10341503400,
+    "load_duration": 6465829700,
+    "prompt_eval_count": 393,
+    "prompt_eval_cached_count": 0,
+    "prompt_eval_duration": 709087000,
+    "eval_count": 110,
+    "eval_duration": 3150580000
+  },
+  "unload": {
+    "model": "qwen3.5:9b",
+    "created_at": "2026-11-27T22:22:16.002871Z",
+    "response": "",
+    "done": true,
+    "done_reason": "unload"
+  },
+  "modelsBefore": 0,
+  "modelsAfter": 0,
+  "modelPlacement": {
+    "size": 5606337412,
+    "size_vram": 5606337412,
+    "context_length": 4096
+  },
+  "cleanup": {
+    "temporaryServerExited": true,
+    "testListenerReleased": true,
+    "workingListenerUnchanged": true,
+    "regularModelsLoadedAfter": 0
+  },
+  "selectedRunnerLog": [
+    "offloaded 33/33 layers to GPU",
+    "CLIP using ROCm0 backend",
+    "warmup with image size = 1472 x 1472",
+    "image decoded (batch 1/1) in 65 ms"
+  ]
+}

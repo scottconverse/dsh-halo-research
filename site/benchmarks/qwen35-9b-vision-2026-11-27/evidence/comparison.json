@@ -1,0 +1,149 @@
+[
+  {
+    "box": "halo",
+    "ollama": "0.40.16",
+    "score": 7,
+    "fields": {
+      "reference": {
+        "answer": "RIDGE-27B",
+        "correct": true
+      },
+      "east_crates": {
+        "answer": 23,
+        "correct": true
+      },
+      "highest_location": {
+        "answer": "East",
+        "correct": true
+      },
+      "total_crates": {
+        "answer": 54,
+        "correct": true
+      },
+      "blue_markers": {
+        "answer": 3,
+        "correct": true
+      },
+      "second_marker": {
+        "answer": "orange triangle",
+        "correct": true
+      },
+      "rightmost_marker": {
+        "answer": "blue square",
+        "correct": true
+      }
+    },
+    "wallSeconds": 10.3996897,
+    "apiSeconds": 10.3415034,
+    "loadSeconds": 6.4658297,
+    "promptSeconds": 0.709087,
+    "generationSeconds": 3.15058,
+    "generatedTokens": 110,
+    "tps": 34.91420627313066,
+    "gpuBytes": 5606337412,
+    "totalModelBytes": 5606337412,
+    "after": 0,
+    "unload": "unload",
+    "digest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+    "image": "A1896EBA20DD6FF7059EB2ADC1DC6532FE2A4B3E53DCFDC809C64BD090F191B1",
+    "prompt": "19331DAC44D3D908EA80F23E2F8A7FB7DFA88A4455A4EAD4A557A4D4EBCBBC3E"
+  },
+  {
+    "box": "5060",
+    "ollama": "0.40.13",
+    "score": 7,
+    "fields": {
+      "reference": {
+        "answer": "RIDGE-27B",
+        "correct": true
+      },
+      "east_crates": {
+        "answer": 23,
+        "correct": true
+      },
+      "highest_location": {
+        "answer": "East",
+        "correct": true
+      },
+      "total_crates": {
+        "answer": 54,
+        "correct": true
+      },
+      "blue_markers": {
+        "answer": 3,
+        "correct": true
+      },
+      "second_marker": {
+        "answer": "orange triangle",
+        "correct": true
+      },
+      "rightmost_marker": {
+        "answer": "blue square",
+        "correct": true
+      }
+    },
+    "wallSeconds": 13.2315757,
+    "apiSeconds": 13.2135558,
+    "loadSeconds": 7.3996811,
+    "promptSeconds": 4.185814,
+    "generationSeconds": 1.609191,
+    "generatedTokens": 110,
+    "tps": 68.3573298632667,
+    "gpuBytes": 5606337412,
+    "totalModelBytes": 5606337412,
+    "after": 0,
+    "unload": "unload",
+    "digest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+    "image": "A1896EBA20DD6FF7059EB2ADC1DC6532FE2A4B3E53DCFDC809C64BD090F191B1",
+    "prompt": "19331DAC44D3D908EA80F23E2F8A7FB7DFA88A4455A4EAD4A557A4D4EBCBBC3E"
+  },
+  {
+    "box": "5070",
+    "ollama": "0.40.6",
+    "score": 7,
+    "fields": {
+      "reference": {
+        "answer": "RIDGE-27B",
+        "correct": true
+      },
+      "east_crates": {
+        "answer": 23,
+        "correct": true
+      },
+      "highest_location": {
+        "answer": "East",
+        "correct": true
+      },
+      "total_crates": {
+        "answer": 54,
+        "correct": true
+      },
+      "blue_markers": {
+        "answer": 3,
+        "correct": true
+      },
+      "second_marker": {
+        "answer": "orange triangle",
+        "correct": true
+      },
+      "rightmost_marker": {
+        "answer": "blue square",
+        "correct": true
+      }
+    },
+    "wallSeconds": 51.9335563,
+    "apiSeconds": 51.927853,
+    "loadSeconds": 26.1912017,
+    "promptSeconds": 23.909884,
+    "generationSeconds": 1.807337,
+    "generatedTokens": 78,
+    "tps": 43.157418898633736,
+    "gpuBytes": 5606337412,
+    "totalModelBytes": 5606337412,
+    "after": 0,
+    "unload": "unload",
+    "digest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+    "image": "A1896EBA20DD6FF7059EB2ADC1DC6532FE2A4B3E53DCFDC809C64BD090F191B1",
+    "prompt": "19331DAC44D3D908EA80F23E2F8A7FB7DFA88A4455A4EAD4A557A4D4EBCBBC3E"
+  }
+]

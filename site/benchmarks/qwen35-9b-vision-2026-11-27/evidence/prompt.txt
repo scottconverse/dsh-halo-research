@@ -1,0 +1,1 @@
+Use only the attached image. Reply with one JSON object with these fields: reference (the reference code exactly as printed), east_crates (integer), highest_location (name), total_crates (integer), blue_markers (integer), second_marker (color and shape, counting from the left), rightmost_marker (color and shape). Do not add commentary.
