@@ -7,6 +7,8 @@
 
 # DSH Halo history
 
+- [Qwen3.5-9B on Strix Halo, RTX 5060 Ti, and RTX 5070 Ti (November 27, 2026)](evidence/qwen35-9b-2026-11-27/README.md). Matched 8K and 32K llama.cpp replays, isolated Web and Desktop task times, and evidence for tool use, raw JSON limits, and cleanup.
+
 - [Windows installer 0.1.4 on Blackwell 5060 Ti (November 20, 2026)](evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md). Published ZIP installed on a second PC after a Redlib path-length failure. Web, Desktop, and both Mission Control views passed headlessly.
 
 - [Web rc.5 normal launcher repair (November 19, 2026)](HALO-DSH-IMPLEMENTATION-2026-11-19-WEB-LAUNCH.md)

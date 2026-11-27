@@ -1,0 +1,2368 @@
+{
+  "benchmark_date": "2026-11-27",
+  "model": {
+    "name": "Qwen3.5-9B",
+    "filename": "Qwen3.5-9B-Q4_K_M.gguf",
+    "sha256": "cd76ec205963b3b33350093e6904d9de16c4e666fd104e1f632d25c7f15f2a13",
+    "distribution": "https://huggingface.co/lmstudio-community/Qwen3.5-9B-GGUF"
+  },
+  "llama_cpp": {
+    "build": "b12532",
+    "commit": "08c252e22",
+    "server_flags": [
+      "--n-gpu-layers",
+      "99",
+      "--parallel",
+      "1",
+      "--no-webui",
+      "--reasoning",
+      "off",
+      "--no-context-shift"
+    ]
+  },
+  "windows_machines": {
+    "Halo": {
+      "backend": "Vulkan",
+      "graphics": "AMD Radeon 8060S",
+      "dsh_mode": "Isolated Web and Desktop profiles"
+    },
+    "5060 Ti": {
+      "backend": "CUDA",
+      "graphics": "NVIDIA GeForce RTX 5060 Ti (16 GB)",
+      "dsh_mode": "Isolated DSH 0.2.2-rc.5 profiles using the retained installer test runtime",
+      "nvidia_driver": "610.74"
+    },
+    "5070 Ti": {
+      "backend": "CUDA",
+      "graphics": "NVIDIA GeForce RTX 5070 Ti (16 GB)",
+      "dsh_mode": "Portable DSH 0.2.2-rc.5 bundle, with the matching Web CLI in Electron Node mode",
+      "nvidia_driver": "621.24"
+    }
+  },
+  "scope": {
+    "direct": "Streaming, single-request replays with matching synthetic prompts and context caps",
+    "dsh": "Real headless DSH 8K fixture requests per host. The published prompts are synthetic user inputs.",
+    "output": "Synthetic fixture replies only. Host metadata, session histories and tool headers were omitted.",
+    "independence": "One pass through each workload. Speedups describe these runs."
+  },
+  "direct_config": {
+    "temperature": 0,
+    "max_output_tokens": 256,
+    "stream": true,
+    "cache_prompt": false,
+    "thinking": false
+  },
+  "direct_prompts": {
+    "warmup": "Reply with 42 only.",
+    "code-0": "Write a Python function stable_unique(values) that returns a new list of distinct integers in first-occurrence order without modifying values. Include assert tests for duplicates, negatives, and empty input. Return only Python code, no explanation.\n# trial 0",
+    "code-1": "Write a Python function stable_unique(values) that returns a new list of distinct integers in first-occurrence order without modifying values. Include assert tests for duplicates, negatives, and empty input. Return only Python code, no explanation.\n# trial 1",
+    "code-2": "Write a Python function stable_unique(values) that returns a new list of distinct integers in first-occurrence order without modifying values. Include assert tests for duplicates, negatives, and empty input. Return only Python code, no explanation.\n# trial 2",
+    "document-300": "Reference records, for context only:\nRecord 0: warehouse item 0, quantity 0, region west.\nRecord 1: warehouse item 1, quantity 1, region west.\nRecord 2: warehouse item 2, quantity 2, region west.\nRecord 3: warehouse item 3, quantity 3, region west.\nRecord 4: warehouse item 4, quantity 4, region west.\nRecord 5: warehouse item 5, quantity 5, region west.\nRecord 6: warehouse item 6, quantity 6, region west.\nRecord 7: warehouse item 7, quantity 7, region west.\nRecord 8: warehouse item 8, quantity 8, region west.\nRecord 9: warehouse item 9, quantity 9, region west.\nRecord 10: warehouse item 10, quantity 10, region west.\nRecord 11: warehouse item 11, quantity 11, region west.\nRecord 12: warehouse item 12, quantity 12, region west.\nRecord 13: warehouse item 13, quantity 13, region west.\nRecord 14: warehouse item 14, quantity 14, region west.\nRecord 15: warehouse item 15, quantity 15, region west.\nRecord 16: warehouse item 16, quantity 16, region west.\nRecord 17: warehouse item 17, quantity 17, region west.\nRecord 18: warehouse item 18, quantity 18, region west.\nRecord 19: warehouse item 19, quantity 19, region west.\nRecord 20: warehouse item 20, quantity 20, region west.\nRecord 21: warehouse item 21, quantity 21, region west.\nRecord 22: warehouse item 22, quantity 22, region west.\nRecord 23: warehouse item 23, quantity 23, region west.\nRecord 24: warehouse item 24, quantity 24, region west.\nRecord 25: warehouse item 25, quantity 25, region west.\nRecord 26: warehouse item 26, quantity 26, region west.\nRecord 27: warehouse item 27, quantity 27, region west.\nRecord 28: warehouse item 28, quantity 28, region west.\nRecord 29: warehouse item 29, quantity 29, region west.\nRecord 30: warehouse item 30, quantity 30, region west.\nRecord 31: warehouse item 31, quantity 0, region west.\nRecord 32: warehouse item 32, quantity 1, region west.\nRecord 33: warehouse item 33, quantity 2, region west.\nRecord 34: warehouse item 34, quantity 3, region west.\nRecord 35: warehouse item 35, quantity 4, region west.\nRecord 36: warehouse item 36, quantity 5, region west.\nRecord 37: warehouse item 37, quantity 6, region west.\nRecord 38: warehouse item 38, quantity 7, region west.\nRecord 39: warehouse item 39, quantity 8, region west.\nRecord 40: warehouse item 40, quantity 9, region west.\nRecord 41: warehouse item 41, quantity 10, region west.\nRecord 42: warehouse item 42, quantity 11, region west.\nRecord 43: warehouse item 43, quantity 12, region west.\nRecord 44: warehouse item 44, quantity 13, region west.\nRecord 45: warehouse item 45, quantity 14, region west.\nRecord 46: warehouse item 46, quantity 15, region west.\nRecord 47: warehouse item 47, quantity 16, region west.\nRecord 48: warehouse item 48, quantity 17, region west.\nRecord 49: warehouse item 49, quantity 18, region west.\nRecord 50: warehouse item 50, quantity 19, region west.\nRecord 51: warehouse item 51, quantity 20, region west.\nRecord 52: warehouse item 52, quantity 21, region west.\nRecord 53: warehouse item 53, quantity 22, region west.\nRecord 54: warehouse item 54, quantity 23, region west.\nRecord 55: warehouse item 55, quantity 24, region west.\nRecord 56: warehouse item 56, quantity 25, region west.\nRecord 57: warehouse item 57, quantity 26, region west.\nRecord 58: warehouse item 58, quantity 27, region west.\nRecord 59: warehouse item 59, quantity 28, region west.\nRecord 60: warehouse item 60, quantity 29, region west.\nRecord 61: warehouse item 61, quantity 30, region west.\nRecord 62: warehouse item 62, quantity 0, region west.\nRecord 63: warehouse item 63, quantity 1, region west.\nRecord 64: warehouse item 64, quantity 2, region west.\nRecord 65: warehouse item 65, quantity 3, region west.\nRecord 66: warehouse item 66, quantity 4, region west.\nRecord 67: warehouse item 67, quantity 5, region west.\nRecord 68: warehouse item 68, quantity 6, region west.\nRecord 69: warehouse item 69, quantity 7, region west.\nRecord 70: warehouse item 70, quantity 8, region west.\nRecord 71: warehouse item 71, quantity 9, region west.\nRecord 72: warehouse item 72, quantity 10, region west.\nRecord 73: warehouse item 73, quantity 11, region west.\nRecord 74: warehouse item 74, quantity 12, region west.\nRecord 75: warehouse item 75, quantity 13, region west.\nRecord 76: warehouse item 76, quantity 14, region west.\nRecord 77: warehouse item 77, quantity 15, region west.\nRecord 78: warehouse item 78, quantity 16, region west.\nRecord 79: warehouse item 79, quantity 17, region west.\nRecord 80: warehouse item 80, quantity 18, region west.\nRecord 81: warehouse item 81, quantity 19, region west.\nRecord 82: warehouse item 82, quantity 20, region west.\nRecord 83: warehouse item 83, quantity 21, region west.\nRecord 84: warehouse item 84, quantity 22, region west.\nRecord 85: warehouse item 85, quantity 23, region west.\nRecord 86: warehouse item 86, quantity 24, region west.\nRecord 87: warehouse item 87, quantity 25, region west.\nRecord 88: warehouse item 88, quantity 26, region west.\nRecord 89: warehouse item 89, quantity 27, region west.\nRecord 90: warehouse item 90, quantity 28, region west.\nRecord 91: warehouse item 91, quantity 29, region west.\nRecord 92: warehouse item 92, quantity 30, region west.\nRecord 93: warehouse item 93, quantity 0, region west.\nRecord 94: warehouse item 94, quantity 1, region west.\nRecord 95: warehouse item 95, quantity 2, region west.\nRecord 96: warehouse item 96, quantity 3, region west.\nRecord 97: warehouse item 0, quantity 4, region west.\nRecord 98: warehouse item 1, quantity 5, region west.\nRecord 99: warehouse item 2, quantity 6, region west.\nRecord 100: warehouse item 3, quantity 7, region west.\nRecord 101: warehouse item 4, quantity 8, region west.\nRecord 102: warehouse item 5, quantity 9, region west.\nRecord 103: warehouse item 6, quantity 10, region west.\nRecord 104: warehouse item 7, quantity 11, region west.\nRecord 105: warehouse item 8, quantity 12, region west.\nRecord 106: warehouse item 9, quantity 13, region west.\nRecord 107: warehouse item 10, quantity 14, region west.\nRecord 108: warehouse item 11, quantity 15, region west.\nRecord 109: warehouse item 12, quantity 16, region west.\nRecord 110: warehouse item 13, quantity 17, region west.\nRecord 111: warehouse item 14, quantity 18, region west.\nRecord 112: warehouse item 15, quantity 19, region west.\nRecord 113: warehouse item 16, quantity 20, region west.\nRecord 114: warehouse item 17, quantity 21, region west.\nRecord 115: warehouse item 18, quantity 22, region west.\nRecord 116: warehouse item 19, quantity 23, region west.\nRecord 117: warehouse item 20, quantity 24, region west.\nRecord 118: warehouse item 21, quantity 25, region west.\nRecord 119: warehouse item 22, quantity 26, region west.\nRecord 120: warehouse item 23, quantity 27, region west.\nRecord 121: warehouse item 24, quantity 28, region west.\nRecord 122: warehouse item 25, quantity 29, region west.\nRecord 123: warehouse item 26, quantity 30, region west.\nRecord 124: warehouse item 27, quantity 0, region west.\nRecord 125: warehouse item 28, quantity 1, region west.\nRecord 126: warehouse item 29, quantity 2, region west.\nRecord 127: warehouse item 30, quantity 3, region west.\nRecord 128: warehouse item 31, quantity 4, region west.\nRecord 129: warehouse item 32, quantity 5, region west.\nRecord 130: warehouse item 33, quantity 6, region west.\nRecord 131: warehouse item 34, quantity 7, region west.\nRecord 132: warehouse item 35, quantity 8, region west.\nRecord 133: warehouse item 36, quantity 9, region west.\nRecord 134: warehouse item 37, quantity 10, region west.\nRecord 135: warehouse item 38, quantity 11, region west.\nRecord 136: warehouse item 39, quantity 12, region west.\nRecord 137: warehouse item 40, quantity 13, region west.\nRecord 138: warehouse item 41, quantity 14, region west.\nRecord 139: warehouse item 42, quantity 15, region west.\nRecord 140: warehouse item 43, quantity 16, region west.\nRecord 141: warehouse item 44, quantity 17, region west.\nRecord 142: warehouse item 45, quantity 18, region west.\nRecord 143: warehouse item 46, quantity 19, region west.\nRecord 144: warehouse item 47, quantity 20, region west.\nRecord 145: warehouse item 48, quantity 21, region west.\nRecord 146: warehouse item 49, quantity 22, region west.\nRecord 147: warehouse item 50, quantity 23, region west.\nRecord 148: warehouse item 51, quantity 24, region west.\nRecord 149: warehouse item 52, quantity 25, region west.\nRecord 150: warehouse item 53, quantity 26, region west.\nRecord 151: warehouse item 54, quantity 27, region west.\nRecord 152: warehouse item 55, quantity 28, region west.\nRecord 153: warehouse item 56, quantity 29, region west.\nRecord 154: warehouse item 57, quantity 30, region west.\nRecord 155: warehouse item 58, quantity 0, region west.\nRecord 156: warehouse item 59, quantity 1, region west.\nRecord 157: warehouse item 60, quantity 2, region west.\nRecord 158: warehouse item 61, quantity 3, region west.\nRecord 159: warehouse item 62, quantity 4, region west.\nRecord 160: warehouse item 63, quantity 5, region west.\nRecord 161: warehouse item 64, quantity 6, region west.\nRecord 162: warehouse item 65, quantity 7, region west.\nRecord 163: warehouse item 66, quantity 8, region west.\nRecord 164: warehouse item 67, quantity 9, region west.\nRecord 165: warehouse item 68, quantity 10, region west.\nRecord 166: warehouse item 69, quantity 11, region west.\nRecord 167: warehouse item 70, quantity 12, region west.\nRecord 168: warehouse item 71, quantity 13, region west.\nRecord 169: warehouse item 72, quantity 14, region west.\nRecord 170: warehouse item 73, quantity 15, region west.\nRecord 171: warehouse item 74, quantity 16, region west.\nRecord 172: warehouse item 75, quantity 17, region west.\nRecord 173: warehouse item 76, quantity 18, region west.\nRecord 174: warehouse item 77, quantity 19, region west.\nRecord 175: warehouse item 78, quantity 20, region west.\nRecord 176: warehouse item 79, quantity 21, region west.\nRecord 177: warehouse item 80, quantity 22, region west.\nRecord 178: warehouse item 81, quantity 23, region west.\nRecord 179: warehouse item 82, quantity 24, region west.\nRecord 180: warehouse item 83, quantity 25, region west.\nRecord 181: warehouse item 84, quantity 26, region west.\nRecord 182: warehouse item 85, quantity 27, region west.\nRecord 183: warehouse item 86, quantity 28, region west.\nRecord 184: warehouse item 87, quantity 29, region west.\nRecord 185: warehouse item 88, quantity 30, region west.\nRecord 186: warehouse item 89, quantity 0, region west.\nRecord 187: warehouse item 90, quantity 1, region west.\nRecord 188: warehouse item 91, quantity 2, region west.\nRecord 189: warehouse item 92, quantity 3, region west.\nRecord 190: warehouse item 93, quantity 4, region west.\nRecord 191: warehouse item 94, quantity 5, region west.\nRecord 192: warehouse item 95, quantity 6, region west.\nRecord 193: warehouse item 96, quantity 7, region west.\nRecord 194: warehouse item 0, quantity 8, region west.\nRecord 195: warehouse item 1, quantity 9, region west.\nRecord 196: warehouse item 2, quantity 10, region west.\nRecord 197: warehouse item 3, quantity 11, region west.\nRecord 198: warehouse item 4, quantity 12, region west.\nRecord 199: warehouse item 5, quantity 13, region west.\nRecord 200: warehouse item 6, quantity 14, region west.\nRecord 201: warehouse item 7, quantity 15, region west.\nRecord 202: warehouse item 8, quantity 16, region west.\nRecord 203: warehouse item 9, quantity 17, region west.\nRecord 204: warehouse item 10, quantity 18, region west.\nRecord 205: warehouse item 11, quantity 19, region west.\nRecord 206: warehouse item 12, quantity 20, region west.\nRecord 207: warehouse item 13, quantity 21, region west.\nRecord 208: warehouse item 14, quantity 22, region west.\nRecord 209: warehouse item 15, quantity 23, region west.\nRecord 210: warehouse item 16, quantity 24, region west.\nRecord 211: warehouse item 17, quantity 25, region west.\nRecord 212: warehouse item 18, quantity 26, region west.\nRecord 213: warehouse item 19, quantity 27, region west.\nRecord 214: warehouse item 20, quantity 28, region west.\nRecord 215: warehouse item 21, quantity 29, region west.\nRecord 216: warehouse item 22, quantity 30, region west.\nRecord 217: warehouse item 23, quantity 0, region west.\nRecord 218: warehouse item 24, quantity 1, region west.\nRecord 219: warehouse item 25, quantity 2, region west.\nRecord 220: warehouse item 26, quantity 3, region west.\nRecord 221: warehouse item 27, quantity 4, region west.\nRecord 222: warehouse item 28, quantity 5, region west.\nRecord 223: warehouse item 29, quantity 6, region west.\nRecord 224: warehouse item 30, quantity 7, region west.\nRecord 225: warehouse item 31, quantity 8, region west.\nRecord 226: warehouse item 32, quantity 9, region west.\nRecord 227: warehouse item 33, quantity 10, region west.\nRecord 228: warehouse item 34, quantity 11, region west.\nRecord 229: warehouse item 35, quantity 12, region west.\nRecord 230: warehouse item 36, quantity 13, region west.\nRecord 231: warehouse item 37, quantity 14, region west.\nRecord 232: warehouse item 38, quantity 15, region west.\nRecord 233: warehouse item 39, quantity 16, region west.\nRecord 234: warehouse item 40, quantity 17, region west.\nRecord 235: warehouse item 41, quantity 18, region west.\nRecord 236: warehouse item 42, quantity 19, region west.\nRecord 237: warehouse item 43, quantity 20, region west.\nRecord 238: warehouse item 44, quantity 21, region west.\nRecord 239: warehouse item 45, quantity 22, region west.\nRecord 240: warehouse item 46, quantity 23, region west.\nRecord 241: warehouse item 47, quantity 24, region west.\nRecord 242: warehouse item 48, quantity 25, region west.\nRecord 243: warehouse item 49, quantity 26, region west.\nRecord 244: warehouse item 50, quantity 27, region west.\nRecord 245: warehouse item 51, quantity 28, region west.\nRecord 246: warehouse item 52, quantity 29, region west.\nRecord 247: warehouse item 53, quantity 30, region west.\nRecord 248: warehouse item 54, quantity 0, region west.\nRecord 249: warehouse item 55, quantity 1, region west.\nRecord 250: warehouse item 56, quantity 2, region west.\nRecord 251: warehouse item 57, quantity 3, region west.\nRecord 252: warehouse item 58, quantity 4, region west.\nRecord 253: warehouse item 59, quantity 5, region west.\nRecord 254: warehouse item 60, quantity 6, region west.\nRecord 255: warehouse item 61, quantity 7, region west.\nRecord 256: warehouse item 62, quantity 8, region west.\nRecord 257: warehouse item 63, quantity 9, region west.\nRecord 258: warehouse item 64, quantity 10, region west.\nRecord 259: warehouse item 65, quantity 11, region west.\nRecord 260: warehouse item 66, quantity 12, region west.\nRecord 261: warehouse item 67, quantity 13, region west.\nRecord 262: warehouse item 68, quantity 14, region west.\nRecord 263: warehouse item 69, quantity 15, region west.\nRecord 264: warehouse item 70, quantity 16, region west.\nRecord 265: warehouse item 71, quantity 17, region west.\nRecord 266: warehouse item 72, quantity 18, region west.\nRecord 267: warehouse item 73, quantity 19, region west.\nRecord 268: warehouse item 74, quantity 20, region west.\nRecord 269: warehouse item 75, quantity 21, region west.\nRecord 270: warehouse item 76, quantity 22, region west.\nRecord 271: warehouse item 77, quantity 23, region west.\nRecord 272: warehouse item 78, quantity 24, region west.\nRecord 273: warehouse item 79, quantity 25, region west.\nRecord 274: warehouse item 80, quantity 26, region west.\nRecord 275: warehouse item 81, quantity 27, region west.\nRecord 276: warehouse item 82, quantity 28, region west.\nRecord 277: warehouse item 83, quantity 29, region west.\nRecord 278: warehouse item 84, quantity 30, region west.\nRecord 279: warehouse item 85, quantity 0, region west.\nRecord 280: warehouse item 86, quantity 1, region west.\nRecord 281: warehouse item 87, quantity 2, region west.\nRecord 282: warehouse item 88, quantity 3, region west.\nRecord 283: warehouse item 89, quantity 4, region west.\nRecord 284: warehouse item 90, quantity 5, region west.\nRecord 285: warehouse item 91, quantity 6, region west.\nRecord 286: warehouse item 92, quantity 7, region west.\nRecord 287: warehouse item 93, quantity 8, region west.\nRecord 288: warehouse item 94, quantity 9, region west.\nRecord 289: warehouse item 95, quantity 10, region west.\nRecord 290: warehouse item 96, quantity 11, region west.\nRecord 291: warehouse item 0, quantity 12, region west.\nRecord 292: warehouse item 1, quantity 13, region west.\nRecord 293: warehouse item 2, quantity 14, region west.\nRecord 294: warehouse item 3, quantity 15, region west.\nRecord 295: warehouse item 4, quantity 16, region west.\nRecord 296: warehouse item 5, quantity 17, region west.\nRecord 297: warehouse item 6, quantity 18, region west.\nRecord 298: warehouse item 7, quantity 19, region west.\nRecord 299: warehouse item 8, quantity 20, region west.\nEnd of reference records.\nWrite a Python function stable_unique(values) that returns a new list of distinct integers in first-occurrence order without modifying values. Include assert tests for duplicates, negatives, and empty input. Return only Python code, no explanation.",
+    "document-1200": "Reference records, for context only:\nRecord 0: warehouse item 0, quantity 0, region west.\nRecord 1: warehouse item 1, quantity 1, region west.\nRecord 2: warehouse item 2, quantity 2, region west.\nRecord 3: warehouse item 3, quantity 3, region west.\nRecord 4: warehouse item 4, quantity 4, region west.\nRecord 5: warehouse item 5, quantity 5, region west.\nRecord 6: warehouse item 6, quantity 6, region west.\nRecord 7: warehouse item 7, quantity 7, region west.\nRecord 8: warehouse item 8, quantity 8, region west.\nRecord 9: warehouse item 9, quantity 9, region west.\nRecord 10: warehouse item 10, quantity 10, region west.\nRecord 11: warehouse item 11, quantity 11, region west.\nRecord 12: warehouse item 12, quantity 12, region west.\nRecord 13: warehouse item 13, quantity 13, region west.\nRecord 14: warehouse item 14, quantity 14, region west.\nRecord 15: warehouse item 15, quantity 15, region west.\nRecord 16: warehouse item 16, quantity 16, region west.\nRecord 17: warehouse item 17, quantity 17, region west.\nRecord 18: warehouse item 18, quantity 18, region west.\nRecord 19: warehouse item 19, quantity 19, region west.\nRecord 20: warehouse item 20, quantity 20, region west.\nRecord 21: warehouse item 21, quantity 21, region west.\nRecord 22: warehouse item 22, quantity 22, region west.\nRecord 23: warehouse item 23, quantity 23, region west.\nRecord 24: warehouse item 24, quantity 24, region west.\nRecord 25: warehouse item 25, quantity 25, region west.\nRecord 26: warehouse item 26, quantity 26, region west.\nRecord 27: warehouse item 27, quantity 27, region west.\nRecord 28: warehouse item 28, quantity 28, region west.\nRecord 29: warehouse item 29, quantity 29, region west.\nRecord 30: warehouse item 30, quantity 30, region west.\nRecord 31: warehouse item 31, quantity 0, region west.\nRecord 32: warehouse item 32, quantity 1, region west.\nRecord 33: warehouse item 33, quantity 2, region west.\nRecord 34: warehouse item 34, quantity 3, region west.\nRecord 35: warehouse item 35, quantity 4, region west.\nRecord 36: warehouse item 36, quantity 5, region west.\nRecord 37: warehouse item 37, quantity 6, region west.\nRecord 38: warehouse item 38, quantity 7, region west.\nRecord 39: warehouse item 39, quantity 8, region west.\nRecord 40: warehouse item 40, quantity 9, region west.\nRecord 41: warehouse item 41, quantity 10, region west.\nRecord 42: warehouse item 42, quantity 11, region west.\nRecord 43: warehouse item 43, quantity 12, region west.\nRecord 44: warehouse item 44, quantity 13, region west.\nRecord 45: warehouse item 45, quantity 14, region west.\nRecord 46: warehouse item 46, quantity 15, region west.\nRecord 47: warehouse item 47, quantity 16, region west.\nRecord 48: warehouse item 48, quantity 17, region west.\nRecord 49: warehouse item 49, quantity 18, region west.\nRecord 50: warehouse item 50, quantity 19, region west.\nRecord 51: warehouse item 51, quantity 20, region west.\nRecord 52: warehouse item 52, quantity 21, region west.\nRecord 53: warehouse item 53, quantity 22, region west.\nRecord 54: warehouse item 54, quantity 23, region west.\nRecord 55: warehouse item 55, quantity 24, region west.\nRecord 56: warehouse item 56, quantity 25, region west.\nRecord 57: warehouse item 57, quantity 26, region west.\nRecord 58: warehouse item 58, quantity 27, region west.\nRecord 59: warehouse item 59, quantity 28, region west.\nRecord 60: warehouse item 60, quantity 29, region west.\nRecord 61: warehouse item 61, quantity 30, region west.\nRecord 62: warehouse item 62, quantity 0, region west.\nRecord 63: warehouse item 63, quantity 1, region west.\nRecord 64: warehouse item 64, quantity 2, region west.\nRecord 65: warehouse item 65, quantity 3, region west.\nRecord 66: warehouse item 66, quantity 4, region west.\nRecord 67: warehouse item 67, quantity 5, region west.\nRecord 68: warehouse item 68, quantity 6, region west.\nRecord 69: warehouse item 69, quantity 7, region west.\nRecord 70: warehouse item 70, quantity 8, region west.\nRecord 71: warehouse item 71, quantity 9, region west.\nRecord 72: warehouse item 72, quantity 10, region west.\nRecord 73: warehouse item 73, quantity 11, region west.\nRecord 74: warehouse item 74, quantity 12, region west.\nRecord 75: warehouse item 75, quantity 13, region west.\nRecord 76: warehouse item 76, quantity 14, region west.\nRecord 77: warehouse item 77, quantity 15, region west.\nRecord 78: warehouse item 78, quantity 16, region west.\nRecord 79: warehouse item 79, quantity 17, region west.\nRecord 80: warehouse item 80, quantity 18, region west.\nRecord 81: warehouse item 81, quantity 19, region west.\nRecord 82: warehouse item 82, quantity 20, region west.\nRecord 83: warehouse item 83, quantity 21, region west.\nRecord 84: warehouse item 84, quantity 22, region west.\nRecord 85: warehouse item 85, quantity 23, region west.\nRecord 86: warehouse item 86, quantity 24, region west.\nRecord 87: warehouse item 87, quantity 25, region west.\nRecord 88: warehouse item 88, quantity 26, region west.\nRecord 89: warehouse item 89, quantity 27, region west.\nRecord 90: warehouse item 90, quantity 28, region west.\nRecord 91: warehouse item 91, quantity 29, region west.\nRecord 92: warehouse item 92, quantity 30, region west.\nRecord 93: warehouse item 93, quantity 0, region west.\nRecord 94: warehouse item 94, quantity 1, region west.\nRecord 95: warehouse item 95, quantity 2, region west.\nRecord 96: warehouse item 96, quantity 3, region west.\nRecord 97: warehouse item 0, quantity 4, region west.\nRecord 98: warehouse item 1, quantity 5, region west.\nRecord 99: warehouse item 2, quantity 6, region west.\nRecord 100: warehouse item 3, quantity 7, region west.\nRecord 101: warehouse item 4, quantity 8, region west.\nRecord 102: warehouse item 5, quantity 9, region west.\nRecord 103: warehouse item 6, quantity 10, region west.\nRecord 104: warehouse item 7, quantity 11, region west.\nRecord 105: warehouse item 8, quantity 12, region west.\nRecord 106: warehouse item 9, quantity 13, region west.\nRecord 107: warehouse item 10, quantity 14, region west.\nRecord 108: warehouse item 11, quantity 15, region west.\nRecord 109: warehouse item 12, quantity 16, region west.\nRecord 110: warehouse item 13, quantity 17, region west.\nRecord 111: warehouse item 14, quantity 18, region west.\nRecord 112: warehouse item 15, quantity 19, region west.\nRecord 113: warehouse item 16, quantity 20, region west.\nRecord 114: warehouse item 17, quantity 21, region west.\nRecord 115: warehouse item 18, quantity 22, region west.\nRecord 116: warehouse item 19, quantity 23, region west.\nRecord 117: warehouse item 20, quantity 24, region west.\nRecord 118: warehouse item 21, quantity 25, region west.\nRecord 119: warehouse item 22, quantity 26, region west.\nRecord 120: warehouse item 23, quantity 27, region west.\nRecord 121: warehouse item 24, quantity 28, region west.\nRecord 122: warehouse item 25, quantity 29, region west.\nRecord 123: warehouse item 26, quantity 30, region west.\nRecord 124: warehouse item 27, quantity 0, region west.\nRecord 125: warehouse item 28, quantity 1, region west.\nRecord 126: warehouse item 29, quantity 2, region west.\nRecord 127: warehouse item 30, quantity 3, region west.\nRecord 128: warehouse item 31, quantity 4, region west.\nRecord 129: warehouse item 32, quantity 5, region west.\nRecord 130: warehouse item 33, quantity 6, region west.\nRecord 131: warehouse item 34, quantity 7, region west.\nRecord 132: warehouse item 35, quantity 8, region west.\nRecord 133: warehouse item 36, quantity 9, region west.\nRecord 134: warehouse item 37, quantity 10, region west.\nRecord 135: warehouse item 38, quantity 11, region west.\nRecord 136: warehouse item 39, quantity 12, region west.\nRecord 137: warehouse item 40, quantity 13, region west.\nRecord 138: warehouse item 41, quantity 14, region west.\nRecord 139: warehouse item 42, quantity 15, region west.\nRecord 140: warehouse item 43, quantity 16, region west.\nRecord 141: warehouse item 44, quantity 17, region west.\nRecord 142: warehouse item 45, quantity 18, region west.\nRecord 143: warehouse item 46, quantity 19, region west.\nRecord 144: warehouse item 47, quantity 20, region west.\nRecord 145: warehouse item 48, quantity 21, region west.\nRecord 146: warehouse item 49, quantity 22, region west.\nRecord 147: warehouse item 50, quantity 23, region west.\nRecord 148: warehouse item 51, quantity 24, region west.\nRecord 149: warehouse item 52, quantity 25, region west.\nRecord 150: warehouse item 53, quantity 26, region west.\nRecord 151: warehouse item 54, quantity 27, region west.\nRecord 152: warehouse item 55, quantity 28, region west.\nRecord 153: warehouse item 56, quantity 29, region west.\nRecord 154: warehouse item 57, quantity 30, region west.\nRecord 155: warehouse item 58, quantity 0, region west.\nRecord 156: warehouse item 59, quantity 1, region west.\nRecord 157: warehouse item 60, quantity 2, region west.\nRecord 158: warehouse item 61, quantity 3, region west.\nRecord 159: warehouse item 62, quantity 4, region west.\nRecord 160: warehouse item 63, quantity 5, region west.\nRecord 161: warehouse item 64, quantity 6, region west.\nRecord 162: warehouse item 65, quantity 7, region west.\nRecord 163: warehouse item 66, quantity 8, region west.\nRecord 164: warehouse item 67, quantity 9, region west.\nRecord 165: warehouse item 68, quantity 10, region west.\nRecord 166: warehouse item 69, quantity 11, region west.\nRecord 167: warehouse item 70, quantity 12, region west.\nRecord 168: warehouse item 71, quantity 13, region west.\nRecord 169: warehouse item 72, quantity 14, region west.\nRecord 170: warehouse item 73, quantity 15, region west.\nRecord 171: warehouse item 74, quantity 16, region west.\nRecord 172: warehouse item 75, quantity 17, region west.\nRecord 173: warehouse item 76, quantity 18, region west.\nRecord 174: warehouse item 77, quantity 19, region west.\nRecord 175: warehouse item 78, quantity 20, region west.\nRecord 176: warehouse item 79, quantity 21, region west.\nRecord 177: warehouse item 80, quantity 22, region west.\nRecord 178: warehouse item 81, quantity 23, region west.\nRecord 179: warehouse item 82, quantity 24, region west.\nRecord 180: warehouse item 83, quantity 25, region west.\nRecord 181: warehouse item 84, quantity 26, region west.\nRecord 182: warehouse item 85, quantity 27, region west.\nRecord 183: warehouse item 86, quantity 28, region west.\nRecord 184: warehouse item 87, quantity 29, region west.\nRecord 185: warehouse item 88, quantity 30, region west.\nRecord 186: warehouse item 89, quantity 0, region west.\nRecord 187: warehouse item 90, quantity 1, region west.\nRecord 188: warehouse item 91, quantity 2, region west.\nRecord 189: warehouse item 92, quantity 3, region west.\nRecord 190: warehouse item 93, quantity 4, region west.\nRecord 191: warehouse item 94, quantity 5, region west.\nRecord 192: warehouse item 95, quantity 6, region west.\nRecord 193: warehouse item 96, quantity 7, region west.\nRecord 194: warehouse item 0, quantity 8, region west.\nRecord 195: warehouse item 1, quantity 9, region west.\nRecord 196: warehouse item 2, quantity 10, region west.\nRecord 197: warehouse item 3, quantity 11, region west.\nRecord 198: warehouse item 4, quantity 12, region west.\nRecord 199: warehouse item 5, quantity 13, region west.\nRecord 200: warehouse item 6, quantity 14, region west.\nRecord 201: warehouse item 7, quantity 15, region west.\nRecord 202: warehouse item 8, quantity 16, region west.\nRecord 203: warehouse item 9, quantity 17, region west.\nRecord 204: warehouse item 10, quantity 18, region west.\nRecord 205: warehouse item 11, quantity 19, region west.\nRecord 206: warehouse item 12, quantity 20, region west.\nRecord 207: warehouse item 13, quantity 21, region west.\nRecord 208: warehouse item 14, quantity 22, region west.\nRecord 209: warehouse item 15, quantity 23, region west.\nRecord 210: warehouse item 16, quantity 24, region west.\nRecord 211: warehouse item 17, quantity 25, region west.\nRecord 212: warehouse item 18, quantity 26, region west.\nRecord 213: warehouse item 19, quantity 27, region west.\nRecord 214: warehouse item 20, quantity 28, region west.\nRecord 215: warehouse item 21, quantity 29, region west.\nRecord 216: warehouse item 22, quantity 30, region west.\nRecord 217: warehouse item 23, quantity 0, region west.\nRecord 218: warehouse item 24, quantity 1, region west.\nRecord 219: warehouse item 25, quantity 2, region west.\nRecord 220: warehouse item 26, quantity 3, region west.\nRecord 221: warehouse item 27, quantity 4, region west.\nRecord 222: warehouse item 28, quantity 5, region west.\nRecord 223: warehouse item 29, quantity 6, region west.\nRecord 224: warehouse item 30, quantity 7, region west.\nRecord 225: warehouse item 31, quantity 8, region west.\nRecord 226: warehouse item 32, quantity 9, region west.\nRecord 227: warehouse item 33, quantity 10, region west.\nRecord 228: warehouse item 34, quantity 11, region west.\nRecord 229: warehouse item 35, quantity 12, region west.\nRecord 230: warehouse item 36, quantity 13, region west.\nRecord 231: warehouse item 37, quantity 14, region west.\nRecord 232: warehouse item 38, quantity 15, region west.\nRecord 233: warehouse item 39, quantity 16, region west.\nRecord 234: warehouse item 40, quantity 17, region west.\nRecord 235: warehouse item 41, quantity 18, region west.\nRecord 236: warehouse item 42, quantity 19, region west.\nRecord 237: warehouse item 43, quantity 20, region west.\nRecord 238: warehouse item 44, quantity 21, region west.\nRecord 239: warehouse item 45, quantity 22, region west.\nRecord 240: warehouse item 46, quantity 23, region west.\nRecord 241: warehouse item 47, quantity 24, region west.\nRecord 242: warehouse item 48, quantity 25, region west.\nRecord 243: warehouse item 49, quantity 26, region west.\nRecord 244: warehouse item 50, quantity 27, region west.\nRecord 245: warehouse item 51, quantity 28, region west.\nRecord 246: warehouse item 52, quantity 29, region west.\nRecord 247: warehouse item 53, quantity 30, region west.\nRecord 248: warehouse item 54, quantity 0, region west.\nRecord 249: warehouse item 55, quantity 1, region west.\nRecord 250: warehouse item 56, quantity 2, region west.\nRecord 251: warehouse item 57, quantity 3, region west.\nRecord 252: warehouse item 58, quantity 4, region west.\nRecord 253: warehouse item 59, quantity 5, region west.\nRecord 254: warehouse item 60, quantity 6, region west.\nRecord 255: warehouse item 61, quantity 7, region west.\nRecord 256: warehouse item 62, quantity 8, region west.\nRecord 257: warehouse item 63, quantity 9, region west.\nRecord 258: warehouse item 64, quantity 10, region west.\nRecord 259: warehouse item 65, quantity 11, region west.\nRecord 260: warehouse item 66, quantity 12, region west.\nRecord 261: warehouse item 67, quantity 13, region west.\nRecord 262: warehouse item 68, quantity 14, region west.\nRecord 263: warehouse item 69, quantity 15, region west.\nRecord 264: warehouse item 70, quantity 16, region west.\nRecord 265: warehouse item 71, quantity 17, region west.\nRecord 266: warehouse item 72, quantity 18, region west.\nRecord 267: warehouse item 73, quantity 19, region west.\nRecord 268: warehouse item 74, quantity 20, region west.\nRecord 269: warehouse item 75, quantity 21, region west.\nRecord 270: warehouse item 76, quantity 22, region west.\nRecord 271: warehouse item 77, quantity 23, region west.\nRecord 272: warehouse item 78, quantity 24, region west.\nRecord 273: warehouse item 79, quantity 25, region west.\nRecord 274: warehouse item 80, quantity 26, region west.\nRecord 275: warehouse item 81, quantity 27, region west.\nRecord 276: warehouse item 82, quantity 28, region west.\nRecord 277: warehouse item 83, quantity 29, region west.\nRecord 278: warehouse item 84, quantity 30, region west.\nRecord 279: warehouse item 85, quantity 0, region west.\nRecord 280: warehouse item 86, quantity 1, region west.\nRecord 281: warehouse item 87, quantity 2, region west.\nRecord 282: warehouse item 88, quantity 3, region west.\nRecord 283: warehouse item 89, quantity 4, region west.\nRecord 284: warehouse item 90, quantity 5, region west.\nRecord 285: warehouse item 91, quantity 6, region west.\nRecord 286: warehouse item 92, quantity 7, region west.\nRecord 287: warehouse item 93, quantity 8, region west.\nRecord 288: warehouse item 94, quantity 9, region west.\nRecord 289: warehouse item 95, quantity 10, region west.\nRecord 290: warehouse item 96, quantity 11, region west.\nRecord 291: warehouse item 0, quantity 12, region west.\nRecord 292: warehouse item 1, quantity 13, region west.\nRecord 293: warehouse item 2, quantity 14, region west.\nRecord 294: warehouse item 3, quantity 15, region west.\nRecord 295: warehouse item 4, quantity 16, region west.\nRecord 296: warehouse item 5, quantity 17, region west.\nRecord 297: warehouse item 6, quantity 18, region west.\nRecord 298: warehouse item 7, quantity 19, region west.\nRecord 299: warehouse item 8, quantity 20, region west.\nRecord 300: warehouse item 9, quantity 21, region west.\nRecord 301: warehouse item 10, quantity 22, region west.\nRecord 302: warehouse item 11, quantity 23, region west.\nRecord 303: warehouse item 12, quantity 24, region west.\nRecord 304: warehouse item 13, quantity 25, region west.\nRecord 305: warehouse item 14, quantity 26, region west.\nRecord 306: warehouse item 15, quantity 27, region west.\nRecord 307: warehouse item 16, quantity 28, region west.\nRecord 308: warehouse item 17, quantity 29, region west.\nRecord 309: warehouse item 18, quantity 30, region west.\nRecord 310: warehouse item 19, quantity 0, region west.\nRecord 311: warehouse item 20, quantity 1, region west.\nRecord 312: warehouse item 21, quantity 2, region west.\nRecord 313: warehouse item 22, quantity 3, region west.\nRecord 314: warehouse item 23, quantity 4, region west.\nRecord 315: warehouse item 24, quantity 5, region west.\nRecord 316: warehouse item 25, quantity 6, region west.\nRecord 317: warehouse item 26, quantity 7, region west.\nRecord 318: warehouse item 27, quantity 8, region west.\nRecord 319: warehouse item 28, quantity 9, region west.\nRecord 320: warehouse item 29, quantity 10, region west.\nRecord 321: warehouse item 30, quantity 11, region west.\nRecord 322: warehouse item 31, quantity 12, region west.\nRecord 323: warehouse item 32, quantity 13, region west.\nRecord 324: warehouse item 33, quantity 14, region west.\nRecord 325: warehouse item 34, quantity 15, region west.\nRecord 326: warehouse item 35, quantity 16, region west.\nRecord 327: warehouse item 36, quantity 17, region west.\nRecord 328: warehouse item 37, quantity 18, region west.\nRecord 329: warehouse item 38, quantity 19, region west.\nRecord 330: warehouse item 39, quantity 20, region west.\nRecord 331: warehouse item 40, quantity 21, region west.\nRecord 332: warehouse item 41, quantity 22, region west.\nRecord 333: warehouse item 42, quantity 23, region west.\nRecord 334: warehouse item 43, quantity 24, region west.\nRecord 335: warehouse item 44, quantity 25, region west.\nRecord 336: warehouse item 45, quantity 26, region west.\nRecord 337: warehouse item 46, quantity 27, region west.\nRecord 338: warehouse item 47, quantity 28, region west.\nRecord 339: warehouse item 48, quantity 29, region west.\nRecord 340: warehouse item 49, quantity 30, region west.\nRecord 341: warehouse item 50, quantity 0, region west.\nRecord 342: warehouse item 51, quantity 1, region west.\nRecord 343: warehouse item 52, quantity 2, region west.\nRecord 344: warehouse item 53, quantity 3, region west.\nRecord 345: warehouse item 54, quantity 4, region west.\nRecord 346: warehouse item 55, quantity 5, region west.\nRecord 347: warehouse item 56, quantity 6, region west.\nRecord 348: warehouse item 57, quantity 7, region west.\nRecord 349: warehouse item 58, quantity 8, region west.\nRecord 350: warehouse item 59, quantity 9, region west.\nRecord 351: warehouse item 60, quantity 10, region west.\nRecord 352: warehouse item 61, quantity 11, region west.\nRecord 353: warehouse item 62, quantity 12, region west.\nRecord 354: warehouse item 63, quantity 13, region west.\nRecord 355: warehouse item 64, quantity 14, region west.\nRecord 356: warehouse item 65, quantity 15, region west.\nRecord 357: warehouse item 66, quantity 16, region west.\nRecord 358: warehouse item 67, quantity 17, region west.\nRecord 359: warehouse item 68, quantity 18, region west.\nRecord 360: warehouse item 69, quantity 19, region west.\nRecord 361: warehouse item 70, quantity 20, region west.\nRecord 362: warehouse item 71, quantity 21, region west.\nRecord 363: warehouse item 72, quantity 22, region west.\nRecord 364: warehouse item 73, quantity 23, region west.\nRecord 365: warehouse item 74, quantity 24, region west.\nRecord 366: warehouse item 75, quantity 25, region west.\nRecord 367: warehouse item 76, quantity 26, region west.\nRecord 368: warehouse item 77, quantity 27, region west.\nRecord 369: warehouse item 78, quantity 28, region west.\nRecord 370: warehouse item 79, quantity 29, region west.\nRecord 371: warehouse item 80, quantity 30, region west.\nRecord 372: warehouse item 81, quantity 0, region west.\nRecord 373: warehouse item 82, quantity 1, region west.\nRecord 374: warehouse item 83, quantity 2, region west.\nRecord 375: warehouse item 84, quantity 3, region west.\nRecord 376: warehouse item 85, quantity 4, region west.\nRecord 377: warehouse item 86, quantity 5, region west.\nRecord 378: warehouse item 87, quantity 6, region west.\nRecord 379: warehouse item 88, quantity 7, region west.\nRecord 380: warehouse item 89, quantity 8, region west.\nRecord 381: warehouse item 90, quantity 9, region west.\nRecord 382: warehouse item 91, quantity 10, region west.\nRecord 383: warehouse item 92, quantity 11, region west.\nRecord 384: warehouse item 93, quantity 12, region west.\nRecord 385: warehouse item 94, quantity 13, region west.\nRecord 386: warehouse item 95, quantity 14, region west.\nRecord 387: warehouse item 96, quantity 15, region west.\nRecord 388: warehouse item 0, quantity 16, region west.\nRecord 389: warehouse item 1, quantity 17, region west.\nRecord 390: warehouse item 2, quantity 18, region west.\nRecord 391: warehouse item 3, quantity 19, region west.\nRecord 392: warehouse item 4, quantity 20, region west.\nRecord 393: warehouse item 5, quantity 21, region west.\nRecord 394: warehouse item 6, quantity 22, region west.\nRecord 395: warehouse item 7, quantity 23, region west.\nRecord 396: warehouse item 8, quantity 24, region west.\nRecord 397: warehouse item 9, quantity 25, region west.\nRecord 398: warehouse item 10, quantity 26, region west.\nRecord 399: warehouse item 11, quantity 27, region west.\nRecord 400: warehouse item 12, quantity 28, region west.\nRecord 401: warehouse item 13, quantity 29, region west.\nRecord 402: warehouse item 14, quantity 30, region west.\nRecord 403: warehouse item 15, quantity 0, region west.\nRecord 404: warehouse item 16, quantity 1, region west.\nRecord 405: warehouse item 17, quantity 2, region west.\nRecord 406: warehouse item 18, quantity 3, region west.\nRecord 407: warehouse item 19, quantity 4, region west.\nRecord 408: warehouse item 20, quantity 5, region west.\nRecord 409: warehouse item 21, quantity 6, region west.\nRecord 410: warehouse item 22, quantity 7, region west.\nRecord 411: warehouse item 23, quantity 8, region west.\nRecord 412: warehouse item 24, quantity 9, region west.\nRecord 413: warehouse item 25, quantity 10, region west.\nRecord 414: warehouse item 26, quantity 11, region west.\nRecord 415: warehouse item 27, quantity 12, region west.\nRecord 416: warehouse item 28, quantity 13, region west.\nRecord 417: warehouse item 29, quantity 14, region west.\nRecord 418: warehouse item 30, quantity 15, region west.\nRecord 419: warehouse item 31, quantity 16, region west.\nRecord 420: warehouse item 32, quantity 17, region west.\nRecord 421: warehouse item 33, quantity 18, region west.\nRecord 422: warehouse item 34, quantity 19, region west.\nRecord 423: warehouse item 35, quantity 20, region west.\nRecord 424: warehouse item 36, quantity 21, region west.\nRecord 425: warehouse item 37, quantity 22, region west.\nRecord 426: warehouse item 38, quantity 23, region west.\nRecord 427: warehouse item 39, quantity 24, region west.\nRecord 428: warehouse item 40, quantity 25, region west.\nRecord 429: warehouse item 41, quantity 26, region west.\nRecord 430: warehouse item 42, quantity 27, region west.\nRecord 431: warehouse item 43, quantity 28, region west.\nRecord 432: warehouse item 44, quantity 29, region west.\nRecord 433: warehouse item 45, quantity 30, region west.\nRecord 434: warehouse item 46, quantity 0, region west.\nRecord 435: warehouse item 47, quantity 1, region west.\nRecord 436: warehouse item 48, quantity 2, region west.\nRecord 437: warehouse item 49, quantity 3, region west.\nRecord 438: warehouse item 50, quantity 4, region west.\nRecord 439: warehouse item 51, quantity 5, region west.\nRecord 440: warehouse item 52, quantity 6, region west.\nRecord 441: warehouse item 53, quantity 7, region west.\nRecord 442: warehouse item 54, quantity 8, region west.\nRecord 443: warehouse item 55, quantity 9, region west.\nRecord 444: warehouse item 56, quantity 10, region west.\nRecord 445: warehouse item 57, quantity 11, region west.\nRecord 446: warehouse item 58, quantity 12, region west.\nRecord 447: warehouse item 59, quantity 13, region west.\nRecord 448: warehouse item 60, quantity 14, region west.\nRecord 449: warehouse item 61, quantity 15, region west.\nRecord 450: warehouse item 62, quantity 16, region west.\nRecord 451: warehouse item 63, quantity 17, region west.\nRecord 452: warehouse item 64, quantity 18, region west.\nRecord 453: warehouse item 65, quantity 19, region west.\nRecord 454: warehouse item 66, quantity 20, region west.\nRecord 455: warehouse item 67, quantity 21, region west.\nRecord 456: warehouse item 68, quantity 22, region west.\nRecord 457: warehouse item 69, quantity 23, region west.\nRecord 458: warehouse item 70, quantity 24, region west.\nRecord 459: warehouse item 71, quantity 25, region west.\nRecord 460: warehouse item 72, quantity 26, region west.\nRecord 461: warehouse item 73, quantity 27, region west.\nRecord 462: warehouse item 74, quantity 28, region west.\nRecord 463: warehouse item 75, quantity 29, region west.\nRecord 464: warehouse item 76, quantity 30, region west.\nRecord 465: warehouse item 77, quantity 0, region west.\nRecord 466: warehouse item 78, quantity 1, region west.\nRecord 467: warehouse item 79, quantity 2, region west.\nRecord 468: warehouse item 80, quantity 3, region west.\nRecord 469: warehouse item 81, quantity 4, region west.\nRecord 470: warehouse item 82, quantity 5, region west.\nRecord 471: warehouse item 83, quantity 6, region west.\nRecord 472: warehouse item 84, quantity 7, region west.\nRecord 473: warehouse item 85, quantity 8, region west.\nRecord 474: warehouse item 86, quantity 9, region west.\nRecord 475: warehouse item 87, quantity 10, region west.\nRecord 476: warehouse item 88, quantity 11, region west.\nRecord 477: warehouse item 89, quantity 12, region west.\nRecord 478: warehouse item 90, quantity 13, region west.\nRecord 479: warehouse item 91, quantity 14, region west.\nRecord 480: warehouse item 92, quantity 15, region west.\nRecord 481: warehouse item 93, quantity 16, region west.\nRecord 482: warehouse item 94, quantity 17, region west.\nRecord 483: warehouse item 95, quantity 18, region west.\nRecord 484: warehouse item 96, quantity 19, region west.\nRecord 485: warehouse item 0, quantity 20, region west.\nRecord 486: warehouse item 1, quantity 21, region west.\nRecord 487: warehouse item 2, quantity 22, region west.\nRecord 488: warehouse item 3, quantity 23, region west.\nRecord 489: warehouse item 4, quantity 24, region west.\nRecord 490: warehouse item 5, quantity 25, region west.\nRecord 491: warehouse item 6, quantity 26, region west.\nRecord 492: warehouse item 7, quantity 27, region west.\nRecord 493: warehouse item 8, quantity 28, region west.\nRecord 494: warehouse item 9, quantity 29, region west.\nRecord 495: warehouse item 10, quantity 30, region west.\nRecord 496: warehouse item 11, quantity 0, region west.\nRecord 497: warehouse item 12, quantity 1, region west.\nRecord 498: warehouse item 13, quantity 2, region west.\nRecord 499: warehouse item 14, quantity 3, region west.\nRecord 500: warehouse item 15, quantity 4, region west.\nRecord 501: warehouse item 16, quantity 5, region west.\nRecord 502: warehouse item 17, quantity 6, region west.\nRecord 503: warehouse item 18, quantity 7, region west.\nRecord 504: warehouse item 19, quantity 8, region west.\nRecord 505: warehouse item 20, quantity 9, region west.\nRecord 506: warehouse item 21, quantity 10, region west.\nRecord 507: warehouse item 22, quantity 11, region west.\nRecord 508: warehouse item 23, quantity 12, region west.\nRecord 509: warehouse item 24, quantity 13, region west.\nRecord 510: warehouse item 25, quantity 14, region west.\nRecord 511: warehouse item 26, quantity 15, region west.\nRecord 512: warehouse item 27, quantity 16, region west.\nRecord 513: warehouse item 28, quantity 17, region west.\nRecord 514: warehouse item 29, quantity 18, region west.\nRecord 515: warehouse item 30, quantity 19, region west.\nRecord 516: warehouse item 31, quantity 20, region west.\nRecord 517: warehouse item 32, quantity 21, region west.\nRecord 518: warehouse item 33, quantity 22, region west.\nRecord 519: warehouse item 34, quantity 23, region west.\nRecord 520: warehouse item 35, quantity 24, region west.\nRecord 521: warehouse item 36, quantity 25, region west.\nRecord 522: warehouse item 37, quantity 26, region west.\nRecord 523: warehouse item 38, quantity 27, region west.\nRecord 524: warehouse item 39, quantity 28, region west.\nRecord 525: warehouse item 40, quantity 29, region west.\nRecord 526: warehouse item 41, quantity 30, region west.\nRecord 527: warehouse item 42, quantity 0, region west.\nRecord 528: warehouse item 43, quantity 1, region west.\nRecord 529: warehouse item 44, quantity 2, region west.\nRecord 530: warehouse item 45, quantity 3, region west.\nRecord 531: warehouse item 46, quantity 4, region west.\nRecord 532: warehouse item 47, quantity 5, region west.\nRecord 533: warehouse item 48, quantity 6, region west.\nRecord 534: warehouse item 49, quantity 7, region west.\nRecord 535: warehouse item 50, quantity 8, region west.\nRecord 536: warehouse item 51, quantity 9, region west.\nRecord 537: warehouse item 52, quantity 10, region west.\nRecord 538: warehouse item 53, quantity 11, region west.\nRecord 539: warehouse item 54, quantity 12, region west.\nRecord 540: warehouse item 55, quantity 13, region west.\nRecord 541: warehouse item 56, quantity 14, region west.\nRecord 542: warehouse item 57, quantity 15, region west.\nRecord 543: warehouse item 58, quantity 16, region west.\nRecord 544: warehouse item 59, quantity 17, region west.\nRecord 545: warehouse item 60, quantity 18, region west.\nRecord 546: warehouse item 61, quantity 19, region west.\nRecord 547: warehouse item 62, quantity 20, region west.\nRecord 548: warehouse item 63, quantity 21, region west.\nRecord 549: warehouse item 64, quantity 22, region west.\nRecord 550: warehouse item 65, quantity 23, region west.\nRecord 551: warehouse item 66, quantity 24, region west.\nRecord 552: warehouse item 67, quantity 25, region west.\nRecord 553: warehouse item 68, quantity 26, region west.\nRecord 554: warehouse item 69, quantity 27, region west.\nRecord 555: warehouse item 70, quantity 28, region west.\nRecord 556: warehouse item 71, quantity 29, region west.\nRecord 557: warehouse item 72, quantity 30, region west.\nRecord 558: warehouse item 73, quantity 0, region west.\nRecord 559: warehouse item 74, quantity 1, region west.\nRecord 560: warehouse item 75, quantity 2, region west.\nRecord 561: warehouse item 76, quantity 3, region west.\nRecord 562: warehouse item 77, quantity 4, region west.\nRecord 563: warehouse item 78, quantity 5, region west.\nRecord 564: warehouse item 79, quantity 6, region west.\nRecord 565: warehouse item 80, quantity 7, region west.\nRecord 566: warehouse item 81, quantity 8, region west.\nRecord 567: warehouse item 82, quantity 9, region west.\nRecord 568: warehouse item 83, quantity 10, region west.\nRecord 569: warehouse item 84, quantity 11, region west.\nRecord 570: warehouse item 85, quantity 12, region west.\nRecord 571: warehouse item 86, quantity 13, region west.\nRecord 572: warehouse item 87, quantity 14, region west.\nRecord 573: warehouse item 88, quantity 15, region west.\nRecord 574: warehouse item 89, quantity 16, region west.\nRecord 575: warehouse item 90, quantity 17, region west.\nRecord 576: warehouse item 91, quantity 18, region west.\nRecord 577: warehouse item 92, quantity 19, region west.\nRecord 578: warehouse item 93, quantity 20, region west.\nRecord 579: warehouse item 94, quantity 21, region west.\nRecord 580: warehouse item 95, quantity 22, region west.\nRecord 581: warehouse item 96, quantity 23, region west.\nRecord 582: warehouse item 0, quantity 24, region west.\nRecord 583: warehouse item 1, quantity 25, region west.\nRecord 584: warehouse item 2, quantity 26, region west.\nRecord 585: warehouse item 3, quantity 27, region west.\nRecord 586: warehouse item 4, quantity 28, region west.\nRecord 587: warehouse item 5, quantity 29, region west.\nRecord 588: warehouse item 6, quantity 30, region west.\nRecord 589: warehouse item 7, quantity 0, region west.\nRecord 590: warehouse item 8, quantity 1, region west.\nRecord 591: warehouse item 9, quantity 2, region west.\nRecord 592: warehouse item 10, quantity 3, region west.\nRecord 593: warehouse item 11, quantity 4, region west.\nRecord 594: warehouse item 12, quantity 5, region west.\nRecord 595: warehouse item 13, quantity 6, region west.\nRecord 596: warehouse item 14, quantity 7, region west.\nRecord 597: warehouse item 15, quantity 8, region west.\nRecord 598: warehouse item 16, quantity 9, region west.\nRecord 599: warehouse item 17, quantity 10, region west.\nRecord 600: warehouse item 18, quantity 11, region west.\nRecord 601: warehouse item 19, quantity 12, region west.\nRecord 602: warehouse item 20, quantity 13, region west.\nRecord 603: warehouse item 21, quantity 14, region west.\nRecord 604: warehouse item 22, quantity 15, region west.\nRecord 605: warehouse item 23, quantity 16, region west.\nRecord 606: warehouse item 24, quantity 17, region west.\nRecord 607: warehouse item 25, quantity 18, region west.\nRecord 608: warehouse item 26, quantity 19, region west.\nRecord 609: warehouse item 27, quantity 20, region west.\nRecord 610: warehouse item 28, quantity 21, region west.\nRecord 611: warehouse item 29, quantity 22, region west.\nRecord 612: warehouse item 30, quantity 23, region west.\nRecord 613: warehouse item 31, quantity 24, region west.\nRecord 614: warehouse item 32, quantity 25, region west.\nRecord 615: warehouse item 33, quantity 26, region west.\nRecord 616: warehouse item 34, quantity 27, region west.\nRecord 617: warehouse item 35, quantity 28, region west.\nRecord 618: warehouse item 36, quantity 29, region west.\nRecord 619: warehouse item 37, quantity 30, region west.\nRecord 620: warehouse item 38, quantity 0, region west.\nRecord 621: warehouse item 39, quantity 1, region west.\nRecord 622: warehouse item 40, quantity 2, region west.\nRecord 623: warehouse item 41, quantity 3, region west.\nRecord 624: warehouse item 42, quantity 4, region west.\nRecord 625: warehouse item 43, quantity 5, region west.\nRecord 626: warehouse item 44, quantity 6, region west.\nRecord 627: warehouse item 45, quantity 7, region west.\nRecord 628: warehouse item 46, quantity 8, region west.\nRecord 629: warehouse item 47, quantity 9, region west.\nRecord 630: warehouse item 48, quantity 10, region west.\nRecord 631: warehouse item 49, quantity 11, region west.\nRecord 632: warehouse item 50, quantity 12, region west.\nRecord 633: warehouse item 51, quantity 13, region west.\nRecord 634: warehouse item 52, quantity 14, region west.\nRecord 635: warehouse item 53, quantity 15, region west.\nRecord 636: warehouse item 54, quantity 16, region west.\nRecord 637: warehouse item 55, quantity 17, region west.\nRecord 638: warehouse item 56, quantity 18, region west.\nRecord 639: warehouse item 57, quantity 19, region west.\nRecord 640: warehouse item 58, quantity 20, region west.\nRecord 641: warehouse item 59, quantity 21, region west.\nRecord 642: warehouse item 60, quantity 22, region west.\nRecord 643: warehouse item 61, quantity 23, region west.\nRecord 644: warehouse item 62, quantity 24, region west.\nRecord 645: warehouse item 63, quantity 25, region west.\nRecord 646: warehouse item 64, quantity 26, region west.\nRecord 647: warehouse item 65, quantity 27, region west.\nRecord 648: warehouse item 66, quantity 28, region west.\nRecord 649: warehouse item 67, quantity 29, region west.\nRecord 650: warehouse item 68, quantity 30, region west.\nRecord 651: warehouse item 69, quantity 0, region west.\nRecord 652: warehouse item 70, quantity 1, region west.\nRecord 653: warehouse item 71, quantity 2, region west.\nRecord 654: warehouse item 72, quantity 3, region west.\nRecord 655: warehouse item 73, quantity 4, region west.\nRecord 656: warehouse item 74, quantity 5, region west.\nRecord 657: warehouse item 75, quantity 6, region west.\nRecord 658: warehouse item 76, quantity 7, region west.\nRecord 659: warehouse item 77, quantity 8, region west.\nRecord 660: warehouse item 78, quantity 9, region west.\nRecord 661: warehouse item 79, quantity 10, region west.\nRecord 662: warehouse item 80, quantity 11, region west.\nRecord 663: warehouse item 81, quantity 12, region west.\nRecord 664: warehouse item 82, quantity 13, region west.\nRecord 665: warehouse item 83, quantity 14, region west.\nRecord 666: warehouse item 84, quantity 15, region west.\nRecord 667: warehouse item 85, quantity 16, region west.\nRecord 668: warehouse item 86, quantity 17, region west.\nRecord 669: warehouse item 87, quantity 18, region west.\nRecord 670: warehouse item 88, quantity 19, region west.\nRecord 671: warehouse item 89, quantity 20, region west.\nRecord 672: warehouse item 90, quantity 21, region west.\nRecord 673: warehouse item 91, quantity 22, region west.\nRecord 674: warehouse item 92, quantity 23, region west.\nRecord 675: warehouse item 93, quantity 24, region west.\nRecord 676: warehouse item 94, quantity 25, region west.\nRecord 677: warehouse item 95, quantity 26, region west.\nRecord 678: warehouse item 96, quantity 27, region west.\nRecord 679: warehouse item 0, quantity 28, region west.\nRecord 680: warehouse item 1, quantity 29, region west.\nRecord 681: warehouse item 2, quantity 30, region west.\nRecord 682: warehouse item 3, quantity 0, region west.\nRecord 683: warehouse item 4, quantity 1, region west.\nRecord 684: warehouse item 5, quantity 2, region west.\nRecord 685: warehouse item 6, quantity 3, region west.\nRecord 686: warehouse item 7, quantity 4, region west.\nRecord 687: warehouse item 8, quantity 5, region west.\nRecord 688: warehouse item 9, quantity 6, region west.\nRecord 689: warehouse item 10, quantity 7, region west.\nRecord 690: warehouse item 11, quantity 8, region west.\nRecord 691: warehouse item 12, quantity 9, region west.\nRecord 692: warehouse item 13, quantity 10, region west.\nRecord 693: warehouse item 14, quantity 11, region west.\nRecord 694: warehouse item 15, quantity 12, region west.\nRecord 695: warehouse item 16, quantity 13, region west.\nRecord 696: warehouse item 17, quantity 14, region west.\nRecord 697: warehouse item 18, quantity 15, region west.\nRecord 698: warehouse item 19, quantity 16, region west.\nRecord 699: warehouse item 20, quantity 17, region west.\nRecord 700: warehouse item 21, quantity 18, region west.\nRecord 701: warehouse item 22, quantity 19, region west.\nRecord 702: warehouse item 23, quantity 20, region west.\nRecord 703: warehouse item 24, quantity 21, region west.\nRecord 704: warehouse item 25, quantity 22, region west.\nRecord 705: warehouse item 26, quantity 23, region west.\nRecord 706: warehouse item 27, quantity 24, region west.\nRecord 707: warehouse item 28, quantity 25, region west.\nRecord 708: warehouse item 29, quantity 26, region west.\nRecord 709: warehouse item 30, quantity 27, region west.\nRecord 710: warehouse item 31, quantity 28, region west.\nRecord 711: warehouse item 32, quantity 29, region west.\nRecord 712: warehouse item 33, quantity 30, region west.\nRecord 713: warehouse item 34, quantity 0, region west.\nRecord 714: warehouse item 35, quantity 1, region west.\nRecord 715: warehouse item 36, quantity 2, region west.\nRecord 716: warehouse item 37, quantity 3, region west.\nRecord 717: warehouse item 38, quantity 4, region west.\nRecord 718: warehouse item 39, quantity 5, region west.\nRecord 719: warehouse item 40, quantity 6, region west.\nRecord 720: warehouse item 41, quantity 7, region west.\nRecord 721: warehouse item 42, quantity 8, region west.\nRecord 722: warehouse item 43, quantity 9, region west.\nRecord 723: warehouse item 44, quantity 10, region west.\nRecord 724: warehouse item 45, quantity 11, region west.\nRecord 725: warehouse item 46, quantity 12, region west.\nRecord 726: warehouse item 47, quantity 13, region west.\nRecord 727: warehouse item 48, quantity 14, region west.\nRecord 728: warehouse item 49, quantity 15, region west.\nRecord 729: warehouse item 50, quantity 16, region west.\nRecord 730: warehouse item 51, quantity 17, region west.\nRecord 731: warehouse item 52, quantity 18, region west.\nRecord 732: warehouse item 53, quantity 19, region west.\nRecord 733: warehouse item 54, quantity 20, region west.\nRecord 734: warehouse item 55, quantity 21, region west.\nRecord 735: warehouse item 56, quantity 22, region west.\nRecord 736: warehouse item 57, quantity 23, region west.\nRecord 737: warehouse item 58, quantity 24, region west.\nRecord 738: warehouse item 59, quantity 25, region west.\nRecord 739: warehouse item 60, quantity 26, region west.\nRecord 740: warehouse item 61, quantity 27, region west.\nRecord 741: warehouse item 62, quantity 28, region west.\nRecord 742: warehouse item 63, quantity 29, region west.\nRecord 743: warehouse item 64, quantity 30, region west.\nRecord 744: warehouse item 65, quantity 0, region west.\nRecord 745: warehouse item 66, quantity 1, region west.\nRecord 746: warehouse item 67, quantity 2, region west.\nRecord 747: warehouse item 68, quantity 3, region west.\nRecord 748: warehouse item 69, quantity 4, region west.\nRecord 749: warehouse item 70, quantity 5, region west.\nRecord 750: warehouse item 71, quantity 6, region west.\nRecord 751: warehouse item 72, quantity 7, region west.\nRecord 752: warehouse item 73, quantity 8, region west.\nRecord 753: warehouse item 74, quantity 9, region west.\nRecord 754: warehouse item 75, quantity 10, region west.\nRecord 755: warehouse item 76, quantity 11, region west.\nRecord 756: warehouse item 77, quantity 12, region west.\nRecord 757: warehouse item 78, quantity 13, region west.\nRecord 758: warehouse item 79, quantity 14, region west.\nRecord 759: warehouse item 80, quantity 15, region west.\nRecord 760: warehouse item 81, quantity 16, region west.\nRecord 761: warehouse item 82, quantity 17, region west.\nRecord 762: warehouse item 83, quantity 18, region west.\nRecord 763: warehouse item 84, quantity 19, region west.\nRecord 764: warehouse item 85, quantity 20, region west.\nRecord 765: warehouse item 86, quantity 21, region west.\nRecord 766: warehouse item 87, quantity 22, region west.\nRecord 767: warehouse item 88, quantity 23, region west.\nRecord 768: warehouse item 89, quantity 24, region west.\nRecord 769: warehouse item 90, quantity 25, region west.\nRecord 770: warehouse item 91, quantity 26, region west.\nRecord 771: warehouse item 92, quantity 27, region west.\nRecord 772: warehouse item 93, quantity 28, region west.\nRecord 773: warehouse item 94, quantity 29, region west.\nRecord 774: warehouse item 95, quantity 30, region west.\nRecord 775: warehouse item 96, quantity 0, region west.\nRecord 776: warehouse item 0, quantity 1, region west.\nRecord 777: warehouse item 1, quantity 2, region west.\nRecord 778: warehouse item 2, quantity 3, region west.\nRecord 779: warehouse item 3, quantity 4, region west.\nRecord 780: warehouse item 4, quantity 5, region west.\nRecord 781: warehouse item 5, quantity 6, region west.\nRecord 782: warehouse item 6, quantity 7, region west.\nRecord 783: warehouse item 7, quantity 8, region west.\nRecord 784: warehouse item 8, quantity 9, region west.\nRecord 785: warehouse item 9, quantity 10, region west.\nRecord 786: warehouse item 10, quantity 11, region west.\nRecord 787: warehouse item 11, quantity 12, region west.\nRecord 788: warehouse item 12, quantity 13, region west.\nRecord 789: warehouse item 13, quantity 14, region west.\nRecord 790: warehouse item 14, quantity 15, region west.\nRecord 791: warehouse item 15, quantity 16, region west.\nRecord 792: warehouse item 16, quantity 17, region west.\nRecord 793: warehouse item 17, quantity 18, region west.\nRecord 794: warehouse item 18, quantity 19, region west.\nRecord 795: warehouse item 19, quantity 20, region west.\nRecord 796: warehouse item 20, quantity 21, region west.\nRecord 797: warehouse item 21, quantity 22, region west.\nRecord 798: warehouse item 22, quantity 23, region west.\nRecord 799: warehouse item 23, quantity 24, region west.\nRecord 800: warehouse item 24, quantity 25, region west.\nRecord 801: warehouse item 25, quantity 26, region west.\nRecord 802: warehouse item 26, quantity 27, region west.\nRecord 803: warehouse item 27, quantity 28, region west.\nRecord 804: warehouse item 28, quantity 29, region west.\nRecord 805: warehouse item 29, quantity 30, region west.\nRecord 806: warehouse item 30, quantity 0, region west.\nRecord 807: warehouse item 31, quantity 1, region west.\nRecord 808: warehouse item 32, quantity 2, region west.\nRecord 809: warehouse item 33, quantity 3, region west.\nRecord 810: warehouse item 34, quantity 4, region west.\nRecord 811: warehouse item 35, quantity 5, region west.\nRecord 812: warehouse item 36, quantity 6, region west.\nRecord 813: warehouse item 37, quantity 7, region west.\nRecord 814: warehouse item 38, quantity 8, region west.\nRecord 815: warehouse item 39, quantity 9, region west.\nRecord 816: warehouse item 40, quantity 10, region west.\nRecord 817: warehouse item 41, quantity 11, region west.\nRecord 818: warehouse item 42, quantity 12, region west.\nRecord 819: warehouse item 43, quantity 13, region west.\nRecord 820: warehouse item 44, quantity 14, region west.\nRecord 821: warehouse item 45, quantity 15, region west.\nRecord 822: warehouse item 46, quantity 16, region west.\nRecord 823: warehouse item 47, quantity 17, region west.\nRecord 824: warehouse item 48, quantity 18, region west.\nRecord 825: warehouse item 49, quantity 19, region west.\nRecord 826: warehouse item 50, quantity 20, region west.\nRecord 827: warehouse item 51, quantity 21, region west.\nRecord 828: warehouse item 52, quantity 22, region west.\nRecord 829: warehouse item 53, quantity 23, region west.\nRecord 830: warehouse item 54, quantity 24, region west.\nRecord 831: warehouse item 55, quantity 25, region west.\nRecord 832: warehouse item 56, quantity 26, region west.\nRecord 833: warehouse item 57, quantity 27, region west.\nRecord 834: warehouse item 58, quantity 28, region west.\nRecord 835: warehouse item 59, quantity 29, region west.\nRecord 836: warehouse item 60, quantity 30, region west.\nRecord 837: warehouse item 61, quantity 0, region west.\nRecord 838: warehouse item 62, quantity 1, region west.\nRecord 839: warehouse item 63, quantity 2, region west.\nRecord 840: warehouse item 64, quantity 3, region west.\nRecord 841: warehouse item 65, quantity 4, region west.\nRecord 842: warehouse item 66, quantity 5, region west.\nRecord 843: warehouse item 67, quantity 6, region west.\nRecord 844: warehouse item 68, quantity 7, region west.\nRecord 845: warehouse item 69, quantity 8, region west.\nRecord 846: warehouse item 70, quantity 9, region west.\nRecord 847: warehouse item 71, quantity 10, region west.\nRecord 848: warehouse item 72, quantity 11, region west.\nRecord 849: warehouse item 73, quantity 12, region west.\nRecord 850: warehouse item 74, quantity 13, region west.\nRecord 851: warehouse item 75, quantity 14, region west.\nRecord 852: warehouse item 76, quantity 15, region west.\nRecord 853: warehouse item 77, quantity 16, region west.\nRecord 854: warehouse item 78, quantity 17, region west.\nRecord 855: warehouse item 79, quantity 18, region west.\nRecord 856: warehouse item 80, quantity 19, region west.\nRecord 857: warehouse item 81, quantity 20, region west.\nRecord 858: warehouse item 82, quantity 21, region west.\nRecord 859: warehouse item 83, quantity 22, region west.\nRecord 860: warehouse item 84, quantity 23, region west.\nRecord 861: warehouse item 85, quantity 24, region west.\nRecord 862: warehouse item 86, quantity 25, region west.\nRecord 863: warehouse item 87, quantity 26, region west.\nRecord 864: warehouse item 88, quantity 27, region west.\nRecord 865: warehouse item 89, quantity 28, region west.\nRecord 866: warehouse item 90, quantity 29, region west.\nRecord 867: warehouse item 91, quantity 30, region west.\nRecord 868: warehouse item 92, quantity 0, region west.\nRecord 869: warehouse item 93, quantity 1, region west.\nRecord 870: warehouse item 94, quantity 2, region west.\nRecord 871: warehouse item 95, quantity 3, region west.\nRecord 872: warehouse item 96, quantity 4, region west.\nRecord 873: warehouse item 0, quantity 5, region west.\nRecord 874: warehouse item 1, quantity 6, region west.\nRecord 875: warehouse item 2, quantity 7, region west.\nRecord 876: warehouse item 3, quantity 8, region west.\nRecord 877: warehouse item 4, quantity 9, region west.\nRecord 878: warehouse item 5, quantity 10, region west.\nRecord 879: warehouse item 6, quantity 11, region west.\nRecord 880: warehouse item 7, quantity 12, region west.\nRecord 881: warehouse item 8, quantity 13, region west.\nRecord 882: warehouse item 9, quantity 14, region west.\nRecord 883: warehouse item 10, quantity 15, region west.\nRecord 884: warehouse item 11, quantity 16, region west.\nRecord 885: warehouse item 12, quantity 17, region west.\nRecord 886: warehouse item 13, quantity 18, region west.\nRecord 887: warehouse item 14, quantity 19, region west.\nRecord 888: warehouse item 15, quantity 20, region west.\nRecord 889: warehouse item 16, quantity 21, region west.\nRecord 890: warehouse item 17, quantity 22, region west.\nRecord 891: warehouse item 18, quantity 23, region west.\nRecord 892: warehouse item 19, quantity 24, region west.\nRecord 893: warehouse item 20, quantity 25, region west.\nRecord 894: warehouse item 21, quantity 26, region west.\nRecord 895: warehouse item 22, quantity 27, region west.\nRecord 896: warehouse item 23, quantity 28, region west.\nRecord 897: warehouse item 24, quantity 29, region west.\nRecord 898: warehouse item 25, quantity 30, region west.\nRecord 899: warehouse item 26, quantity 0, region west.\nRecord 900: warehouse item 27, quantity 1, region west.\nRecord 901: warehouse item 28, quantity 2, region west.\nRecord 902: warehouse item 29, quantity 3, region west.\nRecord 903: warehouse item 30, quantity 4, region west.\nRecord 904: warehouse item 31, quantity 5, region west.\nRecord 905: warehouse item 32, quantity 6, region west.\nRecord 906: warehouse item 33, quantity 7, region west.\nRecord 907: warehouse item 34, quantity 8, region west.\nRecord 908: warehouse item 35, quantity 9, region west.\nRecord 909: warehouse item 36, quantity 10, region west.\nRecord 910: warehouse item 37, quantity 11, region west.\nRecord 911: warehouse item 38, quantity 12, region west.\nRecord 912: warehouse item 39, quantity 13, region west.\nRecord 913: warehouse item 40, quantity 14, region west.\nRecord 914: warehouse item 41, quantity 15, region west.\nRecord 915: warehouse item 42, quantity 16, region west.\nRecord 916: warehouse item 43, quantity 17, region west.\nRecord 917: warehouse item 44, quantity 18, region west.\nRecord 918: warehouse item 45, quantity 19, region west.\nRecord 919: warehouse item 46, quantity 20, region west.\nRecord 920: warehouse item 47, quantity 21, region west.\nRecord 921: warehouse item 48, quantity 22, region west.\nRecord 922: warehouse item 49, quantity 23, region west.\nRecord 923: warehouse item 50, quantity 24, region west.\nRecord 924: warehouse item 51, quantity 25, region west.\nRecord 925: warehouse item 52, quantity 26, region west.\nRecord 926: warehouse item 53, quantity 27, region west.\nRecord 927: warehouse item 54, quantity 28, region west.\nRecord 928: warehouse item 55, quantity 29, region west.\nRecord 929: warehouse item 56, quantity 30, region west.\nRecord 930: warehouse item 57, quantity 0, region west.\nRecord 931: warehouse item 58, quantity 1, region west.\nRecord 932: warehouse item 59, quantity 2, region west.\nRecord 933: warehouse item 60, quantity 3, region west.\nRecord 934: warehouse item 61, quantity 4, region west.\nRecord 935: warehouse item 62, quantity 5, region west.\nRecord 936: warehouse item 63, quantity 6, region west.\nRecord 937: warehouse item 64, quantity 7, region west.\nRecord 938: warehouse item 65, quantity 8, region west.\nRecord 939: warehouse item 66, quantity 9, region west.\nRecord 940: warehouse item 67, quantity 10, region west.\nRecord 941: warehouse item 68, quantity 11, region west.\nRecord 942: warehouse item 69, quantity 12, region west.\nRecord 943: warehouse item 70, quantity 13, region west.\nRecord 944: warehouse item 71, quantity 14, region west.\nRecord 945: warehouse item 72, quantity 15, region west.\nRecord 946: warehouse item 73, quantity 16, region west.\nRecord 947: warehouse item 74, quantity 17, region west.\nRecord 948: warehouse item 75, quantity 18, region west.\nRecord 949: warehouse item 76, quantity 19, region west.\nRecord 950: warehouse item 77, quantity 20, region west.\nRecord 951: warehouse item 78, quantity 21, region west.\nRecord 952: warehouse item 79, quantity 22, region west.\nRecord 953: warehouse item 80, quantity 23, region west.\nRecord 954: warehouse item 81, quantity 24, region west.\nRecord 955: warehouse item 82, quantity 25, region west.\nRecord 956: warehouse item 83, quantity 26, region west.\nRecord 957: warehouse item 84, quantity 27, region west.\nRecord 958: warehouse item 85, quantity 28, region west.\nRecord 959: warehouse item 86, quantity 29, region west.\nRecord 960: warehouse item 87, quantity 30, region west.\nRecord 961: warehouse item 88, quantity 0, region west.\nRecord 962: warehouse item 89, quantity 1, region west.\nRecord 963: warehouse item 90, quantity 2, region west.\nRecord 964: warehouse item 91, quantity 3, region west.\nRecord 965: warehouse item 92, quantity 4, region west.\nRecord 966: warehouse item 93, quantity 5, region west.\nRecord 967: warehouse item 94, quantity 6, region west.\nRecord 968: warehouse item 95, quantity 7, region west.\nRecord 969: warehouse item 96, quantity 8, region west.\nRecord 970: warehouse item 0, quantity 9, region west.\nRecord 971: warehouse item 1, quantity 10, region west.\nRecord 972: warehouse item 2, quantity 11, region west.\nRecord 973: warehouse item 3, quantity 12, region west.\nRecord 974: warehouse item 4, quantity 13, region west.\nRecord 975: warehouse item 5, quantity 14, region west.\nRecord 976: warehouse item 6, quantity 15, region west.\nRecord 977: warehouse item 7, quantity 16, region west.\nRecord 978: warehouse item 8, quantity 17, region west.\nRecord 979: warehouse item 9, quantity 18, region west.\nRecord 980: warehouse item 10, quantity 19, region west.\nRecord 981: warehouse item 11, quantity 20, region west.\nRecord 982: warehouse item 12, quantity 21, region west.\nRecord 983: warehouse item 13, quantity 22, region west.\nRecord 984: warehouse item 14, quantity 23, region west.\nRecord 985: warehouse item 15, quantity 24, region west.\nRecord 986: warehouse item 16, quantity 25, region west.\nRecord 987: warehouse item 17, quantity 26, region west.\nRecord 988: warehouse item 18, quantity 27, region west.\nRecord 989: warehouse item 19, quantity 28, region west.\nRecord 990: warehouse item 20, quantity 29, region west.\nRecord 991: warehouse item 21, quantity 30, region west.\nRecord 992: warehouse item 22, quantity 0, region west.\nRecord 993: warehouse item 23, quantity 1, region west.\nRecord 994: warehouse item 24, quantity 2, region west.\nRecord 995: warehouse item 25, quantity 3, region west.\nRecord 996: warehouse item 26, quantity 4, region west.\nRecord 997: warehouse item 27, quantity 5, region west.\nRecord 998: warehouse item 28, quantity 6, region west.\nRecord 999: warehouse item 29, quantity 7, region west.\nRecord 1000: warehouse item 30, quantity 8, region west.\nRecord 1001: warehouse item 31, quantity 9, region west.\nRecord 1002: warehouse item 32, quantity 10, region west.\nRecord 1003: warehouse item 33, quantity 11, region west.\nRecord 1004: warehouse item 34, quantity 12, region west.\nRecord 1005: warehouse item 35, quantity 13, region west.\nRecord 1006: warehouse item 36, quantity 14, region west.\nRecord 1007: warehouse item 37, quantity 15, region west.\nRecord 1008: warehouse item 38, quantity 16, region west.\nRecord 1009: warehouse item 39, quantity 17, region west.\nRecord 1010: warehouse item 40, quantity 18, region west.\nRecord 1011: warehouse item 41, quantity 19, region west.\nRecord 1012: warehouse item 42, quantity 20, region west.\nRecord 1013: warehouse item 43, quantity 21, region west.\nRecord 1014: warehouse item 44, quantity 22, region west.\nRecord 1015: warehouse item 45, quantity 23, region west.\nRecord 1016: warehouse item 46, quantity 24, region west.\nRecord 1017: warehouse item 47, quantity 25, region west.\nRecord 1018: warehouse item 48, quantity 26, region west.\nRecord 1019: warehouse item 49, quantity 27, region west.\nRecord 1020: warehouse item 50, quantity 28, region west.\nRecord 1021: warehouse item 51, quantity 29, region west.\nRecord 1022: warehouse item 52, quantity 30, region west.\nRecord 1023: warehouse item 53, quantity 0, region west.\nRecord 1024: warehouse item 54, quantity 1, region west.\nRecord 1025: warehouse item 55, quantity 2, region west.\nRecord 1026: warehouse item 56, quantity 3, region west.\nRecord 1027: warehouse item 57, quantity 4, region west.\nRecord 1028: warehouse item 58, quantity 5, region west.\nRecord 1029: warehouse item 59, quantity 6, region west.\nRecord 1030: warehouse item 60, quantity 7, region west.\nRecord 1031: warehouse item 61, quantity 8, region west.\nRecord 1032: warehouse item 62, quantity 9, region west.\nRecord 1033: warehouse item 63, quantity 10, region west.\nRecord 1034: warehouse item 64, quantity 11, region west.\nRecord 1035: warehouse item 65, quantity 12, region west.\nRecord 1036: warehouse item 66, quantity 13, region west.\nRecord 1037: warehouse item 67, quantity 14, region west.\nRecord 1038: warehouse item 68, quantity 15, region west.\nRecord 1039: warehouse item 69, quantity 16, region west.\nRecord 1040: warehouse item 70, quantity 17, region west.\nRecord 1041: warehouse item 71, quantity 18, region west.\nRecord 1042: warehouse item 72, quantity 19, region west.\nRecord 1043: warehouse item 73, quantity 20, region west.\nRecord 1044: warehouse item 74, quantity 21, region west.\nRecord 1045: warehouse item 75, quantity 22, region west.\nRecord 1046: warehouse item 76, quantity 23, region west.\nRecord 1047: warehouse item 77, quantity 24, region west.\nRecord 1048: warehouse item 78, quantity 25, region west.\nRecord 1049: warehouse item 79, quantity 26, region west.\nRecord 1050: warehouse item 80, quantity 27, region west.\nRecord 1051: warehouse item 81, quantity 28, region west.\nRecord 1052: warehouse item 82, quantity 29, region west.\nRecord 1053: warehouse item 83, quantity 30, region west.\nRecord 1054: warehouse item 84, quantity 0, region west.\nRecord 1055: warehouse item 85, quantity 1, region west.\nRecord 1056: warehouse item 86, quantity 2, region west.\nRecord 1057: warehouse item 87, quantity 3, region west.\nRecord 1058: warehouse item 88, quantity 4, region west.\nRecord 1059: warehouse item 89, quantity 5, region west.\nRecord 1060: warehouse item 90, quantity 6, region west.\nRecord 1061: warehouse item 91, quantity 7, region west.\nRecord 1062: warehouse item 92, quantity 8, region west.\nRecord 1063: warehouse item 93, quantity 9, region west.\nRecord 1064: warehouse item 94, quantity 10, region west.\nRecord 1065: warehouse item 95, quantity 11, region west.\nRecord 1066: warehouse item 96, quantity 12, region west.\nRecord 1067: warehouse item 0, quantity 13, region west.\nRecord 1068: warehouse item 1, quantity 14, region west.\nRecord 1069: warehouse item 2, quantity 15, region west.\nRecord 1070: warehouse item 3, quantity 16, region west.\nRecord 1071: warehouse item 4, quantity 17, region west.\nRecord 1072: warehouse item 5, quantity 18, region west.\nRecord 1073: warehouse item 6, quantity 19, region west.\nRecord 1074: warehouse item 7, quantity 20, region west.\nRecord 1075: warehouse item 8, quantity 21, region west.\nRecord 1076: warehouse item 9, quantity 22, region west.\nRecord 1077: warehouse item 10, quantity 23, region west.\nRecord 1078: warehouse item 11, quantity 24, region west.\nRecord 1079: warehouse item 12, quantity 25, region west.\nRecord 1080: warehouse item 13, quantity 26, region west.\nRecord 1081: warehouse item 14, quantity 27, region west.\nRecord 1082: warehouse item 15, quantity 28, region west.\nRecord 1083: warehouse item 16, quantity 29, region west.\nRecord 1084: warehouse item 17, quantity 30, region west.\nRecord 1085: warehouse item 18, quantity 0, region west.\nRecord 1086: warehouse item 19, quantity 1, region west.\nRecord 1087: warehouse item 20, quantity 2, region west.\nRecord 1088: warehouse item 21, quantity 3, region west.\nRecord 1089: warehouse item 22, quantity 4, region west.\nRecord 1090: warehouse item 23, quantity 5, region west.\nRecord 1091: warehouse item 24, quantity 6, region west.\nRecord 1092: warehouse item 25, quantity 7, region west.\nRecord 1093: warehouse item 26, quantity 8, region west.\nRecord 1094: warehouse item 27, quantity 9, region west.\nRecord 1095: warehouse item 28, quantity 10, region west.\nRecord 1096: warehouse item 29, quantity 11, region west.\nRecord 1097: warehouse item 30, quantity 12, region west.\nRecord 1098: warehouse item 31, quantity 13, region west.\nRecord 1099: warehouse item 32, quantity 14, region west.\nRecord 1100: warehouse item 33, quantity 15, region west.\nRecord 1101: warehouse item 34, quantity 16, region west.\nRecord 1102: warehouse item 35, quantity 17, region west.\nRecord 1103: warehouse item 36, quantity 18, region west.\nRecord 1104: warehouse item 37, quantity 19, region west.\nRecord 1105: warehouse item 38, quantity 20, region west.\nRecord 1106: warehouse item 39, quantity 21, region west.\nRecord 1107: warehouse item 40, quantity 22, region west.\nRecord 1108: warehouse item 41, quantity 23, region west.\nRecord 1109: warehouse item 42, quantity 24, region west.\nRecord 1110: warehouse item 43, quantity 25, region west.\nRecord 1111: warehouse item 44, quantity 26, region west.\nRecord 1112: warehouse item 45, quantity 27, region west.\nRecord 1113: warehouse item 46, quantity 28, region west.\nRecord 1114: warehouse item 47, quantity 29, region west.\nRecord 1115: warehouse item 48, quantity 30, region west.\nRecord 1116: warehouse item 49, quantity 0, region west.\nRecord 1117: warehouse item 50, quantity 1, region west.\nRecord 1118: warehouse item 51, quantity 2, region west.\nRecord 1119: warehouse item 52, quantity 3, region west.\nRecord 1120: warehouse item 53, quantity 4, region west.\nRecord 1121: warehouse item 54, quantity 5, region west.\nRecord 1122: warehouse item 55, quantity 6, region west.\nRecord 1123: warehouse item 56, quantity 7, region west.\nRecord 1124: warehouse item 57, quantity 8, region west.\nRecord 1125: warehouse item 58, quantity 9, region west.\nRecord 1126: warehouse item 59, quantity 10, region west.\nRecord 1127: warehouse item 60, quantity 11, region west.\nRecord 1128: warehouse item 61, quantity 12, region west.\nRecord 1129: warehouse item 62, quantity 13, region west.\nRecord 1130: warehouse item 63, quantity 14, region west.\nRecord 1131: warehouse item 64, quantity 15, region west.\nRecord 1132: warehouse item 65, quantity 16, region west.\nRecord 1133: warehouse item 66, quantity 17, region west.\nRecord 1134: warehouse item 67, quantity 18, region west.\nRecord 1135: warehouse item 68, quantity 19, region west.\nRecord 1136: warehouse item 69, quantity 20, region west.\nRecord 1137: warehouse item 70, quantity 21, region west.\nRecord 1138: warehouse item 71, quantity 22, region west.\nRecord 1139: warehouse item 72, quantity 23, region west.\nRecord 1140: warehouse item 73, quantity 24, region west.\nRecord 1141: warehouse item 74, quantity 25, region west.\nRecord 1142: warehouse item 75, quantity 26, region west.\nRecord 1143: warehouse item 76, quantity 27, region west.\nRecord 1144: warehouse item 77, quantity 28, region west.\nRecord 1145: warehouse item 78, quantity 29, region west.\nRecord 1146: warehouse item 79, quantity 30, region west.\nRecord 1147: warehouse item 80, quantity 0, region west.\nRecord 1148: warehouse item 81, quantity 1, region west.\nRecord 1149: warehouse item 82, quantity 2, region west.\nRecord 1150: warehouse item 83, quantity 3, region west.\nRecord 1151: warehouse item 84, quantity 4, region west.\nRecord 1152: warehouse item 85, quantity 5, region west.\nRecord 1153: warehouse item 86, quantity 6, region west.\nRecord 1154: warehouse item 87, quantity 7, region west.\nRecord 1155: warehouse item 88, quantity 8, region west.\nRecord 1156: warehouse item 89, quantity 9, region west.\nRecord 1157: warehouse item 90, quantity 10, region west.\nRecord 1158: warehouse item 91, quantity 11, region west.\nRecord 1159: warehouse item 92, quantity 12, region west.\nRecord 1160: warehouse item 93, quantity 13, region west.\nRecord 1161: warehouse item 94, quantity 14, region west.\nRecord 1162: warehouse item 95, quantity 15, region west.\nRecord 1163: warehouse item 96, quantity 16, region west.\nRecord 1164: warehouse item 0, quantity 17, region west.\nRecord 1165: warehouse item 1, quantity 18, region west.\nRecord 1166: warehouse item 2, quantity 19, region west.\nRecord 1167: warehouse item 3, quantity 20, region west.\nRecord 1168: warehouse item 4, quantity 21, region west.\nRecord 1169: warehouse item 5, quantity 22, region west.\nRecord 1170: warehouse item 6, quantity 23, region west.\nRecord 1171: warehouse item 7, quantity 24, region west.\nRecord 1172: warehouse item 8, quantity 25, region west.\nRecord 1173: warehouse item 9, quantity 26, region west.\nRecord 1174: warehouse item 10, quantity 27, region west.\nRecord 1175: warehouse item 11, quantity 28, region west.\nRecord 1176: warehouse item 12, quantity 29, region west.\nRecord 1177: warehouse item 13, quantity 30, region west.\nRecord 1178: warehouse item 14, quantity 0, region west.\nRecord 1179: warehouse item 15, quantity 1, region west.\nRecord 1180: warehouse item 16, quantity 2, region west.\nRecord 1181: warehouse item 17, quantity 3, region west.\nRecord 1182: warehouse item 18, quantity 4, region west.\nRecord 1183: warehouse item 19, quantity 5, region west.\nRecord 1184: warehouse item 20, quantity 6, region west.\nRecord 1185: warehouse item 21, quantity 7, region west.\nRecord 1186: warehouse item 22, quantity 8, region west.\nRecord 1187: warehouse item 23, quantity 9, region west.\nRecord 1188: warehouse item 24, quantity 10, region west.\nRecord 1189: warehouse item 25, quantity 11, region west.\nRecord 1190: warehouse item 26, quantity 12, region west.\nRecord 1191: warehouse item 27, quantity 13, region west.\nRecord 1192: warehouse item 28, quantity 14, region west.\nRecord 1193: warehouse item 29, quantity 15, region west.\nRecord 1194: warehouse item 30, quantity 16, region west.\nRecord 1195: warehouse item 31, quantity 17, region west.\nRecord 1196: warehouse item 32, quantity 18, region west.\nRecord 1197: warehouse item 33, quantity 19, region west.\nRecord 1198: warehouse item 34, quantity 20, region west.\nRecord 1199: warehouse item 35, quantity 21, region west.\nEnd of reference records.\nWrite a Python function stable_unique(values) that returns a new list of distinct integers in first-occurrence order without modifying values. Include assert tests for duplicates, negatives, and empty input. Return only Python code, no explanation."
+  },
+  "dsh_fixture": {
+    "context_tokens": 8192,
+    "temperature": 0,
+    "thinking": false,
+    "prompts": {
+      "extract": "Return only a JSON object with keys date (YYYY-MM-DD), time (24-hour HH:MM), location, and budget_usd (number). Extract the current values. Bulletin: The November 12 draft said 18:00 in Room 105 and $15,000. FINAL PUBLIC MEETING NOTICE: Tuesday, November 17, 2026 at 6:30 p.m. in Room 204. The revised capital item for consideration is $12,800. The December meeting will be announced later.",
+      "lookup": "Read config.ts using the available tool. Which line declares the fallback retry limit and what is its numeric value? Reply only in the format config.ts:LINE = VALUE, replacing LINE and VALUE.",
+      "patch": "Fix fees.py using the available tools. Inspect the file first. The total_fee(base, surcharge) function should add base and surcharge, including for zero and negative inputs. Change only the faulty return expression. When finished reply PATCHED."
+    },
+    "expected_extraction": {
+      "date": "2026-11-17",
+      "time": "18:30",
+      "location": "Room 204",
+      "budget_usd": 12800
+    },
+    "expected_lookup": "config.ts:4 = 7",
+    "inputs": {
+      "config.ts": "export const appName = \"Mesa Ledger\";\nexport const timeoutMs = 5000;\nexport const retries = 2;\nexport const fallbackRetryLimit = 7;\n",
+      "fees.py": "def total_fee(base, surcharge):\n    return base - surcharge\n"
+    },
+    "expected_patched_fees.py": "def total_fee(base, surcharge):\n    return base + surcharge\n"
+  },
+  "direct_runs": {
+    "Halo": [
+      {
+        "context_tokens": 8192,
+        "startup_to_ready_s": 7.591615700046532,
+        "free_before_start_gib": {
+          "ram": 18.36809539794922,
+          "commit": 16.274951934814453
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 2.4483587000286207,
+            "ttft_s": 2.2119643000187352,
+            "stream_decode_s": 0.23639440000988543,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 2192.928,
+              "prompt_per_token_ms": 115.41726315789474,
+              "prompt_per_second": 8.6642151497906,
+              "predicted_n": 3,
+              "predicted_ms": 236.525,
+              "predicted_per_token_ms": 118.2625,
+              "predicted_per_second": 8.455765775288024
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 4.9929795999778435,
+            "ttft_s": 0.9158053999999538,
+            "stream_decode_s": 4.07717419997789,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 898.635,
+              "prompt_per_token_ms": 14.264047619047618,
+              "prompt_per_second": 70.10632793069489,
+              "predicted_n": 151,
+              "predicted_ms": 4076.871,
+              "predicted_per_token_ms": 27.17914,
+              "predicted_per_second": 36.79292280771209
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 4.349258900037967,
+            "ttft_s": 0.1520924000069499,
+            "stream_decode_s": 4.197166500031017,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 127.763,
+              "prompt_per_token_ms": 2.0279841269841272,
+              "prompt_per_second": 493.10050640639304,
+              "predicted_n": 151,
+              "predicted_ms": 4196.873,
+              "predicted_per_token_ms": 27.97915333333333,
+              "predicted_per_second": 35.74089566207984
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 4.260740700061433,
+            "ttft_s": 0.13563530007377267,
+            "stream_decode_s": 4.12510539998766,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 121.927,
+              "prompt_per_token_ms": 1.9353492063492064,
+              "prompt_per_second": 516.702617139764,
+              "predicted_n": 151,
+              "predicted_ms": 4124.939,
+              "predicted_per_token_ms": 27.499593333333337,
+              "predicted_per_second": 36.36417411263536
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 12.424864100059494,
+            "ttft_s": 7.198301800061017,
+            "stream_decode_s": 5.226562299998477,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 182,
+              "total_tokens": 6305,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 7158.707,
+              "prompt_per_token_ms": 1.1691502531438838,
+              "prompt_per_second": 855.3220574609352,
+              "predicted_n": 182,
+              "predicted_ms": 5226.28,
+              "predicted_per_token_ms": 28.874475138121547,
+              "predicted_per_second": 34.63266415117445
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          }
+        ]
+      },
+      {
+        "context_tokens": 32768,
+        "startup_to_ready_s": 3.1779361000517383,
+        "free_before_start_gib": {
+          "ram": 18.36052703857422,
+          "commit": 14.976463317871094
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 0.20673039997927845,
+            "ttft_s": 0.1492011999944225,
+            "stream_decode_s": 0.05752919998485595,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 147.265,
+              "prompt_per_token_ms": 7.75078947368421,
+              "prompt_per_second": 129.01911520048893,
+              "predicted_n": 3,
+              "predicted_ms": 57.328,
+              "predicted_per_token_ms": 28.664,
+              "predicted_per_second": 34.886966229416686
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 4.121801599976607,
+            "ttft_s": 0.14221209997776896,
+            "stream_decode_s": 3.9795894999988377,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 124.41,
+              "prompt_per_token_ms": 1.9747619047619047,
+              "prompt_per_second": 506.39016156257543,
+              "predicted_n": 151,
+              "predicted_ms": 3979.315,
+              "predicted_per_token_ms": 26.528766666666666,
+              "predicted_per_second": 37.694929906277835
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 4.126668900018558,
+            "ttft_s": 0.16288440010976046,
+            "stream_decode_s": 3.9637844999087974,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 121.282,
+              "prompt_per_token_ms": 1.925111111111111,
+              "prompt_per_second": 519.4505367655547,
+              "predicted_n": 151,
+              "predicted_ms": 3963.652,
+              "predicted_per_token_ms": 26.42434666666667,
+              "predicted_per_second": 37.843887404847855
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 4.062235799967311,
+            "ttft_s": 0.14813410001806915,
+            "stream_decode_s": 3.914101699949242,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 115.551,
+              "prompt_per_token_ms": 1.834142857142857,
+              "prompt_per_second": 545.2138016979516,
+              "predicted_n": 151,
+              "predicted_ms": 3913.777,
+              "predicted_per_token_ms": 26.091846666666665,
+              "predicted_per_second": 38.32614888380201
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 11.132721200003289,
+            "ttft_s": 6.21074090001639,
+            "stream_decode_s": 4.921980299986899,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 182,
+              "total_tokens": 6305,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 6179.592,
+              "prompt_per_token_ms": 1.0092425281724644,
+              "prompt_per_second": 990.842113848293,
+              "predicted_n": 182,
+              "predicted_ms": 4921.978,
+              "predicted_per_token_ms": 27.19324861878453,
+              "predicted_per_second": 36.77383360917095
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-1200",
+            "wall_s": 38.739480299991556,
+            "ttft_s": 32.3399933000328,
+            "stream_decode_s": 6.399486999958754,
+            "usage": {
+              "prompt_tokens": 24842,
+              "completion_tokens": 213,
+              "total_tokens": 25055,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 24842,
+              "prompt_ms": 32326.906,
+              "prompt_per_token_ms": 1.3013004589002495,
+              "prompt_per_second": 768.4620359275955,
+              "predicted_n": 213,
+              "predicted_ms": 6399.281,
+              "predicted_per_token_ms": 30.185287735849055,
+              "predicted_per_second": 33.12872180484027
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3], \"Failed: duplicates\"\nassert stable_unique([-1, -2, -1, 0]) == [-1, -2, 0], \"Failed: negatives\"\nassert stable_unique([]) == [], \"Failed: empty input\"\nassert stable_unique([5]) == [5], \"Failed: single element\"\nassert stable_unique([1, 2, 3]) == [1, 2, 3], \"Failed: no duplicates\"\n```",
+            "functional_pass": true
+          }
+        ]
+      }
+    ],
+    "5060 Ti": [
+      {
+        "context_tokens": 8192,
+        "startup_to_ready_s": 3.20333849999588,
+        "free_before_start_gib": {
+          "ram": 18.73807144165039,
+          "commit": 20.35639190673828
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 0.10782719997223467,
+            "ttft_s": 0.07437420001951978,
+            "stream_decode_s": 0.03345299995271489,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 62.999,
+              "prompt_per_token_ms": 3.315736842105263,
+              "prompt_per_second": 301.5920887633137,
+              "predicted_n": 3,
+              "predicted_ms": 33.35,
+              "predicted_per_token_ms": 16.675,
+              "predicted_per_second": 59.97001499250374
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 2.234744800021872,
+            "ttft_s": 0.12801039998885244,
+            "stream_decode_s": 2.1067344000330195,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 88.639,
+              "prompt_per_token_ms": 1.406968253968254,
+              "prompt_per_second": 710.7480905696139,
+              "predicted_n": 151,
+              "predicted_ms": 2106.741,
+              "predicted_per_token_ms": 14.04494,
+              "predicted_per_second": 71.20001936640527
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 2.1869232999742962,
+            "ttft_s": 0.08689769997727126,
+            "stream_decode_s": 2.100025599997025,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 60.648,
+              "prompt_per_token_ms": 0.9626666666666667,
+              "prompt_per_second": 1038.781163434903,
+              "predicted_n": 151,
+              "predicted_ms": 2099.982,
+              "predicted_per_token_ms": 13.99988,
+              "predicted_per_second": 71.42918367871725
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 2.1951735999900848,
+            "ttft_s": 0.09625890001188964,
+            "stream_decode_s": 2.098914699978195,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 56.818,
+              "prompt_per_token_ms": 0.9018730158730158,
+              "prompt_per_second": 1108.8035481713541,
+              "predicted_n": 151,
+              "predicted_ms": 2098.923,
+              "predicted_per_token_ms": 13.992819999999998,
+              "predicted_per_second": 71.4652228785906
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 4.430215500004124,
+            "ttft_s": 1.789692600024864,
+            "stream_decode_s": 2.64052289997926,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 182,
+              "total_tokens": 6305,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 1752.605,
+              "prompt_per_token_ms": 0.2862330556916544,
+              "prompt_per_second": 3493.6565854827527,
+              "predicted_n": 182,
+              "predicted_ms": 2640.48,
+              "predicted_per_token_ms": 14.588287292817679,
+              "predicted_per_second": 68.54814276192208
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          }
+        ]
+      },
+      {
+        "context_tokens": 32768,
+        "startup_to_ready_s": 2.9077379999798723,
+        "free_before_start_gib": {
+          "ram": 19.39159393310547,
+          "commit": 20.744937896728516
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 0.1011651000007987,
+            "ttft_s": 0.06696640001609921,
+            "stream_decode_s": 0.03419869998469949,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 55.507,
+              "prompt_per_token_ms": 2.9214210526315787,
+              "prompt_per_second": 342.2991694741204,
+              "predicted_n": 3,
+              "predicted_ms": 34.192,
+              "predicted_per_token_ms": 17.096,
+              "predicted_per_second": 58.493214787084696
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 2.1880338999908417,
+            "ttft_s": 0.08984939998481423,
+            "stream_decode_s": 2.0981845000060275,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 77.06,
+              "prompt_per_token_ms": 1.2231746031746031,
+              "prompt_per_second": 817.5447703088502,
+              "predicted_n": 151,
+              "predicted_ms": 2098.04,
+              "predicted_per_token_ms": 13.986933333333333,
+              "predicted_per_second": 71.49530037558864
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 2.1985800999682397,
+            "ttft_s": 0.08524009998654947,
+            "stream_decode_s": 2.11333999998169,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 54.647,
+              "prompt_per_token_ms": 0.8674126984126984,
+              "prompt_per_second": 1152.8537705638005,
+              "predicted_n": 151,
+              "predicted_ms": 2113.235,
+              "predicted_per_token_ms": 14.088233333333335,
+              "predicted_per_second": 70.9812207350342
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 2.167911200027447,
+            "ttft_s": 0.06898420001380146,
+            "stream_decode_s": 2.0989270000136457,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 57.067,
+              "prompt_per_token_ms": 0.9058253968253969,
+              "prompt_per_second": 1103.965514220127,
+              "predicted_n": 151,
+              "predicted_ms": 2098.983,
+              "predicted_per_token_ms": 13.99322,
+              "predicted_per_second": 71.46318002575532
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 4.400883399997838,
+            "ttft_s": 1.7763931999797933,
+            "stream_decode_s": 2.6244902000180446,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 182,
+              "total_tokens": 6305,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 1742.67,
+              "prompt_per_token_ms": 0.28461048505634495,
+              "prompt_per_second": 3513.573998519513,
+              "predicted_n": 182,
+              "predicted_ms": 2624.366,
+              "predicted_per_token_ms": 14.499259668508287,
+              "predicted_per_second": 68.969038617327
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-1200",
+            "wall_s": 10.958337799995206,
+            "ttft_s": 7.564220700005535,
+            "stream_decode_s": 3.3941170999896713,
+            "usage": {
+              "prompt_tokens": 24842,
+              "completion_tokens": 213,
+              "total_tokens": 25055,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 24842,
+              "prompt_ms": 7529.203,
+              "prompt_per_token_ms": 0.3030836084051204,
+              "prompt_per_second": 3299.4196065639353,
+              "predicted_n": 213,
+              "predicted_ms": 3393.703,
+              "predicted_per_token_ms": 16.008033018867923,
+              "predicted_per_second": 62.46863676638763
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3], \"Failed: duplicates\"\nassert stable_unique([-1, -2, -1, 0]) == [-1, -2, 0], \"Failed: negatives\"\nassert stable_unique([]) == [], \"Failed: empty input\"\nassert stable_unique([5]) == [5], \"Failed: single element\"\nassert stable_unique([1, 2, 3]) == [1, 2, 3], \"Failed: no duplicates\"\n```",
+            "functional_pass": true
+          }
+        ]
+      }
+    ],
+    "5070 Ti": [
+      {
+        "context_tokens": 8192,
+        "startup_to_ready_s": 2.895451200020034,
+        "free_before_start_gib": {
+          "ram": 13.26849365234375,
+          "commit": 19.798778533935547
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 0.07454330002656206,
+            "ttft_s": 0.05314100004034117,
+            "stream_decode_s": 0.021402299986220896,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 51.6,
+              "prompt_per_token_ms": 2.7157894736842105,
+              "prompt_per_second": 368.21705426356584,
+              "predicted_n": 3,
+              "predicted_ms": 21.401,
+              "predicted_per_token_ms": 10.7005,
+              "predicted_per_second": 93.45357693565721
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 1.2261940999887884,
+            "ttft_s": 0.08681639999849722,
+            "stream_decode_s": 1.1393776999902911,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 148,
+              "total_tokens": 211,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 74.297,
+              "prompt_per_token_ms": 1.1793174603174603,
+              "prompt_per_second": 847.9481001924707,
+              "predicted_n": 148,
+              "predicted_ms": 1139.362,
+              "predicted_per_token_ms": 7.750761904761905,
+              "predicted_per_second": 129.01957411252965
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 1.2402760999975726,
+            "ttft_s": 0.08246080001117662,
+            "stream_decode_s": 1.157815299986396,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 43.202,
+              "prompt_per_token_ms": 0.6857460317460318,
+              "prompt_per_second": 1458.2658210268044,
+              "predicted_n": 151,
+              "predicted_ms": 1157.736,
+              "predicted_per_token_ms": 7.718240000000001,
+              "predicted_per_second": 129.56321648458714
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 1.2362167999963276,
+            "ttft_s": 0.0753757999627851,
+            "stream_decode_s": 1.1608410000335425,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 39.012,
+              "prompt_per_token_ms": 0.6192380952380953,
+              "prompt_per_second": 1614.887726853276,
+              "predicted_n": 151,
+              "predicted_ms": 1160.773,
+              "predicted_per_token_ms": 7.738486666666666,
+              "predicted_per_second": 129.22423247267125
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 2.5160138999926858,
+            "ttft_s": 0.9702141000307165,
+            "stream_decode_s": 1.5457997999619693,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 191,
+              "total_tokens": 6314,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 937.564,
+              "prompt_per_token_ms": 0.15312167238281887,
+              "prompt_per_second": 6530.754167182187,
+              "predicted_n": 191,
+              "predicted_ms": 1547.685,
+              "predicted_per_token_ms": 8.145710526315789,
+              "predicted_per_second": 122.76399913419075
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5, 5, 5]) == [5]\nassert stable_unique([1, 2, 3]) == [1, 2, 3]\n```",
+            "functional_pass": true
+          }
+        ]
+      },
+      {
+        "context_tokens": 32768,
+        "startup_to_ready_s": 2.652548999991268,
+        "free_before_start_gib": {
+          "ram": 13.459148406982422,
+          "commit": 19.76514434814453
+        },
+        "server_exited": true,
+        "listener_closed": true,
+        "cases": [
+          {
+            "prompt_id": "warmup",
+            "wall_s": 0.09176800004206598,
+            "ttft_s": 0.07084599998779595,
+            "stream_decode_s": 0.02092200005427003,
+            "usage": {
+              "prompt_tokens": 19,
+              "completion_tokens": 3,
+              "total_tokens": 22,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 19,
+              "prompt_ms": 44.879,
+              "prompt_per_token_ms": 2.362052631578947,
+              "prompt_per_second": 423.3605918135431,
+              "predicted_n": 3,
+              "predicted_ms": 20.886,
+              "predicted_per_token_ms": 10.443,
+              "predicted_per_second": 95.75792396820837
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "42",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-0",
+            "wall_s": 1.2371201000059955,
+            "ttft_s": 0.08585289999609813,
+            "stream_decode_s": 1.1512672000098974,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 148,
+              "total_tokens": 211,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 65.88,
+              "prompt_per_token_ms": 1.0457142857142856,
+              "prompt_per_second": 956.2841530054645,
+              "predicted_n": 148,
+              "predicted_ms": 1151.279,
+              "predicted_per_token_ms": 7.831829931972789,
+              "predicted_per_second": 127.68408005357519
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-1",
+            "wall_s": 1.2275045000133105,
+            "ttft_s": 0.06592240004101768,
+            "stream_decode_s": 1.1615820999722928,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 37.027,
+              "prompt_per_token_ms": 0.5877301587301588,
+              "prompt_per_second": 1701.4610959570043,
+              "predicted_n": 151,
+              "predicted_ms": 1161.546,
+              "predicted_per_token_ms": 7.74364,
+              "predicted_per_second": 129.1382347319865
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "code-2",
+            "wall_s": 1.206497400009539,
+            "ttft_s": 0.04480570001760498,
+            "stream_decode_s": 1.161691699991934,
+            "usage": {
+              "prompt_tokens": 63,
+              "completion_tokens": 151,
+              "total_tokens": 214,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 63,
+              "prompt_ms": 34.003,
+              "prompt_per_token_ms": 0.5397301587301587,
+              "prompt_per_second": 1852.7776960856395,
+              "predicted_n": 151,
+              "predicted_ms": 1161.479,
+              "predicted_per_token_ms": 7.743193333333334,
+              "predicted_per_second": 129.14568408038372
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 2]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5]) == [5]\nassert stable_unique([1, 1, 1, 1]) == [1]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-300",
+            "wall_s": 2.480939299974125,
+            "ttft_s": 0.9323731999611482,
+            "stream_decode_s": 1.5485661000129767,
+            "usage": {
+              "prompt_tokens": 6123,
+              "completion_tokens": 191,
+              "total_tokens": 6314,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 6123,
+              "prompt_ms": 918.038,
+              "prompt_per_token_ms": 0.14993271272252165,
+              "prompt_per_second": 6669.658554438923,
+              "predicted_n": 191,
+              "predicted_ms": 1548.545,
+              "predicted_per_token_ms": 8.150236842105263,
+              "predicted_per_second": 122.69582091576287
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3]\nassert stable_unique([-1, -2, -1, -3]) == [-1, -2, -3]\nassert stable_unique([]) == []\nassert stable_unique([5, 5, 5]) == [5]\nassert stable_unique([1, 2, 3]) == [1, 2, 3]\n```",
+            "functional_pass": true
+          },
+          {
+            "prompt_id": "document-1200",
+            "wall_s": 5.81818550004391,
+            "ttft_s": 3.9271996000315994,
+            "stream_decode_s": 1.8909859000123106,
+            "usage": {
+              "prompt_tokens": 24842,
+              "completion_tokens": 213,
+              "total_tokens": 25055,
+              "cached_prompt_tokens": 0
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 24842,
+              "prompt_ms": 3913.294,
+              "prompt_per_token_ms": 0.15752733274293534,
+              "prompt_per_second": 6348.104691341872,
+              "predicted_n": 213,
+              "predicted_ms": 1890.74,
+              "predicted_per_token_ms": 8.918584905660378,
+              "predicted_per_second": 112.1254112146567
+            },
+            "finish_reason": "stop",
+            "fixture_reply": "```python\ndef stable_unique(values):\n    \"\"\"\n    Returns a new list of distinct integers in first-occurrence order.\n    Does not modify the original list.\n    \"\"\"\n    seen = set()\n    result = []\n    for value in values:\n        if value not in seen:\n            seen.add(value)\n            result.append(value)\n    return result\n\n# Assert tests\nassert stable_unique([1, 2, 2, 3, 1]) == [1, 2, 3], \"Failed: duplicates\"\nassert stable_unique([-1, -2, -1, 0]) == [-1, -2, 0], \"Failed: negatives\"\nassert stable_unique([]) == [], \"Failed: empty input\"\nassert stable_unique([5]) == [5], \"Failed: single element\"\nassert stable_unique([1, 2, 3]) == [1, 2, 3], \"Failed: no duplicates\"\n```",
+            "functional_pass": true
+          }
+        ]
+      }
+    ]
+  },
+  "dsh_runs": {
+    "Halo": {
+      "web": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 3566.5439000000006,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 1526.6530999999995,
+                "first_answer_ms": 1526.6530999999995,
+                "wall_ms": 3176.8783999999996,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1349,
+                  "completion_tokens": 63,
+                  "total_tokens": 1412,
+                  "cached_prompt_tokens": 0
+                },
+                "timings": {
+                  "cache_n": 0,
+                  "prompt_n": 1349,
+                  "prompt_ms": 1433.308,
+                  "prompt_per_token_ms": 1.0624966641957005,
+                  "prompt_per_second": 941.1794254968228,
+                  "predicted_n": 63,
+                  "predicted_ms": 1650.392,
+                  "predicted_per_token_ms": 26.619225806451613,
+                  "predicted_per_second": 37.566832607041235
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 2065.0235999999995,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 836.1867000000002,
+                "first_answer_ms": null,
+                "wall_ms": 1314.2237000000005,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1265,
+                  "completion_tokens": 26,
+                  "total_tokens": 1291,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 304,
+                  "prompt_ms": 644.768,
+                  "prompt_per_token_ms": 2.120947368421053,
+                  "prompt_per_second": 471.48741873045805,
+                  "predicted_n": 26,
+                  "predicted_ms": 663.369,
+                  "predicted_per_token_ms": 26.534760000000002,
+                  "predicted_per_second": 37.68641585603186
+                }
+              },
+              {
+                "first_generated_ms": 145.29159999999865,
+                "first_answer_ms": 145.29159999999865,
+                "wall_ms": 340.3212999999996,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1355,
+                  "completion_tokens": 8,
+                  "total_tokens": 1363,
+                  "cached_prompt_tokens": 1290
+                },
+                "timings": {
+                  "cache_n": 1290,
+                  "prompt_n": 65,
+                  "prompt_ms": 139.528,
+                  "prompt_per_token_ms": 2.146584615384615,
+                  "prompt_per_second": 465.8563155782352,
+                  "predicted_n": 8,
+                  "predicted_ms": 195.002,
+                  "predicted_per_token_ms": 27.857428571428574,
+                  "predicted_per_second": 35.89706772238233
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 4494.5699,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 616.9537,
+                "first_answer_ms": null,
+                "wall_ms": 1116.1924999999992,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1276,
+                  "completion_tokens": 27,
+                  "total_tokens": 1303,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 315,
+                  "prompt_ms": 418.834,
+                  "prompt_per_token_ms": 1.329631746031746,
+                  "prompt_per_second": 752.0879393745494,
+                  "predicted_n": 27,
+                  "predicted_ms": 690.585,
+                  "predicted_per_token_ms": 26.56096153846154,
+                  "predicted_per_second": 37.64923941296147
+                }
+              },
+              {
+                "first_generated_ms": 126.97909999999865,
+                "first_answer_ms": 126.97909999999865,
+                "wall_ms": 2427.6126999999997,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1339,
+                  "completion_tokens": 88,
+                  "total_tokens": 1427,
+                  "cached_prompt_tokens": 1302
+                },
+                "timings": {
+                  "cache_n": 1302,
+                  "prompt_n": 37,
+                  "prompt_ms": 121.565,
+                  "prompt_per_token_ms": 3.2855405405405405,
+                  "prompt_per_second": 304.3639205363386,
+                  "predicted_n": 88,
+                  "predicted_ms": 2300.149,
+                  "predicted_per_token_ms": 26.43849425287356,
+                  "predicted_per_second": 37.82363664266967
+                }
+              },
+              {
+                "first_generated_ms": 146.60610000000088,
+                "first_answer_ms": 146.60610000000088,
+                "wall_ms": 202.02549999999974,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1449,
+                  "completion_tokens": 3,
+                  "total_tokens": 1452,
+                  "cached_prompt_tokens": 1426
+                },
+                "timings": {
+                  "cache_n": 1426,
+                  "prompt_n": 23,
+                  "prompt_ms": 140.222,
+                  "prompt_per_token_ms": 6.096608695652174,
+                  "prompt_per_second": 164.02561652237165,
+                  "predicted_n": 3,
+                  "predicted_ms": 55.063,
+                  "predicted_per_token_ms": 27.5315,
+                  "predicted_per_second": 36.32203112798067
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      },
+      "desktop": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 2503.3444000000004,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 533.3845000000001,
+                "first_answer_ms": 533.3845000000001,
+                "wall_ms": 2189.3447,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1355,
+                  "completion_tokens": 63,
+                  "total_tokens": 1418,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 394,
+                  "prompt_ms": 526.334,
+                  "prompt_per_token_ms": 1.3358730964467003,
+                  "prompt_per_second": 748.574099336163,
+                  "predicted_n": 63,
+                  "predicted_ms": 1655.722,
+                  "predicted_per_token_ms": 26.705193548387097,
+                  "predicted_per_second": 37.4458997343757
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 1941.7751000000007,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 634.098,
+                "first_answer_ms": null,
+                "wall_ms": 1108.2237000000005,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1271,
+                  "completion_tokens": 26,
+                  "total_tokens": 1297,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 310,
+                  "prompt_ms": 438.287,
+                  "prompt_per_token_ms": 1.4138290322580644,
+                  "prompt_per_second": 707.299098535891,
+                  "predicted_n": 26,
+                  "predicted_ms": 664.207,
+                  "predicted_per_token_ms": 26.56828,
+                  "predicted_per_second": 37.63886860572081
+                }
+              },
+              {
+                "first_generated_ms": 133.6221999999998,
+                "first_answer_ms": 133.6221999999998,
+                "wall_ms": 319.58539999999994,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1361,
+                  "completion_tokens": 8,
+                  "total_tokens": 1369,
+                  "cached_prompt_tokens": 1296
+                },
+                "timings": {
+                  "cache_n": 1296,
+                  "prompt_n": 65,
+                  "prompt_ms": 127.303,
+                  "prompt_per_token_ms": 1.9585076923076923,
+                  "prompt_per_second": 510.5928375607802,
+                  "predicted_n": 8,
+                  "predicted_ms": 185.856,
+                  "predicted_per_token_ms": 26.550857142857144,
+                  "predicted_per_second": 37.66356749311295
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 4790.328399999999,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 630.1483999999991,
+                "first_answer_ms": null,
+                "wall_ms": 1142.8019000000004,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1282,
+                  "completion_tokens": 27,
+                  "total_tokens": 1309,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 321,
+                  "prompt_ms": 437.281,
+                  "prompt_per_token_ms": 1.3622461059190032,
+                  "prompt_per_second": 734.0817460626005,
+                  "predicted_n": 27,
+                  "predicted_ms": 698.696,
+                  "predicted_per_token_ms": 26.87292307692308,
+                  "predicted_per_second": 37.2121781146593
+                }
+              },
+              {
+                "first_generated_ms": 129.26460000000043,
+                "first_answer_ms": 129.26460000000043,
+                "wall_ms": 2494.690199999999,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1345,
+                  "completion_tokens": 88,
+                  "total_tokens": 1433,
+                  "cached_prompt_tokens": 1308
+                },
+                "timings": {
+                  "cache_n": 1308,
+                  "prompt_n": 37,
+                  "prompt_ms": 122.095,
+                  "prompt_per_token_ms": 3.299864864864865,
+                  "prompt_per_second": 303.04271264179533,
+                  "predicted_n": 88,
+                  "predicted_ms": 2364.989,
+                  "predicted_per_token_ms": 27.183781609195403,
+                  "predicted_per_second": 36.78664044526211
+                }
+              },
+              {
+                "first_generated_ms": 149.02390000000014,
+                "first_answer_ms": 149.02390000000014,
+                "wall_ms": 203.7450000000008,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1455,
+                  "completion_tokens": 3,
+                  "total_tokens": 1458,
+                  "cached_prompt_tokens": 1432
+                },
+                "timings": {
+                  "cache_n": 1432,
+                  "prompt_n": 23,
+                  "prompt_ms": 142.685,
+                  "prompt_per_token_ms": 6.203695652173913,
+                  "prompt_per_second": 161.19423905806497,
+                  "predicted_n": 3,
+                  "predicted_ms": 54.52,
+                  "predicted_per_token_ms": 27.26,
+                  "predicted_per_second": 36.68378576669112
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      }
+    },
+    "5060 Ti": {
+      "web": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 1826.7255000000005,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 801.6897000000004,
+                "first_answer_ms": 801.6897000000004,
+                "wall_ms": 1681.3128000000002,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1350,
+                  "completion_tokens": 63,
+                  "total_tokens": 1413,
+                  "cached_prompt_tokens": 0
+                },
+                "timings": {
+                  "cache_n": 0,
+                  "prompt_n": 1350,
+                  "prompt_ms": 596.053,
+                  "prompt_per_token_ms": 0.4415207407407407,
+                  "prompt_per_second": 2264.899262313922,
+                  "predicted_n": 63,
+                  "predicted_ms": 879.744,
+                  "predicted_per_token_ms": 14.18941935483871,
+                  "predicted_per_second": 70.47504728648335
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 769.0668000000005,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 282.71280000000024,
+                "first_answer_ms": null,
+                "wall_ms": 544.2645000000002,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1266,
+                  "completion_tokens": 26,
+                  "total_tokens": 1292,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 305,
+                  "prompt_ms": 175.235,
+                  "prompt_per_token_ms": 0.5745409836065575,
+                  "prompt_per_second": 1740.5198733129796,
+                  "predicted_n": 26,
+                  "predicted_ms": 364.591,
+                  "predicted_per_token_ms": 14.58364,
+                  "predicted_per_second": 68.5699866425666
+                }
+              },
+              {
+                "first_generated_ms": 73.55389999999989,
+                "first_answer_ms": 73.55389999999989,
+                "wall_ms": 176.04240000000027,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1356,
+                  "completion_tokens": 8,
+                  "total_tokens": 1364,
+                  "cached_prompt_tokens": 1291
+                },
+                "timings": {
+                  "cache_n": 1291,
+                  "prompt_n": 65,
+                  "prompt_ms": 68.752,
+                  "prompt_per_token_ms": 1.0577230769230768,
+                  "prompt_per_second": 945.4270421224111,
+                  "predicted_n": 8,
+                  "predicted_ms": 102.869,
+                  "predicted_per_token_ms": 14.695571428571428,
+                  "predicted_per_second": 68.04771116662941
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 2193.4886000000006,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 292.46340000000055,
+                "first_answer_ms": null,
+                "wall_ms": 558.7685000000001,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1277,
+                  "completion_tokens": 27,
+                  "total_tokens": 1304,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 316,
+                  "prompt_ms": 179.72,
+                  "prompt_per_token_ms": 0.5687341772151898,
+                  "prompt_per_second": 1758.2906743823726,
+                  "predicted_n": 27,
+                  "predicted_ms": 374.608,
+                  "predicted_per_token_ms": 14.408,
+                  "predicted_per_second": 69.4058856191005
+                }
+              },
+              {
+                "first_generated_ms": 62.87379999999939,
+                "first_answer_ms": 62.87379999999939,
+                "wall_ms": 1474.6566999999995,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1340,
+                  "completion_tokens": 101,
+                  "total_tokens": 1441,
+                  "cached_prompt_tokens": 1303
+                },
+                "timings": {
+                  "cache_n": 1303,
+                  "prompt_n": 37,
+                  "prompt_ms": 58.672,
+                  "prompt_per_token_ms": 1.5857297297297297,
+                  "prompt_per_second": 630.6244886828471,
+                  "predicted_n": 101,
+                  "predicted_ms": 1411.255,
+                  "predicted_per_token_ms": 14.11255,
+                  "predicted_per_second": 70.85891635459218
+                }
+              },
+              {
+                "first_generated_ms": 70.71700000000055,
+                "first_answer_ms": 70.71700000000055,
+                "wall_ms": 103.14329999999973,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1463,
+                  "completion_tokens": 3,
+                  "total_tokens": 1466,
+                  "cached_prompt_tokens": 1440
+                },
+                "timings": {
+                  "cache_n": 1440,
+                  "prompt_n": 23,
+                  "prompt_ms": 66.153,
+                  "prompt_per_token_ms": 2.876217391304348,
+                  "prompt_per_second": 347.67886565990955,
+                  "predicted_n": 3,
+                  "predicted_ms": 32.354,
+                  "predicted_per_token_ms": 16.177,
+                  "predicted_per_second": 61.816158743895656
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      },
+      "desktop": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 1184.1076000000012,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 208.48719999999958,
+                "first_answer_ms": 208.48719999999958,
+                "wall_ms": 1080.3658999999989,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1363,
+                  "completion_tokens": 63,
+                  "total_tokens": 1426,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 402,
+                  "prompt_ms": 203.098,
+                  "prompt_per_token_ms": 0.5052189054726368,
+                  "prompt_per_second": 1979.340023043063,
+                  "predicted_n": 63,
+                  "predicted_ms": 871.995,
+                  "predicted_per_token_ms": 14.064435483870968,
+                  "predicted_per_second": 71.10132512227707
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 737.0893999999989,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 277.1155000000017,
+                "first_answer_ms": null,
+                "wall_ms": 528.9132000000009,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1279,
+                  "completion_tokens": 26,
+                  "total_tokens": 1305,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 318,
+                  "prompt_ms": 165.635,
+                  "prompt_per_token_ms": 0.5208647798742138,
+                  "prompt_per_second": 1919.8840824704926,
+                  "predicted_n": 26,
+                  "predicted_ms": 357.566,
+                  "predicted_per_token_ms": 14.302639999999998,
+                  "predicted_per_second": 69.91716214628909
+                }
+              },
+              {
+                "first_generated_ms": 69.08539999999994,
+                "first_answer_ms": 69.08539999999994,
+                "wall_ms": 171.33380000000034,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1369,
+                  "completion_tokens": 8,
+                  "total_tokens": 1377,
+                  "cached_prompt_tokens": 1304
+                },
+                "timings": {
+                  "cache_n": 1304,
+                  "prompt_n": 65,
+                  "prompt_ms": 64.831,
+                  "prompt_per_token_ms": 0.9974000000000001,
+                  "prompt_per_second": 1002.6067776218167,
+                  "predicted_n": 8,
+                  "predicted_ms": 102.309,
+                  "predicted_per_token_ms": 14.615571428571428,
+                  "predicted_per_second": 68.42017808794925
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 2001.623300000001,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 287.66199999999844,
+                "first_answer_ms": null,
+                "wall_ms": 555.1101999999992,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1290,
+                  "completion_tokens": 27,
+                  "total_tokens": 1317,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 329,
+                  "prompt_ms": 171.555,
+                  "prompt_per_token_ms": 0.5214437689969605,
+                  "prompt_per_second": 1917.752324327475,
+                  "predicted_n": 27,
+                  "predicted_ms": 379.212,
+                  "predicted_per_token_ms": 14.585076923076922,
+                  "predicted_per_second": 68.56323112137802
+                }
+              },
+              {
+                "first_generated_ms": 70.4936000000016,
+                "first_answer_ms": 70.4936000000016,
+                "wall_ms": 1309.6983,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1353,
+                  "completion_tokens": 88,
+                  "total_tokens": 1441,
+                  "cached_prompt_tokens": 1316
+                },
+                "timings": {
+                  "cache_n": 1316,
+                  "prompt_n": 37,
+                  "prompt_ms": 64.376,
+                  "prompt_per_token_ms": 1.739891891891892,
+                  "prompt_per_second": 574.7483534236361,
+                  "predicted_n": 88,
+                  "predicted_ms": 1239.049,
+                  "predicted_per_token_ms": 14.241942528735631,
+                  "predicted_per_second": 70.21514080556943
+                }
+              },
+              {
+                "first_generated_ms": 58.8171999999995,
+                "first_answer_ms": 58.8171999999995,
+                "wall_ms": 91.11219999999958,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1463,
+                  "completion_tokens": 3,
+                  "total_tokens": 1466,
+                  "cached_prompt_tokens": 1440
+                },
+                "timings": {
+                  "cache_n": 1440,
+                  "prompt_n": 23,
+                  "prompt_ms": 54.283,
+                  "prompt_per_token_ms": 2.360130434782609,
+                  "prompt_per_second": 423.70539579610556,
+                  "predicted_n": 3,
+                  "predicted_ms": 32.314,
+                  "predicted_per_token_ms": 16.157,
+                  "predicted_per_second": 61.89267809618122
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      }
+    },
+    "5070 Ti": {
+      "web": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 1109.4868,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 521.1272999999999,
+                "first_answer_ms": 521.1272999999999,
+                "wall_ms": 1007.8678,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1384,
+                  "completion_tokens": 63,
+                  "total_tokens": 1447,
+                  "cached_prompt_tokens": 0
+                },
+                "timings": {
+                  "cache_n": 0,
+                  "prompt_n": 1384,
+                  "prompt_ms": 514.126,
+                  "prompt_per_token_ms": 0.37147832369942196,
+                  "prompt_per_second": 2691.947110241458,
+                  "predicted_n": 63,
+                  "predicted_ms": 487.049,
+                  "predicted_per_token_ms": 7.855629032258064,
+                  "predicted_per_second": 127.29725345909753
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 480.7680999999998,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 190.32480000000032,
+                "first_answer_ms": null,
+                "wall_ms": 330.9167000000002,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1300,
+                  "completion_tokens": 26,
+                  "total_tokens": 1326,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 339,
+                  "prompt_ms": 126.484,
+                  "prompt_per_token_ms": 0.37310914454277283,
+                  "prompt_per_second": 2680.180892444894,
+                  "predicted_n": 26,
+                  "predicted_ms": 200.088,
+                  "predicted_per_token_ms": 8.00352,
+                  "predicted_per_second": 124.94502418935669
+                }
+              },
+              {
+                "first_generated_ms": 55.647699999999986,
+                "first_answer_ms": 55.647699999999986,
+                "wall_ms": 114.1265000000003,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1390,
+                  "completion_tokens": 8,
+                  "total_tokens": 1398,
+                  "cached_prompt_tokens": 1325
+                },
+                "timings": {
+                  "cache_n": 1325,
+                  "prompt_n": 65,
+                  "prompt_ms": 50.916,
+                  "prompt_per_token_ms": 0.7833230769230769,
+                  "prompt_per_second": 1276.6124597376072,
+                  "predicted_n": 8,
+                  "predicted_ms": 58.408,
+                  "predicted_per_token_ms": 8.344,
+                  "predicted_per_second": 119.84659635666347
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 1187.2716,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 193.7521999999999,
+                "first_answer_ms": null,
+                "wall_ms": 341.4160999999999,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1311,
+                  "completion_tokens": 27,
+                  "total_tokens": 1338,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 350,
+                  "prompt_ms": 128.907,
+                  "prompt_per_token_ms": 0.3683057142857143,
+                  "prompt_per_second": 2715.1357179982465,
+                  "predicted_n": 27,
+                  "predicted_ms": 206.244,
+                  "predicted_per_token_ms": 7.9324615384615385,
+                  "predicted_per_second": 126.0642733849227
+                }
+              },
+              {
+                "first_generated_ms": 51.96409999999969,
+                "first_answer_ms": 51.96409999999969,
+                "wall_ms": 730.4499000000001,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1374,
+                  "completion_tokens": 88,
+                  "total_tokens": 1462,
+                  "cached_prompt_tokens": 1337
+                },
+                "timings": {
+                  "cache_n": 1337,
+                  "prompt_n": 37,
+                  "prompt_ms": 47.398,
+                  "prompt_per_token_ms": 1.2810270270270272,
+                  "prompt_per_second": 780.6236550065403,
+                  "predicted_n": 88,
+                  "predicted_ms": 678.31,
+                  "predicted_per_token_ms": 7.796666666666666,
+                  "predicted_per_second": 128.25994014536127
+                }
+              },
+              {
+                "first_generated_ms": 50.999399999999696,
+                "first_answer_ms": 50.999399999999696,
+                "wall_ms": 70.03119999999944,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1484,
+                  "completion_tokens": 3,
+                  "total_tokens": 1487,
+                  "cached_prompt_tokens": 1461
+                },
+                "timings": {
+                  "cache_n": 1461,
+                  "prompt_n": 23,
+                  "prompt_ms": 46.299,
+                  "prompt_per_token_ms": 2.013,
+                  "prompt_per_second": 496.7709885742672,
+                  "predicted_n": 3,
+                  "predicted_ms": 18.94,
+                  "predicted_per_token_ms": 9.47,
+                  "predicted_per_second": 105.59662090813093
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      },
+      "desktop": {
+        "authenticated_host": true,
+        "tasks": [
+          {
+            "task": "extract",
+            "wall_ms": 778.2322000000004,
+            "functional_pass": true,
+            "strict_raw_json_pass": false,
+            "fixture_reply": "```json\n{\n  \"date\": \"2026-11-17\",\n  \"time\": \"18:30\",\n  \"location\": \"Room 204\",\n  \"budget_usd\": 12800\n}\n```",
+            "fixture_tool_actions": [],
+            "calls": [
+              {
+                "first_generated_ms": 153.02810000000045,
+                "first_answer_ms": 153.02810000000045,
+                "wall_ms": 697.9422000000004,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1384,
+                  "completion_tokens": 63,
+                  "total_tokens": 1447,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 423,
+                  "prompt_ms": 147.717,
+                  "prompt_per_token_ms": 0.3492127659574468,
+                  "prompt_per_second": 2863.583744592701,
+                  "predicted_n": 63,
+                  "predicted_ms": 544.956,
+                  "predicted_per_token_ms": 8.789612903225807,
+                  "predicted_per_second": 113.77065304354846
+                }
+              }
+            ]
+          },
+          {
+            "task": "lookup",
+            "wall_ms": 477.3078000000005,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "config.ts:4 = 7",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "config.ts"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 181.91550000000007,
+                "first_answer_ms": null,
+                "wall_ms": 322.59570000000076,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1300,
+                  "completion_tokens": 26,
+                  "total_tokens": 1326,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 339,
+                  "prompt_ms": 116.236,
+                  "prompt_per_token_ms": 0.34287905604719765,
+                  "prompt_per_second": 2916.480264289893,
+                  "predicted_n": 26,
+                  "predicted_ms": 200.576,
+                  "predicted_per_token_ms": 8.02304,
+                  "predicted_per_second": 124.64103382259096
+                }
+              },
+              {
+                "first_generated_ms": 57.67540000000008,
+                "first_answer_ms": 57.67540000000008,
+                "wall_ms": 116.4336000000003,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1390,
+                  "completion_tokens": 8,
+                  "total_tokens": 1398,
+                  "cached_prompt_tokens": 1325
+                },
+                "timings": {
+                  "cache_n": 1325,
+                  "prompt_n": 65,
+                  "prompt_ms": 52.222,
+                  "prompt_per_token_ms": 0.8034153846153846,
+                  "prompt_per_second": 1244.6861476006281,
+                  "predicted_n": 8,
+                  "predicted_ms": 58.812,
+                  "predicted_per_token_ms": 8.401714285714286,
+                  "predicted_per_second": 119.0233285724002
+                }
+              }
+            ]
+          },
+          {
+            "task": "patch",
+            "wall_ms": 1248.8860999999997,
+            "functional_pass": true,
+            "strict_raw_json_pass": null,
+            "fixture_reply": "PATCHED",
+            "fixture_tool_actions": [
+              {
+                "tool": "read_fixture",
+                "fixture": "fees.py"
+              },
+              {
+                "tool": "edit_fixture",
+                "fixture": "fees.py"
+              }
+            ],
+            "calls": [
+              {
+                "first_generated_ms": 180.29949999999917,
+                "first_answer_ms": null,
+                "wall_ms": 326.9897000000001,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1311,
+                  "completion_tokens": 27,
+                  "total_tokens": 1338,
+                  "cached_prompt_tokens": 961
+                },
+                "timings": {
+                  "cache_n": 961,
+                  "prompt_n": 350,
+                  "prompt_ms": 116.938,
+                  "prompt_per_token_ms": 0.3341085714285714,
+                  "prompt_per_second": 2993.0390463322447,
+                  "predicted_n": 27,
+                  "predicted_ms": 205.359,
+                  "predicted_per_token_ms": 7.898423076923077,
+                  "predicted_per_second": 126.60755067954167
+                }
+              },
+              {
+                "first_generated_ms": 47.10219999999936,
+                "first_answer_ms": 47.10219999999936,
+                "wall_ms": 815.1602999999996,
+                "max_output_tokens": 768,
+                "finish_reason": "tool_calls",
+                "usage": {
+                  "prompt_tokens": 1374,
+                  "completion_tokens": 99,
+                  "total_tokens": 1473,
+                  "cached_prompt_tokens": 1337
+                },
+                "timings": {
+                  "cache_n": 1337,
+                  "prompt_n": 37,
+                  "prompt_ms": 42.815,
+                  "prompt_per_token_ms": 1.1571621621621622,
+                  "prompt_per_second": 864.1831133948383,
+                  "predicted_n": 99,
+                  "predicted_ms": 767.921,
+                  "predicted_per_token_ms": 7.835928571428572,
+                  "predicted_per_second": 127.61729396643665
+                }
+              },
+              {
+                "first_generated_ms": 44.48790000000008,
+                "first_answer_ms": 44.48790000000008,
+                "wall_ms": 63.5625,
+                "max_output_tokens": 768,
+                "finish_reason": "stop",
+                "usage": {
+                  "prompt_tokens": 1495,
+                  "completion_tokens": 3,
+                  "total_tokens": 1498,
+                  "cached_prompt_tokens": 1472
+                },
+                "timings": {
+                  "cache_n": 1472,
+                  "prompt_n": 23,
+                  "prompt_ms": 40.138,
+                  "prompt_per_token_ms": 1.7451304347826087,
+                  "prompt_per_second": 573.0230704070955,
+                  "predicted_n": 3,
+                  "predicted_ms": 18.958,
+                  "predicted_per_token_ms": 9.479,
+                  "predicted_per_second": 105.49636037556705
+                }
+              }
+            ]
+          }
+        ],
+        "exact_fixture_diff": true,
+        "patch_python_checks": [
+          {
+            "base": 12,
+            "surcharge": 3,
+            "expected": 15,
+            "actual": 15
+          },
+          {
+            "base": 0,
+            "surcharge": 0,
+            "expected": 0,
+            "actual": 0
+          },
+          {
+            "base": -3,
+            "surcharge": 5,
+            "expected": 2,
+            "actual": 2
+          },
+          {
+            "base": 6,
+            "surcharge": -2,
+            "expected": 4,
+            "actual": 4
+          }
+        ]
+      }
+    }
+  },
+  "cleanup": {
+    "Halo": {
+      "owned_processes_exited": true,
+      "benchmark_listener_closed": true,
+      "protected_files": "Working profile hashes matched"
+    },
+    "5060 Ti": {
+      "owned_processes_exited": true,
+      "benchmark_listener_closed": true,
+      "protected_files": "Retained DSH profiles and runtime hashes matched"
+    },
+    "5070 Ti": {
+      "owned_processes_exited": true,
+      "benchmark_listener_closed": true,
+      "protected_files": "Portable DSH test runtime hashes matched"
+    }
+  }
+}

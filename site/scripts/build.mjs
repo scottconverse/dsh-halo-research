@@ -2,7 +2,7 @@ import { mkdir, copyFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 const root = fileURLToPath(new URL("..", import.meta.url));
-// Deliberate allowlist for public pages and assets. Archives, profiles and evidence logs stay out of Pages.
+// Deliberate allowlist for public pages, assets, and publication-safe benchmark evidence.
 const files = [
   "index.html",
   "styles.css",
@@ -10,6 +10,10 @@ const files = [
   "assets/mark.svg",
   "assets/desktop-mission-control.png",
   "benchmarks/qwen-next-2026-11-17/index.html",
+  "benchmarks/qwen35-9b-2026-11-27/index.html",
+  "benchmarks/qwen35-9b-2026-11-27/evidence/dsh-tasks.csv",
+  "benchmarks/qwen35-9b-2026-11-27/evidence/direct-replays.csv",
+  "benchmarks/qwen35-9b-2026-11-27/evidence/receipts.json",
 ];
 for (const file of files) {
   const target = path.join(root, "dist", file);

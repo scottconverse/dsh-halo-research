@@ -76,6 +76,17 @@ const local = [
 const report = await readFile(new URL("dist/Llama.cpp1.0.0vsStrata-QwenNext-Halo/index.html", root));
 const originalReport = await readFile(new URL("dist/benchmarks/qwen-next-2026-11-17/index.html", root));
 assert.ok(report.equals(originalReport), "The named route preserves the report bytes");
+const newReportRoute = "benchmarks/qwen35-9b-2026-11-27/";
+assert.ok(local.includes(newReportRoute), "Landing page links to the three-machine report");
+const study = await readFile(new URL(`dist/${newReportRoute}index.html`, root), "utf8");
+const studyDownloads = {
+  "evidence/dsh-tasks.csv": "text/csv",
+  "evidence/direct-replays.csv": "text/csv",
+  "evidence/receipts.json": "application/json",
+};
+for (const evidence of Object.keys(studyDownloads)) {
+  assert.ok(study.includes(`href="${evidence}"`), `Report links to ${evidence}`);
+}
 const server = createServer();
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
 try {
@@ -87,9 +98,16 @@ try {
       assert.equal(response.status, 200, relative);
       assert.ok(
         response.headers.get("content-type").startsWith("text/html") ===
-          (relative === "Llama.cpp1.0.0vsStrata-QwenNext-Halo/"),
+          (relative.endsWith("/")),
         `Expected content type: ${relative}`,
       );
+    }
+    for (const [file, type] of Object.entries(studyDownloads)) {
+      const response = await fetch(origin + base + newReportRoute + file);
+      assert.equal(response.status, 200, file);
+      assert.ok(response.headers.get("content-type").startsWith(type), file);
+      const source = await readFile(new URL(`${newReportRoute}${file}`, root));
+      assert.ok(Buffer.from(await response.arrayBuffer()).equals(source), `Published bytes match ${file}`);
     }
   }
   assert.equal(
