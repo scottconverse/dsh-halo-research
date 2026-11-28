@@ -1,6 +1,6 @@
 # DSH Halo for Windows
 
-A community configuration for DeepSeek Harness with Web, the official Desktop app, embedded Mission Control and connected research tools. The complete online installer **0.1.4** incorporates the paired Strata presets and opt-in Browse. It pins Web/Desktop **0.2.2-rc.5** and creates a separate installation. This is not an official DeepSeek distribution.
+A community configuration for DeepSeek Harness with Web, the official Desktop app, embedded Mission Control and connected research tools. The complete online installer **0.1.5** incorporates the paired Strata presets and opt-in Browse. It pins Web/Desktop **0.2.2-rc.5** and creates a separate installation. This is not an official DeepSeek distribution.
 
 [Website](https://scottconverse.github.io/dsh-halo-research/) · [Documentation](docs/INSTALL-AND-RECOVER.md) · [Quick start](stack/complete-windows/README.md) · [Issues and contributions](https://github.com/scottconverse/dsh-halo-research/issues)
 
@@ -12,7 +12,7 @@ A community configuration for DeepSeek Harness with Web, the official Desktop ap
 
 ## Quick start
 
-Download [DSH Complete Windows 0.1.4](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip), verify its [SHA-256 checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.18/DSH-Complete-Windows-0.1.4.zip.sha256), extract it and run:
+Download [DSH Complete Windows 0.1.5](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.20/DSH-Complete-Windows-0.1.5.zip), verify its [SHA-256 checksum](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.20/DSH-Complete-Windows-0.1.5.zip.sha256), extract it and run:
 
 ```powershell
 .\Install-DSH.cmd
@@ -34,7 +34,8 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Documentation
 
-- [Installer verification and limits](docs/DSH-COMPLETE-WINDOWS-0.1.4-2026-11-19.md)
+- [Installer 0.1.5 verification receipt](https://github.com/scottconverse/dsh-halo-research/releases/download/v0.3.20/VERIFICATION.json)
+- [Installer 0.1.4 verification and limits](docs/DSH-COMPLETE-WINDOWS-0.1.4-2026-11-19.md)
 - [Current Halo configuration](docs/HALO-CURRENT-CONFIGURATION.md)
 - [Installation and recovery](docs/INSTALL-AND-RECOVER.md)
 - [Desktop Mission Control source and operation](stack/desktop-mission-control/README.md)
@@ -43,7 +44,7 @@ Preview at `http://127.0.0.1:4178/dsh-halo-research/`. The [site guide](site/REA
 
 ## Project status
 
-Actively developed community configuration using upstream release-candidate software. Installer 0.1.4 passed isolated headless Web and Desktop-host verification on Halo and a separate Windows 11 PC with an RTX 5060 Ti. Provider sign-in, live inference, and unattended setup on a pristine Windows image remain unverified. [Release v0.3.18](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.18) · [5060 Ti verification and short install path](docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md).
+Actively developed community configuration using upstream release-candidate software. Installer 0.1.5 packages the v0.3.19 changes for DSH Web and Desktop 0.2.2-rc.5. Its verification receipt covers an isolated Windows install, archive integrity, official Desktop signatures, headless Web and Desktop checks, and zero model requests. Installer 0.1.4 also passed on a separate Windows 11 PC with an RTX 5060 Ti. Provider sign-in, live inference, and unattended setup on a pristine Windows image remain unverified. [Release v0.3.20](https://github.com/scottconverse/dsh-halo-research/releases/tag/v0.3.20) · [5060 Ti verification and short install path](docs/evidence/complete-windows-0.1.4-5060ti-2026-11-20/README.md).
 
 ## Contributing
 
